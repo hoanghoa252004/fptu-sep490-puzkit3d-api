@@ -1,0 +1,27 @@
+<Solution>
+  <Folder Name="/docs/">
+    <File Path="docs/api-design.md" />
+    <File Path="docs/architecture.md" />
+  </Folder>
+  <Folder Name="/items/">
+    <File Path=".config/dotnet-tools.json" />
+    <File Path=".dockerignore" />
+    <File Path=".gitignore" />
+    <File Path="global.json" />
+    <File Path="NOTE.md" />
+    <File Path="README.md" />
+  </Folder>
+  <Folder Name="/scripts/">
+    <File Path="scripts/init-db.sql" />
+    <File Path="scripts/seed-data.sql" />
+  </Folder>
+  <Folder Name="/src/">
+    <Project Path="src/PuzKit3D.API/PuzKit3D.API.csproj" />
+    <Project Path="src/PuzKit3D.Application/PuzKit3D.Application.csproj" />
+    <Project Path="src/PuzKit3D.Domain/PuzKit3D.Domain.csproj" />
+    <Project Path="src/PuzKit3D.Infrastructure/PuzKit3D.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/PuzKit3D.Application.Tests/PuzKit3D.Application.Tests.csproj" />
+  </Folder>
+</Solution>
