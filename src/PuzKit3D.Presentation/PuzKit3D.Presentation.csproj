@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\PuzKit3D.Application\PuzKit3D.Application.csproj" />
+    <ProjectReference Include="..\PuzKit3D.Infrastructure\PuzKit3D.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+     <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="DependencyInjection\Options\" />
+    <Folder Include="Endpoints\UseCases\Products\CreateProduct\" />
+    <Folder Include="Endpoints\UseCases\Products\DeleteProduct\" />
+    <Folder Include="Endpoints\UseCases\Products\UpdateProduct\" />
+  </ItemGroup>
+
+</Project>
