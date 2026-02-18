@@ -7,15 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Enumerations\" />
+    <ProjectReference Include="..\PuzKit3D.Domain\PuzKit3D.Domain.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.24" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\PuzKit3D.Contract\PuzKit3D.Contract.csproj" />
+    <Folder Include="Configurations\" />
+    <Folder Include="Constants\" />
+    <Folder Include="DependencyInjection\Extensions\" />
+    <Folder Include="DependencyInjection\Options\" />
   </ItemGroup>
 
 </Project>

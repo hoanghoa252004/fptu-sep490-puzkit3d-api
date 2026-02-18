@@ -6,6 +6,7 @@
   <Folder Name="/items/">
     <File Path=".config/dotnet-tools.json" />
     <File Path=".dockerignore" />
+    <File Path=".editorconfig" />
     <File Path=".gitignore" />
     <File Path="global.json" />
     <File Path="NOTE.md" />
@@ -18,10 +19,14 @@
   <Folder Name="/src/">
     <Project Path="src/PuzKit3D.API/PuzKit3D.API.csproj" />
     <Project Path="src/PuzKit3D.Application/PuzKit3D.Application.csproj" />
+    <Project Path="src/PuzKit3D.Contract/PuzKit3D.Contract.csproj" Id="ae079f5b-9aa9-488d-88d0-93cbf39b7990" />
     <Project Path="src/PuzKit3D.Domain/PuzKit3D.Domain.csproj" />
     <Project Path="src/PuzKit3D.Infrastructure/PuzKit3D.Infrastructure.csproj" />
+    <Project Path="src/PuzKit3D.Persistence/PuzKit3D.Persistence.csproj" Id="191ffdb5-9e57-4703-a5bf-d014621c9213" />
+    <Project Path="src/PuzKit3D.Presentation/PuzKit3D.Presentation.csproj" Id="6315822e-84bf-4967-bf81-e06682a16262" />
   </Folder>
   <Folder Name="/tests/">
     <Project Path="tests/PuzKit3D.Application.Tests/PuzKit3D.Application.Tests.csproj" />
+    <Project Path="tests/PuzKit3D.Architecture.Tests/PuzKit3D.Architecture.Tests.csproj" />
   </Folder>
 </Solution>
