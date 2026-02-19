@@ -26,9 +26,13 @@ internal sealed class GetProductByIdQueryHandler : IQueryHandler<GetProductByIdQ
         }
         else if (request.Id == 2)
         {
-            throw new PuzKit3DException(nameof(GetProductByIdQuery));
+            throw new PuzKit3DException(nameof(GetProductByIdQuery),"Server error while attempt to get product by id");
         }
-        
+        else if (request.Id == 3)
+        {
+            throw new Exception("System Exception");
+        }
+
         return Result.Success(new GetProductByIdResponseDto(
             Id: 1,
             Name: "3D Model Kit",
