@@ -11,6 +11,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.23.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
   </ItemGroup>
 
   <ItemGroup>
@@ -18,10 +19,6 @@
     <ProjectReference Include="..\PuzKit3D.Infrastructure\PuzKit3D.Infrastructure.csproj" />
     <ProjectReference Include="..\PuzKit3D.Persistence\PuzKit3D.Persistence.csproj" />
     <ProjectReference Include="..\PuzKit3D.Presentation\PuzKit3D.Presentation.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="DependencyInjection\Extensions\" />
   </ItemGroup>
 
 </Project>

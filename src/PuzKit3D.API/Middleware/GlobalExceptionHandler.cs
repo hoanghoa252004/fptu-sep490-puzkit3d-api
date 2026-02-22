@@ -12,6 +12,8 @@ internal class GlobalExceptionHandler(ILogger<GlobalExceptionHandler> _logger, I
 {
     public async ValueTask<bool> TryHandleAsync(HttpContext httpContext, Exception exception, CancellationToken cancellationToken)
     {
+        LogException(exception, httpContext);
+
         var problemDetails = CreateProblemDetails(httpContext, exception);
 
         httpContext.Response.ContentType = "application/problem+json";
@@ -50,5 +52,23 @@ internal class GlobalExceptionHandler(ILogger<GlobalExceptionHandler> _logger, I
         }
 
         return problemDetails;
+    }
+
+    private void LogException(Exception exception, HttpContext context)
+    {
+        var logLevel = exception switch
+        {
+            PuzKit3DException => LogLevel.Warning, // Business logic errors
+            _ => LogLevel.Error // Unexpected errors
+        };
+
+        _logger.Log(
+            logLevel,
+            exception,
+            "Exception occurred: {ExceptionType} at {Path}. TraceId: {TraceId}",
+            exception.GetType().Name,
+            context.Request.Path,
+            context.TraceIdentifier
+        );
     }
 }

@@ -11,9 +11,10 @@ public sealed class PuzKit3DException : Exception
 {
     public PuzKit3DException(
         string requestName,
+        string message,
         Error? error = default,
         Exception? innerException = default
-    ) : base("Application exception", innerException)
+    ) : base(message, innerException)
     {
         RequestName = requestName;
         Error = error;
