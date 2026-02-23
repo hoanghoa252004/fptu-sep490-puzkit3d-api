@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>7f1613d7-1ca0-4ce5-b751-9e6773e3d1a6</UserSecretsId>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <DockerfileContext>..\..</DockerfileContext>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.23.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Contract\PuzKit3D.Contract\PuzKit3D.Contract.csproj" />
+    <ProjectReference Include="..\..\Modules\InStock\PuzKit3D.Modules.InStock.Api\PuzKit3D.Modules.InStock.Api.csproj" />
+    <ProjectReference Include="..\..\Modules\InStock\PuzKit3D.Modules.InStock.Application\PuzKit3D.Modules.InStock.Application.csproj" />
+    <ProjectReference Include="..\..\Modules\InStock\PuzKit3D.Modules.InStock.Domain\PuzKit3D.Modules.InStock.Domain.csproj" />
+    <ProjectReference Include="..\..\Modules\InStock\PuzKit3D.Modules.InStock.Infrastructure\PuzKit3D.Modules.InStock.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\Modules\InStock\PuzKit3D.Modules.InStock.Persistence\PuzKit3D.Modules.InStock.Persistence.csproj" />
+    <ProjectReference Include="..\..\SharedKernel\PuzKit3D.SharedKernel.Api\PuzKit3D.SharedKernel.Api.csproj" />
+    <ProjectReference Include="..\..\SharedKernel\PuzKit3D.SharedKernel.Application\PuzKit3D.SharedKernel.Application.csproj" />
+    <ProjectReference Include="..\..\SharedKernel\PuzKit3D.SharedKernel.Domain\PuzKit3D.SharedKernel.Domain.csproj" />
+    <ProjectReference Include="..\..\SharedKernel\PuzKit3D.SharedKernel.Infrastructure\PuzKit3D.SharedKernel.Infrastructure.csproj" />
+  </ItemGroup>
+
+</Project>

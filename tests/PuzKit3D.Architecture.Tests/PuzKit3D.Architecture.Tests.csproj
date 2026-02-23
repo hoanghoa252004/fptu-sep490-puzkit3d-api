@@ -19,15 +19,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\PuzKit3D.API\PuzKit3D.API.csproj" />
-    <ProjectReference Include="..\..\src\PuzKit3D.Application\PuzKit3D.Application.csproj" />
-    <ProjectReference Include="..\..\src\PuzKit3D.Domain\PuzKit3D.Domain.csproj" />
-    <ProjectReference Include="..\..\src\PuzKit3D.Infrastructure\PuzKit3D.Infrastructure.csproj" />
-    <ProjectReference Include="..\..\src\PuzKit3D.Persistence\PuzKit3D.Persistence.csproj" />
-    <ProjectReference Include="..\..\src\PuzKit3D.Presentation\PuzKit3D.Presentation.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Using Include="Xunit" />
   </ItemGroup>
 
