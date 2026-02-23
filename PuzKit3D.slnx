@@ -29,11 +29,18 @@
     <Project Path="src/Modules/InStock/PuzKit3D.Modules.InStock.Infrastructure/PuzKit3D.Modules.InStock.Infrastructure.csproj" Id="d7106428-d947-4b93-854b-ad55121f0c12" />
     <Project Path="src/Modules/InStock/PuzKit3D.Modules.InStock.Persistence/PuzKit3D.Modules.InStock.Persistence.csproj" Id="a0709e6b-340c-49ed-8611-3f83741efb10" />
   </Folder>
+  <Folder Name="/src/Modules/User/">
+    <Project Path="src/Modules/User/PuzKit3D.Modules.User.Api/PuzKit3D.Modules.User.Api.csproj" Id="bf1d8c89-d765-46e3-a01e-c48ec187b781" />
+    <Project Path="src/Modules/User/PuzKit3D.Modules.User.Application/PuzKit3D.Modules.User.Application.csproj" Id="9381a79e-86a8-4a57-857c-3e0d579b727e" />
+    <Project Path="src/Modules/User/PuzKit3D.Modules.User.Domain/PuzKit3D.Modules.User.Domain.csproj" Id="1ea8cd20-231e-4408-87b7-a7f894acb774" />
+    <Project Path="src/Modules/User/PuzKit3D.Modules.User.Infrastructure/PuzKit3D.Modules.User.Infrastructure.csproj" Id="88a0ee7e-f852-49ee-ae06-bfbfb1f3e3cf" />
+    <Project Path="src/Modules/User/PuzKit3D.Modules.User.Persistence/PuzKit3D.Modules.User.Persistence.csproj" Id="e3959de4-5fb9-4173-afea-58fc5d86ca4e" />
+  </Folder>
   <Folder Name="/src/SharedKernel/">
+    <Project Path="src/SharedKernel/PuzKit3D.SharedKernel.Api/PuzKit3D.SharedKernel.Api.csproj" />
     <Project Path="src/SharedKernel/PuzKit3D.SharedKernel.Application/PuzKit3D.SharedKernel.Application.csproj" />
     <Project Path="src/SharedKernel/PuzKit3D.SharedKernel.Domain/PuzKit3D.SharedKernel.Domain.csproj" />
     <Project Path="src/SharedKernel/PuzKit3D.SharedKernel.Infrastructure/PuzKit3D.SharedKernel.Infrastructure.csproj" />
-    <Project Path="src/SharedKernel/PuzKit3D.SharedKernel.Api/PuzKit3D.SharedKernel.Api.csproj" />
   </Folder>
   <Folder Name="/src/WebApi/">
     <Project Path="src/WebApi/PuzKit3D.WebApi/PuzKit3D.WebApi.csproj" />

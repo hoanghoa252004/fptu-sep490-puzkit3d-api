@@ -6,8 +6,4 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\PuzKit3D.Modules.InStock.Application\PuzKit3D.Modules.InStock.Application.csproj" />
-  </ItemGroup>
-
 </Project>
