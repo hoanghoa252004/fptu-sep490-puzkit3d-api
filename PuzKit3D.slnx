@@ -16,17 +16,29 @@
     <File Path="scripts/init-db.sql" />
     <File Path="scripts/seed-data.sql" />
   </Folder>
-  <Folder Name="/src/">
-    <Project Path="src/PuzKit3D.API/PuzKit3D.API.csproj" />
-    <Project Path="src/PuzKit3D.Application/PuzKit3D.Application.csproj" />
-    <Project Path="src/PuzKit3D.Contract/PuzKit3D.Contract.csproj" Id="ae079f5b-9aa9-488d-88d0-93cbf39b7990" />
-    <Project Path="src/PuzKit3D.Domain/PuzKit3D.Domain.csproj" />
-    <Project Path="src/PuzKit3D.Infrastructure/PuzKit3D.Infrastructure.csproj" />
-    <Project Path="src/PuzKit3D.Persistence/PuzKit3D.Persistence.csproj" Id="191ffdb5-9e57-4703-a5bf-d014621c9213" />
-    <Project Path="src/PuzKit3D.Presentation/PuzKit3D.Presentation.csproj" Id="6315822e-84bf-4967-bf81-e06682a16262" />
+  <Folder Name="/src/" />
+  <Folder Name="/src/Contract/">
+    <Project Path="src/Contract/PuzKit3D.Contract/PuzKit3D.Contract.csproj" Id="25b10ca0-cdb6-4395-b029-0eb4b61846e3" />
+  </Folder>
+  <Folder Name="/src/Infrastructure/" />
+  <Folder Name="/src/Modules/" />
+  <Folder Name="/src/Modules/InStock/">
+    <Project Path="src/Modules/InStock/PuzKit3D.Modules.InStock.Api/PuzKit3D.Modules.InStock.Api.csproj" Id="685edbf1-96bf-4d14-b666-ef578575c68c" />
+    <Project Path="src/Modules/InStock/PuzKit3D.Modules.InStock.Application/PuzKit3D.Modules.InStock.Application.csproj" Id="db5d1f80-c303-458f-9235-e4fe6b48c961" />
+    <Project Path="src/Modules/InStock/PuzKit3D.Modules.InStock.Domain/PuzKit3D.Modules.InStock.Domain.csproj" Id="b6e4a7f7-1216-45a9-ad14-b2b5be57a227" />
+    <Project Path="src/Modules/InStock/PuzKit3D.Modules.InStock.Infrastructure/PuzKit3D.Modules.InStock.Infrastructure.csproj" Id="d7106428-d947-4b93-854b-ad55121f0c12" />
+    <Project Path="src/Modules/InStock/PuzKit3D.Modules.InStock.Persistence/PuzKit3D.Modules.InStock.Persistence.csproj" Id="a0709e6b-340c-49ed-8611-3f83741efb10" />
+  </Folder>
+  <Folder Name="/src/SharedKernel/">
+    <Project Path="src/SharedKernel/PuzKit3D.SharedKernel.Application/PuzKit3D.SharedKernel.Application.csproj" />
+    <Project Path="src/SharedKernel/PuzKit3D.SharedKernel.Domain/PuzKit3D.SharedKernel.Domain.csproj" />
+    <Project Path="src/SharedKernel/PuzKit3D.SharedKernel.Infrastructure/PuzKit3D.SharedKernel.Infrastructure.csproj" />
+    <Project Path="src/SharedKernel/PuzKit3D.SharedKernel.Api/PuzKit3D.SharedKernel.Api.csproj" />
+  </Folder>
+  <Folder Name="/src/WebApi/">
+    <Project Path="src/WebApi/PuzKit3D.WebApi/PuzKit3D.WebApi.csproj" />
   </Folder>
   <Folder Name="/tests/">
     <Project Path="tests/PuzKit3D.Application.Tests/PuzKit3D.Application.Tests.csproj" />
-    <Project Path="tests/PuzKit3D.Architecture.Tests/PuzKit3D.Architecture.Tests.csproj" />
   </Folder>
 </Solution>
