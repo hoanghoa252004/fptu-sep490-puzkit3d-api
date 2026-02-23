@@ -3,11 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using PuzKit3D.SharedKernel.Application.Authorization;
 using PuzKit3D.SharedKernel.Application.User;
 using PuzKit3D.SharedKernel.Infrastructure.Identity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using IdentityDbContext = PuzKit3D.SharedKernel.Infrastructure.Identity.IdentityDbContext;
 
 namespace PuzKit3D.SharedKernel.Infrastructure.Authorization;
 

@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\SharedKernel\PuzKit3D.SharedKernel.Domain\PuzKit3D.SharedKernel.Domain.csproj" />
+  </ItemGroup>
+
 </Project>

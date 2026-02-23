@@ -18,7 +18,8 @@ builder.Services.AddSwaggerDocumentation();
 builder.Services.AddSharedKernelInfrastructure(builder.Configuration);
 builder.Services.AddSharedKernelApplication(
     new[]{
-        PuzKit3D.Modules.InStock.Application.AssemblyReference.Assembly
+        PuzKit3D.Modules.InStock.Application.AssemblyReference.Assembly,
+        PuzKit3D.Modules.User.Application.AssemblyReference.Assembly
     } 
 );
 
@@ -26,12 +27,10 @@ builder.Services.AddSharedKernelApplication(
 builder.Services.AddEndpointsFromAssembly(
     new[]
     {
-       PuzKit3D.Modules.InStock.Api.InstockApiAssembly.Assembly
+       PuzKit3D.Modules.InStock.Api.InstockApiAssembly.Assembly,
+       PuzKit3D.Modules.User.Api.UserApiAssembly.Assembly
     }
 );
-
-// Add Modules:
-//builder.Services.AddInStockModule(builder.Configuration);
 
 var app = builder.Build();
 

@@ -1,15 +1,11 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using PuzKit3D.SharedKernel.Infrastructure.Data;
 
 namespace PuzKit3D.SharedKernel.Infrastructure.Identity;
 
 /// <summary>
-/// DbContext for Identity tables
+/// DbContext for Identity tables with schema: identity
 /// </summary>
 public sealed class IdentityDbContext : IdentityDbContext<
     ApplicationUser,
@@ -33,7 +29,7 @@ public sealed class IdentityDbContext : IdentityDbContext<
     {
         base.OnModelCreating(builder);
 
-        builder.HasDefaultSchema("identity");
+        builder.HasDefaultSchema(Schema.Identity);
 
         // Configure table names
         builder.Entity<ApplicationUser>().ToTable(IdentityTableNames.ApplicationUser);
@@ -43,6 +39,8 @@ public sealed class IdentityDbContext : IdentityDbContext<
         builder.Entity<Microsoft.AspNetCore.Identity.IdentityUserLogin<string>>().ToTable(IdentityTableNames.ApplicationUserLogin);
         builder.Entity<Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>>().ToTable(IdentityTableNames.ApplicationRoleClaim);
         builder.Entity<Microsoft.AspNetCore.Identity.IdentityUserToken<string>>().ToTable(IdentityTableNames.ApplicationUserToken);
+        builder.Entity<ApplicationUserPermission>().ToTable(IdentityTableNames.ApplicationUserPermission);
+        builder.Entity<ApplicationRolePermission>().ToTable(IdentityTableNames.ApplicationRolePermission);
 
         // Configure relationships
         builder.Entity<ApplicationUserRole>(entity =>
@@ -126,7 +124,7 @@ public sealed class IdentityDbContext : IdentityDbContext<
             {
                 Id = customerRoleId,
                 Name = "Customer",
-                NormalizedName = "Customer",
+                NormalizedName = "CUSTOMER",
                 Description = "Standard customer access",
                 CreatedAt = createdAt
             }

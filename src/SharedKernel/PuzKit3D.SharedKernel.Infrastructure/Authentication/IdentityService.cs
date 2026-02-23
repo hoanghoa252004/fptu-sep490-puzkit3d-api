@@ -3,12 +3,7 @@ using PuzKit3D.SharedKernel.Application.Authentication;
 using PuzKit3D.SharedKernel.Domain.Errors;
 using PuzKit3D.SharedKernel.Domain.Results;
 using PuzKit3D.SharedKernel.Infrastructure.Identity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PuzKit3D.SharedKernel.Infrastructure.Authentication;
 
@@ -39,7 +34,7 @@ public sealed class IdentityService : IIdentityService
         if (existingUser is not null)
         {
             return Result.Failure<string>(
-                Error.Failure("Authentication.EmailAlreadyExists", "Email already exists"));
+                Error.Conflict("Authentication.EmailAlreadyExists", "Email already exists"));
         }
 
         var user = new ApplicationUser
@@ -57,13 +52,13 @@ public sealed class IdentityService : IIdentityService
         {
             var errors = string.Join(", ", result.Errors.Select(e => e.Description));
             return Result.Failure<string>(
-                Error.Failure("Auth.RegistrationFailed", errors));
+                Error.Failure("Authentication.RegistrationFailed", errors));
         }
 
         // Add default role
-        await _userManager.AddToRoleAsync(user, "User");
+        await _userManager.AddToRoleAsync(user, "Customer");
 
-        return Result.Success(user.Id);
+        return Result.Success($"User with email {email} is created successfully");
     }
 
     public async Task<ResultT<AuthenticationResult>> LoginAsync(
@@ -75,7 +70,7 @@ public sealed class IdentityService : IIdentityService
         if (user is null)
         {
             return Result.Failure<AuthenticationResult>(
-                Error.Failure("Authentication.InvalidCredentials", "Invalid email or password"));
+                Error.Failure("Authentication.InvalidCredentials", "Incorrect email or password"));
         }
 
         var result = await _signInManager.CheckPasswordSignInAsync(user, password, lockoutOnFailure: true);
@@ -83,7 +78,7 @@ public sealed class IdentityService : IIdentityService
         if (!result.Succeeded)
         {
             return Result.Failure<AuthenticationResult>(
-                Error.Failure("Authentication.InvalidCredentials", "Invalid email or password"));
+                Error.Failure("Authentication.InvalidCredentials", "Invalid email or password ( can not generate jwt token )"));
         }
 
         var tokenResult = await _jwtProvider.GenerateTokenAsync(user.Id, user.Email!, cancellationToken);
