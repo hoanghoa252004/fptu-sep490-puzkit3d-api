@@ -69,12 +69,12 @@ public static class ServiceCollectionExtensions
         // Register IdentityDbContext with PostgreSQL
         services.AddDbContext<IdentityDbContext>(options =>
         {
-            var connectionString = configuration.GetConnectionString("IdentityConnection")
-                ?? throw new InvalidOperationException("Connection string 'IdentityConnection' not found");
+            var connectionString = configuration.GetConnectionString("DefaultConnection")
+                ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found");
 
             options.UseNpgsql(connectionString, npgsqlOptions =>
             {
-                npgsqlOptions.MigrationsHistoryTable("__EFMigrationsHistory", "identity");
+                npgsqlOptions.MigrationsHistoryTable("__EFMigrationsHistory", Schema.Identity);
                 npgsqlOptions.EnableRetryOnFailure(
                     maxRetryCount: 3,
                     maxRetryDelay: TimeSpan.FromSeconds(30),
