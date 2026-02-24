@@ -1,4 +1,5 @@
 ﻿using PuzKit3D.Modules.InStock.Infrastructure;
+using PuzKit3D.Modules.InStock.Persistence;
 using PuzKit3D.SharedKernel.Api.Endpoint;
 using PuzKit3D.SharedKernel.Application;
 using PuzKit3D.SharedKernel.Infrastructure;
@@ -31,6 +32,9 @@ builder.Services.AddEndpointsFromAssembly(
        PuzKit3D.Modules.User.Api.UserApiAssembly.Assembly
     }
 );
+
+// Add Persistence services (DbContext, Repositories ):
+builder.Services.AddInStockPersistence(builder.Configuration);
 
 var app = builder.Build();
 
