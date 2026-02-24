@@ -34,7 +34,7 @@ public sealed class IdentityService : IIdentityService
         if (existingUser is not null)
         {
             return Result.Failure<string>(
-                Error.Conflict("Authentication.EmailAlreadyExists", "Email already exists"));
+                Error.Conflict("Authentication.EmailAlreadyExists", $"User with email {email} already exists"));
         }
 
         var user = new ApplicationUser
@@ -70,7 +70,7 @@ public sealed class IdentityService : IIdentityService
         if (user is null)
         {
             return Result.Failure<AuthenticationResult>(
-                Error.Failure("Authentication.InvalidCredentials", "Incorrect email or password"));
+                Error.NotFound("Authentication.InvalidCredentials", $"User with email {email} does not exist"));
         }
 
         var result = await _signInManager.CheckPasswordSignInAsync(user, password, lockoutOnFailure: true);
@@ -78,7 +78,7 @@ public sealed class IdentityService : IIdentityService
         if (!result.Succeeded)
         {
             return Result.Failure<AuthenticationResult>(
-                Error.Failure("Authentication.InvalidCredentials", "Invalid email or password ( can not generate jwt token )"));
+                Error.Unauthorized("Authentication.InvalidCredentials", "Incorrect email or password"));
         }
 
         var tokenResult = await _jwtProvider.GenerateTokenAsync(user.Id, user.Email!, cancellationToken);

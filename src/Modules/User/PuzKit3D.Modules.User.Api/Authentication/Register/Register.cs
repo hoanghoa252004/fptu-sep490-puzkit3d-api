@@ -10,7 +10,7 @@ using PuzKit3D.SharedKernel.Domain.Results;
 
 namespace PuzKit3D.Modules.User.Api.Authentication.Register;
 
-public sealed class Register : IEndpoint
+internal sealed class Register : IEndpoint
 {
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
@@ -34,9 +34,17 @@ public sealed class Register : IEndpoint
             .Produces<string>(StatusCodes.Status200OK)
             .ProducesValidationProblem(StatusCodes.Status400BadRequest)
             .ProducesProblem(StatusCodes.Status400BadRequest)
+            .ProducesProblem(StatusCodes.Status409Conflict) // User with email already exists
             .ProducesProblem(StatusCodes.Status500InternalServerError);
     }
 }
+
+internal sealed record RegisterRequestDto(
+    string Email,
+    string Password,
+    string? FirstName,
+    string? LastName
+);
 
 
 
