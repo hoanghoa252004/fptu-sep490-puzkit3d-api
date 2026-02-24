@@ -10,7 +10,7 @@ using PuzKit3D.SharedKernel.Domain.Results;
 
 namespace PuzKit3D.Modules.User.Api.Authentication.Login;
 
-public sealed class Login : IEndpoint
+internal sealed class Login : IEndpoint
 {
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
@@ -28,10 +28,11 @@ public sealed class Login : IEndpoint
             .WithDescription("Login with email and password, response jwt token")
             .AllowAnonymous()
             .Produces<AuthenticationResult>(StatusCodes.Status200OK)
-            .ProducesValidationProblem(StatusCodes.Status400BadRequest)
-            .ProducesProblem(StatusCodes.Status401Unauthorized)
+            .ProducesValidationProblem(StatusCodes.Status400BadRequest) 
+            .ProducesProblem(StatusCodes.Status401Unauthorized) // Incorrect email / password
+            .ProducesProblem(StatusCodes.Status404NotFound) // User with email not found
             .ProducesProblem(StatusCodes.Status500InternalServerError);
     }
 }
 
-public sealed record LoginRequest(string Email, string Password);
+internal sealed record LoginRequest(string Email, string Password);

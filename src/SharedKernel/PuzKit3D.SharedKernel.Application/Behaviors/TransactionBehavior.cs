@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.Extensions.DependencyInjection;
 using PuzKit3D.SharedKernel.Application.Data;
 using PuzKit3D.SharedKernel.Application.Message.Command;
 using PuzKit3D.SharedKernel.Domain.Results;
@@ -15,11 +16,11 @@ internal sealed class TransactionBehavior<TRequest, TResponse>
     where TRequest : IRequest<TResponse>
     where TResponse : Result
 {
-    private readonly IUnitOfWork _unitOfWork; 
+    private readonly IServiceProvider _serviceProvider;
 
-    public TransactionBehavior(IUnitOfWork unitOfWork)
+    public TransactionBehavior(IServiceProvider serviceProvider)
     {
-        _unitOfWork = unitOfWork;
+        _serviceProvider = serviceProvider;
     }
 
     public async Task<TResponse> Handle(TRequest request,
@@ -28,7 +29,12 @@ internal sealed class TransactionBehavior<TRequest, TResponse>
         if (!IsCommand()) // Query request
             return await next();
 
-        return await _unitOfWork.ExecuteAsync(() => next());
+        var unitOfWork = _serviceProvider.GetService<IUnitOfWork>();
+
+        if (unitOfWork is null)
+            return await next();
+
+        return await unitOfWork.ExecuteAsync(() => next());
 
     }
 
