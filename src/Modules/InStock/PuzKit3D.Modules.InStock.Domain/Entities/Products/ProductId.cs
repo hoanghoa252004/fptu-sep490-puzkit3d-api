@@ -1,13 +1,12 @@
 ﻿using PuzKit3D.SharedKernel.Domain;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PuzKit3D.Modules.InStock.Domain.Entities.Products;
 
 public sealed class ProductId : StronglyTypedId<Guid>
 {
-    public ProductId(Guid value) : base(value) { }
+    private ProductId(Guid value) : base(value) { }
+
+    public static ProductId Create() => new(Guid.NewGuid());
+
+    public static ProductId From(Guid value) => new(value);
 }

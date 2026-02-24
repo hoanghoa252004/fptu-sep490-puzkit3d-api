@@ -1,42 +1,40 @@
-﻿using MediatR;
-using PuzKit3D.SharedKernel.Application.Exceptions;
+﻿using PuzKit3D.Modules.InStock.Domain.Entities.Products;
+using PuzKit3D.Modules.InStock.Domain.Repositories;
 using PuzKit3D.SharedKernel.Application.Message.Query;
-using PuzKit3D.SharedKernel.Domain.Errors;
 using PuzKit3D.SharedKernel.Domain.Results;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PuzKit3D.Modules.InStock.Application.UserCases.Products.Queries.GetProductById;
 
 internal sealed class GetProductByIdQueryHandler : IQueryHandler<GetProductByIdQuery, GetProductByIdResponseDto>
 {
-    public async Task<ResultT<GetProductByIdResponseDto>> Handle(GetProductByIdQuery request, CancellationToken cancellationToken)
+    private readonly IProductRepository _productRepository;
+
+    public GetProductByIdQueryHandler(IProductRepository productRepository)
     {
-        if (request.Id == 1)
+        _productRepository = productRepository;
+    }
+
+    public async Task<ResultT<GetProductByIdResponseDto>> Handle(
+        GetProductByIdQuery request, 
+        CancellationToken cancellationToken)
+    {
+        // Get product by ID
+        var productId = ProductId.From(request.Id);
+        var product = await _productRepository.GetByIdAsync(productId, cancellationToken);
+
+        if (product is null)
         {
             return Result.Failure<GetProductByIdResponseDto>(
-                Error.NotFound(
-                    "Product.NotFound",
-                    $"Product with Id [{request.Id}] not found"
-                )
-            );
-        }
-        else if (request.Id == 2)
-        {
-            throw new PuzKit3DException($"{nameof(GetProductByIdQuery)} Test PuzKit3DException"); 
-        }
-        else if (request.Id == 3)
-        {
-            throw new Exception("System Exception ( Test Wrap Exception )");
+                ProductError.NotFound(request.Id));
         }
 
-        return Result.Success(new GetProductByIdResponseDto(
-            Id: 1,
-            Name: "3D Model Kit",
-            Description: "Description for 3D Model Kit"
-        ));
+        // Map to DTO
+        var response = new GetProductByIdResponseDto(
+            Id: product.Id.Value,
+            Name: product.Name,
+            Price: product.Price,
+            Stock: product.Stock);
+
+        return Result.Success(response);
     }
 }
