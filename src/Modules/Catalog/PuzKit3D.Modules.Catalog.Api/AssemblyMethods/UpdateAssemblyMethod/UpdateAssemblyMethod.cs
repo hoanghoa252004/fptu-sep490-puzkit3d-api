@@ -35,6 +35,7 @@ internal sealed class UpdateAssemblyMethod : IEndpoint
             .WithName("UpdateAssemblyMethod")
             .WithSummary("Update an assembly method")
             .WithDescription("Updates an existing assembly method by ID")
+            .RequireAuthorization(Permissions.Catalog.ManageAssemblyMethods)
             .Produces(StatusCodes.Status204NoContent)
             .ProducesValidationProblem(StatusCodes.Status400BadRequest)
             .ProducesProblem(StatusCodes.Status404NotFound)
