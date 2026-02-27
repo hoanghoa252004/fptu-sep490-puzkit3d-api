@@ -1,4 +1,4 @@
-namespace PuzKit3D.Modules.InStock.Application.Data;
+namespace PuzKit3D.Modules.InStock.Application.UnitOfWork;
 
 /// <summary>
 /// Unit of Work specific for InStock module

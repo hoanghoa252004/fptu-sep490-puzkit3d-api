@@ -1,6 +1,6 @@
-using PuzKit3D.Modules.InStock.Application.Data;
+using PuzKit3D.Modules.InStock.Application.Repositories;
+using PuzKit3D.Modules.InStock.Application.UnitOfWork;
 using PuzKit3D.Modules.InStock.Domain.Entities.Products;
-using PuzKit3D.Modules.InStock.Domain.Repositories;
 using PuzKit3D.SharedKernel.Application.Data;
 using PuzKit3D.SharedKernel.Application.Message.Command;
 using PuzKit3D.SharedKernel.Domain.Results;

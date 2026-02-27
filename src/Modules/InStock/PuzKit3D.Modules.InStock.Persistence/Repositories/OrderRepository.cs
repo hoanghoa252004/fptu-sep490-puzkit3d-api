@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
+using PuzKit3D.Modules.InStock.Application.Repositories;
 using PuzKit3D.Modules.InStock.Domain.Entities.Orders;
-using PuzKit3D.Modules.InStock.Domain.Repositories;
 using System.Linq.Expressions;
 
 namespace PuzKit3D.Modules.InStock.Persistence.Repositories;
