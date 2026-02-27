@@ -1,4 +1,4 @@
-namespace PuzKit3D.Modules.Catalog.Application.UnitOfWork;
+namespace PuzKit3D.Modules.Catalog.Domain.UnitOfWork;
 
 /// <summary>
 /// Unit of Work specific for Catalog module

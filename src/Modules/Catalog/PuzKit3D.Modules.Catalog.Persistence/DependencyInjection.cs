@@ -1,8 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using PuzKit3D.Modules.Catalog.Application.Repositories;
-using PuzKit3D.Modules.Catalog.Application.UnitOfWork;
+using PuzKit3D.Modules.Catalog.Domain.Repositories;
+using PuzKit3D.Modules.Catalog.Domain.UnitOfWork;
 using PuzKit3D.Modules.Catalog.Persistence.Repositories;
 
 namespace PuzKit3D.Modules.Catalog.Persistence;

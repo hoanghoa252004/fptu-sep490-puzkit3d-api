@@ -24,7 +24,12 @@ public static class AssemblyMethodError
         "AssemblyMethod.NotFound",
         $"Assembly method with ID '{id}' was not found.");
 
+    public static Error NotFoundBySlug(string slug) => Error.NotFound(
+        "AssemblyMethod.NotFoundBySlug",
+        $"Assembly method with slug '{slug}' was not found.");
+
     public static Error DuplicateSlug(string slug) => Error.Conflict(
         "AssemblyMethod.DuplicateSlug",
         $"Assembly method with slug '{slug}' already exists.");
+
 }

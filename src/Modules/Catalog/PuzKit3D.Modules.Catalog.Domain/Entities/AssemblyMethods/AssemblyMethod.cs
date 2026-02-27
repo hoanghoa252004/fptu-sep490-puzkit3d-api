@@ -64,7 +64,7 @@ public class AssemblyMethod : AggregateRoot<AssemblyMethodId>
         return Result.Success(assemblyMethod);
     }
 
-    public Result Update(string name, string slug, string? description = null)
+    public Result Update(string name, string slug, string? description, bool isActive)
     {
         if (string.IsNullOrWhiteSpace(name))
             return Result.Failure(AssemblyMethodError.InvalidName());
@@ -81,6 +81,7 @@ public class AssemblyMethod : AggregateRoot<AssemblyMethodId>
         Name = name;
         Slug = slug;
         Description = description;
+        IsActive = isActive;
         UpdatedAt = DateTime.UtcNow;
 
         return Result.Success();

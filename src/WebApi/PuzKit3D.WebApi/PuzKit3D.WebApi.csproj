@@ -20,6 +20,11 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Contract\PuzKit3D.Contract\PuzKit3D.Contract.csproj" />
+    <ProjectReference Include="..\..\Modules\Catalog\PuzKit3D.Modules.Catalog.Api\PuzKit3D.Modules.Catalog.Api.csproj" />
+    <ProjectReference Include="..\..\Modules\Catalog\PuzKit3D.Modules.Catalog.Application\PuzKit3D.Modules.Catalog.Application.csproj" />
+    <ProjectReference Include="..\..\Modules\Catalog\PuzKit3D.Modules.Catalog.Domain\PuzKit3D.Modules.Catalog.Domain.csproj" />
+    <ProjectReference Include="..\..\Modules\Catalog\PuzKit3D.Modules.Catalog.Infrastructure\PuzKit3D.Modules.Catalog.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\Modules\Catalog\PuzKit3D.Modules.Catalog.Persistence\PuzKit3D.Modules.Catalog.Persistence.csproj" />
     <ProjectReference Include="..\..\Modules\InStock\PuzKit3D.Modules.InStock.Api\PuzKit3D.Modules.InStock.Api.csproj" />
     <ProjectReference Include="..\..\Modules\InStock\PuzKit3D.Modules.InStock.Application\PuzKit3D.Modules.InStock.Application.csproj" />
     <ProjectReference Include="..\..\Modules\InStock\PuzKit3D.Modules.InStock.Domain\PuzKit3D.Modules.InStock.Domain.csproj" />

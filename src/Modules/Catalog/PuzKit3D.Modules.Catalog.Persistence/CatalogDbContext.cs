@@ -1,10 +1,10 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using PuzKit3D.Modules.Catalog.Application.UnitOfWork;
 using PuzKit3D.Modules.Catalog.Domain.Entities.AssemblyMethods;
 using PuzKit3D.Modules.Catalog.Domain.Entities.Capabilities;
 using PuzKit3D.Modules.Catalog.Domain.Entities.Materials;
 using PuzKit3D.Modules.Catalog.Domain.Entities.Topics;
+using PuzKit3D.Modules.Catalog.Domain.UnitOfWork;
 using PuzKit3D.SharedKernel.Domain;
 using PuzKit3D.SharedKernel.Domain.Results;
 
