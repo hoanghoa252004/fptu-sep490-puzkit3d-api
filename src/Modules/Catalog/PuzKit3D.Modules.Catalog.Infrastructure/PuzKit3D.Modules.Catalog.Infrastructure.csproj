@@ -10,6 +10,7 @@
     <ProjectReference Include="..\..\..\SharedKernel\PuzKit3D.SharedKernel.Application\PuzKit3D.SharedKernel.Application.csproj" />
     <ProjectReference Include="..\..\..\SharedKernel\PuzKit3D.SharedKernel.Infrastructure\PuzKit3D.SharedKernel.Infrastructure.csproj" />
     <ProjectReference Include="..\PuzKit3D.Modules.Catalog.Application\PuzKit3D.Modules.Catalog.Application.csproj" />
+    <ProjectReference Include="..\PuzKit3D.Modules.Catalog.Persistence\PuzKit3D.Modules.Catalog.Persistence.csproj" />
   </ItemGroup>
 
 </Project>
