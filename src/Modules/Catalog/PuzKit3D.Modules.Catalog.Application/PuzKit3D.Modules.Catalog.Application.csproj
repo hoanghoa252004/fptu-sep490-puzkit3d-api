@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\SharedKernel\PuzKit3D.SharedKernel.Application\PuzKit3D.SharedKernel.Application.csproj" />
+    <ProjectReference Include="..\..\..\SharedKernel\PuzKit3D.SharedKernel.Domain\PuzKit3D.SharedKernel.Domain.csproj" />
+    <ProjectReference Include="..\PuzKit3D.Modules.Catalog.Domain\PuzKit3D.Modules.Catalog.Domain.csproj" />
+  </ItemGroup>
+
+</Project>
