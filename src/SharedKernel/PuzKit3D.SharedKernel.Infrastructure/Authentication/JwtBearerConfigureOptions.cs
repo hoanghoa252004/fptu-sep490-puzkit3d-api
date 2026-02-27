@@ -39,7 +39,8 @@ internal sealed class JwtBearerConfigureOptions : IConfigureNamedOptions<JwtBear
             IssuerSigningKey = new SymmetricSecurityKey(
                 Encoding.UTF8.GetBytes(jwtSettings["SecretKey"]!)),
             ClockSkew = TimeSpan.Zero,
-            RoleClaimType = System.Security.Claims.ClaimTypes.Role
+            RoleClaimType = System.Security.Claims.ClaimTypes.Role,
+            NameClaimType = System.Security.Claims.ClaimTypes.NameIdentifier
         };
 
         options.Events = new JwtBearerEvents
@@ -67,31 +68,10 @@ internal sealed class JwtBearerConfigureOptions : IConfigureNamedOptions<JwtBear
                         var authenticatedIdentity = new System.Security.Claims.ClaimsIdentity(
                             claimsIdentity.Claims,
                             JwtBearerDefaults.AuthenticationScheme,
-                            claimsIdentity.NameClaimType,
-                            claimsIdentity.RoleClaimType);
+                            System.Security.Claims.ClaimTypes.NameIdentifier,
+                            System.Security.Claims.ClaimTypes.Role);
 
                         context.Principal = new System.Security.Claims.ClaimsPrincipal(authenticatedIdentity);
-                        claimsIdentity = authenticatedIdentity;
-                    }
-
-                    // Map 'sub' claim to NameIdentifier if not already present
-                    var subClaim = claimsIdentity.FindFirst(System.IdentityModel.Tokens.Jwt.JwtRegisteredClaimNames.Sub);
-                    if (subClaim != null && !claimsIdentity.HasClaim(System.Security.Claims.ClaimTypes.NameIdentifier, subClaim.Value))
-                    {
-                        claimsIdentity.AddClaim(new System.Security.Claims.Claim(System.Security.Claims.ClaimTypes.NameIdentifier, subClaim.Value));
-                    }
-
-                    // Map 'email' claim to Email if not already present
-                    var emailClaim = claimsIdentity.FindFirst(System.IdentityModel.Tokens.Jwt.JwtRegisteredClaimNames.Email);
-                    if (emailClaim != null && !claimsIdentity.HasClaim(System.Security.Claims.ClaimTypes.Email, emailClaim.Value))
-                    {
-                        claimsIdentity.AddClaim(new System.Security.Claims.Claim(System.Security.Claims.ClaimTypes.Email, emailClaim.Value));
-                    }
-
-                    // Map 'email' claim to Name (UserName) if not already present
-                    if (emailClaim != null && !claimsIdentity.HasClaim(System.Security.Claims.ClaimTypes.Name, emailClaim.Value))
-                    {
-                        claimsIdentity.AddClaim(new System.Security.Claims.Claim(System.Security.Claims.ClaimTypes.Name, emailClaim.Value));
                     }
                 }
 
