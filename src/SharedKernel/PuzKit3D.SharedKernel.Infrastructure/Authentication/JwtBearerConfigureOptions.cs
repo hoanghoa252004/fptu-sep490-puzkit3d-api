@@ -38,7 +38,8 @@ internal sealed class JwtBearerConfigureOptions : IConfigureNamedOptions<JwtBear
             ValidAudience = jwtSettings["Audience"],
             IssuerSigningKey = new SymmetricSecurityKey(
                 Encoding.UTF8.GetBytes(jwtSettings["SecretKey"]!)),
-            ClockSkew = TimeSpan.Zero
+            ClockSkew = TimeSpan.Zero,
+            RoleClaimType = System.Security.Claims.ClaimTypes.Role
         };
 
         options.Events = new JwtBearerEvents
@@ -53,6 +54,54 @@ internal sealed class JwtBearerConfigureOptions : IConfigureNamedOptions<JwtBear
                     context.Token = accessToken;
                 }
 
+                return Task.CompletedTask;
+            },
+            OnTokenValidated = context =>
+            {
+                if (context.Principal?.Identity is System.Security.Claims.ClaimsIdentity claimsIdentity)
+                {
+                    // Ensure AuthenticationType is set - this is critical for IsAuthenticated to return true
+                    if (string.IsNullOrEmpty(claimsIdentity.AuthenticationType))
+                    {
+                        // Create a new ClaimsIdentity with explicit AuthenticationType
+                        var authenticatedIdentity = new System.Security.Claims.ClaimsIdentity(
+                            claimsIdentity.Claims,
+                            JwtBearerDefaults.AuthenticationScheme,
+                            claimsIdentity.NameClaimType,
+                            claimsIdentity.RoleClaimType);
+
+                        context.Principal = new System.Security.Claims.ClaimsPrincipal(authenticatedIdentity);
+                        claimsIdentity = authenticatedIdentity;
+                    }
+
+                    // Map 'sub' claim to NameIdentifier if not already present
+                    var subClaim = claimsIdentity.FindFirst(System.IdentityModel.Tokens.Jwt.JwtRegisteredClaimNames.Sub);
+                    if (subClaim != null && !claimsIdentity.HasClaim(System.Security.Claims.ClaimTypes.NameIdentifier, subClaim.Value))
+                    {
+                        claimsIdentity.AddClaim(new System.Security.Claims.Claim(System.Security.Claims.ClaimTypes.NameIdentifier, subClaim.Value));
+                    }
+
+                    // Map 'email' claim to Email if not already present
+                    var emailClaim = claimsIdentity.FindFirst(System.IdentityModel.Tokens.Jwt.JwtRegisteredClaimNames.Email);
+                    if (emailClaim != null && !claimsIdentity.HasClaim(System.Security.Claims.ClaimTypes.Email, emailClaim.Value))
+                    {
+                        claimsIdentity.AddClaim(new System.Security.Claims.Claim(System.Security.Claims.ClaimTypes.Email, emailClaim.Value));
+                    }
+
+                    // Map 'email' claim to Name (UserName) if not already present
+                    if (emailClaim != null && !claimsIdentity.HasClaim(System.Security.Claims.ClaimTypes.Name, emailClaim.Value))
+                    {
+                        claimsIdentity.AddClaim(new System.Security.Claims.Claim(System.Security.Claims.ClaimTypes.Name, emailClaim.Value));
+                    }
+                }
+
+                return Task.CompletedTask;
+            },
+            OnAuthenticationFailed = context =>
+            {
+                // Log authentication failures for debugging
+                var exception = context.Exception;
+                // You can add logging here if needed
                 return Task.CompletedTask;
             }
         };

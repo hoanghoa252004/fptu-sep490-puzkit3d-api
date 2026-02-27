@@ -27,7 +27,7 @@ internal sealed class GetAllAssemblyMethodsQueryHandler
     {
         // Check if user is Staff or Manager
         var isStaffOrManager = _currentUser.IsAuthenticated && 
-            (_currentUser.IsInRole("Staff") || _currentUser.IsInRole("Manager"));
+            (_currentUser.IsInRole("Staff") || _currentUser.IsInRole("Business Manager"));
 
         // Build query with filters
         var query = _assemblyMethodRepository.FindAll(null);

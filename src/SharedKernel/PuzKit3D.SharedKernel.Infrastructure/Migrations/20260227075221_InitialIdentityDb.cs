@@ -6,10 +6,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
 
-namespace PuzKit3D.SharedKernel.Infrastructure.Identity.Migrations
+namespace PuzKit3D.SharedKernel.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialIdentity : Migration
+    public partial class InitialIdentityDb : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -233,10 +233,70 @@ namespace PuzKit3D.SharedKernel.Infrastructure.Identity.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "CreatedAt", "Description", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "0b42c919-01c0-4109-ba04-d848c45dc413", null, new DateTime(2025, 2, 23, 0, 0, 0, 0, DateTimeKind.Utc), "Low-level business access", "Business Manager ", "BUSINESS_MANAGER" },
+                    { "0b42c919-01c0-4109-ba04-d848c45dc413", null, new DateTime(2025, 2, 23, 0, 0, 0, 0, DateTimeKind.Utc), "Low-level business access", "Business Manager", "BUSINESS_MANAGER" },
                     { "1a0d505f-46d8-4aaf-92c7-71ba90443dcb", null, new DateTime(2025, 2, 23, 0, 0, 0, 0, DateTimeKind.Utc), "High-level business access", "Staff", "STAFF" },
                     { "9b7da615-9c41-4700-92a9-ca17337c5724", null, new DateTime(2025, 2, 23, 0, 0, 0, 0, DateTimeKind.Utc), "Full system access", "System Administrator", "SYSTEM_ADMINISTRATOR" },
                     { "f634ede8-7091-48da-a969-2bf90ef86f2c", null, new DateTime(2025, 2, 23, 0, 0, 0, 0, DateTimeKind.Utc), "Standard customer access", "Customer", "CUSTOMER" }
+                });
+
+            migrationBuilder.InsertData(
+                schema: "identity",
+                table: "identity_user",
+                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "CreatedAt", "Email", "EmailConfirmed", "FirstName", "IsDeleted", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "RefreshToken", "RefreshTokenExpiryTime", "SecurityStamp", "TwoFactorEnabled", "UpdatedAt", "UserName" },
+                values: new object[,]
+                {
+                    { "admin-001", 0, "1d5366a7-43f2-405a-a85b-1c913c0c5b2f", new DateTime(2025, 2, 23, 0, 0, 0, 0, DateTimeKind.Utc), "admin@puzkit3d.com", true, "System", false, "Administrator", false, null, "ADMIN@PUZKIT3D.COM", "ADMIN@PUZKIT3D.COM", "AQAAAAIAAYagAAAAEPSfvsSKDzPCnkk8Mq3OFqUzOSemt4JjQU4Bg7a8oqcYFDNEuMFUlcClo72Obq8t9Q==", null, false, null, null, "52829083-e3e6-4328-bc06-ffa922a0abbc", false, null, "admin@puzkit3d.com" },
+                    { "manager-001", 0, "cc327c3a-bdcc-4b95-bce3-65177dfbe4fe", new DateTime(2025, 2, 23, 0, 0, 0, 0, DateTimeKind.Utc), "manager@puzkit3d.com", true, "Business", false, "Manager", false, null, "MANAGER@PUZKIT3D.COM", "MANAGER@PUZKIT3D.COM", "AQAAAAIAAYagAAAAEDr0+IKdspm90K/Atw4QgWL7d72tlODQpuwXZJ4Vy5bpkB8K18GAeCpelTCsWnQRoQ==", null, false, null, null, "6ffb607d-9395-49c2-9625-ed93885994b0", false, null, "manager@puzkit3d.com" },
+                    { "staff-001", 0, "9af8665d-1aca-4763-b814-9a25da7bd6fc", new DateTime(2025, 2, 23, 0, 0, 0, 0, DateTimeKind.Utc), "staff1@puzkit3d.com", true, "John", false, "Staff", false, null, "STAFF1@PUZKIT3D.COM", "STAFF1@PUZKIT3D.COM", "AQAAAAIAAYagAAAAEBIUHn2jIxsukbuuIsZVWDp/AJ4+374ehGUHJh4zxk91WeYH7VWljn3r6uFTJ392dA==", null, false, null, null, "2ae9876a-6240-4581-a894-21133bbbbe8c", false, null, "staff1@puzkit3d.com" },
+                    { "staff-002", 0, "d693b4f9-d518-4fb0-92db-b61633590dad", new DateTime(2025, 2, 23, 0, 0, 0, 0, DateTimeKind.Utc), "staff2@puzkit3d.com", true, "Jane", false, "Staff", false, null, "STAFF2@PUZKIT3D.COM", "STAFF2@PUZKIT3D.COM", "AQAAAAIAAYagAAAAEIRgv1XVHWifHGFVB26ohtzsahQj3oY9/gGGUcZJ9Du1Akp0nTMNc8rB8q1v/GLBeQ==", null, false, null, null, "24030a5a-edc4-44a5-8dea-db68be5fe6d7", false, null, "staff2@puzkit3d.com" },
+                    { "staff-003", 0, "5bd11bf3-e42b-4533-904a-e3558e15240f", new DateTime(2025, 2, 23, 0, 0, 0, 0, DateTimeKind.Utc), "staff3@puzkit3d.com", true, "Mike", false, "Staff", false, null, "STAFF3@PUZKIT3D.COM", "STAFF3@PUZKIT3D.COM", "AQAAAAIAAYagAAAAEDAZhxLEKyKNG+d5zJ2FOyGFXJPnM/uTev/GSjw6I0qVbidgJtfMl8SORarbMZc9LA==", null, false, null, null, "10c189c9-c1bf-45a8-9c04-33f30aef2bc0", false, null, "staff3@puzkit3d.com" }
+                });
+
+            migrationBuilder.InsertData(
+                schema: "identity",
+                table: "identity_user_role",
+                columns: new[] { "RoleId", "UserId" },
+                values: new object[,]
+                {
+                    { "9b7da615-9c41-4700-92a9-ca17337c5724", "admin-001" },
+                    { "0b42c919-01c0-4109-ba04-d848c45dc413", "manager-001" },
+                    { "1a0d505f-46d8-4aaf-92c7-71ba90443dcb", "staff-001" },
+                    { "1a0d505f-46d8-4aaf-92c7-71ba90443dcb", "staff-002" },
+                    { "1a0d505f-46d8-4aaf-92c7-71ba90443dcb", "staff-003" }
+                });
+
+            migrationBuilder.InsertData(
+                schema: "identity",
+                table: "identity_user_role_permission",
+                columns: new[] { "Permission", "RoleId", "GrantedAt" },
+                values: new object[,]
+                {
+                    { "catalog:assembly-methods:manage", "0b42c919-01c0-4109-ba04-d848c45dc413", new DateTime(2026, 2, 27, 7, 52, 19, 160, DateTimeKind.Utc).AddTicks(7837) },
+                    { "catalog:assembly-methods:view", "0b42c919-01c0-4109-ba04-d848c45dc413", new DateTime(2026, 2, 27, 7, 52, 19, 160, DateTimeKind.Utc).AddTicks(7837) },
+                    { "catalog:capabilities:manage", "0b42c919-01c0-4109-ba04-d848c45dc413", new DateTime(2026, 2, 27, 7, 52, 19, 160, DateTimeKind.Utc).AddTicks(7841) },
+                    { "catalog:capabilities:view", "0b42c919-01c0-4109-ba04-d848c45dc413", new DateTime(2026, 2, 27, 7, 52, 19, 160, DateTimeKind.Utc).AddTicks(7840) },
+                    { "catalog:materials:manage", "0b42c919-01c0-4109-ba04-d848c45dc413", new DateTime(2026, 2, 27, 7, 52, 19, 160, DateTimeKind.Utc).AddTicks(7840) },
+                    { "catalog:materials:view", "0b42c919-01c0-4109-ba04-d848c45dc413", new DateTime(2026, 2, 27, 7, 52, 19, 160, DateTimeKind.Utc).AddTicks(7839) },
+                    { "catalog:topics:manage", "0b42c919-01c0-4109-ba04-d848c45dc413", new DateTime(2026, 2, 27, 7, 52, 19, 160, DateTimeKind.Utc).AddTicks(7839) },
+                    { "catalog:topics:view", "0b42c919-01c0-4109-ba04-d848c45dc413", new DateTime(2026, 2, 27, 7, 52, 19, 160, DateTimeKind.Utc).AddTicks(7838) },
+                    { "instock:orders:view", "0b42c919-01c0-4109-ba04-d848c45dc413", new DateTime(2026, 2, 27, 7, 52, 19, 160, DateTimeKind.Utc).AddTicks(7842) },
+                    { "instock:products:view", "0b42c919-01c0-4109-ba04-d848c45dc413", new DateTime(2026, 2, 27, 7, 52, 19, 160, DateTimeKind.Utc).AddTicks(7841) },
+                    { "catalog:assembly-methods:manage", "1a0d505f-46d8-4aaf-92c7-71ba90443dcb", new DateTime(2026, 2, 27, 7, 52, 19, 160, DateTimeKind.Utc).AddTicks(7845) },
+                    { "catalog:assembly-methods:view", "1a0d505f-46d8-4aaf-92c7-71ba90443dcb", new DateTime(2026, 2, 27, 7, 52, 19, 160, DateTimeKind.Utc).AddTicks(7844) },
+                    { "catalog:capabilities:manage", "1a0d505f-46d8-4aaf-92c7-71ba90443dcb", new DateTime(2026, 2, 27, 7, 52, 19, 160, DateTimeKind.Utc).AddTicks(7848) },
+                    { "catalog:capabilities:view", "1a0d505f-46d8-4aaf-92c7-71ba90443dcb", new DateTime(2026, 2, 27, 7, 52, 19, 160, DateTimeKind.Utc).AddTicks(7848) },
+                    { "catalog:materials:manage", "1a0d505f-46d8-4aaf-92c7-71ba90443dcb", new DateTime(2026, 2, 27, 7, 52, 19, 160, DateTimeKind.Utc).AddTicks(7847) },
+                    { "catalog:materials:view", "1a0d505f-46d8-4aaf-92c7-71ba90443dcb", new DateTime(2026, 2, 27, 7, 52, 19, 160, DateTimeKind.Utc).AddTicks(7846) },
+                    { "catalog:topics:manage", "1a0d505f-46d8-4aaf-92c7-71ba90443dcb", new DateTime(2026, 2, 27, 7, 52, 19, 160, DateTimeKind.Utc).AddTicks(7846) },
+                    { "catalog:topics:view", "1a0d505f-46d8-4aaf-92c7-71ba90443dcb", new DateTime(2026, 2, 27, 7, 52, 19, 160, DateTimeKind.Utc).AddTicks(7845) },
+                    { "instock:orders:view", "1a0d505f-46d8-4aaf-92c7-71ba90443dcb", new DateTime(2026, 2, 27, 7, 52, 19, 160, DateTimeKind.Utc).AddTicks(7938) },
+                    { "instock:products:view", "1a0d505f-46d8-4aaf-92c7-71ba90443dcb", new DateTime(2026, 2, 27, 7, 52, 19, 160, DateTimeKind.Utc).AddTicks(7849) },
+                    { "users:create", "9b7da615-9c41-4700-92a9-ca17337c5724", new DateTime(2026, 2, 27, 7, 52, 19, 160, DateTimeKind.Utc).AddTicks(7805) },
+                    { "users:delete", "9b7da615-9c41-4700-92a9-ca17337c5724", new DateTime(2026, 2, 27, 7, 52, 19, 160, DateTimeKind.Utc).AddTicks(7806) },
+                    { "users:permissions:manage", "9b7da615-9c41-4700-92a9-ca17337c5724", new DateTime(2026, 2, 27, 7, 52, 19, 160, DateTimeKind.Utc).AddTicks(7807) },
+                    { "users:roles:manage", "9b7da615-9c41-4700-92a9-ca17337c5724", new DateTime(2026, 2, 27, 7, 52, 19, 160, DateTimeKind.Utc).AddTicks(7807) },
+                    { "users:update", "9b7da615-9c41-4700-92a9-ca17337c5724", new DateTime(2026, 2, 27, 7, 52, 19, 160, DateTimeKind.Utc).AddTicks(7805) },
+                    { "users:view", "9b7da615-9c41-4700-92a9-ca17337c5724", new DateTime(2026, 2, 27, 7, 52, 19, 160, DateTimeKind.Utc).AddTicks(7799) }
                 });
 
             migrationBuilder.CreateIndex(

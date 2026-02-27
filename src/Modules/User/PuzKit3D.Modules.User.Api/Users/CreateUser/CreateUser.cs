@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
-using PuzKit3D.Modules.User.Application.UseCases.Users.Commands.CreateStaffOrManager;
 using PuzKit3D.Modules.User.Application.UseCases.Users.Commands.CreateUser;
 using PuzKit3D.SharedKernel.Api.Endpoint;
 using PuzKit3D.SharedKernel.Api.Results.Extensions;
@@ -16,7 +15,7 @@ internal sealed class CreateUser : IEndpoint
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
         app.MapUsersGroup()
-            .MapPost("/staff-or-manager", async (
+            .MapPost("/", async (
                 [FromBody] CreateUserRequestDto request,
                 ISender sender,
                 CancellationToken cancellationToken) =>

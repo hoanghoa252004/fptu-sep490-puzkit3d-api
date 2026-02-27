@@ -195,12 +195,13 @@ public sealed class IdentityService : IIdentityService
         CancellationToken cancellationToken = default)
     {
         // Validate role (only allow Staff or Manager)
-        var allowedRoles = new[] { "Staff", "Manager", "Business Manager" };
+        var allowedRoles = new[] { "Staff",  "Business Manager" };
         if (!allowedRoles.Any(r => r.Equals(role, StringComparison.OrdinalIgnoreCase)))
         {
             return Result.Failure<string>(
                 Error.Validation("Authentication.InvalidRole", $"Role '{role}' is not allowed. Only Staff or Manager roles can be created."));
         }
+
 
         // Check if user already exists
         var existingUser = await _userManager.FindByEmailAsync(email);

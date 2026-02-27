@@ -17,7 +17,7 @@ internal sealed class CreateUserCommandValidator : AbstractValidator<CreateUserC
 
         RuleFor(x => x.Role)
             .NotEmpty().WithMessage("Role is required")
-            .Must(role => role == "Staff" || role == "Manager" || role == "Business Manager")
+            .Must(role => role == "Staff" || role == "Business Manager")
             .WithMessage("Role must be either 'Staff' or 'Manager' or 'Business Manager'");
 
         RuleFor(x => x.FirstName)

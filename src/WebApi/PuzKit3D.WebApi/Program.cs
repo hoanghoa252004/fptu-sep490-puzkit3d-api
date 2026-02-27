@@ -57,8 +57,13 @@ app.MapGet("/", () => "Welcome to PuzKit3D API").ExcludeFromDescription();
 
 app.UseExceptionHandler();
 
+// Authentication & Authorization - MUST be added before MapEndpoints()
+app.UseAuthentication();
+app.UseAuthorization();
+
 // Map Endpoints:
 app.MapEndpoints();
 
 app.Run();
+
 

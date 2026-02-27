@@ -9,11 +9,11 @@ using PuzKit3D.SharedKernel.Infrastructure.Identity;
 
 #nullable disable
 
-namespace PuzKit3D.SharedKernel.Infrastructure.Identity.Migrations
+namespace PuzKit3D.SharedKernel.Infrastructure.Migrations
 {
     [DbContext(typeof(IdentityDbContext))]
-    [Migration("20260227070117_SeedDefaultUsersAndPermissions")]
-    partial class SeedDefaultUsersAndPermissions
+    [Migration("20260227075221_InitialIdentityDb")]
+    partial class InitialIdentityDb
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -204,157 +204,157 @@ namespace PuzKit3D.SharedKernel.Infrastructure.Identity.Migrations
                         {
                             RoleId = "9b7da615-9c41-4700-92a9-ca17337c5724",
                             Permission = "users:view",
-                            GrantedAt = new DateTime(2026, 2, 27, 7, 1, 14, 850, DateTimeKind.Utc).AddTicks(984)
+                            GrantedAt = new DateTime(2026, 2, 27, 7, 52, 19, 160, DateTimeKind.Utc).AddTicks(7799)
                         },
                         new
                         {
                             RoleId = "9b7da615-9c41-4700-92a9-ca17337c5724",
                             Permission = "users:create",
-                            GrantedAt = new DateTime(2026, 2, 27, 7, 1, 14, 850, DateTimeKind.Utc).AddTicks(994)
+                            GrantedAt = new DateTime(2026, 2, 27, 7, 52, 19, 160, DateTimeKind.Utc).AddTicks(7805)
                         },
                         new
                         {
                             RoleId = "9b7da615-9c41-4700-92a9-ca17337c5724",
                             Permission = "users:update",
-                            GrantedAt = new DateTime(2026, 2, 27, 7, 1, 14, 850, DateTimeKind.Utc).AddTicks(995)
+                            GrantedAt = new DateTime(2026, 2, 27, 7, 52, 19, 160, DateTimeKind.Utc).AddTicks(7805)
                         },
                         new
                         {
                             RoleId = "9b7da615-9c41-4700-92a9-ca17337c5724",
                             Permission = "users:delete",
-                            GrantedAt = new DateTime(2026, 2, 27, 7, 1, 14, 850, DateTimeKind.Utc).AddTicks(996)
+                            GrantedAt = new DateTime(2026, 2, 27, 7, 52, 19, 160, DateTimeKind.Utc).AddTicks(7806)
                         },
                         new
                         {
                             RoleId = "9b7da615-9c41-4700-92a9-ca17337c5724",
                             Permission = "users:roles:manage",
-                            GrantedAt = new DateTime(2026, 2, 27, 7, 1, 14, 850, DateTimeKind.Utc).AddTicks(996)
+                            GrantedAt = new DateTime(2026, 2, 27, 7, 52, 19, 160, DateTimeKind.Utc).AddTicks(7807)
                         },
                         new
                         {
                             RoleId = "9b7da615-9c41-4700-92a9-ca17337c5724",
                             Permission = "users:permissions:manage",
-                            GrantedAt = new DateTime(2026, 2, 27, 7, 1, 14, 850, DateTimeKind.Utc).AddTicks(997)
+                            GrantedAt = new DateTime(2026, 2, 27, 7, 52, 19, 160, DateTimeKind.Utc).AddTicks(7807)
                         },
                         new
                         {
                             RoleId = "0b42c919-01c0-4109-ba04-d848c45dc413",
                             Permission = "catalog:assembly-methods:view",
-                            GrantedAt = new DateTime(2026, 2, 27, 7, 1, 14, 850, DateTimeKind.Utc).AddTicks(1033)
+                            GrantedAt = new DateTime(2026, 2, 27, 7, 52, 19, 160, DateTimeKind.Utc).AddTicks(7837)
                         },
                         new
                         {
                             RoleId = "0b42c919-01c0-4109-ba04-d848c45dc413",
                             Permission = "catalog:assembly-methods:manage",
-                            GrantedAt = new DateTime(2026, 2, 27, 7, 1, 14, 850, DateTimeKind.Utc).AddTicks(1033)
+                            GrantedAt = new DateTime(2026, 2, 27, 7, 52, 19, 160, DateTimeKind.Utc).AddTicks(7837)
                         },
                         new
                         {
                             RoleId = "0b42c919-01c0-4109-ba04-d848c45dc413",
                             Permission = "catalog:topics:view",
-                            GrantedAt = new DateTime(2026, 2, 27, 7, 1, 14, 850, DateTimeKind.Utc).AddTicks(1034)
+                            GrantedAt = new DateTime(2026, 2, 27, 7, 52, 19, 160, DateTimeKind.Utc).AddTicks(7838)
                         },
                         new
                         {
                             RoleId = "0b42c919-01c0-4109-ba04-d848c45dc413",
                             Permission = "catalog:topics:manage",
-                            GrantedAt = new DateTime(2026, 2, 27, 7, 1, 14, 850, DateTimeKind.Utc).AddTicks(1035)
+                            GrantedAt = new DateTime(2026, 2, 27, 7, 52, 19, 160, DateTimeKind.Utc).AddTicks(7839)
                         },
                         new
                         {
                             RoleId = "0b42c919-01c0-4109-ba04-d848c45dc413",
                             Permission = "catalog:materials:view",
-                            GrantedAt = new DateTime(2026, 2, 27, 7, 1, 14, 850, DateTimeKind.Utc).AddTicks(1035)
+                            GrantedAt = new DateTime(2026, 2, 27, 7, 52, 19, 160, DateTimeKind.Utc).AddTicks(7839)
                         },
                         new
                         {
                             RoleId = "0b42c919-01c0-4109-ba04-d848c45dc413",
                             Permission = "catalog:materials:manage",
-                            GrantedAt = new DateTime(2026, 2, 27, 7, 1, 14, 850, DateTimeKind.Utc).AddTicks(1036)
+                            GrantedAt = new DateTime(2026, 2, 27, 7, 52, 19, 160, DateTimeKind.Utc).AddTicks(7840)
                         },
                         new
                         {
                             RoleId = "0b42c919-01c0-4109-ba04-d848c45dc413",
                             Permission = "catalog:capabilities:view",
-                            GrantedAt = new DateTime(2026, 2, 27, 7, 1, 14, 850, DateTimeKind.Utc).AddTicks(1037)
+                            GrantedAt = new DateTime(2026, 2, 27, 7, 52, 19, 160, DateTimeKind.Utc).AddTicks(7840)
                         },
                         new
                         {
                             RoleId = "0b42c919-01c0-4109-ba04-d848c45dc413",
                             Permission = "catalog:capabilities:manage",
-                            GrantedAt = new DateTime(2026, 2, 27, 7, 1, 14, 850, DateTimeKind.Utc).AddTicks(1037)
+                            GrantedAt = new DateTime(2026, 2, 27, 7, 52, 19, 160, DateTimeKind.Utc).AddTicks(7841)
                         },
                         new
                         {
                             RoleId = "0b42c919-01c0-4109-ba04-d848c45dc413",
                             Permission = "instock:products:view",
-                            GrantedAt = new DateTime(2026, 2, 27, 7, 1, 14, 850, DateTimeKind.Utc).AddTicks(1038)
+                            GrantedAt = new DateTime(2026, 2, 27, 7, 52, 19, 160, DateTimeKind.Utc).AddTicks(7841)
                         },
                         new
                         {
                             RoleId = "0b42c919-01c0-4109-ba04-d848c45dc413",
                             Permission = "instock:orders:view",
-                            GrantedAt = new DateTime(2026, 2, 27, 7, 1, 14, 850, DateTimeKind.Utc).AddTicks(1039)
+                            GrantedAt = new DateTime(2026, 2, 27, 7, 52, 19, 160, DateTimeKind.Utc).AddTicks(7842)
                         },
                         new
                         {
                             RoleId = "1a0d505f-46d8-4aaf-92c7-71ba90443dcb",
                             Permission = "catalog:assembly-methods:view",
-                            GrantedAt = new DateTime(2026, 2, 27, 7, 1, 14, 850, DateTimeKind.Utc).AddTicks(1041)
+                            GrantedAt = new DateTime(2026, 2, 27, 7, 52, 19, 160, DateTimeKind.Utc).AddTicks(7844)
                         },
                         new
                         {
                             RoleId = "1a0d505f-46d8-4aaf-92c7-71ba90443dcb",
                             Permission = "catalog:assembly-methods:manage",
-                            GrantedAt = new DateTime(2026, 2, 27, 7, 1, 14, 850, DateTimeKind.Utc).AddTicks(1042)
+                            GrantedAt = new DateTime(2026, 2, 27, 7, 52, 19, 160, DateTimeKind.Utc).AddTicks(7845)
                         },
                         new
                         {
                             RoleId = "1a0d505f-46d8-4aaf-92c7-71ba90443dcb",
                             Permission = "catalog:topics:view",
-                            GrantedAt = new DateTime(2026, 2, 27, 7, 1, 14, 850, DateTimeKind.Utc).AddTicks(1042)
+                            GrantedAt = new DateTime(2026, 2, 27, 7, 52, 19, 160, DateTimeKind.Utc).AddTicks(7845)
                         },
                         new
                         {
                             RoleId = "1a0d505f-46d8-4aaf-92c7-71ba90443dcb",
                             Permission = "catalog:topics:manage",
-                            GrantedAt = new DateTime(2026, 2, 27, 7, 1, 14, 850, DateTimeKind.Utc).AddTicks(1043)
+                            GrantedAt = new DateTime(2026, 2, 27, 7, 52, 19, 160, DateTimeKind.Utc).AddTicks(7846)
                         },
                         new
                         {
                             RoleId = "1a0d505f-46d8-4aaf-92c7-71ba90443dcb",
                             Permission = "catalog:materials:view",
-                            GrantedAt = new DateTime(2026, 2, 27, 7, 1, 14, 850, DateTimeKind.Utc).AddTicks(1044)
+                            GrantedAt = new DateTime(2026, 2, 27, 7, 52, 19, 160, DateTimeKind.Utc).AddTicks(7846)
                         },
                         new
                         {
                             RoleId = "1a0d505f-46d8-4aaf-92c7-71ba90443dcb",
                             Permission = "catalog:materials:manage",
-                            GrantedAt = new DateTime(2026, 2, 27, 7, 1, 14, 850, DateTimeKind.Utc).AddTicks(1044)
+                            GrantedAt = new DateTime(2026, 2, 27, 7, 52, 19, 160, DateTimeKind.Utc).AddTicks(7847)
                         },
                         new
                         {
                             RoleId = "1a0d505f-46d8-4aaf-92c7-71ba90443dcb",
                             Permission = "catalog:capabilities:view",
-                            GrantedAt = new DateTime(2026, 2, 27, 7, 1, 14, 850, DateTimeKind.Utc).AddTicks(1045)
+                            GrantedAt = new DateTime(2026, 2, 27, 7, 52, 19, 160, DateTimeKind.Utc).AddTicks(7848)
                         },
                         new
                         {
                             RoleId = "1a0d505f-46d8-4aaf-92c7-71ba90443dcb",
                             Permission = "catalog:capabilities:manage",
-                            GrantedAt = new DateTime(2026, 2, 27, 7, 1, 14, 850, DateTimeKind.Utc).AddTicks(1046)
+                            GrantedAt = new DateTime(2026, 2, 27, 7, 52, 19, 160, DateTimeKind.Utc).AddTicks(7848)
                         },
                         new
                         {
                             RoleId = "1a0d505f-46d8-4aaf-92c7-71ba90443dcb",
                             Permission = "instock:products:view",
-                            GrantedAt = new DateTime(2026, 2, 27, 7, 1, 14, 850, DateTimeKind.Utc).AddTicks(1047)
+                            GrantedAt = new DateTime(2026, 2, 27, 7, 52, 19, 160, DateTimeKind.Utc).AddTicks(7849)
                         },
                         new
                         {
                             RoleId = "1a0d505f-46d8-4aaf-92c7-71ba90443dcb",
                             Permission = "instock:orders:view",
-                            GrantedAt = new DateTime(2026, 2, 27, 7, 1, 14, 850, DateTimeKind.Utc).AddTicks(1047)
+                            GrantedAt = new DateTime(2026, 2, 27, 7, 52, 19, 160, DateTimeKind.Utc).AddTicks(7938)
                         });
                 });
 
@@ -447,7 +447,7 @@ namespace PuzKit3D.SharedKernel.Infrastructure.Identity.Migrations
                         {
                             Id = "admin-001",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "c27b680b-db09-453a-a51f-e16547e9c89e",
+                            ConcurrencyStamp = "1d5366a7-43f2-405a-a85b-1c913c0c5b2f",
                             CreatedAt = new DateTime(2025, 2, 23, 0, 0, 0, 0, DateTimeKind.Utc),
                             Email = "admin@puzkit3d.com",
                             EmailConfirmed = true,
@@ -457,9 +457,9 @@ namespace PuzKit3D.SharedKernel.Infrastructure.Identity.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@PUZKIT3D.COM",
                             NormalizedUserName = "ADMIN@PUZKIT3D.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEL5vCAeMvIYeaBmMmSCUIzwnoiMCIl2k2Ui0Ri71WT8S+2UKue4bx6OCW7hOdX/9Hg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEPSfvsSKDzPCnkk8Mq3OFqUzOSemt4JjQU4Bg7a8oqcYFDNEuMFUlcClo72Obq8t9Q==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "f889c8a8-9adc-4dd8-921b-20e51c85ec95",
+                            SecurityStamp = "52829083-e3e6-4328-bc06-ffa922a0abbc",
                             TwoFactorEnabled = false,
                             UserName = "admin@puzkit3d.com"
                         },
@@ -467,7 +467,7 @@ namespace PuzKit3D.SharedKernel.Infrastructure.Identity.Migrations
                         {
                             Id = "manager-001",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "55d6c47a-7b84-4323-822d-1bb2c90a5dec",
+                            ConcurrencyStamp = "cc327c3a-bdcc-4b95-bce3-65177dfbe4fe",
                             CreatedAt = new DateTime(2025, 2, 23, 0, 0, 0, 0, DateTimeKind.Utc),
                             Email = "manager@puzkit3d.com",
                             EmailConfirmed = true,
@@ -477,9 +477,9 @@ namespace PuzKit3D.SharedKernel.Infrastructure.Identity.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "MANAGER@PUZKIT3D.COM",
                             NormalizedUserName = "MANAGER@PUZKIT3D.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEIDH4r6p4P5hrcggyaOn0wzB3ly50oKQz2QMFFZYhEGM26FLzleStudmP+4AcoXVhg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEDr0+IKdspm90K/Atw4QgWL7d72tlODQpuwXZJ4Vy5bpkB8K18GAeCpelTCsWnQRoQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "8240aeac-09b6-444d-aed7-fd6324e7303a",
+                            SecurityStamp = "6ffb607d-9395-49c2-9625-ed93885994b0",
                             TwoFactorEnabled = false,
                             UserName = "manager@puzkit3d.com"
                         },
@@ -487,7 +487,7 @@ namespace PuzKit3D.SharedKernel.Infrastructure.Identity.Migrations
                         {
                             Id = "staff-001",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "41a8de4e-b0cb-441d-a143-5344eac202af",
+                            ConcurrencyStamp = "9af8665d-1aca-4763-b814-9a25da7bd6fc",
                             CreatedAt = new DateTime(2025, 2, 23, 0, 0, 0, 0, DateTimeKind.Utc),
                             Email = "staff1@puzkit3d.com",
                             EmailConfirmed = true,
@@ -497,9 +497,9 @@ namespace PuzKit3D.SharedKernel.Infrastructure.Identity.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "STAFF1@PUZKIT3D.COM",
                             NormalizedUserName = "STAFF1@PUZKIT3D.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEKVBQgs0NackpnAeDRXNXtpf+NfXIRwp/oIJMMF8XE8gRpxjoAFZ6Sb7/M/U47FJxw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEBIUHn2jIxsukbuuIsZVWDp/AJ4+374ehGUHJh4zxk91WeYH7VWljn3r6uFTJ392dA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "c8d1c1f2-b067-4073-ba47-10db5d0b1522",
+                            SecurityStamp = "2ae9876a-6240-4581-a894-21133bbbbe8c",
                             TwoFactorEnabled = false,
                             UserName = "staff1@puzkit3d.com"
                         },
@@ -507,7 +507,7 @@ namespace PuzKit3D.SharedKernel.Infrastructure.Identity.Migrations
                         {
                             Id = "staff-002",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "79b7c493-2dcb-47c4-8d89-a30e03e6d767",
+                            ConcurrencyStamp = "d693b4f9-d518-4fb0-92db-b61633590dad",
                             CreatedAt = new DateTime(2025, 2, 23, 0, 0, 0, 0, DateTimeKind.Utc),
                             Email = "staff2@puzkit3d.com",
                             EmailConfirmed = true,
@@ -517,9 +517,9 @@ namespace PuzKit3D.SharedKernel.Infrastructure.Identity.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "STAFF2@PUZKIT3D.COM",
                             NormalizedUserName = "STAFF2@PUZKIT3D.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEKrKPbBSoaRBQJWGxBwgzAJKkXld8aTos/UFlNAf4/b2TKPWbMOoWei7noXKSY+M0A==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEIRgv1XVHWifHGFVB26ohtzsahQj3oY9/gGGUcZJ9Du1Akp0nTMNc8rB8q1v/GLBeQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "01e381ab-8947-4dba-aae9-4975f29b3d87",
+                            SecurityStamp = "24030a5a-edc4-44a5-8dea-db68be5fe6d7",
                             TwoFactorEnabled = false,
                             UserName = "staff2@puzkit3d.com"
                         },
@@ -527,7 +527,7 @@ namespace PuzKit3D.SharedKernel.Infrastructure.Identity.Migrations
                         {
                             Id = "staff-003",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "e9298e68-3b79-4d27-9421-86e1f40af162",
+                            ConcurrencyStamp = "5bd11bf3-e42b-4533-904a-e3558e15240f",
                             CreatedAt = new DateTime(2025, 2, 23, 0, 0, 0, 0, DateTimeKind.Utc),
                             Email = "staff3@puzkit3d.com",
                             EmailConfirmed = true,
@@ -537,9 +537,9 @@ namespace PuzKit3D.SharedKernel.Infrastructure.Identity.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "STAFF3@PUZKIT3D.COM",
                             NormalizedUserName = "STAFF3@PUZKIT3D.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEMMzZY9YhyfUQhWYmsE6ZW9Q3jICuAyc/6eLtIs86ZFxlWgOeHx+L7VIgH1UBq16zg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEDAZhxLEKyKNG+d5zJ2FOyGFXJPnM/uTev/GSjw6I0qVbidgJtfMl8SORarbMZc9LA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "b409f14c-5532-4501-80af-7a5159646d4b",
+                            SecurityStamp = "10c189c9-c1bf-45a8-9c04-33f30aef2bc0",
                             TwoFactorEnabled = false,
                             UserName = "staff3@puzkit3d.com"
                         });
