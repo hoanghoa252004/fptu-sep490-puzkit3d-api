@@ -10,3 +10,4 @@ internal sealed class GetAssemblyMethodByIdQueryValidator : AbstractValidator<Ge
             .NotEmpty().WithMessage("Assembly method ID is required");
     }
 }
+

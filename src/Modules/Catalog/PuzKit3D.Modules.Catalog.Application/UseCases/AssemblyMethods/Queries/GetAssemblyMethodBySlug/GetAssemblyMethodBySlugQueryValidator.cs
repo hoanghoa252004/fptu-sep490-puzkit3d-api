@@ -11,3 +11,4 @@ internal sealed class GetAssemblyMethodBySlugQueryValidator : AbstractValidator<
             .MaximumLength(30).WithMessage("Assembly method slug must not exceed 30 characters");
     }
 }
+

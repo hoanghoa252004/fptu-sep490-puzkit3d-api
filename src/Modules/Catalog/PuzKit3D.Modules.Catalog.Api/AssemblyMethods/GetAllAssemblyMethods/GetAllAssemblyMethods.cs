@@ -34,10 +34,11 @@ internal sealed class GetAllAssemblyMethods : IEndpoint
             })
             .WithName("GetAllAssemblyMethods")
             .WithSummary("Get all assembly methods with pagination")
-            .WithDescription("Retrieves a paginated list of assembly methods with optional search and filtering")
+            .WithDescription("Retrieves a paginated list of assembly methods. Anonymous users see only active items. Staff/Manager see all items with full details.")
             .AllowAnonymous()
-            .Produces<PagedResult<GetAllAssemblyMethodsResponseDto>>(StatusCodes.Status200OK)
+            .Produces<PagedResult<object>>(StatusCodes.Status200OK)
             .ProducesValidationProblem(StatusCodes.Status400BadRequest)
             .ProducesProblem(StatusCodes.Status500InternalServerError);
     }
 }
+

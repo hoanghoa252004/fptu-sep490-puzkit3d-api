@@ -53,3 +53,4 @@ internal sealed class CreateAssemblyMethodCommandHandler : ICommandTHandler<Crea
         }, cancellationToken);
     }
 }
+

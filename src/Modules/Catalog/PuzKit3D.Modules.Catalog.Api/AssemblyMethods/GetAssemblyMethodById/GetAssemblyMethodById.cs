@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Routing;
 using PuzKit3D.Modules.Catalog.Application.UseCases.AssemblyMethods.Queries.GetAssemblyMethodById;
 using PuzKit3D.SharedKernel.Api.Endpoint;
 using PuzKit3D.SharedKernel.Api.Results.Extensions;
+using PuzKit3D.SharedKernel.Application.Authorization;
 
 namespace PuzKit3D.Modules.Catalog.Api.AssemblyMethods.GetAssemblyMethodById;
 

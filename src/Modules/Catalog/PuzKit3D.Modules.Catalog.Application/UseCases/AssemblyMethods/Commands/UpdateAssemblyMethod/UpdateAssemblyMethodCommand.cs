@@ -9,3 +9,4 @@ public sealed record UpdateAssemblyMethodCommand(
     string? Description,
     bool IsActive) : ICommand;
 
+

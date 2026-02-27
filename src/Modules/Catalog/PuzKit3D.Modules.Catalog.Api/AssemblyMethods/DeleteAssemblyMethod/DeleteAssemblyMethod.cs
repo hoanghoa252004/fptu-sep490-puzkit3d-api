@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Routing;
 using PuzKit3D.Modules.Catalog.Application.UseCases.AssemblyMethods.Commands.DeleteAssemblyMethod;
 using PuzKit3D.SharedKernel.Api.Endpoint;
 using PuzKit3D.SharedKernel.Api.Results.Extensions;
+using PuzKit3D.SharedKernel.Application.Authorization;
 
 namespace PuzKit3D.Modules.Catalog.Api.AssemblyMethods.DeleteAssemblyMethod;
 
@@ -25,10 +26,15 @@ internal sealed class DeleteAssemblyMethod : IEndpoint
                 return result.MatchNoContent();
             })
             .WithName("DeleteAssemblyMethod")
-            .WithSummary("Delete an assembly method")
-            .WithDescription("Deletes an existing assembly method by ID")
+            .WithSummary("Delete an assembly method (Staff/Manager only)")
+            .WithDescription("Deletes an existing assembly method by ID. Requires Staff or Manager permission.")
+            .RequireAuthorization(Permissions.Catalog.ManageAssemblyMethods)
             .Produces(StatusCodes.Status204NoContent)
+            .ProducesProblem(StatusCodes.Status401Unauthorized)
+            .ProducesProblem(StatusCodes.Status403Forbidden)
             .ProducesProblem(StatusCodes.Status404NotFound)
             .ProducesProblem(StatusCodes.Status500InternalServerError);
     }
 }
+
+

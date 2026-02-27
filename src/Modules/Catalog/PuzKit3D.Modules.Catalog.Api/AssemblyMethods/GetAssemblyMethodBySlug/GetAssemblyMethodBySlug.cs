@@ -25,11 +25,12 @@ internal sealed class GetAssemblyMethodBySlug : IEndpoint
                 return result.MatchOk();
             })
             .WithName("GetAssemblyMethodBySlug")
-            .WithSummary("Get assembly method by slug")
-            .WithDescription("Retrieves a single assembly method by its slug identifier")
+            .WithSummary("Get assembly method by slug (Public)")
+            .WithDescription("Retrieves a single active assembly method by its slug identifier. Only returns active items without timestamps.")
             .AllowAnonymous()
-            .Produces<GetAssemblyMethodBySlugResponseDto>(StatusCodes.Status200OK)
+            .Produces<GetAssemblyMethodBySlugPublicResponseDto>(StatusCodes.Status200OK)
             .ProducesProblem(StatusCodes.Status404NotFound)
             .ProducesProblem(StatusCodes.Status500InternalServerError);
     }
 }
+

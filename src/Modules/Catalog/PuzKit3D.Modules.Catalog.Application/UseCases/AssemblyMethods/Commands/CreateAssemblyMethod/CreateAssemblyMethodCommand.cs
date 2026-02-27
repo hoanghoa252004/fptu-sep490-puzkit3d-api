@@ -7,3 +7,4 @@ public sealed record CreateAssemblyMethodCommand(
     string Slug,
     string? Description,
     bool IsActive) : ICommandT<Guid>;
+

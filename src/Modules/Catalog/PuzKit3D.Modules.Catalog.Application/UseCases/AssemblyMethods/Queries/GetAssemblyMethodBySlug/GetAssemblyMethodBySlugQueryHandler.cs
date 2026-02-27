@@ -1,11 +1,11 @@
-using PuzKit3D.Modules.Catalog.Domain.Entities.AssemblyMethods;
 using PuzKit3D.Modules.Catalog.Domain.Repositories;
+using PuzKit3D.Modules.Catalog.Domain.Entities.AssemblyMethods;
 using PuzKit3D.SharedKernel.Application.Message.Query;
 using PuzKit3D.SharedKernel.Domain.Results;
 
 namespace PuzKit3D.Modules.Catalog.Application.UseCases.AssemblyMethods.Queries.GetAssemblyMethodBySlug;
 
-internal sealed class GetAssemblyMethodBySlugQueryHandler : IQueryHandler<GetAssemblyMethodBySlugQuery, GetAssemblyMethodBySlugResponseDto>
+internal sealed class GetAssemblyMethodBySlugQueryHandler : IQueryHandler<GetAssemblyMethodBySlugQuery, GetAssemblyMethodBySlugPublicResponseDto>
 {
     private readonly IAssemblyMethodRepository _assemblyMethodRepository;
 
@@ -14,30 +14,28 @@ internal sealed class GetAssemblyMethodBySlugQueryHandler : IQueryHandler<GetAss
         _assemblyMethodRepository = assemblyMethodRepository;
     }
 
-    public async Task<ResultT<GetAssemblyMethodBySlugResponseDto>> Handle(
+    public async Task<ResultT<GetAssemblyMethodBySlugPublicResponseDto>> Handle(
         GetAssemblyMethodBySlugQuery request, 
         CancellationToken cancellationToken)
     {
-        // Get assembly method by slug
+        // Get assembly method by slug - only return active ones for public access
         var assemblyMethod = await _assemblyMethodRepository.GetBySlugAsync(request.Slug, cancellationToken);
 
-        if (assemblyMethod is null)
+        if (assemblyMethod is null || !assemblyMethod.IsActive)
         {
-            return Result.Failure<GetAssemblyMethodBySlugResponseDto>(
+            return Result.Failure<GetAssemblyMethodBySlugPublicResponseDto>(
                 AssemblyMethodError.NotFoundBySlug(request.Slug));
         }
 
-
-        // Map to DTO
-        var response = new GetAssemblyMethodBySlugResponseDto(
+        // Map to public DTO (without timestamps and isActive)
+        var response = new GetAssemblyMethodBySlugPublicResponseDto(
             Id: assemblyMethod.Id.Value,
             Name: assemblyMethod.Name,
             Slug: assemblyMethod.Slug,
-            Description: assemblyMethod.Description,
-            IsActive: assemblyMethod.IsActive,
-            CreatedAt: assemblyMethod.CreatedAt,
-            UpdatedAt: assemblyMethod.UpdatedAt);
+            Description: assemblyMethod.Description);
 
         return Result.Success(response);
     }
 }
+
+

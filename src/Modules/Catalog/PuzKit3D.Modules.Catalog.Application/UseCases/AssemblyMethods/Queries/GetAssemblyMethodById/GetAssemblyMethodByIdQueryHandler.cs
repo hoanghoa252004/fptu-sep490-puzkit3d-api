@@ -42,3 +42,4 @@ internal sealed class GetAssemblyMethodByIdQueryHandler : IQueryHandler<GetAssem
         return Task.FromResult(Result.Success(response));
     }
 }
+

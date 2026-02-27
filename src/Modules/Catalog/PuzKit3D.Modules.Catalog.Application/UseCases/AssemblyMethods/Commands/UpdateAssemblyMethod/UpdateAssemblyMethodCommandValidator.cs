@@ -19,3 +19,4 @@ internal sealed class UpdateAssemblyMethodCommandValidator : AbstractValidator<U
             .Matches("^[a-z0-9]+(?:-[a-z0-9]+)*$").WithMessage("Slug must be lowercase alphanumeric with hyphens only");
     }
 }
+

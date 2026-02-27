@@ -10,3 +10,4 @@ internal sealed class DeleteAssemblyMethodCommandValidator : AbstractValidator<D
             .NotEmpty().WithMessage("Assembly method ID is required");
     }
 }
+

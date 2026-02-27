@@ -8,3 +8,4 @@ public sealed record GetAssemblyMethodByIdResponseDto(
     bool IsActive,
     DateTime CreatedAt,
     DateTime UpdatedAt);
+

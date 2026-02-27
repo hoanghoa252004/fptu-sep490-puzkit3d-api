@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Routing;
 using PuzKit3D.Modules.Catalog.Application.UseCases.AssemblyMethods.Commands.CreateAssemblyMethod;
 using PuzKit3D.SharedKernel.Api.Endpoint;
 using PuzKit3D.SharedKernel.Api.Results.Extensions;
+using PuzKit3D.SharedKernel.Application.Authorization;
 
 namespace PuzKit3D.Modules.Catalog.Api.AssemblyMethods.CreateAssemblyMethod;
 
@@ -30,17 +31,22 @@ internal sealed class CreateAssemblyMethod : IEndpoint
                 return result.MatchCreated("GetAssemblyMethodById", id => new { id });
             })
             .WithName("CreateAssemblyMethod")
-            .WithSummary("Create a new assembly method")
-            .WithDescription("Creates a new assembly method with name, slug, description, and active status")
+            .WithSummary("Create a new assembly method (Staff/Manager only)")
+            .WithDescription("Creates a new assembly method with name, slug, description, and active status. Requires Staff or Manager permission.")
+            .RequireAuthorization(Permissions.Catalog.ManageAssemblyMethods)
             .Produces<Guid>(StatusCodes.Status201Created)
             .ProducesValidationProblem(StatusCodes.Status400BadRequest)
+            .ProducesProblem(StatusCodes.Status401Unauthorized)
+            .ProducesProblem(StatusCodes.Status403Forbidden)
             .ProducesProblem(StatusCodes.Status409Conflict)
             .ProducesProblem(StatusCodes.Status500InternalServerError);
     }
 }
+
 
 internal sealed record CreateAssemblyMethodRequestDto(
     string Name,
     string Slug,
     string? Description,
     bool IsActive);
+

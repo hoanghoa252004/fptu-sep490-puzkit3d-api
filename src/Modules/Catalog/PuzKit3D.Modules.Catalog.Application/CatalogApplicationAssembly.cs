@@ -6,3 +6,4 @@ public static class CatalogApplicationAssembly
 {
     public static readonly Assembly Assembly = typeof(CatalogApplicationAssembly).Assembly;
 }
+

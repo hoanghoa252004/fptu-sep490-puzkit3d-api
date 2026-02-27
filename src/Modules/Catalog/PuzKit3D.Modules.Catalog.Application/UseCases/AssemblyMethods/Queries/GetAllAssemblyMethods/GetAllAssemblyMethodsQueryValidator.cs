@@ -14,3 +14,4 @@ internal sealed class GetAllAssemblyMethodsQueryValidator : AbstractValidator<Ge
             .LessThanOrEqualTo(100).WithMessage("Page size must not exceed 100");
     }
 }
+

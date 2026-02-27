@@ -40,3 +40,4 @@ internal sealed class DeleteAssemblyMethodCommandHandler : ICommandHandler<Delet
         }, cancellationToken);
     }
 }
+
