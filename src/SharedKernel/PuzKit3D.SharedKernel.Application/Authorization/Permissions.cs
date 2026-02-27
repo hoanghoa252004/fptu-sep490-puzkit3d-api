@@ -34,6 +34,21 @@ public static class Permissions
         public const string ProcessOrders = "partner:orders:process";
     }
 
+    public static class Catalog
+    {
+        public const string ViewAssemblyMethods = "catalog:assembly-methods:view";
+        public const string ManageAssemblyMethods = "catalog:assembly-methods:manage";
+        
+        public const string ViewTopics = "catalog:topics:view";
+        public const string ManageTopics = "catalog:topics:manage";
+        
+        public const string ViewMaterials = "catalog:materials:view";
+        public const string ManageMaterials = "catalog:materials:manage";
+        
+        public const string ViewCapabilities = "catalog:capabilities:view";
+        public const string ManageCapabilities = "catalog:capabilities:manage";
+    }
+
     public static class Users
     {
         public const string ViewUsers = "users:view";

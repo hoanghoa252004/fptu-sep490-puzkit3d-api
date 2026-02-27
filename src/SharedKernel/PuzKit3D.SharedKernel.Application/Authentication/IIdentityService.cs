@@ -62,4 +62,15 @@ public interface IIdentityService
         string currentPassword,
         string newPassword,
         CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Creates a new user with specified role (Admin only)
+    /// </summary>
+    Task<ResultT<string>> CreateUserWithRoleAsync(
+        string email,
+        string password,
+        string role,
+        string? firstName = null,
+        string? lastName = null,
+        CancellationToken cancellationToken = default);
 }

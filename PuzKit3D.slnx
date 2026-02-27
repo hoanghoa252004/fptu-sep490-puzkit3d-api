@@ -22,6 +22,13 @@
   </Folder>
   <Folder Name="/src/Infrastructure/" />
   <Folder Name="/src/Modules/" />
+  <Folder Name="/src/Modules/Catalog/">
+    <Project Path="src/Modules/Catalog/PuzKit3D.Modules.Catalog.Api/PuzKit3D.Modules.Catalog.Api.csproj" Id="3e2bb8bb-ffbd-4750-aa02-1f2f338a01eb" />
+    <Project Path="src/Modules/Catalog/PuzKit3D.Modules.Catalog.Application/PuzKit3D.Modules.Catalog.Application.csproj" Id="991d2df0-0726-4c9a-8d6c-dccb3c5f01bf" />
+    <Project Path="src/Modules/Catalog/PuzKit3D.Modules.Catalog.Domain/PuzKit3D.Modules.Catalog.Domain.csproj" Id="253613c0-ea69-4909-8830-f2bc2aa856d6" />
+    <Project Path="src/Modules/Catalog/PuzKit3D.Modules.Catalog.Infrastructure/PuzKit3D.Modules.Catalog.Infrastructure.csproj" Id="2ddde251-346a-431f-9f06-08cd49db1f17" />
+    <Project Path="src/Modules/Catalog/PuzKit3D.Modules.Catalog.Persistence/PuzKit3D.Modules.Catalog.Persistence.csproj" Id="91dd9580-1435-43a1-bd6d-e3718e827c35" />
+  </Folder>
   <Folder Name="/src/Modules/InStock/">
     <Project Path="src/Modules/InStock/PuzKit3D.Modules.InStock.Api/PuzKit3D.Modules.InStock.Api.csproj" Id="685edbf1-96bf-4d14-b666-ef578575c68c" />
     <Project Path="src/Modules/InStock/PuzKit3D.Modules.InStock.Application/PuzKit3D.Modules.InStock.Application.csproj" Id="db5d1f80-c303-458f-9235-e4fe6b48c961" />

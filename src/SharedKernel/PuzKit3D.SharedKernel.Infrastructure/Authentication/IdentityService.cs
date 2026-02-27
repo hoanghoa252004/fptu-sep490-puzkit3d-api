@@ -186,6 +186,64 @@ public sealed class IdentityService : IIdentityService
         return Result.Success();
     }
 
+    public async Task<ResultT<string>> CreateUserWithRoleAsync(
+        string email,
+        string password,
+        string role,
+        string? firstName,
+        string? lastName,
+        CancellationToken cancellationToken = default)
+    {
+        // Validate role (only allow Staff or Manager)
+        var allowedRoles = new[] { "Staff",  "Business Manager" };
+        if (!allowedRoles.Any(r => r.Equals(role, StringComparison.OrdinalIgnoreCase)))
+        {
+            return Result.Failure<string>(
+                Error.Validation("Authentication.InvalidRole", $"Role '{role}' is not allowed. Only Staff or Manager roles can be created."));
+        }
+
+
+        // Check if user already exists
+        var existingUser = await _userManager.FindByEmailAsync(email);
+        if (existingUser is not null)
+        {
+            return Result.Failure<string>(
+                Error.Conflict("Authentication.EmailAlreadyExists", $"User with email {email} already exists"));
+        }
+
+        // Create user
+        var user = new ApplicationUser
+        {
+            UserName = email,
+            Email = email,
+            FirstName = firstName,
+            LastName = lastName,
+            EmailConfirmed = true,
+            CreatedAt = DateTime.UtcNow
+        };
+
+        var result = await _userManager.CreateAsync(user, password);
+
+        if (!result.Succeeded)
+        {
+            var errors = string.Join(", ", result.Errors.Select(e => e.Description));
+            return Result.Failure<string>(
+                Error.Failure("Authentication.UserCreationFailed", errors));
+        }
+
+        // Assign role
+        var roleResult = await _userManager.AddToRoleAsync(user, role);
+
+        if (!roleResult.Succeeded)
+        {
+            var errors = string.Join(", ", roleResult.Errors.Select(e => e.Description));
+            return Result.Failure<string>(
+                Error.Failure("Authentication.RoleAssignmentFailed", errors));
+        }
+
+        return Result.Success($"User with email {email} created successfully with role {role}");
+    }
+
     private static string GenerateRefreshToken()
     {
         var randomNumber = new byte[32];
@@ -194,3 +252,4 @@ public sealed class IdentityService : IIdentityService
         return Convert.ToBase64String(randomNumber);
     }
 }
+

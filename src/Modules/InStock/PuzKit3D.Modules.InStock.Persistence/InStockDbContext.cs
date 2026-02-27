@@ -1,6 +1,6 @@
 ﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
-using PuzKit3D.Modules.InStock.Application.Data;
+using PuzKit3D.Modules.InStock.Application.UnitOfWork;
 using PuzKit3D.Modules.InStock.Domain.Entities.Orders;
 using PuzKit3D.Modules.InStock.Domain.Entities.Products;
 using PuzKit3D.SharedKernel.Application.Clock;
