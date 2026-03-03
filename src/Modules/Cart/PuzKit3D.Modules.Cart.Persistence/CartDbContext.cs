@@ -20,11 +20,12 @@ public sealed class CartDbContext : DbContext, ICartUnitOfWork
     }
 
     public DbSet<Domain.Entities.Carts.Cart> Carts => Set<Domain.Entities.Carts.Cart>();
-    public DbSet<CartType> CartTypes => Set<CartType>();
     public DbSet<CartItem> CartItems => Set<CartItem>();
     public DbSet<InStockProductReplica> InStockProductReplicas => Set<InStockProductReplica>();
     public DbSet<InStockProductVariantReplica> InStockProductVariantReplicas => Set<InStockProductVariantReplica>();
     public DbSet<InStockProductPriceDetailReplica> InStockProductPriceDetailReplicas => Set<InStockProductPriceDetailReplica>();
+    public DbSet<InStockPriceReplica> InStockPriceReplicas => Set<InStockPriceReplica>();
+    public DbSet<InStockInventoryReplica> InStockInventoryReplicas => Set<InStockInventoryReplica>();
     public DbSet<PartnerProductReplica> PartnerProductReplicas => Set<PartnerProductReplica>();
     public DbSet<UserReplica> UserReplicas => Set<UserReplica>();
 

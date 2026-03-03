@@ -23,11 +23,9 @@ internal sealed class RemoveItemFromCartCommandHandler : ICommandHandler<RemoveI
     {
         return await _unitOfWork.ExecuteAsync(async () =>
         {
-            var cartTypeId = CartTypeId.From(request.CartTypeId);
-            
             var cart = await _cartRepository.GetByUserIdAndCartTypeAsync(
                 request.UserId,
-                cartTypeId,
+                request.CartType.ToUpper(),
                 cancellationToken);
 
             if (cart == null)

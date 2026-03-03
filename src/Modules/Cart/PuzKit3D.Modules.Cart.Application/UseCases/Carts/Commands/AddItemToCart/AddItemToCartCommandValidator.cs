@@ -6,13 +6,11 @@ internal sealed class AddItemToCartCommandValidator : AbstractValidator<AddItemT
 {
     public AddItemToCartCommandValidator()
     {
-        RuleFor(x => x.UserId)
+        RuleFor(x => x.ItemType)
             .NotEmpty()
-            .WithMessage("User ID is required");
-
-        RuleFor(x => x.CartTypeId)
-            .NotEmpty()
-            .WithMessage("Cart type ID is required");
+            .WithMessage("Item type is required")
+            .Must(type => type.ToLower() == "instock" || type.ToLower() == "partner")
+            .WithMessage("Item type must be either 'instock' or 'partner'");
 
         RuleFor(x => x.ItemId)
             .NotEmpty()
@@ -20,11 +18,8 @@ internal sealed class AddItemToCartCommandValidator : AbstractValidator<AddItemT
 
         RuleFor(x => x.Quantity)
             .GreaterThan(0)
+            .When(x => x.Quantity.HasValue)
             .WithMessage("Quantity must be greater than 0");
-
-        RuleFor(x => x.UnitPrice)
-            .GreaterThanOrEqualTo(0)
-            .When(x => x.UnitPrice.HasValue)
-            .WithMessage("Unit price must be greater than or equal to 0");
     }
 }
+

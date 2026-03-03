@@ -23,6 +23,11 @@ internal sealed class InStockProductPriceDetailReplicaConfiguration : IEntityTyp
             .IsRequired()
             .HasColumnName("instock_product_variant_id");
 
+        builder.Property(pd => pd.UnitPrice)
+            .IsRequired()
+            .HasColumnType("decimal(10,2)")
+            .HasColumnName("unit_price");
+
         builder.Property(pd => pd.IsActive)
             .IsRequired()
             .HasDefaultValue(false)

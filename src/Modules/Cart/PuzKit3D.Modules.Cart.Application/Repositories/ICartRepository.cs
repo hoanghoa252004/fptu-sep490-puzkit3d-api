@@ -7,7 +7,7 @@ public interface ICartRepository : IRepositoryBase<Domain.Entities.Carts.Cart, C
 {
     Task<Domain.Entities.Carts.Cart?> GetByUserIdAndCartTypeAsync(
         Guid userId, 
-        CartTypeId cartTypeId, 
+        string cartType, 
         CancellationToken cancellationToken = default);
     
     Task<IEnumerable<Domain.Entities.Carts.Cart>> GetByUserIdAsync(

@@ -45,12 +45,12 @@ internal sealed class CartRepository : ICartRepository
 
     public async Task<Domain.Entities.Carts.Cart?> GetByUserIdAndCartTypeAsync(
         Guid userId, 
-        CartTypeId cartTypeId, 
+        string cartType, 
         CancellationToken cancellationToken = default)
     {
         return await _context.Carts
             .Include(c => c.Items)
-            .FirstOrDefaultAsync(c => c.UserId == userId && c.CartTypeId == cartTypeId, cancellationToken);
+            .FirstOrDefaultAsync(c => c.UserId == userId && c.CartType == cartType, cancellationToken);
     }
 
     public async Task<IEnumerable<Domain.Entities.Carts.Cart>> GetByUserIdAsync(

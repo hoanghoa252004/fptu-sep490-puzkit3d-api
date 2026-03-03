@@ -25,6 +25,7 @@ public static class DependencyInjection
         services.AddScoped<ICartUnitOfWork>(sp => sp.GetRequiredService<CartDbContext>());
 
         services.AddScoped<ICartRepository, CartRepository>();
+        services.AddScoped<ICartQueryRepository, CartQueryRepository>();
 
         return services;
     }

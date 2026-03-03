@@ -18,7 +18,7 @@ internal sealed class RemoveItemFromCart : IEndpoint
             {
                 var command = new RemoveItemFromCartCommand(
                     request.UserId,
-                    request.CartTypeId,
+                    request.CartType,
                     request.ItemId);
 
                 var result = await sender.Send(command, cancellationToken);
@@ -37,5 +37,5 @@ internal sealed class RemoveItemFromCart : IEndpoint
 
 internal sealed record RemoveItemFromCartRequestDto(
     Guid UserId,
-    Guid CartTypeId,
+    string CartType,
     Guid ItemId);

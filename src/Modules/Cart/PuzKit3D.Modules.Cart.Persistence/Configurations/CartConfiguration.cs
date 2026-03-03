@@ -22,27 +22,19 @@ internal sealed class CartConfiguration : IEntityTypeConfiguration<Domain.Entiti
             .IsRequired()
             .HasColumnName("user_id");
 
-        builder.Property(c => c.CartTypeId)
-            .HasConversion(
-                id => id.Value,
-                value => CartTypeId.From(value))
+        builder.Property(c => c.CartType)
             .IsRequired()
-            .HasColumnName("cart_type_id");
+            .HasMaxLength(20)
+            .HasColumnName("cart_type");
 
         builder.Property(c => c.TotalItem)
             .IsRequired()
             .HasDefaultValue(0)
             .HasColumnName("totalItem");
 
-        builder.HasIndex(c => new { c.UserId, c.CartTypeId })
+        builder.HasIndex(c => new { c.UserId, c.CartType })
             .IsUnique()
-            .HasDatabaseName("CUK___cart___user_id__cart_type_id");
-
-        builder.HasOne<CartType>()
-            .WithMany()
-            .HasForeignKey(c => c.CartTypeId)
-            .HasConstraintName("FK__cart__cart_type")
-            .OnDelete(DeleteBehavior.Restrict);
+            .HasDatabaseName("CUK___cart___user_id__cart_type");
 
         builder.Navigation(c => c.Items)
             .UsePropertyAccessMode(PropertyAccessMode.Field);

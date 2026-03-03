@@ -16,11 +16,9 @@ internal sealed class GetUserCartQueryHandler : IQueryHandler<GetUserCartQuery, 
 
     public async Task<ResultT<CartDto>> Handle(GetUserCartQuery request, CancellationToken cancellationToken)
     {
-        var cartTypeId = CartTypeId.From(request.CartTypeId);
-        
         var cart = await _cartRepository.GetByUserIdAndCartTypeAsync(
             request.UserId,
-            cartTypeId,
+            request.CartType.ToUpper(),
             cancellationToken);
 
         if (cart == null)
@@ -29,7 +27,7 @@ internal sealed class GetUserCartQueryHandler : IQueryHandler<GetUserCartQuery, 
         var cartDto = new CartDto(
             cart.Id.Value,
             cart.UserId,
-            cart.CartTypeId.Value,
+            cart.CartType,
             cart.TotalItem,
             cart.Items.Select(i => new CartItemDto(
                 i.Id.Value,

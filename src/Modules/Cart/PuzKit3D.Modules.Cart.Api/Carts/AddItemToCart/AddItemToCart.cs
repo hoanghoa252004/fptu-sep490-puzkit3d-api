@@ -17,11 +17,8 @@ internal sealed class AddItemToCart : IEndpoint
             .MapPost("/items", async ([FromBody] AddItemToCartRequestDto request, ISender sender, CancellationToken cancellationToken) =>
             {
                 var command = new AddItemToCartCommand(
-                    request.UserId,
-                    request.CartTypeId,
+                    request.ItemType,
                     request.ItemId,
-                    request.UnitPrice,
-                    request.InStockProductPriceDetailId,
                     request.Quantity);
 
                 var result = await sender.Send(command, cancellationToken);
@@ -30,18 +27,19 @@ internal sealed class AddItemToCart : IEndpoint
             })
             .WithName("AddItemToCart")
             .WithSummary("Add item to cart")
-            .WithDescription("Adds an item to the user's cart or increments quantity if item already exists")
+            .WithDescription("Adds an item to the customer's cart. Supports both 'instock' and 'partner' item types. User must be a customer.")
             .Produces(StatusCodes.Status200OK)
             .ProducesValidationProblem(StatusCodes.Status400BadRequest)
+            .ProducesProblem(StatusCodes.Status403Forbidden)
             .ProducesProblem(StatusCodes.Status404NotFound)
-            .ProducesProblem(StatusCodes.Status500InternalServerError);
+            .ProducesProblem(StatusCodes.Status500InternalServerError)
+            .RequireAuthorization();
     }
 }
 
 internal sealed record AddItemToCartRequestDto(
-    Guid UserId,
-    Guid CartTypeId,
+    string ItemType,
     Guid ItemId,
-    decimal? UnitPrice,
-    Guid? InStockProductPriceDetailId,
-    int Quantity);
+    int? Quantity
+);
+
