@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
+using PuzKit3D.Modules.Catalog.Application.Repositories;
 using PuzKit3D.Modules.Catalog.Domain.Entities.Materials;
-using PuzKit3D.Modules.Catalog.Domain.Repositories;
 using System.Linq.Expressions;
 
 namespace PuzKit3D.Modules.Catalog.Persistence.Repositories;
@@ -14,59 +14,38 @@ internal sealed class MaterialRepository : IMaterialRepository
         _context = context;
     }
 
+    public async Task<Material?> GetByIdAsync(
+        MaterialId id,
+        CancellationToken cancellationToken = default)
+    {
+        return await _context.Materials
+            .FirstOrDefaultAsync(m => m.Id == id, cancellationToken);
+    }
+
+    public async Task<IEnumerable<Material>> GetAllAsync(
+        CancellationToken cancellationToken = default)
+    {
+        return await _context.Materials
+            .AsNoTracking()
+            .ToListAsync(cancellationToken);
+    }
+
+    public async Task<IEnumerable<Material>> FindAsync(
+        Expression<Func<Material, bool>> predicate,
+        CancellationToken cancellationToken = default)
+    {
+        return await _context.Materials
+            .Where(predicate)
+            .AsNoTracking()
+            .ToListAsync(cancellationToken);
+    }
+
     public async Task<Material?> GetBySlugAsync(
         string slug,
         CancellationToken cancellationToken = default)
     {
         return await _context.Materials
             .FirstOrDefaultAsync(m => m.Slug == slug, cancellationToken);
-    }
-
-    public Material FindById(
-        MaterialId id,
-        params Expression<Func<Material, object>>[] includeProperties)
-    {
-        var query = _context.Materials.AsQueryable();
-
-        foreach (var includeProperty in includeProperties)
-        {
-            query = query.Include(includeProperty);
-        }
-
-        return query.FirstOrDefault(m => m.Id.Equals(id))!;
-    }
-
-    public Material FindSingle(
-        Expression<Func<Material, bool>> predicate,
-        params Expression<Func<Material, object>>[] includeProperties)
-    {
-        var query = _context.Materials.AsQueryable();
-
-        foreach (var includeProperty in includeProperties)
-        {
-            query = query.Include(includeProperty);
-        }
-
-        return query.FirstOrDefault(predicate)!;
-    }
-
-    public IQueryable<Material> FindAll(
-        Expression<Func<Material, bool>>? predicate,
-        params Expression<Func<Material, object>>[] includeProperties)
-    {
-        var query = _context.Materials.AsQueryable();
-
-        if (predicate != null)
-        {
-            query = query.Where(predicate);
-        }
-
-        foreach (var includeProperty in includeProperties)
-        {
-            query = query.Include(includeProperty);
-        }
-
-        return query;
     }
 
     public void Add(Material entity)

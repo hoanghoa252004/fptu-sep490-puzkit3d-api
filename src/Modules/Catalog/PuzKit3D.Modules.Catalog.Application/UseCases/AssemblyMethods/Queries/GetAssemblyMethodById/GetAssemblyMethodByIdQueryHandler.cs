@@ -1,5 +1,5 @@
+using PuzKit3D.Modules.Catalog.Application.Repositories;
 using PuzKit3D.Modules.Catalog.Domain.Entities.AssemblyMethods;
-using PuzKit3D.Modules.Catalog.Domain.Repositories;
 using PuzKit3D.SharedKernel.Application.Message.Query;
 using PuzKit3D.SharedKernel.Domain.Results;
 
@@ -14,19 +14,18 @@ internal sealed class GetAssemblyMethodByIdQueryHandler : IQueryHandler<GetAssem
         _assemblyMethodRepository = assemblyMethodRepository;
     }
 
-    public Task<ResultT<GetAssemblyMethodByIdResponseDto>> Handle(
+    public async Task<ResultT<GetAssemblyMethodByIdResponseDto>> Handle(
         GetAssemblyMethodByIdQuery request, 
         CancellationToken cancellationToken)
     {
         // Get assembly method by ID
         var assemblyMethodId = AssemblyMethodId.From(request.Id);
-        var assemblyMethod = _assemblyMethodRepository.FindById(assemblyMethodId);
+        var assemblyMethod = await _assemblyMethodRepository.GetByIdAsync(assemblyMethodId, cancellationToken);
 
         if (assemblyMethod is null)
         {
-            return Task.FromResult(
-                Result.Failure<GetAssemblyMethodByIdResponseDto>(
-                    AssemblyMethodError.NotFound(request.Id)));
+            return Result.Failure<GetAssemblyMethodByIdResponseDto>(
+                AssemblyMethodError.NotFound(request.Id));
         }
 
         // Map to DTO
@@ -39,7 +38,7 @@ internal sealed class GetAssemblyMethodByIdQueryHandler : IQueryHandler<GetAssem
             CreatedAt: assemblyMethod.CreatedAt,
             UpdatedAt: assemblyMethod.UpdatedAt);
 
-        return Task.FromResult(Result.Success(response));
+        return Result.Success(response);
     }
 }
 

@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
+using PuzKit3D.Modules.Catalog.Application.Repositories;
 using PuzKit3D.Modules.Catalog.Domain.Entities.AssemblyMethods;
-using PuzKit3D.Modules.Catalog.Domain.Repositories;
 using System.Linq.Expressions;
 
 namespace PuzKit3D.Modules.Catalog.Persistence.Repositories;
@@ -14,59 +14,38 @@ internal sealed class AssemblyMethodRepository : IAssemblyMethodRepository
         _context = context;
     }
 
+    public async Task<AssemblyMethod?> GetByIdAsync(
+        AssemblyMethodId id,
+        CancellationToken cancellationToken = default)
+    {
+        return await _context.AssemblyMethods
+            .FirstOrDefaultAsync(a => a.Id == id, cancellationToken);
+    }
+
+    public async Task<IEnumerable<AssemblyMethod>> GetAllAsync(
+        CancellationToken cancellationToken = default)
+    {
+        return await _context.AssemblyMethods
+            .AsNoTracking()
+            .ToListAsync(cancellationToken);
+    }
+
+    public async Task<IEnumerable<AssemblyMethod>> FindAsync(
+        Expression<Func<AssemblyMethod, bool>> predicate,
+        CancellationToken cancellationToken = default)
+    {
+        return await _context.AssemblyMethods
+            .Where(predicate)
+            .AsNoTracking()
+            .ToListAsync(cancellationToken);
+    }
+
     public async Task<AssemblyMethod?> GetBySlugAsync(
         string slug,
         CancellationToken cancellationToken = default)
     {
         return await _context.AssemblyMethods
             .FirstOrDefaultAsync(a => a.Slug == slug, cancellationToken);
-    }
-
-    public AssemblyMethod FindById(
-        AssemblyMethodId id,
-        params Expression<Func<AssemblyMethod, object>>[] includeProperties)
-    {
-        var query = _context.AssemblyMethods.AsQueryable();
-
-        foreach (var includeProperty in includeProperties)
-        {
-            query = query.Include(includeProperty);
-        }
-
-        return query.FirstOrDefault(a => a.Id.Equals(id))!;
-    }
-
-    public AssemblyMethod FindSingle(
-        Expression<Func<AssemblyMethod, bool>> predicate,
-        params Expression<Func<AssemblyMethod, object>>[] includeProperties)
-    {
-        var query = _context.AssemblyMethods.AsQueryable();
-
-        foreach (var includeProperty in includeProperties)
-        {
-            query = query.Include(includeProperty);
-        }
-
-        return query.FirstOrDefault(predicate)!;
-    }
-
-    public IQueryable<AssemblyMethod> FindAll(
-        Expression<Func<AssemblyMethod, bool>>? predicate,
-        params Expression<Func<AssemblyMethod, object>>[] includeProperties)
-    {
-        var query = _context.AssemblyMethods.AsQueryable();
-
-        if (predicate != null)
-        {
-            query = query.Where(predicate);
-        }
-
-        foreach (var includeProperty in includeProperties)
-        {
-            query = query.Include(includeProperty);
-        }
-
-        return query;
     }
 
     public void Add(AssemblyMethod entity)

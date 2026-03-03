@@ -15,4 +15,5 @@ public static class Schema
     public const string CustomDesign = "custome_design";
     public const string Payment = "payment";
     public const string SupportTicket = "support_ticket";
+    public const string Cart = "cart";
 }

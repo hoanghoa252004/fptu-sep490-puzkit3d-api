@@ -20,51 +20,27 @@ internal sealed class ProductRepository : IProductRepository
             .FirstOrDefaultAsync(p => p.Id == id, cancellationToken);
     }
 
+    public async Task<IEnumerable<Product>> GetAllAsync(CancellationToken cancellationToken = default)
+    {
+        return await _context.Products
+            .AsNoTracking()
+            .ToListAsync(cancellationToken);
+    }
+
+    public async Task<IEnumerable<Product>> FindAsync(
+        Expression<Func<Product, bool>> predicate,
+        CancellationToken cancellationToken = default)
+    {
+        return await _context.Products
+            .Where(predicate)
+            .AsNoTracking()
+            .ToListAsync(cancellationToken);
+    }
+
     public async Task<bool> ExistsByNameAsync(string name, CancellationToken cancellationToken = default)
     {
         return await _context.Products
             .AnyAsync(p => p.Name == name, cancellationToken);
-    }
-
-    public Product FindById(ProductId id, params Expression<Func<Product, object>>[] includeProperties)
-    {
-        var query = _context.Products.AsQueryable();
-
-        foreach (var includeProperty in includeProperties)
-        {
-            query = query.Include(includeProperty);
-        }
-
-        return query.FirstOrDefault(p => p.Id.Equals(id))!;
-    }
-
-    public Product FindSingle(Expression<Func<Product, bool>> predicate, params Expression<Func<Product, object>>[] includeProperties)
-    {
-        var query = _context.Products.AsQueryable();
-
-        foreach (var includeProperty in includeProperties)
-        {
-            query = query.Include(includeProperty);
-        }
-
-        return query.FirstOrDefault(predicate)!;
-    }
-
-    public IQueryable<Product> FindAll(Expression<Func<Product, bool>>? predicate, params Expression<Func<Product, object>>[] includeProperties)
-    {
-        var query = _context.Products.AsQueryable();
-
-        if (predicate != null)
-        {
-            query = query.Where(predicate);
-        }
-
-        foreach (var includeProperty in includeProperties)
-        {
-            query = query.Include(includeProperty);
-        }
-
-        return query;
     }
 
     public void Add(Product entity)

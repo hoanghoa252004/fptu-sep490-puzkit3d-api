@@ -1,4 +1,6 @@
-﻿using PuzKit3D.Modules.Catalog.Persistence;
+﻿using PuzKit3D.Modules.Cart.Infrastructure;
+using PuzKit3D.Modules.Cart.Persistence;
+using PuzKit3D.Modules.Catalog.Persistence;
 using PuzKit3D.Modules.InStock.Persistence;
 using PuzKit3D.SharedKernel.Api.Endpoint;
 using PuzKit3D.SharedKernel.Application;
@@ -21,7 +23,8 @@ builder.Services.AddSharedKernelApplication(
     new[]{
         PuzKit3D.Modules.InStock.Application.InstockApplicationAssembly.Assembly,
         PuzKit3D.Modules.User.Application.UserApplicationAssembly.Assembly,
-        PuzKit3D.Modules.Catalog.Application.CatalogApplicationAssembly.Assembly
+        PuzKit3D.Modules.Catalog.Application.CatalogApplicationAssembly.Assembly,
+        PuzKit3D.Modules.Cart.Application.CartApplicationAssembly.Assembly
     } 
 );
 
@@ -31,13 +34,19 @@ builder.Services.AddEndpointsFromAssembly(
     {
        PuzKit3D.Modules.InStock.Api.InstockApiAssembly.Assembly,
        PuzKit3D.Modules.User.Api.UserApiAssembly.Assembly,
-       PuzKit3D.Modules.Catalog.Api.CatalogApiAssembly.Assembly
+       PuzKit3D.Modules.Catalog.Api.CatalogApiAssembly.Assembly,
+       PuzKit3D.Modules.Cart.Api.CartApiAssembly.Assembly
     }
 );
 
 // Add Persistence services (DbContext, Repositories ):
 builder.Services.AddInStockPersistence(builder.Configuration);
 builder.Services.AddCatalogPersistence(builder.Configuration);
+builder.Services.AddCartPersistence(builder.Configuration);
+
+// Add Infrastructure services (Domain Event Handlers, Integration Event Handlers):
+//builder.Services.AddCartInfrastructure();
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())

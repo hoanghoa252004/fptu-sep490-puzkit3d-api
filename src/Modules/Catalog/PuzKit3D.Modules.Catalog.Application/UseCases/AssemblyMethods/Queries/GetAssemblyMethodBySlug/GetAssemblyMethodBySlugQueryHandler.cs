@@ -1,7 +1,7 @@
-using PuzKit3D.Modules.Catalog.Domain.Repositories;
 using PuzKit3D.Modules.Catalog.Domain.Entities.AssemblyMethods;
 using PuzKit3D.SharedKernel.Application.Message.Query;
 using PuzKit3D.SharedKernel.Domain.Results;
+using PuzKit3D.Modules.Catalog.Application.Repositories;
 
 namespace PuzKit3D.Modules.Catalog.Application.UseCases.AssemblyMethods.Queries.GetAssemblyMethodBySlug;
 

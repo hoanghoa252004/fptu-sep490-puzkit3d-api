@@ -9,11 +9,13 @@ namespace PuzKit3D.SharedKernel.Domain;
 
 public interface IRepositoryBase<TEntity, in TKey> where TEntity : class
 {
-    TEntity FindById(TKey id, params Expression<Func<TEntity, object>>[] includeProperties);
-
-    TEntity FindSingle(Expression<Func<TEntity, bool>> predicate, params Expression<Func<TEntity, object>>[] includeProperties);
-
-    IQueryable<TEntity> FindAll(Expression<Func<TEntity, bool>>? predicate, params Expression<Func<TEntity, object>>[] includeProperties);
+    Task<TEntity?> GetByIdAsync(TKey id, CancellationToken cancellationToken = default);
+    
+    Task<IEnumerable<TEntity>> GetAllAsync(CancellationToken cancellationToken = default);
+    
+    Task<IEnumerable<TEntity>> FindAsync(
+        Expression<Func<TEntity, bool>> predicate, 
+        CancellationToken cancellationToken = default);
 
     void Add(TEntity entity);
 
