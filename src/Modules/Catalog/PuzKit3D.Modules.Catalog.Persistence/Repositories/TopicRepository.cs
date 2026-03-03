@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
+using PuzKit3D.Modules.Catalog.Application.Repositories;
 using PuzKit3D.Modules.Catalog.Domain.Entities.Topics;
-using PuzKit3D.Modules.Catalog.Domain.Repositories;
 using System.Linq.Expressions;
 
 namespace PuzKit3D.Modules.Catalog.Persistence.Repositories;
@@ -12,6 +12,32 @@ internal sealed class TopicRepository : ITopicRepository
     public TopicRepository(CatalogDbContext context)
     {
         _context = context;
+    }
+
+    public async Task<Topic?> GetByIdAsync(
+        TopicId id,
+        CancellationToken cancellationToken = default)
+    {
+        return await _context.Topics
+            .FirstOrDefaultAsync(t => t.Id == id, cancellationToken);
+    }
+
+    public async Task<IEnumerable<Topic>> GetAllAsync(
+        CancellationToken cancellationToken = default)
+    {
+        return await _context.Topics
+            .AsNoTracking()
+            .ToListAsync(cancellationToken);
+    }
+
+    public async Task<IEnumerable<Topic>> FindAsync(
+        Expression<Func<Topic, bool>> predicate,
+        CancellationToken cancellationToken = default)
+    {
+        return await _context.Topics
+            .Where(predicate)
+            .AsNoTracking()
+            .ToListAsync(cancellationToken);
     }
 
     public async Task<Topic?> GetBySlugAsync(
@@ -29,53 +55,6 @@ internal sealed class TopicRepository : ITopicRepository
         return await _context.Topics
             .Where(t => t.ParentId == parentId)
             .ToListAsync(cancellationToken);
-    }
-
-    public Topic FindById(
-        TopicId id,
-        params Expression<Func<Topic, object>>[] includeProperties)
-    {
-        var query = _context.Topics.AsQueryable();
-
-        foreach (var includeProperty in includeProperties)
-        {
-            query = query.Include(includeProperty);
-        }
-
-        return query.FirstOrDefault(t => t.Id.Equals(id))!;
-    }
-
-    public Topic FindSingle(
-        Expression<Func<Topic, bool>> predicate,
-        params Expression<Func<Topic, object>>[] includeProperties)
-    {
-        var query = _context.Topics.AsQueryable();
-
-        foreach (var includeProperty in includeProperties)
-        {
-            query = query.Include(includeProperty);
-        }
-
-        return query.FirstOrDefault(predicate)!;
-    }
-
-    public IQueryable<Topic> FindAll(
-        Expression<Func<Topic, bool>>? predicate,
-        params Expression<Func<Topic, object>>[] includeProperties)
-    {
-        var query = _context.Topics.AsQueryable();
-
-        if (predicate != null)
-        {
-            query = query.Where(predicate);
-        }
-
-        foreach (var includeProperty in includeProperties)
-        {
-            query = query.Include(includeProperty);
-        }
-
-        return query;
     }
 
     public void Add(Topic entity)

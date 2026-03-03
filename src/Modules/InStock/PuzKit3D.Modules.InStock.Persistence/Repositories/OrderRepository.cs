@@ -21,45 +21,23 @@ internal sealed class OrderRepository : IOrderRepository
             .FirstOrDefaultAsync(o => o.Id == id, cancellationToken);
     }
 
-    public Order FindById(OrderId id, params Expression<Func<Order, object>>[] includeProperties)
+    public async Task<IEnumerable<Order>> GetAllAsync(CancellationToken cancellationToken = default)
     {
-        var query = _context.Orders.AsQueryable();
-
-        foreach (var includeProperty in includeProperties)
-        {
-            query = query.Include(includeProperty);
-        }
-
-        return query.FirstOrDefault(o => o.Id.Equals(id))!;
+        return await _context.Orders
+            .Include(o => o.OrderItems)
+            .AsNoTracking()
+            .ToListAsync(cancellationToken);
     }
 
-    public Order FindSingle(Expression<Func<Order, bool>> predicate, params Expression<Func<Order, object>>[] includeProperties)
+    public async Task<IEnumerable<Order>> FindAsync(
+        Expression<Func<Order, bool>> predicate,
+        CancellationToken cancellationToken = default)
     {
-        var query = _context.Orders.AsQueryable();
-
-        foreach (var includeProperty in includeProperties)
-        {
-            query = query.Include(includeProperty);
-        }
-
-        return query.FirstOrDefault(predicate)!;
-    }
-
-    public IQueryable<Order> FindAll(Expression<Func<Order, bool>>? predicate, params Expression<Func<Order, object>>[] includeProperties)
-    {
-        var query = _context.Orders.AsQueryable();
-
-        if (predicate != null)
-        {
-            query = query.Where(predicate);
-        }
-
-        foreach (var includeProperty in includeProperties)
-        {
-            query = query.Include(includeProperty);
-        }
-
-        return query;
+        return await _context.Orders
+            .Include(o => o.OrderItems)
+            .Where(predicate)
+            .AsNoTracking()
+            .ToListAsync(cancellationToken);
     }
 
     public void Add(Order entity)

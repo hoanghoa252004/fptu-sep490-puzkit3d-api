@@ -1,7 +1,7 @@
 using PuzKit3D.Modules.Catalog.Domain.Entities.Topics;
 using PuzKit3D.SharedKernel.Domain;
 
-namespace PuzKit3D.Modules.Catalog.Domain.Repositories;
+namespace PuzKit3D.Modules.Catalog.Application.Repositories;
 
 public interface ITopicRepository : IRepositoryBase<Topic, TopicId>
 {

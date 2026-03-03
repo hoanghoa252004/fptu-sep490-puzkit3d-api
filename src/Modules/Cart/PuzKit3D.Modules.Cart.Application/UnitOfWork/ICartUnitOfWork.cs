@@ -1,9 +1,9 @@
-namespace PuzKit3D.Modules.Catalog.Domain.UnitOfWork;
+namespace PuzKit3D.Modules.Cart.Application.UnitOfWork;
 
 /// <summary>
-/// Unit of Work specific for Catalog module
+/// Unit of Work specific for Cart module
 /// </summary>
-public interface ICatalogUnitOfWork
+public interface ICartUnitOfWork
 {
     Task<T> ExecuteAsync<T>(Func<Task<T>> action, CancellationToken cancellationToken = default);
     

@@ -1,5 +1,5 @@
+using PuzKit3D.Modules.Catalog.Application.Repositories;
 using PuzKit3D.Modules.Catalog.Domain.Entities.AssemblyMethods;
-using PuzKit3D.Modules.Catalog.Domain.Repositories;
 using PuzKit3D.SharedKernel.Application.Message.Query;
 using PuzKit3D.SharedKernel.Application.Pagination;
 using PuzKit3D.SharedKernel.Application.User;
@@ -21,7 +21,7 @@ internal sealed class GetAllAssemblyMethodsQueryHandler
         _currentUser = currentUser;
     }
 
-    public Task<ResultT<PagedResult<object>>> Handle(
+    public async Task<ResultT<PagedResult<object>>> Handle(
         GetAllAssemblyMethodsQuery request,
         CancellationToken cancellationToken)
     {
@@ -29,8 +29,9 @@ internal sealed class GetAllAssemblyMethodsQueryHandler
         var isStaffOrManager = _currentUser.IsAuthenticated && 
             (_currentUser.IsInRole("Staff") || _currentUser.IsInRole("Business Manager"));
 
-        // Build query with filters
-        var query = _assemblyMethodRepository.FindAll(null);
+        // Get all assembly methods
+        var allMethods = await _assemblyMethodRepository.GetAllAsync(cancellationToken);
+        var query = allMethods.AsQueryable();
 
         // For non-staff/manager users (anonymous or customer/admin), only show active items
         if (!isStaffOrManager)
@@ -99,6 +100,6 @@ internal sealed class GetAllAssemblyMethodsQueryHandler
             request.PageSize,
             totalCount);
 
-        return Task.FromResult(Result.Success(pagedResult));
+        return Result.Success(pagedResult);
     }
 }
