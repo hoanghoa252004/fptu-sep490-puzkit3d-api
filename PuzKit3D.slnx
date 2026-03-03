@@ -22,6 +22,13 @@
   </Folder>
   <Folder Name="/src/Infrastructure/" />
   <Folder Name="/src/Modules/" />
+  <Folder Name="/src/Modules/Cart/">
+    <Project Path="src/Modules/Cart/PuzKit3D.Modules.Cart.Api/PuzKit3D.Modules.Cart.Api.csproj" Id="54282fc3-22cb-4354-8e3f-160e11c2a621" />
+    <Project Path="src/Modules/Cart/PuzKit3D.Modules.Cart.Application/PuzKit3D.Modules.Cart.Application.csproj" Id="78e055c6-68e0-460a-a5c0-2c4df41a819e" />
+    <Project Path="src/Modules/Cart/PuzKit3D.Modules.Cart.Domain/PuzKit3D.Modules.Cart.Domain.csproj" Id="b503dac4-bca0-40c4-bfad-ee1ab559c12b" />
+    <Project Path="src/Modules/Cart/PuzKit3D.Modules.Cart.Infrastructure/PuzKit3D.Modules.Cart.Infrastructure.csproj" Id="1b3b9aa6-64fc-4926-9554-480a137b04f3" />
+    <Project Path="src/Modules/Cart/PuzKit3D.Modules.Cart.Persistence/PuzKit3D.Modules.Cart.Persistence.csproj" Id="d05fb9eb-c32f-4bc6-9a9f-26c0c769c0ba" />
+  </Folder>
   <Folder Name="/src/Modules/Catalog/">
     <Project Path="src/Modules/Catalog/PuzKit3D.Modules.Catalog.Api/PuzKit3D.Modules.Catalog.Api.csproj" Id="3e2bb8bb-ffbd-4750-aa02-1f2f338a01eb" />
     <Project Path="src/Modules/Catalog/PuzKit3D.Modules.Catalog.Application/PuzKit3D.Modules.Catalog.Application.csproj" Id="991d2df0-0726-4c9a-8d6c-dccb3c5f01bf" />
@@ -36,6 +43,8 @@
     <Project Path="src/Modules/InStock/PuzKit3D.Modules.InStock.Infrastructure/PuzKit3D.Modules.InStock.Infrastructure.csproj" Id="d7106428-d947-4b93-854b-ad55121f0c12" />
     <Project Path="src/Modules/InStock/PuzKit3D.Modules.InStock.Persistence/PuzKit3D.Modules.InStock.Persistence.csproj" Id="a0709e6b-340c-49ed-8611-3f83741efb10" />
   </Folder>
+  <Folder Name="/src/Modules/Partner/" />
+  <Folder Name="/src/Modules/Payment/" />
   <Folder Name="/src/Modules/User/">
     <Project Path="src/Modules/User/PuzKit3D.Modules.User.Api/PuzKit3D.Modules.User.Api.csproj" Id="bf1d8c89-d765-46e3-a01e-c48ec187b781" />
     <Project Path="src/Modules/User/PuzKit3D.Modules.User.Application/PuzKit3D.Modules.User.Application.csproj" Id="9381a79e-86a8-4a57-857c-3e0d579b727e" />
