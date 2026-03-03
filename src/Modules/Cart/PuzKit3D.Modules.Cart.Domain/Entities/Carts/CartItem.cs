@@ -41,7 +41,7 @@ public sealed class CartItem : Entity<CartItemId>
         int quantity)
     {
         if (cartId == null || cartId.Value == Guid.Empty)
-            return Result.Failure<CartItem>(CartError.InvalidCartTypeId());
+            return Result.Failure<CartItem>(CartError.InvalidUserId());
 
         if (itemId == Guid.Empty)
             return Result.Failure<CartItem>(CartError.InvalidItemId());

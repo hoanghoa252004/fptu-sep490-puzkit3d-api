@@ -6,6 +6,7 @@ public sealed class InStockProductPriceDetailReplica : Entity<Guid>
 {
     public Guid InStockPriceId { get; private set; }
     public Guid InStockProductVariantId { get; private set; }
+    public decimal UnitPrice { get; private set; }
     public bool IsActive { get; private set; }
     public DateTime CreatedAt { get; private set; }
     public DateTime UpdatedAt { get; private set; }
@@ -18,6 +19,7 @@ public sealed class InStockProductPriceDetailReplica : Entity<Guid>
         Guid id,
         Guid inStockPriceId,
         Guid inStockProductVariantId,
+        decimal unitPrice,
         bool isActive,
         DateTime createdAt,
         DateTime updatedAt)
@@ -27,6 +29,7 @@ public sealed class InStockProductPriceDetailReplica : Entity<Guid>
             Id = id,
             InStockPriceId = inStockPriceId,
             InStockProductVariantId = inStockProductVariantId,
+            UnitPrice = unitPrice,
             IsActive = isActive,
             CreatedAt = createdAt,
             UpdatedAt = updatedAt

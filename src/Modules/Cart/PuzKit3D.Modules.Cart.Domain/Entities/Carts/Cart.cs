@@ -9,7 +9,7 @@ public sealed class Cart : AggregateRoot<CartId>
     private readonly List<CartItem> _items = new();
 
     public Guid UserId { get; private set; }
-    public CartTypeId CartTypeId { get; private set; }
+    public string CartType { get; private set; } = string.Empty;
     public int TotalItem { get; private set; }
 
     public IReadOnlyCollection<CartItem> Items => _items.AsReadOnly();
@@ -17,10 +17,10 @@ public sealed class Cart : AggregateRoot<CartId>
     private Cart(
         CartId id,
         Guid userId,
-        CartTypeId cartTypeId) : base(id)
+        string cartType) : base(id)
     {
         UserId = userId;
-        CartTypeId = cartTypeId;
+        CartType = cartType;
         TotalItem = 0;
     }
 
@@ -28,18 +28,22 @@ public sealed class Cart : AggregateRoot<CartId>
     {
     }
 
-    public static ResultT<Cart> Create(Guid userId, CartTypeId cartTypeId)
+    public static ResultT<Cart> Create(Guid userId, string cartType)
     {
         if (userId == Guid.Empty)
             return Result.Failure<Cart>(CartError.InvalidUserId());
 
-        if (cartTypeId == null || cartTypeId.Value == Guid.Empty)
-            return Result.Failure<Cart>(CartError.InvalidCartTypeId());
+        if (string.IsNullOrWhiteSpace(cartType))
+            return Result.Failure<Cart>(CartError.InvalidCartType());
+
+        var normalizedCartType = cartType.ToUpper();
+        if (normalizedCartType != "INSTOCK" && normalizedCartType != "PARTNER")
+            return Result.Failure<Cart>(CartError.InvalidCartType());
 
         var cartId = CartId.Create();
-        var cart = new Cart(cartId, userId, cartTypeId);
+        var cart = new Cart(cartId, userId, normalizedCartType);
 
-        cart.RaiseDomainEvent(new CartCreatedDomainEvent(cartId.Value, userId, cartTypeId.Value));
+        cart.RaiseDomainEvent(new CartCreatedDomainEvent(cartId.Value, userId, normalizedCartType));
 
         return Result.Success(cart);
     }

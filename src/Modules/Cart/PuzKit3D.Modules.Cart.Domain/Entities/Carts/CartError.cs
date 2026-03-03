@@ -7,8 +7,8 @@ public static class CartError
     public static Error InvalidUserId() => 
         Error.Validation("Cart.InvalidUserId", "User ID cannot be empty");
 
-    public static Error InvalidCartTypeId() => 
-        Error.Validation("Cart.InvalidCartTypeId", "Cart type ID cannot be empty");
+    public static Error InvalidCartType() => 
+        Error.Validation("Cart.InvalidCartType", "Cart type must be either 'INSTOCK' or 'PARTNER'");
 
     public static Error CartNotFound() => 
         Error.NotFound("Cart.NotFound", "Cart not found");
@@ -30,4 +30,16 @@ public static class CartError
 
     public static Error MaxItemsExceeded(int maxItems) => 
         Error.Validation("Cart.MaxItemsExceeded", $"Cannot add more than {maxItems} items to cart");
+
+    public static Error UnauthorizedAccess() => 
+        Error.Forbidden("Cart.UnauthorizedAccess", "Only customers can add items to cart");
+
+    public static Error ItemNotFound() => 
+        Error.NotFound("Cart.ItemNotFound", "Item not found");
+
+    public static Error InsufficientStock(int available) => 
+        Error.Validation("Cart.InsufficientStock", $"Insufficient stock. Only {available} items available");
+
+    public static Error InvalidItemType() => 
+        Error.Validation("Cart.InvalidItemType", "Item type must be either 'instock' or 'partner'");
 }
