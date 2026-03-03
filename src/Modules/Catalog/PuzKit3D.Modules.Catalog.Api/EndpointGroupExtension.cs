@@ -12,4 +12,10 @@ public static class EndpointGroupExtension
         return app.MapGroup($"{ApiRoutes.ApiPrefix}/assembly-methods")
             .WithTags("Assembly Methods");
     }
+
+    public static RouteGroupBuilder MapTopicsGroup(this IEndpointRouteBuilder app)
+    {
+        return app.MapGroup($"{ApiRoutes.ApiPrefix}/topics")
+            .WithTags("Topics");
+    }
 }
