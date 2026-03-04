@@ -7,10 +7,17 @@ namespace PuzKit3D.Modules.Cart.Api;
 
 public static class EndpointGroupExtension
 {
-    public static RouteGroupBuilder MapCartsGroup(this IEndpointRouteBuilder app)
+    public static RouteGroupBuilder MapInStockCartsGroup(this IEndpointRouteBuilder app)
     {
-        return app.MapGroup($"{ApiRoutes.ApiPrefix}/carts")
-            .WithTags("Carts");
+        return app.MapGroup($"{ApiRoutes.ApiPrefix}/instock-carts")
+            .WithTags("InStock Carts");
+    }
+
+    public static RouteGroupBuilder MapPartnerCartsGroup(this IEndpointRouteBuilder app)
+    {
+        return app.MapGroup($"{ApiRoutes.ApiPrefix}/partner-carts")
+            .WithTags("Partner Carts");
     }
 }
+
 
