@@ -12,8 +12,8 @@ using PuzKit3D.Modules.Catalog.Persistence;
 namespace PuzKit3D.Modules.Catalog.Persistence.Migrations
 {
     [DbContext(typeof(CatalogDbContext))]
-    [Migration("20260303122008_MakeTopicParentIdNullable")]
-    partial class MakeTopicParentIdNullable
+    [Migration("20260305043754_UpdateSnakeCase")]
+    partial class UpdateSnakeCase
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -62,12 +62,14 @@ namespace PuzKit3D.Modules.Catalog.Persistence.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("updated_at");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("pk_assembly_methods");
 
                     b.HasIndex("Slug")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasDatabaseName("ix_assembly_methods_slug");
 
-                    b.ToTable("assembly_method", "catalog");
+                    b.ToTable("assembly_methods", "catalog");
                 });
 
             modelBuilder.Entity("PuzKit3D.Modules.Catalog.Domain.Entities.Capabilities.Capability", b =>
@@ -106,12 +108,14 @@ namespace PuzKit3D.Modules.Catalog.Persistence.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("updated_at");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("pk_capabilities");
 
                     b.HasIndex("Slug")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasDatabaseName("ix_capabilities_slug");
 
-                    b.ToTable("capability", "catalog");
+                    b.ToTable("capabilities", "catalog");
                 });
 
             modelBuilder.Entity("PuzKit3D.Modules.Catalog.Domain.Entities.Materials.Material", b =>
@@ -150,12 +154,14 @@ namespace PuzKit3D.Modules.Catalog.Persistence.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("updated_at");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("pk_materials");
 
                     b.HasIndex("Slug")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasDatabaseName("ix_materials_slug");
 
-                    b.ToTable("material", "catalog");
+                    b.ToTable("materials", "catalog");
                 });
 
             modelBuilder.Entity("PuzKit3D.Modules.Catalog.Domain.Entities.Topics.Topic", b =>
@@ -198,14 +204,17 @@ namespace PuzKit3D.Modules.Catalog.Persistence.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("updated_at");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("pk_topics");
 
-                    b.HasIndex("ParentId");
+                    b.HasIndex("ParentId")
+                        .HasDatabaseName("ix_topics_parent_id");
 
                     b.HasIndex("Slug")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasDatabaseName("ix_topics_slug");
 
-                    b.ToTable("topic", "catalog");
+                    b.ToTable("topics", "catalog");
                 });
 #pragma warning restore 612, 618
         }

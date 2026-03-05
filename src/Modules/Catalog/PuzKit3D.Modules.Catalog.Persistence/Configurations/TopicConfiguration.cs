@@ -8,48 +8,38 @@ internal sealed class TopicConfiguration : IEntityTypeConfiguration<Topic>
 {
     public void Configure(EntityTypeBuilder<Topic> builder)
     {
-        builder.ToTable("topic");
-
         builder.HasKey(t => t.Id);
 
         builder.Property(t => t.Id)
             .HasConversion(
                 id => id.Value,
-                value => TopicId.From(value))
-            .HasColumnName("id");
+                value => TopicId.From(value));
 
         builder.Property(t => t.Name)
             .IsRequired()
-            .HasMaxLength(30)
-            .HasColumnName("name");
+            .HasMaxLength(30);
 
-        builder.Property(t => t.Description)
-            .HasColumnName("description");
+        builder.Property(t => t.Description);
 
         builder.Property(t => t.Slug)
             .IsRequired()
-            .HasMaxLength(30)
-            .HasColumnName("slug");
+            .HasMaxLength(30);
 
         builder.Property(t => t.ParentId)
             .IsRequired(false)
             .HasConversion(
                 id => id == null ? (Guid?)null : id.Value,
-                value => value == null ? null : TopicId.From(value.Value))
-            .HasColumnName("parent_id");
+                value => value == null ? null : TopicId.From(value.Value));
 
         builder.Property(t => t.IsActive)
             .IsRequired()
-            .HasDefaultValue(false)
-            .HasColumnName("is_active");
+            .HasDefaultValue(false);
 
         builder.Property(t => t.CreatedAt)
-            .IsRequired()
-            .HasColumnName("created_at");
+            .IsRequired();
 
         builder.Property(t => t.UpdatedAt)
-            .IsRequired()
-            .HasColumnName("updated_at");
+            .IsRequired();
 
         builder.HasIndex(t => t.Slug)
             .IsUnique();

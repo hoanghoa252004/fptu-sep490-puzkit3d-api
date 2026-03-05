@@ -9,25 +9,19 @@ internal sealed class OrderItemConfiguration : IEntityTypeConfiguration<OrderIte
 {
     public void Configure(EntityTypeBuilder<OrderItem> builder)
     {
-        builder.ToTable("order_items");
-
         builder.HasKey(oi => oi.Id);
 
         builder.Property(oi => oi.Id)
             .HasConversion(
                 id => id.Value,
-                value => OrderItemId.From(value))
-            .HasColumnName("id");
+                value => OrderItemId.From(value));
 
-        // ? Config OrderId v?i conversion và explicit FK
         builder.Property(oi => oi.OrderId)
             .HasConversion(
                 id => id.Value,
                 value => OrderId.From(value))
-            .HasColumnName("order_id")
             .IsRequired();
 
-        // ? Config relationship: OrderItem -> Order
         builder.HasOne<Order>()
             .WithMany(o => o.OrderItems)
             .HasForeignKey(oi => oi.OrderId)
@@ -37,22 +31,18 @@ internal sealed class OrderItemConfiguration : IEntityTypeConfiguration<OrderIte
             .HasConversion(
                 id => id.Value,
                 value => ProductId.From(value))
-            .HasColumnName("product_id")
             .IsRequired();
 
         builder.Property(oi => oi.Quantity)
-            .IsRequired()
-            .HasColumnName("quantity");
+            .IsRequired();
 
         builder.OwnsOne(oi => oi.UnitPrice, money =>
         {
             money.Property(m => m.Amount)
-                .HasColumnName("unit_price")
                 .HasColumnType("decimal(18,2)")
                 .IsRequired();
 
             money.Property(m => m.Currency)
-                .HasColumnName("unit_price_currency")
                 .HasMaxLength(10)
                 .IsRequired();
         });
@@ -60,12 +50,10 @@ internal sealed class OrderItemConfiguration : IEntityTypeConfiguration<OrderIte
         builder.OwnsOne(oi => oi.TotalPrice, money =>
         {
             money.Property(m => m.Amount)
-                .HasColumnName("total_price")
                 .HasColumnType("decimal(18,2)")
                 .IsRequired();
 
             money.Property(m => m.Currency)
-                .HasColumnName("total_price_currency")
                 .HasMaxLength(10)
                 .IsRequired();
         });

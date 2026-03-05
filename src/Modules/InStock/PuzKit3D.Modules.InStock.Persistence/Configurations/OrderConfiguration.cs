@@ -8,36 +8,29 @@ internal sealed class OrderConfiguration : IEntityTypeConfiguration<Order>
 {
     public void Configure(EntityTypeBuilder<Order> builder)
     {
-        builder.ToTable("orders");
-
         builder.HasKey(o => o.Id);
 
         builder.Property(o => o.Id)
             .HasConversion(
                 id => id.Value,
-                value => OrderId.From(value))
-            .HasColumnName("id");
+                value => OrderId.From(value));
 
         builder.Property(o => o.UserId)
-            .IsRequired()
-            .HasColumnName("user_id");
+            .IsRequired();
 
         builder.OwnsOne(o => o.TotalMoney, money =>
         {
             money.Property(m => m.Amount)
-                .HasColumnName("total_money")
                 .HasColumnType("decimal(18,2)")
                 .IsRequired();
 
             money.Property(m => m.Currency)
-                .HasColumnName("currency")
                 .HasMaxLength(10)
                 .IsRequired();
         });
 
         builder.Property(o => o.CreatedAt)
-            .IsRequired()
-            .HasColumnName("created_at");
+            .IsRequired();
 
         // ? Config navigation property ?? EF Core bi?t private field
         builder.Navigation(o => o.OrderItems)

@@ -12,8 +12,8 @@ using PuzKit3D.Modules.InStock.Persistence;
 namespace PuzKit3D.Modules.InStock.Persistence.Migrations
 {
     [DbContext(typeof(InStockDbContext))]
-    [Migration("20260224102022_InitialInStockCreate")]
-    partial class InitialInStockCreate
+    [Migration("20260305043800_UpdateSnakeCase")]
+    partial class UpdateSnakeCase
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -40,7 +40,8 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("user_id");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("pk_orders");
 
                     b.ToTable("orders", "instock");
                 });
@@ -63,11 +64,14 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("quantity");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("pk_order_items");
 
-                    b.HasIndex("OrderId");
+                    b.HasIndex("OrderId")
+                        .HasDatabaseName("ix_order_items_order_id");
 
-                    b.HasIndex("ProductId");
+                    b.HasIndex("ProductId")
+                        .HasDatabaseName("ix_order_items_product_id");
 
                     b.ToTable("order_items", "instock");
                 });
@@ -92,10 +96,12 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("stock");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("pk_products");
 
                     b.HasIndex("Name")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasDatabaseName("ix_products_name");
 
                     b.ToTable("products", "instock");
                 });
@@ -105,24 +111,26 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                     b.OwnsOne("PuzKit3D.Modules.InStock.Domain.ValueObjects.Money", "TotalMoney", b1 =>
                         {
                             b1.Property<Guid>("OrderId")
-                                .HasColumnType("uuid");
+                                .HasColumnType("uuid")
+                                .HasColumnName("id");
 
                             b1.Property<decimal>("Amount")
                                 .HasColumnType("decimal(18,2)")
-                                .HasColumnName("total_money");
+                                .HasColumnName("total_money_amount");
 
                             b1.Property<string>("Currency")
                                 .IsRequired()
                                 .HasMaxLength(10)
                                 .HasColumnType("character varying(10)")
-                                .HasColumnName("currency");
+                                .HasColumnName("total_money_currency");
 
                             b1.HasKey("OrderId");
 
                             b1.ToTable("orders", "instock");
 
                             b1.WithOwner()
-                                .HasForeignKey("OrderId");
+                                .HasForeignKey("OrderId")
+                                .HasConstraintName("fk_orders_orders_id");
                         });
 
                     b.Navigation("TotalMoney")
@@ -135,16 +143,18 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                         .WithMany("OrderItems")
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("fk_order_items_orders_order_id");
 
                     b.OwnsOne("PuzKit3D.Modules.InStock.Domain.ValueObjects.Money", "TotalPrice", b1 =>
                         {
                             b1.Property<Guid>("OrderItemId")
-                                .HasColumnType("uuid");
+                                .HasColumnType("uuid")
+                                .HasColumnName("id");
 
                             b1.Property<decimal>("Amount")
                                 .HasColumnType("decimal(18,2)")
-                                .HasColumnName("total_price");
+                                .HasColumnName("total_price_amount");
 
                             b1.Property<string>("Currency")
                                 .IsRequired()
@@ -157,17 +167,19 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                             b1.ToTable("order_items", "instock");
 
                             b1.WithOwner()
-                                .HasForeignKey("OrderItemId");
+                                .HasForeignKey("OrderItemId")
+                                .HasConstraintName("fk_order_items_order_items_id");
                         });
 
                     b.OwnsOne("PuzKit3D.Modules.InStock.Domain.ValueObjects.Money", "UnitPrice", b1 =>
                         {
                             b1.Property<Guid>("OrderItemId")
-                                .HasColumnType("uuid");
+                                .HasColumnType("uuid")
+                                .HasColumnName("id");
 
                             b1.Property<decimal>("Amount")
                                 .HasColumnType("decimal(18,2)")
-                                .HasColumnName("unit_price");
+                                .HasColumnName("unit_price_amount");
 
                             b1.Property<string>("Currency")
                                 .IsRequired()
@@ -180,7 +192,8 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                             b1.ToTable("order_items", "instock");
 
                             b1.WithOwner()
-                                .HasForeignKey("OrderItemId");
+                                .HasForeignKey("OrderItemId")
+                                .HasConstraintName("fk_order_items_order_items_id");
                         });
 
                     b.Navigation("TotalPrice")

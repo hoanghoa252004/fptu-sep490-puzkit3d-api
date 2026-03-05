@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace PuzKit3D.Modules.InStock.Persistence.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialInStockCreate : Migration
+    public partial class UpdateSnakeCase : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -21,13 +21,13 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
                     user_id = table.Column<Guid>(type: "uuid", nullable: false),
-                    total_money = table.Column<decimal>(type: "numeric(18,2)", nullable: false),
-                    currency = table.Column<string>(type: "character varying(10)", maxLength: 10, nullable: false),
+                    total_money_amount = table.Column<decimal>(type: "numeric(18,2)", nullable: false),
+                    total_money_currency = table.Column<string>(type: "character varying(10)", maxLength: 10, nullable: false),
                     created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_orders", x => x.id);
+                    table.PrimaryKey("pk_orders", x => x.id);
                 });
 
             migrationBuilder.CreateTable(
@@ -42,7 +42,7 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_products", x => x.id);
+                    table.PrimaryKey("pk_products", x => x.id);
                 });
 
             migrationBuilder.CreateTable(
@@ -54,16 +54,16 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                     order_id = table.Column<Guid>(type: "uuid", nullable: false),
                     product_id = table.Column<Guid>(type: "uuid", nullable: false),
                     quantity = table.Column<int>(type: "integer", nullable: false),
-                    unit_price = table.Column<decimal>(type: "numeric(18,2)", nullable: false),
+                    unit_price_amount = table.Column<decimal>(type: "numeric(18,2)", nullable: false),
                     unit_price_currency = table.Column<string>(type: "character varying(10)", maxLength: 10, nullable: false),
-                    total_price = table.Column<decimal>(type: "numeric(18,2)", nullable: false),
+                    total_price_amount = table.Column<decimal>(type: "numeric(18,2)", nullable: false),
                     total_price_currency = table.Column<string>(type: "character varying(10)", maxLength: 10, nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_order_items", x => x.id);
+                    table.PrimaryKey("pk_order_items", x => x.id);
                     table.ForeignKey(
-                        name: "FK_order_items_orders_order_id",
+                        name: "fk_order_items_orders_order_id",
                         column: x => x.order_id,
                         principalSchema: "instock",
                         principalTable: "orders",
@@ -72,19 +72,19 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_order_items_order_id",
+                name: "ix_order_items_order_id",
                 schema: "instock",
                 table: "order_items",
                 column: "order_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_order_items_product_id",
+                name: "ix_order_items_product_id",
                 schema: "instock",
                 table: "order_items",
                 column: "product_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_products_name",
+                name: "ix_products_name",
                 schema: "instock",
                 table: "products",
                 column: "name",

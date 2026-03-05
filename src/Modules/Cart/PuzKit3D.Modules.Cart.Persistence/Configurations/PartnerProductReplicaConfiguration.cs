@@ -8,63 +8,48 @@ internal sealed class PartnerProductReplicaConfiguration : IEntityTypeConfigurat
 {
     public void Configure(EntityTypeBuilder<PartnerProductReplica> builder)
     {
-        builder.ToTable("partner_product_replica");
-
         builder.HasKey(p => p.Id);
 
-        builder.Property(p => p.Id)
-            .HasColumnName("id");
+        builder.Property(p => p.Id);
 
         builder.Property(p => p.PartnerId)
-            .IsRequired()
-            .HasColumnName("partner_id");
+            .IsRequired();
 
         builder.Property(p => p.PartnerProductSku)
             .IsRequired()
-            .HasMaxLength(10)
-            .HasColumnName("partner_product_sku");
+            .HasMaxLength(10);
 
         builder.Property(p => p.Name)
             .IsRequired()
-            .HasMaxLength(30)
-            .HasColumnName("name");
+            .HasMaxLength(30);
 
-        builder.Property(p => p.BriefDescription)
-            .HasColumnName("brief_description");
+        builder.Property(p => p.BriefDescription);
 
-        builder.Property(p => p.DetailDescription)
-            .HasColumnName("detail_description");
+        builder.Property(p => p.DetailDescription);
 
         builder.Property(p => p.ProductCatalog)
-            .HasColumnType("jsonb")
-            .HasColumnName("product_catalog");
+            .HasColumnType("jsonb");
 
         builder.Property(p => p.ThumbnailUrl)
-            .IsRequired()
-            .HasColumnName("thumbnail_url");
+            .IsRequired();
 
         builder.Property(p => p.PreviewAsset)
             .IsRequired()
-            .HasColumnType("jsonb")
-            .HasColumnName("preview_asset");
+            .HasColumnType("jsonb");
 
         builder.Property(p => p.Slug)
             .IsRequired()
-            .HasMaxLength(30)
-            .HasColumnName("slug");
+            .HasMaxLength(30);
 
         builder.Property(p => p.IsActive)
             .IsRequired()
-            .HasDefaultValue(false)
-            .HasColumnName("is_active");
+            .HasDefaultValue(false);
 
         builder.Property(p => p.CreatedAt)
-            .IsRequired()
-            .HasColumnName("created_at");
+            .IsRequired();
 
         builder.Property(p => p.UpdatedAt)
-            .IsRequired()
-            .HasColumnName("updated_at");
+            .IsRequired();
 
         builder.HasIndex(p => p.Slug)
             .IsUnique()

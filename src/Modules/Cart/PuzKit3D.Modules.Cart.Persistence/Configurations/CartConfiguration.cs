@@ -8,29 +8,23 @@ internal sealed class CartConfiguration : IEntityTypeConfiguration<Domain.Entiti
 {
     public void Configure(EntityTypeBuilder<Domain.Entities.Carts.Cart> builder)
     {
-        builder.ToTable("cart");
-
         builder.HasKey(c => c.Id);
 
         builder.Property(c => c.Id)
             .HasConversion(
                 id => id.Value,
-                value => CartId.From(value))
-            .HasColumnName("id");
+                value => CartId.From(value));
 
         builder.Property(c => c.UserId)
-            .IsRequired()
-            .HasColumnName("user_id");
+            .IsRequired();
 
         builder.Property(c => c.CartType)
             .IsRequired()
-            .HasMaxLength(20)
-            .HasColumnName("cart_type");
+            .HasMaxLength(20);
 
         builder.Property(c => c.TotalItem)
             .IsRequired()
-            .HasDefaultValue(0)
-            .HasColumnName("totalItem");
+            .HasDefaultValue(0);
 
         builder.HasIndex(c => new { c.UserId, c.CartType })
             .IsUnique()

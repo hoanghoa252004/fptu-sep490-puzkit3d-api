@@ -8,41 +8,32 @@ internal sealed class AssemblyMethodConfiguration : IEntityTypeConfiguration<Ass
 {
     public void Configure(EntityTypeBuilder<AssemblyMethod> builder)
     {
-        builder.ToTable("assembly_method");
-
         builder.HasKey(a => a.Id);
 
         builder.Property(a => a.Id)
             .HasConversion(
                 id => id.Value,
-                value => AssemblyMethodId.From(value))
-            .HasColumnName("id");
+                value => AssemblyMethodId.From(value));
 
         builder.Property(a => a.Name)
             .IsRequired()
-            .HasMaxLength(30)
-            .HasColumnName("name");
+            .HasMaxLength(30);
 
-        builder.Property(a => a.Description)
-            .HasColumnName("description");
+        builder.Property(a => a.Description);
 
         builder.Property(a => a.Slug)
             .IsRequired()
-            .HasMaxLength(30)
-            .HasColumnName("slug");
+            .HasMaxLength(30);
 
         builder.Property(a => a.IsActive)
             .IsRequired()
-            .HasDefaultValue(false)
-            .HasColumnName("is_active");
+            .HasDefaultValue(false);
 
         builder.Property(a => a.CreatedAt)
-            .IsRequired()
-            .HasColumnName("created_at");
+            .IsRequired();
 
         builder.Property(a => a.UpdatedAt)
-            .IsRequired()
-            .HasColumnName("updated_at");
+            .IsRequired();
 
         builder.HasIndex(a => a.Slug)
             .IsUnique();

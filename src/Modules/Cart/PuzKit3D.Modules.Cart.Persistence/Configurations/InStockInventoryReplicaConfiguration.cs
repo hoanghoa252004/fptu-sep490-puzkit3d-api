@@ -8,28 +8,21 @@ internal sealed class InStockInventoryReplicaConfiguration : IEntityTypeConfigur
 {
     public void Configure(EntityTypeBuilder<InStockInventoryReplica> builder)
     {
-        builder.ToTable("instock_inventory_replica");
-
         builder.HasKey(i => i.Id);
 
         builder.Property(i => i.Id)
-            .HasColumnName("id")
             .ValueGeneratedNever();
 
         builder.Property(i => i.InStockProductVariantId)
-            .HasColumnName("instock_product_variant_id")
             .IsRequired();
 
         builder.Property(i => i.TotalQuantity)
-            .HasColumnName("total_quantity")
             .IsRequired();
 
         builder.Property(i => i.CreatedAt)
-            .HasColumnName("created_at")
             .IsRequired();
 
         builder.Property(i => i.UpdatedAt)
-            .HasColumnName("updated_at")
             .IsRequired();
 
         builder.HasIndex(i => i.InStockProductVariantId)

@@ -8,41 +8,32 @@ internal sealed class MaterialConfiguration : IEntityTypeConfiguration<Material>
 {
     public void Configure(EntityTypeBuilder<Material> builder)
     {
-        builder.ToTable("material");
-
         builder.HasKey(m => m.Id);
 
         builder.Property(m => m.Id)
             .HasConversion(
                 id => id.Value,
-                value => MaterialId.From(value))
-            .HasColumnName("id");
+                value => MaterialId.From(value));
 
         builder.Property(m => m.Name)
             .IsRequired()
-            .HasMaxLength(30)
-            .HasColumnName("name");
+            .HasMaxLength(30);
 
-        builder.Property(m => m.Description)
-            .HasColumnName("description");
+        builder.Property(m => m.Description);
 
         builder.Property(m => m.Slug)
             .IsRequired()
-            .HasMaxLength(30)
-            .HasColumnName("slug");
+            .HasMaxLength(30);
 
         builder.Property(m => m.IsActive)
             .IsRequired()
-            .HasDefaultValue(false)
-            .HasColumnName("is_active");
+            .HasDefaultValue(false);
 
         builder.Property(m => m.CreatedAt)
-            .IsRequired()
-            .HasColumnName("created_at");
+            .IsRequired();
 
         builder.Property(m => m.UpdatedAt)
-            .IsRequired()
-            .HasColumnName("updated_at");
+            .IsRequired();
 
         builder.HasIndex(m => m.Slug)
             .IsUnique();

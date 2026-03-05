@@ -8,38 +8,29 @@ internal sealed class InStockProductPriceDetailReplicaConfiguration : IEntityTyp
 {
     public void Configure(EntityTypeBuilder<InStockProductPriceDetailReplica> builder)
     {
-        builder.ToTable("instock_product_price_detail_replica");
-
         builder.HasKey(pd => pd.Id);
 
-        builder.Property(pd => pd.Id)
-            .HasColumnName("id");
+        builder.Property(pd => pd.Id);
 
         builder.Property(pd => pd.InStockPriceId)
-            .IsRequired()
-            .HasColumnName("instock_price_id");
+            .IsRequired();
 
         builder.Property(pd => pd.InStockProductVariantId)
-            .IsRequired()
-            .HasColumnName("instock_product_variant_id");
+            .IsRequired();
 
         builder.Property(pd => pd.UnitPrice)
             .IsRequired()
-            .HasColumnType("decimal(10,2)")
-            .HasColumnName("unit_price");
+            .HasColumnType("decimal(10,2)");
 
         builder.Property(pd => pd.IsActive)
             .IsRequired()
-            .HasDefaultValue(false)
-            .HasColumnName("is_active");
+            .HasDefaultValue(false);
 
         builder.Property(pd => pd.CreatedAt)
-            .IsRequired()
-            .HasColumnName("created_at");
+            .IsRequired();
 
         builder.Property(pd => pd.UpdatedAt)
-            .IsRequired()
-            .HasColumnName("updated_at");
+            .IsRequired();
 
         builder.HasIndex(pd => new { pd.InStockPriceId, pd.InStockProductVariantId })
             .IsUnique()

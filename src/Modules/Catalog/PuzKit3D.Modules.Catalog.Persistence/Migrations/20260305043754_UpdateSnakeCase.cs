@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace PuzKit3D.Modules.Catalog.Persistence.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCatalogCreate : Migration
+    public partial class UpdateSnakeCase : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -15,7 +15,7 @@ namespace PuzKit3D.Modules.Catalog.Persistence.Migrations
                 name: "catalog");
 
             migrationBuilder.CreateTable(
-                name: "assembly_method",
+                name: "assembly_methods",
                 schema: "catalog",
                 columns: table => new
                 {
@@ -29,11 +29,11 @@ namespace PuzKit3D.Modules.Catalog.Persistence.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_assembly_method", x => x.id);
+                    table.PrimaryKey("pk_assembly_methods", x => x.id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "capability",
+                name: "capabilities",
                 schema: "catalog",
                 columns: table => new
                 {
@@ -47,11 +47,11 @@ namespace PuzKit3D.Modules.Catalog.Persistence.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_capability", x => x.id);
+                    table.PrimaryKey("pk_capabilities", x => x.id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "material",
+                name: "materials",
                 schema: "catalog",
                 columns: table => new
                 {
@@ -65,11 +65,11 @@ namespace PuzKit3D.Modules.Catalog.Persistence.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_material", x => x.id);
+                    table.PrimaryKey("pk_materials", x => x.id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "topic",
+                name: "topics",
                 schema: "catalog",
                 columns: table => new
                 {
@@ -77,47 +77,47 @@ namespace PuzKit3D.Modules.Catalog.Persistence.Migrations
                     name = table.Column<string>(type: "character varying(30)", maxLength: 30, nullable: false),
                     description = table.Column<string>(type: "text", nullable: true),
                     slug = table.Column<string>(type: "character varying(30)", maxLength: 30, nullable: false),
-                    parent_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    parent_id = table.Column<Guid>(type: "uuid", nullable: true),
                     is_active = table.Column<bool>(type: "boolean", nullable: false, defaultValue: false),
                     created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_topic", x => x.id);
+                    table.PrimaryKey("pk_topics", x => x.id);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_assembly_method_slug",
+                name: "ix_assembly_methods_slug",
                 schema: "catalog",
-                table: "assembly_method",
+                table: "assembly_methods",
                 column: "slug",
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_capability_slug",
+                name: "ix_capabilities_slug",
                 schema: "catalog",
-                table: "capability",
+                table: "capabilities",
                 column: "slug",
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_material_slug",
+                name: "ix_materials_slug",
                 schema: "catalog",
-                table: "material",
+                table: "materials",
                 column: "slug",
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_topic_parent_id",
+                name: "ix_topics_parent_id",
                 schema: "catalog",
-                table: "topic",
+                table: "topics",
                 column: "parent_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_topic_slug",
+                name: "ix_topics_slug",
                 schema: "catalog",
-                table: "topic",
+                table: "topics",
                 column: "slug",
                 unique: true);
         }
@@ -126,19 +126,19 @@ namespace PuzKit3D.Modules.Catalog.Persistence.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "assembly_method",
+                name: "assembly_methods",
                 schema: "catalog");
 
             migrationBuilder.DropTable(
-                name: "capability",
+                name: "capabilities",
                 schema: "catalog");
 
             migrationBuilder.DropTable(
-                name: "material",
+                name: "materials",
                 schema: "catalog");
 
             migrationBuilder.DropTable(
-                name: "topic",
+                name: "topics",
                 schema: "catalog");
         }
     }

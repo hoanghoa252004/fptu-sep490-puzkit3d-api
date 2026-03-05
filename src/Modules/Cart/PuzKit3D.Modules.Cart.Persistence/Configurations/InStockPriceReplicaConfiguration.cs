@@ -8,42 +8,32 @@ internal sealed class InStockPriceReplicaConfiguration : IEntityTypeConfiguratio
 {
     public void Configure(EntityTypeBuilder<InStockPriceReplica> builder)
     {
-        builder.ToTable("instock_price_replica");
-
         builder.HasKey(p => p.Id);
 
-        builder.Property(p => p.Id)
-            .HasColumnName("id");
+        builder.Property(p => p.Id);
 
         builder.Property(p => p.Name)
             .IsRequired()
-            .HasMaxLength(30)
-            .HasColumnName("name");
+            .HasMaxLength(30);
 
         builder.Property(p => p.EffectiveFrom)
-            .IsRequired()
-            .HasColumnName("effective_from");
+            .IsRequired();
 
         builder.Property(p => p.EffectiveTo)
-            .IsRequired()
-            .HasColumnName("effective_to");
+            .IsRequired();
 
         builder.Property(p => p.Priority)
-            .IsRequired()
-            .HasColumnName("priority");
+            .IsRequired();
 
         builder.Property(p => p.IsActive)
             .IsRequired()
-            .HasDefaultValue(false)
-            .HasColumnName("is_active");
+            .HasDefaultValue(false);
 
         builder.Property(p => p.CreatedAt)
-            .IsRequired()
-            .HasColumnName("created_at");
+            .IsRequired();
 
         builder.Property(p => p.UpdatedAt)
-            .IsRequired()
-            .HasColumnName("updated_at");
+            .IsRequired();
 
         builder.Ignore(p => p.DomainEvents);
     }

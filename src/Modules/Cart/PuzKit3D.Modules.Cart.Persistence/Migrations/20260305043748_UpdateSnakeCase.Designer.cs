@@ -12,8 +12,8 @@ using PuzKit3D.Modules.Cart.Persistence;
 namespace PuzKit3D.Modules.Cart.Persistence.Migrations
 {
     [DbContext(typeof(CartDbContext))]
-    [Migration("20260303101746_FirstMigration")]
-    partial class FirstMigration
+    [Migration("20260305043748_UpdateSnakeCase")]
+    partial class UpdateSnakeCase
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -32,31 +32,30 @@ namespace PuzKit3D.Modules.Cart.Persistence.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("id");
 
-                    b.Property<Guid>("CartTypeId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("cart_type_id");
+                    b.Property<string>("CartType")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)")
+                        .HasColumnName("cart_type");
 
                     b.Property<int>("TotalItem")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
                         .HasDefaultValue(0)
-                        .HasColumnName("totalItem");
+                        .HasColumnName("total_item");
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("uuid")
                         .HasColumnName("user_id");
 
                     b.HasKey("Id")
-                        .HasName("pk_cart");
+                        .HasName("pk_carts");
 
-                    b.HasIndex("CartTypeId")
-                        .HasDatabaseName("ix_cart_cart_type_id");
-
-                    b.HasIndex("UserId", "CartTypeId")
+                    b.HasIndex("UserId", "CartType")
                         .IsUnique()
-                        .HasDatabaseName("CUK___cart___user_id__cart_type_id");
+                        .HasDatabaseName("CUK___cart___user_id__cart_type");
 
-                    b.ToTable("cart", "cart");
+                    b.ToTable("carts", "cart");
                 });
 
             modelBuilder.Entity("PuzKit3D.Modules.Cart.Domain.Entities.Carts.CartItem", b =>
@@ -71,7 +70,7 @@ namespace PuzKit3D.Modules.Cart.Persistence.Migrations
 
                     b.Property<Guid?>("InStockProductPriceDetailId")
                         .HasColumnType("uuid")
-                        .HasColumnName("instock_product_price_detail_id");
+                        .HasColumnName("in_stock_product_price_detail_id");
 
                     b.Property<Guid>("ItemId")
                         .HasColumnType("uuid")
@@ -84,16 +83,16 @@ namespace PuzKit3D.Modules.Cart.Persistence.Migrations
                         .HasColumnName("quantity");
 
                     b.HasKey("Id")
-                        .HasName("pk_cart_item");
+                        .HasName("pk_cart_items");
 
                     b.HasIndex("CartId", "ItemId")
                         .IsUnique()
                         .HasDatabaseName("CUK___cart___cart_id__item_id");
 
-                    b.ToTable("cart_item", "cart");
+                    b.ToTable("cart_items", "cart");
                 });
 
-            modelBuilder.Entity("PuzKit3D.Modules.Cart.Domain.Entities.Carts.CartType", b =>
+            modelBuilder.Entity("PuzKit3D.Modules.Cart.Domain.Entities.Replicas.InStockInventoryReplica", b =>
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("uuid")
@@ -102,6 +101,46 @@ namespace PuzKit3D.Modules.Cart.Persistence.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("created_at");
+
+                    b.Property<Guid>("InStockProductVariantId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("in_stock_product_variant_id");
+
+                    b.Property<int>("TotalQuantity")
+                        .HasColumnType("integer")
+                        .HasColumnName("total_quantity");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("updated_at");
+
+                    b.HasKey("Id")
+                        .HasName("pk_in_stock_inventory_replicas");
+
+                    b.HasIndex("InStockProductVariantId")
+                        .HasDatabaseName("ix_instock_inventory_replica_instock_product_variant_id");
+
+                    b.ToTable("in_stock_inventory_replicas", "cart");
+                });
+
+            modelBuilder.Entity("PuzKit3D.Modules.Cart.Domain.Entities.Replicas.InStockPriceReplica", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at");
+
+                    b.Property<DateTime>("EffectiveFrom")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("effective_from");
+
+                    b.Property<DateTime>("EffectiveTo")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("effective_to");
 
                     b.Property<bool>("IsActive")
                         .ValueGeneratedOnAdd()
@@ -115,36 +154,18 @@ namespace PuzKit3D.Modules.Cart.Persistence.Migrations
                         .HasColumnType("character varying(30)")
                         .HasColumnName("name");
 
+                    b.Property<int>("Priority")
+                        .HasColumnType("integer")
+                        .HasColumnName("priority");
+
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("updated_at");
 
                     b.HasKey("Id")
-                        .HasName("pk_cart_type");
+                        .HasName("pk_in_stock_price_replicas");
 
-                    b.HasIndex("Name")
-                        .IsUnique()
-                        .HasDatabaseName("UK___cart_type_name");
-
-                    b.ToTable("cart_type", "cart");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("11111111-1111-1111-1111-111111111111"),
-                            CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            IsActive = true,
-                            Name = "INSTOCK",
-                            UpdatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
-                        },
-                        new
-                        {
-                            Id = new Guid("22222222-2222-2222-2222-222222222222"),
-                            CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            IsActive = true,
-                            Name = "PARTNER",
-                            UpdatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
-                        });
+                    b.ToTable("in_stock_price_replicas", "cart");
                 });
 
             modelBuilder.Entity("PuzKit3D.Modules.Cart.Domain.Entities.Replicas.InStockProductPriceDetailReplica", b =>
@@ -160,11 +181,11 @@ namespace PuzKit3D.Modules.Cart.Persistence.Migrations
 
                     b.Property<Guid>("InStockPriceId")
                         .HasColumnType("uuid")
-                        .HasColumnName("instock_price_id");
+                        .HasColumnName("in_stock_price_id");
 
                     b.Property<Guid>("InStockProductVariantId")
                         .HasColumnType("uuid")
-                        .HasColumnName("instock_product_variant_id");
+                        .HasColumnName("in_stock_product_variant_id");
 
                     b.Property<bool>("IsActive")
                         .ValueGeneratedOnAdd()
@@ -172,18 +193,22 @@ namespace PuzKit3D.Modules.Cart.Persistence.Migrations
                         .HasDefaultValue(false)
                         .HasColumnName("is_active");
 
+                    b.Property<decimal>("UnitPrice")
+                        .HasColumnType("decimal(10,2)")
+                        .HasColumnName("unit_price");
+
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("updated_at");
 
                     b.HasKey("Id")
-                        .HasName("pk_instock_product_price_detail_replica");
+                        .HasName("pk_in_stock_product_price_detail_replicas");
 
                     b.HasIndex("InStockPriceId", "InStockProductVariantId")
                         .IsUnique()
                         .HasDatabaseName("CUK___instock_product_price_detail_replica___instock_price_id__instock_product_variant_id");
 
-                    b.ToTable("instock_product_price_detail_replica", "cart");
+                    b.ToTable("in_stock_product_price_detail_replicas", "cart");
                 });
 
             modelBuilder.Entity("PuzKit3D.Modules.Cart.Domain.Entities.Replicas.InStockProductReplica", b =>
@@ -273,13 +298,13 @@ namespace PuzKit3D.Modules.Cart.Persistence.Migrations
                         .HasColumnName("updated_at");
 
                     b.HasKey("Id")
-                        .HasName("pk_instock_product_replica");
+                        .HasName("pk_in_stock_product_replicas");
 
                     b.HasIndex("Slug")
                         .IsUnique()
                         .HasDatabaseName("UK__instock_product_replica__slug");
 
-                    b.ToTable("instock_product_replica", "cart");
+                    b.ToTable("in_stock_product_replicas", "cart");
                 });
 
             modelBuilder.Entity("PuzKit3D.Modules.Cart.Domain.Entities.Replicas.InStockProductVariantReplica", b =>
@@ -301,7 +326,7 @@ namespace PuzKit3D.Modules.Cart.Persistence.Migrations
 
                     b.Property<Guid>("InStockProductId")
                         .HasColumnType("uuid")
-                        .HasColumnName("instock_product_id");
+                        .HasColumnName("in_stock_product_id");
 
                     b.Property<bool>("IsActive")
                         .ValueGeneratedOnAdd()
@@ -326,7 +351,7 @@ namespace PuzKit3D.Modules.Cart.Persistence.Migrations
                         .HasColumnName("updated_at");
 
                     b.HasKey("Id")
-                        .HasName("pk_instock_product_variant_replica");
+                        .HasName("pk_in_stock_product_variant_replicas");
 
                     b.HasIndex("Sku")
                         .IsUnique()
@@ -336,7 +361,7 @@ namespace PuzKit3D.Modules.Cart.Persistence.Migrations
                         .IsUnique()
                         .HasDatabaseName("CUK___instock_product_variant_replica___instock_product_id__color__size");
 
-                    b.ToTable("instock_product_variant_replica", "cart");
+                    b.ToTable("in_stock_product_variant_replicas", "cart");
                 });
 
             modelBuilder.Entity("PuzKit3D.Modules.Cart.Domain.Entities.Replicas.PartnerProductReplica", b =>
@@ -405,7 +430,7 @@ namespace PuzKit3D.Modules.Cart.Persistence.Migrations
                         .HasColumnName("updated_at");
 
                     b.HasKey("Id")
-                        .HasName("pk_partner_product_replica");
+                        .HasName("pk_partner_product_replicas");
 
                     b.HasIndex("Slug")
                         .IsUnique()
@@ -415,7 +440,7 @@ namespace PuzKit3D.Modules.Cart.Persistence.Migrations
                         .IsUnique()
                         .HasDatabaseName("CUK___partner_product_replica___partner_id__partner_product_sku");
 
-                    b.ToTable("partner_product_replica", "cart");
+                    b.ToTable("partner_product_replicas", "cart");
                 });
 
             modelBuilder.Entity("PuzKit3D.Modules.Cart.Domain.Entities.Replicas.UserReplica", b =>
@@ -463,7 +488,7 @@ namespace PuzKit3D.Modules.Cart.Persistence.Migrations
                         .HasColumnName("role_id");
 
                     b.HasKey("Id")
-                        .HasName("pk_user_replica");
+                        .HasName("pk_user_replicas");
 
                     b.HasIndex("Email")
                         .IsUnique()
@@ -473,17 +498,7 @@ namespace PuzKit3D.Modules.Cart.Persistence.Migrations
                         .IsUnique()
                         .HasDatabaseName("UK__user_replica__phone_number");
 
-                    b.ToTable("user_replica", "cart");
-                });
-
-            modelBuilder.Entity("PuzKit3D.Modules.Cart.Domain.Entities.Carts.Cart", b =>
-                {
-                    b.HasOne("PuzKit3D.Modules.Cart.Domain.Entities.Carts.CartType", null)
-                        .WithMany()
-                        .HasForeignKey("CartTypeId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired()
-                        .HasConstraintName("FK__cart__cart_type");
+                    b.ToTable("user_replicas", "cart");
                 });
 
             modelBuilder.Entity("PuzKit3D.Modules.Cart.Domain.Entities.Carts.CartItem", b =>
@@ -503,15 +518,15 @@ namespace PuzKit3D.Modules.Cart.Persistence.Migrations
 
                             b1.Property<decimal>("Amount")
                                 .HasColumnType("decimal(10,2)")
-                                .HasColumnName("unit_price");
+                                .HasColumnName("unit_price_amount");
 
                             b1.HasKey("CartItemId");
 
-                            b1.ToTable("cart_item", "cart");
+                            b1.ToTable("cart_items", "cart");
 
                             b1.WithOwner()
                                 .HasForeignKey("CartItemId")
-                                .HasConstraintName("fk_cart_item_cart_item_id");
+                                .HasConstraintName("fk_cart_items_cart_items_id");
                         });
 
                     b.Navigation("UnitPrice");

@@ -8,43 +8,35 @@ internal sealed class CartItemConfiguration : IEntityTypeConfiguration<CartItem>
 {
     public void Configure(EntityTypeBuilder<CartItem> builder)
     {
-        builder.ToTable("cart_item");
-
         builder.HasKey(ci => ci.Id);
 
         builder.Property(ci => ci.Id)
             .HasConversion(
                 id => id.Value,
-                value => CartItemId.From(value))
-            .HasColumnName("id");
+                value => CartItemId.From(value));
 
         builder.Property(ci => ci.CartId)
             .HasConversion(
                 id => id.Value,
                 value => CartId.From(value))
-            .IsRequired()
-            .HasColumnName("cart_id");
+            .IsRequired();
 
         builder.Property(ci => ci.ItemId)
-            .IsRequired()
-            .HasColumnName("item_id");
+            .IsRequired();
 
         builder.OwnsOne(ci => ci.UnitPrice, money =>
         {
             money.Property(m => m.Amount)
-                .HasColumnName("unit_price")
                 .HasColumnType("decimal(10,2)");
 
             money.Ignore(m => m.Currency);
         });
 
-        builder.Property(ci => ci.InStockProductPriceDetailId)
-            .HasColumnName("instock_product_price_detail_id");
+        builder.Property(ci => ci.InStockProductPriceDetailId);
 
         builder.Property(ci => ci.Quantity)
             .IsRequired()
-            .HasDefaultValue(1)
-            .HasColumnName("quantity");
+            .HasDefaultValue(1);
 
         builder.HasOne<Domain.Entities.Carts.Cart>()
             .WithMany(c => c.Items)

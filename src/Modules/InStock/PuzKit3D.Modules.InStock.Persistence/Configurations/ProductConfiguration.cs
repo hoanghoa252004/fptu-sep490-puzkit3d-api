@@ -8,29 +8,23 @@ internal sealed class ProductConfiguration : IEntityTypeConfiguration<Product>
 {
     public void Configure(EntityTypeBuilder<Product> builder)
     {
-        builder.ToTable("products");
-
         builder.HasKey(p => p.Id);
 
         builder.Property(p => p.Id)
             .HasConversion(
                 id => id.Value,
-                value => ProductId.From(value))
-            .HasColumnName("id");
+                value => ProductId.From(value));
 
         builder.Property(p => p.Name)
             .IsRequired()
-            .HasMaxLength(200)
-            .HasColumnName("name");
+            .HasMaxLength(200);
 
         builder.Property(p => p.Price)
             .IsRequired()
-            .HasColumnType("decimal(18,2)")
-            .HasColumnName("price");
+            .HasColumnType("decimal(18,2)");
 
         builder.Property(p => p.Stock)
-            .IsRequired()
-            .HasColumnName("stock");
+            .IsRequired();
 
         builder.HasIndex(p => p.Name)
             .IsUnique();

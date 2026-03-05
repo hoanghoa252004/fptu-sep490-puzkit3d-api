@@ -8,87 +8,67 @@ internal sealed class InStockProductReplicaConfiguration : IEntityTypeConfigurat
 {
     public void Configure(EntityTypeBuilder<InStockProductReplica> builder)
     {
-        builder.ToTable("instock_product_replica");
-
         builder.HasKey(p => p.Id);
 
         builder.Property(p => p.Id)
             .HasConversion(
                 id => id.Value,
-                value => InStockProductReplicaId.From(value))
-            .HasColumnName("id");
+                value => InStockProductReplicaId.From(value));
 
         builder.Property(p => p.Code)
             .IsRequired()
-            .HasMaxLength(10)
-            .HasColumnName("code");
+            .HasMaxLength(10);
 
         builder.Property(p => p.Name)
             .IsRequired()
-            .HasMaxLength(30)
-            .HasColumnName("name");
+            .HasMaxLength(30);
 
-        builder.Property(p => p.BriefDescription)
-            .HasColumnName("brief_description");
+        builder.Property(p => p.BriefDescription);
 
-        builder.Property(p => p.DetailDescription)
-            .HasColumnName("detail_description");
+        builder.Property(p => p.DetailDescription);
 
         builder.Property(p => p.DifficultLevel)
             .IsRequired()
-            .HasMaxLength(10)
-            .HasColumnName("difficult_level");
+            .HasMaxLength(10);
 
         builder.Property(p => p.EstimatedBuildTime)
-            .IsRequired()
-            .HasColumnName("estimated_build_time");
+            .IsRequired();
 
         builder.Property(p => p.ThumbnailUrl)
-            .IsRequired()
-            .HasColumnName("thumbnail_url");
+            .IsRequired();
 
         builder.Property(p => p.Slug)
             .IsRequired()
-            .HasMaxLength(30)
-            .HasColumnName("slug");
+            .HasMaxLength(30);
 
         builder.Property(p => p.Specification)
-            .HasColumnType("jsonb")
-            .HasColumnName("specification");
+            .HasColumnType("jsonb");
 
         builder.Property(p => p.PreviewAsset)
             .IsRequired()
-            .HasColumnType("jsonb")
-            .HasColumnName("preview_asset");
+            .HasColumnType("jsonb");
 
         builder.Property(p => p.TopicId)
-            .IsRequired()
-            .HasColumnName("topic_id");
+            .IsRequired();
 
         builder.Property(p => p.AssemblyMethod)
-            .IsRequired()
-            .HasColumnName("assembly_method");
+            .IsRequired();
 
         builder.Property(p => p.Capability)
-            .IsRequired()
-            .HasColumnName("capability");
+            .IsRequired();
 
         builder.Property(p => p.Material)
-            .IsRequired()
-            .HasColumnName("material");
+            .IsRequired();
 
         builder.Property(p => p.IsActive)
             .IsRequired()
-            .HasDefaultValue(false)
-            .HasColumnName("is_active");
+            .HasDefaultValue(false);
 
         builder.Property(p => p.CreatedAt)
-            .IsRequired()
-            .HasColumnName("created_at");
+            .IsRequired();
 
         builder.Property(p => p.UpdatedAt)
-            .IsRequired()
-            .HasColumnName("updated_at");
+            .IsRequired();
 
         builder.HasIndex(p => p.Slug)
             .IsUnique()
