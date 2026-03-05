@@ -26,7 +26,8 @@ public static class DependencyInjection
                     maxRetryCount: 3,
                     maxRetryDelay: TimeSpan.FromSeconds(30),
                     errorCodesToAdd: null);
-            });
+            })
+            .UseSnakeCaseNamingConvention();
 
             // Enable sensitive data logging in development
             if (configuration.GetValue<bool>("Logging:EnableSensitiveDataLogging"))
