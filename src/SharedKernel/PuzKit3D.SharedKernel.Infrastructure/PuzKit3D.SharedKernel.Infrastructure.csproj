@@ -21,5 +21,9 @@
         <FrameworkReference Include="Microsoft.AspNetCore.App" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Authorization\" />
+    </ItemGroup>
+
 
 </Project>

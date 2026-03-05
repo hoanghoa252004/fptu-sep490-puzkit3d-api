@@ -9,5 +9,4 @@ namespace PuzKit3D.SharedKernel.Infrastructure.Authentication;
 internal static class CustomClaims
 {
     public const string Sub = "sub";
-    public const string Permission = "permission";
 }

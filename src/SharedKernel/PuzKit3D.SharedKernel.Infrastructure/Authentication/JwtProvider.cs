@@ -16,16 +16,13 @@ public sealed class JwtProvider : IJwtProvider
 {
     private readonly JwtOptions _jwtOptions;
     private readonly UserManager<ApplicationUser> _userManager;
-    private readonly IPermissionService _permissionService;
 
     public JwtProvider(
         IOptions<JwtOptions> jwtOptions,
-        UserManager<ApplicationUser> userManager,
-        IPermissionService permissionService)
+        UserManager<ApplicationUser> userManager)
     {
         _jwtOptions = jwtOptions.Value;
         _userManager = userManager;
-        _permissionService = permissionService;
     }
 
     public async Task<ResultT<string>> GenerateTokenAsync(
@@ -49,10 +46,6 @@ public sealed class JwtProvider : IJwtProvider
         // Add roles
         var roles = await _userManager.GetRolesAsync(user);
         claims.AddRange(roles.Select(role => new Claim(ClaimTypes.Role, role)));
-
-        // Add permissions
-        var permissions = await _permissionService.GetPermissionsAsync(userId, cancellationToken);
-        claims.AddRange(permissions.Select(permission => new Claim(CustomClaims.Permission, permission)));
 
         var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtOptions.SecretKey));
         var signingCredentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);

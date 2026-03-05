@@ -5,13 +5,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using PuzKit3D.SharedKernel.Application.Authentication;
-using PuzKit3D.SharedKernel.Application.Authorization;
 using PuzKit3D.SharedKernel.Application.Clock;
 using PuzKit3D.SharedKernel.Application.Data;
 using PuzKit3D.SharedKernel.Application.Event;
 using PuzKit3D.SharedKernel.Application.User;
 using PuzKit3D.SharedKernel.Infrastructure.Authentication;
-using PuzKit3D.SharedKernel.Infrastructure.Authorization;
 using PuzKit3D.SharedKernel.Infrastructure.Clock;
 using PuzKit3D.SharedKernel.Infrastructure.Data;
 using PuzKit3D.SharedKernel.Infrastructure.Event;
@@ -51,7 +49,6 @@ public static class ServiceCollectionExtensions
         // Application services
         services.AddScoped<IJwtProvider, JwtProvider>();
         services.AddScoped<IIdentityService, IdentityService>();
-        services.AddScoped<IPermissionService, PermissionService>();
 
         // Integration Events (In-Memory)
         services.AddScoped<IEventBus, InMemoryEventBus>();
@@ -103,7 +100,7 @@ public static class ServiceCollectionExtensions
             // Lockout settings
             options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
             options.Lockout.MaxFailedAccessAttempts = 5;
-            options.Lockout.AllowedForNewUsers = true;
+            options.Lockout.AllowedForNewUsers = false;
 
             // User settings
             options.User.RequireUniqueEmail = true;
@@ -145,20 +142,12 @@ public static class ServiceCollectionExtensions
     }
 
     /// <summary>
-    /// Configures permission-based authorization
+    /// Configures role-based authorization
     /// </summary>
     private static IServiceCollection AddAuthorizationInfrastructure(
         this IServiceCollection services)
     {
-        // Add core authorization services
         services.AddAuthorization();
-
-        // Custom policy provider for dynamic permission-based policies
-        services.AddSingleton<IAuthorizationPolicyProvider, PermissionPolicyProvider>();
-
-        // Custom authorization handler for permission requirements
-        services.AddSingleton<IAuthorizationHandler, PermissionAuthorizationHandler>();
-
         return services;
     }
 }

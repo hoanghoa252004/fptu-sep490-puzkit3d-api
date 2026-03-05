@@ -11,7 +11,6 @@ public sealed class LoginCommandValidator : AbstractValidator<LoginCommand>
             .EmailAddress().WithMessage("Email is not valid");
 
         RuleFor(x => x.Password)
-            .NotEmpty().WithMessage("Password is required")
-            .MinimumLength(6).WithMessage("Password has at least 6 characters");
+            .NotEmpty().WithMessage("Password is required");
     }
 }
