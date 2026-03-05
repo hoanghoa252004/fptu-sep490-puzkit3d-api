@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using PuzKit3D.Modules.Catalog.Application.Repositories;
 using PuzKit3D.Modules.Catalog.Application.UnitOfWork;
 using PuzKit3D.Modules.Catalog.Persistence.Repositories;
+using PuzKit3D.SharedKernel.Infrastructure.Data;
 
 namespace PuzKit3D.Modules.Catalog.Persistence;
 
@@ -13,10 +14,26 @@ public static class DependencyInjection
         this IServiceCollection services,
         IConfiguration configuration)
     {
-        var connectionString = configuration.GetConnectionString("DefaultConnection");
-
         services.AddDbContext<CatalogDbContext>(options =>
-            options.UseNpgsql(connectionString));
+        {
+            var connectionString = configuration.GetConnectionString("DefaultConnection")
+                ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found");
+
+            options.UseNpgsql(connectionString, npgsqlOptions =>
+            {
+                npgsqlOptions.MigrationsHistoryTable("__EFMigrationsHistory", Schema.Catalog);
+                npgsqlOptions.EnableRetryOnFailure(
+                    maxRetryCount: 3,
+                    maxRetryDelay: TimeSpan.FromSeconds(30),
+                    errorCodesToAdd: null);
+            });
+
+            // Enable sensitive data logging in development
+            if (configuration.GetValue<bool>("Logging:EnableSensitiveDataLogging"))
+            {
+                options.EnableSensitiveDataLogging();
+            }
+        });
 
         services.AddScoped<ICatalogUnitOfWork>(sp => sp.GetRequiredService<CatalogDbContext>());
 

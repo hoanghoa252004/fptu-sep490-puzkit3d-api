@@ -29,7 +29,7 @@ public sealed class InStockDbContext : DbContext, IInStockUnitOfWork
     {
         base.OnModelCreating(builder);
 
-        builder.HasDefaultSchema("instock");
+        builder.HasDefaultSchema(Schema.Instock);
 
         builder.ApplyConfigurationsFromAssembly(typeof(InStockDbContext).Assembly);
     }

@@ -5,6 +5,7 @@ using PuzKit3D.Modules.Cart.Domain.Entities.Carts;
 using PuzKit3D.Modules.Cart.Domain.Entities.Replicas;
 using PuzKit3D.SharedKernel.Domain;
 using PuzKit3D.SharedKernel.Domain.Results;
+using PuzKit3D.SharedKernel.Infrastructure.Data;
 
 namespace PuzKit3D.Modules.Cart.Persistence;
 
@@ -33,7 +34,7 @@ public sealed class CartDbContext : DbContext, ICartUnitOfWork
     {
         base.OnModelCreating(builder);
 
-        builder.HasDefaultSchema("cart");
+        builder.HasDefaultSchema(Schema.Cart);
 
         builder.ApplyConfigurationsFromAssembly(typeof(CartDbContext).Assembly);
     }

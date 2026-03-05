@@ -7,6 +7,7 @@ using PuzKit3D.Modules.Catalog.Domain.Entities.Materials;
 using PuzKit3D.Modules.Catalog.Domain.Entities.Topics;
 using PuzKit3D.SharedKernel.Domain;
 using PuzKit3D.SharedKernel.Domain.Results;
+using PuzKit3D.SharedKernel.Infrastructure.Data;
 
 namespace PuzKit3D.Modules.Catalog.Persistence;
 
@@ -30,7 +31,7 @@ public sealed class CatalogDbContext : DbContext, ICatalogUnitOfWork
     {
         base.OnModelCreating(builder);
 
-        builder.HasDefaultSchema("catalog");
+        builder.HasDefaultSchema(Schema.Catalog);
 
         builder.ApplyConfigurationsFromAssembly(typeof(CatalogDbContext).Assembly);
     }
