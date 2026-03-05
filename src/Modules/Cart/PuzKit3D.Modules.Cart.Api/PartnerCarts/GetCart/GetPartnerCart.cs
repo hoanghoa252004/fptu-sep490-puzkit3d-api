@@ -6,6 +6,7 @@ using PuzKit3D.Modules.Cart.Application.SharedResponseDto;
 using PuzKit3D.Modules.Cart.Application.UseCases.PartnerCarts.Queries.GetCart;
 using PuzKit3D.SharedKernel.Api.Endpoint;
 using PuzKit3D.SharedKernel.Api.Results.Extensions;
+using PuzKit3D.SharedKernel.Application.Authorization;
 using PuzKit3D.SharedKernel.Application.User;
 
 namespace PuzKit3D.Modules.Cart.Api.PartnerCarts.GetCart;
@@ -32,12 +33,13 @@ internal sealed class GetPartnerCart : IEndpoint
                 return result.MatchOk(cart => Results.Ok(cart));
             })
             .WithName("GetPartnerCart")
-            .WithSummary("Get Partner cart")
+            .WithSummary("[Customer]")
             .WithDescription("Retrieves the customer's Partner cart with all items. User must be authenticated.")
+            .RequireAuthorization(policy => policy.RequireRole(Roles.Customer))
+
             .Produces<CartDto>(StatusCodes.Status200OK)
             .ProducesProblem(StatusCodes.Status400BadRequest)
             .ProducesProblem(StatusCodes.Status404NotFound)
-            .ProducesProblem(StatusCodes.Status500InternalServerError)
-            .RequireAuthorization();
+            .ProducesProblem(StatusCodes.Status500InternalServerError);
     }
 }

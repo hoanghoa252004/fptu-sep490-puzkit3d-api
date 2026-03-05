@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Routing;
 using PuzKit3D.Modules.Cart.Application.UseCases.PartnerCarts.Commands.AddItem;
 using PuzKit3D.SharedKernel.Api.Endpoint;
 using PuzKit3D.SharedKernel.Api.Results.Extensions;
+using PuzKit3D.SharedKernel.Application.Authorization;
 
 namespace PuzKit3D.Modules.Cart.Api.PartnerCarts.AddItem;
 
@@ -26,14 +27,15 @@ internal sealed class AddItemToPartnerCart : IEndpoint
                 return result.MatchOk();
             })
             .WithName("AddItemToPartnerCart")
-            .WithSummary("Add item to Partner cart")
+            .WithSummary("[Customer]")
             .WithDescription("Adds a Partner product to the customer's Partner cart. User must be a customer.")
+            .RequireAuthorization(policy => policy.RequireRole(Roles.Customer))
+
             .Produces(StatusCodes.Status200OK)
             .ProducesValidationProblem(StatusCodes.Status400BadRequest)
             .ProducesProblem(StatusCodes.Status403Forbidden)
             .ProducesProblem(StatusCodes.Status404NotFound)
-            .ProducesProblem(StatusCodes.Status500InternalServerError)
-            .RequireAuthorization();
+            .ProducesProblem(StatusCodes.Status500InternalServerError);
     }
 }
 
