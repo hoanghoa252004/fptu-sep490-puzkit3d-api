@@ -57,8 +57,20 @@ if (app.Environment.IsDevelopment())
 
     app.UseSwaggerUI(options =>
     {
-        options.SwaggerEndpoint("/swagger/v1/swagger.json", "PuzKit3D API v1"); // [default]
+        // Main API document
+        options.SwaggerEndpoint("/swagger/v1/swagger.json", "All Modules");
+
+        // Module-specific documents
+        options.SwaggerEndpoint("/swagger/user/swagger.json", "1. User Module");
+        options.SwaggerEndpoint("/swagger/cart/swagger.json", "2. Cart Module");
+        options.SwaggerEndpoint("/swagger/catalog/swagger.json", "3. Catalog Module");
+        options.SwaggerEndpoint("/swagger/instock/swagger.json", "4. Instock Module");
+        options.SwaggerEndpoint("/swagger/partner/swagger.json", "5. Partner Module");
+        options.SwaggerEndpoint("/swagger/payment/swagger.json", "6. Payment Module");
+        
         options.RoutePrefix = "swagger"; // Access at /swagger [default]
+        options.DisplayRequestDuration(); // Show request duration
+        options.DocExpansion(Swashbuckle.AspNetCore.SwaggerUI.DocExpansion.None); // Collapse all by default
     });
 }
 
