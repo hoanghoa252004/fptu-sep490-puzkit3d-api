@@ -28,8 +28,7 @@ internal sealed class Register : IEndpoint
                 return result.MatchOk();
             })
             .WithName("Register")
-            .WithSummary("Register new account")
-            .WithDescription("Create a new user account in the system")
+            .WithDescription("Create a new user account in the system with role CUSTOMER")
             .AllowAnonymous()
             .Produces<string>(StatusCodes.Status200OK)
             .ProducesValidationProblem(StatusCodes.Status400BadRequest)

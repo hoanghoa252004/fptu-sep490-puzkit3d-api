@@ -57,9 +57,6 @@ if (app.Environment.IsDevelopment())
 
     app.UseSwaggerUI(options =>
     {
-        // Main API document
-        options.SwaggerEndpoint("/swagger/v1/swagger.json", "All Modules");
-
         // Module-specific documents
         options.SwaggerEndpoint("/swagger/user/swagger.json", "1. User Module");
         options.SwaggerEndpoint("/swagger/cart/swagger.json", "2. Cart Module");
@@ -67,10 +64,12 @@ if (app.Environment.IsDevelopment())
         options.SwaggerEndpoint("/swagger/instock/swagger.json", "4. Instock Module");
         options.SwaggerEndpoint("/swagger/partner/swagger.json", "5. Partner Module");
         options.SwaggerEndpoint("/swagger/payment/swagger.json", "6. Payment Module");
-        
+        // Main API document
+        options.SwaggerEndpoint("/swagger/v1/swagger.json", "All Modules");
+
         options.RoutePrefix = "swagger"; // Access at /swagger [default]
         options.DisplayRequestDuration(); // Show request duration
-        options.DocExpansion(Swashbuckle.AspNetCore.SwaggerUI.DocExpansion.None); // Collapse all by default
+        //options.DocExpansion(Swashbuckle.AspNetCore.SwaggerUI.DocExpansion.None); // Collapse all by default
     });
 }
 

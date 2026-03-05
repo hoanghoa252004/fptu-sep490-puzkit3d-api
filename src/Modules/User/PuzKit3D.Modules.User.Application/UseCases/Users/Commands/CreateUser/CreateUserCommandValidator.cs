@@ -1,4 +1,5 @@
 using FluentValidation;
+using PuzKit3D.SharedKernel.Application.Authorization;
 
 namespace PuzKit3D.Modules.User.Application.UseCases.Users.Commands.CreateUser;
 
@@ -17,8 +18,8 @@ internal sealed class CreateUserCommandValidator : AbstractValidator<CreateUserC
 
         RuleFor(x => x.Role)
             .NotEmpty().WithMessage("Role is required")
-            .Must(role => role == "Staff" || role == "Business Manager")
-            .WithMessage("Role must be either 'Staff' or 'Manager' or 'Business Manager'");
+            .Must(role => role.ToLower().Equals(Roles.Staff.ToLower()) || role.ToLower().Equals(Roles.BusinessManager.ToLower()))
+            .WithMessage("Role must be either 'Staff' or 'Business Manager'");
 
         RuleFor(x => x.FirstName)
             .MaximumLength(100).WithMessage("First name must not exceed 100 characters")

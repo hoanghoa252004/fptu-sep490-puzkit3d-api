@@ -15,7 +15,7 @@ internal sealed class UpdateProfile : IEndpoint
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
         app.MapProfileGroup()
-            .MapPatch("/", async (
+            .MapPut("/", async (
                 [FromBody] UpdateProfileRequestDto request,
                 ISender sender,
                 ICurrentUser currentUser,
@@ -39,7 +39,7 @@ internal sealed class UpdateProfile : IEndpoint
                 return result.MatchNoContent();
             })
             .WithName("UpdateProfile")
-            .WithSummary("Update current user profile")
+            .WithSummary("[Authenticated User]")
             .WithDescription("Updates the profile information of the currently authenticated user")
             .RequireAuthorization()
             .Produces(StatusCodes.Status204NoContent)

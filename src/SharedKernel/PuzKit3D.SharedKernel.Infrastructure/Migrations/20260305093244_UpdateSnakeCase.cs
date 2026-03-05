@@ -98,27 +98,6 @@ namespace PuzKit3D.SharedKernel.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "identity_user_role_permission",
-                schema: "identity",
-                columns: table => new
-                {
-                    role_id = table.Column<string>(type: "text", nullable: false),
-                    permission = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
-                    granted_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("pk_identity_user_role_permission", x => new { x.role_id, x.permission });
-                    table.ForeignKey(
-                        name: "fk_identity_user_role_permission_identity_role_role_id",
-                        column: x => x.role_id,
-                        principalSchema: "identity",
-                        principalTable: "identity_role",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "identity_user_claim",
                 schema: "identity",
                 columns: table => new
@@ -156,28 +135,6 @@ namespace PuzKit3D.SharedKernel.Infrastructure.Migrations
                     table.PrimaryKey("pk_identity_user_login", x => new { x.login_provider, x.provider_key });
                     table.ForeignKey(
                         name: "fk_identity_user_login_identity_user_user_id",
-                        column: x => x.user_id,
-                        principalSchema: "identity",
-                        principalTable: "identity_user",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "identity_user_permission",
-                schema: "identity",
-                columns: table => new
-                {
-                    user_id = table.Column<string>(type: "text", nullable: false),
-                    permission = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
-                    granted_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    granted_by = table.Column<string>(type: "text", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("pk_identity_user_permission", x => new { x.user_id, x.permission });
-                    table.ForeignKey(
-                        name: "fk_identity_user_permission_identity_user_user_id",
                         column: x => x.user_id,
                         principalSchema: "identity",
                         principalTable: "identity_user",
@@ -240,9 +197,9 @@ namespace PuzKit3D.SharedKernel.Infrastructure.Migrations
                 columns: new[] { "id", "concurrency_stamp", "created_at", "description", "name", "normalized_name" },
                 values: new object[,]
                 {
-                    { "0b42c919-01c0-4109-ba04-d848c45dc413", null, new DateTime(2025, 2, 23, 0, 0, 0, 0, DateTimeKind.Utc), "Low-level business access", "Business Manager", "BUSINESS_MANAGER" },
-                    { "1a0d505f-46d8-4aaf-92c7-71ba90443dcb", null, new DateTime(2025, 2, 23, 0, 0, 0, 0, DateTimeKind.Utc), "High-level business access", "Staff", "STAFF" },
-                    { "9b7da615-9c41-4700-92a9-ca17337c5724", null, new DateTime(2025, 2, 23, 0, 0, 0, 0, DateTimeKind.Utc), "Full system access", "System Administrator", "SYSTEM_ADMINISTRATOR" },
+                    { "0b42c919-01c0-4109-ba04-d848c45dc413", null, new DateTime(2025, 2, 23, 0, 0, 0, 0, DateTimeKind.Utc), "High-level business access", "Business Manager", "BUSINESS MANAGER" },
+                    { "1a0d505f-46d8-4aaf-92c7-71ba90443dcb", null, new DateTime(2025, 2, 23, 0, 0, 0, 0, DateTimeKind.Utc), "Low-level business access", "Staff", "STAFF" },
+                    { "9b7da615-9c41-4700-92a9-ca17337c5724", null, new DateTime(2025, 2, 23, 0, 0, 0, 0, DateTimeKind.Utc), "Full system access", "System Administrator", "SYSTEM ADMINISTRATOR" },
                     { "f634ede8-7091-48da-a969-2bf90ef86f2c", null, new DateTime(2025, 2, 23, 0, 0, 0, 0, DateTimeKind.Utc), "Standard customer access", "Customer", "CUSTOMER" }
                 });
 
@@ -252,11 +209,10 @@ namespace PuzKit3D.SharedKernel.Infrastructure.Migrations
                 columns: new[] { "id", "access_failed_count", "concurrency_stamp", "created_at", "district_id", "district_name", "email", "email_confirmed", "first_name", "is_deleted", "last_name", "lockout_enabled", "lockout_end", "normalized_email", "normalized_user_name", "password_hash", "phone_number", "phone_number_confirmed", "province_id", "province_name", "refresh_token", "refresh_token_expiry_time", "security_stamp", "street_address", "two_factor_enabled", "updated_at", "user_name", "ward_code", "ward_name" },
                 values: new object[,]
                 {
-                    { "admin-001", 0, "0aa95c6f-1688-4fea-a5c5-ba479dedca3e", new DateTime(2025, 2, 23, 0, 0, 0, 0, DateTimeKind.Utc), null, null, "admin@puzkit3d.com", true, "System", false, "Administrator", false, null, "ADMIN@PUZKIT3D.COM", "ADMIN@PUZKIT3D.COM", "AQAAAAIAAYagAAAAEKIXCwrRDPT53/2gPTpIdDcQFbaPZqERErMypCwxXgBQ1SosnkQN46qeZovRhGap6g==", null, false, null, null, null, null, "d0498196-2ef2-47f4-9742-ee08346943e8", null, false, null, "admin@puzkit3d.com", null, null },
-                    { "manager-001", 0, "b256c351-9300-45ba-b89d-9ae5beb1af11", new DateTime(2025, 2, 23, 0, 0, 0, 0, DateTimeKind.Utc), null, null, "manager@puzkit3d.com", true, "Business", false, "Manager", false, null, "MANAGER@PUZKIT3D.COM", "MANAGER@PUZKIT3D.COM", "AQAAAAIAAYagAAAAEIIgwfsCVuEsoRQSZsffEdYn3HfxBvWgw7kjO0A4HozxMeGAa3U9qoXIo/IAy7Bkmg==", null, false, null, null, null, null, "501e0615-e07c-414d-ad8d-271846b77e6d", null, false, null, "manager@puzkit3d.com", null, null },
-                    { "staff-001", 0, "5f2a88b3-471d-4014-adb6-434761a7472e", new DateTime(2025, 2, 23, 0, 0, 0, 0, DateTimeKind.Utc), null, null, "staff1@puzkit3d.com", true, "John", false, "Staff", false, null, "STAFF1@PUZKIT3D.COM", "STAFF1@PUZKIT3D.COM", "AQAAAAIAAYagAAAAEKcQcFH5DLuATt2G873eZCq1aWuMsPLq3LXdBGpl8nY/IdGTKrhRbgVA6fSWHfFMKg==", null, false, null, null, null, null, "0322c039-49cc-48e6-816a-fb8e52153a18", null, false, null, "staff1@puzkit3d.com", null, null },
-                    { "staff-002", 0, "1a6f3339-5371-4685-931f-ccc3329f5f99", new DateTime(2025, 2, 23, 0, 0, 0, 0, DateTimeKind.Utc), null, null, "staff2@puzkit3d.com", true, "Jane", false, "Staff", false, null, "STAFF2@PUZKIT3D.COM", "STAFF2@PUZKIT3D.COM", "AQAAAAIAAYagAAAAED6VVo1c9W7ggUpJn5NsOH13QrDO2YTIrQHIidtwJCUbI1btwqWWTYuiLF4w+74Q5A==", null, false, null, null, null, null, "c0c94a3e-fcda-47d4-bf32-2d702ac3b581", null, false, null, "staff2@puzkit3d.com", null, null },
-                    { "staff-003", 0, "6eee882f-6908-47aa-93b9-ebe1299980b1", new DateTime(2025, 2, 23, 0, 0, 0, 0, DateTimeKind.Utc), null, null, "staff3@puzkit3d.com", true, "Mike", false, "Staff", false, null, "STAFF3@PUZKIT3D.COM", "STAFF3@PUZKIT3D.COM", "AQAAAAIAAYagAAAAEGSGIQ+yUJjNXdTW7/8RrRaD20/7zrI8R6j3alEfmkNzYLi7EbjjC72wuxZPyC0kGQ==", null, false, null, null, null, null, "0ccc8350-6b6f-451a-a40c-187f7343400d", null, false, null, "staff3@puzkit3d.com", null, null }
+                    { "10fa5863-e39c-4876-856e-5c4cfbd321dc", 0, "C3D4E5F6-A7B8-9012-CDEF-345678901234", new DateTime(2025, 2, 23, 0, 0, 0, 0, DateTimeKind.Utc), null, null, "staff@puzkit3d.com", true, "PuzKit3D", false, "Staff", false, null, "STAFF@PUZKIT3D.COM", "STAFF@PUZKIT3D.COM", "AQAAAAIAAYagAAAAEIPTeUqebHCORPr4GUBu4unhm+vxggqc3eJU9lXhahcKfXygyV7ZvqS48l8mGyIGPA==", null, false, null, null, null, null, "C7D8E9F0-1A2B-3C4D-5E6F-7A8B9C0D1E2F", null, false, new DateTime(2025, 2, 23, 0, 0, 0, 0, DateTimeKind.Utc), "staff@puzkit3d.com", null, null },
+                    { "15e5d4ac-a548-4f8a-9846-5fddc79c79c2", 0, "B2C3D4E5-F6A7-8901-BCDE-F23456789012", new DateTime(2025, 2, 23, 0, 0, 0, 0, DateTimeKind.Utc), null, null, "manager@puzkit3d.com", true, "PuzKit3D", false, "Business Manager", false, null, "MANAGER@PUZKIT3D.COM", "MANAGER@PUZKIT3D.COM", "AQAAAAIAAYagAAAAEKgbMlWX8ke17Bo4SVTk0yCOkGGS5hKyvei9Kn0yY58N78la16x431DivTuw3M14ew==", null, false, null, null, null, null, "B6E7F8A9-1C2D-3E4F-5A6B-7C8D9E0F1A2B", null, false, new DateTime(2025, 2, 23, 0, 0, 0, 0, DateTimeKind.Utc), "manager@puzkit3d.com", null, null },
+                    { "21d3261d-9ab4-45b9-b6cd-fba0231d285c", 0, "D4E5F6A7-B8C9-0123-DEF4-567890123456", new DateTime(2025, 2, 23, 0, 0, 0, 0, DateTimeKind.Utc), null, null, "customer@puzkit3d.com", true, "PuzKit3D", false, "Customer", false, null, "CUSTOMER@PUZKIT3D.COM", "CUSTOMER@PUZKIT3D.COM", "AQAAAAIAAYagAAAAEFsCzZr+YAcMKwP2JL5VPt+UBeFFJ1GJ+2W6kfp7MaAts346mZLHqMZzer+j7xRWcQ==", null, false, null, null, null, null, "D8E9F0A1-2B3C-4D5E-6F7A-8B9C0D1E2F3A", null, false, new DateTime(2025, 2, 23, 0, 0, 0, 0, DateTimeKind.Utc), "customer@puzkit3d.com", null, null },
+                    { "71ac7ce7-84e2-44f6-8765-209244d0cbb3", 0, "A1B2C3D4-E5F6-7890-ABCD-EF1234567890", new DateTime(2025, 2, 23, 0, 0, 0, 0, DateTimeKind.Utc), null, null, "admin@puzkit3d.com", true, "PuzKit3D", false, "System Administrator", false, null, "ADMIN@PUZKIT3D.COM", "ADMIN@PUZKIT3D.COM", "AQAAAAIAAYagAAAAECOWA7ty49QGyO91xbBbtwvWb2WAJGU+sDBHQOz1NbcJgLUQomoYA0s1AgJk/qfzYw==", null, false, null, null, null, null, "D5F8E9A1-2B3C-4D5E-6F7A-8B9C0D1E2F3A", null, false, new DateTime(2025, 2, 23, 0, 0, 0, 0, DateTimeKind.Utc), "admin@puzkit3d.com", null, null }
                 });
 
             migrationBuilder.InsertData(
@@ -265,45 +221,10 @@ namespace PuzKit3D.SharedKernel.Infrastructure.Migrations
                 columns: new[] { "role_id", "user_id" },
                 values: new object[,]
                 {
-                    { "9b7da615-9c41-4700-92a9-ca17337c5724", "admin-001" },
-                    { "0b42c919-01c0-4109-ba04-d848c45dc413", "manager-001" },
-                    { "1a0d505f-46d8-4aaf-92c7-71ba90443dcb", "staff-001" },
-                    { "1a0d505f-46d8-4aaf-92c7-71ba90443dcb", "staff-002" },
-                    { "1a0d505f-46d8-4aaf-92c7-71ba90443dcb", "staff-003" }
-                });
-
-            migrationBuilder.InsertData(
-                schema: "identity",
-                table: "identity_user_role_permission",
-                columns: new[] { "permission", "role_id", "granted_at" },
-                values: new object[,]
-                {
-                    { "catalog:assembly-methods:manage", "0b42c919-01c0-4109-ba04-d848c45dc413", new DateTime(2026, 3, 5, 4, 37, 41, 537, DateTimeKind.Utc).AddTicks(4850) },
-                    { "catalog:assembly-methods:view", "0b42c919-01c0-4109-ba04-d848c45dc413", new DateTime(2026, 3, 5, 4, 37, 41, 537, DateTimeKind.Utc).AddTicks(4850) },
-                    { "catalog:capabilities:manage", "0b42c919-01c0-4109-ba04-d848c45dc413", new DateTime(2026, 3, 5, 4, 37, 41, 537, DateTimeKind.Utc).AddTicks(4854) },
-                    { "catalog:capabilities:view", "0b42c919-01c0-4109-ba04-d848c45dc413", new DateTime(2026, 3, 5, 4, 37, 41, 537, DateTimeKind.Utc).AddTicks(4854) },
-                    { "catalog:materials:manage", "0b42c919-01c0-4109-ba04-d848c45dc413", new DateTime(2026, 3, 5, 4, 37, 41, 537, DateTimeKind.Utc).AddTicks(4853) },
-                    { "catalog:materials:view", "0b42c919-01c0-4109-ba04-d848c45dc413", new DateTime(2026, 3, 5, 4, 37, 41, 537, DateTimeKind.Utc).AddTicks(4852) },
-                    { "catalog:topics:manage", "0b42c919-01c0-4109-ba04-d848c45dc413", new DateTime(2026, 3, 5, 4, 37, 41, 537, DateTimeKind.Utc).AddTicks(4852) },
-                    { "catalog:topics:view", "0b42c919-01c0-4109-ba04-d848c45dc413", new DateTime(2026, 3, 5, 4, 37, 41, 537, DateTimeKind.Utc).AddTicks(4851) },
-                    { "instock:orders:view", "0b42c919-01c0-4109-ba04-d848c45dc413", new DateTime(2026, 3, 5, 4, 37, 41, 537, DateTimeKind.Utc).AddTicks(4856) },
-                    { "instock:products:view", "0b42c919-01c0-4109-ba04-d848c45dc413", new DateTime(2026, 3, 5, 4, 37, 41, 537, DateTimeKind.Utc).AddTicks(4855) },
-                    { "catalog:assembly-methods:manage", "1a0d505f-46d8-4aaf-92c7-71ba90443dcb", new DateTime(2026, 3, 5, 4, 37, 41, 537, DateTimeKind.Utc).AddTicks(4859) },
-                    { "catalog:assembly-methods:view", "1a0d505f-46d8-4aaf-92c7-71ba90443dcb", new DateTime(2026, 3, 5, 4, 37, 41, 537, DateTimeKind.Utc).AddTicks(4858) },
-                    { "catalog:capabilities:manage", "1a0d505f-46d8-4aaf-92c7-71ba90443dcb", new DateTime(2026, 3, 5, 4, 37, 41, 537, DateTimeKind.Utc).AddTicks(4862) },
-                    { "catalog:capabilities:view", "1a0d505f-46d8-4aaf-92c7-71ba90443dcb", new DateTime(2026, 3, 5, 4, 37, 41, 537, DateTimeKind.Utc).AddTicks(4862) },
-                    { "catalog:materials:manage", "1a0d505f-46d8-4aaf-92c7-71ba90443dcb", new DateTime(2026, 3, 5, 4, 37, 41, 537, DateTimeKind.Utc).AddTicks(4861) },
-                    { "catalog:materials:view", "1a0d505f-46d8-4aaf-92c7-71ba90443dcb", new DateTime(2026, 3, 5, 4, 37, 41, 537, DateTimeKind.Utc).AddTicks(4860) },
-                    { "catalog:topics:manage", "1a0d505f-46d8-4aaf-92c7-71ba90443dcb", new DateTime(2026, 3, 5, 4, 37, 41, 537, DateTimeKind.Utc).AddTicks(4860) },
-                    { "catalog:topics:view", "1a0d505f-46d8-4aaf-92c7-71ba90443dcb", new DateTime(2026, 3, 5, 4, 37, 41, 537, DateTimeKind.Utc).AddTicks(4859) },
-                    { "instock:orders:view", "1a0d505f-46d8-4aaf-92c7-71ba90443dcb", new DateTime(2026, 3, 5, 4, 37, 41, 537, DateTimeKind.Utc).AddTicks(4864) },
-                    { "instock:products:view", "1a0d505f-46d8-4aaf-92c7-71ba90443dcb", new DateTime(2026, 3, 5, 4, 37, 41, 537, DateTimeKind.Utc).AddTicks(4863) },
-                    { "users:create", "9b7da615-9c41-4700-92a9-ca17337c5724", new DateTime(2026, 3, 5, 4, 37, 41, 537, DateTimeKind.Utc).AddTicks(4822) },
-                    { "users:delete", "9b7da615-9c41-4700-92a9-ca17337c5724", new DateTime(2026, 3, 5, 4, 37, 41, 537, DateTimeKind.Utc).AddTicks(4824) },
-                    { "users:permissions:manage", "9b7da615-9c41-4700-92a9-ca17337c5724", new DateTime(2026, 3, 5, 4, 37, 41, 537, DateTimeKind.Utc).AddTicks(4825) },
-                    { "users:roles:manage", "9b7da615-9c41-4700-92a9-ca17337c5724", new DateTime(2026, 3, 5, 4, 37, 41, 537, DateTimeKind.Utc).AddTicks(4824) },
-                    { "users:update", "9b7da615-9c41-4700-92a9-ca17337c5724", new DateTime(2026, 3, 5, 4, 37, 41, 537, DateTimeKind.Utc).AddTicks(4823) },
-                    { "users:view", "9b7da615-9c41-4700-92a9-ca17337c5724", new DateTime(2026, 3, 5, 4, 37, 41, 537, DateTimeKind.Utc).AddTicks(4816) }
+                    { "1a0d505f-46d8-4aaf-92c7-71ba90443dcb", "10fa5863-e39c-4876-856e-5c4cfbd321dc" },
+                    { "0b42c919-01c0-4109-ba04-d848c45dc413", "15e5d4ac-a548-4f8a-9846-5fddc79c79c2" },
+                    { "f634ede8-7091-48da-a969-2bf90ef86f2c", "21d3261d-9ab4-45b9-b6cd-fba0231d285c" },
+                    { "9b7da615-9c41-4700-92a9-ca17337c5724", "71ac7ce7-84e2-44f6-8765-209244d0cbb3" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -367,15 +288,7 @@ namespace PuzKit3D.SharedKernel.Infrastructure.Migrations
                 schema: "identity");
 
             migrationBuilder.DropTable(
-                name: "identity_user_permission",
-                schema: "identity");
-
-            migrationBuilder.DropTable(
                 name: "identity_user_role",
-                schema: "identity");
-
-            migrationBuilder.DropTable(
-                name: "identity_user_role_permission",
                 schema: "identity");
 
             migrationBuilder.DropTable(

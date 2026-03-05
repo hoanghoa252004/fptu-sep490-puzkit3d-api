@@ -26,9 +26,9 @@ internal sealed class DeleteUser : IEndpoint
                 return result.MatchNoContent();
             })
             .WithName("DeleteUser")
-            .WithSummary("Delete user (Admin/Manager only)")
-            .WithDescription("Soft deletes a user account")
-            .RequireAuthorization(Permissions.Users.DeleteUser)
+            .WithSummary("[Admin]")
+            .WithDescription("Soft deletes a user account. Requires Admin role.")
+            .RequireAuthorization(policy => policy.RequireRole(Roles.SystemAdministrator))
             .Produces(StatusCodes.Status204NoContent)
             .ProducesProblem(StatusCodes.Status401Unauthorized)
             .ProducesProblem(StatusCodes.Status403Forbidden)

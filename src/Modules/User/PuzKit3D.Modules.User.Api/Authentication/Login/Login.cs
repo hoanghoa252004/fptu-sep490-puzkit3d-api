@@ -24,8 +24,9 @@ internal sealed class Login : IEndpoint
                 return result.MatchOk();
             })
             .WithName("Login")
-            .WithSummary("Login with email and password")
-            .WithDescription("Login with email and password, response jwt token")
+            .WithDescription($"**Demo accounts:**\n\n" +
+                            $"- Email: `admin@puzkit3d.com` | `manager@puzkit3d.com` | `staff@puzkit3d.com` | `customer@puzkit3d.com`\n" +
+                            $"- Password: `@1`")
             .AllowAnonymous()
             .Produces<AuthenticationResult>(StatusCodes.Status200OK)
             .ProducesValidationProblem(StatusCodes.Status400BadRequest) 

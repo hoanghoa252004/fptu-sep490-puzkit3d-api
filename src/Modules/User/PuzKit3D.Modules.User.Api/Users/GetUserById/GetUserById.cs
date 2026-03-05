@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Routing;
 using PuzKit3D.Modules.User.Application.UseCases.Users.Queries.GetUserById;
 using PuzKit3D.SharedKernel.Api.Endpoint;
 using PuzKit3D.SharedKernel.Api.Results.Extensions;
+using PuzKit3D.SharedKernel.Application.Authentication.Dtos;
 using PuzKit3D.SharedKernel.Application.Authorization;
 
 namespace PuzKit3D.Modules.User.Api.Users.GetUserById;
@@ -26,10 +27,10 @@ internal sealed class GetUserById : IEndpoint
                 return result.MatchOk();
             })
             .WithName("GetUserById")
-            .WithSummary("Get user by ID (Admin/Manager only)")
-            .WithDescription("Retrieves detailed information about a specific user")
-            .RequireAuthorization(Permissions.Users.ViewUsers)
-            .Produces<object>(StatusCodes.Status200OK)
+            .WithSummary("[Admin]")
+            .WithDescription("Retrieves detailed information about a specific user. Requires Admin role.")
+            .RequireAuthorization(policy => policy.RequireRole(Roles.SystemAdministrator))
+            .Produces<UserDetailDto>(StatusCodes.Status200OK)
             .ProducesProblem(StatusCodes.Status401Unauthorized)
             .ProducesProblem(StatusCodes.Status403Forbidden)
             .ProducesProblem(StatusCodes.Status404NotFound)

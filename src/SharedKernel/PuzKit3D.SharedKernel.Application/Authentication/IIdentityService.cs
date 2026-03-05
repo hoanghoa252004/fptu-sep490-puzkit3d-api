@@ -1,4 +1,5 @@
-﻿using PuzKit3D.SharedKernel.Domain.Results;
+﻿using PuzKit3D.SharedKernel.Application.Authentication.Dtos;
+using PuzKit3D.SharedKernel.Domain.Results;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -91,7 +92,7 @@ public interface IIdentityService
     /// <summary>
     /// Gets all users (paginated)
     /// </summary>
-    Task<ResultT<object>> GetUsersAsync(
+    Task<ResultT<GetUsersResponse>> GetUsersAsync(
         int pageNumber = 1,
         int pageSize = 10,
         string? searchTerm = null,
@@ -100,25 +101,8 @@ public interface IIdentityService
     /// <summary>
     /// Gets user by ID
     /// </summary>
-    Task<ResultT<object>> GetUserByIdAsync(
+    Task<ResultT<UserDetailDto>> GetUserByIdAsync(
         string userId,
-        CancellationToken cancellationToken = default);
-
-    /// <summary>
-    /// Updates user information
-    /// </summary>
-    Task<Result> UpdateUserAsync(
-        string userId,
-        string? firstName,
-        string? lastName,
-        string? phoneNumber,
-        string? provinceId,
-        string? provinceName,
-        string? districtId,
-        string? districtName,
-        string? wardCode,
-        string? wardName,
-        string? streetAddress,
         CancellationToken cancellationToken = default);
 
     /// <summary>
@@ -129,31 +113,16 @@ public interface IIdentityService
         CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Locks user account
+    /// Activates (restores) a deleted user
     /// </summary>
-    Task<Result> LockUserAsync(
+    Task<Result> ActivateUserAsync(
         string userId,
-        CancellationToken cancellationToken = default);
-
-    /// <summary>
-    /// Unlocks user account
-    /// </summary>
-    Task<Result> UnlockUserAsync(
-        string userId,
-        CancellationToken cancellationToken = default);
-
-    /// <summary>
-    /// Changes user role
-    /// </summary>
-    Task<Result> ChangeUserRoleAsync(
-        string userId,
-        string newRole,
         CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets current user profile
     /// </summary>
-    Task<ResultT<object>> GetProfileAsync(
+    Task<ResultT<UserDetailDto>> GetProfileAsync(
         string userId,
         CancellationToken cancellationToken = default);
 

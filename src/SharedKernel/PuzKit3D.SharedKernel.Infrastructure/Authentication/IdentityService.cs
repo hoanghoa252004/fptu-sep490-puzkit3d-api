@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using PuzKit3D.SharedKernel.Application.Authentication;
+using PuzKit3D.SharedKernel.Application.Authentication.Dtos;
+using PuzKit3D.SharedKernel.Application.Authorization;
 using PuzKit3D.SharedKernel.Domain.Errors;
 using PuzKit3D.SharedKernel.Domain.Results;
 using PuzKit3D.SharedKernel.Infrastructure.Identity;
@@ -45,7 +47,9 @@ public sealed class IdentityService : IIdentityService
             FirstName = firstName,
             LastName = lastName,
             EmailConfirmed = true,
-            CreatedAt = DateTime.UtcNow
+            CreatedAt = DateTime.UtcNow,
+            UpdatedAt = DateTime.UtcNow,
+            LockoutEnabled = false
         };
 
         var result = await _userManager.CreateAsync(user, password);
@@ -75,19 +79,19 @@ public sealed class IdentityService : IIdentityService
         CancellationToken cancellationToken = default)
     {
         var user = await _userManager.FindByEmailAsync(email);
-        if (user is null || user.IsDeleted)
+        if (user is null)
         {
             return Result.Failure<AuthenticationResult>(
                 Error.Unauthorized("Authentication.InvalidCredentials", "Invalid email or password"));
         }
 
-        var result = await _signInManager.CheckPasswordSignInAsync(user, password, lockoutOnFailure: true);
-
-        if (result.IsLockedOut)
+        if (user.IsDeleted)
         {
             return Result.Failure<AuthenticationResult>(
-                Error.Forbidden("Authentication.AccountLocked", "Your account has been locked. Please contact administrator."));
+                Error.Unauthorized("Authentication.AccountDeactivated", "Account has been deactivated"));
         }
+
+        var result = await _signInManager.CheckPasswordSignInAsync(user, password, lockoutOnFailure: false);
 
         if (!result.Succeeded)
         {
@@ -166,6 +170,20 @@ public sealed class IdentityService : IIdentityService
             return Result.Failure(Error.Failure("Authentication.UserNotFound", "User not found"));
         }
 
+        // Check if new password is same as old password
+        var passwordVerificationResult = _userManager.PasswordHasher.VerifyHashedPassword(
+            user, 
+            user.PasswordHash!, 
+            newPassword);
+
+        if (passwordVerificationResult == PasswordVerificationResult.Success)
+        {
+            return Result.Failure(
+                Error.Validation(
+                    "Authentication.SamePassword", 
+                    "New password cannot be the same as the old password"));
+        }
+
         var result = await _userManager.ResetPasswordAsync(user, token, newPassword);
 
         if (!result.Succeeded)
@@ -209,7 +227,7 @@ public sealed class IdentityService : IIdentityService
         CancellationToken cancellationToken = default)
     {
         // Validate role (only allow Staff or Manager)
-        var allowedRoles = new[] { "Staff",  "Business Manager" };
+        var allowedRoles = new[] { Roles.Staff,  Roles.BusinessManager };
         if (!allowedRoles.Any(r => r.Equals(role, StringComparison.OrdinalIgnoreCase)))
         {
             return Result.Failure<string>(
@@ -274,12 +292,6 @@ public sealed class IdentityService : IIdentityService
                 Error.Unauthorized("Authentication.InvalidRefreshToken", "Invalid or expired refresh token"));
         }
 
-        if (user.LockoutEnd.HasValue && user.LockoutEnd > DateTimeOffset.UtcNow)
-        {
-            return Result.Failure<AuthenticationResult>(
-                Error.Forbidden("Authentication.AccountLocked", "Your account has been locked"));
-        }
-
         var tokenResult = await _jwtProvider.GenerateTokenAsync(user.Id, user.Email!, cancellationToken);
 
         if (tokenResult.IsFailure)
@@ -317,73 +329,73 @@ public sealed class IdentityService : IIdentityService
         return Result.Success();
     }
 
-    public async Task<ResultT<object>> GetUsersAsync(
+    public async Task<ResultT<GetUsersResponse>> GetUsersAsync(
         int pageNumber = 1,
         int pageSize = 10,
         string? searchTerm = null,
         CancellationToken cancellationToken = default)
     {
+        // Admin can see all users including deleted ones, except System Administrators
         var query = _userManager.Users
-            .Where(u => !u.IsDeleted)
+            .Where(u => !u.UserRoles.Any(ur => ur.Role.Name == Roles.SystemAdministrator))
             .AsQueryable();
 
         if (!string.IsNullOrWhiteSpace(searchTerm))
         {
+            var normalizedSearchTerm = searchTerm.ToLower();
             query = query.Where(u =>
-                (u.Email != null && u.Email.Contains(searchTerm)) ||
-                (u.FirstName != null && u.FirstName.Contains(searchTerm)) ||
-                (u.LastName != null && u.LastName.Contains(searchTerm)));
+                (u.Email != null && u.Email.ToLower().Contains(normalizedSearchTerm)) ||
+                (u.FirstName != null && u.FirstName.ToLower().Contains(normalizedSearchTerm)) ||
+                (u.LastName != null && u.LastName.ToLower().Contains(normalizedSearchTerm)) ||
+                u.UserRoles.Any(ur => ur.Role.Name != null && ur.Role.Name.ToLower().Contains(normalizedSearchTerm)));
         }
 
         var totalCount = await query.CountAsync(cancellationToken);
 
         var users = await query
+            .OrderByDescending(u => u.CreatedAt) // Order by newest first
+            .ThenBy(u => u.Email) // Secondary sort by email
             .Skip((pageNumber - 1) * pageSize)
             .Take(pageSize)
-            .Select(u => new
-            {
+            .Select(u => new UserDto(
                 u.Id,
-                u.Email,
+                u.Email!,
                 u.FirstName,
                 u.LastName,
                 u.PhoneNumber,
                 u.EmailConfirmed,
-                u.LockoutEnd,
-                IsLocked = u.LockoutEnd.HasValue && u.LockoutEnd > DateTimeOffset.UtcNow,
                 u.CreatedAt,
                 u.UpdatedAt,
-                Roles = u.UserRoles.Select(ur => ur.Role.Name).ToList()
-            })
+                u.UserRoles.Select(ur => ur.Role.Name).FirstOrDefault(),
+                u.IsDeleted
+            ))
             .ToListAsync(cancellationToken);
 
-        var result = new
-        {
-            TotalCount = totalCount,
-            PageNumber = pageNumber,
-            PageSize = pageSize,
-            TotalPages = (int)Math.Ceiling(totalCount / (double)pageSize),
-            Users = users
-        };
+        var response = new GetUsersResponse(
+            totalCount,
+            pageNumber,
+            pageSize,
+            (int)Math.Ceiling(totalCount / (double)pageSize),
+            users
+        );
 
-        return Result.Success<object>(result);
+        return Result.Success(response);
     }
 
-    public async Task<ResultT<object>> GetUserByIdAsync(
+    public async Task<ResultT<UserDetailDto>> GetUserByIdAsync(
         string userId,
         CancellationToken cancellationToken = default)
     {
+        // Filter out System Administrators - return not found for them
         var user = await _userManager.Users
-            .Where(u => u.Id == userId && !u.IsDeleted)
-            .Select(u => new
-            {
+            .Where(u => u.Id == userId && !u.UserRoles.Any(ur => ur.Role.Name == Roles.SystemAdministrator))
+            .Select(u => new UserDetailDto(
                 u.Id,
-                u.Email,
+                u.Email!,
                 u.FirstName,
                 u.LastName,
                 u.PhoneNumber,
                 u.EmailConfirmed,
-                u.LockoutEnd,
-                IsLocked = u.LockoutEnd.HasValue && u.LockoutEnd > DateTimeOffset.UtcNow,
                 u.CreatedAt,
                 u.UpdatedAt,
                 u.ProvinceId,
@@ -393,20 +405,139 @@ public sealed class IdentityService : IIdentityService
                 u.WardCode,
                 u.WardName,
                 u.StreetAddress,
-                Roles = u.UserRoles.Select(ur => ur.Role.Name).ToList()
-            })
+                u.UserRoles.Select(ur => ur.Role.Name).FirstOrDefault(),
+                u.IsDeleted
+            ))
             .FirstOrDefaultAsync(cancellationToken);
 
         if (user is null)
         {
-            return Result.Failure<object>(
+            return Result.Failure<UserDetailDto>(
                 Error.NotFound("User.NotFound", $"User with ID {userId} not found"));
         }
 
-        return Result.Success<object>(user);
+        return Result.Success(user);
     }
 
-    public async Task<Result> UpdateUserAsync(
+    public async Task<Result> DeleteUserAsync(
+        string userId,
+        CancellationToken cancellationToken = default)
+    {
+        var user = await _userManager.FindByIdAsync(userId);
+        if (user is null)
+        {
+            return Result.Failure(
+                Error.NotFound("User.NotFound", $"User with ID {userId} not found"));
+        }
+
+        // Check if user is System Administrator
+        var roles = await _userManager.GetRolesAsync(user);
+        if (roles.Any(r => r.Equals(Roles.SystemAdministrator, StringComparison.OrdinalIgnoreCase)))
+        {
+            return Result.Failure(
+                Error.Validation("User.CannotModifyAdmin", "This user cannot be modified"));
+        }
+
+        // If already deleted, return validation error (400)
+        if (user.IsDeleted)
+        {
+            return Result.Failure(
+                Error.Validation("User.AlreadyDeleted", "User has already been deleted"));
+        }
+
+        user.IsDeleted = true;
+        user.UpdatedAt = DateTime.UtcNow;
+
+        var result = await _userManager.UpdateAsync(user);
+
+        if (!result.Succeeded)
+        {
+            var errors = string.Join(", ", result.Errors.Select(e => e.Description));
+            return Result.Failure(
+                Error.Failure("User.DeleteFailed", errors));
+        }
+
+        return Result.Success();
+    }
+
+    public async Task<Result> ActivateUserAsync(
+        string userId,
+        CancellationToken cancellationToken = default)
+    {
+        var user = await _userManager.FindByIdAsync(userId);
+        if (user is null)
+        {
+            return Result.Failure(
+                Error.NotFound("User.NotFound", $"User with ID {userId} not found"));
+        }
+
+        // Check if user is System Administrator
+        var roles = await _userManager.GetRolesAsync(user);
+        if (roles.Any(r => r.Equals(Roles.SystemAdministrator, StringComparison.OrdinalIgnoreCase)))
+        {
+            return Result.Failure(
+                Error.Validation("User.CannotModifyAdmin", "This user cannot be modified"));
+        }
+
+        // If already active, return validation error (400)
+        if (!user.IsDeleted)
+        {
+            return Result.Failure(
+                Error.Validation("User.AlreadyActive", "User is already active"));
+        }
+
+        user.IsDeleted = false;
+        user.UpdatedAt = DateTime.UtcNow;
+
+        var result = await _userManager.UpdateAsync(user);
+
+        if (!result.Succeeded)
+        {
+            var errors = string.Join(", ", result.Errors.Select(e => e.Description));
+            return Result.Failure(
+                Error.Failure("User.ActivateFailed", errors));
+        }
+
+        return Result.Success();
+    }
+
+    public async Task<ResultT<UserDetailDto>> GetProfileAsync(
+        string userId,
+        CancellationToken cancellationToken = default)
+    {
+        var user = await _userManager.Users
+            .Where(u => u.Id == userId && !u.IsDeleted)
+            .Select(u => new UserDetailDto(
+                u.Id,
+                u.Email!,
+                u.FirstName,
+                u.LastName,
+                u.PhoneNumber,
+                u.EmailConfirmed,
+                u.CreatedAt,
+                u.UpdatedAt,
+                u.ProvinceId,
+                u.ProvinceName,
+                u.DistrictId,
+                u.DistrictName,
+                u.WardCode,
+                u.WardName,
+                u.StreetAddress,
+                u.UserRoles.Select(ur => ur.Role.Name).FirstOrDefault(),
+                u.IsDeleted
+            ))
+            .FirstOrDefaultAsync(cancellationToken);
+
+        if (user is null)
+        {
+            return Result.Failure<UserDetailDto>(
+                Error.NotFound("User.NotFound", "User profile not found"));
+        }
+
+        return Result.Success(user);
+    }
+
+    public async Task<Result> UpdateProfileAsync(
         string userId,
         string? firstName,
         string? lastName,
@@ -449,177 +580,6 @@ public sealed class IdentityService : IIdentityService
         }
 
         return Result.Success();
-    }
-
-    public async Task<Result> DeleteUserAsync(
-        string userId,
-        CancellationToken cancellationToken = default)
-    {
-        var user = await _userManager.FindByIdAsync(userId);
-        if (user is null || user.IsDeleted)
-        {
-            return Result.Failure(
-                Error.NotFound("User.NotFound", $"User with ID {userId} not found"));
-        }
-
-        user.IsDeleted = true;
-        user.UpdatedAt = DateTime.UtcNow;
-
-        var result = await _userManager.UpdateAsync(user);
-
-        if (!result.Succeeded)
-        {
-            var errors = string.Join(", ", result.Errors.Select(e => e.Description));
-            return Result.Failure(
-                Error.Failure("User.DeleteFailed", errors));
-        }
-
-        return Result.Success();
-    }
-
-    public async Task<Result> LockUserAsync(
-        string userId,
-        CancellationToken cancellationToken = default)
-    {
-        var user = await _userManager.FindByIdAsync(userId);
-        if (user is null || user.IsDeleted)
-        {
-            return Result.Failure(
-                Error.NotFound("User.NotFound", $"User with ID {userId} not found"));
-        }
-
-        var result = await _userManager.SetLockoutEndDateAsync(user, DateTimeOffset.MaxValue);
-
-        if (!result.Succeeded)
-        {
-            var errors = string.Join(", ", result.Errors.Select(e => e.Description));
-            return Result.Failure(
-                Error.Failure("User.LockFailed", errors));
-        }
-
-        return Result.Success();
-    }
-
-    public async Task<Result> UnlockUserAsync(
-        string userId,
-        CancellationToken cancellationToken = default)
-    {
-        var user = await _userManager.FindByIdAsync(userId);
-        if (user is null || user.IsDeleted)
-        {
-            return Result.Failure(
-                Error.NotFound("User.NotFound", $"User with ID {userId} not found"));
-        }
-
-        var result = await _userManager.SetLockoutEndDateAsync(user, null);
-
-        if (!result.Succeeded)
-        {
-            var errors = string.Join(", ", result.Errors.Select(e => e.Description));
-            return Result.Failure(
-                Error.Failure("User.UnlockFailed", errors));
-        }
-
-        return Result.Success();
-    }
-
-    public async Task<Result> ChangeUserRoleAsync(
-        string userId,
-        string newRole,
-        CancellationToken cancellationToken = default)
-    {
-        var user = await _userManager.FindByIdAsync(userId);
-        if (user is null || user.IsDeleted)
-        {
-            return Result.Failure(
-                Error.NotFound("User.NotFound", $"User with ID {userId} not found"));
-        }
-
-        var currentRoles = await _userManager.GetRolesAsync(user);
-        var removeResult = await _userManager.RemoveFromRolesAsync(user, currentRoles);
-
-        if (!removeResult.Succeeded)
-        {
-            var errors = string.Join(", ", removeResult.Errors.Select(e => e.Description));
-            return Result.Failure(
-                Error.Failure("User.RoleRemovalFailed", errors));
-        }
-
-        var addResult = await _userManager.AddToRoleAsync(user, newRole);
-
-        if (!addResult.Succeeded)
-        {
-            var errors = string.Join(", ", addResult.Errors.Select(e => e.Description));
-            return Result.Failure(
-                Error.Failure("User.RoleAssignmentFailed", errors));
-        }
-
-        return Result.Success();
-    }
-
-    public async Task<ResultT<object>> GetProfileAsync(
-        string userId,
-        CancellationToken cancellationToken = default)
-    {
-        var user = await _userManager.Users
-            .Where(u => u.Id == userId && !u.IsDeleted)
-            .Select(u => new
-            {
-                u.Id,
-                u.Email,
-                u.FirstName,
-                u.LastName,
-                u.PhoneNumber,
-                u.EmailConfirmed,
-                u.ProvinceId,
-                u.ProvinceName,
-                u.DistrictId,
-                u.DistrictName,
-                u.WardCode,
-                u.WardName,
-                u.StreetAddress,
-                u.CreatedAt,
-                u.UpdatedAt,
-                Roles = u.UserRoles.Select(ur => ur.Role.Name).ToList()
-            })
-            .FirstOrDefaultAsync(cancellationToken);
-
-        if (user is null)
-        {
-            return Result.Failure<object>(
-                Error.NotFound("User.NotFound", "User profile not found"));
-        }
-
-        return Result.Success<object>(user);
-    }
-
-    public async Task<Result> UpdateProfileAsync(
-        string userId,
-        string? firstName,
-        string? lastName,
-        string? phoneNumber,
-        string? provinceId,
-        string? provinceName,
-        string? districtId,
-        string? districtName,
-        string? wardCode,
-        string? wardName,
-        string? streetAddress,
-        CancellationToken cancellationToken = default)
-    {
-        return await UpdateUserAsync(
-            userId,
-            firstName,
-            lastName,
-            phoneNumber,
-            provinceId,
-            provinceName,
-            districtId,
-            districtName,
-            wardCode,
-            wardName,
-            streetAddress,
-            cancellationToken);
     }
 
     public async Task<Result> UpdateAvatarAsync(

@@ -35,8 +35,8 @@ internal sealed class CreateTopic : IEndpoint
             .WithSummary("Create a new topic (Staff/Manager only)")
             .WithDescription(
     "Creates a new topic with name, slug, parent ID, description, and active status. " +
-    "ParentId must be null for a root topic. Requires Staff or Manager permission.")
-            .RequireAuthorization(Permissions.Catalog.ManageTopics)
+    "ParentId must be null for a root topic. Requires Staff or Manager role.")
+            .RequireAuthorization(policy => policy.RequireRole(Roles.Staff, Roles.BusinessManager))
             .Produces<Guid>(StatusCodes.Status201Created)
             .ProducesValidationProblem(StatusCodes.Status400BadRequest)
             .ProducesProblem(StatusCodes.Status401Unauthorized)

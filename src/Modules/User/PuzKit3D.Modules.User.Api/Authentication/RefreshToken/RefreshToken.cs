@@ -26,7 +26,6 @@ internal sealed class RefreshToken : IEndpoint
                 return result.MatchOk();
             })
             .WithName("RefreshToken")
-            .WithSummary("Refresh access token")
             .WithDescription("Refreshes the access token using a valid refresh token")
             .AllowAnonymous()
             .Produces<AuthenticationResult>(StatusCodes.Status200OK)

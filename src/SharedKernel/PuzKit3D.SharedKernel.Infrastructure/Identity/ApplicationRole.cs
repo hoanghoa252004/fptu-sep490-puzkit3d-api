@@ -12,5 +12,4 @@ public sealed class ApplicationRole : IdentityRole
 
     // Navigation properties
     public ICollection<ApplicationUserRole> UserRoles { get; set; } = [];
-    public ICollection<ApplicationRolePermission> RolePermissions { get; set; } = [];
 }

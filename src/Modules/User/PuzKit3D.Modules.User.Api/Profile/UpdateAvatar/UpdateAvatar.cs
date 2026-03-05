@@ -30,7 +30,7 @@ internal sealed class UpdateAvatar : IEndpoint
                 return result.MatchNoContent();
             })
             .WithName("UpdateAvatar")
-            .WithSummary("Update user avatar")
+            .WithSummary("[Authenticated User]")
             .WithDescription("Updates the avatar URL of the currently authenticated user")
             .RequireAuthorization()
             .Produces(StatusCodes.Status204NoContent)

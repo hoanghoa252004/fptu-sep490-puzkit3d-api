@@ -78,6 +78,16 @@ public static class ResultExtension
     }
 
     /// <summary>
+    /// Match Result<T> to Created response (201) with message body
+    /// </summary>
+    public static IResult MatchCreatedWithMessage<T>(this ResultT<T> result)
+    {
+        return result.IsSuccess
+            ? Microsoft.AspNetCore.Http.Results.Created(string.Empty, new { message = result.Value })
+            : result.Problem();
+    }
+
+    /// <summary>
     /// Match Result to NoContent response
     /// </summary>
     public static IResult MatchNoContent(this Result result)

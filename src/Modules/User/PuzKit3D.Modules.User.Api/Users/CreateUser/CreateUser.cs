@@ -29,12 +29,12 @@ internal sealed class CreateUser : IEndpoint
 
                 var result = await sender.Send(command, cancellationToken);
 
-                return result.MatchCreated("GetUserById", message => new { message });
+                return result.MatchCreatedWithMessage();
             })
             .WithName("CreateUser")
-            .WithSummary("Create Staff or Manager account (Admin only)")
+            .WithSummary("[Admin]")
             .WithDescription("Creates a new user account with Staff or Manager role. Only Admin can access this endpoint.")
-            .RequireAuthorization(Permissions.Users.CreateUser)
+            .RequireAuthorization(policy => policy.RequireRole(Roles.SystemAdministrator))
             .Produces<string>(StatusCodes.Status201Created)
             .ProducesValidationProblem(StatusCodes.Status400BadRequest)
             .ProducesProblem(StatusCodes.Status401Unauthorized)

@@ -26,7 +26,7 @@ internal sealed class Logout : IEndpoint
                 return result.MatchNoContent();
             })
             .WithName("Logout")
-            .WithSummary("Logout user")
+            .WithSummary("[Authenticated User]")
             .WithDescription("Logs out the current user by invalidating the refresh token")
             .RequireAuthorization()
             .Produces(StatusCodes.Status204NoContent)

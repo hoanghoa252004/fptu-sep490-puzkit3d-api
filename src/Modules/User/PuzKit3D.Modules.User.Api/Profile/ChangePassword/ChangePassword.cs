@@ -31,7 +31,7 @@ internal sealed class ChangePassword : IEndpoint
                 return result.MatchNoContent();
             })
             .WithName("ChangePassword")
-            .WithSummary("Change password")
+            .WithSummary("[Authenticated User]")
             .WithDescription("Changes the password of the currently authenticated user")
             .RequireAuthorization()
             .Produces(StatusCodes.Status204NoContent)

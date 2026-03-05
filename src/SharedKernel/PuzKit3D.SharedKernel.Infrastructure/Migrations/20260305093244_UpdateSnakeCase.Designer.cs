@@ -12,7 +12,7 @@ using PuzKit3D.SharedKernel.Infrastructure.Identity;
 namespace PuzKit3D.SharedKernel.Infrastructure.Migrations
 {
     [DbContext(typeof(IdentityDbContext))]
-    [Migration("20260305043741_UpdateSnakeCase")]
+    [Migration("20260305093244_UpdateSnakeCase")]
     partial class UpdateSnakeCase
     {
         /// <inheritdoc />
@@ -185,21 +185,21 @@ namespace PuzKit3D.SharedKernel.Infrastructure.Migrations
                             CreatedAt = new DateTime(2025, 2, 23, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Full system access",
                             Name = "System Administrator",
-                            NormalizedName = "SYSTEM_ADMINISTRATOR"
+                            NormalizedName = "SYSTEM ADMINISTRATOR"
                         },
                         new
                         {
                             Id = "0b42c919-01c0-4109-ba04-d848c45dc413",
                             CreatedAt = new DateTime(2025, 2, 23, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "Low-level business access",
+                            Description = "High-level business access",
                             Name = "Business Manager",
-                            NormalizedName = "BUSINESS_MANAGER"
+                            NormalizedName = "BUSINESS MANAGER"
                         },
                         new
                         {
                             Id = "1a0d505f-46d8-4aaf-92c7-71ba90443dcb",
                             CreatedAt = new DateTime(2025, 2, 23, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "High-level business access",
+                            Description = "Low-level business access",
                             Name = "Staff",
                             NormalizedName = "STAFF"
                         },
@@ -210,185 +210,6 @@ namespace PuzKit3D.SharedKernel.Infrastructure.Migrations
                             Description = "Standard customer access",
                             Name = "Customer",
                             NormalizedName = "CUSTOMER"
-                        });
-                });
-
-            modelBuilder.Entity("PuzKit3D.SharedKernel.Infrastructure.Identity.ApplicationRolePermission", b =>
-                {
-                    b.Property<string>("RoleId")
-                        .HasColumnType("text")
-                        .HasColumnName("role_id");
-
-                    b.Property<string>("Permission")
-                        .HasMaxLength(200)
-                        .HasColumnType("character varying(200)")
-                        .HasColumnName("permission");
-
-                    b.Property<DateTime>("GrantedAt")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("granted_at");
-
-                    b.HasKey("RoleId", "Permission")
-                        .HasName("pk_identity_user_role_permission");
-
-                    b.ToTable("identity_user_role_permission", "identity");
-
-                    b.HasData(
-                        new
-                        {
-                            RoleId = "9b7da615-9c41-4700-92a9-ca17337c5724",
-                            Permission = "users:view",
-                            GrantedAt = new DateTime(2026, 3, 5, 4, 37, 41, 537, DateTimeKind.Utc).AddTicks(4816)
-                        },
-                        new
-                        {
-                            RoleId = "9b7da615-9c41-4700-92a9-ca17337c5724",
-                            Permission = "users:create",
-                            GrantedAt = new DateTime(2026, 3, 5, 4, 37, 41, 537, DateTimeKind.Utc).AddTicks(4822)
-                        },
-                        new
-                        {
-                            RoleId = "9b7da615-9c41-4700-92a9-ca17337c5724",
-                            Permission = "users:update",
-                            GrantedAt = new DateTime(2026, 3, 5, 4, 37, 41, 537, DateTimeKind.Utc).AddTicks(4823)
-                        },
-                        new
-                        {
-                            RoleId = "9b7da615-9c41-4700-92a9-ca17337c5724",
-                            Permission = "users:delete",
-                            GrantedAt = new DateTime(2026, 3, 5, 4, 37, 41, 537, DateTimeKind.Utc).AddTicks(4824)
-                        },
-                        new
-                        {
-                            RoleId = "9b7da615-9c41-4700-92a9-ca17337c5724",
-                            Permission = "users:roles:manage",
-                            GrantedAt = new DateTime(2026, 3, 5, 4, 37, 41, 537, DateTimeKind.Utc).AddTicks(4824)
-                        },
-                        new
-                        {
-                            RoleId = "9b7da615-9c41-4700-92a9-ca17337c5724",
-                            Permission = "users:permissions:manage",
-                            GrantedAt = new DateTime(2026, 3, 5, 4, 37, 41, 537, DateTimeKind.Utc).AddTicks(4825)
-                        },
-                        new
-                        {
-                            RoleId = "0b42c919-01c0-4109-ba04-d848c45dc413",
-                            Permission = "catalog:assembly-methods:view",
-                            GrantedAt = new DateTime(2026, 3, 5, 4, 37, 41, 537, DateTimeKind.Utc).AddTicks(4850)
-                        },
-                        new
-                        {
-                            RoleId = "0b42c919-01c0-4109-ba04-d848c45dc413",
-                            Permission = "catalog:assembly-methods:manage",
-                            GrantedAt = new DateTime(2026, 3, 5, 4, 37, 41, 537, DateTimeKind.Utc).AddTicks(4850)
-                        },
-                        new
-                        {
-                            RoleId = "0b42c919-01c0-4109-ba04-d848c45dc413",
-                            Permission = "catalog:topics:view",
-                            GrantedAt = new DateTime(2026, 3, 5, 4, 37, 41, 537, DateTimeKind.Utc).AddTicks(4851)
-                        },
-                        new
-                        {
-                            RoleId = "0b42c919-01c0-4109-ba04-d848c45dc413",
-                            Permission = "catalog:topics:manage",
-                            GrantedAt = new DateTime(2026, 3, 5, 4, 37, 41, 537, DateTimeKind.Utc).AddTicks(4852)
-                        },
-                        new
-                        {
-                            RoleId = "0b42c919-01c0-4109-ba04-d848c45dc413",
-                            Permission = "catalog:materials:view",
-                            GrantedAt = new DateTime(2026, 3, 5, 4, 37, 41, 537, DateTimeKind.Utc).AddTicks(4852)
-                        },
-                        new
-                        {
-                            RoleId = "0b42c919-01c0-4109-ba04-d848c45dc413",
-                            Permission = "catalog:materials:manage",
-                            GrantedAt = new DateTime(2026, 3, 5, 4, 37, 41, 537, DateTimeKind.Utc).AddTicks(4853)
-                        },
-                        new
-                        {
-                            RoleId = "0b42c919-01c0-4109-ba04-d848c45dc413",
-                            Permission = "catalog:capabilities:view",
-                            GrantedAt = new DateTime(2026, 3, 5, 4, 37, 41, 537, DateTimeKind.Utc).AddTicks(4854)
-                        },
-                        new
-                        {
-                            RoleId = "0b42c919-01c0-4109-ba04-d848c45dc413",
-                            Permission = "catalog:capabilities:manage",
-                            GrantedAt = new DateTime(2026, 3, 5, 4, 37, 41, 537, DateTimeKind.Utc).AddTicks(4854)
-                        },
-                        new
-                        {
-                            RoleId = "0b42c919-01c0-4109-ba04-d848c45dc413",
-                            Permission = "instock:products:view",
-                            GrantedAt = new DateTime(2026, 3, 5, 4, 37, 41, 537, DateTimeKind.Utc).AddTicks(4855)
-                        },
-                        new
-                        {
-                            RoleId = "0b42c919-01c0-4109-ba04-d848c45dc413",
-                            Permission = "instock:orders:view",
-                            GrantedAt = new DateTime(2026, 3, 5, 4, 37, 41, 537, DateTimeKind.Utc).AddTicks(4856)
-                        },
-                        new
-                        {
-                            RoleId = "1a0d505f-46d8-4aaf-92c7-71ba90443dcb",
-                            Permission = "catalog:assembly-methods:view",
-                            GrantedAt = new DateTime(2026, 3, 5, 4, 37, 41, 537, DateTimeKind.Utc).AddTicks(4858)
-                        },
-                        new
-                        {
-                            RoleId = "1a0d505f-46d8-4aaf-92c7-71ba90443dcb",
-                            Permission = "catalog:assembly-methods:manage",
-                            GrantedAt = new DateTime(2026, 3, 5, 4, 37, 41, 537, DateTimeKind.Utc).AddTicks(4859)
-                        },
-                        new
-                        {
-                            RoleId = "1a0d505f-46d8-4aaf-92c7-71ba90443dcb",
-                            Permission = "catalog:topics:view",
-                            GrantedAt = new DateTime(2026, 3, 5, 4, 37, 41, 537, DateTimeKind.Utc).AddTicks(4859)
-                        },
-                        new
-                        {
-                            RoleId = "1a0d505f-46d8-4aaf-92c7-71ba90443dcb",
-                            Permission = "catalog:topics:manage",
-                            GrantedAt = new DateTime(2026, 3, 5, 4, 37, 41, 537, DateTimeKind.Utc).AddTicks(4860)
-                        },
-                        new
-                        {
-                            RoleId = "1a0d505f-46d8-4aaf-92c7-71ba90443dcb",
-                            Permission = "catalog:materials:view",
-                            GrantedAt = new DateTime(2026, 3, 5, 4, 37, 41, 537, DateTimeKind.Utc).AddTicks(4860)
-                        },
-                        new
-                        {
-                            RoleId = "1a0d505f-46d8-4aaf-92c7-71ba90443dcb",
-                            Permission = "catalog:materials:manage",
-                            GrantedAt = new DateTime(2026, 3, 5, 4, 37, 41, 537, DateTimeKind.Utc).AddTicks(4861)
-                        },
-                        new
-                        {
-                            RoleId = "1a0d505f-46d8-4aaf-92c7-71ba90443dcb",
-                            Permission = "catalog:capabilities:view",
-                            GrantedAt = new DateTime(2026, 3, 5, 4, 37, 41, 537, DateTimeKind.Utc).AddTicks(4862)
-                        },
-                        new
-                        {
-                            RoleId = "1a0d505f-46d8-4aaf-92c7-71ba90443dcb",
-                            Permission = "catalog:capabilities:manage",
-                            GrantedAt = new DateTime(2026, 3, 5, 4, 37, 41, 537, DateTimeKind.Utc).AddTicks(4862)
-                        },
-                        new
-                        {
-                            RoleId = "1a0d505f-46d8-4aaf-92c7-71ba90443dcb",
-                            Permission = "instock:products:view",
-                            GrantedAt = new DateTime(2026, 3, 5, 4, 37, 41, 537, DateTimeKind.Utc).AddTicks(4863)
-                        },
-                        new
-                        {
-                            RoleId = "1a0d505f-46d8-4aaf-92c7-71ba90443dcb",
-                            Permission = "instock:orders:view",
-                            GrantedAt = new DateTime(2026, 3, 5, 4, 37, 41, 537, DateTimeKind.Utc).AddTicks(4864)
                         });
                 });
 
@@ -530,129 +351,88 @@ namespace PuzKit3D.SharedKernel.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "admin-001",
+                            Id = "71ac7ce7-84e2-44f6-8765-209244d0cbb3",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "0aa95c6f-1688-4fea-a5c5-ba479dedca3e",
+                            ConcurrencyStamp = "A1B2C3D4-E5F6-7890-ABCD-EF1234567890",
                             CreatedAt = new DateTime(2025, 2, 23, 0, 0, 0, 0, DateTimeKind.Utc),
                             Email = "admin@puzkit3d.com",
                             EmailConfirmed = true,
-                            FirstName = "System",
+                            FirstName = "PuzKit3D",
                             IsDeleted = false,
-                            LastName = "Administrator",
+                            LastName = "System Administrator",
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@PUZKIT3D.COM",
                             NormalizedUserName = "ADMIN@PUZKIT3D.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEKIXCwrRDPT53/2gPTpIdDcQFbaPZqERErMypCwxXgBQ1SosnkQN46qeZovRhGap6g==",
+                            PasswordHash = "AQAAAAIAAYagAAAAECOWA7ty49QGyO91xbBbtwvWb2WAJGU+sDBHQOz1NbcJgLUQomoYA0s1AgJk/qfzYw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "d0498196-2ef2-47f4-9742-ee08346943e8",
+                            SecurityStamp = "D5F8E9A1-2B3C-4D5E-6F7A-8B9C0D1E2F3A",
                             TwoFactorEnabled = false,
+                            UpdatedAt = new DateTime(2025, 2, 23, 0, 0, 0, 0, DateTimeKind.Utc),
                             UserName = "admin@puzkit3d.com"
                         },
                         new
                         {
-                            Id = "manager-001",
+                            Id = "15e5d4ac-a548-4f8a-9846-5fddc79c79c2",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "b256c351-9300-45ba-b89d-9ae5beb1af11",
+                            ConcurrencyStamp = "B2C3D4E5-F6A7-8901-BCDE-F23456789012",
                             CreatedAt = new DateTime(2025, 2, 23, 0, 0, 0, 0, DateTimeKind.Utc),
                             Email = "manager@puzkit3d.com",
                             EmailConfirmed = true,
-                            FirstName = "Business",
+                            FirstName = "PuzKit3D",
                             IsDeleted = false,
-                            LastName = "Manager",
+                            LastName = "Business Manager",
                             LockoutEnabled = false,
                             NormalizedEmail = "MANAGER@PUZKIT3D.COM",
                             NormalizedUserName = "MANAGER@PUZKIT3D.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEIIgwfsCVuEsoRQSZsffEdYn3HfxBvWgw7kjO0A4HozxMeGAa3U9qoXIo/IAy7Bkmg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEKgbMlWX8ke17Bo4SVTk0yCOkGGS5hKyvei9Kn0yY58N78la16x431DivTuw3M14ew==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "501e0615-e07c-414d-ad8d-271846b77e6d",
+                            SecurityStamp = "B6E7F8A9-1C2D-3E4F-5A6B-7C8D9E0F1A2B",
                             TwoFactorEnabled = false,
+                            UpdatedAt = new DateTime(2025, 2, 23, 0, 0, 0, 0, DateTimeKind.Utc),
                             UserName = "manager@puzkit3d.com"
                         },
                         new
                         {
-                            Id = "staff-001",
+                            Id = "10fa5863-e39c-4876-856e-5c4cfbd321dc",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "5f2a88b3-471d-4014-adb6-434761a7472e",
+                            ConcurrencyStamp = "C3D4E5F6-A7B8-9012-CDEF-345678901234",
                             CreatedAt = new DateTime(2025, 2, 23, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Email = "staff1@puzkit3d.com",
+                            Email = "staff@puzkit3d.com",
                             EmailConfirmed = true,
-                            FirstName = "John",
+                            FirstName = "PuzKit3D",
                             IsDeleted = false,
                             LastName = "Staff",
                             LockoutEnabled = false,
-                            NormalizedEmail = "STAFF1@PUZKIT3D.COM",
-                            NormalizedUserName = "STAFF1@PUZKIT3D.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEKcQcFH5DLuATt2G873eZCq1aWuMsPLq3LXdBGpl8nY/IdGTKrhRbgVA6fSWHfFMKg==",
+                            NormalizedEmail = "STAFF@PUZKIT3D.COM",
+                            NormalizedUserName = "STAFF@PUZKIT3D.COM",
+                            PasswordHash = "AQAAAAIAAYagAAAAEIPTeUqebHCORPr4GUBu4unhm+vxggqc3eJU9lXhahcKfXygyV7ZvqS48l8mGyIGPA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "0322c039-49cc-48e6-816a-fb8e52153a18",
+                            SecurityStamp = "C7D8E9F0-1A2B-3C4D-5E6F-7A8B9C0D1E2F",
                             TwoFactorEnabled = false,
-                            UserName = "staff1@puzkit3d.com"
+                            UpdatedAt = new DateTime(2025, 2, 23, 0, 0, 0, 0, DateTimeKind.Utc),
+                            UserName = "staff@puzkit3d.com"
                         },
                         new
                         {
-                            Id = "staff-002",
+                            Id = "21d3261d-9ab4-45b9-b6cd-fba0231d285c",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "1a6f3339-5371-4685-931f-ccc3329f5f99",
+                            ConcurrencyStamp = "D4E5F6A7-B8C9-0123-DEF4-567890123456",
                             CreatedAt = new DateTime(2025, 2, 23, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Email = "staff2@puzkit3d.com",
+                            Email = "customer@puzkit3d.com",
                             EmailConfirmed = true,
-                            FirstName = "Jane",
+                            FirstName = "PuzKit3D",
                             IsDeleted = false,
-                            LastName = "Staff",
+                            LastName = "Customer",
                             LockoutEnabled = false,
-                            NormalizedEmail = "STAFF2@PUZKIT3D.COM",
-                            NormalizedUserName = "STAFF2@PUZKIT3D.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAED6VVo1c9W7ggUpJn5NsOH13QrDO2YTIrQHIidtwJCUbI1btwqWWTYuiLF4w+74Q5A==",
+                            NormalizedEmail = "CUSTOMER@PUZKIT3D.COM",
+                            NormalizedUserName = "CUSTOMER@PUZKIT3D.COM",
+                            PasswordHash = "AQAAAAIAAYagAAAAEFsCzZr+YAcMKwP2JL5VPt+UBeFFJ1GJ+2W6kfp7MaAts346mZLHqMZzer+j7xRWcQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "c0c94a3e-fcda-47d4-bf32-2d702ac3b581",
+                            SecurityStamp = "D8E9F0A1-2B3C-4D5E-6F7A-8B9C0D1E2F3A",
                             TwoFactorEnabled = false,
-                            UserName = "staff2@puzkit3d.com"
-                        },
-                        new
-                        {
-                            Id = "staff-003",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "6eee882f-6908-47aa-93b9-ebe1299980b1",
-                            CreatedAt = new DateTime(2025, 2, 23, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Email = "staff3@puzkit3d.com",
-                            EmailConfirmed = true,
-                            FirstName = "Mike",
-                            IsDeleted = false,
-                            LastName = "Staff",
-                            LockoutEnabled = false,
-                            NormalizedEmail = "STAFF3@PUZKIT3D.COM",
-                            NormalizedUserName = "STAFF3@PUZKIT3D.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEGSGIQ+yUJjNXdTW7/8RrRaD20/7zrI8R6j3alEfmkNzYLi7EbjjC72wuxZPyC0kGQ==",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "0ccc8350-6b6f-451a-a40c-187f7343400d",
-                            TwoFactorEnabled = false,
-                            UserName = "staff3@puzkit3d.com"
+                            UpdatedAt = new DateTime(2025, 2, 23, 0, 0, 0, 0, DateTimeKind.Utc),
+                            UserName = "customer@puzkit3d.com"
                         });
-                });
-
-            modelBuilder.Entity("PuzKit3D.SharedKernel.Infrastructure.Identity.ApplicationUserPermission", b =>
-                {
-                    b.Property<string>("UserId")
-                        .HasColumnType("text")
-                        .HasColumnName("user_id");
-
-                    b.Property<string>("Permission")
-                        .HasMaxLength(200)
-                        .HasColumnType("character varying(200)")
-                        .HasColumnName("permission");
-
-                    b.Property<DateTime>("GrantedAt")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("granted_at");
-
-                    b.Property<string>("GrantedBy")
-                        .HasColumnType("text")
-                        .HasColumnName("granted_by");
-
-                    b.HasKey("UserId", "Permission")
-                        .HasName("pk_identity_user_permission");
-
-                    b.ToTable("identity_user_permission", "identity");
                 });
 
             modelBuilder.Entity("PuzKit3D.SharedKernel.Infrastructure.Identity.ApplicationUserRole", b =>
@@ -676,28 +456,23 @@ namespace PuzKit3D.SharedKernel.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = "admin-001",
+                            UserId = "71ac7ce7-84e2-44f6-8765-209244d0cbb3",
                             RoleId = "9b7da615-9c41-4700-92a9-ca17337c5724"
                         },
                         new
                         {
-                            UserId = "manager-001",
+                            UserId = "15e5d4ac-a548-4f8a-9846-5fddc79c79c2",
                             RoleId = "0b42c919-01c0-4109-ba04-d848c45dc413"
                         },
                         new
                         {
-                            UserId = "staff-001",
+                            UserId = "10fa5863-e39c-4876-856e-5c4cfbd321dc",
                             RoleId = "1a0d505f-46d8-4aaf-92c7-71ba90443dcb"
                         },
                         new
                         {
-                            UserId = "staff-002",
-                            RoleId = "1a0d505f-46d8-4aaf-92c7-71ba90443dcb"
-                        },
-                        new
-                        {
-                            UserId = "staff-003",
-                            RoleId = "1a0d505f-46d8-4aaf-92c7-71ba90443dcb"
+                            UserId = "21d3261d-9ab4-45b9-b6cd-fba0231d285c",
+                            RoleId = "f634ede8-7091-48da-a969-2bf90ef86f2c"
                         });
                 });
 
@@ -741,30 +516,6 @@ namespace PuzKit3D.SharedKernel.Infrastructure.Migrations
                         .HasConstraintName("fk_identity_user_token_identity_user_user_id");
                 });
 
-            modelBuilder.Entity("PuzKit3D.SharedKernel.Infrastructure.Identity.ApplicationRolePermission", b =>
-                {
-                    b.HasOne("PuzKit3D.SharedKernel.Infrastructure.Identity.ApplicationRole", "Role")
-                        .WithMany("RolePermissions")
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
-                        .HasConstraintName("fk_identity_user_role_permission_identity_role_role_id");
-
-                    b.Navigation("Role");
-                });
-
-            modelBuilder.Entity("PuzKit3D.SharedKernel.Infrastructure.Identity.ApplicationUserPermission", b =>
-                {
-                    b.HasOne("PuzKit3D.SharedKernel.Infrastructure.Identity.ApplicationUser", "User")
-                        .WithMany("UserPermissions")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
-                        .HasConstraintName("fk_identity_user_permission_identity_user_user_id");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("PuzKit3D.SharedKernel.Infrastructure.Identity.ApplicationUserRole", b =>
                 {
                     b.HasOne("PuzKit3D.SharedKernel.Infrastructure.Identity.ApplicationRole", "Role")
@@ -788,15 +539,11 @@ namespace PuzKit3D.SharedKernel.Infrastructure.Migrations
 
             modelBuilder.Entity("PuzKit3D.SharedKernel.Infrastructure.Identity.ApplicationRole", b =>
                 {
-                    b.Navigation("RolePermissions");
-
                     b.Navigation("UserRoles");
                 });
 
             modelBuilder.Entity("PuzKit3D.SharedKernel.Infrastructure.Identity.ApplicationUser", b =>
                 {
-                    b.Navigation("UserPermissions");
-
                     b.Navigation("UserRoles");
                 });
 #pragma warning restore 612, 618
