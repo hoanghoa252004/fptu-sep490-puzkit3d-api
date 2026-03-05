@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Routing;
 using PuzKit3D.Modules.Cart.Application.UseCases.InStockCarts.Commands.RemoveItem;
 using PuzKit3D.SharedKernel.Api.Endpoint;
 using PuzKit3D.SharedKernel.Api.Results.Extensions;
+using PuzKit3D.SharedKernel.Application.Authorization;
 
 namespace PuzKit3D.Modules.Cart.Api.InStockCarts.RemoveItem;
 
@@ -26,13 +27,14 @@ internal sealed class RemoveInStockCartItem : IEndpoint
                 return result.MatchOk();
             })
             .WithName("RemoveInStockCartItem")
-            .WithSummary("Remove item from InStock cart")
+            .WithSummary("[Customer]")
             .WithDescription("Removes an item from the customer's InStock cart. User must be a customer.")
+            .RequireAuthorization(policy => policy.RequireRole(Roles.Customer))
+
             .Produces(StatusCodes.Status200OK)
             .ProducesValidationProblem(StatusCodes.Status400BadRequest)
             .ProducesProblem(StatusCodes.Status403Forbidden)
             .ProducesProblem(StatusCodes.Status404NotFound)
-            .ProducesProblem(StatusCodes.Status500InternalServerError)
-            .RequireAuthorization();
+            .ProducesProblem(StatusCodes.Status500InternalServerError);
     }
 }

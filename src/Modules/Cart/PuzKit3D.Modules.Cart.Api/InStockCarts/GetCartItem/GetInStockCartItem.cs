@@ -7,6 +7,7 @@ using PuzKit3D.Modules.Cart.Application.SharedResponseDto;
 using PuzKit3D.Modules.Cart.Application.UseCases.InStockCarts.Queries.GetCartItem;
 using PuzKit3D.SharedKernel.Api.Endpoint;
 using PuzKit3D.SharedKernel.Api.Results.Extensions;
+using PuzKit3D.SharedKernel.Application.Authorization;
 using PuzKit3D.SharedKernel.Application.User;
 
 namespace PuzKit3D.Modules.Cart.Api.InStockCarts.GetCartItem;
@@ -34,12 +35,13 @@ internal sealed class GetInStockCartItem : IEndpoint
                 return result.MatchOk(item => Results.Ok(item));
             })
             .WithName("GetInStockCartItem")
-            .WithSummary("Get specific InStock cart item")
+            .WithSummary("[Customer]")
             .WithDescription("Retrieves a specific item from the customer's InStock cart. User must be authenticated.")
+            .RequireAuthorization(policy => policy.RequireRole(Roles.Customer))
+
             .Produces<CartItemDto>(StatusCodes.Status200OK)
             .ProducesProblem(StatusCodes.Status400BadRequest)
             .ProducesProblem(StatusCodes.Status404NotFound)
-            .ProducesProblem(StatusCodes.Status500InternalServerError)
-            .RequireAuthorization();
+            .ProducesProblem(StatusCodes.Status500InternalServerError);
     }
 }
