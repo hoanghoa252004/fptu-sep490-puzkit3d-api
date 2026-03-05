@@ -8,7 +8,7 @@ public class Topic : AggregateRoot<TopicId>
     public string Name { get; private set; } = null!;
     public string? Description { get; private set; }
     public string Slug { get; private set; } = null!;
-    public TopicId ParentId { get; private set; } = null!;
+    public TopicId? ParentId { get; private set; }
     public bool IsActive { get; private set; }
     public DateTime CreatedAt { get; private set; }
     public DateTime UpdatedAt { get; private set; }
@@ -17,7 +17,7 @@ public class Topic : AggregateRoot<TopicId>
         TopicId id,
         string name,
         string slug,
-        TopicId parentId,
+        TopicId? parentId,
         string? description,
         bool isActive,
         DateTime createdAt) : base(id)
@@ -38,7 +38,7 @@ public class Topic : AggregateRoot<TopicId>
     public static ResultT<Topic> Create(
         string name,
         string slug,
-        TopicId parentId,
+        TopicId? parentId = null,
         string? description = null,
         bool isActive = false,
         DateTime? createdAt = null)

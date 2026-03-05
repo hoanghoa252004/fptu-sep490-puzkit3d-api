@@ -24,6 +24,10 @@ public static class MaterialError
         "Material.NotFound",
         $"Material with ID '{id}' was not found.");
 
+    public static Error NotFoundBySlug(string slug) => Error.NotFound(
+        "Material.NotFoundBySlug",
+        $"Material with slug '{slug}' was not found.");
+
     public static Error DuplicateSlug(string slug) => Error.Conflict(
         "Material.DuplicateSlug",
         $"Material with slug '{slug}' already exists.");

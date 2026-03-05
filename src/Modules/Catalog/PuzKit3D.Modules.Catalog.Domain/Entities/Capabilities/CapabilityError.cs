@@ -24,6 +24,10 @@ public static class CapabilityError
         "Capability.NotFound",
         $"Capability with ID '{id}' was not found.");
 
+    public static Error NotFoundBySlug(string slug) => Error.NotFound(
+        "Capability.NotFoundBySlug",
+        $"Capability with slug '{slug}' was not found.");
+
     public static Error DuplicateSlug(string slug) => Error.Conflict(
         "Capability.DuplicateSlug",
         $"Capability with slug '{slug}' already exists.");

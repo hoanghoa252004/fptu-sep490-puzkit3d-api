@@ -12,4 +12,22 @@ public static class EndpointGroupExtension
         return app.MapGroup($"{ApiRoutes.ApiPrefix}/assembly-methods")
             .WithTags("Assembly Methods");
     }
+
+    public static RouteGroupBuilder MapTopicsGroup(this IEndpointRouteBuilder app)
+    {
+        return app.MapGroup($"{ApiRoutes.ApiPrefix}/topics")
+            .WithTags("Topics");
+    }
+
+    public static RouteGroupBuilder MapMaterialsGroup(this IEndpointRouteBuilder app)
+    {
+        return app.MapGroup($"{ApiRoutes.ApiPrefix}/materials")
+            .WithTags("Materials");
+    }
+
+    public static RouteGroupBuilder MapCapabilitiesGroup(this IEndpointRouteBuilder app)
+    {
+        return app.MapGroup($"{ApiRoutes.ApiPrefix}/capabilities")
+            .WithTags("Capabilities");
+    }
 }

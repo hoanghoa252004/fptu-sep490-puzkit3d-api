@@ -32,10 +32,10 @@ internal sealed class TopicConfiguration : IEntityTypeConfiguration<Topic>
             .HasColumnName("slug");
 
         builder.Property(t => t.ParentId)
-            .IsRequired()
+            .IsRequired(false)
             .HasConversion(
-                id => id.Value,
-                value => TopicId.From(value))
+                id => id == null ? (Guid?)null : id.Value,
+                value => value == null ? null : TopicId.From(value.Value))
             .HasColumnName("parent_id");
 
         builder.Property(t => t.IsActive)
