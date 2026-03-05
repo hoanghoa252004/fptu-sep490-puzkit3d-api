@@ -17,4 +17,10 @@ public static class EndpointGroupExtension
         return app.MapGroup("api/users")
             .WithTags("Users");
     }
+
+    public static RouteGroupBuilder MapProfileGroup(this IEndpointRouteBuilder app)
+    {
+        return app.MapGroup("api/profile")
+            .WithTags("Profile");
+    }
 }

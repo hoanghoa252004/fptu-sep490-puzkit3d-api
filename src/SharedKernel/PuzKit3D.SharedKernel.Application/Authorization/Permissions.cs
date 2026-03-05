@@ -55,6 +55,10 @@ public static class Permissions
         public const string CreateUser = "users:create";
         public const string UpdateUser = "users:update";
         public const string DeleteUser = "users:delete";
+        public const string LockUser = "users:lock";
+        public const string UnlockUser = "users:unlock";
+        public const string ChangeRole = "users:role:change";
+        public const string ChangeStatus = "users:status:change";
         public const string ManageRoles = "users:roles:manage";
         public const string ManagePermissions = "users:permissions:manage";
     }

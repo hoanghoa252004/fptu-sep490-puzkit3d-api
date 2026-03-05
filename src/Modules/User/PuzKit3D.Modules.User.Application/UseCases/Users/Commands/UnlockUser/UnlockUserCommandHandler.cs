@@ -1,0 +1,24 @@
+using PuzKit3D.SharedKernel.Application.Authentication;
+using PuzKit3D.SharedKernel.Application.Message.Command;
+using PuzKit3D.SharedKernel.Domain.Results;
+
+namespace PuzKit3D.Modules.User.Application.UseCases.Users.Commands.UnlockUser;
+
+internal sealed class UnlockUserCommandHandler : ICommandHandler<UnlockUserCommand>
+{
+    private readonly IIdentityService _identityService;
+
+    public UnlockUserCommandHandler(IIdentityService identityService)
+    {
+        _identityService = identityService;
+    }
+
+    public async Task<Result> Handle(
+        UnlockUserCommand request,
+        CancellationToken cancellationToken)
+    {
+        return await _identityService.UnlockUserAsync(
+            request.UserId,
+            cancellationToken);
+    }
+}

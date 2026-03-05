@@ -29,8 +29,8 @@ internal sealed class Login : IEndpoint
             .AllowAnonymous()
             .Produces<AuthenticationResult>(StatusCodes.Status200OK)
             .ProducesValidationProblem(StatusCodes.Status400BadRequest) 
-            .ProducesProblem(StatusCodes.Status401Unauthorized) // Incorrect email / password
-            .ProducesProblem(StatusCodes.Status404NotFound) // User with email not found
+            .ProducesProblem(StatusCodes.Status401Unauthorized) // Invalid email or password
+            .ProducesProblem(StatusCodes.Status403Forbidden) // Account locked
             .ProducesProblem(StatusCodes.Status500InternalServerError);
     }
 }

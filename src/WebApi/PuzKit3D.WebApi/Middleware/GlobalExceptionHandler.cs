@@ -24,14 +24,35 @@ internal class GlobalExceptionHandler(ILogger<GlobalExceptionHandler> _logger, I
     }
     private ProblemDetails CreateProblemDetails(HttpContext context, Exception exception)
     {
+
+        var (statusCode, title, type) = exception switch
+        {
+            BadHttpRequestException =>
+                (StatusCodes.Status400BadRequest,
+                 "Bad Request",
+                 "https://datatracker.ietf.org/doc/html/rfc7231#section-6.5.1"),
+
+            PuzKit3DException =>
+                (StatusCodes.Status500InternalServerError,
+                 "PuzKit3D Web Api Failure",
+                 "https://datatracker.ietf.org/doc/html/rfc7231#section-6.6.1"),
+
+            _ =>
+                (StatusCodes.Status500InternalServerError,
+                 "Server Failure",
+                 "https://datatracker.ietf.org/doc/html/rfc7231#section-6.6.1")
+        };
+
         var problemDetails = new ProblemDetails
         {
-            Status = StatusCodes.Status500InternalServerError,
-            Type = "https://datatracker.ietf.org/doc/html/rfc7231#section-6.6.1",
-            Title = "Server Failure",
+            Status = statusCode,
+            Type = type,
+            Title = title,
             Detail = _env.IsDevelopment()
                 ? exception.Message
-                : "An unexpected error occurred. Please try again later or contact support.",
+                : statusCode == StatusCodes.Status400BadRequest
+                    ? "The request was malformed or invalid. Please check your input."
+                    : "An unexpected error occurred. Please try again later or contact support.",
             Instance = context.Request.Path,
         };
 
