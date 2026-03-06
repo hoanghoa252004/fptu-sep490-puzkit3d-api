@@ -1,9 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using PuzKit3D.Modules.InStock.Application.Repositories;
 using PuzKit3D.Modules.InStock.Application.UnitOfWork;
-using PuzKit3D.Modules.InStock.Persistence.Repositories;
 using PuzKit3D.SharedKernel.Infrastructure.Data;
 
 namespace PuzKit3D.Modules.InStock.Persistence;
@@ -38,8 +36,6 @@ public static class DependencyInjection
 
         services.AddScoped<IInStockUnitOfWork>(sp => sp.GetRequiredService<InStockDbContext>());
 
-        services.AddScoped<IProductRepository, ProductRepository>();
-        services.AddScoped<IOrderRepository, OrderRepository>();
 
         return services;
     }
