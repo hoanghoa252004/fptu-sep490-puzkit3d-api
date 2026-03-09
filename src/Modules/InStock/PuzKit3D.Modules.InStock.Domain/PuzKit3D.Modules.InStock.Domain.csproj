@@ -7,13 +7,20 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\SharedKernel\PuzKit3D.SharedKernel.Domain\PuzKit3D.SharedKernel.Domain.csproj" />
+    <Compile Remove="Events\**" />
+    <Compile Remove="ValueObjects\**" />
+    <EmbeddedResource Remove="Events\**" />
+    <EmbeddedResource Remove="ValueObjects\**" />
+    <None Remove="Events\**" />
+    <None Remove="ValueObjects\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Entities\" />
-    <Folder Include="Events\" />
-    <Folder Include="ValueObjects\" />
+    <Compile Include="ValueObjects\Money.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\SharedKernel\PuzKit3D.SharedKernel.Domain\PuzKit3D.SharedKernel.Domain.csproj" />
   </ItemGroup>
 
 </Project>

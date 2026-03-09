@@ -14,7 +14,19 @@ public static class EndpointGroupExtension
 {
     public static RouteGroupBuilder MapProductsGroup(this IEndpointRouteBuilder app)
     {
-        return app.MapGroup($"{ApiRoutes.ApiPrefix}/products")
+        return app.MapGroup($"{ApiRoutes.ApiPrefix}/instock-products")
             .WithTags("Products");
+    }
+
+    public static RouteGroupBuilder MapPartsGroup(this IEndpointRouteBuilder app)
+    {
+        return app.MapGroup($"{ApiRoutes.ApiPrefix}/instock-products/{{productId:guid}}/parts")
+            .WithTags("Parts");
+    }
+
+    public static RouteGroupBuilder MapPiecesGroup(this IEndpointRouteBuilder app)
+    {
+        return app.MapGroup($"{ApiRoutes.ApiPrefix}/instock-products/{{productId:guid}}/parts/{{partId:guid}}/pieces")
+            .WithTags("Pieces");
     }
 }

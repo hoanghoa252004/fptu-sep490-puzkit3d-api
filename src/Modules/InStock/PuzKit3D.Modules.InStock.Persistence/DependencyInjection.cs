@@ -1,7 +1,11 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using PuzKit3D.Modules.InStock.Application.Repositories;
+using PuzKit3D.Modules.InStock.Application.Services;
 using PuzKit3D.Modules.InStock.Application.UnitOfWork;
+using PuzKit3D.Modules.InStock.Persistence.Repositories;
+using PuzKit3D.Modules.InStock.Persistence.Services;
 using PuzKit3D.SharedKernel.Infrastructure.Data;
 
 namespace PuzKit3D.Modules.InStock.Persistence;
@@ -12,30 +16,39 @@ public static class DependencyInjection
         this IServiceCollection services,
         IConfiguration configuration)
     {
-        //services.AddDbContext<InStockDbContext>(options =>
-        //{
-        //    var connectionString = configuration.GetConnectionString("DefaultConnection")
-        //        ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found");
+        services.AddDbContext<InStockDbContext>(options =>
+        {
+            var connectionString = configuration.GetConnectionString("DefaultConnection")
+                ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found");
 
-        //    options.UseNpgsql(connectionString, npgsqlOptions =>
-        //    {
-        //        npgsqlOptions.MigrationsHistoryTable("__EFMigrationsHistory", Schema.Instock);
-        //        npgsqlOptions.EnableRetryOnFailure(
-        //            maxRetryCount: 3,
-        //            maxRetryDelay: TimeSpan.FromSeconds(30),
-        //            errorCodesToAdd: null);
-        //    })
-        //    .UseSnakeCaseNamingConvention();
+            options.UseNpgsql(connectionString, npgsqlOptions =>
+            {
+                npgsqlOptions.MigrationsHistoryTable("__EFMigrationsHistory", Schema.Instock);
+                npgsqlOptions.EnableRetryOnFailure(
+                    maxRetryCount: 3,
+                    maxRetryDelay: TimeSpan.FromSeconds(30),
+                    errorCodesToAdd: null);
+            })
+            .UseSnakeCaseNamingConvention();
 
-        //    // Enable sensitive data logging in development
-        //    if (configuration.GetValue<bool>("Logging:EnableSensitiveDataLogging"))
-        //    {
-        //        options.EnableSensitiveDataLogging();
-        //    }
-        //});
+            if (configuration.GetValue<bool>("Logging:EnableSensitiveDataLogging"))
+            {
+                options.EnableSensitiveDataLogging();
+            }
+        });
 
-        //services.AddScoped<IInStockUnitOfWork>(sp => sp.GetRequiredService<InStockDbContext>());
+        services.AddScoped<IInStockUnitOfWork>(sp => sp.GetRequiredService<InStockDbContext>());
 
+        services.AddScoped<IInstockProductRepository, InstockProductRepository>();
+        services.AddScoped<IInstockProductVariantRepository, InstockProductVariantRepository>();
+        services.AddScoped<IInstockInventoryRepository, InstockInventoryRepository>();
+        services.AddScoped<IInstockPriceRepository, InstockPriceRepository>();
+        services.AddScoped<IInstockProductPriceDetailRepository, InstockProductPriceDetailRepository>();
+        services.AddScoped<IInstockOrderRepository, InstockOrderRepository>();
+
+        services.AddScoped<IInstockProductCodeGenerator, InstockProductCodeGenerator>();
+        services.AddScoped<IPartCodeGenerator, PartCodeGenerator>();
+        services.AddScoped<IPieceCodeGenerator, PieceCodeGenerator>();
 
         return services;
     }
