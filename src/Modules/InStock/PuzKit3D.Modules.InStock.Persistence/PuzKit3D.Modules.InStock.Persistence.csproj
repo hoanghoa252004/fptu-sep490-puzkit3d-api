@@ -7,12 +7,23 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\PuzKit3D.Modules.InStock.Application\PuzKit3D.Modules.InStock.Application.csproj" />
-    <ProjectReference Include="..\..\..\SharedKernel\PuzKit3D.SharedKernel.Infrastructure\PuzKit3D.SharedKernel.Infrastructure.csproj" />
+    <Compile Remove="Repositories\**" />
+    <EmbeddedResource Remove="Repositories\**" />
+    <None Remove="Repositories\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Repositories\" />
+    <Compile Include="Repositories\InstockInventoryRepository.cs" />
+    <Compile Include="Repositories\InstockOrderRepository.cs" />
+    <Compile Include="Repositories\InstockPriceRepository.cs" />
+    <Compile Include="Repositories\InstockProductPriceDetailRepository.cs" />
+    <Compile Include="Repositories\InstockProductRepository.cs" />
+    <Compile Include="Repositories\InstockProductVariantRepository.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\PuzKit3D.Modules.InStock.Application\PuzKit3D.Modules.InStock.Application.csproj" />
+    <ProjectReference Include="..\..\..\SharedKernel\PuzKit3D.SharedKernel.Infrastructure\PuzKit3D.SharedKernel.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

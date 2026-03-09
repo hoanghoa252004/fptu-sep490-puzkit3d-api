@@ -1,0 +1,167 @@
+using PuzKit3D.Modules.InStock.Domain.Entities.InstockOrderDetails;
+using PuzKit3D.Modules.InStock.Domain.ValueObjects;
+using PuzKit3D.SharedKernel.Domain;
+using PuzKit3D.SharedKernel.Domain.Results;
+
+namespace PuzKit3D.Modules.InStock.Domain.Entities.InstockOrders;
+
+public sealed class InstockOrder : AggregateRoot<InstockOrderId>
+{
+    private readonly List<InstockOrderDetail> _orderDetails = new();
+
+    public string Code { get; private set; } = null!;
+    public Guid CustomerId { get; private set; }
+    public string CustomerName { get; private set; } = null!;
+    public string CustomerPhone { get; private set; } = null!;
+    public string CustomerEmail { get; private set; } = null!;
+    public string AddressInformation { get; private set; } = null!;
+    public Money SubTotalAmount { get; private set; } = null!;
+    public Money ShippingFee { get; private set; } = null!;
+    public int UsedCoinAmount { get; private set; }
+    public Money UsedCoinAmountAsMoney { get; private set; } = null!;
+    public Money GrandTotalAmount { get; private set; } = null!;
+    public int Status { get; private set; }
+    public DateTime CreatedAt { get; private set; }
+    public DateTime UpdatedAt { get; private set; }
+    public string PaymentMethod { get; private set; } = null!;
+    public bool IsPaid { get; private set; }
+    public DateTime? PaidAt { get; private set; }
+
+    public IReadOnlyCollection<InstockOrderDetail> OrderDetails => _orderDetails.AsReadOnly();
+
+    private InstockOrder(
+        InstockOrderId id,
+        string code,
+        Guid customerId,
+        string customerName,
+        string customerPhone,
+        string customerEmail,
+        string addressInformation,
+        Money subTotalAmount,
+        Money shippingFee,
+        int usedCoinAmount,
+        Money usedCoinAmountAsMoney,
+        Money grandTotalAmount,
+        int status,
+        string paymentMethod,
+        bool isPaid,
+        DateTime createdAt) : base(id)
+    {
+        Code = code;
+        CustomerId = customerId;
+        CustomerName = customerName;
+        CustomerPhone = customerPhone;
+        CustomerEmail = customerEmail;
+        AddressInformation = addressInformation;
+        SubTotalAmount = subTotalAmount;
+        ShippingFee = shippingFee;
+        UsedCoinAmount = usedCoinAmount;
+        UsedCoinAmountAsMoney = usedCoinAmountAsMoney;
+        GrandTotalAmount = grandTotalAmount;
+        Status = status;
+        PaymentMethod = paymentMethod;
+        IsPaid = isPaid;
+        CreatedAt = createdAt;
+        UpdatedAt = createdAt;
+    }
+
+    private InstockOrder() : base()
+    {
+    }
+
+    public static ResultT<InstockOrder> Create(
+        string code,
+        Guid customerId,
+        string customerName,
+        string customerPhone,
+        string customerEmail,
+        string addressInformation,
+        decimal subTotalAmount,
+        decimal shippingFee,
+        int usedCoinAmount,
+        decimal usedCoinAmountAsMoney,
+        decimal grandTotalAmount,
+        string paymentMethod,
+        int status = 0,
+        bool isPaid = false,
+        DateTime? createdAt = null)
+    {
+        if (string.IsNullOrWhiteSpace(code))
+            return Result.Failure<InstockOrder>(InstockOrderError.InvalidCode());
+
+        if (string.IsNullOrWhiteSpace(customerName))
+            return Result.Failure<InstockOrder>(InstockOrderError.InvalidCustomerName());
+
+        if (string.IsNullOrWhiteSpace(customerPhone))
+            return Result.Failure<InstockOrder>(InstockOrderError.InvalidCustomerPhone());
+
+        if (string.IsNullOrWhiteSpace(customerEmail))
+            return Result.Failure<InstockOrder>(InstockOrderError.InvalidCustomerEmail());
+
+        if (string.IsNullOrWhiteSpace(addressInformation))
+            return Result.Failure<InstockOrder>(InstockOrderError.InvalidAddress());
+
+        if (string.IsNullOrWhiteSpace(paymentMethod))
+            return Result.Failure<InstockOrder>(InstockOrderError.InvalidPaymentMethod());
+
+        if (subTotalAmount < 0 || shippingFee < 0 || usedCoinAmountAsMoney < 0 || grandTotalAmount < 0)
+            return Result.Failure<InstockOrder>(InstockOrderError.InvalidAmount());
+
+        var orderId = InstockOrderId.Create();
+        var timestamp = createdAt ?? DateTime.UtcNow;
+        var order = new InstockOrder(
+            orderId,
+            code,
+            customerId,
+            customerName,
+            customerPhone,
+            customerEmail,
+            addressInformation,
+            Money.Create(subTotalAmount),
+            Money.Create(shippingFee),
+            usedCoinAmount,
+            Money.Create(usedCoinAmountAsMoney),
+            Money.Create(grandTotalAmount),
+            status,
+            paymentMethod,
+            isPaid,
+            timestamp);
+
+        return Result.Success(order);
+    }
+
+    public Result UpdateStatus(int status)
+    {
+        if (status < 0)
+            return Result.Failure(InstockOrderError.InvalidStatus());
+
+        Status = status;
+        UpdatedAt = DateTime.UtcNow;
+
+        return Result.Success();
+    }
+
+    public Result MarkAsPaid()
+    {
+        if (IsPaid)
+            return Result.Success();
+
+        IsPaid = true;
+        PaidAt = DateTime.UtcNow;
+        UpdatedAt = DateTime.UtcNow;
+
+        return Result.Success();
+    }
+
+    public void AddOrderDetail(InstockOrderDetail orderDetail)
+    {
+        _orderDetails.Add(orderDetail);
+        UpdatedAt = DateTime.UtcNow;
+    }
+
+    public void RemoveOrderDetail(InstockOrderDetail orderDetail)
+    {
+        _orderDetails.Remove(orderDetail);
+        UpdatedAt = DateTime.UtcNow;
+    }
+}

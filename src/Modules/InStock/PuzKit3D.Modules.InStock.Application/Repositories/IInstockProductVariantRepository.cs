@@ -1,0 +1,9 @@
+using PuzKit3D.Modules.InStock.Domain.Entities.InstockProductVariants;
+using PuzKit3D.SharedKernel.Domain;
+
+namespace PuzKit3D.Modules.InStock.Application.Repositories;
+
+public interface IInstockProductVariantRepository : IRepositoryBase<InstockProductVariant, InstockProductVariantId>
+{
+    Task<InstockProductVariant?> GetBySkuAsync(string sku, CancellationToken cancellationToken = default);
+}
