@@ -10,4 +10,10 @@
     <ProjectReference Include="..\..\..\SharedKernel\PuzKit3D.SharedKernel.Domain\PuzKit3D.SharedKernel.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Entities\" />
+    <Folder Include="Events\" />
+    <Folder Include="ValueObjects\" />
+  </ItemGroup>
+
 </Project>

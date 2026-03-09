@@ -1,5 +1,6 @@
 <Solution>
   <Folder Name="/docs/">
+    <File Path="docker-contanerize.md" />
     <File Path="docs/api-design.md" />
     <File Path="docs/architecture.md" />
   </Folder>
