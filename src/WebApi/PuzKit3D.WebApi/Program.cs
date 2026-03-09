@@ -10,6 +10,8 @@ using PuzKit3D.WebApi.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
+Console.WriteLine($"Environment: {builder.Environment.EnvironmentName}");
+Console.WriteLine(builder.Configuration["ConnectionStrings:DefaultConnection"]);
 // Service:
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 builder.Services.AddProblemDetails();
@@ -49,29 +51,28 @@ builder.Services.AddCartPersistence(builder.Configuration);
 
 var app = builder.Build();
 
-if (app.Environment.IsDevelopment())
+
+app.UseSwagger();
+// Tự động sinh file JSON chứa thông tin API tại endpoint /swagger/v1/swagger.json
+// Mô tả tất cả endpoints, parameters, responses theo chuẩn OpenAPI
+
+app.UseSwaggerUI(options =>
 {
-    app.UseSwagger();
-    // Tự động sinh file JSON chứa thông tin API tại endpoint /swagger/v1/swagger.json
-    // Mô tả tất cả endpoints, parameters, responses theo chuẩn OpenAPI
+    // Module-specific documents
+    options.SwaggerEndpoint("/swagger/user/swagger.json", "1. User Module");
+    options.SwaggerEndpoint("/swagger/cart/swagger.json", "2. Cart Module");
+    options.SwaggerEndpoint("/swagger/catalog/swagger.json", "3. Catalog Module");
+    options.SwaggerEndpoint("/swagger/instock/swagger.json", "4. Instock Module");
+    options.SwaggerEndpoint("/swagger/partner/swagger.json", "5. Partner Module");
+    options.SwaggerEndpoint("/swagger/payment/swagger.json", "6. Payment Module");
+    // Main API document
+    options.SwaggerEndpoint("/swagger/v1/swagger.json", "All Modules");
 
-    app.UseSwaggerUI(options =>
-    {
-        // Module-specific documents
-        options.SwaggerEndpoint("/swagger/user/swagger.json", "1. User Module");
-        options.SwaggerEndpoint("/swagger/cart/swagger.json", "2. Cart Module");
-        options.SwaggerEndpoint("/swagger/catalog/swagger.json", "3. Catalog Module");
-        options.SwaggerEndpoint("/swagger/instock/swagger.json", "4. Instock Module");
-        options.SwaggerEndpoint("/swagger/partner/swagger.json", "5. Partner Module");
-        options.SwaggerEndpoint("/swagger/payment/swagger.json", "6. Payment Module");
-        // Main API document
-        options.SwaggerEndpoint("/swagger/v1/swagger.json", "All Modules");
+    options.RoutePrefix = "swagger"; // Access at /swagger [default]
+    options.DisplayRequestDuration(); // Show request duration
+    //options.DocExpansion(Swashbuckle.AspNetCore.SwaggerUI.DocExpansion.None); // Collapse all by default
+});
 
-        options.RoutePrefix = "swagger"; // Access at /swagger [default]
-        options.DisplayRequestDuration(); // Show request duration
-        //options.DocExpansion(Swashbuckle.AspNetCore.SwaggerUI.DocExpansion.None); // Collapse all by default
-    });
-}
 
 app.MapGet("/", () => "Welcome to PuzKit3D API").ExcludeFromDescription();
 
