@@ -24,6 +24,10 @@ internal sealed class PartConfiguration : IEntityTypeConfiguration<Part>
             .IsRequired()
             .HasMaxLength(30);
 
+        builder.Property(p => p.Code)
+            .IsRequired()
+            .HasMaxLength(10);
+
         builder.Property(p => p.InstockProductId)
             .HasConversion(
                 id => id.Value,
@@ -42,3 +46,4 @@ internal sealed class PartConfiguration : IEntityTypeConfiguration<Part>
         builder.Ignore(p => p.DomainEvents);
     }
 }
+

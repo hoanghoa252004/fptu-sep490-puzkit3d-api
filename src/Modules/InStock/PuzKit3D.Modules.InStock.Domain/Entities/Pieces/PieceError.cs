@@ -8,6 +8,10 @@ public static class PieceError
         "Piece.InvalidCode",
         "Piece code cannot be empty.");
 
+    public static Error InvalidCodeFormat() => Error.Validation(
+        "Piece.InvalidCodeFormat",
+        "Piece code must be in format PIExxxxx (e.g., PIE00001, PIE00002).");
+
     public static Error CodeTooLong(int length) => Error.Validation(
         "Piece.CodeTooLong",
         $"Piece code is too long: {length} characters. Maximum is 10 characters.");
@@ -20,3 +24,4 @@ public static class PieceError
         "Piece.NotFound",
         $"Piece with ID '{id}' was not found.");
 }
+

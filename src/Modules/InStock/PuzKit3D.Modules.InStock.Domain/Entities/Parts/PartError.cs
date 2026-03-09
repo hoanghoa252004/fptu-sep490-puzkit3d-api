@@ -20,7 +20,16 @@ public static class PartError
         "Part.PartTypeTooLong",
         $"Part type is too long: {length} characters. Maximum is 30 characters.");
 
+    public static Error InvalidCode() => Error.Validation(
+        "Part.InvalidCode",
+        "Part code cannot be empty.");
+
+    public static Error InvalidCodeFormat() => Error.Validation(
+        "Part.InvalidCodeFormat",
+        "Part code must be in format PARxxxx (e.g., PAR0001, PAR0002).");
+
     public static Error NotFound(Guid id) => Error.NotFound(
         "Part.NotFound",
         $"Part with ID '{id}' was not found.");
 }
+

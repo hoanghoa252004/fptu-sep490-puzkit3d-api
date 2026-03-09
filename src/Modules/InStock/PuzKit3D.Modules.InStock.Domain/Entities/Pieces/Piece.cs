@@ -1,14 +1,20 @@
 using PuzKit3D.Modules.InStock.Domain.Entities.Parts;
 using PuzKit3D.SharedKernel.Domain;
 using PuzKit3D.SharedKernel.Domain.Results;
+using System.Text.RegularExpressions;
 
 namespace PuzKit3D.Modules.InStock.Domain.Entities.Pieces;
 
-public sealed class Piece : Entity<PieceId>
+public sealed partial class Piece : Entity<PieceId>
 {
+    private static readonly Regex CodeRegex = CodeRegexPattern();
+
     public string Code { get; private set; } = null!;
     public int Quantity { get; private set; }
     public PartId PartId { get; private set; } = null!;
+
+    [GeneratedRegex(@"^PIE\d{5}$", RegexOptions.Compiled)]
+    private static partial Regex CodeRegexPattern();
 
     private Piece(
         PieceId id,
@@ -33,6 +39,9 @@ public sealed class Piece : Entity<PieceId>
         if (string.IsNullOrWhiteSpace(code))
             return Result.Failure<Piece>(PieceError.InvalidCode());
 
+        if (!CodeRegex.IsMatch(code))
+            return Result.Failure<Piece>(PieceError.InvalidCodeFormat());
+
         if (code.Length > 10)
             return Result.Failure<Piece>(PieceError.CodeTooLong(code.Length));
 
@@ -50,6 +59,9 @@ public sealed class Piece : Entity<PieceId>
         if (string.IsNullOrWhiteSpace(code))
             return Result.Failure(PieceError.InvalidCode());
 
+        if (!CodeRegex.IsMatch(code))
+            return Result.Failure(PieceError.InvalidCodeFormat());
+
         if (code.Length > 10)
             return Result.Failure(PieceError.CodeTooLong(code.Length));
 
@@ -62,3 +74,4 @@ public sealed class Piece : Entity<PieceId>
         return Result.Success();
     }
 }
+

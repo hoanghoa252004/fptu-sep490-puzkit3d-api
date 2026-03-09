@@ -1,11 +1,13 @@
 using PuzKit3D.Modules.InStock.Domain.Entities.Parts;
 using PuzKit3D.SharedKernel.Domain;
 using PuzKit3D.SharedKernel.Domain.Results;
+using System.Text.RegularExpressions;
 
 namespace PuzKit3D.Modules.InStock.Domain.Entities.InstockProducts;
 
-public sealed class InstockProduct : AggregateRoot<InstockProductId>
+public sealed partial class InstockProduct : AggregateRoot<InstockProductId>
 {
+    private static readonly Regex CodeRegex = CodeRegexPattern();
     private readonly List<Part> _parts = new();
     private readonly List<Guid> _capabilityIds = new();
 
@@ -28,6 +30,9 @@ public sealed class InstockProduct : AggregateRoot<InstockProductId>
 
     public IReadOnlyCollection<Part> Parts => _parts.AsReadOnly();
     public IReadOnlyCollection<Guid> CapabilityIds => _capabilityIds.AsReadOnly();
+
+    [GeneratedRegex(@"^INP\d{3}$", RegexOptions.Compiled)]
+    private static partial Regex CodeRegexPattern();
 
     private InstockProduct(
         InstockProductId id,
@@ -88,6 +93,9 @@ public sealed class InstockProduct : AggregateRoot<InstockProductId>
     {
         if (string.IsNullOrWhiteSpace(code))
             return Result.Failure<InstockProduct>(InstockProductError.InvalidCode());
+
+        if (!CodeRegex.IsMatch(code))
+            return Result.Failure<InstockProduct>(InstockProductError.InvalidCodeFormat());
 
         if (code.Length > 10)
             return Result.Failure<InstockProduct>(InstockProductError.CodeTooLong(code.Length));
@@ -159,6 +167,9 @@ public sealed class InstockProduct : AggregateRoot<InstockProductId>
     {
         if (string.IsNullOrWhiteSpace(code))
             return Result.Failure(InstockProductError.InvalidCode());
+
+        if (!CodeRegex.IsMatch(code))
+            return Result.Failure(InstockProductError.InvalidCodeFormat());
 
         if (code.Length > 10)
             return Result.Failure(InstockProductError.CodeTooLong(code.Length));
@@ -247,3 +258,4 @@ public sealed class InstockProduct : AggregateRoot<InstockProductId>
         UpdatedAt = DateTime.UtcNow;
     }
 }
+

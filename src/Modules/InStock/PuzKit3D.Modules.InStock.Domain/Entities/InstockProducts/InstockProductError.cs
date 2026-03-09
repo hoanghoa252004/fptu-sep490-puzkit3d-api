@@ -8,6 +8,10 @@ public static class InstockProductError
         "InstockProduct.InvalidCode",
         "Product code cannot be empty.");
 
+    public static Error InvalidCodeFormat() => Error.Validation(
+        "InstockProduct.InvalidCodeFormat",
+        "Product code must be in format INPxxx (e.g., INP001, INP002).");
+
     public static Error CodeTooLong(int length) => Error.Validation(
         "InstockProduct.CodeTooLong",
         $"Product code is too long: {length} characters. Maximum is 10 characters.");
@@ -64,3 +68,4 @@ public static class InstockProductError
         "InstockProduct.DuplicateCode",
         $"Instock product with code '{code}' already exists.");
 }
+
