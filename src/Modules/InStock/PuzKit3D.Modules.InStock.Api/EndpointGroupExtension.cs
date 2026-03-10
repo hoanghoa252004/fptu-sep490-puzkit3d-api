@@ -35,4 +35,10 @@ public static class EndpointGroupExtension
         return app.MapGroup($"{ApiRoutes.ApiPrefix}/instock-products/{{productId:guid}}/variants")
             .WithTags("Product Variants");
     }
+
+    public static RouteGroupBuilder MapPricesGroup(this IEndpointRouteBuilder app)
+    {
+        return app.MapGroup($"{ApiRoutes.ApiPrefix}/instock-prices")
+            .WithTags("Prices");
+    }
 }

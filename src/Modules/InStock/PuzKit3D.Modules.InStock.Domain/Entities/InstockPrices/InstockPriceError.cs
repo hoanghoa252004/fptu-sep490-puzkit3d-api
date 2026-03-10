@@ -27,4 +27,16 @@ public static class InstockPriceError
     public static Error OverlappingPrices() => Error.Conflict(
         "InstockPrice.OverlappingPrices",
         "Price periods cannot overlap with existing prices.");
+
+    public static Error AlreadyActive(Guid id) => Error.Conflict(
+        "InstockPrice.AlreadyActive",
+        $"Instock price with ID '{id}' is already active.");
+
+    public static Error AlreadyInactive(Guid id) => Error.Conflict(
+        "InstockPrice.AlreadyInactive",
+        $"Instock price with ID '{id}' is already inactive.");
+
+    public static Error DuplicatePriority(int priority) => Error.Conflict(
+        "InstockPrice.DuplicatePriority",
+        $"A price with priority '{priority}' already exists in the system.");
 }

@@ -6,4 +6,6 @@ namespace PuzKit3D.Modules.InStock.Application.Repositories;
 public interface IInstockPriceRepository : IRepositoryBase<InstockPrice, InstockPriceId>
 {
     Task<IEnumerable<InstockPrice>> GetActivePricesAsync(DateTime date, CancellationToken cancellationToken = default);
+    
+    Task<InstockPrice?> GetByPriorityAsync(int priority, CancellationToken cancellationToken = default);
 }
