@@ -67,5 +67,13 @@ public static class InstockProductError
     public static Error DuplicateCode(string code) => Error.Conflict(
         "InstockProduct.DuplicateCode",
         $"Instock product with code '{code}' already exists.");
+
+    public static Error AlreadyActive(Guid id) => Error.Validation(
+        "InstockProduct.AlreadyActive",
+        $"Instock product with ID '{id}' is already active.");
+
+    public static Error AlreadyInactive(Guid id) => Error.Validation(
+        "InstockProduct.AlreadyInactive",
+        $"Instock product with ID '{id}' is already inactive.");
 }
 

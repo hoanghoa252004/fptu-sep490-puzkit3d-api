@@ -4,6 +4,10 @@
 @partId = {{createPart.response.body.$}}
 @pieceId = {{createPiece.response.body.$}}
 
+###############################################
+# INSTOCK PRODUCT APIs TEST
+###############################################
+
 ### 1. Create Instock Product
 # @name createProduct
 POST {{baseUrl}}/api/instock-products
@@ -28,11 +32,62 @@ Content-Type: application/json
   "isActive": true
 }
 
+### 2. Get Product by ID
+GET {{baseUrl}}/api/instock-products/{{productId}}
+
+### 3. Update Product - Partial (only name and totalPieceCount)
+PUT {{baseUrl}}/api/instock-products/{{productId}}
+Content-Type: application/json
+
+{
+  "name": "Updated Product Name",
+  "totalPieceCount": 150
+}
+
+### 4. Verify Update
+GET {{baseUrl}}/api/instock-products/{{productId}}
+
+### 5. Update Product - Multiple fields
+PUT {{baseUrl}}/api/instock-products/{{productId}}
+Content-Type: application/json
+
+{
+  "slug": "updated-product-001",
+  "name": "Fully Updated Product",
+  "totalPieceCount": 200,
+  "difficultLevel": "Hard",
+  "estimatedBuildTime": 180,
+  "thumbnailUrl": "https://example.com/new-thumbnail.jpg",
+  "previewAsset": {
+    "model3d": "https://example.com/new-model.glb",
+    "texture": "https://example.com/texture.png"
+  },
+  "description": "Completely updated product"
+}
+
+### 6. Delete Product (Soft Delete - IsActive = false)
+DELETE {{baseUrl}}/api/instock-products/{{productId}}
+
+### 7. Try to Delete Again (Should return 400 - Already Inactive)
+DELETE {{baseUrl}}/api/instock-products/{{productId}}
+
+### 8. Verify Product is Inactive
+GET {{baseUrl}}/api/instock-products/{{productId}}
+
+### 9. Activate Product (IsActive = true)
+PATCH {{baseUrl}}/api/instock-products/{{productId}}/activate
+
+### 10. Verify Product is Active
+GET {{baseUrl}}/api/instock-products/{{productId}}
+
+### 11. Try to Activate Again (Should return 400 - Already Active)
+PATCH {{baseUrl}}/api/instock-products/{{productId}}/activate
+
 ###############################################
-# PART APIs
+# PART APIs TEST
 ###############################################
 
-### 2. Create Part for Product
+### 12. Create Part 1
 # @name createPart
 POST {{baseUrl}}/api/instock-products/{{productId}}/parts
 Content-Type: application/json
@@ -42,22 +97,13 @@ Content-Type: application/json
   "partType": "Foundation"
 }
 
-### 3. Create Piece for Part
-# @name createPiece
-POST {{baseUrl}}/api/instock-products/{{productId}}/parts/{{partId}}/pieces
-Content-Type: application/json
-
-{
-  "quantity": 50
-}
-
-### 4. Get Part by ID (with all pieces)
+### 13. Get Part by ID (with all pieces)
 GET {{baseUrl}}/api/instock-products/{{productId}}/parts/{{partId}}
 
-### 5. Get Parts by Product ID
+### 14. Get All Parts for Product
 GET {{baseUrl}}/api/instock-products/{{productId}}/parts
 
-### 6. Update Part
+### 15. Update Part
 PUT {{baseUrl}}/api/instock-products/{{productId}}/parts/{{partId}}
 Content-Type: application/json
 
@@ -66,10 +112,26 @@ Content-Type: application/json
   "partType": "Foundation Updated"
 }
 
-### 7. Get Piece by ID
+### 16. Verify Part Update
+GET {{baseUrl}}/api/instock-products/{{productId}}/parts/{{partId}}
+
+###############################################
+# PIECE APIs TEST
+###############################################
+
+### 17. Create Piece 1 for Part 1
+# @name createPiece
+POST {{baseUrl}}/api/instock-products/{{productId}}/parts/{{partId}}/pieces
+Content-Type: application/json
+
+{
+  "quantity": 50
+}
+
+### 18. Get Piece by ID
 GET {{baseUrl}}/api/instock-products/{{productId}}/parts/{{partId}}/pieces/{{pieceId}}
 
-### 8. Update Piece (only quantity)
+### 19. Update Piece - Only Quantity
 PUT {{baseUrl}}/api/instock-products/{{productId}}/parts/{{partId}}/pieces/{{pieceId}}
 Content-Type: application/json
 
@@ -78,7 +140,10 @@ Content-Type: application/json
   "newPartId": null
 }
 
-### 9. Create another Part to test moving piece
+### 20. Verify Piece Update
+GET {{baseUrl}}/api/instock-products/{{productId}}/parts/{{partId}}/pieces/{{pieceId}}
+
+### 21. Create Part 2 to test moving piece
 # @name createPart2
 POST {{baseUrl}}/api/instock-products/{{productId}}/parts
 Content-Type: application/json
@@ -88,7 +153,7 @@ Content-Type: application/json
   "partType": "Cover"
 }
 
-### 10. Update Piece (move to another part)
+### 22. Update Piece - Move to another Part
 PUT {{baseUrl}}/api/instock-products/{{productId}}/parts/{{partId}}/pieces/{{pieceId}}
 Content-Type: application/json
 
@@ -97,19 +162,34 @@ Content-Type: application/json
   "newPartId": "{{createPart2.response.body.$}}"
 }
 
-### 11. Delete Piece
-DELETE {{baseUrl}}/api/instock-products/{{productId}}/parts/{{partId}}/pieces/{{pieceId}}
+### 23. Verify Piece is moved (check Part 1 - should not have this piece)
+GET {{baseUrl}}/api/instock-products/{{productId}}/parts/{{partId}}
 
-### 12. Delete Part
+### 24. Verify Piece is in Part 2
+GET {{baseUrl}}/api/instock-products/{{productId}}/parts/{{createPart2.response.body.$}}
+
+### 25. Delete Piece
+DELETE {{baseUrl}}/api/instock-products/{{productId}}/parts/{{createPart2.response.body.$}}/pieces/{{pieceId}}
+
+### 26. Verify Piece Deleted
+GET {{baseUrl}}/api/instock-products/{{productId}}/parts/{{createPart2.response.body.$}}
+
+### 27. Delete Part 2
+DELETE {{baseUrl}}/api/instock-products/{{productId}}/parts/{{createPart2.response.body.$}}
+
+### 28. Delete Part 1
 DELETE {{baseUrl}}/api/instock-products/{{productId}}/parts/{{partId}}
 
+### 29. Verify All Parts Deleted
+GET {{baseUrl}}/api/instock-products/{{productId}}/parts
+
 ###############################################
-# Test Scenario: Complete Flow
+# COMPLETE SCENARIO TEST
 ###############################################
 
-### Scenario: Create Product -> Create 2 Parts -> Create 3 Pieces -> Test All Operations
+### Scenario: Full Flow - Product -> Parts -> Pieces -> Operations
 
-### Step 1: Create Product
+### S1. Create Product
 # @name scenarioProduct
 POST {{baseUrl}}/api/instock-products
 Content-Type: application/json
@@ -132,7 +212,7 @@ Content-Type: application/json
   "isActive": true
 }
 
-### Step 2: Create Part 1 - Foundation
+### S2. Create Part 1 - Foundation
 # @name scenarioPart1
 POST {{baseUrl}}/api/instock-products/{{scenarioProduct.response.body.$}}/parts
 Content-Type: application/json
@@ -142,7 +222,7 @@ Content-Type: application/json
   "partType": "Base"
 }
 
-### Step 3: Create Part 2 - Walls
+### S3. Create Part 2 - Walls
 # @name scenarioPart2
 POST {{baseUrl}}/api/instock-products/{{scenarioProduct.response.body.$}}/parts
 Content-Type: application/json
@@ -152,7 +232,7 @@ Content-Type: application/json
   "partType": "Structure"
 }
 
-### Step 4: Create Piece 1 for Part 1
+### S4. Create Piece 1 for Part 1
 # @name scenarioPiece1
 POST {{baseUrl}}/api/instock-products/{{scenarioProduct.response.body.$}}/parts/{{scenarioPart1.response.body.$}}/pieces
 Content-Type: application/json
@@ -161,7 +241,7 @@ Content-Type: application/json
   "quantity": 100
 }
 
-### Step 5: Create Piece 2 for Part 1
+### S5. Create Piece 2 for Part 1
 # @name scenarioPiece2
 POST {{baseUrl}}/api/instock-products/{{scenarioProduct.response.body.$}}/parts/{{scenarioPart1.response.body.$}}/pieces
 Content-Type: application/json
@@ -170,7 +250,7 @@ Content-Type: application/json
   "quantity": 150
 }
 
-### Step 6: Create Piece 3 for Part 2
+### S6. Create Piece 3 for Part 2
 # @name scenarioPiece3
 POST {{baseUrl}}/api/instock-products/{{scenarioProduct.response.body.$}}/parts/{{scenarioPart2.response.body.$}}/pieces
 Content-Type: application/json
@@ -179,16 +259,20 @@ Content-Type: application/json
   "quantity": 200
 }
 
-### Step 7: Get all parts with piece count
+### S7. Get all parts with piece count (should show: Part1=250, Part2=200)
 GET {{baseUrl}}/api/instock-products/{{scenarioProduct.response.body.$}}/parts
 
-### Step 8: Get Part 1 with all pieces details
-GET {{baseUrl}}/api/instock-products/{{scenarioProduct.response.body.$}}/parts/{{scenarioPart1.response.body.$}}
+### S8. Update Product Info
+PUT {{baseUrl}}/api/instock-products/{{scenarioProduct.response.body.$}}
+Content-Type: application/json
 
-### Step 9: Get specific Piece
-GET {{baseUrl}}/api/instock-products/{{scenarioProduct.response.body.$}}/parts/{{scenarioPart1.response.body.$}}/pieces/{{scenarioPiece1.response.body.$}}
+{
+  "name": "Lego Castle Set Deluxe",
+  "totalPieceCount": 550,
+  "description": "Medieval castle building set - Deluxe Edition"
+}
 
-### Step 10: Update Piece 1 quantity
+### S9. Update Piece 1 quantity
 PUT {{baseUrl}}/api/instock-products/{{scenarioProduct.response.body.$}}/parts/{{scenarioPart1.response.body.$}}/pieces/{{scenarioPiece1.response.body.$}}
 Content-Type: application/json
 
@@ -197,7 +281,7 @@ Content-Type: application/json
   "newPartId": null
 }
 
-### Step 11: Move Piece 2 from Part 1 to Part 2
+### S10. Move Piece 2 from Part 1 to Part 2
 PUT {{baseUrl}}/api/instock-products/{{scenarioProduct.response.body.$}}/parts/{{scenarioPart1.response.body.$}}/pieces/{{scenarioPiece2.response.body.$}}
 Content-Type: application/json
 
@@ -206,17 +290,26 @@ Content-Type: application/json
   "newPartId": "{{scenarioPart2.response.body.$}}"
 }
 
-### Step 12: Verify Part 1 after moving piece (should have 1 piece: 120)
+### S11. Verify Part 1 (should have 1 piece: 120)
 GET {{baseUrl}}/api/instock-products/{{scenarioProduct.response.body.$}}/parts/{{scenarioPart1.response.body.$}}
 
-### Step 13: Verify Part 2 after moving piece (should have 2 pieces: 200 + 180 = 380 total)
+### S12. Verify Part 2 (should have 2 pieces: 200 + 180 = 380)
 GET {{baseUrl}}/api/instock-products/{{scenarioProduct.response.body.$}}/parts/{{scenarioPart2.response.body.$}}
 
-### Step 14: Delete a piece
+### S13. Deactivate Product
+DELETE {{baseUrl}}/api/instock-products/{{scenarioProduct.response.body.$}}
+
+### S14. Verify Product is Inactive
+GET {{baseUrl}}/api/instock-products/{{scenarioProduct.response.body.$}}
+
+### S15. Activate Product Again
+PATCH {{baseUrl}}/api/instock-products/{{scenarioProduct.response.body.$}}/activate
+
+### S16. Delete a piece
 DELETE {{baseUrl}}/api/instock-products/{{scenarioProduct.response.body.$}}/parts/{{scenarioPart2.response.body.$}}/pieces/{{scenarioPiece3.response.body.$}}
 
-### Step 15: Delete a part
+### S17. Delete Part 2
 DELETE {{baseUrl}}/api/instock-products/{{scenarioProduct.response.body.$}}/parts/{{scenarioPart2.response.body.$}}
 
-### Step 16: Verify final state
+### S18. Final State - Get all parts (should only have Part 1 with 1 piece)
 GET {{baseUrl}}/api/instock-products/{{scenarioProduct.response.body.$}}/parts

@@ -219,6 +219,99 @@ public sealed partial class InstockProduct : AggregateRoot<InstockProductId>
         return Result.Success();
     }
 
+    public Result PartialUpdate(
+        string? slug = null,
+        string? name = null,
+        int? totalPieceCount = null,
+        string? difficultLevel = null,
+        int? estimatedBuildTime = null,
+        string? thumbnailUrl = null,
+        Dictionary<string, string>? previewAsset = null,
+        Guid? topicId = null,
+        Guid? assemblyMethodId = null,
+        Guid? capabilityId = null,
+        Guid? materialId = null,
+        string? description = null)
+    {
+        if (slug is not null)
+        {
+            if (string.IsNullOrWhiteSpace(slug))
+                return Result.Failure(InstockProductError.InvalidSlug());
+
+            if (slug.Length > 30)
+                return Result.Failure(InstockProductError.SlugTooLong(slug.Length));
+
+            Slug = slug;
+        }
+
+        if (name is not null)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+                return Result.Failure(InstockProductError.InvalidName());
+
+            if (name.Length > 30)
+                return Result.Failure(InstockProductError.NameTooLong(name.Length));
+
+            Name = name;
+        }
+
+        if (totalPieceCount.HasValue)
+        {
+            if (totalPieceCount.Value <= 0)
+                return Result.Failure(InstockProductError.InvalidTotalPieceCount());
+
+            TotalPieceCount = totalPieceCount.Value;
+        }
+
+        if (difficultLevel is not null)
+        {
+            if (string.IsNullOrWhiteSpace(difficultLevel))
+                return Result.Failure(InstockProductError.InvalidDifficultLevel());
+
+            DifficultLevel = difficultLevel;
+        }
+
+        if (estimatedBuildTime.HasValue)
+        {
+            if (estimatedBuildTime.Value <= 0)
+                return Result.Failure(InstockProductError.InvalidEstimatedBuildTime());
+
+            EstimatedBuildTime = estimatedBuildTime.Value;
+        }
+
+        if (thumbnailUrl is not null)
+        {
+            if (string.IsNullOrWhiteSpace(thumbnailUrl))
+                return Result.Failure(InstockProductError.InvalidThumbnailUrl());
+
+            ThumbnailUrl = thumbnailUrl;
+        }
+
+        if (previewAsset is not null)
+        {
+            PreviewAsset = System.Text.Json.JsonSerializer.Serialize(previewAsset);
+        }
+
+        if (topicId.HasValue)
+            TopicId = topicId.Value;
+
+        if (assemblyMethodId.HasValue)
+            AssemblyMethodId = assemblyMethodId.Value;
+
+        if (capabilityId.HasValue)
+            CapabilityId = capabilityId.Value;
+
+        if (materialId.HasValue)
+            MaterialId = materialId.Value;
+
+        if (description is not null)
+            Description = description;
+
+        UpdatedAt = DateTime.UtcNow;
+
+        return Result.Success();
+    }
+
     public void Activate()
     {
         IsActive = true;
