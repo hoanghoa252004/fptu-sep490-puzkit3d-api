@@ -2,6 +2,7 @@
 using PuzKit3D.Modules.Cart.Persistence;
 using PuzKit3D.Modules.Catalog.Persistence;
 using PuzKit3D.Modules.InStock.Persistence;
+using PuzKit3D.Modules.Partner.Persistence;
 using PuzKit3D.SharedKernel.Api.Endpoint;
 using PuzKit3D.SharedKernel.Application;
 using PuzKit3D.SharedKernel.Infrastructure;
@@ -26,7 +27,8 @@ builder.Services.AddSharedKernelApplication(
         PuzKit3D.Modules.InStock.Application.InstockApplicationAssembly.Assembly,
         PuzKit3D.Modules.User.Application.UserApplicationAssembly.Assembly,
         PuzKit3D.Modules.Catalog.Application.CatalogApplicationAssembly.Assembly,
-        PuzKit3D.Modules.Cart.Application.CartApplicationAssembly.Assembly
+        PuzKit3D.Modules.Cart.Application.CartApplicationAssembly.Assembly,
+        PuzKit3D.Modules.Partner.Application.PartnerApplicationAssembly.Assembly
     } 
 );
 
@@ -37,7 +39,8 @@ builder.Services.AddEndpointsFromAssembly(
        PuzKit3D.Modules.InStock.Api.InstockApiAssembly.Assembly,
        PuzKit3D.Modules.User.Api.UserApiAssembly.Assembly,
        PuzKit3D.Modules.Catalog.Api.CatalogApiAssembly.Assembly,
-       PuzKit3D.Modules.Cart.Api.CartApiAssembly.Assembly
+       PuzKit3D.Modules.Cart.Api.CartApiAssembly.Assembly,
+       PuzKit3D.Modules.Partner.Api.PartnerApiAssembly.Assembly
     }
 );
 
@@ -45,6 +48,7 @@ builder.Services.AddEndpointsFromAssembly(
 builder.Services.AddInStockPersistence(builder.Configuration);
 builder.Services.AddCatalogPersistence(builder.Configuration);
 builder.Services.AddCartPersistence(builder.Configuration);
+builder.Services.AddPartnerPersistence(builder.Configuration);
 
 // Add Infrastructure services (Domain Event Handlers, Integration Event Handlers):
 //builder.Services.AddCartInfrastructure();

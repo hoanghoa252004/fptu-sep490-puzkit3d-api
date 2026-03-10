@@ -35,6 +35,16 @@
     <ProjectReference Include="..\..\Modules\InStock\PuzKit3D.Modules.InStock.Domain\PuzKit3D.Modules.InStock.Domain.csproj" />
     <ProjectReference Include="..\..\Modules\InStock\PuzKit3D.Modules.InStock.Infrastructure\PuzKit3D.Modules.InStock.Infrastructure.csproj" />
     <ProjectReference Include="..\..\Modules\InStock\PuzKit3D.Modules.InStock.Persistence\PuzKit3D.Modules.InStock.Persistence.csproj" />
+    <ProjectReference Include="..\..\Modules\Partner\PuzKit3D.Modules.Partner.Api\PuzKit3D.Modules.Partner.Api.csproj" />
+    <ProjectReference Include="..\..\Modules\Partner\PuzKit3D.Modules.Partner.Application\PuzKit3D.Modules.Partner.Application.csproj" />
+    <ProjectReference Include="..\..\Modules\Partner\PuzKit3D.Modules.Partner.Domain\PuzKit3D.Modules.Partner.Domain.csproj" />
+    <ProjectReference Include="..\..\Modules\Partner\PuzKit3D.Modules.Partner.Infrastructure\PuzKit3D.Modules.Partner.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\Modules\Partner\PuzKit3D.Modules.Partner.Persistence\PuzKit3D.Modules.Partner.Persistence.csproj" />
+    <ProjectReference Include="..\..\Modules\Payment\PuzKit3D.Modules.Payment.Api\PuzKit3D.Modules.Payment.Api.csproj" />
+    <ProjectReference Include="..\..\Modules\Payment\PuzKit3D.Modules.Payment.Application\PuzKit3D.Modules.Payment.Application.csproj" />
+    <ProjectReference Include="..\..\Modules\Payment\PuzKit3D.Modules.Payment.Domain\PuzKit3D.Modules.Payment.Domain.csproj" />
+    <ProjectReference Include="..\..\Modules\Payment\PuzKit3D.Modules.Payment.Infrastructure\PuzKit3D.Modules.Payment.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\Modules\Payment\PuzKit3D.Modules.Payment.Persistence\PuzKit3D.Modules.Payment.Persistence.csproj" />
     <ProjectReference Include="..\..\Modules\User\PuzKit3D.Modules.User.Api\PuzKit3D.Modules.User.Api.csproj" />
     <ProjectReference Include="..\..\Modules\User\PuzKit3D.Modules.User.Application\PuzKit3D.Modules.User.Application.csproj" />
     <ProjectReference Include="..\..\Modules\User\PuzKit3D.Modules.User.Domain\PuzKit3D.Modules.User.Domain.csproj" />
