@@ -31,4 +31,12 @@ public static class InstockProductVariantError
     public static Error DuplicateSku(string sku) => Error.Conflict(
         "InstockProductVariant.DuplicateSku",
         $"Instock product variant with SKU '{sku}' already exists.");
+
+    public static Error AlreadyActive(Guid id) => Error.Conflict(
+        "InstockProductVariant.AlreadyActive",
+        $"Instock product variant with ID '{id}' is already active.");
+
+    public static Error AlreadyInactive(Guid id) => Error.Conflict(
+        "InstockProductVariant.AlreadyInactive",
+        $"Instock product variant with ID '{id}' is already inactive.");
 }
