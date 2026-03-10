@@ -1,0 +1,13 @@
+namespace PuzKit3D.Modules.InStock.Application.UseCases.Parts.Queries.GetPartById;
+
+public sealed record GetPartByIdResponseDto(
+    Guid Id,
+    string Name,
+    string PartType,
+    string Code,
+    IReadOnlyList<PieceDto> Pieces);
+
+public sealed record PieceDto(
+    Guid Id,
+    string Code,
+    int Quantity);

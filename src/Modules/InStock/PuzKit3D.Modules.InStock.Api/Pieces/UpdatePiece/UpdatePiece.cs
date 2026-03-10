@@ -3,38 +3,42 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
-using PuzKit3D.Modules.InStock.Application.UseCases.Parts.Commands.CreatePart;
+using PuzKit3D.Modules.InStock.Application.UseCases.Pieces.Commands.UpdatePiece;
 using PuzKit3D.SharedKernel.Api.Endpoint;
 using PuzKit3D.SharedKernel.Api.Results.Extensions;
 using PuzKit3D.SharedKernel.Application.Authorization;
 
-namespace PuzKit3D.Modules.InStock.Api.Parts.CreatePart;
+namespace PuzKit3D.Modules.InStock.Api.Pieces.UpdatePiece;
 
-internal sealed class CreatePart : IEndpoint
+internal sealed class UpdatePiece : IEndpoint
 {
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapPartsGroup()
-            .MapPost("/", async (
+        app.MapPiecesGroup()
+            .MapPut("/{pieceId:guid}", async (
                 Guid productId,
-                [FromBody] CreatePartRequestDto request,
+                Guid partId,
+                Guid pieceId,
+                [FromBody] UpdatePieceRequestDto request,
                 ISender sender,
                 CancellationToken cancellationToken) =>
             {
-                var command = new CreatePartCommand(
+                var command = new UpdatePieceCommand(
                     productId,
-                    request.Name,
-                    request.PartType);
+                    partId,
+                    pieceId,
+                    request.Quantity,
+                    request.NewPartId);
 
                 var result = await sender.Send(command, cancellationToken);
 
-                return result.MatchOk(id => Results.Created($"/api/instock-products/{productId}/parts/{id}", id));
+                return result.MatchOk();
             })
-            .WithName("CreatePart")
-            .WithSummary("Create a new part for a product (Staff/Manager only)")
-            .WithDescription("Creates a new part for the specified product. Code is auto-generated (PARxxxx). Requires Staff or Manager role.")
+            .WithName("UpdatePiece")
+            .WithSummary("Update a piece (Staff/Manager only)")
+            .WithDescription("Updates quantity and can move piece to another part. Requires Staff or Manager role.")
             .RequireAuthorization(policy => policy.RequireRole(Roles.Staff, Roles.BusinessManager))
-            .Produces<Guid>(StatusCodes.Status201Created)
+            .Produces(StatusCodes.Status204NoContent)
             .ProducesValidationProblem(StatusCodes.Status400BadRequest)
             .ProducesProblem(StatusCodes.Status401Unauthorized)
             .ProducesProblem(StatusCodes.Status403Forbidden)
@@ -43,7 +47,6 @@ internal sealed class CreatePart : IEndpoint
     }
 }
 
-internal sealed record CreatePartRequestDto(
-    string Name,
-    string PartType);
-
+internal sealed record UpdatePieceRequestDto(
+    int Quantity,
+    Guid? NewPartId);

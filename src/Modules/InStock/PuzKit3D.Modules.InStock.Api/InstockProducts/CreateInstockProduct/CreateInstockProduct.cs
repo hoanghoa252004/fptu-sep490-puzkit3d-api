@@ -37,13 +37,12 @@ internal sealed class CreateInstockProduct : IEndpoint
 
                 var result = await sender.Send(command, cancellationToken);
 
-                return result.MatchOk(id => Results.Created($"/api/instock/products/{id}", id));
+                return result.MatchOk(id => Results.Created($"/api/instock-products/{id}", id));
             })
             .WithName("CreateInstockProduct")
             .WithSummary("Create a new instock product (Staff/Manager only)")
             .WithDescription("Creates a new instock product. Code is auto-generated (INPxxx). Requires Staff or Manager role.")
-            //.RequireAuthorization(policy => policy.RequireRole(Roles.Staff, Roles.BusinessManager))
-            .AllowAnonymous()
+            .RequireAuthorization(policy => policy.RequireRole(Roles.Staff, Roles.BusinessManager))
             .Produces<Guid>(StatusCodes.Status201Created)
             .ProducesValidationProblem(StatusCodes.Status400BadRequest)
             .ProducesProblem(StatusCodes.Status401Unauthorized)
