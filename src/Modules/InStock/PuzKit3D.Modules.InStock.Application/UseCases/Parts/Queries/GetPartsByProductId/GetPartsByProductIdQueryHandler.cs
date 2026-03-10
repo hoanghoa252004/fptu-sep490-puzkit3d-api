@@ -34,7 +34,7 @@ internal sealed class GetPartsByProductIdQueryHandler
                 p.Name,
                 p.PartType,
                 p.Code,
-                p.Pieces.Count))
+                p.Pieces.Sum(piece => piece.Quantity)))
             .ToList();
 
         return Result.Success<IReadOnlyList<GetPartsByProductIdResponseDto>>(parts);

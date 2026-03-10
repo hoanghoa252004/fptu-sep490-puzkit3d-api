@@ -12,6 +12,7 @@
     <File Path="global.json" />
     <File Path="NOTE.md" />
     <File Path="README.md" />
+    <File Path="test-instock-apis.http" />
   </Folder>
   <Folder Name="/scripts/">
     <File Path="scripts/init-db.sql" />

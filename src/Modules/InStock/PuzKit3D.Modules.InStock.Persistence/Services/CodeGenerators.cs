@@ -1,31 +1,31 @@
-using PuzKit3D.Modules.InStock.Application.Repositories;
+using Microsoft.EntityFrameworkCore;
 using PuzKit3D.Modules.InStock.Application.Services;
 
 namespace PuzKit3D.Modules.InStock.Persistence.Services;
 
 internal sealed class InstockProductCodeGenerator : IInstockProductCodeGenerator
 {
-    private readonly IInstockProductRepository _productRepository;
+    private readonly InStockDbContext _context;
 
-    public InstockProductCodeGenerator(IInstockProductRepository productRepository)
+    public InstockProductCodeGenerator(InStockDbContext context)
     {
-        _productRepository = productRepository;
+        _context = context;
     }
 
     public async Task<string> GenerateNextCodeAsync(CancellationToken cancellationToken = default)
     {
-        var allProducts = await _productRepository.GetAllAsync(cancellationToken);
+        var allCodes = await _context.InstockProducts
+            .Where(p => p.Code.StartsWith("INP") && p.Code.Length == 6)
+            .Select(p => p.Code)
+            .ToListAsync(cancellationToken);
         
-        if (!allProducts.Any())
+        if (!allCodes.Any())
         {
             return "INP001";
         }
 
-        var maxCode = allProducts
-            .Select(p => p.Code)
-            .Where(code => code.StartsWith("INP") && code.Length == 6)
+        var maxCode = allCodes
             .Select(code => int.TryParse(code.Substring(3), out var num) ? num : 0)
-            .DefaultIfEmpty(0)
             .Max();
 
         var nextNumber = maxCode + 1;
@@ -35,28 +35,28 @@ internal sealed class InstockProductCodeGenerator : IInstockProductCodeGenerator
 
 internal sealed class PartCodeGenerator : IPartCodeGenerator
 {
-    private readonly IInstockProductRepository _productRepository;
+    private readonly InStockDbContext _context;
 
-    public PartCodeGenerator(IInstockProductRepository productRepository)
+    public PartCodeGenerator(InStockDbContext context)
     {
-        _productRepository = productRepository;
+        _context = context;
     }
 
     public async Task<string> GenerateNextCodeAsync(CancellationToken cancellationToken = default)
     {
-        var allProducts = await _productRepository.GetAllAsync(cancellationToken);
-        var allParts = allProducts.SelectMany(p => p.Parts).ToList();
+        var allCodes = await _context.InstockProducts
+            .SelectMany(p => p.Parts)
+            .Where(part => part.Code.StartsWith("PAR") && part.Code.Length == 7)
+            .Select(part => part.Code)
+            .ToListAsync(cancellationToken);
 
-        if (!allParts.Any())
+        if (!allCodes.Any())
         {
             return "PAR0001";
         }
 
-        var maxCode = allParts
-            .Select(p => p.Code)
-            .Where(code => code.StartsWith("PAR") && code.Length == 7)
+        var maxCode = allCodes
             .Select(code => int.TryParse(code.Substring(3), out var num) ? num : 0)
-            .DefaultIfEmpty(0)
             .Max();
 
         var nextNumber = maxCode + 1;
@@ -66,31 +66,29 @@ internal sealed class PartCodeGenerator : IPartCodeGenerator
 
 internal sealed class PieceCodeGenerator : IPieceCodeGenerator
 {
-    private readonly IInstockProductRepository _productRepository;
+    private readonly InStockDbContext _context;
 
-    public PieceCodeGenerator(IInstockProductRepository productRepository)
+    public PieceCodeGenerator(InStockDbContext context)
     {
-        _productRepository = productRepository;
+        _context = context;
     }
 
     public async Task<string> GenerateNextCodeAsync(CancellationToken cancellationToken = default)
     {
-        var allProducts = await _productRepository.GetAllAsync(cancellationToken);
-        var allPieces = allProducts
+        var allCodes = await _context.InstockProducts
             .SelectMany(p => p.Parts)
             .SelectMany(part => part.Pieces)
-            .ToList();
+            .Where(piece => piece.Code.StartsWith("PIE") && piece.Code.Length == 8)
+            .Select(piece => piece.Code)
+            .ToListAsync(cancellationToken);
 
-        if (!allPieces.Any())
+        if (!allCodes.Any())
         {
             return "PIE00001";
         }
 
-        var maxCode = allPieces
-            .Select(p => p.Code)
-            .Where(code => code.StartsWith("PIE") && code.Length == 8)
+        var maxCode = allCodes
             .Select(code => int.TryParse(code.Substring(3), out var num) ? num : 0)
-            .DefaultIfEmpty(0)
             .Max();
 
         var nextNumber = maxCode + 1;

@@ -29,7 +29,7 @@ internal sealed class CreatePiece : IEndpoint
 
                 var result = await sender.Send(command, cancellationToken);
 
-                return result.MatchOk(id => Results.Created($"/api/instock/products/{productId}/parts/{partId}/pieces/{id}", id));
+                return result.MatchOk(id => Results.Created($"/api/instock-products/{productId}/parts/{partId}/pieces/{id}", id));
             })
             .WithName("CreatePiece")
             .WithSummary("Create a new piece for a part (Staff/Manager only)")
