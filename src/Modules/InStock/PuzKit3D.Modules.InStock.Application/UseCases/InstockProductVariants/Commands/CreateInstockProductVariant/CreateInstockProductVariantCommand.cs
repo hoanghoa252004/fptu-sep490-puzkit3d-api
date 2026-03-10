@@ -4,9 +4,9 @@ namespace PuzKit3D.Modules.InStock.Application.UseCases.InstockProductVariants.C
 
 public sealed record CreateInstockProductVariantCommand(
     Guid ProductId,
-    string Sku,
     string Color,
     int AssembledLengthMm,
     int AssembledWidthMm,
     int AssembledHeightMm,
     bool IsActive = false) : ICommandT<Guid>;
+

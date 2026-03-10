@@ -49,6 +49,7 @@ public static class DependencyInjection
         services.AddScoped<IInstockProductCodeGenerator, InstockProductCodeGenerator>();
         services.AddScoped<IPartCodeGenerator, PartCodeGenerator>();
         services.AddScoped<IPieceCodeGenerator, PieceCodeGenerator>();
+        services.AddScoped<IInstockProductVariantSkuGenerator, InstockProductVariantSkuGenerator>();
 
         return services;
     }

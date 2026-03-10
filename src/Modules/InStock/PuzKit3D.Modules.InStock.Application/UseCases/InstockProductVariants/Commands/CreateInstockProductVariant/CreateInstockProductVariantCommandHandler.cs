@@ -1,4 +1,5 @@
 using PuzKit3D.Modules.InStock.Application.Repositories;
+using PuzKit3D.Modules.InStock.Application.Services;
 using PuzKit3D.Modules.InStock.Application.UnitOfWork;
 using PuzKit3D.Modules.InStock.Domain.Entities.InstockProducts;
 using PuzKit3D.Modules.InStock.Domain.Entities.InstockProductVariants;
@@ -11,15 +12,18 @@ internal sealed class CreateInstockProductVariantCommandHandler : ICommandTHandl
 {
     private readonly IInstockProductRepository _productRepository;
     private readonly IInstockProductVariantRepository _variantRepository;
+    private readonly IInstockProductVariantSkuGenerator _skuGenerator;
     private readonly IInStockUnitOfWork _unitOfWork;
 
     public CreateInstockProductVariantCommandHandler(
         IInstockProductRepository productRepository,
         IInstockProductVariantRepository variantRepository,
+        IInstockProductVariantSkuGenerator skuGenerator,
         IInStockUnitOfWork unitOfWork)
     {
         _productRepository = productRepository;
         _variantRepository = variantRepository;
+        _skuGenerator = skuGenerator;
         _unitOfWork = unitOfWork;
     }
 
@@ -33,17 +37,13 @@ internal sealed class CreateInstockProductVariantCommandHandler : ICommandTHandl
             return Result.Failure<Guid>(InstockProductError.NotFound(request.ProductId));
         }
 
-        var existingBySku = await _variantRepository.GetBySkuAsync(request.Sku, cancellationToken);
-        if (existingBySku is not null)
-        {
-            return Result.Failure<Guid>(InstockProductVariantError.DuplicateSku(request.Sku));
-        }
-
         return await _unitOfWork.ExecuteAsync(async () =>
         {
+            var sku = await _skuGenerator.GenerateNextSkuAsync(cancellationToken);
+
             var variantResult = InstockProductVariant.Create(
                 productId,
-                request.Sku,
+                sku,
                 request.Color,
                 request.AssembledLengthMm,
                 request.AssembledWidthMm,
@@ -62,3 +62,4 @@ internal sealed class CreateInstockProductVariantCommandHandler : ICommandTHandl
         }, cancellationToken);
     }
 }
+

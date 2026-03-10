@@ -43,6 +43,9 @@ internal sealed class GetAllInstockPricesQueryHandler : IQueryHandler<GetAllInst
             prices = prices.Where(p => p.IsActive == request.IsActive.Value);
         }
 
+        // Sort by CreatedAt ascending
+        prices = prices.OrderBy(p => p.CreatedAt);
+
         var totalCount = prices.Count();
 
         var priceDtos = prices

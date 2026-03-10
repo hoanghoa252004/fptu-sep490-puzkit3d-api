@@ -29,19 +29,10 @@ internal sealed class UpdateInstockProductVariantCommandHandler : ICommandHandle
             return Result.Failure(InstockProductVariantError.NotFound(request.VariantId));
         }
 
-        if (request.Sku is not null)
-        {
-            var existingBySku = await _variantRepository.GetBySkuAsync(request.Sku, cancellationToken);
-            if (existingBySku is not null && existingBySku.Id != variant.Id)
-            {
-                return Result.Failure(InstockProductVariantError.DuplicateSku(request.Sku));
-            }
-        }
-
         return await _unitOfWork.ExecuteAsync<Result>(async () =>
         {
             var updateResult = variant.PartialUpdate(
-                request.Sku,
+                null, // SKU cannot be updated
                 request.Color,
                 request.AssembledLengthMm,
                 request.AssembledWidthMm,

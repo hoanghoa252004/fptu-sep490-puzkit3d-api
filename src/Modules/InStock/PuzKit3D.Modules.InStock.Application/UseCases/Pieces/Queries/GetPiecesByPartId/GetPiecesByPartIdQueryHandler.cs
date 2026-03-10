@@ -39,6 +39,7 @@ internal sealed class GetPiecesByPartIdQueryHandler
         }
 
         var pieces = part.Pieces
+            .OrderBy(piece => piece.Code) // Sort by Code ascending
             .Select(piece => new GetPiecesByPartIdResponseDto(
                 piece.Id.Value,
                 piece.Code,

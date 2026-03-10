@@ -34,7 +34,7 @@ internal sealed class GetAllInstockPrices : IEndpoint
                 return result.MatchOk();
             })
             .WithName("GetAllInstockPrices")
-            .WithSummary("Get all instock prices with pagination")
+            .WithSummary("Get all instock prices with pagination (Staff/Manager only)")
             .WithDescription("Retrieves a paginated list of instock prices. Anonymous/Customer users: only active prices with limited fields. Staff/Manager: all prices with full details including timestamps and IsActive flag.")
             .RequireAuthorization(policy => policy.RequireRole(Roles.Staff, Roles.BusinessManager))
             .Produces<PagedResult<object>>(StatusCodes.Status200OK)

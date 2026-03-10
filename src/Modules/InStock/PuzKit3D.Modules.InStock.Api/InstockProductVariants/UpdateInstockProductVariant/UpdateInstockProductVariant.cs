@@ -24,7 +24,6 @@ internal sealed class UpdateInstockProductVariant : IEndpoint
             {
                 var command = new UpdateInstockProductVariantCommand(
                     variantId,
-                    request.Sku,
                     request.Color,
                     request.AssembledLengthMm,
                     request.AssembledWidthMm,
@@ -36,7 +35,7 @@ internal sealed class UpdateInstockProductVariant : IEndpoint
             })
             .WithName("UpdateInstockProductVariant")
             .WithSummary("Update an instock product variant (Staff/Manager only)")
-            .WithDescription("Updates an instock product variant. Only provided fields will be updated, null fields will be ignored. Requires Staff or Manager role.")
+            .WithDescription("Updates an instock product variant. Only provided fields will be updated, null fields will be ignored. SKU cannot be updated. Requires Staff or Manager role.")
             .RequireAuthorization(policy => policy.RequireRole(Roles.Staff, Roles.BusinessManager))
             .Produces(StatusCodes.Status204NoContent)
             .ProducesValidationProblem(StatusCodes.Status400BadRequest)
@@ -49,8 +48,8 @@ internal sealed class UpdateInstockProductVariant : IEndpoint
 }
 
 internal sealed record UpdateInstockProductVariantRequestDto(
-    string? Sku,
     string? Color,
     int? AssembledLengthMm,
     int? AssembledWidthMm,
     int? AssembledHeightMm);
+

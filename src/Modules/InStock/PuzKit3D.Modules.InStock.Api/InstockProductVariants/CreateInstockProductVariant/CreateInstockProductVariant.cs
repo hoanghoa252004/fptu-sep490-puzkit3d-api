@@ -23,7 +23,6 @@ internal sealed class CreateInstockProductVariant : IEndpoint
             {
                 var command = new CreateInstockProductVariantCommand(
                     productId,
-                    request.Sku,
                     request.Color,
                     request.AssembledLengthMm,
                     request.AssembledWidthMm,
@@ -36,7 +35,7 @@ internal sealed class CreateInstockProductVariant : IEndpoint
             })
             .WithName("CreateInstockProductVariant")
             .WithSummary("Create a new instock product variant (Staff/Manager only)")
-            .WithDescription("Creates a new variant for an instock product. Requires Staff or Manager role.")
+            .WithDescription("Creates a new variant for an instock product. SKU is auto-generated (SKU001, SKU002, ...). Requires Staff or Manager role.")
             .RequireAuthorization(policy => policy.RequireRole(Roles.Staff, Roles.BusinessManager))
             .Produces<Guid>(StatusCodes.Status201Created)
             .ProducesValidationProblem(StatusCodes.Status400BadRequest)
@@ -49,9 +48,9 @@ internal sealed class CreateInstockProductVariant : IEndpoint
 }
 
 internal sealed record CreateInstockProductVariantRequestDto(
-    string Sku,
     string Color,
     int AssembledLengthMm,
     int AssembledWidthMm,
     int AssembledHeightMm,
     bool IsActive);
+

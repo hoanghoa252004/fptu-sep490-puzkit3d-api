@@ -46,6 +46,9 @@ internal sealed class GetAllInstockProductVariantsByProductIdQueryHandler
             variants = variants.Where(v => v.IsActive);
         }
 
+        // Sort by SKU ascending
+        variants = variants.OrderBy(v => v.Sku);
+
         var variantDtos = variants.Select(v => new VariantDto(
             v.Id.Value,
             v.Sku,
