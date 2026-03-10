@@ -219,6 +219,7 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                     id = table.Column<Guid>(type: "uuid", nullable: false),
                     name = table.Column<string>(type: "character varying(30)", maxLength: 30, nullable: false),
                     part_type = table.Column<string>(type: "character varying(30)", maxLength: 30, nullable: false),
+                    code = table.Column<string>(type: "character varying(10)", maxLength: 10, nullable: false),
                     instock_product_id = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>

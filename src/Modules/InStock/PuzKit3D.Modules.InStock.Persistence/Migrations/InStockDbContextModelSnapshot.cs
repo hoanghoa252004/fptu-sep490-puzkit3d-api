@@ -456,6 +456,12 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("id");
 
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("character varying(10)")
+                        .HasColumnName("code");
+
                     b.Property<Guid>("InstockProductId")
                         .HasColumnType("uuid")
                         .HasColumnName("instock_product_id");
