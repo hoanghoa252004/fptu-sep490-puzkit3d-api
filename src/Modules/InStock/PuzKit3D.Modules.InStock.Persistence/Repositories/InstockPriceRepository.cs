@@ -51,6 +51,14 @@ internal sealed class InstockPriceRepository : IInstockPriceRepository
             .ToListAsync(cancellationToken);
     }
 
+    public async Task<InstockPrice?> GetByPriorityAsync(
+        int priority,
+        CancellationToken cancellationToken = default)
+    {
+        return await _context.InstockPrices
+            .FirstOrDefaultAsync(p => p.Priority == priority, cancellationToken);
+    }
+
     public void Add(InstockPrice entity)
     {
         _context.InstockPrices.Add(entity);

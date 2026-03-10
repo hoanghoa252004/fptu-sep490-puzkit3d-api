@@ -42,7 +42,7 @@ public sealed class InstockProductPriceDetail : Entity<InstockProductPriceDetail
         bool isActive = false,
         DateTime? createdAt = null)
     {
-        if (unitPrice <= 0)
+        if (unitPrice < 10000)
             return Result.Failure<InstockProductPriceDetail>(InstockProductPriceDetailError.InvalidUnitPrice());
 
         var priceDetailId = InstockProductPriceDetailId.Create();
@@ -61,10 +61,25 @@ public sealed class InstockProductPriceDetail : Entity<InstockProductPriceDetail
 
     public Result UpdateUnitPrice(decimal unitPrice)
     {
-        if (unitPrice <= 0)
+        if (unitPrice < 10000)
             return Result.Failure(InstockProductPriceDetailError.InvalidUnitPrice());
 
         UnitPrice = Money.Create(unitPrice);
+        UpdatedAt = DateTime.UtcNow;
+
+        return Result.Success();
+    }
+
+    public Result PartialUpdate(decimal? unitPrice = null)
+    {
+        if (unitPrice.HasValue)
+        {
+            if (unitPrice.Value < 10000)
+                return Result.Failure(InstockProductPriceDetailError.InvalidUnitPrice());
+
+            UnitPrice = Money.Create(unitPrice.Value);
+        }
+
         UpdatedAt = DateTime.UtcNow;
 
         return Result.Success();

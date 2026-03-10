@@ -6,7 +6,7 @@ public static class InstockProductPriceDetailError
 {
     public static Error InvalidUnitPrice() => Error.Validation(
         "InstockProductPriceDetail.InvalidUnitPrice",
-        "Unit price must be greater than zero.");
+        "Unit price must be at least 10,000.");
 
     public static Error NotFound(Guid id) => Error.NotFound(
         "InstockProductPriceDetail.NotFound",
@@ -15,4 +15,13 @@ public static class InstockProductPriceDetailError
     public static Error DuplicatePriceDetail() => Error.Conflict(
         "InstockProductPriceDetail.DuplicatePriceDetail",
         "Price detail for this product variant and price already exists.");
+
+    public static Error AlreadyActive(Guid id) => Error.Conflict(
+        "InstockProductPriceDetail.AlreadyActive",
+        $"Instock product price detail with ID '{id}' is already active.");
+
+    public static Error AlreadyInactive(Guid id) => Error.Conflict(
+        "InstockProductPriceDetail.AlreadyInactive",
+        $"Instock product price detail with ID '{id}' is already inactive.");
 }
+

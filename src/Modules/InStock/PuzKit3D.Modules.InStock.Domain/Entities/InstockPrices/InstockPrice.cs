@@ -96,6 +96,48 @@ public sealed class InstockPrice : AggregateRoot<InstockPriceId>
         return Result.Success();
     }
 
+    public Result PartialUpdate(
+        string? name = null,
+        DateTime? effectiveFrom = null,
+        DateTime? effectiveTo = null,
+        int? priority = null)
+    {
+        if (name is not null)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+                return Result.Failure(InstockPriceError.InvalidName());
+
+            if (name.Length > 30)
+                return Result.Failure(InstockPriceError.NameTooLong(name.Length));
+
+            Name = name;
+        }
+
+        var newEffectiveFrom = effectiveFrom ?? EffectiveFrom;
+        var newEffectiveTo = effectiveTo ?? EffectiveTo;
+
+        if (newEffectiveFrom >= newEffectiveTo)
+            return Result.Failure(InstockPriceError.InvalidDateRange());
+
+        if (effectiveFrom.HasValue)
+            EffectiveFrom = effectiveFrom.Value;
+
+        if (effectiveTo.HasValue)
+            EffectiveTo = effectiveTo.Value;
+
+        if (priority.HasValue)
+        {
+            if (priority.Value <= 0)
+                return Result.Failure(InstockPriceError.InvalidPriority());
+
+            Priority = priority.Value;
+        }
+
+        UpdatedAt = DateTime.UtcNow;
+
+        return Result.Success();
+    }
+
     public void Activate()
     {
         IsActive = true;

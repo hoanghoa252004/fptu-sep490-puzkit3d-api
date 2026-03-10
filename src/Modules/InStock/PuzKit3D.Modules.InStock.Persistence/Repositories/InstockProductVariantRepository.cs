@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using PuzKit3D.Modules.InStock.Application.Repositories;
+using PuzKit3D.Modules.InStock.Domain.Entities.InstockProducts;
 using PuzKit3D.Modules.InStock.Domain.Entities.InstockProductVariants;
 using System.Linq.Expressions;
 
@@ -46,6 +47,16 @@ internal sealed class InstockProductVariantRepository : IInstockProductVariantRe
     {
         return await _context.InstockProductVariants
             .FirstOrDefaultAsync(v => v.Sku == sku, cancellationToken);
+    }
+
+    public async Task<IEnumerable<InstockProductVariant>> GetAllByProductIdAsync(
+        InstockProductId productId,
+        CancellationToken cancellationToken = default)
+    {
+        return await _context.InstockProductVariants
+            .Where(v => v.InstockProductId == productId)
+            .AsNoTracking()
+            .ToListAsync(cancellationToken);
     }
 
     public void Add(InstockProductVariant entity)

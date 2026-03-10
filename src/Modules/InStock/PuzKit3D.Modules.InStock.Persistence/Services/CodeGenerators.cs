@@ -95,3 +95,34 @@ internal sealed class PieceCodeGenerator : IPieceCodeGenerator
         return $"PIE{nextNumber:D5}";
     }
 }
+
+internal sealed class InstockProductVariantSkuGenerator : IInstockProductVariantSkuGenerator
+{
+    private readonly InStockDbContext _context;
+
+    public InstockProductVariantSkuGenerator(InStockDbContext context)
+    {
+        _context = context;
+    }
+
+    public async Task<string> GenerateNextSkuAsync(CancellationToken cancellationToken = default)
+    {
+        var allSkus = await _context.InstockProductVariants
+            .Where(v => v.Sku.StartsWith("SKU") && v.Sku.Length == 6)
+            .Select(v => v.Sku)
+            .ToListAsync(cancellationToken);
+
+        if (!allSkus.Any())
+        {
+            return "SKU001";
+        }
+
+        var maxSku = allSkus
+            .Select(sku => int.TryParse(sku.Substring(3), out var num) ? num : 0)
+            .Max();
+
+        var nextNumber = maxSku + 1;
+        return $"SKU{nextNumber:D3}";
+    }
+}
+

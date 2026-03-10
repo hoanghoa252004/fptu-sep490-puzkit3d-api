@@ -115,6 +115,64 @@ public sealed class InstockProductVariant : Entity<InstockProductVariantId>
         return Result.Success();
     }
 
+    public Result PartialUpdate(
+        string? sku = null,
+        string? color = null,
+        int? assembledLengthMm = null,
+        int? assembledWidthMm = null,
+        int? assembledHeightMm = null)
+    {
+        if (sku is not null)
+        {
+            if (string.IsNullOrWhiteSpace(sku))
+                return Result.Failure(InstockProductVariantError.InvalidSku());
+
+            if (sku.Length > 10)
+                return Result.Failure(InstockProductVariantError.SkuTooLong(sku.Length));
+
+            Sku = sku;
+        }
+
+        if (color is not null)
+        {
+            if (string.IsNullOrWhiteSpace(color))
+                return Result.Failure(InstockProductVariantError.InvalidColor());
+
+            if (color.Length > 15)
+                return Result.Failure(InstockProductVariantError.ColorTooLong(color.Length));
+
+            Color = color;
+        }
+
+        if (assembledLengthMm.HasValue)
+        {
+            if (assembledLengthMm.Value <= 0)
+                return Result.Failure(InstockProductVariantError.InvalidDimension());
+
+            AssembledLengthMm = assembledLengthMm.Value;
+        }
+
+        if (assembledWidthMm.HasValue)
+        {
+            if (assembledWidthMm.Value <= 0)
+                return Result.Failure(InstockProductVariantError.InvalidDimension());
+
+            AssembledWidthMm = assembledWidthMm.Value;
+        }
+
+        if (assembledHeightMm.HasValue)
+        {
+            if (assembledHeightMm.Value <= 0)
+                return Result.Failure(InstockProductVariantError.InvalidDimension());
+
+            AssembledHeightMm = assembledHeightMm.Value;
+        }
+
+        UpdatedAt = DateTime.UtcNow;
+
+        return Result.Success();
+    }
+
     public void Activate()
     {
         IsActive = true;
