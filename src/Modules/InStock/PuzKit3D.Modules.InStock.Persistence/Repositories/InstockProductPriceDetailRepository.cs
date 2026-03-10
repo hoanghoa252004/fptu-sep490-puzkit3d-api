@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using PuzKit3D.Modules.InStock.Application.Repositories;
+using PuzKit3D.Modules.InStock.Domain.Entities.InstockPrices;
 using PuzKit3D.Modules.InStock.Domain.Entities.InstockProductPriceDetails;
+using PuzKit3D.Modules.InStock.Domain.Entities.InstockProductVariants;
 using System.Linq.Expressions;
 
 namespace PuzKit3D.Modules.InStock.Persistence.Repositories;
@@ -45,10 +47,23 @@ internal sealed class InstockProductPriceDetailRepository : IInstockProductPrice
         Guid variantId,
         CancellationToken cancellationToken = default)
     {
+        var priceIdTyped = InstockPriceId.From(priceId);
+        var variantIdTyped = InstockProductVariantId.From(variantId);
+        
         return await _context.InstockProductPriceDetails
             .FirstOrDefaultAsync(
-                pd => pd.InstockPriceId.Value == priceId && pd.InstockProductVariantId.Value == variantId,
+                pd => pd.InstockPriceId == priceIdTyped && pd.InstockProductVariantId == variantIdTyped,
                 cancellationToken);
+    }
+
+    public async Task<IEnumerable<InstockProductPriceDetail>> GetAllByProductVariantIdAsync(
+        InstockProductVariantId variantId,
+        CancellationToken cancellationToken = default)
+    {
+        return await _context.InstockProductPriceDetails
+            .Where(pd => pd.InstockProductVariantId == variantId)
+            .AsNoTracking()
+            .ToListAsync(cancellationToken);
     }
 
     public void Add(InstockProductPriceDetail entity)

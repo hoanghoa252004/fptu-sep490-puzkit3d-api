@@ -41,4 +41,10 @@ public static class EndpointGroupExtension
         return app.MapGroup($"{ApiRoutes.ApiPrefix}/instock-prices")
             .WithTags("Prices");
     }
+
+    public static RouteGroupBuilder MapPriceDetailsGroup(this IEndpointRouteBuilder app)
+    {
+        return app.MapGroup($"{ApiRoutes.ApiPrefix}/instock-price-details")
+            .WithTags("Price Details");
+    }
 }
