@@ -39,4 +39,8 @@ public static class InstockProductVariantError
     public static Error AlreadyInactive(Guid id) => Error.Conflict(
         "InstockProductVariant.AlreadyInactive",
         $"Instock product variant with ID '{id}' is already inactive.");
+
+    public static Error VariantDoesNotBelongToProduct(Guid variantId, Guid productId) => Error.Validation(
+        "InstockProductVariant.VariantDoesNotBelongToProduct",
+        $"Variant with ID '{variantId}' does not belong to product with ID '{productId}'.");
 }

@@ -18,4 +18,9 @@
     <ProjectReference Include="..\PuzKit3D.Modules.InStock.Application\PuzKit3D.Modules.InStock.Application.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="InstockInventories\AddStock\" />
+    <Folder Include="InstockInventories\GetInstockInventoryById\" />
+  </ItemGroup>
+
 </Project>

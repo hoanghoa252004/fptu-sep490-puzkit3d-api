@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using PuzKit3D.Modules.InStock.Application.Repositories;
 using PuzKit3D.Modules.InStock.Domain.Entities.InstockInventories;
+using PuzKit3D.Modules.InStock.Domain.Entities.InstockProductVariants;
 using System.Linq.Expressions;
 
 namespace PuzKit3D.Modules.InStock.Persistence.Repositories;
@@ -44,8 +45,9 @@ internal sealed class InstockInventoryRepository : IInstockInventoryRepository
         Guid variantId,
         CancellationToken cancellationToken = default)
     {
+        var variantIdObj = InstockProductVariantId.From(variantId);
         return await _context.InstockInventories
-            .FirstOrDefaultAsync(i => i.InstockProductVariantId.Value == variantId, cancellationToken);
+            .FirstOrDefaultAsync(i => i.InstockProductVariantId == variantIdObj, cancellationToken);
     }
 
     public void Add(InstockInventory entity)
