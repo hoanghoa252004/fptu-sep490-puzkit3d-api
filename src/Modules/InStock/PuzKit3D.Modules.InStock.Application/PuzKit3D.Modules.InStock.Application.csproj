@@ -21,8 +21,6 @@
 
   <ItemGroup>
     <Folder Include="EventHandlers\" />
-    <Folder Include="UseCases\InstockInventories\Commands\AddStock\" />
-    <Folder Include="UseCases\InstockInventories\Queries\GetInstockInventoryById\" />
   </ItemGroup>
 
 </Project>
