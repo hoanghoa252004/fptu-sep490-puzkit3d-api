@@ -68,6 +68,11 @@ internal sealed class AddItemToInStockCartCommandHandler : ICommandHandler<AddIt
                 return Result.Failure(CartError.PriceDetailNotFound());
             }
 
+            if (!priceDetail.InStockProductVariantId.Equals(instockVariant.Id))
+            {
+                return Result.Failure(CartError.InvalidPriceOfVariant());
+            }
+
             if (!priceDetail.IsActive)
             {
                 return Result.Failure(CartError.PriceDetailNotActive());

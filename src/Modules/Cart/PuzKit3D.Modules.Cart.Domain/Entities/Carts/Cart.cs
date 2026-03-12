@@ -1,4 +1,3 @@
-using PuzKit3D.Modules.Cart.Domain.Events.Carts;
 using PuzKit3D.SharedKernel.Domain;
 using PuzKit3D.SharedKernel.Domain.Results;
 
@@ -43,8 +42,6 @@ public sealed class Cart : AggregateRoot<CartId>
         var cartId = CartId.Create();
         var cart = new Cart(cartId, userId, normalizedCartType);
 
-        cart.RaiseDomainEvent(new CartCreatedDomainEvent(cartId.Value, userId, normalizedCartType));
-
         return Result.Success(cart);
     }
 
@@ -58,13 +55,6 @@ public sealed class Cart : AggregateRoot<CartId>
         {
             existingItem.IncrementQuantity(quantity);
             TotalItem += quantity;
-            
-            RaiseDomainEvent(new CartItemQuantityChangedDomainEvent(
-                Id.Value,
-                existingItem.Id.Value,
-                itemId,
-                existingItem.Quantity));
-
             return Result.Success();
         }
 
@@ -80,12 +70,6 @@ public sealed class Cart : AggregateRoot<CartId>
         _items.Add(cartItemResult.Value);
         TotalItem += quantity;
 
-        RaiseDomainEvent(new CartItemAddedDomainEvent(
-            Id.Value,
-            cartItemResult.Value.Id.Value,
-            itemId,
-            quantity));
-
         return Result.Success();
     }
 
@@ -97,11 +81,6 @@ public sealed class Cart : AggregateRoot<CartId>
 
         TotalItem -= item.Quantity;
         _items.Remove(item);
-
-        RaiseDomainEvent(new CartItemRemovedDomainEvent(
-            Id.Value,
-            item.Id.Value,
-            itemId));
 
         return Result.Success();
     }
@@ -120,12 +99,6 @@ public sealed class Cart : AggregateRoot<CartId>
 
         TotalItem = TotalItem - oldQuantity + quantity;
 
-        RaiseDomainEvent(new CartItemQuantityChangedDomainEvent(
-            Id.Value,
-            item.Id.Value,
-            itemId,
-            quantity));
-
         return Result.Success();
     }
 
@@ -136,8 +109,6 @@ public sealed class Cart : AggregateRoot<CartId>
 
         _items.Clear();
         TotalItem = 0;
-
-        RaiseDomainEvent(new CartClearedDomainEvent(Id.Value, UserId));
 
         return Result.Success();
     }

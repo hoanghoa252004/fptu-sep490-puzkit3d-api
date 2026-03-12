@@ -72,10 +72,15 @@ public sealed class InStockDbContext : DbContext, IInStockUnitOfWork
                     await transaction.RollbackAsync(cancellationToken);
                     return response;
                 }
-
-                var domainEvents = GetDomainEvents();
-
-                await DispatchDomainEventsAsync(domainEvents, cancellationToken);
+                do
+                {
+                    var domainEvents = GetDomainEvents();
+                    if (domainEvents.Any())
+                    {
+                        await DispatchDomainEventsAsync(domainEvents, cancellationToken);
+                    }
+                } while (CheckDomainEventRemain());
+                
 
                 await SaveChangesAsync(cancellationToken);
                 await transaction.CommitAsync(cancellationToken);
@@ -100,6 +105,21 @@ public sealed class InStockDbContext : DbContext, IInStockUnitOfWork
         domainEventEntities.ForEach(e => e.ClearDomainEvents());
 
         return domainEvents;
+    }
+
+    private bool CheckDomainEventRemain()
+    {
+        var domainEventEntities = ChangeTracker.Entries()
+            .Select(e => e.Entity)
+            .OfType<IEntity>()
+            .Where(e => e.DomainEvents.Any())
+            .ToList();
+
+        var domainEvents = domainEventEntities
+            .SelectMany(e => e.DomainEvents)
+            .ToList();
+
+        return domainEvents.Any();
     }
 
     private async Task DispatchDomainEventsAsync(List<IDomainEvent> domainEvents, CancellationToken cancellationToken)

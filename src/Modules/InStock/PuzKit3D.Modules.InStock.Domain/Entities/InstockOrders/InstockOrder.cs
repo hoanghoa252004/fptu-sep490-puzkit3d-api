@@ -25,7 +25,7 @@ public sealed class InstockOrder : AggregateRoot<InstockOrderId>
     public int UsedCoinAmount { get; private set; }
     public decimal UsedCoinAmountAsMoney { get; private set; }
     public decimal GrandTotalAmount { get; private set; }
-    public int Status { get; private set; }
+    public InstockOrderStatus Status { get; private set; }
     public DateTime CreatedAt { get; private set; }
     public DateTime UpdatedAt { get; private set; }
     public string PaymentMethod { get; private set; } = null!;
@@ -52,7 +52,7 @@ public sealed class InstockOrder : AggregateRoot<InstockOrderId>
         int usedCoinAmount,
         decimal usedCoinAmountAsMoney,
         decimal grandTotalAmount,
-        int status,
+        InstockOrderStatus status,
         string paymentMethod,
         bool isPaid,
         DateTime createdAt) : base(id)
@@ -102,7 +102,7 @@ public sealed class InstockOrder : AggregateRoot<InstockOrderId>
         decimal usedCoinAmountAsMoney,
         decimal grandTotalAmount,
         string paymentMethod,
-        int status = 0,
+        InstockOrderStatus status = InstockOrderStatus.PaymentPending,
         bool isPaid = false,
         DateTime? createdAt = null)
     {
@@ -161,12 +161,14 @@ public sealed class InstockOrder : AggregateRoot<InstockOrderId>
         return Result.Success(order);
     }
 
-    public Result UpdateStatus(int status)
+    public Result UpdateStatus(InstockOrderStatus newStatus)
     {
-        if (status < 0)
-            return Result.Failure(InstockOrderError.InvalidStatus());
+        if (!InstockOrderStatusTransition.IsValidTransition(Status, newStatus))
+        {
+            return Result.Failure(InstockOrderError.InvalidStatusTransition(Status, newStatus));
+        }
 
-        Status = status;
+        Status = newStatus;
         UpdatedAt = DateTime.UtcNow;
 
         return Result.Success();
@@ -174,11 +176,81 @@ public sealed class InstockOrder : AggregateRoot<InstockOrderId>
 
     public Result MarkAsPaid()
     {
-        if (IsPaid)
-            return Result.Success();
+        if (Status == InstockOrderStatus.Expired)
+        {
+            return Result.Failure(InstockOrderError.OrderExpired());
+        }
 
+        if (IsPaid)
+        {
+            return Result.Failure(InstockOrderError.OrderAlreadyPaid());
+        }
+
+        if (Status != InstockOrderStatus.PaymentPending)
+        {
+            return Result.Failure(InstockOrderError.InvalidStatusTransition(Status, InstockOrderStatus.Paid));
+        }
+
+        Status = InstockOrderStatus.Paid;
         IsPaid = true;
         PaidAt = DateTime.UtcNow;
+        UpdatedAt = DateTime.UtcNow;
+
+        return Result.Success();
+    }
+
+    public Result MarkAsExpired()
+    {
+        if (Status != InstockOrderStatus.PaymentPending)
+        {
+            return Result.Failure(InstockOrderError.CannotExpireOrder());
+        }
+
+        Status = InstockOrderStatus.Expired;
+        UpdatedAt = DateTime.UtcNow;
+
+        return Result.Success();
+    }
+
+    public Result StartProcessing()
+    {
+        if (Status != InstockOrderStatus.Paid)
+        {
+            return Result.Failure(InstockOrderError.OrderNotPaid());
+        }
+
+        Status = InstockOrderStatus.Processing;
+        UpdatedAt = DateTime.UtcNow;
+
+        return Result.Success();
+    }
+
+    public Result MarkAsShipped()
+    {
+        if (Status != InstockOrderStatus.Processing)
+        {
+            return Result.Failure(InstockOrderError.InvalidStatusTransition(Status, InstockOrderStatus.Shipped));
+        }
+
+        Status = InstockOrderStatus.Shipped;
+        UpdatedAt = DateTime.UtcNow;
+
+        return Result.Success();
+    }
+
+    public Result Complete()
+    {
+        if (Status != InstockOrderStatus.Shipped)
+        {
+            return Result.Failure(InstockOrderError.InvalidStatusTransition(Status, InstockOrderStatus.Completed));
+        }
+
+        if (Status == InstockOrderStatus.Completed)
+        {
+            return Result.Failure(InstockOrderError.OrderAlreadyCompleted());
+        }
+
+        Status = InstockOrderStatus.Completed;
         UpdatedAt = DateTime.UtcNow;
 
         return Result.Success();

@@ -1,0 +1,143 @@
+# Seed Data GUID Structure
+
+## M?c ?ích
+Document này gi?i thích c?u trúc GUID hardcoded trong seed data ?? ??m b?o ??ng b? gi?a **InStock Module** và **Cart Module** (Replica tables).
+
+## V?n ?? ?ã gi?i quy?t
+- **Tr??c ?ây**: S? d?ng `Guid.NewGuid()` ho?c `new Random(seed)` t?o ra GUID/data khác nhau m?i l?n migration
+- **Bây gi?**: Hardcode t?t c? GUID và data ?? ??m b?o 100% ??ng b? gi?a InStock và Cart
+
+## C?u trúc GUID
+
+### 1. Products (10000000-xxxx-0000-0000-000000000xxx)
+```
+10000000-0000-0000-0000-000000000001  // Lion 3D Puzzle
+10000000-0000-0000-0000-000000000002  // Elephant 3D Puzzle
+10000000-0000-0000-0000-000000000003  // Eagle 3D Puzzle
+10000000-0000-0000-0000-000000000004  // Sports Car 3D Puzzle
+10000000-0000-0000-0000-000000000005  // Airplane 3D Puzzle
+10000000-0000-0000-0000-000000000006  // Motorcycle 3D Puzzle
+10000000-0000-0000-0000-000000000007  // Tiger 3D Puzzle
+10000000-0000-0000-0000-000000000008  // Dolphin 3D Puzzle
+10000000-0000-0000-0000-000000000009  // Helicopter 3D Puzzle
+10000000-0000-0000-0000-000000000010  // Dragon 3D Puzzle
+```
+
+### 2. Variants (20000000-pppp-0000-0000-00000000000v)
+Format: `20000000-{ProductNumber:D4}-0000-0000-00000000000{VariantNumber}`
+
+```
+20000000-0001-0000-0000-000000000001  // Lion Red
+20000000-0001-0000-0000-000000000002  // Lion Blue
+20000000-0002-0000-0000-000000000001  // Elephant Green
+20000000-0003-0000-0000-000000000001  // Eagle Yellow
+20000000-0003-0000-0000-000000000002  // Eagle Black
+20000000-0004-0000-0000-000000000001  // Sports Car White
+20000000-0004-0000-0000-000000000002  // Sports Car Orange
+20000000-0005-0000-0000-000000000001  // Airplane Purple
+20000000-0006-0000-0000-000000000001  // Motorcycle Red
+20000000-0006-0000-0000-000000000002  // Motorcycle Blue
+20000000-0007-0000-0000-000000000001  // Tiger Green
+20000000-0008-0000-0000-000000000001  // Dolphin Yellow
+20000000-0008-0000-0000-000000000002  // Dolphin Black
+20000000-0009-0000-0000-000000000001  // Helicopter White
+20000000-0010-0000-0000-000000000001  // Dragon Orange
+20000000-0010-0000-0000-000000000002  // Dragon Purple
+```
+
+### 3. Price Details (30000000-vvvv-ppp0-0000-000000000000)
+Format: `30000000-{VariantIndex:D4}-{PriceType}000-0000-000000000000`
+- `{PriceType}`: `1` = Standard Price, `2` = Sale Price
+
+**Examples:**
+```
+30000000-0001-1000-0000-000000000000  // Variant #1 - Standard Price
+30000000-0001-2000-0000-000000000000  // Variant #1 - Sale Price
+30000000-0002-1000-0000-000000000000  // Variant #2 - Standard Price
+30000000-0002-2000-0000-000000000000  // Variant #2 - Sale Price
+...
+30000000-0016-1000-0000-000000000000  // Variant #16 - Standard Price
+30000000-0016-2000-0000-000000000000  // Variant #16 - Sale Price
+```
+
+### 4. Inventories (40000000-vvvv-0000-0000-000000000000)
+Format: `40000000-{VariantIndex:D4}-0000-0000-000000000000`
+
+```
+40000000-0001-0000-0000-000000000000  // Inventory for Variant #1
+40000000-0002-0000-0000-000000000000  // Inventory for Variant #2
+...
+40000000-0016-0000-0000-000000000000  // Inventory for Variant #16
+```
+
+### 5. Master Data GUIDs
+
+#### Prices
+```
+99999999-9999-9999-9999-999999999991  // Standard Price
+99999999-9999-9999-9999-999999999992  // Sale Summer Vacation
+```
+
+#### Topics
+```
+11111111-1111-1111-1111-111111111111  // Animals
+22222222-2222-2222-2222-222222222222  // Vehicles
+```
+
+#### Assembly Methods
+```
+33333333-3333-3333-3333-333333333333  // Snap-Fit
+44444444-4444-4444-4444-444444444444  // Glue-Based
+```
+
+#### Materials
+```
+55555555-5555-5555-5555-555555555555  // Wood
+66666666-6666-6666-6666-666666666666  // Plastic
+```
+
+#### Capabilities
+```
+77777777-7777-7777-7777-777777777777  // Beginner Friendly
+88888888-8888-8888-8888-888888888888  // Advanced Building
+```
+
+## Variant Details
+
+| Index | SKU    | Product         | Color  | Length | Width | Height | Std Price | Sale Price | Quantity |
+|-------|--------|----------------|--------|--------|-------|--------|-----------|------------|----------|
+| 1     | SKU001 | Lion           | Red    | 218    | 159   | 261    | 745,000   | 596,000    | 75       |
+| 2     | SKU002 | Lion           | Blue   | 174    | 138   | 297    | 419,000   | 335,200    | 83       |
+| 3     | SKU003 | Elephant       | Green  | 229    | 263   | 175    | 268,000   | 214,400    | 162      |
+| 4     | SKU004 | Eagle          | Yellow | 131    | 171   | 224    | 869,000   | 695,200    | 152      |
+| 5     | SKU005 | Eagle          | Black  | 182    | 292   | 289    | 648,000   | 518,400    | 123      |
+| 6     | SKU006 | Sports Car     | White  | 156    | 240   | 158    | 356,000   | 284,800    | 167      |
+| 7     | SKU007 | Sports Car     | Orange | 225    | 187   | 127    | 909,000   | 727,200    | 52       |
+| 8     | SKU008 | Airplane       | Purple | 219    | 201   | 222    | 631,000   | 504,800    | 99       |
+| 9     | SKU009 | Motorcycle     | Red    | 154    | 278   | 227    | 531,000   | 424,800    | 13       |
+| 10    | SKU010 | Motorcycle     | Blue   | 288    | 296   | 152    | 615,000   | 492,000    | 186      |
+| 11    | SKU011 | Tiger          | Green  | 221    | 207   | 177    | 704,000   | 563,200    | 78       |
+| 12    | SKU012 | Dolphin        | Yellow | 137    | 135   | 297    | 540,000   | 432,000    | 143      |
+| 13    | SKU013 | Dolphin        | Black  | 195    | 221   | 274    | 330,000   | 264,000    | 35       |
+| 14    | SKU014 | Helicopter     | White  | 146    | 111   | 102    | 42,000    | 33,600     | 117      |
+| 15    | SKU015 | Dragon         | Orange | 265    | 262   | 154    | 867,000   | 693,600    | 10       |
+| 16    | SKU016 | Dragon         | Purple | 150    | 186   | 251    | 509,000   | 407,200    | 185      |
+
+## L?u ý quan tr?ng
+
+### ?? KHÔNG BAO GI? thay ??i GUID sau khi ?ã seed
+- Các GUID này ???c hardcode trong 2 modules: **InStock** và **Cart**
+- Thay ??i s? làm m?t ??ng b? gi?a 2 modules
+- N?u c?n thay ??i, ph?i update c? 2 files:
+  - `src\Modules\InStock\PuzKit3D.Modules.InStock.Persistence\Configurations\SeedData\InstockSeedDataConfiguration.cs`
+  - `src\Modules\Cart\PuzKit3D.Modules.Cart.Persistence\Configurations\SeedData\CartSeedDataConfiguration.cs`
+
+### ? Khi thêm data m?i
+1. T?o GUID theo pattern trên
+2. Update c? 2 files cùng lúc
+3. ??m b?o data (prices, dimensions, quantities) gi?ng h?t nhau
+4. Test migration trên c? 2 modules
+
+## Files liên quan
+- `src\Modules\InStock\PuzKit3D.Modules.InStock.Persistence\Configurations\SeedData\InstockSeedDataConfiguration.cs`
+- `src\Modules\Cart\PuzKit3D.Modules.Cart.Persistence\Configurations\SeedData\CartSeedDataConfiguration.cs`

@@ -367,95 +367,113 @@ internal static class InstockSeedDataConfiguration
 
     public static void SeedVariants(this ModelBuilder modelBuilder)
     {
+        // Hardcoded Variant IDs
+        var variantIds = new[]
+        {
+            Guid.Parse("20000000-0001-0000-0000-000000000001"), // Lion Red
+            Guid.Parse("20000000-0001-0000-0000-000000000002"), // Lion Blue
+            Guid.Parse("20000000-0002-0000-0000-000000000001"), // Elephant Green
+            Guid.Parse("20000000-0003-0000-0000-000000000001"), // Eagle Yellow
+            Guid.Parse("20000000-0003-0000-0000-000000000002"), // Eagle Black
+            Guid.Parse("20000000-0004-0000-0000-000000000001"), // Sports Car White
+            Guid.Parse("20000000-0004-0000-0000-000000000002"), // Sports Car Orange
+            Guid.Parse("20000000-0005-0000-0000-000000000001"), // Airplane Purple
+            Guid.Parse("20000000-0006-0000-0000-000000000001"), // Motorcycle Red
+            Guid.Parse("20000000-0006-0000-0000-000000000002"), // Motorcycle Blue
+            Guid.Parse("20000000-0007-0000-0000-000000000001"), // Tiger Green
+            Guid.Parse("20000000-0008-0000-0000-000000000001"), // Dolphin Yellow
+            Guid.Parse("20000000-0008-0000-0000-000000000002"), // Dolphin Black
+            Guid.Parse("20000000-0009-0000-0000-000000000001"), // Helicopter White
+            Guid.Parse("20000000-0010-0000-0000-000000000001"), // Dragon Orange
+            Guid.Parse("20000000-0010-0000-0000-000000000002")  // Dragon Purple
+        };
+
+        var variantData = new[]
+        {
+            (ProductId: Guid.Parse("10000000-0000-0000-0000-000000000001"), Color: "Red", Length: 218, Width: 159, Height: 261),
+            (ProductId: Guid.Parse("10000000-0000-0000-0000-000000000001"), Color: "Blue", Length: 174, Width: 138, Height: 297),
+            (ProductId: Guid.Parse("10000000-0000-0000-0000-000000000002"), Color: "Green", Length: 229, Width: 263, Height: 175),
+            (ProductId: Guid.Parse("10000000-0000-0000-0000-000000000003"), Color: "Yellow", Length: 131, Width: 171, Height: 224),
+            (ProductId: Guid.Parse("10000000-0000-0000-0000-000000000003"), Color: "Black", Length: 182, Width: 292, Height: 289),
+            (ProductId: Guid.Parse("10000000-0000-0000-0000-000000000004"), Color: "White", Length: 156, Width: 240, Height: 158),
+            (ProductId: Guid.Parse("10000000-0000-0000-0000-000000000004"), Color: "Orange", Length: 225, Width: 187, Height: 127),
+            (ProductId: Guid.Parse("10000000-0000-0000-0000-000000000005"), Color: "Purple", Length: 219, Width: 201, Height: 222),
+            (ProductId: Guid.Parse("10000000-0000-0000-0000-000000000006"), Color: "Red", Length: 154, Width: 278, Height: 227),
+            (ProductId: Guid.Parse("10000000-0000-0000-0000-000000000006"), Color: "Blue", Length: 288, Width: 296, Height: 152),
+            (ProductId: Guid.Parse("10000000-0000-0000-0000-000000000007"), Color: "Green", Length: 221, Width: 207, Height: 177),
+            (ProductId: Guid.Parse("10000000-0000-0000-0000-000000000008"), Color: "Yellow", Length: 137, Width: 135, Height: 297),
+            (ProductId: Guid.Parse("10000000-0000-0000-0000-000000000008"), Color: "Black", Length: 195, Width: 221, Height: 274),
+            (ProductId: Guid.Parse("10000000-0000-0000-0000-000000000009"), Color: "White", Length: 146, Width: 111, Height: 102),
+            (ProductId: Guid.Parse("10000000-0000-0000-0000-000000000010"), Color: "Orange", Length: 265, Width: 262, Height: 154),
+            (ProductId: Guid.Parse("10000000-0000-0000-0000-000000000010"), Color: "Purple", Length: 150, Width: 186, Height: 251)
+        };
+
+        var prices = new[] { 745000m, 419000m, 268000m, 869000m, 648000m, 356000m, 909000m, 631000m, 531000m, 615000m, 704000m, 540000m, 330000m, 42000m, 867000m, 509000m };
+        var quantities = new[] { 75, 83, 162, 152, 123, 167, 52, 99, 13, 186, 78, 143, 35, 117, 10, 185 };
+
         var variants = new List<object>();
         var priceDetails = new List<object>();
         var inventories = new List<object>();
-        var random = new Random(123); // Fixed seed for reproducibility
 
-        var productVariantData = new[]
+        for (int i = 0; i < variantIds.Length; i++)
         {
-            (ProductId: Guid.Parse("10000000-0000-0000-0000-000000000001"), VariantCount: 2),
-            (ProductId: Guid.Parse("10000000-0000-0000-0000-000000000002"), VariantCount: 1),
-            (ProductId: Guid.Parse("10000000-0000-0000-0000-000000000003"), VariantCount: 2),
-            (ProductId: Guid.Parse("10000000-0000-0000-0000-000000000004"), VariantCount: 2),
-            (ProductId: Guid.Parse("10000000-0000-0000-0000-000000000005"), VariantCount: 1),
-            (ProductId: Guid.Parse("10000000-0000-0000-0000-000000000006"), VariantCount: 2),
-            (ProductId: Guid.Parse("10000000-0000-0000-0000-000000000007"), VariantCount: 1),
-            (ProductId: Guid.Parse("10000000-0000-0000-0000-000000000008"), VariantCount: 2),
-            (ProductId: Guid.Parse("10000000-0000-0000-0000-000000000009"), VariantCount: 1),
-            (ProductId: Guid.Parse("10000000-0000-0000-0000-000000000010"), VariantCount: 2)
-        };
+            var variantId = variantIds[i];
+            var data = variantData[i];
+            var standardPrice = prices[i];
+            var salePrice = standardPrice * 0.8m;
+            var quantity = quantities[i];
 
-        var colors = new[] { "Red", "Blue", "Green", "Yellow", "Black", "White", "Orange", "Purple" };
-        int skuCounter = 1;
-        int colorIndex = 0;
-
-        foreach (var (productId, variantCount) in productVariantData)
-        {
-            for (int i = 0; i < variantCount; i++)
+            // Variant
+            variants.Add(new
             {
-                var variantId = Guid.NewGuid();
-                var color = colors[colorIndex++ % colors.Length];
-                var length = random.Next(100, 300);
-                var width = random.Next(100, 300);
-                var height = random.Next(100, 300);
+                Id = InstockProductVariantId.From(variantId),
+                InstockProductId = InstockProductId.From(data.ProductId),
+                Sku = $"SKU{(i + 1):D3}",
+                Color = data.Color,
+                AssembledLengthMm = data.Length,
+                AssembledWidthMm = data.Width,
+                AssembledHeightMm = data.Height,
+                IsActive = true,
+                CreatedAt = SeedDate,
+                UpdatedAt = SeedDate
+            });
 
-                // Variant
-                variants.Add(new
-                {
-                    Id = InstockProductVariantId.From(variantId),
-                    InstockProductId = InstockProductId.From(productId),
-                    Sku = $"SKU{skuCounter:D3}",
-                    Color = color,
-                    AssembledLengthMm = length,
-                    AssembledWidthMm = width,
-                    AssembledHeightMm = height,
-                    IsActive = true,
-                    CreatedAt = SeedDate,
-                    UpdatedAt = SeedDate
-                });
+            // Standard Price Detail
+            var standardPriceDetailId = Guid.Parse($"30000000-{(i + 1):D4}-1000-0000-000000000000");
+            priceDetails.Add(new
+            {
+                Id = InstockProductPriceDetailId.From(standardPriceDetailId),
+                InstockPriceId = InstockPriceId.From(StandardPriceId),
+                InstockProductVariantId = InstockProductVariantId.From(variantId),
+                UnitPrice = standardPrice,
+                IsActive = true,
+                CreatedAt = SeedDate,
+                UpdatedAt = SeedDate
+            });
 
-                // Standard Price Detail
-                var standardPriceDetailId = Guid.NewGuid();
-                var standardPrice = random.Next(100, 1001) * 1000m; // 100,000 - 1,000,000
-                priceDetails.Add(new
-                {
-                    Id = InstockProductPriceDetailId.From(standardPriceDetailId),
-                    InstockPriceId = InstockPriceId.From(StandardPriceId),
-                    InstockProductVariantId = InstockProductVariantId.From(variantId),
-                    UnitPrice = standardPrice,
-                    IsActive = true,
-                    CreatedAt = SeedDate,
-                    UpdatedAt = SeedDate
-                });
+            // Sale Price Detail
+            var salePriceDetailId = Guid.Parse($"30000000-{(i + 1):D4}-2000-0000-000000000000");
+            priceDetails.Add(new
+            {
+                Id = InstockProductPriceDetailId.From(salePriceDetailId),
+                InstockPriceId = InstockPriceId.From(SalePriceId),
+                InstockProductVariantId = InstockProductVariantId.From(variantId),
+                UnitPrice = salePrice,
+                IsActive = true,
+                CreatedAt = SeedDate,
+                UpdatedAt = SeedDate
+            });
 
-                // Sale Price Detail
-                var salePriceDetailId = Guid.NewGuid();
-                var salePrice = standardPrice * 0.8m; // 20% discount
-                priceDetails.Add(new
-                {
-                    Id = InstockProductPriceDetailId.From(salePriceDetailId),
-                    InstockPriceId = InstockPriceId.From(SalePriceId),
-                    InstockProductVariantId = InstockProductVariantId.From(variantId),
-                    UnitPrice = salePrice,
-                    IsActive = true,
-                    CreatedAt = SeedDate,
-                    UpdatedAt = SeedDate
-                });
-
-                // Inventory
-                var inventoryQuantity = random.Next(0, 201); // 0-200
-                inventories.Add(new
-                {
-                    Id = InstockInventoryId.From(Guid.NewGuid()),
-                    InstockProductVariantId = InstockProductVariantId.From(variantId),
-                    TotalQuantity = inventoryQuantity,
-                    CreatedAt = SeedDate,
-                    UpdatedAt = SeedDate
-                });
-
-                skuCounter++;
-            }
+            // Inventory
+            var inventoryId = Guid.Parse($"40000000-{(i + 1):D4}-0000-0000-000000000000");
+            inventories.Add(new
+            {
+                Id = InstockInventoryId.From(inventoryId),
+                InstockProductVariantId = InstockProductVariantId.From(variantId),
+                TotalQuantity = quantity,
+                CreatedAt = SeedDate,
+                UpdatedAt = SeedDate
+            });
         }
 
         modelBuilder.Entity<InstockProductVariant>().HasData(variants);

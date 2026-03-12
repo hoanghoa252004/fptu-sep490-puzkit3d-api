@@ -79,5 +79,29 @@ public static class InstockOrderError
     public static Error GrandTotalMismatch(decimal calculated, decimal provided) => Error.Validation(
         "InstockOrder.GrandTotalMismatch",
         $"Grand total mismatch. Calculated: {calculated}, Provided: {provided}.");
+
+    public static Error InvalidStatusTransition(InstockOrderStatus currentStatus, InstockOrderStatus newStatus) => Error.Validation(
+        "InstockOrder.InvalidStatusTransition",
+        $"Cannot transition from '{currentStatus}' to '{newStatus}'. Allowed transitions: {InstockOrderStatusTransition.GetTransitionPath()}");
+
+    public static Error OrderAlreadyPaid() => Error.Validation(
+        "InstockOrder.OrderAlreadyPaid",
+        "Order has already been paid.");
+
+    public static Error OrderNotPaid() => Error.Validation(
+        "InstockOrder.OrderNotPaid",
+        "Order must be paid before processing.");
+
+    public static Error OrderExpired() => Error.Validation(
+        "InstockOrder.OrderExpired",
+        "Order has expired and cannot be modified.");
+
+    public static Error OrderAlreadyCompleted() => Error.Validation(
+        "InstockOrder.OrderAlreadyCompleted",
+        "Order has already been completed.");
+
+    public static Error CannotExpireOrder() => Error.Validation(
+        "InstockOrder.CannotExpireOrder",
+        "Only orders in PaymentPending status can be expired.");
 }
 

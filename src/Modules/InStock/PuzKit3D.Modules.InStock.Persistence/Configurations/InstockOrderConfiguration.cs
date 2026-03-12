@@ -78,6 +78,7 @@ internal sealed class InstockOrderConfiguration : IEntityTypeConfiguration<Insto
             .IsRequired();
 
         builder.Property(o => o.Status)
+            .HasConversion<int>()
             .IsRequired();
 
         builder.Property(o => o.CreatedAt)

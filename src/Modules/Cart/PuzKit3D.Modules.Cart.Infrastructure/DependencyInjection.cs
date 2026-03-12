@@ -1,10 +1,12 @@
 using Microsoft.Extensions.DependencyInjection;
 using PuzKit3D.Contract.InStock.InstockInventories;
+using PuzKit3D.Contract.InStock.InstockOrders;
 using PuzKit3D.Contract.InStock.InstockPrices;
 using PuzKit3D.Contract.InStock.InstockProductPriceDetails;
 using PuzKit3D.Contract.InStock.InstockProducts;
 using PuzKit3D.Contract.InStock.InstockProductVariants;
 using PuzKit3D.Modules.Cart.Infrastructure.IntegrationEventHandlers.InstockInventories;
+using PuzKit3D.Modules.Cart.Infrastructure.IntegrationEventHandlers.InstockOrders;
 using PuzKit3D.Modules.Cart.Infrastructure.IntegrationEventHandlers.InstockPrices;
 using PuzKit3D.Modules.Cart.Infrastructure.IntegrationEventHandlers.InstockProductPriceDetails;
 using PuzKit3D.Modules.Cart.Infrastructure.IntegrationEventHandlers.InstockProducts;
@@ -69,6 +71,10 @@ public static class DependencyInjection
         
         services.AddScoped<IIntegrationEventHandler<InstockProductPriceDetailDeletedIntegrationEvent>, 
             InstockProductPriceDetailDeletedIntegrationEventHandler>();
+
+        // InstockOrder events
+        services.AddScoped<IIntegrationEventHandler<InstockOrderCreatedIntegrationEvent>,
+            InstockOrderCreatedIntegrationEventHandler>();
 
         return services;
     }

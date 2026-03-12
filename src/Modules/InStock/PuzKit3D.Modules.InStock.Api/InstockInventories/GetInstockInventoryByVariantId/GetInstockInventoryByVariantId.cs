@@ -29,7 +29,7 @@ internal sealed class GetInstockInventoryByVariantId : IEndpoint
             .WithName("GetInstockInventoryByVariantId")
             .WithSummary("Get inventory for a variant (Staff/Manager only)")
             .WithDescription("Retrieves inventory information for a specific product variant. Validates product and variant existence. Requires Staff or Manager role.")
-            .RequireAuthorization(policy => policy.RequireRole(Roles.Staff, Roles.BusinessManager))
+            .AllowAnonymous()
             .Produces<GetInstockInventoryByVariantIdResponseDto>(StatusCodes.Status200OK)
             .ProducesValidationProblem(StatusCodes.Status400BadRequest)
             .ProducesProblem(StatusCodes.Status401Unauthorized)

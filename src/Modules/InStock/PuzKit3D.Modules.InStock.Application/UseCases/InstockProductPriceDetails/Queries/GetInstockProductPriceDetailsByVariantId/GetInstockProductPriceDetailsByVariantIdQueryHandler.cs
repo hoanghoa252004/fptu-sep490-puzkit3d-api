@@ -64,11 +64,11 @@ internal sealed class GetInstockProductPriceDetailsByVariantIdQueryHandler
         }
         else
         {
-            // Anonymous: Return only the active price detail with highest priority (priority 1 is highest)
+            // Anonymous: Return only the active price detail with highest priority (higher number = higher priority)
             var activePriceDetail = priceDetails
                 .Where(pd => pd.IsActive)
                 .Where(pd => priceDict.ContainsKey(pd.InstockPriceId.Value) && priceDict[pd.InstockPriceId.Value].IsActive)
-                .OrderBy(pd => priceDict[pd.InstockPriceId.Value].Priority)
+                .OrderByDescending(pd => priceDict[pd.InstockPriceId.Value].Priority)
                 .FirstOrDefault();
 
             if (activePriceDetail is null)
