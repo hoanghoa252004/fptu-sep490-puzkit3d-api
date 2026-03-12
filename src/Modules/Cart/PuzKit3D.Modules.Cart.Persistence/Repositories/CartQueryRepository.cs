@@ -71,5 +71,14 @@ internal sealed class CartQueryRepository : ICartQueryRepository
 
         return products.ToDictionary(p => p.Id, p => p);
     }
+
+    public async Task<Dictionary<Guid, InStockProductReplica>> GetInStockProductsByIdsAsync(List<Guid> productIds, CancellationToken cancellationToken = default)
+    {
+        var products = await _context.InStockProductReplicas
+            .Where(p => productIds.Contains(p.Id))
+            .ToListAsync(cancellationToken);
+
+        return products.ToDictionary(p => p.Id, p => p);
+    }
 }
 

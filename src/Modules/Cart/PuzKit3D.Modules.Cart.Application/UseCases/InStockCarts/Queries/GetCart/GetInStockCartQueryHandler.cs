@@ -33,6 +33,11 @@ internal sealed class GetInStockCartQueryHandler : IQueryHandler<GetInStockCartQ
         
         // Get InStock variant details
         var variants = await _queryRepository.GetInStockProductVariantsByIdsAsync(itemIds, cancellationToken);
+        
+        // Get InStock product details (for thumbnail)
+        var productIds = variants.Values.Select(v => v.InStockProductId).Distinct().ToList();
+        var products = await _queryRepository.GetInStockProductsByIdsAsync(productIds, cancellationToken);
+        
         var productDetailsMap = variants.ToDictionary(
             kvp => kvp.Key,
             kvp => new ProductDetailsDto(
@@ -42,22 +47,52 @@ internal sealed class GetInStockCartQueryHandler : IQueryHandler<GetInStockCartQ
                 kvp.Value.AssembledLengthMm,
                 kvp.Value.AssembledWidthMm,
                 kvp.Value.AssembledHeightMm,
-                null,
+                products.TryGetValue(kvp.Value.InStockProductId, out var product) ? product.ThumbnailUrl : null,
                 kvp.Value.IsActive));
+
+        // Get price details for all cart items
+        var priceDetailIds = cart.Items
+            .Where(i => i.InStockProductPriceDetailId.HasValue)
+            .Select(i => i.InStockProductPriceDetailId!.Value)
+            .Distinct()
+            .ToList();
+
+        var priceDetailsMap = new Dictionary<Guid, decimal>();
+        foreach (var priceDetailId in priceDetailIds)
+        {
+            var priceDetail = await _queryRepository.GetInStockPriceDetailByIdAsync(priceDetailId, cancellationToken);
+            if (priceDetail != null)
+            {
+                priceDetailsMap[priceDetailId] = priceDetail.UnitPrice;
+            }
+        }
 
         var cartDto = new CartDto(
             cart.Id.Value,
             cart.UserId,
             cart.CartType,
             cart.TotalItem,
-            cart.Items.Select(i => new CartItemDto(
-                i.Id.Value,
-                i.ItemId,
-                null,
-                i.InStockProductPriceDetailId,
-                i.Quantity,
-                null,
-                productDetailsMap.TryGetValue(i.ItemId, out var details) ? details : null)).ToList());
+            cart.Items.Select(i =>
+            {
+                decimal? unitPrice = null;
+                decimal? totalPrice = null;
+
+                if (i.InStockProductPriceDetailId.HasValue &&
+                    priceDetailsMap.TryGetValue(i.InStockProductPriceDetailId.Value, out var price))
+                {
+                    unitPrice = price;
+                    totalPrice = price * i.Quantity;
+                }
+
+                return new CartItemDto(
+                    i.Id.Value,
+                    i.ItemId,
+                    unitPrice,
+                    i.InStockProductPriceDetailId,
+                    i.Quantity,
+                    totalPrice,
+                    productDetailsMap.TryGetValue(i.ItemId, out var details) ? details : null);
+            }).ToList());
 
         return Result.Success(cartDto);
     }
