@@ -3,6 +3,7 @@ using PuzKit3D.Modules.Cart.Persistence;
 using PuzKit3D.Modules.Catalog.Persistence;
 using PuzKit3D.Modules.InStock.Persistence;
 using PuzKit3D.Modules.Partner.Persistence;
+using PuzKit3D.Modules.Payment.Infrastructure;
 using PuzKit3D.SharedKernel.Api.Endpoint;
 using PuzKit3D.SharedKernel.Application;
 using PuzKit3D.SharedKernel.Infrastructure;
@@ -52,6 +53,7 @@ builder.Services.AddPartnerPersistence(builder.Configuration);
 
 // Add Infrastructure services (Domain Event Handlers, Integration Event Handlers):
 builder.Services.AddCartInfrastructure();
+builder.Services.AddPaymentInfrastructure(builder.Configuration);
 
 var app = builder.Build();
 
