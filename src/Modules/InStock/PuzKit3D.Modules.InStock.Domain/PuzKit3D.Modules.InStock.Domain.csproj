@@ -16,6 +16,17 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Include="Events\InstockInventories\InstockInventoryCreatedDomainEvent.cs" />
+    <Compile Include="Events\InstockInventories\InstockInventoryUpdatedDomainEvent.cs" />
+    <Compile Include="Events\InstockPrices\InstockPriceActivatedDomainEvent.cs" />
+    <Compile Include="Events\InstockPrices\InstockPriceCreatedDomainEvent.cs" />
+    <Compile Include="Events\InstockPrices\InstockPriceUpdatedDomainEvent.cs" />
+    <Compile Include="Events\InstockProductPriceDetails\InstockProductPriceDetailActivatedDomainEvent.cs" />
+    <Compile Include="Events\InstockProductPriceDetails\InstockProductPriceDetailCreatedDomainEvent.cs" />
+    <Compile Include="Events\InstockProductPriceDetails\InstockProductPriceDetailUpdatedDomainEvent.cs" />
+    <Compile Include="Events\InstockProductVariants\InstockProductVariantActivatedDomainEvent.cs" />
+    <Compile Include="Events\InstockProductVariants\InstockProductVariantCreatedDomainEvent.cs" />
+    <Compile Include="Events\InstockProductVariants\InstockProductVariantUpdatedDomainEvent.cs" />
     <Compile Include="ValueObjects\Money.cs" />
   </ItemGroup>
 

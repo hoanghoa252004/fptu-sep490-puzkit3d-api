@@ -1,4 +1,5 @@
 using PuzKit3D.Modules.InStock.Domain.Entities.InstockProductVariants;
+using PuzKit3D.Modules.InStock.Domain.Events.InstockInventories;
 using PuzKit3D.SharedKernel.Domain;
 using PuzKit3D.SharedKernel.Domain.Results;
 
@@ -43,6 +44,12 @@ public sealed class InstockInventory : Entity<InstockInventoryId>
             totalQuantity,
             timestamp);
 
+        // Raise domain event
+        inventory.RaiseDomainEvent(new InstockInventoryCreatedDomainEvent(
+            inventory.Id.Value,
+            inventory.InstockProductVariantId.Value,
+            inventory.TotalQuantity));
+
         return Result.Success(inventory);
     }
 
@@ -53,6 +60,12 @@ public sealed class InstockInventory : Entity<InstockInventoryId>
 
         TotalQuantity += quantity;
         UpdatedAt = DateTime.UtcNow;
+
+        // Raise domain event
+        RaiseDomainEvent(new InstockInventoryUpdatedDomainEvent(
+            Id.Value,
+            InstockProductVariantId.Value,
+            TotalQuantity));
 
         return Result.Success();
     }
@@ -68,6 +81,12 @@ public sealed class InstockInventory : Entity<InstockInventoryId>
         TotalQuantity -= quantity;
         UpdatedAt = DateTime.UtcNow;
 
+        // Raise domain event
+        RaiseDomainEvent(new InstockInventoryUpdatedDomainEvent(
+            Id.Value,
+            InstockProductVariantId.Value,
+            TotalQuantity));
+
         return Result.Success();
     }
 
@@ -78,6 +97,12 @@ public sealed class InstockInventory : Entity<InstockInventoryId>
 
         TotalQuantity = quantity;
         UpdatedAt = DateTime.UtcNow;
+
+        // Raise domain event
+        RaiseDomainEvent(new InstockInventoryUpdatedDomainEvent(
+            Id.Value,
+            InstockProductVariantId.Value,
+            TotalQuantity));
 
         return Result.Success();
     }

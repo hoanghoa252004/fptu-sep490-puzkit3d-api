@@ -1,3 +1,4 @@
+using PuzKit3D.Modules.InStock.Domain.Events.InstockPrices;
 using PuzKit3D.SharedKernel.Domain;
 using PuzKit3D.SharedKernel.Domain.Results;
 
@@ -66,6 +67,15 @@ public sealed class InstockPrice : AggregateRoot<InstockPriceId>
             isActive,
             timestamp);
 
+        // Raise domain event
+        price.RaiseDomainEvent(new InstockPriceCreatedDomainEvent(
+            price.Id.Value,
+            price.Name,
+            price.EffectiveFrom,
+            price.EffectiveTo,
+            price.Priority,
+            price.IsActive));
+
         return Result.Success(price);
     }
 
@@ -92,6 +102,15 @@ public sealed class InstockPrice : AggregateRoot<InstockPriceId>
         EffectiveTo = effectiveTo;
         Priority = priority;
         UpdatedAt = DateTime.UtcNow;
+
+        // Raise domain event
+        RaiseDomainEvent(new InstockPriceUpdatedDomainEvent(
+            Id.Value,
+            Name,
+            EffectiveFrom,
+            EffectiveTo,
+            Priority,
+            IsActive));
 
         return Result.Success();
     }
@@ -135,6 +154,15 @@ public sealed class InstockPrice : AggregateRoot<InstockPriceId>
 
         UpdatedAt = DateTime.UtcNow;
 
+        // Raise domain event
+        RaiseDomainEvent(new InstockPriceUpdatedDomainEvent(
+            Id.Value,
+            Name,
+            EffectiveFrom,
+            EffectiveTo,
+            Priority,
+            IsActive));
+
         return Result.Success();
     }
 
@@ -142,11 +170,21 @@ public sealed class InstockPrice : AggregateRoot<InstockPriceId>
     {
         IsActive = true;
         UpdatedAt = DateTime.UtcNow;
+
+        // Raise domain event
+        RaiseDomainEvent(new InstockPriceActivatedDomainEvent(
+            Id.Value,
+            IsActive));
     }
 
     public void Deactivate()
     {
         IsActive = false;
         UpdatedAt = DateTime.UtcNow;
+
+        // Raise domain event
+        RaiseDomainEvent(new InstockPriceActivatedDomainEvent(
+            Id.Value,
+            IsActive));
     }
 }
