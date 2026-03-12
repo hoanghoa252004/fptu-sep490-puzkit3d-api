@@ -34,7 +34,8 @@ internal sealed class UpdateInstockProduct : IEndpoint
                     request.AssemblyMethodId,
                     request.CapabilityId,
                     request.MaterialId,
-                    request.Description);
+                    request.Description,
+                    request.IsActive);
 
                 var result = await sender.Send(command, cancellationToken);
 
@@ -55,15 +56,16 @@ internal sealed class UpdateInstockProduct : IEndpoint
 }
 
 internal sealed record UpdateInstockProductRequestDto(
-    string? Slug,
-    string? Name,
-    int? TotalPieceCount,
-    string? DifficultLevel,
-    int? EstimatedBuildTime,
-    string? ThumbnailUrl,
-    Dictionary<string, string>? PreviewAsset,
-    Guid? TopicId,
-    Guid? AssemblyMethodId,
-    Guid? CapabilityId,
-    Guid? MaterialId,
-    string? Description);
+string? Slug,
+string? Name,
+int? TotalPieceCount,
+string? DifficultLevel,
+int? EstimatedBuildTime,
+string? ThumbnailUrl,
+Dictionary<string, string>? PreviewAsset,
+Guid? TopicId,
+Guid? AssemblyMethodId,
+Guid? CapabilityId,
+Guid? MaterialId,
+string? Description,
+bool? IsActive);

@@ -26,7 +26,8 @@ internal sealed class UpdateInstockPrice : IEndpoint
                     request.Name,
                     request.EffectiveFrom,
                     request.EffectiveTo,
-                    request.Priority);
+                    request.Priority,
+                    request.IsActive);
 
                 var result = await sender.Send(command, cancellationToken);
 
@@ -47,7 +48,8 @@ internal sealed class UpdateInstockPrice : IEndpoint
 }
 
 internal sealed record UpdateInstockPriceRequestDto(
-    string? Name,
-    DateTime? EffectiveFrom,
-    DateTime? EffectiveTo,
-    int? Priority);
+string? Name,
+DateTime? EffectiveFrom,
+DateTime? EffectiveTo,
+int? Priority,
+bool? IsActive);

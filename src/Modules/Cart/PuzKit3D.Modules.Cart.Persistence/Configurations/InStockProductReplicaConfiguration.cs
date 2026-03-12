@@ -11,9 +11,7 @@ internal sealed class InStockProductReplicaConfiguration : IEntityTypeConfigurat
         builder.HasKey(p => p.Id);
 
         builder.Property(p => p.Id)
-            .HasConversion(
-                id => id.Value,
-                value => InStockProductReplicaId.From(value));
+            .ValueGeneratedNever();
 
         builder.Property(p => p.Code)
             .IsRequired()
@@ -29,7 +27,7 @@ internal sealed class InStockProductReplicaConfiguration : IEntityTypeConfigurat
 
         builder.Property(p => p.DifficultLevel)
             .IsRequired()
-            .HasMaxLength(10);
+            .HasMaxLength(20);
 
         builder.Property(p => p.EstimatedBuildTime)
             .IsRequired();

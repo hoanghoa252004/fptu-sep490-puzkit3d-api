@@ -50,7 +50,6 @@ public sealed class Cart : AggregateRoot<CartId>
 
     public Result AddItem(
         Guid itemId,
-        decimal? unitPrice,
         Guid? inStockProductPriceDetailId,
         int quantity)
     {
@@ -72,7 +71,6 @@ public sealed class Cart : AggregateRoot<CartId>
         var cartItemResult = CartItem.Create(
             Id,
             itemId,
-            unitPrice,
             inStockProductPriceDetailId,
             quantity);
 
@@ -86,8 +84,7 @@ public sealed class Cart : AggregateRoot<CartId>
             Id.Value,
             cartItemResult.Value.Id.Value,
             itemId,
-            quantity,
-            unitPrice));
+            quantity));
 
         return Result.Success();
     }

@@ -1,0 +1,34 @@
+using MediatR;
+using PuzKit3D.Contract.InStock;
+using PuzKit3D.Contract.InStock.InstockProductPriceDetails;
+using PuzKit3D.Modules.InStock.Domain.Events.InstockProductPriceDetails;
+using PuzKit3D.SharedKernel.Application.Event;
+
+namespace PuzKit3D.Modules.InStock.Application.DomainEventHandlers.InstockProductPriceDetails;
+
+internal sealed class InstockProductPriceDetailCreatedDomainEventHandler 
+    : INotificationHandler<InstockProductPriceDetailCreatedDomainEvent>
+{
+    private readonly IEventBus _eventBus;
+
+    public InstockProductPriceDetailCreatedDomainEventHandler(IEventBus eventBus)
+    {
+        _eventBus = eventBus;
+    }
+
+    public async Task Handle(
+        InstockProductPriceDetailCreatedDomainEvent domainEvent, 
+        CancellationToken cancellationToken)
+    {
+        var integrationEvent = new InstockProductPriceDetailCreatedIntegrationEvent(
+            domainEvent.Id,
+            domainEvent.OccurredOn,
+            domainEvent.PriceDetailId,
+            domainEvent.PriceId,
+            domainEvent.VariantId,
+            domainEvent.UnitPrice,
+            domainEvent.IsActive);
+
+        await _eventBus.PublishAsync(integrationEvent, cancellationToken);
+    }
+}

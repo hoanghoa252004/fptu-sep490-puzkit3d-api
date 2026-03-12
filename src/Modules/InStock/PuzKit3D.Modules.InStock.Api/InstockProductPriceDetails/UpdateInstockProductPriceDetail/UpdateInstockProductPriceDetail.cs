@@ -23,7 +23,8 @@ internal sealed class UpdateInstockProductPriceDetail : IEndpoint
             {
                 var command = new UpdateInstockProductPriceDetailCommand(
                     priceDetailId,
-                    request.UnitPrice);
+                    request.UnitPrice,
+                    request.IsActive);
 
                 var result = await sender.Send(command, cancellationToken);
 
@@ -43,4 +44,5 @@ internal sealed class UpdateInstockProductPriceDetail : IEndpoint
 }
 
 internal sealed record UpdateInstockProductPriceDetailRequestDto(
-    decimal? UnitPrice);
+decimal? UnitPrice,
+bool? IsActive);

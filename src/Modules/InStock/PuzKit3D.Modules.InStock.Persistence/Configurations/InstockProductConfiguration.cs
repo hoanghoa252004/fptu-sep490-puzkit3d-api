@@ -32,7 +32,7 @@ internal sealed class InstockProductConfiguration : IEntityTypeConfiguration<Ins
 
         builder.Property(p => p.DifficultLevel)
             .IsRequired()
-            .HasMaxLength(10);
+            .HasMaxLength(20);
 
         builder.Property(p => p.EstimatedBuildTime)
             .IsRequired();

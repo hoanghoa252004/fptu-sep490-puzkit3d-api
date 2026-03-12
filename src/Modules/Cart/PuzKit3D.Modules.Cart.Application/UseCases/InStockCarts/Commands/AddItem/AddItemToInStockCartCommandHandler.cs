@@ -30,12 +30,6 @@ internal sealed class AddItemToInStockCartCommandHandler : ICommandHandler<AddIt
     {
         return await _unitOfWork.ExecuteAsync(async () =>
         {
-            // Check if user is customer
-            if (!_currentUser.IsInRole("CUSTOMER"))
-            {
-                return Result.Failure(CartError.UnauthorizedAccess());
-            }
-
             // Get userId from JWT
             if (!Guid.TryParse(_currentUser.UserId, out Guid customerId))
             {
@@ -53,6 +47,11 @@ internal sealed class AddItemToInStockCartCommandHandler : ICommandHandler<AddIt
                 return Result.Failure(CartError.ItemNotFound());
             }
 
+            if (!instockVariant.IsActive)
+            {
+                return Result.Failure(CartError.ItemNotActive());
+            }
+
             // Check inventory
             var inventory = await _queryRepository.GetInStockInventoryByVariantIdAsync(request.ItemId, cancellationToken);
 
@@ -61,16 +60,17 @@ internal sealed class AddItemToInStockCartCommandHandler : ICommandHandler<AddIt
                 return Result.Failure(CartError.InsufficientStock(inventory?.TotalQuantity ?? 0));
             }
 
-            // Get price detail
-            var priceDetail = await _queryRepository.GetActiveInStockPriceDetailByVariantIdAsync(request.ItemId, cancellationToken);
+            // Validate price detail
+            var priceDetail = await _queryRepository.GetInStockPriceDetailByIdAsync(request.InStockProductPriceDetailId, cancellationToken);
 
-            decimal? unitPrice = null;
-            Guid? inStockProductPriceDetailId = null;
-
-            if (priceDetail != null)
+            if (priceDetail == null)
             {
-                inStockProductPriceDetailId = priceDetail.Id;
-                unitPrice = priceDetail.UnitPrice;
+                return Result.Failure(CartError.PriceDetailNotFound());
+            }
+
+            if (!priceDetail.IsActive)
+            {
+                return Result.Failure(CartError.PriceDetailNotActive());
             }
 
             // Get or create cart
@@ -79,6 +79,7 @@ internal sealed class AddItemToInStockCartCommandHandler : ICommandHandler<AddIt
                 "INSTOCK",
                 cancellationToken);
 
+            bool isNewCart = false;
             if (cart == null)
             {
                 var createResult = Domain.Entities.Carts.Cart.Create(customerId, "INSTOCK");
@@ -87,20 +88,23 @@ internal sealed class AddItemToInStockCartCommandHandler : ICommandHandler<AddIt
                     return Result.Failure(createResult.Error);
 
                 cart = createResult.Value;
+                isNewCart = true;
                 _cartRepository.Add(cart);
             }
 
             // Add item to cart
             var addItemResult = cart.AddItem(
                 request.ItemId,
-                unitPrice,
-                inStockProductPriceDetailId,
+                request.InStockProductPriceDetailId,
                 quantity);
 
             if (addItemResult.IsFailure)
                 return Result.Failure(addItemResult.Error);
 
-            _cartRepository.Update(cart);
+            if (!isNewCart)
+            {
+                _cartRepository.Update(cart);
+            }
 
             return Result.Success();
         }, cancellationToken);

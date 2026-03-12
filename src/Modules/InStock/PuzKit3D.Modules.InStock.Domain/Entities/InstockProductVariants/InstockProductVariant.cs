@@ -1,4 +1,5 @@
 using PuzKit3D.Modules.InStock.Domain.Entities.InstockProducts;
+using PuzKit3D.Modules.InStock.Domain.Events.InstockProductVariants;
 using PuzKit3D.SharedKernel.Domain;
 using PuzKit3D.SharedKernel.Domain.Results;
 
@@ -80,6 +81,19 @@ public sealed class InstockProductVariant : Entity<InstockProductVariantId>
             isActive,
             timestamp);
 
+        // Raise domain event
+        variant.RaiseDomainEvent(new InstockProductVariantCreatedDomainEvent(
+            variant.Id.Value,
+            variant.InstockProductId.Value,
+            variant.Sku,
+            variant.Color,
+            variant.AssembledLengthMm,
+            variant.AssembledWidthMm,
+            variant.AssembledHeightMm,
+            variant.IsActive));
+
+        Console.WriteLine("Domain Event COUNT: " +variant.DomainEvents.Count());
+
         return Result.Success(variant);
     }
 
@@ -112,6 +126,17 @@ public sealed class InstockProductVariant : Entity<InstockProductVariantId>
         AssembledHeightMm = assembledHeightMm;
         UpdatedAt = DateTime.UtcNow;
 
+        // Raise domain event
+        RaiseDomainEvent(new InstockProductVariantUpdatedDomainEvent(
+            Id.Value,
+            InstockProductId.Value,
+            Sku,
+            Color,
+            AssembledLengthMm,
+            AssembledWidthMm,
+            AssembledHeightMm,
+            IsActive));
+
         return Result.Success();
     }
 
@@ -120,7 +145,8 @@ public sealed class InstockProductVariant : Entity<InstockProductVariantId>
         string? color = null,
         int? assembledLengthMm = null,
         int? assembledWidthMm = null,
-        int? assembledHeightMm = null)
+        int? assembledHeightMm = null,
+        bool? isActive = null)
     {
         if (sku is not null)
         {
@@ -168,7 +194,26 @@ public sealed class InstockProductVariant : Entity<InstockProductVariantId>
             AssembledHeightMm = assembledHeightMm.Value;
         }
 
+        if (isActive.HasValue)
+        {
+            if (isActive.Value == IsActive)
+                return Result.Failure(InstockProductVariantError.IsActiveUnchanged(IsActive));
+
+            IsActive = isActive.Value;
+        }
+
         UpdatedAt = DateTime.UtcNow;
+
+        // Raise domain event
+        RaiseDomainEvent(new InstockProductVariantUpdatedDomainEvent(
+            Id.Value,
+            InstockProductId.Value,
+            Sku,
+            Color,
+            AssembledLengthMm,
+            AssembledWidthMm,
+            AssembledHeightMm,
+            IsActive));
 
         return Result.Success();
     }
@@ -183,5 +228,9 @@ public sealed class InstockProductVariant : Entity<InstockProductVariantId>
     {
         IsActive = false;
         UpdatedAt = DateTime.UtcNow;
+
+        RaiseDomainEvent(new InstockProductVariantDeletedDomainEvent(
+            Id.Value,
+            InstockProductId.Value));
     }
 }

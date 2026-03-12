@@ -6,5 +6,4 @@ public sealed record CartItemAddedDomainEvent(
     Guid CartId,
     Guid CartItemId,
     Guid ItemId,
-    int Quantity,
-    decimal? UnitPrice) : DomainEvent;
+    int Quantity) : DomainEvent;

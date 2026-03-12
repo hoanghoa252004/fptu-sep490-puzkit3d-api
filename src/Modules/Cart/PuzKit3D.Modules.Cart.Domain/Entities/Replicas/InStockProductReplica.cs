@@ -2,7 +2,7 @@ using PuzKit3D.SharedKernel.Domain;
 
 namespace PuzKit3D.Modules.Cart.Domain.Entities.Replicas;
 
-public sealed class InStockProductReplica : Entity<InStockProductReplicaId>
+public sealed class InStockProductReplica : Entity<Guid>
 {
     public string Code { get; private set; }
     public string Name { get; private set; }
@@ -48,7 +48,7 @@ public sealed class InStockProductReplica : Entity<InStockProductReplicaId>
     {
         return new InStockProductReplica
         {
-            Id = InStockProductReplicaId.From(id),
+            Id = id,
             Code = code,
             Name = name,
             BriefDescription = briefDescription,
@@ -67,5 +67,41 @@ public sealed class InStockProductReplica : Entity<InStockProductReplicaId>
             CreatedAt = createdAt,
             UpdatedAt = updatedAt
         };
+    }
+
+    public void Update(
+        string code,
+        string name,
+        string difficultLevel,
+        int estimatedBuildTime,
+        string thumbnailUrl,
+        string slug,
+        string previewAsset,
+        Guid topicId,
+        Guid assemblyMethod,
+        Guid capability,
+        Guid material,
+        bool isActive,
+        DateTime updatedAt)
+    {
+        Code = code;
+        Name = name;
+        DifficultLevel = difficultLevel;
+        EstimatedBuildTime = estimatedBuildTime;
+        ThumbnailUrl = thumbnailUrl;
+        Slug = slug;
+        PreviewAsset = previewAsset;
+        TopicId = topicId;
+        AssemblyMethod = assemblyMethod;
+        Capability = capability;
+        Material = material;
+        IsActive = isActive;
+        UpdatedAt = updatedAt;
+    }
+
+    public void Deactivate()
+    {
+        IsActive = false;
+        UpdatedAt = DateTime.UtcNow;
     }
 }

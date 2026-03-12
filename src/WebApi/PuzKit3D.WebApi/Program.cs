@@ -51,7 +51,7 @@ builder.Services.AddCartPersistence(builder.Configuration);
 builder.Services.AddPartnerPersistence(builder.Configuration);
 
 // Add Infrastructure services (Domain Event Handlers, Integration Event Handlers):
-//builder.Services.AddCartInfrastructure();
+builder.Services.AddCartInfrastructure();
 
 var app = builder.Build();
 

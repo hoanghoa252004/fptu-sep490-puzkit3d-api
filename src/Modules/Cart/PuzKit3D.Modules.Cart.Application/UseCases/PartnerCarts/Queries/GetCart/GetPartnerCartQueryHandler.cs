@@ -40,6 +40,8 @@ internal sealed class GetPartnerCartQueryHandler : IQueryHandler<GetPartnerCartQ
                 kvp.Value.PartnerProductSku,
                 null,
                 null,
+                null,
+                null,
                 kvp.Value.ThumbnailUrl,
                 kvp.Value.IsActive));
 
@@ -51,10 +53,10 @@ internal sealed class GetPartnerCartQueryHandler : IQueryHandler<GetPartnerCartQ
             cart.Items.Select(i => new CartItemDto(
                 i.Id.Value,
                 i.ItemId,
-                i.UnitPrice?.Amount,
+                null,
                 i.InStockProductPriceDetailId,
                 i.Quantity,
-                i.TotalPrice?.Amount,
+                null,
                 productDetailsMap.TryGetValue(i.ItemId, out var details) ? details : null)).ToList());
 
         return Result.Success(cartDto);

@@ -10,6 +10,8 @@ public sealed record ProductDetailsDto(
     string Name,
     string? Sku,
     string? Color,
-    string? Size,
+    int? AssembledLengthMm,
+    int? AssembledWidthMm,
+    int? AssembledHeightMm,
     string? ThumbnailUrl,
     bool IsActive);

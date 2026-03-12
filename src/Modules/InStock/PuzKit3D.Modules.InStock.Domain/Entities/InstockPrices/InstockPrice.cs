@@ -1,3 +1,4 @@
+using PuzKit3D.Modules.InStock.Domain.Events.InstockPrices;
 using PuzKit3D.SharedKernel.Domain;
 using PuzKit3D.SharedKernel.Domain.Results;
 
@@ -66,6 +67,15 @@ public sealed class InstockPrice : AggregateRoot<InstockPriceId>
             isActive,
             timestamp);
 
+        // Raise domain event
+        price.RaiseDomainEvent(new InstockPriceCreatedDomainEvent(
+            price.Id.Value,
+            price.Name,
+            price.EffectiveFrom,
+            price.EffectiveTo,
+            price.Priority,
+            price.IsActive));
+
         return Result.Success(price);
     }
 
@@ -93,6 +103,15 @@ public sealed class InstockPrice : AggregateRoot<InstockPriceId>
         Priority = priority;
         UpdatedAt = DateTime.UtcNow;
 
+        // Raise domain event
+        RaiseDomainEvent(new InstockPriceUpdatedDomainEvent(
+            Id.Value,
+            Name,
+            EffectiveFrom,
+            EffectiveTo,
+            Priority,
+            IsActive));
+
         return Result.Success();
     }
 
@@ -100,7 +119,8 @@ public sealed class InstockPrice : AggregateRoot<InstockPriceId>
         string? name = null,
         DateTime? effectiveFrom = null,
         DateTime? effectiveTo = null,
-        int? priority = null)
+        int? priority = null,
+        bool? isActive = null)
     {
         if (name is not null)
         {
@@ -133,7 +153,24 @@ public sealed class InstockPrice : AggregateRoot<InstockPriceId>
             Priority = priority.Value;
         }
 
+        if (isActive.HasValue)
+        {
+            if (isActive.Value == IsActive)
+                return Result.Failure(InstockPriceError.IsActiveUnchanged(IsActive));
+
+            IsActive = isActive.Value;
+        }
+
         UpdatedAt = DateTime.UtcNow;
+
+        // Raise domain event
+        RaiseDomainEvent(new InstockPriceUpdatedDomainEvent(
+            Id.Value,
+            Name,
+            EffectiveFrom,
+            EffectiveTo,
+            Priority,
+            IsActive));
 
         return Result.Success();
     }
@@ -148,5 +185,7 @@ public sealed class InstockPrice : AggregateRoot<InstockPriceId>
     {
         IsActive = false;
         UpdatedAt = DateTime.UtcNow;
+
+        RaiseDomainEvent(new InstockPriceDeletedDomainEvent(Id.Value));
     }
 }

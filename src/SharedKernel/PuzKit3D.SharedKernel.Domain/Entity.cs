@@ -9,7 +9,7 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace PuzKit3D.SharedKernel.Domain;
 
-public abstract class Entity<TKey> : IEquatable<Entity<TKey>>
+public abstract class Entity<TKey> : IEntity, IEquatable<Entity<TKey>>
 {
     public TKey Id { get; protected init; } = default!;
 

@@ -23,5 +23,9 @@ public static class InstockProductPriceDetailError
     public static Error AlreadyInactive(Guid id) => Error.Conflict(
         "InstockProductPriceDetail.AlreadyInactive",
         $"Instock product price detail with ID '{id}' is already inactive.");
+
+    public static Error IsActiveUnchanged(bool currentValue) => Error.Validation(
+        "InstockProductPriceDetail.IsActiveUnchanged",
+        $"Price detail is already {(currentValue ? "active" : "inactive")}. No change needed.");
 }
 

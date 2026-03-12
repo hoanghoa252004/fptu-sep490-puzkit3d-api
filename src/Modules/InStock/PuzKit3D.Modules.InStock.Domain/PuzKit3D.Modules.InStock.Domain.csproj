@@ -16,10 +16,26 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Include="Events\InstockInventories\InstockInventoryCreatedDomainEvent.cs" />
+    <Compile Include="Events\InstockInventories\InstockInventoryDeletedDomainEvent.cs" />
+    <Compile Include="Events\InstockInventories\InstockInventoryUpdatedDomainEvent.cs" />
+    <Compile Include="Events\InstockPrices\InstockPriceCreatedDomainEvent.cs" />
+    <Compile Include="Events\InstockPrices\InstockPriceDeletedDomainEvent.cs" />
+    <Compile Include="Events\InstockPrices\InstockPriceUpdatedDomainEvent.cs" />
+    <Compile Include="Events\InstockProductPriceDetails\InstockProductPriceDetailCreatedDomainEvent.cs" />
+    <Compile Include="Events\InstockProductPriceDetails\InstockProductPriceDetailDeletedDomainEvent.cs" />
+    <Compile Include="Events\InstockProductPriceDetails\InstockProductPriceDetailUpdatedDomainEvent.cs" />
+    <Compile Include="Events\InstockProducts\InstockProductCreatedDomainEvent.cs" />
+    <Compile Include="Events\InstockProducts\InstockProductDeletedDomainEvent.cs" />
+    <Compile Include="Events\InstockProducts\InstockProductUpdatedDomainEvent.cs" />
+    <Compile Include="Events\InstockProductVariants\InstockProductVariantCreatedDomainEvent.cs" />
+    <Compile Include="Events\InstockProductVariants\InstockProductVariantDeletedDomainEvent.cs" />
+    <Compile Include="Events\InstockProductVariants\InstockProductVariantUpdatedDomainEvent.cs" />
     <Compile Include="ValueObjects\Money.cs" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\SharedKernel\PuzKit3D.SharedKernel.Application\PuzKit3D.SharedKernel.Application.csproj" />
     <ProjectReference Include="..\..\..\SharedKernel\PuzKit3D.SharedKernel.Domain\PuzKit3D.SharedKernel.Domain.csproj" />
   </ItemGroup>
 

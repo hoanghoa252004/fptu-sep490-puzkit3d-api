@@ -1,5 +1,6 @@
 using PuzKit3D.Modules.InStock.Domain.Entities.InstockPrices;
 using PuzKit3D.Modules.InStock.Domain.Entities.InstockProductVariants;
+using PuzKit3D.Modules.InStock.Domain.Events.InstockProductPriceDetails;
 using PuzKit3D.Modules.InStock.Domain.ValueObjects;
 using PuzKit3D.SharedKernel.Domain;
 using PuzKit3D.SharedKernel.Domain.Results;
@@ -56,6 +57,14 @@ public sealed class InstockProductPriceDetail : Entity<InstockProductPriceDetail
             isActive,
             timestamp);
 
+        // Raise domain event
+        priceDetail.RaiseDomainEvent(new InstockProductPriceDetailCreatedDomainEvent(
+            priceDetail.Id.Value,
+            priceDetail.InstockPriceId.Value,
+            priceDetail.InstockProductVariantId.Value,
+            priceDetail.UnitPrice.Amount,
+            priceDetail.IsActive));
+
         return Result.Success(priceDetail);
     }
 
@@ -67,10 +76,18 @@ public sealed class InstockProductPriceDetail : Entity<InstockProductPriceDetail
         UnitPrice = Money.Create(unitPrice);
         UpdatedAt = DateTime.UtcNow;
 
+        // Raise domain event
+        RaiseDomainEvent(new InstockProductPriceDetailUpdatedDomainEvent(
+            Id.Value,
+            InstockPriceId.Value,
+            InstockProductVariantId.Value,
+            UnitPrice.Amount,
+            IsActive));
+
         return Result.Success();
     }
 
-    public Result PartialUpdate(decimal? unitPrice = null)
+    public Result PartialUpdate(decimal? unitPrice = null, bool? isActive = null)
     {
         if (unitPrice.HasValue)
         {
@@ -80,7 +97,23 @@ public sealed class InstockProductPriceDetail : Entity<InstockProductPriceDetail
             UnitPrice = Money.Create(unitPrice.Value);
         }
 
+        if (isActive.HasValue)
+        {
+            if (isActive.Value == IsActive)
+                return Result.Failure(InstockProductPriceDetailError.IsActiveUnchanged(IsActive));
+
+            IsActive = isActive.Value;
+        }
+
         UpdatedAt = DateTime.UtcNow;
+
+        // Raise domain event
+        RaiseDomainEvent(new InstockProductPriceDetailUpdatedDomainEvent(
+            Id.Value,
+            InstockPriceId.Value,
+            InstockProductVariantId.Value,
+            UnitPrice.Amount,
+            IsActive));
 
         return Result.Success();
     }
@@ -95,5 +128,10 @@ public sealed class InstockProductPriceDetail : Entity<InstockProductPriceDetail
     {
         IsActive = false;
         UpdatedAt = DateTime.UtcNow;
+
+        RaiseDomainEvent(new InstockProductPriceDetailDeletedDomainEvent(
+            Id.Value,
+            InstockPriceId.Value,
+            InstockProductVariantId.Value));
     }
 }

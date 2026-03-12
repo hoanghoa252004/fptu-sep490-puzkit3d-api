@@ -40,6 +40,10 @@ public static class InstockProductError
         "InstockProduct.InvalidDifficultLevel",
         "Difficult level cannot be empty.");
 
+    public static Error InvalidDifficultLevelValue(string value) => Error.Validation(
+        "InstockProduct.InvalidDifficultLevelValue",
+        $"Difficult level '{value}' is not valid. Only 'Basic', 'Intermediate', or 'Advanced' are allowed.");
+
     public static Error InvalidEstimatedBuildTime() => Error.Validation(
         "InstockProduct.InvalidEstimatedBuildTime",
         "Estimated build time must be greater than zero.");
@@ -75,5 +79,9 @@ public static class InstockProductError
     public static Error AlreadyInactive(Guid id) => Error.Validation(
         "InstockProduct.AlreadyInactive",
         $"Instock product with ID '{id}' is already inactive.");
+
+    public static Error IsActiveUnchanged(bool currentValue) => Error.Validation(
+        "InstockProduct.IsActiveUnchanged",
+        $"Product is already {(currentValue ? "active" : "inactive")}. No change needed.");
 }
 
