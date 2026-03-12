@@ -276,6 +276,10 @@ public sealed class InstockOrder : AggregateRoot<InstockOrderId>
             CustomerId,
             cartItemIds,
             GrandTotalAmount,
-            CreatedAt));
+            CreatedAt,
+            Status.ToString(),
+            PaymentMethod,
+            IsPaid,
+            PaidAt));
     }
 }

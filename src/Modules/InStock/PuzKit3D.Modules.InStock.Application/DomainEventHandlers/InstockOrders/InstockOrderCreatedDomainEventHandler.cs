@@ -22,7 +22,14 @@ internal sealed class InstockOrderCreatedDomainEventHandler
             notification.OccurredOn,
             notification.OrderId,
             notification.CustomerId,
-            notification.CartItemIds);
+            notification.CartItemIds,
+            notification.Code,
+            notification.GrandTotalAmount,
+            notification.Status,
+            notification.PaymentMethod,
+            notification.IsPaid,
+            notification.PaidAt,
+            notification.CreatedAt);
 
         await _eventBus.PublishAsync(integrationEvent, cancellationToken);
     }
