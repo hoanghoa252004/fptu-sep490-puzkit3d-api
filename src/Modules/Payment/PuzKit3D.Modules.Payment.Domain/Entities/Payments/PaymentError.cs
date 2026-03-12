@@ -19,4 +19,14 @@ public static class PaymentError
 
     public static Error InvalidStatus() =>
         Error.Validation("Payment.InvalidStatus", "Payment status is invalid.");
+
+    public static Error OrderNotFound(Guid orderId) =>
+        Error.NotFound("Payment.OrderNotFound", $"Order with ID '{orderId}' was not found.");
+
+    public static Error PaymentExpired() =>
+        Error.Validation("Payment.PaymentExpired", "Payment has expired.");
+
+    public static Error PaymentAlreadyPaid() =>
+        Error.Validation("Payment.PaymentAlreadyPaid", "Payment has already been paid.");
 }
+

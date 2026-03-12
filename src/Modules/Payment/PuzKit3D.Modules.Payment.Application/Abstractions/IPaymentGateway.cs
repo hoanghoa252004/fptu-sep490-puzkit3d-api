@@ -7,11 +7,13 @@ public interface IPaymentGateway
 {
     string ProviderName { get; }
     
-    ResultT<string> CreatePaymentUrl(CreatePaymentUrlParams @params);
+    ResultT<string> CreatePaymentUrl( HttpContext context, CreatePaymentUrlParams @params);
     
-    Result ProceedAfterPayment(HttpRequest request);
+    //Result ProceedAfterPayment(HttpRequest request);
 }
 
 public record CreatePaymentUrlParams(
     decimal Amount,
-    string Description);
+    string Description,
+    DateTime createdAt,
+    DateTime expiredAt);

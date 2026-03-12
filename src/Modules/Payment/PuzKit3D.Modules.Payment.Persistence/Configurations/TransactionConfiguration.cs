@@ -54,6 +54,10 @@ internal sealed class TransactionConfiguration : IEntityTypeConfiguration<Transa
             .HasColumnType("jsonb")
             .HasColumnName("raw_response_payload");
 
+        builder.Property(t => t.ExpiredAt)
+            .IsRequired()
+            .HasColumnName("expired_at");
+
         builder.Property(t => t.CreatedAt)
             .IsRequired()
             .HasColumnName("created_at");

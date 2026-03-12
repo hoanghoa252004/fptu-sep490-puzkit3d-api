@@ -70,6 +70,7 @@ namespace PuzKit3D.Modules.Payment.Persistence.Migrations
                     status = table.Column<int>(type: "integer", nullable: false),
                     amount = table.Column<decimal>(type: "numeric(10,2)", precision: 10, scale: 2, nullable: false),
                     raw_response_payload = table.Column<string>(type: "jsonb", nullable: true),
+                    expired_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },

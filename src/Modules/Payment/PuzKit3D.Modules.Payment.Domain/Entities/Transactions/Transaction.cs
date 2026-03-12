@@ -13,6 +13,7 @@ public class Transaction : Entity<TransactionId>
     public TransactionStatus Status { get; private set; }
     public decimal Amount { get; private set; }
     public string? RawResponsePayload { get; private set; }
+    public DateTime ExpiredAt { get; private set; }
     public DateTime CreatedAt { get; private set; }
     public DateTime UpdatedAt { get; private set; }
 
@@ -25,8 +26,7 @@ public class Transaction : Entity<TransactionId>
         string provider,
         TransactionStatus status,
         decimal amount,
-        string? transactionNo,
-        string? rawResponsePayload,
+        DateTime expiredAt,
         DateTime createdAt) : base(id)
     {
         Code = code;
@@ -34,8 +34,7 @@ public class Transaction : Entity<TransactionId>
         Provider = provider;
         Status = status;
         Amount = amount;
-        TransactionNo = transactionNo;
-        RawResponsePayload = rawResponsePayload;
+        ExpiredAt = expiredAt;
         CreatedAt = createdAt;
         UpdatedAt = createdAt;
     }
@@ -49,10 +48,7 @@ public class Transaction : Entity<TransactionId>
         PaymentId paymentId,
         string provider,
         TransactionStatus status,
-        decimal amount,
-        string? transactionNo = null,
-        string? rawResponsePayload = null,
-        DateTime? createdAt = null)
+        decimal amount)
     {
         if (string.IsNullOrWhiteSpace(code) || code.Length > 10)
             return Result.Failure<Transaction>(TransactionError.InvalidCode());
@@ -62,9 +58,6 @@ public class Transaction : Entity<TransactionId>
 
         if (string.IsNullOrWhiteSpace(provider) || provider.Length > 30)
             return Result.Failure<Transaction>(TransactionError.InvalidProvider());
-
-        if (transactionNo?.Length > 300)
-            return Result.Failure<Transaction>(TransactionError.InvalidTransactionNo(300));
 
         if (amount <= 0)
             return Result.Failure<Transaction>(TransactionError.InvalidAmount());
@@ -79,9 +72,8 @@ public class Transaction : Entity<TransactionId>
             provider,
             status,
             amount,
-            transactionNo,
-            rawResponsePayload,
-            createdAt ?? DateTime.UtcNow
+            DateTime.UtcNow.AddMinutes(5),
+            DateTime.UtcNow
         );
 
         return Result.Success(transaction);

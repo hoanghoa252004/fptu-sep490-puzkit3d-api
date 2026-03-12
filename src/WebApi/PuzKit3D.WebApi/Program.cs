@@ -1,10 +1,15 @@
-﻿using PuzKit3D.Modules.Cart.Infrastructure;
+﻿using PuzKit3D.Modules.Cart.Application;
+using PuzKit3D.Modules.Cart.Infrastructure;
 using PuzKit3D.Modules.Cart.Persistence;
+using PuzKit3D.Modules.Catalog.Application;
 using PuzKit3D.Modules.Catalog.Persistence;
+using PuzKit3D.Modules.InStock.Application;
 using PuzKit3D.Modules.InStock.Persistence;
+using PuzKit3D.Modules.Partner.Application;
 using PuzKit3D.Modules.Partner.Persistence;
 using PuzKit3D.Modules.Payment.Infrastructure;
 using PuzKit3D.Modules.Payment.Persistence;
+using PuzKit3D.Modules.User.Application;
 using PuzKit3D.SharedKernel.Api.Endpoint;
 using PuzKit3D.SharedKernel.Application;
 using PuzKit3D.SharedKernel.Infrastructure;
@@ -26,11 +31,12 @@ builder.Services.AddSwaggerDocumentation();
 builder.Services.AddSharedKernelInfrastructure(builder.Configuration);
 builder.Services.AddSharedKernelApplication(
     new[]{
-        PuzKit3D.Modules.InStock.Application.InstockApplicationAssembly.Assembly,
-        PuzKit3D.Modules.User.Application.UserApplicationAssembly.Assembly,
-        PuzKit3D.Modules.Catalog.Application.CatalogApplicationAssembly.Assembly,
-        PuzKit3D.Modules.Cart.Application.CartApplicationAssembly.Assembly,
-        PuzKit3D.Modules.Partner.Application.PartnerApplicationAssembly.Assembly
+        InstockApplicationAssembly.Assembly,
+        UserApplicationAssembly.Assembly,
+        CatalogApplicationAssembly.Assembly,
+        CartApplicationAssembly.Assembly,
+        PartnerApplicationAssembly.Assembly,
+        PaymentApplicationAssembly.Assembly
     } 
 );
 

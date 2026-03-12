@@ -12,7 +12,7 @@ using PuzKit3D.Modules.Payment.Persistence;
 namespace PuzKit3D.Modules.Payment.Persistence.Migrations
 {
     [DbContext(typeof(PaymentDbContext))]
-    [Migration("20260312153902_InitModule")]
+    [Migration("20260312172954_InitModule")]
     partial class InitModule
     {
         /// <inheritdoc />
@@ -174,6 +174,10 @@ namespace PuzKit3D.Modules.Payment.Persistence.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("created_at");
+
+                    b.Property<DateTime>("ExpiredAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("expired_at");
 
                     b.Property<Guid>("PaymentId")
                         .HasColumnType("uuid")

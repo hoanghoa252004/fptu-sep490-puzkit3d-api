@@ -91,7 +91,7 @@ internal static class SwaggerExtensions
 
                     "partner" => routePath.StartsWith("api/partnerXXX"),
 
-                    "payment" => routePath.StartsWith("api/payment"),
+                    "payment" => routePath.StartsWith("api/payments"),
                     _ => false
                 };
             });
