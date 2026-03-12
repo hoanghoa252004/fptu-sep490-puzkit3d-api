@@ -48,9 +48,16 @@ public static class EndpointGroupExtension
             .WithTags("Price Details");
     }
 
+
     public static RouteGroupBuilder MapInventoryGroup(this IEndpointRouteBuilder app)
     {
         return app.MapGroup($"{ApiRoutes.ApiPrefix}/instock-products/{{productId:guid}}/variants/{{variantId:guid}}/inventory")
             .WithTags("Inventory");
+    }
+
+    public static RouteGroupBuilder MapOrdersGroup(this IEndpointRouteBuilder app)
+    {
+        return app.MapGroup($"{ApiRoutes.ApiPrefix}/instock-orders")
+            .WithTags("InStock Orders");
     }
 }

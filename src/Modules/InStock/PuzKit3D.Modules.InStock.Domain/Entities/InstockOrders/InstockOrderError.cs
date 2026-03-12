@@ -103,5 +103,9 @@ public static class InstockOrderError
     public static Error CannotExpireOrder() => Error.Validation(
         "InstockOrder.CannotExpireOrder",
         "Only orders in PaymentPending status can be expired.");
+
+    public static Error Unauthorized() => Error.Unauthorized(
+        "InstockOrder.Unauthorized",
+        "User must be authenticated to access orders.");
 }
 

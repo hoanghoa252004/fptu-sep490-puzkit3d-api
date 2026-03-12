@@ -62,6 +62,7 @@ internal sealed class InstockOrderRepository : IInstockOrderRepository
         CancellationToken cancellationToken = default)
     {
         return await _context.InstockOrders
+            .Include(o => o.OrderDetails)
             .Where(o => o.CustomerId == customerId)
             .OrderByDescending(o => o.CreatedAt)
             .AsNoTracking()
