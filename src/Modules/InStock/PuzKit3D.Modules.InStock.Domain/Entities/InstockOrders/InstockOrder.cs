@@ -14,7 +14,12 @@ public sealed class InstockOrder : AggregateRoot<InstockOrderId>
     public string CustomerName { get; private set; } = null!;
     public string CustomerPhone { get; private set; } = null!;
     public string CustomerEmail { get; private set; } = null!;
-    public string AddressInformation { get; private set; } = null!;
+    public string CustomerProvinceCode { get; private set; } = null!;
+    public string CustomerProvinceName { get; private set; } = null!;
+    public string CustomerDistrictCode { get; private set; } = null!;
+    public string CustomerDistrictName { get; private set; } = null!;
+    public string CustomerWardCode { get; private set; } = null!;
+    public string CustomerWardName { get; private set; } = null!;
     public Money SubTotalAmount { get; private set; } = null!;
     public Money ShippingFee { get; private set; } = null!;
     public int UsedCoinAmount { get; private set; }
@@ -36,7 +41,12 @@ public sealed class InstockOrder : AggregateRoot<InstockOrderId>
         string customerName,
         string customerPhone,
         string customerEmail,
-        string addressInformation,
+        string customerProvinceCode,
+        string customerProvinceName,
+        string customerDistrictCode,
+        string customerDistrictName,
+        string customerWardCode,
+        string customerWardName,
         Money subTotalAmount,
         Money shippingFee,
         int usedCoinAmount,
@@ -52,7 +62,12 @@ public sealed class InstockOrder : AggregateRoot<InstockOrderId>
         CustomerName = customerName;
         CustomerPhone = customerPhone;
         CustomerEmail = customerEmail;
-        AddressInformation = addressInformation;
+        CustomerProvinceCode = customerProvinceCode;
+        CustomerProvinceName = customerProvinceName;
+        CustomerDistrictCode = customerDistrictCode;
+        CustomerDistrictName = customerDistrictName;
+        CustomerWardCode = customerWardCode;
+        CustomerWardName = customerWardName;
         SubTotalAmount = subTotalAmount;
         ShippingFee = shippingFee;
         UsedCoinAmount = usedCoinAmount;
@@ -75,7 +90,12 @@ public sealed class InstockOrder : AggregateRoot<InstockOrderId>
         string customerName,
         string customerPhone,
         string customerEmail,
-        string addressInformation,
+        string customerProvinceCode,
+        string customerProvinceName,
+        string customerDistrictCode,
+        string customerDistrictName,
+        string customerWardCode,
+        string customerWardName,
         decimal subTotalAmount,
         decimal shippingFee,
         int usedCoinAmount,
@@ -98,7 +118,13 @@ public sealed class InstockOrder : AggregateRoot<InstockOrderId>
         if (string.IsNullOrWhiteSpace(customerEmail))
             return Result.Failure<InstockOrder>(InstockOrderError.InvalidCustomerEmail());
 
-        if (string.IsNullOrWhiteSpace(addressInformation))
+        if (string.IsNullOrWhiteSpace(customerProvinceCode) || string.IsNullOrWhiteSpace(customerProvinceName))
+            return Result.Failure<InstockOrder>(InstockOrderError.InvalidAddress());
+
+        if (string.IsNullOrWhiteSpace(customerDistrictCode) || string.IsNullOrWhiteSpace(customerDistrictName))
+            return Result.Failure<InstockOrder>(InstockOrderError.InvalidAddress());
+
+        if (string.IsNullOrWhiteSpace(customerWardCode) || string.IsNullOrWhiteSpace(customerWardName))
             return Result.Failure<InstockOrder>(InstockOrderError.InvalidAddress());
 
         if (string.IsNullOrWhiteSpace(paymentMethod))
@@ -116,7 +142,12 @@ public sealed class InstockOrder : AggregateRoot<InstockOrderId>
             customerName,
             customerPhone,
             customerEmail,
-            addressInformation,
+            customerProvinceCode,
+            customerProvinceName,
+            customerDistrictCode,
+            customerDistrictName,
+            customerWardCode,
+            customerWardName,
             Money.Create(subTotalAmount),
             Money.Create(shippingFee),
             usedCoinAmount,

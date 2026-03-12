@@ -34,7 +34,27 @@ internal sealed class InstockOrderConfiguration : IEntityTypeConfiguration<Insto
             .IsRequired()
             .HasMaxLength(30);
 
-        builder.Property(o => o.AddressInformation)
+        builder.Property(o => o.CustomerProvinceCode)
+            .IsRequired()
+            .HasMaxLength(10);
+
+        builder.Property(o => o.CustomerProvinceName)
+            .IsRequired()
+            .HasMaxLength(30);
+
+        builder.Property(o => o.CustomerDistrictCode)
+            .IsRequired()
+            .HasMaxLength(10);
+
+        builder.Property(o => o.CustomerDistrictName)
+            .IsRequired()
+            .HasMaxLength(30);
+
+        builder.Property(o => o.CustomerWardCode)
+            .IsRequired()
+            .HasMaxLength(10);
+
+        builder.Property(o => o.CustomerWardName)
             .IsRequired()
             .HasMaxLength(30);
 

@@ -12,8 +12,8 @@ using PuzKit3D.Modules.InStock.Persistence;
 namespace PuzKit3D.Modules.InStock.Persistence.Migrations
 {
     [DbContext(typeof(InStockDbContext))]
-    [Migration("20260312064523_InitModule")]
-    partial class InitModule
+    [Migration("20260312075339_UpdateInstockOrderAddressFields")]
+    partial class UpdateInstockOrderAddressFields
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -123,12 +123,6 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("id");
 
-                    b.Property<string>("AddressInformation")
-                        .IsRequired()
-                        .HasMaxLength(30)
-                        .HasColumnType("character varying(30)")
-                        .HasColumnName("address_information");
-
                     b.Property<string>("Code")
                         .IsRequired()
                         .HasMaxLength(10)
@@ -138,6 +132,18 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("created_at");
+
+                    b.Property<string>("CustomerDistrictCode")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("character varying(10)")
+                        .HasColumnName("customer_district_code");
+
+                    b.Property<string>("CustomerDistrictName")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("character varying(30)")
+                        .HasColumnName("customer_district_name");
 
                     b.Property<string>("CustomerEmail")
                         .IsRequired()
@@ -160,6 +166,30 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                         .HasMaxLength(30)
                         .HasColumnType("character varying(30)")
                         .HasColumnName("customer_phone");
+
+                    b.Property<string>("CustomerProvinceCode")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("character varying(10)")
+                        .HasColumnName("customer_province_code");
+
+                    b.Property<string>("CustomerProvinceName")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("character varying(30)")
+                        .HasColumnName("customer_province_name");
+
+                    b.Property<string>("CustomerWardCode")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("character varying(10)")
+                        .HasColumnName("customer_ward_code");
+
+                    b.Property<string>("CustomerWardName")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("character varying(30)")
+                        .HasColumnName("customer_ward_name");
 
                     b.Property<bool>("IsPaid")
                         .ValueGeneratedOnAdd()

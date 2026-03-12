@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace PuzKit3D.Modules.InStock.Persistence.Migrations
 {
     /// <inheritdoc />
-    public partial class InitModule : Migration
+    public partial class UpdateInstockOrderAddressFields : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -61,7 +61,12 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                     customer_name = table.Column<string>(type: "character varying(30)", maxLength: 30, nullable: false),
                     customer_phone = table.Column<string>(type: "character varying(30)", maxLength: 30, nullable: false),
                     customer_email = table.Column<string>(type: "character varying(30)", maxLength: 30, nullable: false),
-                    address_information = table.Column<string>(type: "character varying(30)", maxLength: 30, nullable: false),
+                    customer_province_code = table.Column<string>(type: "character varying(10)", maxLength: 10, nullable: false),
+                    customer_province_name = table.Column<string>(type: "character varying(30)", maxLength: 30, nullable: false),
+                    customer_district_code = table.Column<string>(type: "character varying(10)", maxLength: 10, nullable: false),
+                    customer_district_name = table.Column<string>(type: "character varying(30)", maxLength: 30, nullable: false),
+                    customer_ward_code = table.Column<string>(type: "character varying(10)", maxLength: 10, nullable: false),
+                    customer_ward_name = table.Column<string>(type: "character varying(30)", maxLength: 30, nullable: false),
                     sub_total_amount_amount = table.Column<decimal>(type: "numeric(10,2)", nullable: false),
                     shipping_fee_amount = table.Column<decimal>(type: "numeric(10,2)", nullable: false),
                     used_coin_amount = table.Column<int>(type: "integer", nullable: false),
