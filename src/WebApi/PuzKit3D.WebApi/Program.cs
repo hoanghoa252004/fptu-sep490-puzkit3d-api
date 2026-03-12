@@ -1,9 +1,15 @@
-﻿using PuzKit3D.Modules.Cart.Infrastructure;
+﻿using PuzKit3D.Modules.Cart.Application;
+using PuzKit3D.Modules.Cart.Infrastructure;
 using PuzKit3D.Modules.Cart.Persistence;
+using PuzKit3D.Modules.Catalog.Application;
 using PuzKit3D.Modules.Catalog.Persistence;
+using PuzKit3D.Modules.InStock.Application;
 using PuzKit3D.Modules.InStock.Persistence;
+using PuzKit3D.Modules.Partner.Application;
 using PuzKit3D.Modules.Partner.Persistence;
 using PuzKit3D.Modules.Payment.Infrastructure;
+using PuzKit3D.Modules.Payment.Persistence;
+using PuzKit3D.Modules.User.Application;
 using PuzKit3D.SharedKernel.Api.Endpoint;
 using PuzKit3D.SharedKernel.Application;
 using PuzKit3D.SharedKernel.Infrastructure;
@@ -25,11 +31,12 @@ builder.Services.AddSwaggerDocumentation();
 builder.Services.AddSharedKernelInfrastructure(builder.Configuration);
 builder.Services.AddSharedKernelApplication(
     new[]{
-        PuzKit3D.Modules.InStock.Application.InstockApplicationAssembly.Assembly,
-        PuzKit3D.Modules.User.Application.UserApplicationAssembly.Assembly,
-        PuzKit3D.Modules.Catalog.Application.CatalogApplicationAssembly.Assembly,
-        PuzKit3D.Modules.Cart.Application.CartApplicationAssembly.Assembly,
-        PuzKit3D.Modules.Partner.Application.PartnerApplicationAssembly.Assembly
+        InstockApplicationAssembly.Assembly,
+        UserApplicationAssembly.Assembly,
+        CatalogApplicationAssembly.Assembly,
+        CartApplicationAssembly.Assembly,
+        PartnerApplicationAssembly.Assembly,
+        PaymentApplicationAssembly.Assembly
     } 
 );
 
@@ -41,7 +48,8 @@ builder.Services.AddEndpointsFromAssembly(
        PuzKit3D.Modules.User.Api.UserApiAssembly.Assembly,
        PuzKit3D.Modules.Catalog.Api.CatalogApiAssembly.Assembly,
        PuzKit3D.Modules.Cart.Api.CartApiAssembly.Assembly,
-       PuzKit3D.Modules.Partner.Api.PartnerApiAssembly.Assembly
+       PuzKit3D.Modules.Partner.Api.PartnerApiAssembly.Assembly,
+       PuzKit3D.Modules.Payment.Api.PaymentApiAssembly.Assembly
     }
 );
 
@@ -50,6 +58,7 @@ builder.Services.AddInStockPersistence(builder.Configuration);
 builder.Services.AddCatalogPersistence(builder.Configuration);
 builder.Services.AddCartPersistence(builder.Configuration);
 builder.Services.AddPartnerPersistence(builder.Configuration);
+builder.Services.AddPaymentPersistence(builder.Configuration);
 
 // Add Infrastructure services (Domain Event Handlers, Integration Event Handlers):
 builder.Services.AddCartInfrastructure();

@@ -1,6 +1,7 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using PuzKit3D.Modules.Payment.Application.UnitOfWork;
+using PuzKit3D.Modules.Payment.Domain.Entities.OrderReplicas;
 using PuzKit3D.Modules.Payment.Domain.Entities.Transactions;
 using PuzKit3D.SharedKernel.Domain;
 using PuzKit3D.SharedKernel.Domain.Results;
@@ -21,6 +22,7 @@ public sealed class PaymentDbContext : DbContext, IPaymentUnitOfWork
 
     public DbSet<Domain.Entities.Payments.Payment> Payments => Set<Domain.Entities.Payments.Payment>();
     public DbSet<Transaction> Transactions => Set<Transaction>();
+    public DbSet<OrderReplica> OrderReplicas => Set<OrderReplica>();
 
     protected override void OnModelCreating(ModelBuilder builder)
     {

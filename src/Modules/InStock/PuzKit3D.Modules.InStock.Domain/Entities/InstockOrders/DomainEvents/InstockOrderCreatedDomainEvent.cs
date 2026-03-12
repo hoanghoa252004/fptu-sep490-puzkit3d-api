@@ -8,4 +8,9 @@ public sealed record InstockOrderCreatedDomainEvent(
     Guid CustomerId,
     List<Guid> CartItemIds,
     decimal GrandTotalAmount,
-    DateTime CreatedAt) : DomainEvent;
+    DateTime CreatedAt,
+    string Status,
+    string PaymentMethod,
+    bool IsPaid,
+    DateTime? PaidAt) : DomainEvent;
+

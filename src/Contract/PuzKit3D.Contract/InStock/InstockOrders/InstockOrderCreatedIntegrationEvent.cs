@@ -7,4 +7,12 @@ public sealed record InstockOrderCreatedIntegrationEvent(
     DateTime OccurredOn,
     Guid OrderId,
     Guid CustomerId,
-    List<Guid> CartItemIds) : IIntegrationEvent;
+    List<Guid> CartItemIds,
+    string Code,
+    decimal GrandTotalAmount,
+    string Status,
+    string PaymentMethod,
+    bool IsPaid,
+    DateTime? PaidAt,
+    DateTime CreatedAt) : IIntegrationEvent;
+
