@@ -1,5 +1,5 @@
 using PuzKit3D.Modules.InStock.Domain.Entities.InstockOrderDetails;
-using PuzKit3D.Modules.InStock.Domain.ValueObjects;
+using PuzKit3D.Modules.InStock.Domain.Entities.InstockOrders.DomainEvents;
 using PuzKit3D.SharedKernel.Domain;
 using PuzKit3D.SharedKernel.Domain.Results;
 
@@ -14,13 +14,18 @@ public sealed class InstockOrder : AggregateRoot<InstockOrderId>
     public string CustomerName { get; private set; } = null!;
     public string CustomerPhone { get; private set; } = null!;
     public string CustomerEmail { get; private set; } = null!;
-    public string AddressInformation { get; private set; } = null!;
-    public Money SubTotalAmount { get; private set; } = null!;
-    public Money ShippingFee { get; private set; } = null!;
+    public string CustomerProvinceCode { get; private set; } = null!;
+    public string CustomerProvinceName { get; private set; } = null!;
+    public string CustomerDistrictCode { get; private set; } = null!;
+    public string CustomerDistrictName { get; private set; } = null!;
+    public string CustomerWardCode { get; private set; } = null!;
+    public string CustomerWardName { get; private set; } = null!;
+    public decimal SubTotalAmount { get; private set; }
+    public decimal ShippingFee { get; private set; }
     public int UsedCoinAmount { get; private set; }
-    public Money UsedCoinAmountAsMoney { get; private set; } = null!;
-    public Money GrandTotalAmount { get; private set; } = null!;
-    public int Status { get; private set; }
+    public decimal UsedCoinAmountAsMoney { get; private set; }
+    public decimal GrandTotalAmount { get; private set; }
+    public InstockOrderStatus Status { get; private set; }
     public DateTime CreatedAt { get; private set; }
     public DateTime UpdatedAt { get; private set; }
     public string PaymentMethod { get; private set; } = null!;
@@ -36,13 +41,18 @@ public sealed class InstockOrder : AggregateRoot<InstockOrderId>
         string customerName,
         string customerPhone,
         string customerEmail,
-        string addressInformation,
-        Money subTotalAmount,
-        Money shippingFee,
+        string customerProvinceCode,
+        string customerProvinceName,
+        string customerDistrictCode,
+        string customerDistrictName,
+        string customerWardCode,
+        string customerWardName,
+        decimal subTotalAmount,
+        decimal shippingFee,
         int usedCoinAmount,
-        Money usedCoinAmountAsMoney,
-        Money grandTotalAmount,
-        int status,
+        decimal usedCoinAmountAsMoney,
+        decimal grandTotalAmount,
+        InstockOrderStatus status,
         string paymentMethod,
         bool isPaid,
         DateTime createdAt) : base(id)
@@ -52,7 +62,12 @@ public sealed class InstockOrder : AggregateRoot<InstockOrderId>
         CustomerName = customerName;
         CustomerPhone = customerPhone;
         CustomerEmail = customerEmail;
-        AddressInformation = addressInformation;
+        CustomerProvinceCode = customerProvinceCode;
+        CustomerProvinceName = customerProvinceName;
+        CustomerDistrictCode = customerDistrictCode;
+        CustomerDistrictName = customerDistrictName;
+        CustomerWardCode = customerWardCode;
+        CustomerWardName = customerWardName;
         SubTotalAmount = subTotalAmount;
         ShippingFee = shippingFee;
         UsedCoinAmount = usedCoinAmount;
@@ -75,14 +90,19 @@ public sealed class InstockOrder : AggregateRoot<InstockOrderId>
         string customerName,
         string customerPhone,
         string customerEmail,
-        string addressInformation,
+        string customerProvinceCode,
+        string customerProvinceName,
+        string customerDistrictCode,
+        string customerDistrictName,
+        string customerWardCode,
+        string customerWardName,
         decimal subTotalAmount,
         decimal shippingFee,
         int usedCoinAmount,
         decimal usedCoinAmountAsMoney,
         decimal grandTotalAmount,
         string paymentMethod,
-        int status = 0,
+        InstockOrderStatus status = InstockOrderStatus.PaymentPending,
         bool isPaid = false,
         DateTime? createdAt = null)
     {
@@ -98,7 +118,13 @@ public sealed class InstockOrder : AggregateRoot<InstockOrderId>
         if (string.IsNullOrWhiteSpace(customerEmail))
             return Result.Failure<InstockOrder>(InstockOrderError.InvalidCustomerEmail());
 
-        if (string.IsNullOrWhiteSpace(addressInformation))
+        if (string.IsNullOrWhiteSpace(customerProvinceCode) || string.IsNullOrWhiteSpace(customerProvinceName))
+            return Result.Failure<InstockOrder>(InstockOrderError.InvalidAddress());
+
+        if (string.IsNullOrWhiteSpace(customerDistrictCode) || string.IsNullOrWhiteSpace(customerDistrictName))
+            return Result.Failure<InstockOrder>(InstockOrderError.InvalidAddress());
+
+        if (string.IsNullOrWhiteSpace(customerWardCode) || string.IsNullOrWhiteSpace(customerWardName))
             return Result.Failure<InstockOrder>(InstockOrderError.InvalidAddress());
 
         if (string.IsNullOrWhiteSpace(paymentMethod))
@@ -116,12 +142,17 @@ public sealed class InstockOrder : AggregateRoot<InstockOrderId>
             customerName,
             customerPhone,
             customerEmail,
-            addressInformation,
-            Money.Create(subTotalAmount),
-            Money.Create(shippingFee),
+            customerProvinceCode,
+            customerProvinceName,
+            customerDistrictCode,
+            customerDistrictName,
+            customerWardCode,
+            customerWardName,
+            subTotalAmount,
+            shippingFee,
             usedCoinAmount,
-            Money.Create(usedCoinAmountAsMoney),
-            Money.Create(grandTotalAmount),
+            usedCoinAmountAsMoney,
+            grandTotalAmount,
             status,
             paymentMethod,
             isPaid,
@@ -130,12 +161,14 @@ public sealed class InstockOrder : AggregateRoot<InstockOrderId>
         return Result.Success(order);
     }
 
-    public Result UpdateStatus(int status)
+    public Result UpdateStatus(InstockOrderStatus newStatus)
     {
-        if (status < 0)
-            return Result.Failure(InstockOrderError.InvalidStatus());
+        if (!InstockOrderStatusTransition.IsValidTransition(Status, newStatus))
+        {
+            return Result.Failure(InstockOrderError.InvalidStatusTransition(Status, newStatus));
+        }
 
-        Status = status;
+        Status = newStatus;
         UpdatedAt = DateTime.UtcNow;
 
         return Result.Success();
@@ -143,11 +176,81 @@ public sealed class InstockOrder : AggregateRoot<InstockOrderId>
 
     public Result MarkAsPaid()
     {
-        if (IsPaid)
-            return Result.Success();
+        if (Status == InstockOrderStatus.Expired)
+        {
+            return Result.Failure(InstockOrderError.OrderExpired());
+        }
 
+        if (IsPaid)
+        {
+            return Result.Failure(InstockOrderError.OrderAlreadyPaid());
+        }
+
+        if (Status != InstockOrderStatus.PaymentPending)
+        {
+            return Result.Failure(InstockOrderError.InvalidStatusTransition(Status, InstockOrderStatus.Paid));
+        }
+
+        Status = InstockOrderStatus.Paid;
         IsPaid = true;
         PaidAt = DateTime.UtcNow;
+        UpdatedAt = DateTime.UtcNow;
+
+        return Result.Success();
+    }
+
+    public Result MarkAsExpired()
+    {
+        if (Status != InstockOrderStatus.PaymentPending)
+        {
+            return Result.Failure(InstockOrderError.CannotExpireOrder());
+        }
+
+        Status = InstockOrderStatus.Expired;
+        UpdatedAt = DateTime.UtcNow;
+
+        return Result.Success();
+    }
+
+    public Result StartProcessing()
+    {
+        if (Status != InstockOrderStatus.Paid)
+        {
+            return Result.Failure(InstockOrderError.OrderNotPaid());
+        }
+
+        Status = InstockOrderStatus.Processing;
+        UpdatedAt = DateTime.UtcNow;
+
+        return Result.Success();
+    }
+
+    public Result MarkAsShipped()
+    {
+        if (Status != InstockOrderStatus.Processing)
+        {
+            return Result.Failure(InstockOrderError.InvalidStatusTransition(Status, InstockOrderStatus.Shipped));
+        }
+
+        Status = InstockOrderStatus.Shipped;
+        UpdatedAt = DateTime.UtcNow;
+
+        return Result.Success();
+    }
+
+    public Result Complete()
+    {
+        if (Status != InstockOrderStatus.Shipped)
+        {
+            return Result.Failure(InstockOrderError.InvalidStatusTransition(Status, InstockOrderStatus.Completed));
+        }
+
+        if (Status == InstockOrderStatus.Completed)
+        {
+            return Result.Failure(InstockOrderError.OrderAlreadyCompleted());
+        }
+
+        Status = InstockOrderStatus.Completed;
         UpdatedAt = DateTime.UtcNow;
 
         return Result.Success();
@@ -163,5 +266,16 @@ public sealed class InstockOrder : AggregateRoot<InstockOrderId>
     {
         _orderDetails.Remove(orderDetail);
         UpdatedAt = DateTime.UtcNow;
+    }
+
+    public void RaiseOrderCreatedEvent(List<Guid> cartItemIds)
+    {
+        RaiseDomainEvent(new InstockOrderCreatedDomainEvent(
+            Id.Value,
+            Code,
+            CustomerId,
+            cartItemIds,
+            GrandTotalAmount,
+            CreatedAt));
     }
 }

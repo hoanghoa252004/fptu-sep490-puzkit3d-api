@@ -19,11 +19,14 @@ internal sealed class InstockProductConfiguration : IEntityTypeConfiguration<Ins
             .IsRequired()
             .HasMaxLength(10);
 
-        builder.Property(p => p.Slug)
+        builder.Property(p => p.Name)
             .IsRequired()
             .HasMaxLength(30);
 
-        builder.Property(p => p.Name)
+        builder.Property(p => p.Description)
+            .HasColumnType("text");
+
+        builder.Property(p => p.Slug)
             .IsRequired()
             .HasMaxLength(30);
 
@@ -45,8 +48,7 @@ internal sealed class InstockProductConfiguration : IEntityTypeConfiguration<Ins
             .IsRequired()
             .HasColumnType("jsonb");
 
-        builder.Property(p => p.Description)
-            .HasColumnType("text");
+        
 
         builder.Property(p => p.TopicId)
             .IsRequired();

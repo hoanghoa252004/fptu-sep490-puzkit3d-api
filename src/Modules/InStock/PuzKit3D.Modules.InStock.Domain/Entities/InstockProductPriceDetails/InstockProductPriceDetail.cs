@@ -1,7 +1,6 @@
 using PuzKit3D.Modules.InStock.Domain.Entities.InstockPrices;
+using PuzKit3D.Modules.InStock.Domain.Entities.InstockProductPriceDetails.DomainEvents;
 using PuzKit3D.Modules.InStock.Domain.Entities.InstockProductVariants;
-using PuzKit3D.Modules.InStock.Domain.Events.InstockProductPriceDetails;
-using PuzKit3D.Modules.InStock.Domain.ValueObjects;
 using PuzKit3D.SharedKernel.Domain;
 using PuzKit3D.SharedKernel.Domain.Results;
 
@@ -11,7 +10,7 @@ public sealed class InstockProductPriceDetail : Entity<InstockProductPriceDetail
 {
     public InstockPriceId InstockPriceId { get; private set; } = null!;
     public InstockProductVariantId InstockProductVariantId { get; private set; } = null!;
-    public Money UnitPrice { get; private set; } = null!;
+    public decimal UnitPrice { get; private set; }
     public bool IsActive { get; private set; }
     public DateTime CreatedAt { get; private set; }
     public DateTime UpdatedAt { get; private set; }
@@ -20,7 +19,7 @@ public sealed class InstockProductPriceDetail : Entity<InstockProductPriceDetail
         InstockProductPriceDetailId id,
         InstockPriceId instockPriceId,
         InstockProductVariantId instockProductVariantId,
-        Money unitPrice,
+        decimal unitPrice,
         bool isActive,
         DateTime createdAt) : base(id)
     {
@@ -47,13 +46,12 @@ public sealed class InstockProductPriceDetail : Entity<InstockProductPriceDetail
             return Result.Failure<InstockProductPriceDetail>(InstockProductPriceDetailError.InvalidUnitPrice());
 
         var priceDetailId = InstockProductPriceDetailId.Create();
-        var money = Money.Create(unitPrice);
         var timestamp = createdAt ?? DateTime.UtcNow;
         var priceDetail = new InstockProductPriceDetail(
             priceDetailId,
             instockPriceId,
             instockProductVariantId,
-            money,
+            unitPrice,
             isActive,
             timestamp);
 
@@ -62,7 +60,7 @@ public sealed class InstockProductPriceDetail : Entity<InstockProductPriceDetail
             priceDetail.Id.Value,
             priceDetail.InstockPriceId.Value,
             priceDetail.InstockProductVariantId.Value,
-            priceDetail.UnitPrice.Amount,
+            priceDetail.UnitPrice,
             priceDetail.IsActive));
 
         return Result.Success(priceDetail);
@@ -73,7 +71,7 @@ public sealed class InstockProductPriceDetail : Entity<InstockProductPriceDetail
         if (unitPrice < 10000)
             return Result.Failure(InstockProductPriceDetailError.InvalidUnitPrice());
 
-        UnitPrice = Money.Create(unitPrice);
+        UnitPrice = unitPrice;
         UpdatedAt = DateTime.UtcNow;
 
         // Raise domain event
@@ -81,7 +79,7 @@ public sealed class InstockProductPriceDetail : Entity<InstockProductPriceDetail
             Id.Value,
             InstockPriceId.Value,
             InstockProductVariantId.Value,
-            UnitPrice.Amount,
+            UnitPrice,
             IsActive));
 
         return Result.Success();
@@ -94,7 +92,7 @@ public sealed class InstockProductPriceDetail : Entity<InstockProductPriceDetail
             if (unitPrice.Value < 10000)
                 return Result.Failure(InstockProductPriceDetailError.InvalidUnitPrice());
 
-            UnitPrice = Money.Create(unitPrice.Value);
+            UnitPrice = unitPrice.Value;
         }
 
         if (isActive.HasValue)
@@ -112,7 +110,7 @@ public sealed class InstockProductPriceDetail : Entity<InstockProductPriceDetail
             Id.Value,
             InstockPriceId.Value,
             InstockProductVariantId.Value,
-            UnitPrice.Amount,
+            UnitPrice,
             IsActive));
 
         return Result.Success();

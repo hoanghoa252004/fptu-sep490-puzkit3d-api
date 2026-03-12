@@ -21,9 +21,15 @@ internal sealed class InStockProductReplicaConfiguration : IEntityTypeConfigurat
             .IsRequired()
             .HasMaxLength(30);
 
-        builder.Property(p => p.BriefDescription);
+        builder.Property(p => p.Description)
+            .HasColumnType("text");
 
-        builder.Property(p => p.DetailDescription);
+        builder.Property(p => p.Slug)
+            .IsRequired()
+            .HasMaxLength(30);
+
+        builder.Property(p => p.TotalPieceCount)
+            .IsRequired();
 
         builder.Property(p => p.DifficultLevel)
             .IsRequired()
@@ -33,14 +39,8 @@ internal sealed class InStockProductReplicaConfiguration : IEntityTypeConfigurat
             .IsRequired();
 
         builder.Property(p => p.ThumbnailUrl)
-            .IsRequired();
-
-        builder.Property(p => p.Slug)
             .IsRequired()
-            .HasMaxLength(30);
-
-        builder.Property(p => p.Specification)
-            .HasColumnType("jsonb");
+            .HasColumnType("text");
 
         builder.Property(p => p.PreviewAsset)
             .IsRequired()
@@ -49,13 +49,13 @@ internal sealed class InStockProductReplicaConfiguration : IEntityTypeConfigurat
         builder.Property(p => p.TopicId)
             .IsRequired();
 
-        builder.Property(p => p.AssemblyMethod)
+        builder.Property(p => p.AssemblyMethodId)
             .IsRequired();
 
-        builder.Property(p => p.Capability)
+        builder.Property(p => p.CapabilityId)
             .IsRequired();
 
-        builder.Property(p => p.Material)
+        builder.Property(p => p.MaterialId)
             .IsRequired();
 
         builder.Property(p => p.IsActive)
@@ -67,7 +67,6 @@ internal sealed class InStockProductReplicaConfiguration : IEntityTypeConfigurat
 
         builder.Property(p => p.UpdatedAt)
             .IsRequired();
-
         builder.HasIndex(p => p.Slug)
             .IsUnique()
             .HasDatabaseName("UK__instock_product_replica__slug");

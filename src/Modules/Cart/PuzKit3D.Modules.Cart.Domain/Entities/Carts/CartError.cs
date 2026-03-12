@@ -51,4 +51,7 @@ public static class CartError
 
     public static Error PriceDetailNotActive() => 
         Error.Validation("Cart.PriceDetailNotActive", "Price detail is not active");
+
+    public static Error InvalidPriceOfVariant() =>
+        Error.Validation("Cart.InvalidPriceOfVariant", "Price detail is not of variant");
 }

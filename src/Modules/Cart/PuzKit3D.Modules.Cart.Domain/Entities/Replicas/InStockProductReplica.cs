@@ -4,20 +4,19 @@ namespace PuzKit3D.Modules.Cart.Domain.Entities.Replicas;
 
 public sealed class InStockProductReplica : Entity<Guid>
 {
-    public string Code { get; private set; }
-    public string Name { get; private set; }
-    public string? BriefDescription { get; private set; }
-    public string? DetailDescription { get; private set; }
-    public string DifficultLevel { get; private set; }
+    public string Code { get; private set; } = null!;
+    public string Slug { get; private set; } = null!;
+    public string Name { get; private set; } = null!;
+    public int TotalPieceCount { get; private set; }
+    public string DifficultLevel { get; private set; } = null!;
     public int EstimatedBuildTime { get; private set; }
-    public string ThumbnailUrl { get; private set; }
-    public string Slug { get; private set; }
-    public string? Specification { get; private set; }
-    public string PreviewAsset { get; private set; }
+    public string ThumbnailUrl { get; private set; } = null!;
+    public string PreviewAsset { get; private set; } = null!;
+    public string? Description { get; private set; }
     public Guid TopicId { get; private set; }
-    public Guid AssemblyMethod { get; private set; }
-    public Guid Capability { get; private set; }
-    public Guid Material { get; private set; }
+    public Guid AssemblyMethodId { get; private set; }
+    public Guid CapabilityId { get; private set; }
+    public Guid MaterialId { get; private set; }
     public bool IsActive { get; private set; }
     public DateTime CreatedAt { get; private set; }
     public DateTime UpdatedAt { get; private set; }
@@ -30,18 +29,16 @@ public sealed class InStockProductReplica : Entity<Guid>
         Guid id,
         string code,
         string name,
-        string? briefDescription,
-        string? detailDescription,
+        string? description,
         string difficultLevel,
         int estimatedBuildTime,
         string thumbnailUrl,
         string slug,
-        string? specification,
         string previewAsset,
         Guid topicId,
-        Guid assemblyMethod,
-        Guid capability,
-        Guid material,
+        Guid assemblyMethodId,
+        Guid capabilityId,
+        Guid materialId,
         bool isActive,
         DateTime createdAt,
         DateTime updatedAt)
@@ -51,18 +48,16 @@ public sealed class InStockProductReplica : Entity<Guid>
             Id = id,
             Code = code,
             Name = name,
-            BriefDescription = briefDescription,
-            DetailDescription = detailDescription,
+            Description = description,
             DifficultLevel = difficultLevel,
             EstimatedBuildTime = estimatedBuildTime,
             ThumbnailUrl = thumbnailUrl,
             Slug = slug,
-            Specification = specification,
             PreviewAsset = previewAsset,
             TopicId = topicId,
-            AssemblyMethod = assemblyMethod,
-            Capability = capability,
-            Material = material,
+            AssemblyMethodId = assemblyMethodId,
+            CapabilityId = capabilityId,
+            MaterialId = materialId,
             IsActive = isActive,
             CreatedAt = createdAt,
             UpdatedAt = updatedAt
@@ -78,9 +73,10 @@ public sealed class InStockProductReplica : Entity<Guid>
         string slug,
         string previewAsset,
         Guid topicId,
-        Guid assemblyMethod,
-        Guid capability,
-        Guid material,
+        Guid assemblyMethodId,
+        Guid capabilityId,
+        Guid materialId,
+        string? description,
         bool isActive,
         DateTime updatedAt)
     {
@@ -92,11 +88,12 @@ public sealed class InStockProductReplica : Entity<Guid>
         Slug = slug;
         PreviewAsset = previewAsset;
         TopicId = topicId;
-        AssemblyMethod = assemblyMethod;
-        Capability = capability;
-        Material = material;
+        AssemblyMethodId = assemblyMethodId;
+        CapabilityId = capabilityId;
+        MaterialId = materialId;
         IsActive = isActive;
         UpdatedAt = updatedAt;
+        Description = description;
     }
 
     public void Deactivate()

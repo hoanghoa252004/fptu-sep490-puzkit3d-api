@@ -126,3 +126,34 @@ internal sealed class InstockProductVariantSkuGenerator : IInstockProductVariant
     }
 }
 
+internal sealed class InstockOrderCodeGenerator : IInstockOrderCodeGenerator
+{
+    private readonly InStockDbContext _context;
+
+    public InstockOrderCodeGenerator(InStockDbContext context)
+    {
+        _context = context;
+    }
+
+    public async Task<string> GenerateNextCodeAsync(CancellationToken cancellationToken = default)
+    {
+        var allCodes = await _context.InstockOrders
+            .Where(o => o.Code.StartsWith("ORD") && o.Code.Length == 6)
+            .Select(o => o.Code)
+            .ToListAsync(cancellationToken);
+
+        if (!allCodes.Any())
+        {
+            return "ORD001";
+        }
+
+        var maxCode = allCodes
+            .Select(code => int.TryParse(code.Substring(3), out var num) ? num : 0)
+            .Max();
+
+        var nextNumber = maxCode + 1;
+        return $"ORD{nextNumber:D3}";
+    }
+}
+
+

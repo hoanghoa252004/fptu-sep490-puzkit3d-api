@@ -14,4 +14,8 @@
     <ProjectReference Include="..\PuzKit3D.Modules.Cart.Persistence\PuzKit3D.Modules.Cart.Persistence.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="DomainEventHandlers\" />
+  </ItemGroup>
+
 </Project>

@@ -1,5 +1,5 @@
+using PuzKit3D.Modules.InStock.Domain.Entities.InstockProducts.DomainEvents;
 using PuzKit3D.Modules.InStock.Domain.Entities.Parts;
-using PuzKit3D.Modules.InStock.Domain.Events.InstockProducts;
 using PuzKit3D.SharedKernel.Domain;
 using PuzKit3D.SharedKernel.Domain.Results;
 using System.Text.RegularExpressions;

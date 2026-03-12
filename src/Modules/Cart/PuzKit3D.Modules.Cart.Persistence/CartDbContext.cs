@@ -37,6 +37,11 @@ public sealed class CartDbContext : DbContext, ICartUnitOfWork
         builder.HasDefaultSchema(Schema.Cart);
 
         builder.ApplyConfigurationsFromAssembly(typeof(CartDbContext).Assembly);
+
+        // Apply seed data
+        Configurations.SeedData.CartSeedDataConfiguration.SeedInStockPriceReplicas(builder);
+        Configurations.SeedData.CartSeedDataConfiguration.SeedInStockProductReplicas(builder);
+        Configurations.SeedData.CartSeedDataConfiguration.SeedInStockVariantsAndRelatedReplicas(builder);
     }
 
     public async Task<T> ExecuteAsync<T>(Func<Task<T>> action, CancellationToken cancellationToken = default)
@@ -52,10 +57,15 @@ public sealed class CartDbContext : DbContext, ICartUnitOfWork
                     await transaction.RollbackAsync(cancellationToken);
                     return response;
                 }
+                do
+                {
+                    var domainEvents = GetDomainEvents();
+                    if (domainEvents.Any())
+                    {
+                        await DispatchDomainEventsAsync(domainEvents, cancellationToken);
+                    }
+                } while (CheckDomainEventRemain());
 
-                var domainEvents = GetDomainEvents();
-
-                await DispatchDomainEventsAsync(domainEvents, cancellationToken);
 
                 await SaveChangesAsync(cancellationToken);
                 await transaction.CommitAsync(cancellationToken);
@@ -80,6 +90,21 @@ public sealed class CartDbContext : DbContext, ICartUnitOfWork
         domainEventEntities.ForEach(e => e.ClearDomainEvents());
 
         return domainEvents;
+    }
+
+    private bool CheckDomainEventRemain()
+    {
+        var domainEventEntities = ChangeTracker.Entries()
+            .Select(e => e.Entity)
+            .OfType<IEntity>()
+            .Where(e => e.DomainEvents.Any())
+            .ToList();
+
+        var domainEvents = domainEventEntities
+            .SelectMany(e => e.DomainEvents)
+            .ToList();
+
+        return domainEvents.Any();
     }
 
     private async Task DispatchDomainEventsAsync(List<IDomainEvent> domainEvents, CancellationToken cancellationToken)

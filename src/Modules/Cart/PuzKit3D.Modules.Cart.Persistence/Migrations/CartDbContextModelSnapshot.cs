@@ -118,6 +118,136 @@ namespace PuzKit3D.Modules.Cart.Persistence.Migrations
                         .HasDatabaseName("ix_instock_inventory_replica_instock_product_variant_id");
 
                     b.ToTable("in_stock_inventory_replicas", "cart");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("40000000-0001-0000-0000-000000000000"),
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InStockProductVariantId = new Guid("20000000-0001-0000-0000-000000000001"),
+                            TotalQuantity = 75,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("40000000-0002-0000-0000-000000000000"),
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InStockProductVariantId = new Guid("20000000-0001-0000-0000-000000000002"),
+                            TotalQuantity = 83,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("40000000-0003-0000-0000-000000000000"),
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InStockProductVariantId = new Guid("20000000-0002-0000-0000-000000000001"),
+                            TotalQuantity = 162,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("40000000-0004-0000-0000-000000000000"),
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InStockProductVariantId = new Guid("20000000-0003-0000-0000-000000000001"),
+                            TotalQuantity = 152,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("40000000-0005-0000-0000-000000000000"),
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InStockProductVariantId = new Guid("20000000-0003-0000-0000-000000000002"),
+                            TotalQuantity = 123,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("40000000-0006-0000-0000-000000000000"),
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InStockProductVariantId = new Guid("20000000-0004-0000-0000-000000000001"),
+                            TotalQuantity = 167,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("40000000-0007-0000-0000-000000000000"),
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InStockProductVariantId = new Guid("20000000-0004-0000-0000-000000000002"),
+                            TotalQuantity = 52,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("40000000-0008-0000-0000-000000000000"),
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InStockProductVariantId = new Guid("20000000-0005-0000-0000-000000000001"),
+                            TotalQuantity = 99,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("40000000-0009-0000-0000-000000000000"),
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InStockProductVariantId = new Guid("20000000-0006-0000-0000-000000000001"),
+                            TotalQuantity = 13,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("40000000-0010-0000-0000-000000000000"),
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InStockProductVariantId = new Guid("20000000-0006-0000-0000-000000000002"),
+                            TotalQuantity = 186,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("40000000-0011-0000-0000-000000000000"),
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InStockProductVariantId = new Guid("20000000-0007-0000-0000-000000000001"),
+                            TotalQuantity = 78,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("40000000-0012-0000-0000-000000000000"),
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InStockProductVariantId = new Guid("20000000-0008-0000-0000-000000000001"),
+                            TotalQuantity = 143,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("40000000-0013-0000-0000-000000000000"),
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InStockProductVariantId = new Guid("20000000-0008-0000-0000-000000000002"),
+                            TotalQuantity = 35,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("40000000-0014-0000-0000-000000000000"),
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InStockProductVariantId = new Guid("20000000-0009-0000-0000-000000000001"),
+                            TotalQuantity = 117,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("40000000-0015-0000-0000-000000000000"),
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InStockProductVariantId = new Guid("20000000-0010-0000-0000-000000000001"),
+                            TotalQuantity = 10,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("40000000-0016-0000-0000-000000000000"),
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InStockProductVariantId = new Guid("20000000-0010-0000-0000-000000000002"),
+                            TotalQuantity = 185,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        });
                 });
 
             modelBuilder.Entity("PuzKit3D.Modules.Cart.Domain.Entities.Replicas.InStockPriceReplica", b =>
@@ -162,6 +292,30 @@ namespace PuzKit3D.Modules.Cart.Persistence.Migrations
                         .HasName("pk_in_stock_price_replicas");
 
                     b.ToTable("in_stock_price_replicas", "cart");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("99999999-9999-9999-9999-999999999991"),
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            EffectiveFrom = new DateTime(2020, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            EffectiveTo = new DateTime(2099, 12, 31, 23, 59, 59, 0, DateTimeKind.Utc),
+                            IsActive = true,
+                            Name = "Standard",
+                            Priority = 1,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("99999999-9999-9999-9999-999999999992"),
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            EffectiveFrom = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            EffectiveTo = new DateTime(2026, 7, 1, 23, 59, 59, 0, DateTimeKind.Utc),
+                            IsActive = true,
+                            Name = "Sale Summer Vacation",
+                            Priority = 2,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        });
                 });
 
             modelBuilder.Entity("PuzKit3D.Modules.Cart.Domain.Entities.Replicas.InStockProductPriceDetailReplica", b =>
@@ -204,6 +358,328 @@ namespace PuzKit3D.Modules.Cart.Persistence.Migrations
                         .HasDatabaseName("CUK___instock_product_price_detail_replica___instock_price_id__instock_product_variant_id");
 
                     b.ToTable("in_stock_product_price_detail_replicas", "cart");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("30000000-0001-1000-0000-000000000000"),
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InStockPriceId = new Guid("99999999-9999-9999-9999-999999999991"),
+                            InStockProductVariantId = new Guid("20000000-0001-0000-0000-000000000001"),
+                            IsActive = true,
+                            UnitPrice = 745000m,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("30000000-0001-2000-0000-000000000000"),
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InStockPriceId = new Guid("99999999-9999-9999-9999-999999999992"),
+                            InStockProductVariantId = new Guid("20000000-0001-0000-0000-000000000001"),
+                            IsActive = true,
+                            UnitPrice = 596000.0m,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("30000000-0002-1000-0000-000000000000"),
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InStockPriceId = new Guid("99999999-9999-9999-9999-999999999991"),
+                            InStockProductVariantId = new Guid("20000000-0001-0000-0000-000000000002"),
+                            IsActive = true,
+                            UnitPrice = 419000m,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("30000000-0002-2000-0000-000000000000"),
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InStockPriceId = new Guid("99999999-9999-9999-9999-999999999992"),
+                            InStockProductVariantId = new Guid("20000000-0001-0000-0000-000000000002"),
+                            IsActive = true,
+                            UnitPrice = 335200.0m,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("30000000-0003-1000-0000-000000000000"),
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InStockPriceId = new Guid("99999999-9999-9999-9999-999999999991"),
+                            InStockProductVariantId = new Guid("20000000-0002-0000-0000-000000000001"),
+                            IsActive = true,
+                            UnitPrice = 268000m,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("30000000-0003-2000-0000-000000000000"),
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InStockPriceId = new Guid("99999999-9999-9999-9999-999999999992"),
+                            InStockProductVariantId = new Guid("20000000-0002-0000-0000-000000000001"),
+                            IsActive = true,
+                            UnitPrice = 214400.0m,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("30000000-0004-1000-0000-000000000000"),
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InStockPriceId = new Guid("99999999-9999-9999-9999-999999999991"),
+                            InStockProductVariantId = new Guid("20000000-0003-0000-0000-000000000001"),
+                            IsActive = true,
+                            UnitPrice = 869000m,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("30000000-0004-2000-0000-000000000000"),
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InStockPriceId = new Guid("99999999-9999-9999-9999-999999999992"),
+                            InStockProductVariantId = new Guid("20000000-0003-0000-0000-000000000001"),
+                            IsActive = true,
+                            UnitPrice = 695200.0m,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("30000000-0005-1000-0000-000000000000"),
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InStockPriceId = new Guid("99999999-9999-9999-9999-999999999991"),
+                            InStockProductVariantId = new Guid("20000000-0003-0000-0000-000000000002"),
+                            IsActive = true,
+                            UnitPrice = 648000m,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("30000000-0005-2000-0000-000000000000"),
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InStockPriceId = new Guid("99999999-9999-9999-9999-999999999992"),
+                            InStockProductVariantId = new Guid("20000000-0003-0000-0000-000000000002"),
+                            IsActive = true,
+                            UnitPrice = 518400.0m,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("30000000-0006-1000-0000-000000000000"),
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InStockPriceId = new Guid("99999999-9999-9999-9999-999999999991"),
+                            InStockProductVariantId = new Guid("20000000-0004-0000-0000-000000000001"),
+                            IsActive = true,
+                            UnitPrice = 356000m,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("30000000-0006-2000-0000-000000000000"),
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InStockPriceId = new Guid("99999999-9999-9999-9999-999999999992"),
+                            InStockProductVariantId = new Guid("20000000-0004-0000-0000-000000000001"),
+                            IsActive = true,
+                            UnitPrice = 284800.0m,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("30000000-0007-1000-0000-000000000000"),
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InStockPriceId = new Guid("99999999-9999-9999-9999-999999999991"),
+                            InStockProductVariantId = new Guid("20000000-0004-0000-0000-000000000002"),
+                            IsActive = true,
+                            UnitPrice = 909000m,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("30000000-0007-2000-0000-000000000000"),
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InStockPriceId = new Guid("99999999-9999-9999-9999-999999999992"),
+                            InStockProductVariantId = new Guid("20000000-0004-0000-0000-000000000002"),
+                            IsActive = true,
+                            UnitPrice = 727200.0m,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("30000000-0008-1000-0000-000000000000"),
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InStockPriceId = new Guid("99999999-9999-9999-9999-999999999991"),
+                            InStockProductVariantId = new Guid("20000000-0005-0000-0000-000000000001"),
+                            IsActive = true,
+                            UnitPrice = 631000m,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("30000000-0008-2000-0000-000000000000"),
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InStockPriceId = new Guid("99999999-9999-9999-9999-999999999992"),
+                            InStockProductVariantId = new Guid("20000000-0005-0000-0000-000000000001"),
+                            IsActive = true,
+                            UnitPrice = 504800.0m,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("30000000-0009-1000-0000-000000000000"),
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InStockPriceId = new Guid("99999999-9999-9999-9999-999999999991"),
+                            InStockProductVariantId = new Guid("20000000-0006-0000-0000-000000000001"),
+                            IsActive = true,
+                            UnitPrice = 531000m,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("30000000-0009-2000-0000-000000000000"),
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InStockPriceId = new Guid("99999999-9999-9999-9999-999999999992"),
+                            InStockProductVariantId = new Guid("20000000-0006-0000-0000-000000000001"),
+                            IsActive = true,
+                            UnitPrice = 424800.0m,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("30000000-0010-1000-0000-000000000000"),
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InStockPriceId = new Guid("99999999-9999-9999-9999-999999999991"),
+                            InStockProductVariantId = new Guid("20000000-0006-0000-0000-000000000002"),
+                            IsActive = true,
+                            UnitPrice = 615000m,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("30000000-0010-2000-0000-000000000000"),
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InStockPriceId = new Guid("99999999-9999-9999-9999-999999999992"),
+                            InStockProductVariantId = new Guid("20000000-0006-0000-0000-000000000002"),
+                            IsActive = true,
+                            UnitPrice = 492000.0m,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("30000000-0011-1000-0000-000000000000"),
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InStockPriceId = new Guid("99999999-9999-9999-9999-999999999991"),
+                            InStockProductVariantId = new Guid("20000000-0007-0000-0000-000000000001"),
+                            IsActive = true,
+                            UnitPrice = 704000m,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("30000000-0011-2000-0000-000000000000"),
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InStockPriceId = new Guid("99999999-9999-9999-9999-999999999992"),
+                            InStockProductVariantId = new Guid("20000000-0007-0000-0000-000000000001"),
+                            IsActive = true,
+                            UnitPrice = 563200.0m,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("30000000-0012-1000-0000-000000000000"),
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InStockPriceId = new Guid("99999999-9999-9999-9999-999999999991"),
+                            InStockProductVariantId = new Guid("20000000-0008-0000-0000-000000000001"),
+                            IsActive = true,
+                            UnitPrice = 540000m,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("30000000-0012-2000-0000-000000000000"),
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InStockPriceId = new Guid("99999999-9999-9999-9999-999999999992"),
+                            InStockProductVariantId = new Guid("20000000-0008-0000-0000-000000000001"),
+                            IsActive = true,
+                            UnitPrice = 432000.0m,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("30000000-0013-1000-0000-000000000000"),
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InStockPriceId = new Guid("99999999-9999-9999-9999-999999999991"),
+                            InStockProductVariantId = new Guid("20000000-0008-0000-0000-000000000002"),
+                            IsActive = true,
+                            UnitPrice = 330000m,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("30000000-0013-2000-0000-000000000000"),
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InStockPriceId = new Guid("99999999-9999-9999-9999-999999999992"),
+                            InStockProductVariantId = new Guid("20000000-0008-0000-0000-000000000002"),
+                            IsActive = true,
+                            UnitPrice = 264000.0m,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("30000000-0014-1000-0000-000000000000"),
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InStockPriceId = new Guid("99999999-9999-9999-9999-999999999991"),
+                            InStockProductVariantId = new Guid("20000000-0009-0000-0000-000000000001"),
+                            IsActive = true,
+                            UnitPrice = 42000m,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("30000000-0014-2000-0000-000000000000"),
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InStockPriceId = new Guid("99999999-9999-9999-9999-999999999992"),
+                            InStockProductVariantId = new Guid("20000000-0009-0000-0000-000000000001"),
+                            IsActive = true,
+                            UnitPrice = 33600.0m,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("30000000-0015-1000-0000-000000000000"),
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InStockPriceId = new Guid("99999999-9999-9999-9999-999999999991"),
+                            InStockProductVariantId = new Guid("20000000-0010-0000-0000-000000000001"),
+                            IsActive = true,
+                            UnitPrice = 867000m,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("30000000-0015-2000-0000-000000000000"),
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InStockPriceId = new Guid("99999999-9999-9999-9999-999999999992"),
+                            InStockProductVariantId = new Guid("20000000-0010-0000-0000-000000000001"),
+                            IsActive = true,
+                            UnitPrice = 693600.0m,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("30000000-0016-1000-0000-000000000000"),
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InStockPriceId = new Guid("99999999-9999-9999-9999-999999999991"),
+                            InStockProductVariantId = new Guid("20000000-0010-0000-0000-000000000002"),
+                            IsActive = true,
+                            UnitPrice = 509000m,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("30000000-0016-2000-0000-000000000000"),
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InStockPriceId = new Guid("99999999-9999-9999-9999-999999999992"),
+                            InStockProductVariantId = new Guid("20000000-0010-0000-0000-000000000002"),
+                            IsActive = true,
+                            UnitPrice = 407200.0m,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        });
                 });
 
             modelBuilder.Entity("PuzKit3D.Modules.Cart.Domain.Entities.Replicas.InStockProductReplica", b =>
@@ -212,17 +688,13 @@ namespace PuzKit3D.Modules.Cart.Persistence.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("id");
 
-                    b.Property<Guid>("AssemblyMethod")
+                    b.Property<Guid>("AssemblyMethodId")
                         .HasColumnType("uuid")
-                        .HasColumnName("assembly_method");
+                        .HasColumnName("assembly_method_id");
 
-                    b.Property<string>("BriefDescription")
-                        .HasColumnType("text")
-                        .HasColumnName("brief_description");
-
-                    b.Property<Guid>("Capability")
+                    b.Property<Guid>("CapabilityId")
                         .HasColumnType("uuid")
-                        .HasColumnName("capability");
+                        .HasColumnName("capability_id");
 
                     b.Property<string>("Code")
                         .IsRequired()
@@ -234,9 +706,9 @@ namespace PuzKit3D.Modules.Cart.Persistence.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("created_at");
 
-                    b.Property<string>("DetailDescription")
+                    b.Property<string>("Description")
                         .HasColumnType("text")
-                        .HasColumnName("detail_description");
+                        .HasColumnName("description");
 
                     b.Property<string>("DifficultLevel")
                         .IsRequired()
@@ -254,9 +726,9 @@ namespace PuzKit3D.Modules.Cart.Persistence.Migrations
                         .HasDefaultValue(false)
                         .HasColumnName("is_active");
 
-                    b.Property<Guid>("Material")
+                    b.Property<Guid>("MaterialId")
                         .HasColumnType("uuid")
-                        .HasColumnName("material");
+                        .HasColumnName("material_id");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -275,10 +747,6 @@ namespace PuzKit3D.Modules.Cart.Persistence.Migrations
                         .HasColumnType("character varying(30)")
                         .HasColumnName("slug");
 
-                    b.Property<string>("Specification")
-                        .HasColumnType("jsonb")
-                        .HasColumnName("specification");
-
                     b.Property<string>("ThumbnailUrl")
                         .IsRequired()
                         .HasColumnType("text")
@@ -287,6 +755,10 @@ namespace PuzKit3D.Modules.Cart.Persistence.Migrations
                     b.Property<Guid>("TopicId")
                         .HasColumnType("uuid")
                         .HasColumnName("topic_id");
+
+                    b.Property<int>("TotalPieceCount")
+                        .HasColumnType("integer")
+                        .HasColumnName("total_piece_count");
 
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("timestamp with time zone")
@@ -300,6 +772,198 @@ namespace PuzKit3D.Modules.Cart.Persistence.Migrations
                         .HasDatabaseName("UK__instock_product_replica__slug");
 
                     b.ToTable("in_stock_product_replicas", "cart");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("10000000-0000-0000-0000-000000000001"),
+                            AssemblyMethodId = new Guid("33333333-3333-3333-3333-333333333333"),
+                            CapabilityId = new Guid("77777777-7777-7777-7777-777777777777"),
+                            Code = "INP001",
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            DifficultLevel = "Basic",
+                            EstimatedBuildTime = 120,
+                            IsActive = true,
+                            MaterialId = new Guid("55555555-5555-5555-5555-555555555555"),
+                            Name = "Lion 3D Puzzle",
+                            PreviewAsset = "{\"main\":\"https://example.com/lion-preview.jpg\"}",
+                            Slug = "lion-3d-puzzle",
+                            ThumbnailUrl = "https://example.com/lion.jpg",
+                            TopicId = new Guid("11111111-1111-1111-1111-111111111111"),
+                            TotalPieceCount = 150,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("10000000-0000-0000-0000-000000000002"),
+                            AssemblyMethodId = new Guid("33333333-3333-3333-3333-333333333333"),
+                            CapabilityId = new Guid("77777777-7777-7777-7777-777777777777"),
+                            Code = "INP002",
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            DifficultLevel = "Intermediate",
+                            EstimatedBuildTime = 180,
+                            IsActive = true,
+                            MaterialId = new Guid("55555555-5555-5555-5555-555555555555"),
+                            Name = "Elephant 3D Puzzle",
+                            PreviewAsset = "{\"main\":\"https://example.com/elephant-preview.jpg\"}",
+                            Slug = "elephant-3d-puzzle",
+                            ThumbnailUrl = "https://example.com/elephant.jpg",
+                            TopicId = new Guid("11111111-1111-1111-1111-111111111111"),
+                            TotalPieceCount = 200,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("10000000-0000-0000-0000-000000000003"),
+                            AssemblyMethodId = new Guid("44444444-4444-4444-4444-444444444444"),
+                            CapabilityId = new Guid("88888888-8888-8888-8888-888888888888"),
+                            Code = "INP003",
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            DifficultLevel = "Advanced",
+                            EstimatedBuildTime = 240,
+                            IsActive = true,
+                            MaterialId = new Guid("55555555-5555-5555-5555-555555555555"),
+                            Name = "Eagle 3D Puzzle",
+                            PreviewAsset = "{\"main\":\"https://example.com/eagle-preview.jpg\"}",
+                            Slug = "eagle-3d-puzzle",
+                            ThumbnailUrl = "https://example.com/eagle.jpg",
+                            TopicId = new Guid("11111111-1111-1111-1111-111111111111"),
+                            TotalPieceCount = 180,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("10000000-0000-0000-0000-000000000004"),
+                            AssemblyMethodId = new Guid("44444444-4444-4444-4444-444444444444"),
+                            CapabilityId = new Guid("88888888-8888-8888-8888-888888888888"),
+                            Code = "INP004",
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            DifficultLevel = "Advanced",
+                            EstimatedBuildTime = 300,
+                            IsActive = true,
+                            MaterialId = new Guid("66666666-6666-6666-6666-666666666666"),
+                            Name = "Sports Car 3D Puzzle",
+                            PreviewAsset = "{\"main\":\"https://example.com/sports-car-preview.jpg\"}",
+                            Slug = "sports-car-3d-puzzle",
+                            ThumbnailUrl = "https://example.com/sports-car.jpg",
+                            TopicId = new Guid("22222222-2222-2222-2222-222222222222"),
+                            TotalPieceCount = 250,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("10000000-0000-0000-0000-000000000005"),
+                            AssemblyMethodId = new Guid("33333333-3333-3333-3333-333333333333"),
+                            CapabilityId = new Guid("77777777-7777-7777-7777-777777777777"),
+                            Code = "INP005",
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            DifficultLevel = "Intermediate",
+                            EstimatedBuildTime = 200,
+                            IsActive = true,
+                            MaterialId = new Guid("66666666-6666-6666-6666-666666666666"),
+                            Name = "Airplane 3D Puzzle",
+                            PreviewAsset = "{\"main\":\"https://example.com/airplane-preview.jpg\"}",
+                            Slug = "airplane-3d-puzzle",
+                            ThumbnailUrl = "https://example.com/airplane.jpg",
+                            TopicId = new Guid("22222222-2222-2222-2222-222222222222"),
+                            TotalPieceCount = 220,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("10000000-0000-0000-0000-000000000006"),
+                            AssemblyMethodId = new Guid("33333333-3333-3333-3333-333333333333"),
+                            CapabilityId = new Guid("77777777-7777-7777-7777-777777777777"),
+                            Code = "INP006",
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            DifficultLevel = "Intermediate",
+                            EstimatedBuildTime = 150,
+                            IsActive = true,
+                            MaterialId = new Guid("66666666-6666-6666-6666-666666666666"),
+                            Name = "Motorcycle 3D Puzzle",
+                            PreviewAsset = "{\"main\":\"https://example.com/motorcycle-preview.jpg\"}",
+                            Slug = "motorcycle-3d-puzzle",
+                            ThumbnailUrl = "https://example.com/motorcycle.jpg",
+                            TopicId = new Guid("22222222-2222-2222-2222-222222222222"),
+                            TotalPieceCount = 180,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("10000000-0000-0000-0000-000000000007"),
+                            AssemblyMethodId = new Guid("33333333-3333-3333-3333-333333333333"),
+                            CapabilityId = new Guid("77777777-7777-7777-7777-777777777777"),
+                            Code = "INP007",
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            DifficultLevel = "Basic",
+                            EstimatedBuildTime = 130,
+                            IsActive = true,
+                            MaterialId = new Guid("55555555-5555-5555-5555-555555555555"),
+                            Name = "Tiger 3D Puzzle",
+                            PreviewAsset = "{\"main\":\"https://example.com/tiger-preview.jpg\"}",
+                            Slug = "tiger-3d-puzzle",
+                            ThumbnailUrl = "https://example.com/tiger.jpg",
+                            TopicId = new Guid("11111111-1111-1111-1111-111111111111"),
+                            TotalPieceCount = 170,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("10000000-0000-0000-0000-000000000008"),
+                            AssemblyMethodId = new Guid("33333333-3333-3333-3333-333333333333"),
+                            CapabilityId = new Guid("77777777-7777-7777-7777-777777777777"),
+                            Code = "INP008",
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            DifficultLevel = "Basic",
+                            EstimatedBuildTime = 100,
+                            IsActive = true,
+                            MaterialId = new Guid("55555555-5555-5555-5555-555555555555"),
+                            Name = "Dolphin 3D Puzzle",
+                            PreviewAsset = "{\"main\":\"https://example.com/dolphin-preview.jpg\"}",
+                            Slug = "dolphin-3d-puzzle",
+                            ThumbnailUrl = "https://example.com/dolphin.jpg",
+                            TopicId = new Guid("11111111-1111-1111-1111-111111111111"),
+                            TotalPieceCount = 130,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("10000000-0000-0000-0000-000000000009"),
+                            AssemblyMethodId = new Guid("33333333-3333-3333-3333-333333333333"),
+                            CapabilityId = new Guid("77777777-7777-7777-7777-777777777777"),
+                            Code = "INP009",
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            DifficultLevel = "Intermediate",
+                            EstimatedBuildTime = 170,
+                            IsActive = true,
+                            MaterialId = new Guid("66666666-6666-6666-6666-666666666666"),
+                            Name = "Helicopter 3D Puzzle",
+                            PreviewAsset = "{\"main\":\"https://example.com/helicopter-preview.jpg\"}",
+                            Slug = "helicopter-3d-puzzle",
+                            ThumbnailUrl = "https://example.com/helicopter.jpg",
+                            TopicId = new Guid("22222222-2222-2222-2222-222222222222"),
+                            TotalPieceCount = 190,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("10000000-0000-0000-0000-000000000010"),
+                            AssemblyMethodId = new Guid("44444444-4444-4444-4444-444444444444"),
+                            CapabilityId = new Guid("88888888-8888-8888-8888-888888888888"),
+                            Code = "INP010",
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            DifficultLevel = "Advanced",
+                            EstimatedBuildTime = 360,
+                            IsActive = true,
+                            MaterialId = new Guid("55555555-5555-5555-5555-555555555555"),
+                            Name = "Dragon 3D Puzzle",
+                            PreviewAsset = "{\"main\":\"https://example.com/dragon-preview.jpg\"}",
+                            Slug = "dragon-3d-puzzle",
+                            ThumbnailUrl = "https://example.com/dragon.jpg",
+                            TopicId = new Guid("11111111-1111-1111-1111-111111111111"),
+                            TotalPieceCount = 300,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        });
                 });
 
             modelBuilder.Entity("PuzKit3D.Modules.Cart.Domain.Entities.Replicas.InStockProductVariantReplica", b =>
@@ -358,6 +1022,216 @@ namespace PuzKit3D.Modules.Cart.Persistence.Migrations
                         .HasDatabaseName("UK__instock_product_variant_replica__sku");
 
                     b.ToTable("in_stock_product_variant_replicas", "cart");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("20000000-0001-0000-0000-000000000001"),
+                            AssembledHeightMm = 261,
+                            AssembledLengthMm = 218,
+                            AssembledWidthMm = 159,
+                            Color = "Red",
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InStockProductId = new Guid("10000000-0000-0000-0000-000000000001"),
+                            IsActive = true,
+                            Sku = "SKU001",
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("20000000-0001-0000-0000-000000000002"),
+                            AssembledHeightMm = 297,
+                            AssembledLengthMm = 174,
+                            AssembledWidthMm = 138,
+                            Color = "Blue",
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InStockProductId = new Guid("10000000-0000-0000-0000-000000000001"),
+                            IsActive = true,
+                            Sku = "SKU002",
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("20000000-0002-0000-0000-000000000001"),
+                            AssembledHeightMm = 175,
+                            AssembledLengthMm = 229,
+                            AssembledWidthMm = 263,
+                            Color = "Green",
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InStockProductId = new Guid("10000000-0000-0000-0000-000000000002"),
+                            IsActive = true,
+                            Sku = "SKU003",
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("20000000-0003-0000-0000-000000000001"),
+                            AssembledHeightMm = 224,
+                            AssembledLengthMm = 131,
+                            AssembledWidthMm = 171,
+                            Color = "Yellow",
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InStockProductId = new Guid("10000000-0000-0000-0000-000000000003"),
+                            IsActive = true,
+                            Sku = "SKU004",
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("20000000-0003-0000-0000-000000000002"),
+                            AssembledHeightMm = 289,
+                            AssembledLengthMm = 182,
+                            AssembledWidthMm = 292,
+                            Color = "Black",
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InStockProductId = new Guid("10000000-0000-0000-0000-000000000003"),
+                            IsActive = true,
+                            Sku = "SKU005",
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("20000000-0004-0000-0000-000000000001"),
+                            AssembledHeightMm = 158,
+                            AssembledLengthMm = 156,
+                            AssembledWidthMm = 240,
+                            Color = "White",
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InStockProductId = new Guid("10000000-0000-0000-0000-000000000004"),
+                            IsActive = true,
+                            Sku = "SKU006",
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("20000000-0004-0000-0000-000000000002"),
+                            AssembledHeightMm = 127,
+                            AssembledLengthMm = 225,
+                            AssembledWidthMm = 187,
+                            Color = "Orange",
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InStockProductId = new Guid("10000000-0000-0000-0000-000000000004"),
+                            IsActive = true,
+                            Sku = "SKU007",
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("20000000-0005-0000-0000-000000000001"),
+                            AssembledHeightMm = 222,
+                            AssembledLengthMm = 219,
+                            AssembledWidthMm = 201,
+                            Color = "Purple",
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InStockProductId = new Guid("10000000-0000-0000-0000-000000000005"),
+                            IsActive = true,
+                            Sku = "SKU008",
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("20000000-0006-0000-0000-000000000001"),
+                            AssembledHeightMm = 227,
+                            AssembledLengthMm = 154,
+                            AssembledWidthMm = 278,
+                            Color = "Red",
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InStockProductId = new Guid("10000000-0000-0000-0000-000000000006"),
+                            IsActive = true,
+                            Sku = "SKU009",
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("20000000-0006-0000-0000-000000000002"),
+                            AssembledHeightMm = 152,
+                            AssembledLengthMm = 288,
+                            AssembledWidthMm = 296,
+                            Color = "Blue",
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InStockProductId = new Guid("10000000-0000-0000-0000-000000000006"),
+                            IsActive = true,
+                            Sku = "SKU010",
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("20000000-0007-0000-0000-000000000001"),
+                            AssembledHeightMm = 177,
+                            AssembledLengthMm = 221,
+                            AssembledWidthMm = 207,
+                            Color = "Green",
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InStockProductId = new Guid("10000000-0000-0000-0000-000000000007"),
+                            IsActive = true,
+                            Sku = "SKU011",
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("20000000-0008-0000-0000-000000000001"),
+                            AssembledHeightMm = 297,
+                            AssembledLengthMm = 137,
+                            AssembledWidthMm = 135,
+                            Color = "Yellow",
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InStockProductId = new Guid("10000000-0000-0000-0000-000000000008"),
+                            IsActive = true,
+                            Sku = "SKU012",
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("20000000-0008-0000-0000-000000000002"),
+                            AssembledHeightMm = 274,
+                            AssembledLengthMm = 195,
+                            AssembledWidthMm = 221,
+                            Color = "Black",
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InStockProductId = new Guid("10000000-0000-0000-0000-000000000008"),
+                            IsActive = true,
+                            Sku = "SKU013",
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("20000000-0009-0000-0000-000000000001"),
+                            AssembledHeightMm = 102,
+                            AssembledLengthMm = 146,
+                            AssembledWidthMm = 111,
+                            Color = "White",
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InStockProductId = new Guid("10000000-0000-0000-0000-000000000009"),
+                            IsActive = true,
+                            Sku = "SKU014",
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("20000000-0010-0000-0000-000000000001"),
+                            AssembledHeightMm = 154,
+                            AssembledLengthMm = 265,
+                            AssembledWidthMm = 262,
+                            Color = "Orange",
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InStockProductId = new Guid("10000000-0000-0000-0000-000000000010"),
+                            IsActive = true,
+                            Sku = "SKU015",
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("20000000-0010-0000-0000-000000000002"),
+                            AssembledHeightMm = 251,
+                            AssembledLengthMm = 150,
+                            AssembledWidthMm = 186,
+                            Color = "Purple",
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InStockProductId = new Guid("10000000-0000-0000-0000-000000000010"),
+                            IsActive = true,
+                            Sku = "SKU016",
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        });
                 });
 
             modelBuilder.Entity("PuzKit3D.Modules.Cart.Domain.Entities.Replicas.PartnerProductReplica", b =>

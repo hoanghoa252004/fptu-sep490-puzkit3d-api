@@ -20,3 +20,9 @@ public interface IInstockProductVariantSkuGenerator
     Task<string> GenerateNextSkuAsync(CancellationToken cancellationToken = default);
 }
 
+public interface IInstockOrderCodeGenerator
+{
+    Task<string> GenerateNextCodeAsync(CancellationToken cancellationToken = default);
+}
+
+

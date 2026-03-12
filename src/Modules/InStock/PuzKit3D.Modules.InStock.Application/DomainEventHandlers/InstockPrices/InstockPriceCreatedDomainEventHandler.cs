@@ -1,7 +1,7 @@
 using MediatR;
 using PuzKit3D.Contract.InStock;
 using PuzKit3D.Contract.InStock.InstockPrices;
-using PuzKit3D.Modules.InStock.Domain.Events.InstockPrices;
+using PuzKit3D.Modules.InStock.Domain.Entities.InstockPrices.DomainEvents;
 using PuzKit3D.SharedKernel.Application.Event;
 
 namespace PuzKit3D.Modules.InStock.Application.DomainEventHandlers.InstockPrices;
