@@ -45,4 +45,10 @@ public sealed class InStockPriceReplica : Entity<Guid>
             && dateTime >= EffectiveFrom 
             && dateTime <= EffectiveTo;
     }
+
+    public void Deactivate()
+    {
+        IsActive = false;
+        UpdatedAt = DateTime.UtcNow;
+    }
 }

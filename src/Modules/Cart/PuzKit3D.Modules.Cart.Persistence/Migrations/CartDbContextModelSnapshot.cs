@@ -240,8 +240,8 @@ namespace PuzKit3D.Modules.Cart.Persistence.Migrations
 
                     b.Property<string>("DifficultLevel")
                         .IsRequired()
-                        .HasMaxLength(10)
-                        .HasColumnType("character varying(10)")
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)")
                         .HasColumnName("difficult_level");
 
                     b.Property<int>("EstimatedBuildTime")

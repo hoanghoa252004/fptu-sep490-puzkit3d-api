@@ -44,4 +44,10 @@ public sealed class InStockProductVariantReplica : Entity<Guid>
             UpdatedAt = updatedAt
         };
     }
+
+    public void Deactivate()
+    {
+        IsActive = false;
+        UpdatedAt = DateTime.UtcNow;
+    }
 }

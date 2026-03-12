@@ -44,7 +44,8 @@ internal sealed class UpdateInstockPriceCommandHandler : ICommandHandler<UpdateI
                 request.Name,
                 request.EffectiveFrom,
                 request.EffectiveTo,
-                request.Priority);
+                request.Priority,
+                request.IsActive);
 
             if (updateResult.IsFailure)
             {

@@ -43,4 +43,8 @@ public static class InstockProductVariantError
     public static Error VariantDoesNotBelongToProduct(Guid variantId, Guid productId) => Error.Validation(
         "InstockProductVariant.VariantDoesNotBelongToProduct",
         $"Variant with ID '{variantId}' does not belong to product with ID '{productId}'.");
+
+    public static Error IsActiveUnchanged(bool currentValue) => Error.Validation(
+        "InstockProductVariant.IsActiveUnchanged",
+        $"Variant is already {(currentValue ? "active" : "inactive")}. No change needed.");
 }

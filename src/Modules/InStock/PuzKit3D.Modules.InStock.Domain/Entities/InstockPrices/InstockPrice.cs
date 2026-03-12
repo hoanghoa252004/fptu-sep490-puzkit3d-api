@@ -119,7 +119,8 @@ public sealed class InstockPrice : AggregateRoot<InstockPriceId>
         string? name = null,
         DateTime? effectiveFrom = null,
         DateTime? effectiveTo = null,
-        int? priority = null)
+        int? priority = null,
+        bool? isActive = null)
     {
         if (name is not null)
         {
@@ -152,6 +153,14 @@ public sealed class InstockPrice : AggregateRoot<InstockPriceId>
             Priority = priority.Value;
         }
 
+        if (isActive.HasValue)
+        {
+            if (isActive.Value == IsActive)
+                return Result.Failure(InstockPriceError.IsActiveUnchanged(IsActive));
+
+            IsActive = isActive.Value;
+        }
+
         UpdatedAt = DateTime.UtcNow;
 
         // Raise domain event
@@ -170,11 +179,6 @@ public sealed class InstockPrice : AggregateRoot<InstockPriceId>
     {
         IsActive = true;
         UpdatedAt = DateTime.UtcNow;
-
-        // Raise domain event
-        RaiseDomainEvent(new InstockPriceActivatedDomainEvent(
-            Id.Value,
-            IsActive));
     }
 
     public void Deactivate()
@@ -182,9 +186,6 @@ public sealed class InstockPrice : AggregateRoot<InstockPriceId>
         IsActive = false;
         UpdatedAt = DateTime.UtcNow;
 
-        // Raise domain event
-        RaiseDomainEvent(new InstockPriceActivatedDomainEvent(
-            Id.Value,
-            IsActive));
+        RaiseDomainEvent(new InstockPriceDeletedDomainEvent(Id.Value));
     }
 }

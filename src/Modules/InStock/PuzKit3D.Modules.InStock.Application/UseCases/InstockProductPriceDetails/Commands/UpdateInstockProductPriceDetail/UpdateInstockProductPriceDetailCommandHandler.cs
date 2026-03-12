@@ -31,7 +31,7 @@ internal sealed class UpdateInstockProductPriceDetailCommandHandler : ICommandHa
 
         return await _unitOfWork.ExecuteAsync<Result>(async () =>
         {
-            var updateResult = priceDetail.PartialUpdate(request.UnitPrice);
+            var updateResult = priceDetail.PartialUpdate(request.UnitPrice, request.IsActive);
 
             if (updateResult.IsFailure)
             {

@@ -36,7 +36,8 @@ internal sealed class UpdateInstockProductVariantCommandHandler : ICommandHandle
                 request.Color,
                 request.AssembledLengthMm,
                 request.AssembledWidthMm,
-                request.AssembledHeightMm);
+                request.AssembledHeightMm,
+                request.IsActive);
 
             if (updateResult.IsFailure)
             {

@@ -35,4 +35,10 @@ public sealed class InStockProductPriceDetailReplica : Entity<Guid>
             UpdatedAt = updatedAt
         };
     }
+
+    public void Deactivate()
+    {
+        IsActive = false;
+        UpdatedAt = DateTime.UtcNow;
+    }
 }

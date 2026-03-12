@@ -1,5 +1,6 @@
 using MediatR;
 using PuzKit3D.Contract.InStock;
+using PuzKit3D.Contract.InStock.InstockInventories;
 using PuzKit3D.Modules.InStock.Domain.Events.InstockInventories;
 using PuzKit3D.SharedKernel.Application.Event;
 
@@ -19,7 +20,7 @@ internal sealed class InstockInventoryCreatedDomainEventHandler
         InstockInventoryCreatedDomainEvent domainEvent, 
         CancellationToken cancellationToken)
     {
-        var integrationEvent = new InstockInventoryChangedIntegrationEvent(
+        var integrationEvent = new InstockInventoryCreatedIntegrationEvent(
             domainEvent.Id,
             domainEvent.OccurredOn,
             domainEvent.InventoryId,

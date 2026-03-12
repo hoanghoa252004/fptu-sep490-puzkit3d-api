@@ -27,7 +27,8 @@ internal sealed class UpdateInstockProductVariant : IEndpoint
                     request.Color,
                     request.AssembledLengthMm,
                     request.AssembledWidthMm,
-                    request.AssembledHeightMm);
+                    request.AssembledHeightMm,
+                    request.IsActive);
 
                 var result = await sender.Send(command, cancellationToken);
 
@@ -48,8 +49,9 @@ internal sealed class UpdateInstockProductVariant : IEndpoint
 }
 
 internal sealed record UpdateInstockProductVariantRequestDto(
-    string? Color,
-    int? AssembledLengthMm,
-    int? AssembledWidthMm,
-    int? AssembledHeightMm);
+string? Color,
+int? AssembledLengthMm,
+int? AssembledWidthMm,
+int? AssembledHeightMm,
+bool? IsActive);
 

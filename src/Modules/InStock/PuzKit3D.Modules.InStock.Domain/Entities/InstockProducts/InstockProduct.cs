@@ -12,6 +12,13 @@ public sealed partial class InstockProduct : AggregateRoot<InstockProductId>
     private readonly List<Part> _parts = new();
     private readonly List<Guid> _capabilityIds = new();
 
+    public static readonly HashSet<string> ValidDifficultLevels = new()
+    {
+        "Basic",
+        "Intermediate",
+        "Advanced"
+    };
+
     public string Code { get; private set; } = null!;
     public string Slug { get; private set; } = null!;
     public string Name { get; private set; } = null!;
@@ -116,10 +123,15 @@ public sealed partial class InstockProduct : AggregateRoot<InstockProductId>
         if (totalPieceCount <= 0)
             return Result.Failure<InstockProduct>(InstockProductError.InvalidTotalPieceCount());
 
+
         if (string.IsNullOrWhiteSpace(difficultLevel))
             return Result.Failure<InstockProduct>(InstockProductError.InvalidDifficultLevel());
 
+        if (!ValidDifficultLevels.Contains(difficultLevel))
+            return Result.Failure<InstockProduct>(InstockProductError.InvalidDifficultLevelValue(difficultLevel));
+
         if (estimatedBuildTime <= 0)
+
             return Result.Failure<InstockProduct>(InstockProductError.InvalidEstimatedBuildTime());
 
         if (string.IsNullOrWhiteSpace(thumbnailUrl))
@@ -147,6 +159,24 @@ public sealed partial class InstockProduct : AggregateRoot<InstockProductId>
             materialId,
             isActive,
             timestamp);
+
+        product.RaiseDomainEvent(new InstockProductCreatedDomainEvent(
+            product.Id.Value,
+            product.Code,
+            product.Slug,
+            product.Name,
+            product.TotalPieceCount,
+            product.DifficultLevel,
+            product.EstimatedBuildTime,
+            product.ThumbnailUrl,
+            product.PreviewAsset,
+            product.Description,
+            product.TopicId,
+            product.AssemblyMethodId,
+            product.CapabilityId,
+            product.MaterialId,
+            product.IsActive,
+            product.CreatedAt));
 
         return Result.Success(product);
     }
@@ -193,6 +223,9 @@ public sealed partial class InstockProduct : AggregateRoot<InstockProductId>
         if (string.IsNullOrWhiteSpace(difficultLevel))
             return Result.Failure(InstockProductError.InvalidDifficultLevel());
 
+        if (!ValidDifficultLevels.Contains(difficultLevel))
+            return Result.Failure(InstockProductError.InvalidDifficultLevelValue(difficultLevel));
+
         if (estimatedBuildTime <= 0)
             return Result.Failure(InstockProductError.InvalidEstimatedBuildTime());
 
@@ -232,7 +265,8 @@ public sealed partial class InstockProduct : AggregateRoot<InstockProductId>
         Guid? assemblyMethodId = null,
         Guid? capabilityId = null,
         Guid? materialId = null,
-        string? description = null)
+        string? description = null,
+        bool? isActive = null)
     {
         if (slug is not null)
         {
@@ -268,6 +302,9 @@ public sealed partial class InstockProduct : AggregateRoot<InstockProductId>
         {
             if (string.IsNullOrWhiteSpace(difficultLevel))
                 return Result.Failure(InstockProductError.InvalidDifficultLevel());
+
+            if (!ValidDifficultLevels.Contains(difficultLevel))
+                return Result.Failure(InstockProductError.InvalidDifficultLevelValue(difficultLevel));
 
             DifficultLevel = difficultLevel;
         }
@@ -308,7 +345,33 @@ public sealed partial class InstockProduct : AggregateRoot<InstockProductId>
         if (description is not null)
             Description = description;
 
+        if (isActive.HasValue)
+        {
+            if (isActive.Value == IsActive)
+                return Result.Failure(InstockProductError.IsActiveUnchanged(IsActive));
+
+            IsActive = isActive.Value;
+        }
+
         UpdatedAt = DateTime.UtcNow;
+
+        RaiseDomainEvent(new InstockProductUpdatedDomainEvent(
+            Id.Value,
+            Code,
+            Slug,
+            Name,
+            TotalPieceCount,
+            DifficultLevel,
+            EstimatedBuildTime,
+            ThumbnailUrl,
+            PreviewAsset,
+            Description,
+            TopicId,
+            AssemblyMethodId,
+            CapabilityId,
+            MaterialId,
+            IsActive,
+            UpdatedAt));
 
         return Result.Success();
     }
@@ -325,7 +388,7 @@ public sealed partial class InstockProduct : AggregateRoot<InstockProductId>
         IsActive = false;
         UpdatedAt = DateTime.UtcNow;
 
-        RaiseDomainEvent(new InstockProductDeactivatedDomainEvent(Id.Value));
+        RaiseDomainEvent(new InstockProductDeletedDomainEvent(Id.Value));
     }
 
     public void AddPart(Part part)

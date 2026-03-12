@@ -87,7 +87,7 @@ public sealed class InstockProductPriceDetail : Entity<InstockProductPriceDetail
         return Result.Success();
     }
 
-    public Result PartialUpdate(decimal? unitPrice = null)
+    public Result PartialUpdate(decimal? unitPrice = null, bool? isActive = null)
     {
         if (unitPrice.HasValue)
         {
@@ -95,6 +95,14 @@ public sealed class InstockProductPriceDetail : Entity<InstockProductPriceDetail
                 return Result.Failure(InstockProductPriceDetailError.InvalidUnitPrice());
 
             UnitPrice = Money.Create(unitPrice.Value);
+        }
+
+        if (isActive.HasValue)
+        {
+            if (isActive.Value == IsActive)
+                return Result.Failure(InstockProductPriceDetailError.IsActiveUnchanged(IsActive));
+
+            IsActive = isActive.Value;
         }
 
         UpdatedAt = DateTime.UtcNow;
@@ -114,11 +122,6 @@ public sealed class InstockProductPriceDetail : Entity<InstockProductPriceDetail
     {
         IsActive = true;
         UpdatedAt = DateTime.UtcNow;
-
-        // Raise domain event
-        RaiseDomainEvent(new InstockProductPriceDetailActivatedDomainEvent(
-            Id.Value,
-            IsActive));
     }
 
     public void Deactivate()
@@ -126,9 +129,9 @@ public sealed class InstockProductPriceDetail : Entity<InstockProductPriceDetail
         IsActive = false;
         UpdatedAt = DateTime.UtcNow;
 
-        // Raise domain event
-        RaiseDomainEvent(new InstockProductPriceDetailActivatedDomainEvent(
+        RaiseDomainEvent(new InstockProductPriceDetailDeletedDomainEvent(
             Id.Value,
-            IsActive));
+            InstockPriceId.Value,
+            InstockProductVariantId.Value));
     }
 }

@@ -39,4 +39,8 @@ public static class InstockPriceError
     public static Error DuplicatePriority(int priority) => Error.Conflict(
         "InstockPrice.DuplicatePriority",
         $"A price with priority '{priority}' already exists in the system.");
+
+    public static Error IsActiveUnchanged(bool currentValue) => Error.Validation(
+        "InstockPrice.IsActiveUnchanged",
+        $"Price is already {(currentValue ? "active" : "inactive")}. No change needed.");
 }
