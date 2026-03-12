@@ -33,13 +33,11 @@ internal sealed class InstockProductCreatedIntegrationEventHandler
             @event.ProductId,
             @event.Code,
             @event.Name,
-            @event.Description, // BriefDescription
-            @event.Description, // DetailDescription
+            @event.Description, 
             @event.DifficultLevel,
             @event.EstimatedBuildTime,
             @event.ThumbnailUrl,
             @event.Slug,
-            null, // Specification
             @event.PreviewAsset,
             @event.TopicId,
             @event.AssemblyMethodId,

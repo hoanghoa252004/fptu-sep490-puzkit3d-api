@@ -1,4 +1,4 @@
-using PuzKit3D.Modules.InStock.Domain.Events.InstockPrices;
+using PuzKit3D.Modules.InStock.Domain.Entities.InstockPrices.DomainEvents;
 using PuzKit3D.SharedKernel.Domain;
 using PuzKit3D.SharedKernel.Domain.Results;
 

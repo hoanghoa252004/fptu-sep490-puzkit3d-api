@@ -29,14 +29,9 @@ internal sealed class InstockProductPriceDetailConfiguration : IEntityTypeConfig
                 value => InstockProductVariantId.From(value))
             .IsRequired();
 
-        builder.OwnsOne(pd => pd.UnitPrice, money =>
-        {
-            money.Property(m => m.Amount)
-                .HasColumnType("decimal(10,2)")
-                .IsRequired();
-
-            money.Ignore(m => m.Currency);
-        });
+        builder.Property(pd => pd.UnitPrice)
+            .HasColumnType("decimal(10,2)")
+            .IsRequired();
 
         builder.Property(pd => pd.IsActive)
             .IsRequired()

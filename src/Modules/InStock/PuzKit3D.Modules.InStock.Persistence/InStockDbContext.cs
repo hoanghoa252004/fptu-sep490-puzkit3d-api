@@ -51,6 +51,12 @@ public sealed class InStockDbContext : DbContext, IInStockUnitOfWork
         builder.HasDefaultSchema(Schema.Instock);
 
         builder.ApplyConfigurationsFromAssembly(typeof(InStockDbContext).Assembly);
+
+        // Apply seed data
+        Configurations.SeedData.InstockSeedDataConfiguration.SeedReplicas(builder);
+        Configurations.SeedData.InstockSeedDataConfiguration.SeedPrices(builder);
+        Configurations.SeedData.InstockSeedDataConfiguration.SeedProducts(builder);
+        Configurations.SeedData.InstockSeedDataConfiguration.SeedVariants(builder);
     }
 
     public async Task<T> ExecuteAsync<T>(Func<Task<T>> action, CancellationToken cancellationToken = default)

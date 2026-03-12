@@ -41,6 +41,7 @@ internal sealed class InstockProductUpdatedIntegrationEventHandler
             @event.AssemblyMethodId,
             @event.CapabilityId,
             @event.MaterialId,
+            @event.Description,
             @event.IsActive,
             @event.UpdatedAt);
 

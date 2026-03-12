@@ -32,7 +32,7 @@ internal sealed class GetInstockProductPriceDetailByIdQueryHandler
             priceDetail.Id.Value,
             priceDetail.InstockPriceId.Value,
             priceDetail.InstockProductVariantId.Value,
-            priceDetail.UnitPrice.Amount,
+            priceDetail.UnitPrice,
             priceDetail.IsActive,
             priceDetail.CreatedAt,
             priceDetail.UpdatedAt);

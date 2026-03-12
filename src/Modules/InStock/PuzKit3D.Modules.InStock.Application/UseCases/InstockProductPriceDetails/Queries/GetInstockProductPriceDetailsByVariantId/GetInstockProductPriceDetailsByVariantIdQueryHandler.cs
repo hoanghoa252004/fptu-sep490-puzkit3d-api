@@ -54,7 +54,7 @@ internal sealed class GetInstockProductPriceDetailsByVariantIdQueryHandler
                     pd.InstockPriceId.Value,
                     priceDict.TryGetValue(pd.InstockPriceId.Value, out var price) ? price.Name : "Unknown",
                     priceDict.TryGetValue(pd.InstockPriceId.Value, out var p) ? p.Priority : 0,
-                    pd.UnitPrice.Amount,
+                    pd.UnitPrice,
                     pd.IsActive,
                     pd.CreatedAt,
                     pd.UpdatedAt))
@@ -80,7 +80,7 @@ internal sealed class GetInstockProductPriceDetailsByVariantIdQueryHandler
                 activePriceDetail.Id.Value,
                 activePriceDetail.InstockPriceId.Value,
                 priceDict[activePriceDetail.InstockPriceId.Value].Name,
-                activePriceDetail.UnitPrice.Amount);
+                activePriceDetail.UnitPrice);
 
             return Result.Success<object>(anonymousDto);
         }

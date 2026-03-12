@@ -7,7 +7,7 @@ public sealed class TopicReplica : Entity<Guid>
     public string Name { get; private set; } = null!;
     public string? Description { get; private set; }
     public string Slug { get; private set; } = null!;
-    public Guid ParentId { get; private set; }
+    public Guid? ParentId { get; private set; }
     public bool IsActive { get; private set; }
     public DateTime CreatedAt { get; private set; }
     public DateTime UpdatedAt { get; private set; }
@@ -17,7 +17,7 @@ public sealed class TopicReplica : Entity<Guid>
         string name,
         string slug,
         string? description,
-        Guid parentId,
+        Guid? parentId,
         bool isActive,
         DateTime createdAt,
         DateTime updatedAt) : base(id)
@@ -40,7 +40,7 @@ public sealed class TopicReplica : Entity<Guid>
         string name,
         string slug,
         string? description,
-        Guid parentId,
+        Guid? parentId,
         bool isActive,
         DateTime createdAt,
         DateTime updatedAt)
@@ -60,7 +60,7 @@ public sealed class TopicReplica : Entity<Guid>
         string name,
         string slug,
         string? description,
-        Guid parentId,
+        Guid? parentId,
         bool isActive,
         DateTime updatedAt)
     {

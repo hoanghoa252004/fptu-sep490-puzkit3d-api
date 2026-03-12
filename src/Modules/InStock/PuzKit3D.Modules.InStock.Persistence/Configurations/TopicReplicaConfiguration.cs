@@ -22,7 +22,7 @@ internal sealed class TopicReplicaConfiguration : IEntityTypeConfiguration<Topic
             .HasMaxLength(30);
 
         builder.Property(t => t.ParentId)
-            .IsRequired();
+            .IsRequired(false);
 
         builder.Property(t => t.IsActive)
             .IsRequired()

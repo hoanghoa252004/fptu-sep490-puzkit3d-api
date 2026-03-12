@@ -40,14 +40,9 @@ internal sealed class InstockOrderDetailConfiguration : IEntityTypeConfiguration
         builder.Property(od => od.VariantName)
             .HasMaxLength(30);
 
-        builder.OwnsOne(od => od.UnitPrice, money =>
-        {
-            money.Property(m => m.Amount)
-                .HasColumnType("decimal(10,2)")
-                .IsRequired();
-
-            money.Ignore(m => m.Currency);
-        });
+        builder.Property(od => od.UnitPrice)
+            .HasColumnType("decimal(10,2)")
+            .IsRequired();
 
         builder.Property(od => od.Quantity)
             .IsRequired();
@@ -62,14 +57,9 @@ internal sealed class InstockOrderDetailConfiguration : IEntityTypeConfiguration
             .IsRequired()
             .HasMaxLength(30);
 
-        builder.OwnsOne(od => od.TotalAmount, money =>
-        {
-            money.Property(m => m.Amount)
-                .HasColumnType("decimal(10,2)")
-                .IsRequired();
-
-            money.Ignore(m => m.Currency);
-        });
+        builder.Property(od => od.TotalAmount)
+            .HasColumnType("decimal(10,2)")
+            .IsRequired();
 
         builder.HasIndex(od => new { od.InstockOrderId, od.InstockProductVariantId })
             .IsUnique()

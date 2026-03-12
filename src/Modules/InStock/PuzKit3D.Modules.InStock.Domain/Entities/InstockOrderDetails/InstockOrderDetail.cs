@@ -1,7 +1,7 @@
+using PuzKit3D.Modules.InStock.Domain.Entities.InstockOrderDetails.DomainEvents;
 using PuzKit3D.Modules.InStock.Domain.Entities.InstockOrders;
 using PuzKit3D.Modules.InStock.Domain.Entities.InstockProductPriceDetails;
 using PuzKit3D.Modules.InStock.Domain.Entities.InstockProductVariants;
-using PuzKit3D.Modules.InStock.Domain.ValueObjects;
 using PuzKit3D.SharedKernel.Domain;
 using PuzKit3D.SharedKernel.Domain.Results;
 
@@ -14,11 +14,11 @@ public sealed class InstockOrderDetail : Entity<InstockOrderDetailId>
     public string Sku { get; private set; } = null!;
     public string? ProductName { get; private set; }
     public string? VariantName { get; private set; }
-    public Money UnitPrice { get; private set; } = null!;
+    public decimal UnitPrice { get; private set; }
     public int Quantity { get; private set; }
     public InstockProductPriceDetailId InstockProductPriceDetailId { get; private set; } = null!;
     public string PriceName { get; private set; } = null!;
-    public Money TotalAmount { get; private set; } = null!;
+    public decimal TotalAmount { get; private set; }
 
     private InstockOrderDetail(
         InstockOrderDetailId id,
@@ -27,11 +27,11 @@ public sealed class InstockOrderDetail : Entity<InstockOrderDetailId>
         string sku,
         string? productName,
         string? variantName,
-        Money unitPrice,
+        decimal unitPrice,
         int quantity,
         InstockProductPriceDetailId instockProductPriceDetailId,
         string priceName,
-        Money totalAmount) : base(id)
+        decimal totalAmount) : base(id)
     {
         InstockOrderId = instockOrderId;
         InstockProductVariantId = instockProductVariantId;
@@ -70,8 +70,7 @@ public sealed class InstockOrderDetail : Entity<InstockOrderDetailId>
             return Result.Failure<InstockOrderDetail>(InstockOrderDetailError.InvalidQuantity());
 
         var orderDetailId = InstockOrderDetailId.Create();
-        var unitPriceMoney = Money.Create(unitPrice);
-        var totalAmount = unitPriceMoney.Multiply(quantity);
+        var totalAmount = unitPrice * quantity;
 
         var orderDetail = new InstockOrderDetail(
             orderDetailId,
@@ -80,11 +79,21 @@ public sealed class InstockOrderDetail : Entity<InstockOrderDetailId>
             sku,
             productName,
             variantName,
-            unitPriceMoney,
+            unitPrice,
             quantity,
             instockProductPriceDetailId,
             priceName,
             totalAmount);
+
+        // Raise domain event to update inventory
+        orderDetail.RaiseDomainEvent(new InstockOrderDetailCreatedDomainEvent(
+            orderDetail.Id.Value,
+            orderDetail.InstockOrderId.Value,
+            orderDetail.InstockProductVariantId.Value,
+            orderDetail.Sku,
+            orderDetail.Quantity,
+            orderDetail.UnitPrice,
+            orderDetail.TotalAmount));
 
         return Result.Success(orderDetail);
     }
@@ -95,7 +104,7 @@ public sealed class InstockOrderDetail : Entity<InstockOrderDetailId>
             return Result.Failure(InstockOrderDetailError.InvalidQuantity());
 
         Quantity = quantity;
-        TotalAmount = UnitPrice.Multiply(quantity);
+        TotalAmount = UnitPrice * quantity;
 
         return Result.Success();
     }

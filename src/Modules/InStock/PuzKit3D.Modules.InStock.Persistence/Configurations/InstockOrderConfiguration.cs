@@ -58,44 +58,24 @@ internal sealed class InstockOrderConfiguration : IEntityTypeConfiguration<Insto
             .IsRequired()
             .HasMaxLength(30);
 
-        builder.OwnsOne(o => o.SubTotalAmount, money =>
-        {
-            money.Property(m => m.Amount)
-                .HasColumnType("decimal(10,2)")
-                .IsRequired();
+        builder.Property(o => o.SubTotalAmount)
+            .HasColumnType("decimal(10,2)")
+            .IsRequired();
 
-            money.Ignore(m => m.Currency);
-        });
-
-        builder.OwnsOne(o => o.ShippingFee, money =>
-        {
-            money.Property(m => m.Amount)
-                .HasColumnType("decimal(10,2)")
-                .IsRequired();
-
-            money.Ignore(m => m.Currency);
-        });
+        builder.Property(o => o.ShippingFee)
+            .HasColumnType("decimal(10,2)")
+            .IsRequired();
 
         builder.Property(o => o.UsedCoinAmount)
             .IsRequired();
 
-        builder.OwnsOne(o => o.UsedCoinAmountAsMoney, money =>
-        {
-            money.Property(m => m.Amount)
-                .HasColumnType("decimal(10,2)")
-                .IsRequired();
+        builder.Property(o => o.UsedCoinAmountAsMoney)
+            .HasColumnType("decimal(10,2)")
+            .IsRequired();
 
-            money.Ignore(m => m.Currency);
-        });
-
-        builder.OwnsOne(o => o.GrandTotalAmount, money =>
-        {
-            money.Property(m => m.Amount)
-                .HasColumnType("decimal(10,2)")
-                .IsRequired();
-
-            money.Ignore(m => m.Currency);
-        });
+        builder.Property(o => o.GrandTotalAmount)
+            .HasColumnType("decimal(10,2)")
+            .IsRequired();
 
         builder.Property(o => o.Status)
             .IsRequired();

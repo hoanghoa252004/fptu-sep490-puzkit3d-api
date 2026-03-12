@@ -1,5 +1,5 @@
 using PuzKit3D.Modules.InStock.Domain.Entities.InstockProductVariants;
-using PuzKit3D.Modules.InStock.Domain.Events.InstockInventories;
+using PuzKit3D.Modules.InStock.Domain.Entities.InstockInventories.DomainEvents;
 using PuzKit3D.SharedKernel.Domain;
 using PuzKit3D.SharedKernel.Domain.Results;
 

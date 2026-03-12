@@ -1,5 +1,5 @@
 using PuzKit3D.Modules.InStock.Domain.Entities.InstockOrderDetails;
-using PuzKit3D.Modules.InStock.Domain.ValueObjects;
+using PuzKit3D.Modules.InStock.Domain.Entities.InstockOrders.DomainEvents;
 using PuzKit3D.SharedKernel.Domain;
 using PuzKit3D.SharedKernel.Domain.Results;
 
@@ -20,11 +20,11 @@ public sealed class InstockOrder : AggregateRoot<InstockOrderId>
     public string CustomerDistrictName { get; private set; } = null!;
     public string CustomerWardCode { get; private set; } = null!;
     public string CustomerWardName { get; private set; } = null!;
-    public Money SubTotalAmount { get; private set; } = null!;
-    public Money ShippingFee { get; private set; } = null!;
+    public decimal SubTotalAmount { get; private set; }
+    public decimal ShippingFee { get; private set; }
     public int UsedCoinAmount { get; private set; }
-    public Money UsedCoinAmountAsMoney { get; private set; } = null!;
-    public Money GrandTotalAmount { get; private set; } = null!;
+    public decimal UsedCoinAmountAsMoney { get; private set; }
+    public decimal GrandTotalAmount { get; private set; }
     public int Status { get; private set; }
     public DateTime CreatedAt { get; private set; }
     public DateTime UpdatedAt { get; private set; }
@@ -47,11 +47,11 @@ public sealed class InstockOrder : AggregateRoot<InstockOrderId>
         string customerDistrictName,
         string customerWardCode,
         string customerWardName,
-        Money subTotalAmount,
-        Money shippingFee,
+        decimal subTotalAmount,
+        decimal shippingFee,
         int usedCoinAmount,
-        Money usedCoinAmountAsMoney,
-        Money grandTotalAmount,
+        decimal usedCoinAmountAsMoney,
+        decimal grandTotalAmount,
         int status,
         string paymentMethod,
         bool isPaid,
@@ -148,11 +148,11 @@ public sealed class InstockOrder : AggregateRoot<InstockOrderId>
             customerDistrictName,
             customerWardCode,
             customerWardName,
-            Money.Create(subTotalAmount),
-            Money.Create(shippingFee),
+            subTotalAmount,
+            shippingFee,
             usedCoinAmount,
-            Money.Create(usedCoinAmountAsMoney),
-            Money.Create(grandTotalAmount),
+            usedCoinAmountAsMoney,
+            grandTotalAmount,
             status,
             paymentMethod,
             isPaid,
@@ -194,5 +194,16 @@ public sealed class InstockOrder : AggregateRoot<InstockOrderId>
     {
         _orderDetails.Remove(orderDetail);
         UpdatedAt = DateTime.UtcNow;
+    }
+
+    public void RaiseOrderCreatedEvent(List<Guid> cartItemIds)
+    {
+        RaiseDomainEvent(new InstockOrderCreatedDomainEvent(
+            Id.Value,
+            Code,
+            CustomerId,
+            cartItemIds,
+            GrandTotalAmount,
+            CreatedAt));
     }
 }

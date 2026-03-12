@@ -47,4 +47,37 @@ public static class InstockOrderError
     public static Error CannotModifyOrder() => Error.Validation(
         "InstockOrder.CannotModifyOrder",
         "Order cannot be modified in current status.");
+
+    public static Error EmptyCart() => Error.Validation(
+        "InstockOrder.EmptyCart",
+        "Cannot create order with empty cart.");
+
+    public static Error VariantNotFound(Guid variantId) => Error.NotFound(
+        "InstockOrder.VariantNotFound",
+        $"Product variant with ID '{variantId}' was not found.");
+
+    public static Error VariantNotActive(string sku) => Error.Validation(
+        "InstockOrder.VariantNotActive",
+        $"Product variant with SKU '{sku}' is not active.");
+
+    public static Error PriceDetailNotFound(Guid priceDetailId) => Error.NotFound(
+        "InstockOrder.PriceDetailNotFound",
+        $"Price detail with ID '{priceDetailId}' was not found.");
+
+    public static Error PriceDetailNotActive(Guid priceDetailId) => Error.Validation(
+        "InstockOrder.PriceDetailNotActive",
+        $"Price detail with ID '{priceDetailId}' is not active.");
+
+    public static Error PriceNotActiveOrNotFound() => Error.Validation(
+        "InstockOrder.PriceNotActiveOrNotFound",
+        "The price is not active or not found.");
+
+    public static Error PriceNotHighestPriority() => Error.Validation(
+        "InstockOrder.PriceNotHighestPriority",
+        "The selected price does not have the highest priority among active prices.");
+
+    public static Error GrandTotalMismatch(decimal calculated, decimal provided) => Error.Validation(
+        "InstockOrder.GrandTotalMismatch",
+        $"Grand total mismatch. Calculated: {calculated}, Provided: {provided}.");
 }
+

@@ -37,6 +37,11 @@ public sealed class CartDbContext : DbContext, ICartUnitOfWork
         builder.HasDefaultSchema(Schema.Cart);
 
         builder.ApplyConfigurationsFromAssembly(typeof(CartDbContext).Assembly);
+
+        // Apply seed data
+        Configurations.SeedData.CartSeedDataConfiguration.SeedInStockPriceReplicas(builder);
+        Configurations.SeedData.CartSeedDataConfiguration.SeedInStockProductReplicas(builder);
+        Configurations.SeedData.CartSeedDataConfiguration.SeedInStockVariantsAndRelatedReplicas(builder);
     }
 
     public async Task<T> ExecuteAsync<T>(Func<Task<T>> action, CancellationToken cancellationToken = default)
