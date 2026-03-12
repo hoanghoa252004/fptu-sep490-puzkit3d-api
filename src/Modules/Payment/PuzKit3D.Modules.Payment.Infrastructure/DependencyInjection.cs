@@ -1,10 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using PuzKit3D.Modules.Payment.Application.Abstractions;
+using PuzKit3D.Modules.Payment.Infrastructure.PaymentGateways;
 using VNPAY.Extensions;
 
 namespace PuzKit3D.Modules.Payment.Infrastructure;
@@ -22,10 +19,12 @@ public static class DependencyInjection
             config.TmnCode = vnpayConfig["TmnCode"]!;
             config.HashSecret = vnpayConfig["HashSecret"]!;
             config.CallbackUrl = vnpayConfig["CallbackUrl"]!;
-            config.BaseUrl = vnpayConfig["BaseUrl"]!; // Tùy chọn. Nếu không thiết lập, giá trị mặc định là URL thanh toán môi trường TEST
-            config.Version = vnpayConfig["Version"]!; // Tùy chọn. Nếu không thiết lập, giá trị mặc định là "2.1.0"
-            config.OrderType = vnpayConfig["OrderType"]!; // Tùy chọn. Nếu không thiết lập, giá trị mặc định là "other"
+            config.BaseUrl = vnpayConfig["BaseUrl"]!;
+            config.Version = vnpayConfig["Version"]!;
+            config.OrderType = vnpayConfig["OrderType"]!;
         });
+
+        services.AddScoped<IPaymentGateway, VnpayGateway>();
 
         return services;
     }

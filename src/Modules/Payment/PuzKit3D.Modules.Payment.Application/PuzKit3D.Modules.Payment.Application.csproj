@@ -9,6 +9,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\SharedKernel\PuzKit3D.SharedKernel.Application\PuzKit3D.SharedKernel.Application.csproj" />
     <ProjectReference Include="..\..\..\SharedKernel\PuzKit3D.SharedKernel.Domain\PuzKit3D.SharedKernel.Domain.csproj" />
+    <ProjectReference Include="..\..\..\SharedKernel\PuzKit3D.SharedKernel.Infrastructure\PuzKit3D.SharedKernel.Infrastructure.csproj" />
     <ProjectReference Include="..\PuzKit3D.Modules.Payment.Domain\PuzKit3D.Modules.Payment.Domain.csproj" />
   </ItemGroup>
 

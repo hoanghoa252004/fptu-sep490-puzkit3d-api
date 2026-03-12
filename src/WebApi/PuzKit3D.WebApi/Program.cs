@@ -42,7 +42,8 @@ builder.Services.AddEndpointsFromAssembly(
        PuzKit3D.Modules.User.Api.UserApiAssembly.Assembly,
        PuzKit3D.Modules.Catalog.Api.CatalogApiAssembly.Assembly,
        PuzKit3D.Modules.Cart.Api.CartApiAssembly.Assembly,
-       PuzKit3D.Modules.Partner.Api.PartnerApiAssembly.Assembly
+       PuzKit3D.Modules.Partner.Api.PartnerApiAssembly.Assembly,
+       PuzKit3D.Modules.Payment.Api.PaymentApiAssembly.Assembly
     }
 );
 
