@@ -16,6 +16,9 @@ public static class DependencyInjection
         
         services.AddScoped<IIntegrationEventHandler<InstockProductVariantUpdatedIntegrationEvent>, 
             InstockProductVariantUpdatedIntegrationEventHandler>();
+
+        services.AddScoped<IIntegrationEventHandler<InstockProductVariantDeactivatedIntegrationEvent>,
+            InstockProductVariantDeactivatedIntegrationEventHandler>();
         
         services.AddScoped<IIntegrationEventHandler<InstockInventoryChangedIntegrationEvent>, 
             InstockInventoryChangedIntegrationEventHandler>();

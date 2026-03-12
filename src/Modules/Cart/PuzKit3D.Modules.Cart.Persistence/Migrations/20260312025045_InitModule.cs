@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace PuzKit3D.Modules.Cart.Persistence.Migrations
 {
     /// <inheritdoc />
-    public partial class UpdateSnakeCase : Migration
+    public partial class InitModule : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -120,7 +120,9 @@ namespace PuzKit3D.Modules.Cart.Persistence.Migrations
                     in_stock_product_id = table.Column<Guid>(type: "uuid", nullable: false),
                     sku = table.Column<string>(type: "character varying(10)", maxLength: 10, nullable: false),
                     color = table.Column<string>(type: "character varying(15)", maxLength: 15, nullable: false),
-                    size = table.Column<string>(type: "character varying(15)", maxLength: 15, nullable: false),
+                    assembled_length_mm = table.Column<int>(type: "integer", nullable: false),
+                    assembled_width_mm = table.Column<int>(type: "integer", nullable: false),
+                    assembled_height_mm = table.Column<int>(type: "integer", nullable: false),
                     is_active = table.Column<bool>(type: "boolean", nullable: false, defaultValue: false),
                     created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
@@ -229,13 +231,6 @@ namespace PuzKit3D.Modules.Cart.Persistence.Migrations
                 schema: "cart",
                 table: "in_stock_product_replicas",
                 column: "slug",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "CUK___instock_product_variant_replica___instock_product_id__color__size",
-                schema: "cart",
-                table: "in_stock_product_variant_replicas",
-                columns: new[] { "in_stock_product_id", "color", "size" },
                 unique: true);
 
             migrationBuilder.CreateIndex(

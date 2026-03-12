@@ -23,7 +23,7 @@ internal sealed class CartItemAddedDomainEventHandler : INotificationHandler<Car
             Guid.Empty,
             notification.ItemId,
             notification.Quantity,
-            notification.UnitPrice);
+            null);
 
         await _eventBus.PublishAsync(integrationEvent, cancellationToken);
     }

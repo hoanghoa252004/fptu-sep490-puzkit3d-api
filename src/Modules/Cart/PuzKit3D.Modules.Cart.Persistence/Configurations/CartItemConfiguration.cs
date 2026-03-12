@@ -24,14 +24,6 @@ internal sealed class CartItemConfiguration : IEntityTypeConfiguration<CartItem>
         builder.Property(ci => ci.ItemId)
             .IsRequired();
 
-        builder.OwnsOne(ci => ci.UnitPrice, money =>
-        {
-            money.Property(m => m.Amount)
-                .HasColumnType("decimal(10,2)");
-
-            money.Ignore(m => m.Currency);
-        });
-
         builder.Property(ci => ci.InStockProductPriceDetailId);
 
         builder.Property(ci => ci.Quantity)
@@ -49,6 +41,5 @@ internal sealed class CartItemConfiguration : IEntityTypeConfiguration<CartItem>
             .HasDatabaseName("CUK___cart___cart_id__item_id");
 
         builder.Ignore(ci => ci.DomainEvents);
-        builder.Ignore(ci => ci.TotalPrice);
     }
 }

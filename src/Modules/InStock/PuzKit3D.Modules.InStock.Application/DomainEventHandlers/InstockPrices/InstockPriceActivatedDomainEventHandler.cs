@@ -1,5 +1,4 @@
 using MediatR;
-using PuzKit3D.Contract.InStock;
 using PuzKit3D.Modules.InStock.Domain.Events.InstockPrices;
 using PuzKit3D.SharedKernel.Application.Event;
 

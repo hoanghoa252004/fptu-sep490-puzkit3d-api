@@ -59,6 +59,7 @@ internal sealed class AddItemToPartnerCartCommandHandler : ICommandHandler<AddIt
                 "PARTNER",
                 cancellationToken);
 
+            bool isNewCart = false;
             if (cart == null)
             {
                 var createResult = Domain.Entities.Carts.Cart.Create(customerId, "PARTNER");
@@ -67,20 +68,23 @@ internal sealed class AddItemToPartnerCartCommandHandler : ICommandHandler<AddIt
                     return Result.Failure(createResult.Error);
 
                 cart = createResult.Value;
+                isNewCart = true;
                 _cartRepository.Add(cart);
             }
 
-            // Add item to cart (no unitPrice for partner products in cart)
+            // Add item to cart (no price detail for partner products)
             var addItemResult = cart.AddItem(
                 request.ItemId,
-                null,
                 null,
                 quantity);
 
             if (addItemResult.IsFailure)
                 return Result.Failure(addItemResult.Error);
 
-            _cartRepository.Update(cart);
+            if (!isNewCart)
+            {
+                _cartRepository.Update(cart);
+            }
 
             return Result.Success();
         }, cancellationToken);

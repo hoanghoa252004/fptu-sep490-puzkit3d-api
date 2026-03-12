@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using PuzKit3D.Modules.Cart.Persistence;
@@ -11,9 +12,11 @@ using PuzKit3D.Modules.Cart.Persistence;
 namespace PuzKit3D.Modules.Cart.Persistence.Migrations
 {
     [DbContext(typeof(CartDbContext))]
-    partial class CartDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260312025045_InitModule")]
+    partial class InitModule
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -505,6 +508,27 @@ namespace PuzKit3D.Modules.Cart.Persistence.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("FK__cart__cart_item");
+
+                    b.OwnsOne("PuzKit3D.Modules.Cart.Domain.ValueObjects.Money", "UnitPrice", b1 =>
+                        {
+                            b1.Property<Guid>("CartItemId")
+                                .HasColumnType("uuid")
+                                .HasColumnName("id");
+
+                            b1.Property<decimal>("Amount")
+                                .HasColumnType("decimal(10,2)")
+                                .HasColumnName("unit_price_amount");
+
+                            b1.HasKey("CartItemId");
+
+                            b1.ToTable("cart_items", "cart");
+
+                            b1.WithOwner()
+                                .HasForeignKey("CartItemId")
+                                .HasConstraintName("fk_cart_items_cart_items_id");
+                        });
+
+                    b.Navigation("UnitPrice");
                 });
 
             modelBuilder.Entity("PuzKit3D.Modules.Cart.Domain.Entities.Carts.Cart", b =>

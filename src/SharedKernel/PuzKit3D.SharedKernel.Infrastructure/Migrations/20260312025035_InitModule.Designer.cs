@@ -12,8 +12,8 @@ using PuzKit3D.SharedKernel.Infrastructure.Identity;
 namespace PuzKit3D.SharedKernel.Infrastructure.Migrations
 {
     [DbContext(typeof(IdentityDbContext))]
-    [Migration("20260305093244_UpdateSnakeCase")]
-    partial class UpdateSnakeCase
+    [Migration("20260312025035_InitModule")]
+    partial class InitModule
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -363,7 +363,7 @@ namespace PuzKit3D.SharedKernel.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@PUZKIT3D.COM",
                             NormalizedUserName = "ADMIN@PUZKIT3D.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAECOWA7ty49QGyO91xbBbtwvWb2WAJGU+sDBHQOz1NbcJgLUQomoYA0s1AgJk/qfzYw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEJL8OfPfS/aR23An303wsHONeCA+gxCoIb3H6jaEdJgz2W0/FTTCIlF+5X0VXN+tDg==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "D5F8E9A1-2B3C-4D5E-6F7A-8B9C0D1E2F3A",
                             TwoFactorEnabled = false,
@@ -384,7 +384,7 @@ namespace PuzKit3D.SharedKernel.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "MANAGER@PUZKIT3D.COM",
                             NormalizedUserName = "MANAGER@PUZKIT3D.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEKgbMlWX8ke17Bo4SVTk0yCOkGGS5hKyvei9Kn0yY58N78la16x431DivTuw3M14ew==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEBvw5howPTqR3gzQNDHfMxb3xy9CjcMnJS0doCEymxAZb3xS5bbBXREi141FvIkNvQ==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "B6E7F8A9-1C2D-3E4F-5A6B-7C8D9E0F1A2B",
                             TwoFactorEnabled = false,
@@ -405,7 +405,7 @@ namespace PuzKit3D.SharedKernel.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "STAFF@PUZKIT3D.COM",
                             NormalizedUserName = "STAFF@PUZKIT3D.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEIPTeUqebHCORPr4GUBu4unhm+vxggqc3eJU9lXhahcKfXygyV7ZvqS48l8mGyIGPA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEAQBI/6CDIDKs6E2P9Jqq+Atq/6Zq2aDRu8PxMKeI0+UUSYkpHbTZ3SM9idZCHc3FA==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "C7D8E9F0-1A2B-3C4D-5E6F-7A8B9C0D1E2F",
                             TwoFactorEnabled = false,
@@ -426,7 +426,7 @@ namespace PuzKit3D.SharedKernel.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "CUSTOMER@PUZKIT3D.COM",
                             NormalizedUserName = "CUSTOMER@PUZKIT3D.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEFsCzZr+YAcMKwP2JL5VPt+UBeFFJ1GJ+2W6kfp7MaAts346mZLHqMZzer+j7xRWcQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEJlVh5MVBSxyJvjVCzdIk35eavJteEJN4dBIe0wq3hh6GbAAc1xleP40pg4KcJqBbA==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "D8E9F0A1-2B3C-4D5E-6F7A-8B9C0D1E2F3A",
                             TwoFactorEnabled = false,

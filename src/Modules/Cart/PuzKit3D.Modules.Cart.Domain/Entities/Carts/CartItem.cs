@@ -8,23 +8,18 @@ public sealed class CartItem : Entity<CartItemId>
 {
     public CartId CartId { get; private set; }
     public Guid ItemId { get; private set; }
-    public Money? UnitPrice { get; private set; }
     public Guid? InStockProductPriceDetailId { get; private set; }
     public int Quantity { get; private set; }
-
-    public Money TotalPrice => UnitPrice != null ? UnitPrice.Multiply(Quantity) : Money.Zero();
 
     private CartItem(
         CartItemId id,
         CartId cartId,
         Guid itemId,
-        Money? unitPrice,
         Guid? inStockProductPriceDetailId,
         int quantity) : base(id)
     {
         CartId = cartId;
         ItemId = itemId;
-        UnitPrice = unitPrice;
         InStockProductPriceDetailId = inStockProductPriceDetailId;
         Quantity = quantity;
     }
@@ -36,7 +31,6 @@ public sealed class CartItem : Entity<CartItemId>
     public static ResultT<CartItem> Create(
         CartId cartId,
         Guid itemId,
-        decimal? unitPrice,
         Guid? inStockProductPriceDetailId,
         int quantity)
     {
@@ -49,17 +43,12 @@ public sealed class CartItem : Entity<CartItemId>
         if (quantity <= 0)
             return Result.Failure<CartItem>(CartError.InvalidQuantity());
 
-        if (unitPrice.HasValue && unitPrice.Value < 0)
-            return Result.Failure<CartItem>(CartError.InvalidPrice());
-
         var cartItemId = CartItemId.Create();
-        Money? money = unitPrice.HasValue ? Money.Create(unitPrice.Value) : null;
 
         var cartItem = new CartItem(
             cartItemId,
             cartId,
             itemId,
-            money,
             inStockProductPriceDetailId,
             quantity);
 
@@ -72,15 +61,6 @@ public sealed class CartItem : Entity<CartItemId>
             return Result.Failure(CartError.InvalidQuantity());
 
         Quantity = quantity;
-        return Result.Success();
-    }
-
-    public Result UpdatePrice(decimal unitPrice)
-    {
-        if (unitPrice < 0)
-            return Result.Failure(CartError.InvalidPrice());
-
-        UnitPrice = Money.Create(unitPrice);
         return Result.Success();
     }
 

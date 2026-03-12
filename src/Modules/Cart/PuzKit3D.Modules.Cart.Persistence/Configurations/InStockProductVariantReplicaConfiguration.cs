@@ -10,7 +10,8 @@ internal sealed class InStockProductVariantReplicaConfiguration : IEntityTypeCon
     {
         builder.HasKey(v => v.Id);
 
-        builder.Property(v => v.Id);
+        builder.Property(v => v.Id)
+            .ValueGeneratedNever();
 
         builder.Property(v => v.InStockProductId)
             .IsRequired();
@@ -23,9 +24,14 @@ internal sealed class InStockProductVariantReplicaConfiguration : IEntityTypeCon
             .IsRequired()
             .HasMaxLength(15);
 
-        builder.Property(v => v.Size)
-            .IsRequired()
-            .HasMaxLength(15);
+        builder.Property(v => v.AssembledLengthMm)
+            .IsRequired();
+
+        builder.Property(v => v.AssembledWidthMm)
+            .IsRequired();
+
+        builder.Property(v => v.AssembledHeightMm)
+            .IsRequired();
 
         builder.Property(v => v.IsActive)
             .IsRequired()
@@ -36,10 +42,6 @@ internal sealed class InStockProductVariantReplicaConfiguration : IEntityTypeCon
 
         builder.Property(v => v.UpdatedAt)
             .IsRequired();
-
-        builder.HasIndex(v => new { v.InStockProductId, v.Color, v.Size })
-            .IsUnique()
-            .HasDatabaseName("CUK___instock_product_variant_replica___instock_product_id__color__size");
 
         builder.HasIndex(v => v.Sku)
             .IsUnique()

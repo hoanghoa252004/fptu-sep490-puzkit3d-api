@@ -36,10 +36,12 @@ internal sealed class GetInStockCartQueryHandler : IQueryHandler<GetInStockCartQ
         var productDetailsMap = variants.ToDictionary(
             kvp => kvp.Key,
             kvp => new ProductDetailsDto(
-                $"{kvp.Value.Color} - {kvp.Value.Size}",
+                $"{kvp.Value.Color} - {kvp.Value.AssembledLengthMm}x{kvp.Value.AssembledWidthMm}x{kvp.Value.AssembledHeightMm}mm",
                 kvp.Value.Sku,
                 kvp.Value.Color,
-                kvp.Value.Size,
+                kvp.Value.AssembledLengthMm,
+                kvp.Value.AssembledWidthMm,
+                kvp.Value.AssembledHeightMm,
                 null,
                 kvp.Value.IsActive));
 
@@ -51,10 +53,10 @@ internal sealed class GetInStockCartQueryHandler : IQueryHandler<GetInStockCartQ
             cart.Items.Select(i => new CartItemDto(
                 i.Id.Value,
                 i.ItemId,
-                i.UnitPrice?.Amount,
+                null,
                 i.InStockProductPriceDetailId,
                 i.Quantity,
-                i.TotalPrice?.Amount,
+                null,
                 productDetailsMap.TryGetValue(i.ItemId, out var details) ? details : null)).ToList());
 
         return Result.Success(cartDto);

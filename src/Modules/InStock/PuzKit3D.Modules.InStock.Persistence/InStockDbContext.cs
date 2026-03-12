@@ -69,10 +69,10 @@ public sealed class InStockDbContext : DbContext, IInStockUnitOfWork
 
                 var domainEvents = GetDomainEvents();
 
+                await DispatchDomainEventsAsync(domainEvents, cancellationToken);
+
                 await SaveChangesAsync(cancellationToken);
                 await transaction.CommitAsync(cancellationToken);
-                
-                await DispatchDomainEventsAsync(domainEvents, cancellationToken);
 
                 return response;
             }

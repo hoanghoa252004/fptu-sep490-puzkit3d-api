@@ -37,9 +37,18 @@ public static class CartError
     public static Error ItemNotFound() => 
         Error.NotFound("Cart.ItemNotFound", "Item not found");
 
+    public static Error ItemNotActive() => 
+        Error.Validation("Cart.ItemNotActive", "Item is not active and cannot be added to cart");
+
     public static Error InsufficientStock(int available) => 
-        Error.Validation("Cart.InsufficientStock", $"Insufficient stock. Only {available} items available");
+        Error.Validation("Cart.InsufficientStock", $"Insufficient stock.");
 
     public static Error InvalidItemType() => 
         Error.Validation("Cart.InvalidItemType", "Item type must be either 'instock' or 'partner'");
+
+    public static Error PriceDetailNotFound() => 
+        Error.NotFound("Cart.PriceDetailNotFound", "Price detail not found");
+
+    public static Error PriceDetailNotActive() => 
+        Error.Validation("Cart.PriceDetailNotActive", "Price detail is not active");
 }

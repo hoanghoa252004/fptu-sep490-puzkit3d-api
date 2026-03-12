@@ -20,7 +20,10 @@ internal sealed class AddItemToInStockCart : IEndpoint
                 ISender sender,
                 CancellationToken cancellationToken) =>
             {
-                var command = new AddItemToInStockCartCommand(request.ItemId, request.Quantity);
+                var command = new AddItemToInStockCartCommand(
+                    request.ItemId, 
+                    request.InStockProductPriceDetailId, 
+                    request.Quantity);
 
                 var result = await sender.Send(command, cancellationToken);
 
@@ -41,4 +44,5 @@ internal sealed class AddItemToInStockCart : IEndpoint
 
 internal sealed record AddItemToInStockCartRequest(
     Guid ItemId,
+    Guid InStockProductPriceDetailId,
     int? Quantity);

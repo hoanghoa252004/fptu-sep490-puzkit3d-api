@@ -1,4 +1,5 @@
 using PuzKit3D.Modules.InStock.Domain.Entities.Parts;
+using PuzKit3D.Modules.InStock.Domain.Events.InstockProducts;
 using PuzKit3D.SharedKernel.Domain;
 using PuzKit3D.SharedKernel.Domain.Results;
 using System.Text.RegularExpressions;
@@ -312,6 +313,7 @@ public sealed partial class InstockProduct : AggregateRoot<InstockProductId>
         return Result.Success();
     }
 
+
     public void Activate()
     {
         IsActive = true;
@@ -322,6 +324,8 @@ public sealed partial class InstockProduct : AggregateRoot<InstockProductId>
     {
         IsActive = false;
         UpdatedAt = DateTime.UtcNow;
+
+        RaiseDomainEvent(new InstockProductDeactivatedDomainEvent(Id.Value));
     }
 
     public void AddPart(Part part)

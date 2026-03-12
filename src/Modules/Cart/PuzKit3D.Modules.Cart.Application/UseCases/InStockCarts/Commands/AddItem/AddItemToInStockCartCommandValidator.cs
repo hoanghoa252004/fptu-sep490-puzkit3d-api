@@ -8,7 +8,11 @@ internal sealed class AddItemToInStockCartCommandValidator : AbstractValidator<A
     {
         RuleFor(x => x.ItemId)
             .NotEmpty()
-            .WithMessage("Item ID is required");
+            .WithMessage("Item Id is required");
+
+        RuleFor(x => x.InStockProductPriceDetailId)
+            .NotEmpty()
+            .WithMessage("InStock Product Price Detail Id is required");
 
         RuleFor(x => x.Quantity)
             .GreaterThan(0)

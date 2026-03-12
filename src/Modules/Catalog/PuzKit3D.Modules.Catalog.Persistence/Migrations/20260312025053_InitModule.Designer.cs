@@ -12,8 +12,8 @@ using PuzKit3D.Modules.Catalog.Persistence;
 namespace PuzKit3D.Modules.Catalog.Persistence.Migrations
 {
     [DbContext(typeof(CatalogDbContext))]
-    [Migration("20260305043754_UpdateSnakeCase")]
-    partial class UpdateSnakeCase
+    [Migration("20260312025053_InitModule")]
+    partial class InitModule
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

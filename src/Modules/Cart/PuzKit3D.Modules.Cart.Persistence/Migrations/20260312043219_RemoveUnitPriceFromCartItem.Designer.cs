@@ -12,8 +12,8 @@ using PuzKit3D.Modules.Cart.Persistence;
 namespace PuzKit3D.Modules.Cart.Persistence.Migrations
 {
     [DbContext(typeof(CartDbContext))]
-    [Migration("20260305043748_UpdateSnakeCase")]
-    partial class UpdateSnakeCase
+    [Migration("20260312043219_RemoveUnitPriceFromCartItem")]
+    partial class RemoveUnitPriceFromCartItem
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -126,7 +126,6 @@ namespace PuzKit3D.Modules.Cart.Persistence.Migrations
             modelBuilder.Entity("PuzKit3D.Modules.Cart.Domain.Entities.Replicas.InStockPriceReplica", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
                         .HasColumnName("id");
 
@@ -171,7 +170,6 @@ namespace PuzKit3D.Modules.Cart.Persistence.Migrations
             modelBuilder.Entity("PuzKit3D.Modules.Cart.Domain.Entities.Replicas.InStockProductPriceDetailReplica", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
                         .HasColumnName("id");
 
@@ -310,9 +308,20 @@ namespace PuzKit3D.Modules.Cart.Persistence.Migrations
             modelBuilder.Entity("PuzKit3D.Modules.Cart.Domain.Entities.Replicas.InStockProductVariantReplica", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
                         .HasColumnName("id");
+
+                    b.Property<int>("AssembledHeightMm")
+                        .HasColumnType("integer")
+                        .HasColumnName("assembled_height_mm");
+
+                    b.Property<int>("AssembledLengthMm")
+                        .HasColumnType("integer")
+                        .HasColumnName("assembled_length_mm");
+
+                    b.Property<int>("AssembledWidthMm")
+                        .HasColumnType("integer")
+                        .HasColumnName("assembled_width_mm");
 
                     b.Property<string>("Color")
                         .IsRequired()
@@ -334,12 +343,6 @@ namespace PuzKit3D.Modules.Cart.Persistence.Migrations
                         .HasDefaultValue(false)
                         .HasColumnName("is_active");
 
-                    b.Property<string>("Size")
-                        .IsRequired()
-                        .HasMaxLength(15)
-                        .HasColumnType("character varying(15)")
-                        .HasColumnName("size");
-
                     b.Property<string>("Sku")
                         .IsRequired()
                         .HasMaxLength(10)
@@ -356,10 +359,6 @@ namespace PuzKit3D.Modules.Cart.Persistence.Migrations
                     b.HasIndex("Sku")
                         .IsUnique()
                         .HasDatabaseName("UK__instock_product_variant_replica__sku");
-
-                    b.HasIndex("InStockProductId", "Color", "Size")
-                        .IsUnique()
-                        .HasDatabaseName("CUK___instock_product_variant_replica___instock_product_id__color__size");
 
                     b.ToTable("in_stock_product_variant_replicas", "cart");
                 });
@@ -509,27 +508,6 @@ namespace PuzKit3D.Modules.Cart.Persistence.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("FK__cart__cart_item");
-
-                    b.OwnsOne("PuzKit3D.Modules.Cart.Domain.ValueObjects.Money", "UnitPrice", b1 =>
-                        {
-                            b1.Property<Guid>("CartItemId")
-                                .HasColumnType("uuid")
-                                .HasColumnName("id");
-
-                            b1.Property<decimal>("Amount")
-                                .HasColumnType("decimal(10,2)")
-                                .HasColumnName("unit_price_amount");
-
-                            b1.HasKey("CartItemId");
-
-                            b1.ToTable("cart_items", "cart");
-
-                            b1.WithOwner()
-                                .HasForeignKey("CartItemId")
-                                .HasConstraintName("fk_cart_items_cart_items_id");
-                        });
-
-                    b.Navigation("UnitPrice");
                 });
 
             modelBuilder.Entity("PuzKit3D.Modules.Cart.Domain.Entities.Carts.Cart", b =>

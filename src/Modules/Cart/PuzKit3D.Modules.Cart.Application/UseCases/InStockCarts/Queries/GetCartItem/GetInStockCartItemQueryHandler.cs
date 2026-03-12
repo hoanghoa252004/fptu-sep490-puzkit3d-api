@@ -43,10 +43,12 @@ internal sealed class GetInStockCartItemQueryHandler : IQueryHandler<GetInStockC
         if (variant != null)
         {
             productDetails = new ProductDetailsDto(
-                $"{variant.Color} - {variant.Size}",
+                $"{variant.Color} - {variant.AssembledLengthMm}x{variant.AssembledWidthMm}x{variant.AssembledHeightMm}mm",
                 variant.Sku,
                 variant.Color,
-                variant.Size,
+                variant.AssembledLengthMm,
+                variant.AssembledWidthMm,
+                variant.AssembledHeightMm,
                 null,
                 variant.IsActive);
         }
@@ -54,10 +56,10 @@ internal sealed class GetInStockCartItemQueryHandler : IQueryHandler<GetInStockC
         var cartItemDto = new CartItemDto(
             cartItem.Id.Value,
             cartItem.ItemId,
-            cartItem.UnitPrice?.Amount,
+            null,
             cartItem.InStockProductPriceDetailId,
             cartItem.Quantity,
-            cartItem.TotalPrice?.Amount,
+            null,
             productDetails);
 
         return Result.Success(cartItemDto);

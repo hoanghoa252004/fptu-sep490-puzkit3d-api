@@ -12,8 +12,8 @@ using PuzKit3D.Modules.InStock.Persistence;
 namespace PuzKit3D.Modules.InStock.Persistence.Migrations
 {
     [DbContext(typeof(InStockDbContext))]
-    [Migration("20260310031101_InitInstockModule")]
-    partial class InitInstockModule
+    [Migration("20260312025101_InitModule")]
+    partial class InitModule
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

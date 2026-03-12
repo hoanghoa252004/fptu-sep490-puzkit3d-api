@@ -44,6 +44,8 @@ internal sealed class GetPartnerCartItemQueryHandler : IQueryHandler<GetPartnerC
                 product.PartnerProductSku,
                 null,
                 null,
+                null,
+                null,
                 product.ThumbnailUrl,
                 product.IsActive);
         }
@@ -51,10 +53,10 @@ internal sealed class GetPartnerCartItemQueryHandler : IQueryHandler<GetPartnerC
         var cartItemDto = new CartItemDto(
             cartItem.Id.Value,
             cartItem.ItemId,
-            cartItem.UnitPrice?.Amount,
+            null,
             cartItem.InStockProductPriceDetailId,
             cartItem.Quantity,
-            cartItem.TotalPrice?.Amount,
+            null,
             productDetails);
 
         return Result.Success(cartItemDto);

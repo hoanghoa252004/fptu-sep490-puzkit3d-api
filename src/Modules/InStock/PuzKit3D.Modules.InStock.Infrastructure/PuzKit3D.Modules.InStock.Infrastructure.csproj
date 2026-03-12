@@ -7,14 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Contract\PuzKit3D.Contract\PuzKit3D.Contract.csproj" />
     <ProjectReference Include="..\..\..\SharedKernel\PuzKit3D.SharedKernel.Application\PuzKit3D.SharedKernel.Application.csproj" />
     <ProjectReference Include="..\..\..\SharedKernel\PuzKit3D.SharedKernel.Infrastructure\PuzKit3D.SharedKernel.Infrastructure.csproj" />
     <ProjectReference Include="..\PuzKit3D.Modules.InStock.Application\PuzKit3D.Modules.InStock.Application.csproj" />
     <ProjectReference Include="..\PuzKit3D.Modules.InStock.Persistence\PuzKit3D.Modules.InStock.Persistence.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="DomainEventHandlers\" />
   </ItemGroup>
 
 </Project>

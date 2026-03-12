@@ -10,7 +10,8 @@ internal sealed class InStockProductPriceDetailReplicaConfiguration : IEntityTyp
     {
         builder.HasKey(pd => pd.Id);
 
-        builder.Property(pd => pd.Id);
+        builder.Property(pd => pd.Id)
+            .ValueGeneratedNever();
 
         builder.Property(pd => pd.InStockPriceId)
             .IsRequired();

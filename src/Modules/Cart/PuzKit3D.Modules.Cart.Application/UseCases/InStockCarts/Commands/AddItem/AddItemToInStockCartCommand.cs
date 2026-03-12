@@ -4,4 +4,5 @@ namespace PuzKit3D.Modules.Cart.Application.UseCases.InStockCarts.Commands.AddIt
 
 public sealed record AddItemToInStockCartCommand(
     Guid ItemId,
+    Guid InStockProductPriceDetailId,
     int? Quantity) : ICommand;

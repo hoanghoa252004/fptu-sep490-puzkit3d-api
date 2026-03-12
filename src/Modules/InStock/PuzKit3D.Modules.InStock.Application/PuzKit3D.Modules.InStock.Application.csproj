@@ -19,8 +19,4 @@
     <ProjectReference Include="..\..\..\Contract\PuzKit3D.Contract\PuzKit3D.Contract.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="EventHandlers\" />
-  </ItemGroup>
-
 </Project>

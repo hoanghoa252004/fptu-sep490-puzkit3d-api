@@ -32,7 +32,9 @@ internal sealed class InstockProductVariantCreatedIntegrationEventHandler
                 @event.ProductId,
                 @event.Sku,
                 @event.Color,
-                $"{@event.AssembledLengthMm}x{@event.AssembledWidthMm}x{@event.AssembledHeightMm}",
+                @event.AssembledLengthMm,
+                @event.AssembledWidthMm,
+                @event.AssembledHeightMm,
                 @event.IsActive,
                 existingReplica.CreatedAt,
                 @event.OccurredOn);
@@ -47,7 +49,9 @@ internal sealed class InstockProductVariantCreatedIntegrationEventHandler
                 @event.ProductId,
                 @event.Sku,
                 @event.Color,
-                $"{@event.AssembledLengthMm}x{@event.AssembledWidthMm}x{@event.AssembledHeightMm}",
+                @event.AssembledLengthMm,
+                @event.AssembledWidthMm,
+                @event.AssembledHeightMm,
                 @event.IsActive,
                 @event.OccurredOn,
                 @event.OccurredOn);

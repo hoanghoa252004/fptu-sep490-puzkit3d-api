@@ -48,6 +48,12 @@ internal sealed class CartQueryRepository : ICartQueryRepository
         ).FirstOrDefaultAsync(cancellationToken);
     }
 
+    public async Task<InStockProductPriceDetailReplica?> GetInStockPriceDetailByIdAsync(Guid priceDetailId, CancellationToken cancellationToken = default)
+    {
+        return await _context.InStockProductPriceDetailReplicas
+            .FirstOrDefaultAsync(d => d.Id == priceDetailId, cancellationToken);
+    }
+
     public async Task<Dictionary<Guid, InStockProductVariantReplica>> GetInStockProductVariantsByIdsAsync(List<Guid> variantIds, CancellationToken cancellationToken = default)
     {
         var variants = await _context.InStockProductVariantReplicas

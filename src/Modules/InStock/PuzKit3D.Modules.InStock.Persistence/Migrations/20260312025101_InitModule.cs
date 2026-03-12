@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace PuzKit3D.Modules.InStock.Persistence.Migrations
 {
     /// <inheritdoc />
-    public partial class InitInstockModule : Migration
+    public partial class InitModule : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
