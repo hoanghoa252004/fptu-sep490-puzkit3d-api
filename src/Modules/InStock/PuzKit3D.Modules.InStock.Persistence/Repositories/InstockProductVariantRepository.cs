@@ -59,6 +59,26 @@ internal sealed class InstockProductVariantRepository : IInstockProductVariantRe
             .ToListAsync(cancellationToken);
     }
 
+    public async Task<Dictionary<Guid, string>> GetProductThumbnailsByVariantIdsAsync(
+        List<Guid> variantIds,
+        CancellationToken cancellationToken = default)
+    {
+        var variantIdsTyped = variantIds.Select(id => InstockProductVariantId.From(id)).ToList();
+        
+        var result = await (
+            from variant in _context.InstockProductVariants
+            join product in _context.InstockProducts on variant.InstockProductId equals product.Id
+            where variantIdsTyped.Contains(variant.Id)
+            select new
+            {
+                VariantId = variant.Id.Value,
+                ThumbnailUrl = product.ThumbnailUrl
+            }
+        ).ToDictionaryAsync(x => x.VariantId, x => x.ThumbnailUrl, cancellationToken);
+
+        return result;
+    }
+
     public void Add(InstockProductVariant entity)
     {
         _context.InstockProductVariants.Add(entity);

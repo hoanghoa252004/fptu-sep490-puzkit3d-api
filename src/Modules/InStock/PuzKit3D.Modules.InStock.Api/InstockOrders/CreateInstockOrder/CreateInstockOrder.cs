@@ -67,11 +67,24 @@ internal sealed class CreateInstockOrder : IEndpoint
     }
 }
 
-internal static class InstockOrdersEndpointExtensions
-{
-    public static RouteGroupBuilder MapOrdersGroup(this IEndpointRouteBuilder app)
-    {
-        return app.MapGroup("/api/instock-orders")
-            .WithTags("InStock Orders");
-    }
-}
+public sealed record CreateInstockOrderRequestDto(
+    string CustomerName,
+    string CustomerPhone,
+    string CustomerEmail,
+    string CustomerProvinceCode,
+    string CustomerProvinceName,
+    string CustomerDistrictCode,
+    string CustomerDistrictName,
+    string CustomerWardCode,
+    string CustomerWardName,
+    List<CartItemRequestDto> CartItems,
+    decimal SubTotalAmount,
+    decimal ShippingFee,
+    int UsedCoinAmount,
+    decimal GrandTotalAmount,
+    string PaymentMethod);
+
+public sealed record CartItemRequestDto(
+    Guid ItemId,
+    Guid PriceDetailId,
+    int Quantity);
