@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Http;
 using PuzKit3D.Modules.Payment.Application.Abstractions;
 using PuzKit3D.Modules.Payment.Application.Repositories;
+using PuzKit3D.Modules.Payment.Application.Services;
 using PuzKit3D.Modules.Payment.Application.UnitOfWork;
 using PuzKit3D.Modules.Payment.Domain.Entities.Payments;
 using PuzKit3D.Modules.Payment.Domain.Entities.Transactions;
@@ -17,6 +18,7 @@ internal sealed class CreatePaymentUrlCommandHandler : ICommandTHandler<CreatePa
     private readonly IPaymentRepository _paymentRepository;
     private readonly ITransactionRepository _transactionRepository;
     private readonly IPaymentGatewayFactory _paymentGatewayFactory;
+    private readonly ITransactionCodeGenerator _transactionCodeGenerator;
     private readonly IPaymentUnitOfWork _unitOfWork;
 
     public CreatePaymentUrlCommandHandler(
@@ -25,6 +27,7 @@ internal sealed class CreatePaymentUrlCommandHandler : ICommandTHandler<CreatePa
         IPaymentRepository paymentRepository,
         ITransactionRepository transactionRepository,
         IPaymentGatewayFactory paymentGatewayFactory,
+        ITransactionCodeGenerator transactionCodeGenerator,
         IPaymentUnitOfWork unitOfWork)
     {
         _currentUser = currentUser;
@@ -32,6 +35,7 @@ internal sealed class CreatePaymentUrlCommandHandler : ICommandTHandler<CreatePa
         _paymentRepository = paymentRepository;
         _transactionRepository = transactionRepository;
         _paymentGatewayFactory = paymentGatewayFactory;
+        _transactionCodeGenerator = transactionCodeGenerator;
         _unitOfWork = unitOfWork;
     }
 
@@ -79,7 +83,7 @@ internal sealed class CreatePaymentUrlCommandHandler : ICommandTHandler<CreatePa
             }
 
             var paymentGateway = gatewayResult.Value;
-            var transactionCode = $"{order.Code}";
+            var transactionCode = await _transactionCodeGenerator.GenerateNextCodeAsync(cancellationToken);
 
             var transactionResult = Transaction.Create(
                 code: transactionCode,

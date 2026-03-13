@@ -3,8 +3,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using PuzKit3D.Modules.Payment.Application.Abstractions;
 using PuzKit3D.Modules.Payment.Application.Repositories;
+using PuzKit3D.Modules.Payment.Application.Services;
 using PuzKit3D.Modules.Payment.Application.UnitOfWork;
 using PuzKit3D.Modules.Payment.Persistence.Repositories;
+using PuzKit3D.Modules.Payment.Persistence.Services;
 using PuzKit3D.SharedKernel.Infrastructure.Data;
 
 namespace PuzKit3D.Modules.Payment.Persistence;
@@ -40,6 +42,7 @@ public static class DependencyInjection
         services.AddScoped<IOrderReplicaRepository, OrderReplicaRepository>();
         services.AddScoped<IPaymentRepository, PaymentRepository>();
         services.AddScoped<ITransactionRepository, TransactionRepository>();
+        services.AddScoped<ITransactionCodeGenerator, TransactionCodeGenerator>();
         return services;
     }
 }
