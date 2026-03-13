@@ -3,6 +3,8 @@ using PuzKit3D.SharedKernel.Application.Event;
 using Microsoft.Extensions.Logging;
 using PuzKit3D.Modules.InStock.Persistence;
 using PuzKit3D.Modules.InStock.Application.UnitOfWork;
+using Microsoft.EntityFrameworkCore;
+using PuzKit3D.Modules.InStock.Domain.Entities.InstockOrders;
 
 namespace PuzKit3D.Modules.InStock.Infrastructure.IntegrationEventHandlers.InstockOrders;
 
@@ -29,8 +31,9 @@ internal sealed class InstockOrderPaidSuccessIntegrationEventHandler
     {
         try
         {
+            var orderId = InstockOrderId.From(@event.OrderId);
             var order = await _dbContext.InstockOrders
-                .FindAsync(new object?[] { @event.OrderId }, cancellationToken: cancellationToken);
+                .FirstOrDefaultAsync(o => o.Id == orderId, cancellationToken);
 
             if (order == null)
             {
