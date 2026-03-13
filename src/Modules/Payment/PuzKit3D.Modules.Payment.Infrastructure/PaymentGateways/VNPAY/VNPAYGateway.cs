@@ -29,7 +29,7 @@ internal sealed class VNPAYGateway : IPaymentGateway
         var expiredAt = TimeZoneInfo.ConvertTimeFromUtc(@params.expiredAt, timeZoneById);
         var tick = DateTime.Now.Ticks.ToString();
         var pay = new VnPayLibrary();
-        var testAmount = ((long)150000 * 100).ToString();
+        var amount = ((long)@params.Amount * 100).ToString();
 
         pay.AddRequestData("vnp_IpAddr", pay.GetIpAddress(context));
         pay.AddRequestData("vnp_Command", _configuration["VNPAY:Command"]!);
@@ -43,7 +43,7 @@ internal sealed class VNPAYGateway : IPaymentGateway
         pay.AddRequestData("vnp_CreateDate", createdAt.ToString("yyyyMMddHHmmss"));
         pay.AddRequestData("vnp_ExpireDate", expiredAt.ToString("yyyyMMddHHmmss"));
 
-        pay.AddRequestData("vnp_Amount", testAmount);
+        pay.AddRequestData("vnp_Amount", amount);
         pay.AddRequestData("vnp_OrderInfo", @params.Description);
         pay.AddRequestData("vnp_TxnRef", tick);
 
