@@ -8,8 +8,6 @@ internal sealed class PaymentConfiguration : IEntityTypeConfiguration<Domain.Ent
 {
     public void Configure(EntityTypeBuilder<Domain.Entities.Payments.Payment> builder)
     {
-        builder.ToTable("payment");
-
         builder.HasKey(p => p.Id);
 
         builder.Property(p => p.Id)
@@ -19,41 +17,32 @@ internal sealed class PaymentConfiguration : IEntityTypeConfiguration<Domain.Ent
             .HasColumnName("id");
 
         builder.Property(p => p.ReferenceOrderId)
-            .IsRequired()
-            .HasColumnName("reference_order_id");
+            .IsRequired();
 
         builder.Property(p => p.ReferenceOrderType)
             .IsRequired()
-            .HasMaxLength(30)
-            .HasColumnName("reference_order_type");
+            .HasMaxLength(30);
 
         builder.Property(p => p.Amount)
             .IsRequired()
-            .HasPrecision(10, 2)
-            .HasColumnName("amount");
+            .HasPrecision(10, 2);
 
         builder.Property(p => p.Provider)
-            .HasMaxLength(30)
-            .HasColumnName("provider");
+            .HasMaxLength(30);
 
         builder.Property(p => p.Status)
             .IsRequired()
-            .HasConversion<int>()
-            .HasColumnName("status");
+            .HasConversion<int>();
 
-        builder.Property(p => p.ExpiredAt)
-            .HasColumnName("expired_at");
+        builder.Property(p => p.ExpiredAt);
 
-        builder.Property(p => p.PaidAt)
-            .HasColumnName("paid_at");
+        builder.Property(p => p.PaidAt);
 
         builder.Property(p => p.CreatedAt)
-            .IsRequired()
-            .HasColumnName("created_at");
+            .IsRequired();
 
         builder.Property(p => p.UpdatedAt)
-            .IsRequired()
-            .HasColumnName("updated_at");
+            .IsRequired();
 
         builder.HasMany(p => p.Transactions)
             .WithOne(t => t.Payment)
