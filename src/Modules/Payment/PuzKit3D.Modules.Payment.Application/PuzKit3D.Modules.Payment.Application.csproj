@@ -16,7 +16,6 @@
 
   <ItemGroup>
     <Folder Include="DomainEventHandlers\OrderReplicas\InstockOrderDomainEventHandler\" />
-    <Folder Include="UseCases\Payments\" />
   </ItemGroup>
 
 </Project>
