@@ -14,5 +14,10 @@ public sealed record TransactionDto(
     decimal Amount,
     string? PaymentUrl,
     DateTime ExpiredAt,
+    string? TransactionNo,
+    DateTime? PaidAt,
     DateTime CreatedAt,
     DateTime UpdatedAt);
+
+
+

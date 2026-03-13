@@ -1,6 +1,7 @@
 using MediatR;
 using PuzKit3D.Modules.Payment.Application.Repositories;
 using PuzKit3D.Modules.Payment.Domain.Entities.Payments;
+using PuzKit3D.Modules.Payment.Domain.Entities.Transactions;
 using PuzKit3D.SharedKernel.Application.Message.Query;
 using PuzKit3D.SharedKernel.Application.User;
 using PuzKit3D.SharedKernel.Domain.Results;
@@ -65,9 +66,10 @@ internal sealed class GetPaymentTransactionsQueryHandler : IQueryHandler<GetPaym
                 t.Provider,
                 t.Status.ToString(),
                 t.Amount,
-                // Only include PaymentUrl if transaction is not expired
-                t.ExpiredAt > DateTime.UtcNow ? t.PaymentUrl : null,
+                t.PaymentUrl,
                 t.ExpiredAt,
+                t.TransactionNo,
+                t.Status == TransactionStatus.Success ? t.UpdatedAt : null, // PaidAt = UpdatedAt when Success
                 t.CreatedAt,
                 t.UpdatedAt))
             .ToList();
