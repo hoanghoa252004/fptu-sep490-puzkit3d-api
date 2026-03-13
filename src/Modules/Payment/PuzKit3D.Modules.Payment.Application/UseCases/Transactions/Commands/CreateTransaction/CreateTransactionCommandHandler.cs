@@ -3,15 +3,17 @@ using PuzKit3D.Modules.Payment.Application.Abstractions;
 using PuzKit3D.Modules.Payment.Application.Repositories;
 using PuzKit3D.Modules.Payment.Application.Services;
 using PuzKit3D.Modules.Payment.Application.UnitOfWork;
+using PuzKit3D.Modules.Payment.Application.UseCases.Transactions.Queries.GetTransactionsByPayment;
 using PuzKit3D.Modules.Payment.Domain.Entities.Payments;
 using PuzKit3D.Modules.Payment.Domain.Entities.Transactions;
 using PuzKit3D.SharedKernel.Application.Message.Command;
 using PuzKit3D.SharedKernel.Application.User;
 using PuzKit3D.SharedKernel.Domain.Results;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
-namespace PuzKit3D.Modules.Payment.Application.UseCases.Payments;
+namespace PuzKit3D.Modules.Payment.Application.UseCases.Transactions.Commands.CreateTransaction;
 
-internal sealed class CreatePaymentUrlCommandHandler : ICommandTHandler<CreatePaymentUrlCommand, string>
+internal sealed class CreateTransactionCommandHandler : ICommandTHandler<CreateTransactionCommand, string>
 {
     private readonly ICurrentUser _currentUser;
     private readonly IOrderReplicaRepository _orderReplicaRepository;
@@ -21,7 +23,7 @@ internal sealed class CreatePaymentUrlCommandHandler : ICommandTHandler<CreatePa
     private readonly ITransactionCodeGenerator _transactionCodeGenerator;
     private readonly IPaymentUnitOfWork _unitOfWork;
 
-    public CreatePaymentUrlCommandHandler(
+    public CreateTransactionCommandHandler(
         ICurrentUser currentUser,
         IOrderReplicaRepository orderReplicaRepository,
         IPaymentRepository paymentRepository,
@@ -39,24 +41,28 @@ internal sealed class CreatePaymentUrlCommandHandler : ICommandTHandler<CreatePa
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<ResultT<string>> Handle(CreatePaymentUrlCommand request, CancellationToken cancellationToken)
+    public async Task<ResultT<string>> Handle(CreateTransactionCommand request, CancellationToken cancellationToken)
     {
-        var order = await _orderReplicaRepository.GetByIdAsync(request.OrderId, cancellationToken);
-        if (order is null)
+        // Verify payment exists
+        var payment = await _paymentRepository.GetByIdAsync(PaymentId.From(request.paymentId), cancellationToken);
+        if (payment is null)
         {
-            return Result.Failure<string>(PaymentError.OrderNotFound(request.OrderId));
+            return Result.Failure<string>(
+                PaymentError.PaymentNotFound(request.paymentId));
         }
 
+        // Verify order exists
+        var order = await _orderReplicaRepository.GetByIdAsync(payment.ReferenceOrderId, cancellationToken);
+
+        if (order is null)
+        {
+            return Result.Failure<string>(PaymentError.OrderNotFound(payment.ReferenceOrderId));
+        }
+
+        // Verify current user is the owner of the order
         if (!Guid.TryParse(_currentUser.UserId, out var userId) || userId != order.CustomerId)
         {
             return Result.Failure<string>(PaymentError.UnauthorizedAccessToOrder());
-        }
-
-        var payment = await _paymentRepository.GetByOrderIdAsync(request.OrderId, cancellationToken);
-
-        if (payment is null)
-        {
-            return Result.Failure<string>(PaymentError.PaymentNotFound(request.OrderId));
         }
 
         if (payment.Status == PaymentStatus.Paid)
@@ -75,11 +81,11 @@ internal sealed class CreatePaymentUrlCommandHandler : ICommandTHandler<CreatePa
         }
 
         // Check if there's an active (non-expired) transaction for this payment
-        var activeTransaction = await _transactionRepository.FindAsync(
+        var activeTransactions = await _transactionRepository.FindAsync(
             t => t.PaymentId == payment.Id && t.ExpiredAt > DateTime.UtcNow,
             cancellationToken);
 
-        if (activeTransaction.Any())
+        if (activeTransactions.Any())
         {
             return Result.Failure<string>(PaymentError.ActiveTransactionExists());
         }
@@ -122,6 +128,10 @@ internal sealed class CreatePaymentUrlCommandHandler : ICommandTHandler<CreatePa
             {
                 return Result.Failure<string>(paymentUrlResult.Error);
             }
+
+            // Save payment URL to transaction
+            transaction.SetPaymentUrl(paymentUrlResult.Value);
+            _transactionRepository.Update(transaction);
 
             return Result.Success(paymentUrlResult.Value);
         }, cancellationToken);

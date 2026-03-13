@@ -175,6 +175,11 @@ namespace PuzKit3D.Modules.Payment.Persistence.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("payment_id");
 
+                    b.Property<string>("PaymentUrl")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("payment_url");
+
                     b.Property<string>("Provider")
                         .IsRequired()
                         .HasMaxLength(30)

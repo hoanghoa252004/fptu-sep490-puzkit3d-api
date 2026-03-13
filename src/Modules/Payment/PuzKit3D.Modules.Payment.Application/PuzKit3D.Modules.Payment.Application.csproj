@@ -13,4 +13,8 @@
     <ProjectReference Include="..\PuzKit3D.Modules.Payment.Domain\PuzKit3D.Modules.Payment.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="UseCases\Payments\" />
+  </ItemGroup>
+
 </Project>

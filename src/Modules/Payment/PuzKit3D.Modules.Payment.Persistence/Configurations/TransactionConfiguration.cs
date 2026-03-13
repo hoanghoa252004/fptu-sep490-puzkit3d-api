@@ -30,6 +30,10 @@ internal sealed class TransactionConfiguration : IEntityTypeConfiguration<Transa
             .IsRequired()
             .HasMaxLength(30);
 
+        builder.Property(t => t.PaymentUrl)
+            .IsRequired()
+            .HasColumnType("text");
+
         builder.Property(t => t.TransactionNo)
             .HasColumnType("text");
 

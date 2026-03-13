@@ -66,6 +66,7 @@ namespace PuzKit3D.Modules.Payment.Persistence.Migrations
                     payment_id = table.Column<Guid>(type: "uuid", nullable: false),
                     provider = table.Column<string>(type: "character varying(30)", maxLength: 30, nullable: false),
                     transaction_no = table.Column<string>(type: "text", nullable: true),
+                    payment_url = table.Column<string>(type: "text", nullable: false),
                     status = table.Column<int>(type: "integer", nullable: false),
                     amount = table.Column<decimal>(type: "numeric(10,2)", precision: 10, scale: 2, nullable: false),
                     raw_response_payload = table.Column<string>(type: "text", nullable: true),

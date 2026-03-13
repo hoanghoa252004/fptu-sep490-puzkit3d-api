@@ -12,7 +12,7 @@ using PuzKit3D.Modules.Payment.Persistence;
 namespace PuzKit3D.Modules.Payment.Persistence.Migrations
 {
     [DbContext(typeof(PaymentDbContext))]
-    [Migration("20260313015506_InitModule")]
+    [Migration("20260313033519_InitModule")]
     partial class InitModule
     {
         /// <inheritdoc />
@@ -177,6 +177,11 @@ namespace PuzKit3D.Modules.Payment.Persistence.Migrations
                     b.Property<Guid>("PaymentId")
                         .HasColumnType("uuid")
                         .HasColumnName("payment_id");
+
+                    b.Property<string>("PaymentUrl")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("payment_url");
 
                     b.Property<string>("Provider")
                         .IsRequired()
