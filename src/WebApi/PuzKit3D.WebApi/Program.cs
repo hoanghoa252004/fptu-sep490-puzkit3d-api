@@ -96,6 +96,8 @@ app.MapGet("/", () => "Welcome to PuzKit3D API").ExcludeFromDescription();
 
 app.UseExceptionHandler();
 
+app.UseCors("AllowAll");
+
 // Authentication & Authorization - MUST be added before MapEndpoints()
 app.UseAuthentication();
 app.UseAuthorization();
