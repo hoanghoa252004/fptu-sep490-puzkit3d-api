@@ -19,7 +19,8 @@ internal sealed class CapabilityConfiguration : IEntityTypeConfiguration<Capabil
             .IsRequired()
             .HasMaxLength(30);
 
-        builder.Property(c => c.Description);
+        builder.Property(c => c.Description)
+            .HasColumnType("text");
 
         builder.Property(c => c.Slug)
             .IsRequired()

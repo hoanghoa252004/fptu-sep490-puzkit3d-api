@@ -19,7 +19,8 @@ internal sealed class AssemblyMethodConfiguration : IEntityTypeConfiguration<Ass
             .IsRequired()
             .HasMaxLength(30);
 
-        builder.Property(a => a.Description);
+        builder.Property(a => a.Description)
+            .HasColumnType("text");
 
         builder.Property(a => a.Slug)
             .IsRequired()

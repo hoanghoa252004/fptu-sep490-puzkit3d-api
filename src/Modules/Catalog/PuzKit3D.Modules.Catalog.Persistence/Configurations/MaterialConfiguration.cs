@@ -19,7 +19,8 @@ internal sealed class MaterialConfiguration : IEntityTypeConfiguration<Material>
             .IsRequired()
             .HasMaxLength(30);
 
-        builder.Property(m => m.Description);
+        builder.Property(m => m.Description)
+            .HasColumnType("text");
 
         builder.Property(m => m.Slug)
             .IsRequired()

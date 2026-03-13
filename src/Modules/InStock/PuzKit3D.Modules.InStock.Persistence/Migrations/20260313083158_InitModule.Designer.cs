@@ -12,7 +12,7 @@ using PuzKit3D.Modules.InStock.Persistence;
 namespace PuzKit3D.Modules.InStock.Persistence.Migrations
 {
     [DbContext(typeof(InStockDbContext))]
-    [Migration("20260312103626_InitModule")]
+    [Migration("20260313083158_InitModule")]
     partial class InitModule
     {
         /// <inheritdoc />
@@ -1200,200 +1200,200 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                         new
                         {
                             Id = new Guid("10000000-0000-0000-0000-000000000001"),
-                            AssemblyMethodId = new Guid("33333333-3333-3333-3333-333333333333"),
-                            CapabilityId = new Guid("77777777-7777-7777-7777-777777777777"),
+                            AssemblyMethodId = new Guid("d1d1d1d1-d1d1-d1d1-d1d1-d1d1d1d1d1d1"),
+                            CapabilityId = new Guid("e1e1e1e1-e1e1-e1e1-e1e1-e1e1e1e1e1e1"),
                             Code = "INP001",
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Beautiful lion 3D puzzle",
                             DifficultLevel = "Basic",
                             EstimatedBuildTime = 120,
                             IsActive = true,
-                            MaterialId = new Guid("55555555-5555-5555-5555-555555555555"),
+                            MaterialId = new Guid("f1f1f1f1-f1f1-f1f1-f1f1-f1f1f1f1f1f1"),
                             Name = "Lion 3D Puzzle",
                             PreviewAsset = "{\"main\":\"https://example.com/lion-preview.jpg\"}",
                             Slug = "lion-3d-puzzle",
                             ThumbnailUrl = "https://example.com/lion.jpg",
-                            TopicId = new Guid("11111111-1111-1111-1111-111111111111"),
+                            TopicId = new Guid("a1a1a1a1-a1a1-a1a1-a1a1-a1a1a1a1a1a1"),
                             TotalPieceCount = 150,
                             UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
                         },
                         new
                         {
                             Id = new Guid("10000000-0000-0000-0000-000000000002"),
-                            AssemblyMethodId = new Guid("33333333-3333-3333-3333-333333333333"),
-                            CapabilityId = new Guid("77777777-7777-7777-7777-777777777777"),
+                            AssemblyMethodId = new Guid("e2e2e2e2-e2e2-e2e2-e2e2-e2e2e2e2e2e2"),
+                            CapabilityId = new Guid("f2f2f2f2-f2f2-f2f2-f2f2-f2f2f2f2f2f2"),
                             Code = "INP002",
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Majestic elephant 3D puzzle",
                             DifficultLevel = "Intermediate",
                             EstimatedBuildTime = 180,
                             IsActive = true,
-                            MaterialId = new Guid("55555555-5555-5555-5555-555555555555"),
+                            MaterialId = new Guid("a2a2a2a2-a2a2-a2a2-a2a2-a2a2a2a2a2a2"),
                             Name = "Elephant 3D Puzzle",
                             PreviewAsset = "{\"main\":\"https://example.com/elephant-preview.jpg\"}",
                             Slug = "elephant-3d-puzzle",
                             ThumbnailUrl = "https://example.com/elephant.jpg",
-                            TopicId = new Guid("11111111-1111-1111-1111-111111111111"),
+                            TopicId = new Guid("a1a1a1a1-a1a1-a1a1-a1a1-a1a1a1a1a1a1"),
                             TotalPieceCount = 200,
                             UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
                         },
                         new
                         {
                             Id = new Guid("10000000-0000-0000-0000-000000000003"),
-                            AssemblyMethodId = new Guid("44444444-4444-4444-4444-444444444444"),
-                            CapabilityId = new Guid("88888888-8888-8888-8888-888888888888"),
+                            AssemblyMethodId = new Guid("f3f3f3f3-f3f3-f3f3-f3f3-f3f3f3f3f3f3"),
+                            CapabilityId = new Guid("a3a3a3a3-a3a3-a3a3-a3a3-a3a3a3a3a3a3"),
                             Code = "INP003",
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Soaring eagle 3D puzzle",
                             DifficultLevel = "Advanced",
                             EstimatedBuildTime = 240,
                             IsActive = true,
-                            MaterialId = new Guid("55555555-5555-5555-5555-555555555555"),
+                            MaterialId = new Guid("b3b3b3b3-b3b3-b3b3-b3b3-b3b3b3b3b3b3"),
                             Name = "Eagle 3D Puzzle",
                             PreviewAsset = "{\"main\":\"https://example.com/eagle-preview.jpg\"}",
                             Slug = "eagle-3d-puzzle",
                             ThumbnailUrl = "https://example.com/eagle.jpg",
-                            TopicId = new Guid("11111111-1111-1111-1111-111111111111"),
+                            TopicId = new Guid("a1a1a1a1-a1a1-a1a1-a1a1-a1a1a1a1a1a1"),
                             TotalPieceCount = 180,
                             UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
                         },
                         new
                         {
                             Id = new Guid("10000000-0000-0000-0000-000000000004"),
-                            AssemblyMethodId = new Guid("44444444-4444-4444-4444-444444444444"),
-                            CapabilityId = new Guid("88888888-8888-8888-8888-888888888888"),
+                            AssemblyMethodId = new Guid("a4a4a4a4-a4a4-a4a4-a4a4-a4a4a4a4a4a4"),
+                            CapabilityId = new Guid("b4b4b4b4-b4b4-b4b4-b4b4-b4b4b4b4b4b4"),
                             Code = "INP004",
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Sleek sports car 3D puzzle",
                             DifficultLevel = "Advanced",
                             EstimatedBuildTime = 300,
                             IsActive = true,
-                            MaterialId = new Guid("66666666-6666-6666-6666-666666666666"),
+                            MaterialId = new Guid("c4c4c4c4-c4c4-c4c4-c4c4-c4c4c4c4c4c4"),
                             Name = "Sports Car 3D Puzzle",
                             PreviewAsset = "{\"main\":\"https://example.com/sports-car-preview.jpg\"}",
                             Slug = "sports-car-3d-puzzle",
                             ThumbnailUrl = "https://example.com/sports-car.jpg",
-                            TopicId = new Guid("22222222-2222-2222-2222-222222222222"),
+                            TopicId = new Guid("b2b2b2b2-b2b2-b2b2-b2b2-b2b2b2b2b2b2"),
                             TotalPieceCount = 250,
                             UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
                         },
                         new
                         {
                             Id = new Guid("10000000-0000-0000-0000-000000000005"),
-                            AssemblyMethodId = new Guid("33333333-3333-3333-3333-333333333333"),
-                            CapabilityId = new Guid("77777777-7777-7777-7777-777777777777"),
+                            AssemblyMethodId = new Guid("b5b5b5b5-b5b5-b5b5-b5b5-b5b5b5b5b5b5"),
+                            CapabilityId = new Guid("c5c5c5c5-c5c5-c5c5-c5c5-c5c5c5c5c5c5"),
                             Code = "INP005",
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Flying airplane 3D puzzle",
                             DifficultLevel = "Intermediate",
                             EstimatedBuildTime = 200,
                             IsActive = true,
-                            MaterialId = new Guid("66666666-6666-6666-6666-666666666666"),
+                            MaterialId = new Guid("d5d5d5d5-d5d5-d5d5-d5d5-d5d5d5d5d5d5"),
                             Name = "Airplane 3D Puzzle",
                             PreviewAsset = "{\"main\":\"https://example.com/airplane-preview.jpg\"}",
                             Slug = "airplane-3d-puzzle",
                             ThumbnailUrl = "https://example.com/airplane.jpg",
-                            TopicId = new Guid("22222222-2222-2222-2222-222222222222"),
+                            TopicId = new Guid("b2b2b2b2-b2b2-b2b2-b2b2-b2b2b2b2b2b2"),
                             TotalPieceCount = 220,
                             UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
                         },
                         new
                         {
                             Id = new Guid("10000000-0000-0000-0000-000000000006"),
-                            AssemblyMethodId = new Guid("33333333-3333-3333-3333-333333333333"),
-                            CapabilityId = new Guid("77777777-7777-7777-7777-777777777777"),
+                            AssemblyMethodId = new Guid("d1d1d1d1-d1d1-d1d1-d1d1-d1d1d1d1d1d1"),
+                            CapabilityId = new Guid("e1e1e1e1-e1e1-e1e1-e1e1-e1e1e1e1e1e1"),
                             Code = "INP006",
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Cool motorcycle 3D puzzle",
                             DifficultLevel = "Intermediate",
                             EstimatedBuildTime = 150,
                             IsActive = true,
-                            MaterialId = new Guid("66666666-6666-6666-6666-666666666666"),
+                            MaterialId = new Guid("f1f1f1f1-f1f1-f1f1-f1f1-f1f1f1f1f1f1"),
                             Name = "Motorcycle 3D Puzzle",
                             PreviewAsset = "{\"main\":\"https://example.com/motorcycle-preview.jpg\"}",
                             Slug = "motorcycle-3d-puzzle",
                             ThumbnailUrl = "https://example.com/motorcycle.jpg",
-                            TopicId = new Guid("22222222-2222-2222-2222-222222222222"),
+                            TopicId = new Guid("c3c3c3c3-c3c3-c3c3-c3c3-c3c3c3c3c3c3"),
                             TotalPieceCount = 180,
                             UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
                         },
                         new
                         {
                             Id = new Guid("10000000-0000-0000-0000-000000000007"),
-                            AssemblyMethodId = new Guid("33333333-3333-3333-3333-333333333333"),
-                            CapabilityId = new Guid("77777777-7777-7777-7777-777777777777"),
+                            AssemblyMethodId = new Guid("e2e2e2e2-e2e2-e2e2-e2e2-e2e2e2e2e2e2"),
+                            CapabilityId = new Guid("f2f2f2f2-f2f2-f2f2-f2f2-f2f2f2f2f2f2"),
                             Code = "INP007",
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Fierce tiger 3D puzzle",
                             DifficultLevel = "Basic",
                             EstimatedBuildTime = 130,
                             IsActive = true,
-                            MaterialId = new Guid("55555555-5555-5555-5555-555555555555"),
+                            MaterialId = new Guid("a2a2a2a2-a2a2-a2a2-a2a2-a2a2a2a2a2a2"),
                             Name = "Tiger 3D Puzzle",
                             PreviewAsset = "{\"main\":\"https://example.com/tiger-preview.jpg\"}",
                             Slug = "tiger-3d-puzzle",
                             ThumbnailUrl = "https://example.com/tiger.jpg",
-                            TopicId = new Guid("11111111-1111-1111-1111-111111111111"),
+                            TopicId = new Guid("a1a1a1a1-a1a1-a1a1-a1a1-a1a1a1a1a1a1"),
                             TotalPieceCount = 170,
                             UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
                         },
                         new
                         {
                             Id = new Guid("10000000-0000-0000-0000-000000000008"),
-                            AssemblyMethodId = new Guid("33333333-3333-3333-3333-333333333333"),
-                            CapabilityId = new Guid("77777777-7777-7777-7777-777777777777"),
+                            AssemblyMethodId = new Guid("f3f3f3f3-f3f3-f3f3-f3f3-f3f3f3f3f3f3"),
+                            CapabilityId = new Guid("a3a3a3a3-a3a3-a3a3-a3a3-a3a3a3a3a3a3"),
                             Code = "INP008",
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Playful dolphin 3D puzzle",
                             DifficultLevel = "Basic",
                             EstimatedBuildTime = 100,
                             IsActive = true,
-                            MaterialId = new Guid("55555555-5555-5555-5555-555555555555"),
+                            MaterialId = new Guid("b3b3b3b3-b3b3-b3b3-b3b3-b3b3b3b3b3b3"),
                             Name = "Dolphin 3D Puzzle",
                             PreviewAsset = "{\"main\":\"https://example.com/dolphin-preview.jpg\"}",
                             Slug = "dolphin-3d-puzzle",
                             ThumbnailUrl = "https://example.com/dolphin.jpg",
-                            TopicId = new Guid("11111111-1111-1111-1111-111111111111"),
+                            TopicId = new Guid("d4d4d4d4-d4d4-d4d4-d4d4-d4d4d4d4d4d4"),
                             TotalPieceCount = 130,
                             UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
                         },
                         new
                         {
                             Id = new Guid("10000000-0000-0000-0000-000000000009"),
-                            AssemblyMethodId = new Guid("33333333-3333-3333-3333-333333333333"),
-                            CapabilityId = new Guid("77777777-7777-7777-7777-777777777777"),
+                            AssemblyMethodId = new Guid("a4a4a4a4-a4a4-a4a4-a4a4-a4a4a4a4a4a4"),
+                            CapabilityId = new Guid("b4b4b4b4-b4b4-b4b4-b4b4-b4b4b4b4b4b4"),
                             Code = "INP009",
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Flying helicopter 3D puzzle",
                             DifficultLevel = "Intermediate",
                             EstimatedBuildTime = 170,
                             IsActive = true,
-                            MaterialId = new Guid("66666666-6666-6666-6666-666666666666"),
+                            MaterialId = new Guid("c4c4c4c4-c4c4-c4c4-c4c4-c4c4c4c4c4c4"),
                             Name = "Helicopter 3D Puzzle",
                             PreviewAsset = "{\"main\":\"https://example.com/helicopter-preview.jpg\"}",
                             Slug = "helicopter-3d-puzzle",
                             ThumbnailUrl = "https://example.com/helicopter.jpg",
-                            TopicId = new Guid("22222222-2222-2222-2222-222222222222"),
+                            TopicId = new Guid("b2b2b2b2-b2b2-b2b2-b2b2-b2b2b2b2b2b2"),
                             TotalPieceCount = 190,
                             UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
                         },
                         new
                         {
                             Id = new Guid("10000000-0000-0000-0000-000000000010"),
-                            AssemblyMethodId = new Guid("44444444-4444-4444-4444-444444444444"),
-                            CapabilityId = new Guid("88888888-8888-8888-8888-888888888888"),
+                            AssemblyMethodId = new Guid("b5b5b5b5-b5b5-b5b5-b5b5-b5b5b5b5b5b5"),
+                            CapabilityId = new Guid("c5c5c5c5-c5c5-c5c5-c5c5-c5c5c5c5c5c5"),
                             Code = "INP010",
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Mythical dragon 3D puzzle",
                             DifficultLevel = "Advanced",
                             EstimatedBuildTime = 360,
                             IsActive = true,
-                            MaterialId = new Guid("55555555-5555-5555-5555-555555555555"),
+                            MaterialId = new Guid("d5d5d5d5-d5d5-d5d5-d5d5-d5d5d5d5d5d5"),
                             Name = "Dragon 3D Puzzle",
                             PreviewAsset = "{\"main\":\"https://example.com/dragon-preview.jpg\"}",
                             Slug = "dragon-3d-puzzle",
                             ThumbnailUrl = "https://example.com/dragon.jpg",
-                            TopicId = new Guid("11111111-1111-1111-1111-111111111111"),
+                            TopicId = new Guid("e5e5e5e5-e5e5-e5e5-e5e5-e5e5e5e5e5e5"),
                             TotalPieceCount = 300,
                             UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
                         });
@@ -1514,9 +1514,9 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("33333333-3333-3333-3333-333333333333"),
+                            Id = new Guid("d1d1d1d1-d1d1-d1d1-d1d1-d1d1d1d1d1d1"),
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "Easy snap assembly",
+                            Description = "Easy snap assembly without tools",
                             IsActive = true,
                             Name = "Snap-Fit",
                             Slug = "snap-fit",
@@ -1524,12 +1524,42 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                         },
                         new
                         {
-                            Id = new Guid("44444444-4444-4444-4444-444444444444"),
+                            Id = new Guid("e2e2e2e2-e2e2-e2e2-e2e2-e2e2e2e2e2e2"),
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "Requires glue assembly",
+                            Description = "Assembly using adhesive bonding",
                             IsActive = true,
-                            Name = "Glue-Based",
-                            Slug = "glue-based",
+                            Name = "Glue Assembly",
+                            Slug = "glue-assembly",
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("f3f3f3f3-f3f3-f3f3-f3f3-f3f3f3f3f3f3"),
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Assembly using screws and bolts",
+                            IsActive = true,
+                            Name = "Screw Assembly",
+                            Slug = "screw-assembly",
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("a4a4a4a4-a4a4-a4a4-a4a4-a4a4a4a4a4a4"),
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Assembly using tight fitting pieces",
+                            IsActive = true,
+                            Name = "Friction Fit",
+                            Slug = "friction-fit",
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("b5b5b5b5-b5b5-b5b5-b5b5-b5b5b5b5b5b5"),
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Assembly using magnetic connections",
+                            IsActive = true,
+                            Name = "Magnetic Assembly",
+                            Slug = "magnetic-assembly",
                             UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
                         });
                 });
@@ -1583,22 +1613,52 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("77777777-7777-7777-7777-777777777777"),
+                            Id = new Guid("e1e1e1e1-e1e1-e1e1-e1e1-e1e1e1e1e1e1"),
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "Suitable for beginners",
+                            Description = "Static model for display only",
                             IsActive = true,
-                            Name = "Beginner Friendly",
-                            Slug = "beginner-friendly",
+                            Name = "Static Display",
+                            Slug = "static-display",
                             UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
                         },
                         new
                         {
-                            Id = new Guid("88888888-8888-8888-8888-888888888888"),
+                            Id = new Guid("f2f2f2f2-f2f2-f2f2-f2f2-f2f2f2f2f2f2"),
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "For advanced builders",
+                            Description = "Model with electric motor-powered movement",
                             IsActive = true,
-                            Name = "Advanced Building",
-                            Slug = "advanced-building",
+                            Name = "Move with Motor",
+                            Slug = "move-with-motor",
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("a3a3a3a3-a3a3-a3a3-a3a3-a3a3a3a3a3a3"),
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Model operated by manual movement",
+                            IsActive = true,
+                            Name = "Manual Movement",
+                            Slug = "manual-movement",
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("b4b4b4b4-b4b4-b4b4-b4b4-b4b4b4b4b4b4"),
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Model with LED lighting effects",
+                            IsActive = true,
+                            Name = "LED Light Feature",
+                            Slug = "led-light-feature",
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("c5c5c5c5-c5c5-c5c5-c5c5-c5c5c5c5c5c5"),
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Model with musical features via rotating mechanism",
+                            IsActive = true,
+                            Name = "Musical Gear",
+                            Slug = "musical-gear",
                             UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
                         });
                 });
@@ -1652,7 +1712,7 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("55555555-5555-5555-5555-555555555555"),
+                            Id = new Guid("f1f1f1f1-f1f1-f1f1-f1f1-f1f1f1f1f1f1"),
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Natural wood material",
                             IsActive = true,
@@ -1662,12 +1722,42 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                         },
                         new
                         {
-                            Id = new Guid("66666666-6666-6666-6666-666666666666"),
+                            Id = new Guid("a2a2a2a2-a2a2-a2a2-a2a2-a2a2a2a2a2a2"),
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Durable plastic material",
                             IsActive = true,
                             Name = "Plastic",
                             Slug = "plastic",
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("b3b3b3b3-b3b3-b3b3-b3b3-b3b3b3b3b3b3"),
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Premium metal components",
+                            IsActive = true,
+                            Name = "Metal",
+                            Slug = "metal",
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("c4c4c4c4-c4c4-c4c4-c4c4-c4c4c4c4c4c4"),
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Eco-friendly cardboard material",
+                            IsActive = true,
+                            Name = "Cardboard",
+                            Slug = "cardboard",
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("d5d5d5d5-d5d5-d5d5-d5d5-d5d5d5d5d5d5"),
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Advanced composite materials",
+                            IsActive = true,
+                            Name = "Composite",
+                            Slug = "composite",
                             UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
                         });
                 });
@@ -1725,9 +1815,9 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("11111111-1111-1111-1111-111111111111"),
+                            Id = new Guid("a1a1a1a1-a1a1-a1a1-a1a1-a1a1a1a1a1a1"),
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "Animal themed puzzles",
+                            Description = "Animal themed 3D puzzles",
                             IsActive = true,
                             Name = "Animals",
                             Slug = "animals",
@@ -1735,12 +1825,42 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                         },
                         new
                         {
-                            Id = new Guid("22222222-2222-2222-2222-222222222222"),
+                            Id = new Guid("b2b2b2b2-b2b2-b2b2-b2b2-b2b2b2b2b2b2"),
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "Vehicle themed puzzles",
+                            Description = "Vehicle and transportation themed puzzles",
                             IsActive = true,
                             Name = "Vehicles",
                             Slug = "vehicles",
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("c3c3c3c3-c3c3-c3c3-c3c3-c3c3c3c3c3c3"),
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Famous buildings and landmarks",
+                            IsActive = true,
+                            Name = "Architecture",
+                            Slug = "architecture",
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("d4d4d4d4-d4d4-d4d4-d4d4-d4d4d4d4d4d4"),
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Natural landscapes and scenery",
+                            IsActive = true,
+                            Name = "Nature",
+                            Slug = "nature",
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("e5e5e5e5-e5e5-e5e5-e5e5-e5e5e5e5e5e5"),
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Fantasy creatures and magical worlds",
+                            IsActive = true,
+                            Name = "Fantasy",
+                            Slug = "fantasy",
                             UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
                         });
                 });

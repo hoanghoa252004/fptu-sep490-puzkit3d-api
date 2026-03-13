@@ -19,7 +19,8 @@ internal sealed class TopicConfiguration : IEntityTypeConfiguration<Topic>
             .IsRequired()
             .HasMaxLength(30);
 
-        builder.Property(t => t.Description);
+        builder.Property(t => t.Description)
+            .HasColumnType("text");
 
         builder.Property(t => t.Slug)
             .IsRequired()
