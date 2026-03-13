@@ -9,7 +9,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PuzKit3D.Modules.Payment.Infrastructure.PaymentGateways.VnPay;
+namespace PuzKit3D.Modules.Payment.Infrastructure.PaymentGateways.VNPAY;
 
 public class VnPayLibrary
 {

@@ -40,17 +40,21 @@ internal sealed class InstockOrderCreatedIntegrationEventHandler
 
         await _dbContext.OrderReplicas.AddAsync(orderReplica, cancellationToken);
 
-        var paymentResult = Domain.Entities.Payments.Payment.Create(
+        if(@event.PaymentMethod.Equals("Online", StringComparison.OrdinalIgnoreCase))
+        {
+            var paymentResult = Domain.Entities.Payments.Payment.Create(
             referenceOrderId: @event.OrderId,
             referenceOrderType: OrderType.Instock,
             amount: @event.GrandTotalAmount);
 
-        if (paymentResult.IsFailure)
-        {
-            throw new InvalidOperationException($"Failed to create payment for order {orderReplica.Id}: {paymentResult.Error.Message}");
-        }
+            if (paymentResult.IsFailure)
+            {
+                throw new InvalidOperationException($"Failed to create payment for order {orderReplica.Id}: {paymentResult.Error.Message}");
+            }
 
-        await _dbContext.Payments.AddAsync(paymentResult.Value, cancellationToken);
+            await _dbContext.Payments.AddAsync(paymentResult.Value, cancellationToken);
+        }
+        
         await _unitOfWork.SaveChangesAsync(cancellationToken);
     }
 }

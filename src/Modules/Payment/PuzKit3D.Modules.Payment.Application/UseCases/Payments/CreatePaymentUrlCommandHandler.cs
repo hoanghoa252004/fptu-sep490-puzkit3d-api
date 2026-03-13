@@ -5,29 +5,33 @@ using PuzKit3D.Modules.Payment.Application.UnitOfWork;
 using PuzKit3D.Modules.Payment.Domain.Entities.Payments;
 using PuzKit3D.Modules.Payment.Domain.Entities.Transactions;
 using PuzKit3D.SharedKernel.Application.Message.Command;
+using PuzKit3D.SharedKernel.Application.User;
 using PuzKit3D.SharedKernel.Domain.Results;
 
 namespace PuzKit3D.Modules.Payment.Application.UseCases.Payments;
 
 internal sealed class CreatePaymentUrlCommandHandler : ICommandTHandler<CreatePaymentUrlCommand, string>
 {
+    private readonly ICurrentUser _currentUser;
     private readonly IOrderReplicaRepository _orderReplicaRepository;
     private readonly IPaymentRepository _paymentRepository;
     private readonly ITransactionRepository _transactionRepository;
-    private readonly IPaymentGateway _paymentGateway;
+    private readonly IPaymentGatewayFactory _paymentGatewayFactory;
     private readonly IPaymentUnitOfWork _unitOfWork;
 
     public CreatePaymentUrlCommandHandler(
+        ICurrentUser currentUser,
         IOrderReplicaRepository orderReplicaRepository,
         IPaymentRepository paymentRepository,
         ITransactionRepository transactionRepository,
-        IPaymentGateway paymentGateway,
+        IPaymentGatewayFactory paymentGatewayFactory,
         IPaymentUnitOfWork unitOfWork)
     {
+        _currentUser = currentUser;
         _orderReplicaRepository = orderReplicaRepository;
         _paymentRepository = paymentRepository;
         _transactionRepository = transactionRepository;
-        _paymentGateway = paymentGateway;
+        _paymentGatewayFactory = paymentGatewayFactory;
         _unitOfWork = unitOfWork;
     }
 
@@ -37,6 +41,11 @@ internal sealed class CreatePaymentUrlCommandHandler : ICommandTHandler<CreatePa
         if (order is null)
         {
             return Result.Failure<string>(PaymentError.OrderNotFound(request.OrderId));
+        }
+
+        if (!Guid.TryParse(_currentUser.UserId, out var userId) || userId != order.CustomerId)
+        {
+            return Result.Failure<string>(PaymentError.UnauthorizedAccessToOrder());
         }
 
         var payment = await _paymentRepository.GetByOrderIdAsync(request.OrderId, cancellationToken);
@@ -63,12 +72,19 @@ internal sealed class CreatePaymentUrlCommandHandler : ICommandTHandler<CreatePa
 
         return await _unitOfWork.ExecuteAsync(async () =>
         {
+            var gatewayResult = _paymentGatewayFactory.GetGateway(request.provider);
+            if (gatewayResult.IsFailure)
+            {
+                return Result.Failure<string>(gatewayResult.Error);
+            }
+
+            var paymentGateway = gatewayResult.Value;
             var transactionCode = $"{order.Code}";
 
             var transactionResult = Transaction.Create(
                 code: transactionCode,
                 paymentId: payment.Id,
-                provider: _paymentGateway.ProviderName,
+                provider: paymentGateway.ProviderName,
                 status: TransactionStatus.Pending,
                 amount: payment.Amount);
 
@@ -86,7 +102,7 @@ internal sealed class CreatePaymentUrlCommandHandler : ICommandTHandler<CreatePa
                 transactionResult.Value.CreatedAt,
                 transactionResult.Value.ExpiredAt);
 
-            var paymentUrlResult = _paymentGateway.CreatePaymentUrl(request.context ,paymentUrlParams);
+            var paymentUrlResult = paymentGateway.CreatePaymentUrl(request.context, paymentUrlParams);
 
             if (paymentUrlResult.IsFailure)
             {

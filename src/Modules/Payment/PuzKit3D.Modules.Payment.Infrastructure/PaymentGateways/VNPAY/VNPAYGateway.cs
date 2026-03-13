@@ -5,13 +5,13 @@ using PuzKit3D.Modules.Payment.Application.Abstractions;
 using PuzKit3D.SharedKernel.Domain.Errors;
 using PuzKit3D.SharedKernel.Domain.Results;
 
-namespace PuzKit3D.Modules.Payment.Infrastructure.PaymentGateways.VnPay;
+namespace PuzKit3D.Modules.Payment.Infrastructure.PaymentGateways.VNPAY;
 
 internal sealed class VNPAYGateway : IPaymentGateway
 {
     private readonly IConfiguration _configuration;
 
-    public string ProviderName => "VnPAY";
+    public string ProviderName => "VNPAY";
 
     public VNPAYGateway(IConfiguration configuration)
     {

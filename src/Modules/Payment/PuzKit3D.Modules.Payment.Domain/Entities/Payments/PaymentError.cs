@@ -14,9 +14,6 @@ public static class PaymentError
     public static Error InvalidAmount() =>
         Error.Validation("Payment.InvalidAmount", "Amount must be greater than 0.");
 
-    public static Error InvalidProvider(int maxLength) =>
-        Error.Validation("Payment.InvalidProvider", $"Provider cannot exceed {maxLength} characters.");
-
     public static Error InvalidStatus() =>
         Error.Validation("Payment.InvalidStatus", "Payment status is invalid.");
 
@@ -31,5 +28,11 @@ public static class PaymentError
 
     public static Error PaymentAlreadyPaid() =>
         Error.Validation("Payment.PaymentAlreadyPaid", "Payment has already been paid.");
+
+    public static Error UnauthorizedAccessToOrder() =>
+        Error.Forbidden("Payment.UnauthorizedAccessToOrder", "You do not have permission to create a payment URL for this order.");
+
+    public static Error UnsupportedPaymentProvider(string provider) =>
+        Error.Validation("Payment.UnsupportedPaymentProvider", $"Payment provider '{provider}' is not supported.");
 }
 
