@@ -8,9 +8,8 @@ using System.Net.Sockets;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
-using VNPAY.Models.Enums;
 
-namespace PuzKit3D.Modules.Payment.Infrastructure.PaymentGateways.VnPay;
+namespace PuzKit3D.Modules.Payment.Infrastructure.PaymentGateways.VNPAY;
 
 public class VnPayLibrary
 {

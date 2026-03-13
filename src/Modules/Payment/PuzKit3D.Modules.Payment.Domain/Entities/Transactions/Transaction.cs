@@ -10,6 +10,7 @@ public class Transaction : Entity<TransactionId>
     public PaymentId PaymentId { get; private set; } = null!;
     public string Provider { get; private set; } = null!;
     public string? TransactionNo { get; private set; }
+    public string? PaymentUrl { get; private set; }
     public TransactionStatus Status { get; private set; }
     public decimal Amount { get; private set; }
     public string? RawResponsePayload { get; private set; }
@@ -87,8 +88,6 @@ public class Transaction : Entity<TransactionId>
         Status = status;
         if (!string.IsNullOrWhiteSpace(transactionNo))
         {
-            if (transactionNo.Length > 300)
-                return Result.Failure(TransactionError.InvalidTransactionNo(300));
             TransactionNo = transactionNo;
         }
         if (rawResponsePayload != null)
@@ -98,4 +97,14 @@ public class Transaction : Entity<TransactionId>
         UpdatedAt = DateTime.UtcNow;
         return Result.Success();
     }
+
+    public void SetPaymentUrl(string paymentUrl)
+    {
+        if (!string.IsNullOrWhiteSpace(paymentUrl))
+        {
+            PaymentUrl = paymentUrl;
+            UpdatedAt = DateTime.UtcNow;
+        }
+    }
 }
+

@@ -14,7 +14,6 @@ public sealed record CreateInstockOrderCommand(
     string CustomerWardCode,
     string CustomerWardName,
     List<CartItemDto> CartItems,
-    decimal SubTotalAmount,
     decimal ShippingFee,
     int UsedCoinAmount,
     decimal GrandTotalAmount,

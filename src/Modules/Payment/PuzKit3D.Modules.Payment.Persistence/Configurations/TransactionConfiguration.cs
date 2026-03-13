@@ -9,62 +9,53 @@ internal sealed class TransactionConfiguration : IEntityTypeConfiguration<Transa
 {
     public void Configure(EntityTypeBuilder<Transaction> builder)
     {
-        builder.ToTable("transaction");
-
         builder.HasKey(t => t.Id);
 
         builder.Property(t => t.Id)
             .HasConversion(
                 id => id.Value,
-                value => TransactionId.From(value))
-            .HasColumnName("id");
+                value => TransactionId.From(value));
 
         builder.Property(t => t.Code)
             .IsRequired()
-            .HasMaxLength(10)
-            .HasColumnName("code");
+            .HasMaxLength(10);
 
         builder.Property(t => t.PaymentId)
             .IsRequired()
             .HasConversion(
                 id => id.Value,
-                value => PaymentId.From(value))
-            .HasColumnName("payment_id");
+                value => PaymentId.From(value));
 
         builder.Property(t => t.Provider)
             .IsRequired()
-            .HasMaxLength(30)
-            .HasColumnName("provider");
+            .HasMaxLength(30);
+
+        builder.Property(t => t.PaymentUrl)
+            .IsRequired()
+            .HasColumnType("text");
 
         builder.Property(t => t.TransactionNo)
-            .HasMaxLength(300)
-            .HasColumnName("transaction_no");
+            .HasColumnType("text");
 
         builder.Property(t => t.Status)
             .IsRequired()
-            .HasConversion<int>()
-            .HasColumnName("status");
+            .HasConversion<int>();
 
         builder.Property(t => t.Amount)
             .IsRequired()
-            .HasPrecision(10, 2)
-            .HasColumnName("amount");
+            .HasPrecision(10, 2);
 
         builder.Property(t => t.RawResponsePayload)
-            .HasColumnType("jsonb")
-            .HasColumnName("raw_response_payload");
+            .HasColumnType("text");
 
         builder.Property(t => t.ExpiredAt)
-            .IsRequired()
-            .HasColumnName("expired_at");
+            .IsRequired();
 
         builder.Property(t => t.CreatedAt)
-            .IsRequired()
-            .HasColumnName("created_at");
+            .IsRequired();
 
         builder.Property(t => t.UpdatedAt)
-            .IsRequired()
-            .HasColumnName("updated_at");
+            .IsRequired();
 
         builder.HasIndex(t => t.Code).IsUnique();
         builder.HasIndex(t => t.PaymentId);

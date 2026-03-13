@@ -90,7 +90,7 @@ namespace PuzKit3D.Modules.Payment.Persistence.Migrations
                     b.HasIndex("Type")
                         .HasDatabaseName("ix_order_replicas_type");
 
-                    b.ToTable("OrderReplicas", "payment");
+                    b.ToTable("order_replicas", "payment");
                 });
 
             modelBuilder.Entity("PuzKit3D.Modules.Payment.Domain.Entities.Payments.Payment", b =>
@@ -108,18 +108,13 @@ namespace PuzKit3D.Modules.Payment.Persistence.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("created_at");
 
-                    b.Property<DateTime?>("ExpiredAt")
+                    b.Property<DateTime>("ExpiredAt")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("expired_at");
 
                     b.Property<DateTime?>("PaidAt")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("paid_at");
-
-                    b.Property<string>("Provider")
-                        .HasMaxLength(30)
-                        .HasColumnType("character varying(30)")
-                        .HasColumnName("provider");
 
                     b.Property<Guid>("ReferenceOrderId")
                         .HasColumnType("uuid")
@@ -140,15 +135,15 @@ namespace PuzKit3D.Modules.Payment.Persistence.Migrations
                         .HasColumnName("updated_at");
 
                     b.HasKey("Id")
-                        .HasName("pk_payment");
+                        .HasName("pk_payments");
 
                     b.HasIndex("ReferenceOrderId")
-                        .HasDatabaseName("ix_payment_reference_order_id");
+                        .HasDatabaseName("ix_payments_reference_order_id");
 
                     b.HasIndex("Status")
-                        .HasDatabaseName("ix_payment_status");
+                        .HasDatabaseName("ix_payments_status");
 
-                    b.ToTable("payment", "payment");
+                    b.ToTable("payments", "payment");
                 });
 
             modelBuilder.Entity("PuzKit3D.Modules.Payment.Domain.Entities.Transactions.Transaction", b =>
@@ -180,6 +175,11 @@ namespace PuzKit3D.Modules.Payment.Persistence.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("payment_id");
 
+                    b.Property<string>("PaymentUrl")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("payment_url");
+
                     b.Property<string>("Provider")
                         .IsRequired()
                         .HasMaxLength(30)
@@ -187,7 +187,7 @@ namespace PuzKit3D.Modules.Payment.Persistence.Migrations
                         .HasColumnName("provider");
 
                     b.Property<string>("RawResponsePayload")
-                        .HasColumnType("jsonb")
+                        .HasColumnType("text")
                         .HasColumnName("raw_response_payload");
 
                     b.Property<int>("Status")
@@ -195,8 +195,7 @@ namespace PuzKit3D.Modules.Payment.Persistence.Migrations
                         .HasColumnName("status");
 
                     b.Property<string>("TransactionNo")
-                        .HasMaxLength(300)
-                        .HasColumnType("character varying(300)")
+                        .HasColumnType("text")
                         .HasColumnName("transaction_no");
 
                     b.Property<DateTime>("UpdatedAt")
@@ -204,19 +203,19 @@ namespace PuzKit3D.Modules.Payment.Persistence.Migrations
                         .HasColumnName("updated_at");
 
                     b.HasKey("Id")
-                        .HasName("pk_transaction");
+                        .HasName("pk_transactions");
 
                     b.HasIndex("Code")
                         .IsUnique()
-                        .HasDatabaseName("ix_transaction_code");
+                        .HasDatabaseName("ix_transactions_code");
 
                     b.HasIndex("PaymentId")
-                        .HasDatabaseName("ix_transaction_payment_id");
+                        .HasDatabaseName("ix_transactions_payment_id");
 
                     b.HasIndex("Status")
-                        .HasDatabaseName("ix_transaction_status");
+                        .HasDatabaseName("ix_transactions_status");
 
-                    b.ToTable("transaction", "payment");
+                    b.ToTable("transactions", "payment");
                 });
 
             modelBuilder.Entity("PuzKit3D.Modules.Payment.Domain.Entities.Transactions.Transaction", b =>
@@ -226,7 +225,7 @@ namespace PuzKit3D.Modules.Payment.Persistence.Migrations
                         .HasForeignKey("PaymentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
-                        .HasConstraintName("fk_transaction_payment_payment_id");
+                        .HasConstraintName("fk_transactions_payments_payment_id");
 
                     b.Navigation("Payment");
                 });

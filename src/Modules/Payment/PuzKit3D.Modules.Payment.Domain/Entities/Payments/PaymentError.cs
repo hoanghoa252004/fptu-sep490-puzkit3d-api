@@ -14,19 +14,28 @@ public static class PaymentError
     public static Error InvalidAmount() =>
         Error.Validation("Payment.InvalidAmount", "Amount must be greater than 0.");
 
-    public static Error InvalidProvider(int maxLength) =>
-        Error.Validation("Payment.InvalidProvider", $"Provider cannot exceed {maxLength} characters.");
-
     public static Error InvalidStatus() =>
         Error.Validation("Payment.InvalidStatus", "Payment status is invalid.");
 
     public static Error OrderNotFound(Guid orderId) =>
         Error.NotFound("Payment.OrderNotFound", $"Order with ID '{orderId}' was not found.");
 
+    public static Error PaymentNotFound(Guid orderId) =>
+        Error.NotFound("Payment.PaymentNotFound", $"Payment for order ID '{orderId}' was not found.");
+
     public static Error PaymentExpired() =>
         Error.Validation("Payment.PaymentExpired", "Payment has expired.");
 
     public static Error PaymentAlreadyPaid() =>
         Error.Validation("Payment.PaymentAlreadyPaid", "Payment has already been paid.");
+
+    public static Error UnauthorizedAccessToOrder() =>
+        Error.Forbidden("Payment.UnauthorizedAccessToOrder", "You do not have permission to create a payment URL for this order.");
+
+    public static Error UnsupportedPaymentProvider(string provider) =>
+        Error.Validation("Payment.UnsupportedPaymentProvider", $"Payment provider '{provider}' is not supported.");
+
+    public static Error ActiveTransactionExists() =>
+        Error.Validation("Payment.ActiveTransactionExists", "An active payment transaction already exists. Please wait for it to expire before creating a new one.");
 }
 

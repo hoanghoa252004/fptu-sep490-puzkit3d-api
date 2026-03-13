@@ -8,8 +8,6 @@ internal sealed class OrderReplicaConfiguration : IEntityTypeConfiguration<Order
 {
     public void Configure(EntityTypeBuilder<OrderReplica> builder)
     {
-        builder.ToTable("OrderReplicas");
-
         builder.HasKey(x => x.Id);
 
         builder.Property(x => x.Id)

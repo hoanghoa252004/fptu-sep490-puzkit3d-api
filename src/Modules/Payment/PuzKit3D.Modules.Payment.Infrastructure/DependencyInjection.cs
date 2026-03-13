@@ -1,8 +1,11 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using PuzKit3D.Contract.InStock.InstockOrders;
 using PuzKit3D.Modules.Payment.Application.Abstractions;
-using PuzKit3D.Modules.Payment.Infrastructure.PaymentGateways.VnPay;
-using VNPAY.Extensions;
+using PuzKit3D.Modules.Payment.Infrastructure.IntegrationEventHandlers.InstockOrders;
+using PuzKit3D.Modules.Payment.Infrastructure.PaymentGateways;
+using PuzKit3D.Modules.Payment.Infrastructure.PaymentGateways.VNPAY;
+using PuzKit3D.SharedKernel.Application.Event;
 
 namespace PuzKit3D.Modules.Payment.Infrastructure;
 
@@ -12,19 +15,13 @@ public static class DependencyInjection
         this IServiceCollection services,
         IConfiguration configuration)
     {
-        var vnpayConfig = configuration.GetSection("VNPAY");
+        services.AddScoped<VNPAYGateway>();
 
-        services.AddVnpayClient(config =>
-        {
-            config.TmnCode = vnpayConfig["TmnCode"]!;
-            config.HashSecret = vnpayConfig["HashSecret"]!;
-            config.CallbackUrl = vnpayConfig["CallbackUrl"]!;
-            config.BaseUrl = vnpayConfig["BaseUrl"]!;
-            config.Version = vnpayConfig["Version"]!;
-            config.OrderType = vnpayConfig["OrderType"]!;
-        });
+        services.AddScoped<IPaymentGatewayFactory, PaymentGatewayFactory>();
 
-        services.AddScoped<IPaymentGateway, VNPAYGateway>();
+        // InstockOrder events
+        services.AddScoped<IIntegrationEventHandler<InstockOrderCreatedIntegrationEvent>,
+            InstockOrderCreatedIntegrationEventHandler>();
 
         return services;
     }

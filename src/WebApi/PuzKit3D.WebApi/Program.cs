@@ -7,6 +7,7 @@ using PuzKit3D.Modules.InStock.Application;
 using PuzKit3D.Modules.InStock.Persistence;
 using PuzKit3D.Modules.Partner.Application;
 using PuzKit3D.Modules.Partner.Persistence;
+using PuzKit3D.Modules.Payment.Application;
 using PuzKit3D.Modules.Payment.Infrastructure;
 using PuzKit3D.Modules.Payment.Persistence;
 using PuzKit3D.Modules.User.Application;

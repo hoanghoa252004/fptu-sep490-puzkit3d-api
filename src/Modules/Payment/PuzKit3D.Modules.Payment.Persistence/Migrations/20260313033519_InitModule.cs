@@ -15,7 +15,7 @@ namespace PuzKit3D.Modules.Payment.Persistence.Migrations
                 name: "payment");
 
             migrationBuilder.CreateTable(
-                name: "OrderReplicas",
+                name: "order_replicas",
                 schema: "payment",
                 columns: table => new
                 {
@@ -37,7 +37,7 @@ namespace PuzKit3D.Modules.Payment.Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "payment",
+                name: "payments",
                 schema: "payment",
                 columns: table => new
                 {
@@ -45,20 +45,19 @@ namespace PuzKit3D.Modules.Payment.Persistence.Migrations
                     reference_order_id = table.Column<Guid>(type: "uuid", nullable: false),
                     reference_order_type = table.Column<string>(type: "character varying(30)", maxLength: 30, nullable: false),
                     amount = table.Column<decimal>(type: "numeric(10,2)", precision: 10, scale: 2, nullable: false),
-                    provider = table.Column<string>(type: "character varying(30)", maxLength: 30, nullable: true),
                     status = table.Column<int>(type: "integer", nullable: false),
-                    expired_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    expired_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     paid_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("pk_payment", x => x.id);
+                    table.PrimaryKey("pk_payments", x => x.id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "transaction",
+                name: "transactions",
                 schema: "payment",
                 columns: table => new
                 {
@@ -66,22 +65,23 @@ namespace PuzKit3D.Modules.Payment.Persistence.Migrations
                     code = table.Column<string>(type: "character varying(10)", maxLength: 10, nullable: false),
                     payment_id = table.Column<Guid>(type: "uuid", nullable: false),
                     provider = table.Column<string>(type: "character varying(30)", maxLength: 30, nullable: false),
-                    transaction_no = table.Column<string>(type: "character varying(300)", maxLength: 300, nullable: true),
+                    transaction_no = table.Column<string>(type: "text", nullable: true),
+                    payment_url = table.Column<string>(type: "text", nullable: false),
                     status = table.Column<int>(type: "integer", nullable: false),
                     amount = table.Column<decimal>(type: "numeric(10,2)", precision: 10, scale: 2, nullable: false),
-                    raw_response_payload = table.Column<string>(type: "jsonb", nullable: true),
+                    raw_response_payload = table.Column<string>(type: "text", nullable: true),
                     expired_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("pk_transaction", x => x.id);
+                    table.PrimaryKey("pk_transactions", x => x.id);
                     table.ForeignKey(
-                        name: "fk_transaction_payment_payment_id",
+                        name: "fk_transactions_payments_payment_id",
                         column: x => x.payment_id,
                         principalSchema: "payment",
-                        principalTable: "payment",
+                        principalTable: "payments",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -89,50 +89,50 @@ namespace PuzKit3D.Modules.Payment.Persistence.Migrations
             migrationBuilder.CreateIndex(
                 name: "ix_order_replicas_code",
                 schema: "payment",
-                table: "OrderReplicas",
+                table: "order_replicas",
                 column: "code");
 
             migrationBuilder.CreateIndex(
                 name: "ix_order_replicas_customer_id",
                 schema: "payment",
-                table: "OrderReplicas",
+                table: "order_replicas",
                 column: "customer_id");
 
             migrationBuilder.CreateIndex(
                 name: "ix_order_replicas_type",
                 schema: "payment",
-                table: "OrderReplicas",
+                table: "order_replicas",
                 column: "type");
 
             migrationBuilder.CreateIndex(
-                name: "ix_payment_reference_order_id",
+                name: "ix_payments_reference_order_id",
                 schema: "payment",
-                table: "payment",
+                table: "payments",
                 column: "reference_order_id");
 
             migrationBuilder.CreateIndex(
-                name: "ix_payment_status",
+                name: "ix_payments_status",
                 schema: "payment",
-                table: "payment",
+                table: "payments",
                 column: "status");
 
             migrationBuilder.CreateIndex(
-                name: "ix_transaction_code",
+                name: "ix_transactions_code",
                 schema: "payment",
-                table: "transaction",
+                table: "transactions",
                 column: "code",
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "ix_transaction_payment_id",
+                name: "ix_transactions_payment_id",
                 schema: "payment",
-                table: "transaction",
+                table: "transactions",
                 column: "payment_id");
 
             migrationBuilder.CreateIndex(
-                name: "ix_transaction_status",
+                name: "ix_transactions_status",
                 schema: "payment",
-                table: "transaction",
+                table: "transactions",
                 column: "status");
         }
 
@@ -140,15 +140,15 @@ namespace PuzKit3D.Modules.Payment.Persistence.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "OrderReplicas",
+                name: "order_replicas",
                 schema: "payment");
 
             migrationBuilder.DropTable(
-                name: "transaction",
+                name: "transactions",
                 schema: "payment");
 
             migrationBuilder.DropTable(
-                name: "payment",
+                name: "payments",
                 schema: "payment");
         }
     }

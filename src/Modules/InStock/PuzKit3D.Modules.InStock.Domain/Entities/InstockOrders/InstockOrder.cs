@@ -130,6 +130,9 @@ public sealed class InstockOrder : AggregateRoot<InstockOrderId>
         if (string.IsNullOrWhiteSpace(paymentMethod))
             return Result.Failure<InstockOrder>(InstockOrderError.InvalidPaymentMethod());
 
+        if (!paymentMethod.Equals("Online", StringComparison.OrdinalIgnoreCase) && !paymentMethod.Equals("COD", StringComparison.OrdinalIgnoreCase))
+            return Result.Failure<InstockOrder>(InstockOrderError.InvalidPaymentMethod());
+
         if (subTotalAmount < 0 || shippingFee < 0 || usedCoinAmountAsMoney < 0 || grandTotalAmount < 0)
             return Result.Failure<InstockOrder>(InstockOrderError.InvalidAmount());
 
