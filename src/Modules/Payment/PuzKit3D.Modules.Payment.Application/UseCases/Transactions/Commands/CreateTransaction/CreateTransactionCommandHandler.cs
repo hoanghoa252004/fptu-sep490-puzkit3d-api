@@ -51,6 +51,11 @@ internal sealed class CreateTransactionCommandHandler : ICommandTHandler<CreateT
                 PaymentError.PaymentNotFound(request.paymentId));
         }
 
+        if (payment.Status == PaymentStatus.Paid)
+        {
+            return Result.Failure<string>(PaymentError.PaymentAlreadyPaid());
+        }
+
         // Verify order exists
         var order = await _orderReplicaRepository.GetByIdAsync(payment.ReferenceOrderId, cancellationToken);
 
@@ -65,20 +70,16 @@ internal sealed class CreateTransactionCommandHandler : ICommandTHandler<CreateT
             return Result.Failure<string>(PaymentError.UnauthorizedAccessToOrder());
         }
 
-        if (payment.Status == PaymentStatus.Paid)
-        {
-            return Result.Failure<string>(PaymentError.PaymentAlreadyPaid());
-        }
-
-        if (payment.ExpiredAt< DateTime.UtcNow)
-        {
-            var updateStatusResult = payment.UpdateStatus(PaymentStatus.Expired);
-            if (updateStatusResult.IsFailure)
-            {
-                return Result.Failure<string>(updateStatusResult.Error);
-            }
-            return Result.Failure<string>(PaymentError.PaymentExpired());
-        }
+        
+        //if (payment.ExpiredAt< DateTime.UtcNow)
+        //{
+        //    var updateStatusResult = payment.UpdateStatus(PaymentStatus.Expired);
+        //    if (updateStatusResult.IsFailure)
+        //    {
+        //        return Result.Failure<string>(updateStatusResult.Error);
+        //    }
+        //    return Result.Failure<string>(PaymentError.PaymentExpired());
+        //}
 
         // Check if there's an active (non-expired) transaction for this payment
         var activeTransactions = await _transactionRepository.FindAsync(
@@ -131,7 +132,7 @@ internal sealed class CreateTransactionCommandHandler : ICommandTHandler<CreateT
 
             // Save payment URL to transaction
             transaction.SetPaymentUrl(paymentUrlResult.Value);
-            _transactionRepository.Update(transaction);
+            //_transactionRepository.Update(transaction);
 
             return Result.Success(paymentUrlResult.Value);
         }, cancellationToken);
