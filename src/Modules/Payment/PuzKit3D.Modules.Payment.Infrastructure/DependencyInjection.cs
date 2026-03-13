@@ -12,8 +12,7 @@ namespace PuzKit3D.Modules.Payment.Infrastructure;
 public static class DependencyInjection
 {
     public static IServiceCollection AddPaymentInfrastructure(
-        this IServiceCollection services,
-        IConfiguration configuration)
+        this IServiceCollection services)
     {
         services.AddScoped<VNPAYGateway>();
         services.AddScoped<IVnPaySignatureValidator, VnPaySignatureValidator>();

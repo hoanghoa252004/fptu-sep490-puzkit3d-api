@@ -1,4 +1,5 @@
 using PuzKit3D.SharedKernel.Domain;
+using PuzKit3D.Modules.Payment.Domain.Entities.OrderReplicas.DomainEvents;
 
 namespace PuzKit3D.Modules.Payment.Domain.Entities.OrderReplicas;
 
@@ -83,5 +84,26 @@ public sealed class OrderReplica : Entity<Guid>
         IsPaid = isPaid;
         PaidAt = paidAt;
         UpdatedAt = updatedAt;
+    }
+
+    public void MarkAsPaid(DateTime paidAt)
+    {
+        if (IsPaid)
+        {
+            return; // Already marked as paid
+        }
+
+        IsPaid = true;
+        PaidAt = paidAt;
+        UpdatedAt = paidAt;
+
+        // Raise domain event
+        RaiseDomainEvent(new OrderReplicaPaidSuccessDomainEvent(
+            OrderReplicaId: Id,
+            OrderType: Type,
+            Code: Code,
+            CustomerId: CustomerId,
+            Amount: Amount,
+            PaidAt: paidAt));
     }
 }

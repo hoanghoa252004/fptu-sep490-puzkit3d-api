@@ -177,7 +177,7 @@ public sealed class InstockOrder : AggregateRoot<InstockOrderId>
         return Result.Success();
     }
 
-    public Result MarkAsPaid()
+    public Result MarkAsPaid(DateTime paidAt)
     {
         if (Status == InstockOrderStatus.Expired)
         {
@@ -196,8 +196,8 @@ public sealed class InstockOrder : AggregateRoot<InstockOrderId>
 
         Status = InstockOrderStatus.Paid;
         IsPaid = true;
-        PaidAt = DateTime.UtcNow;
-        UpdatedAt = DateTime.UtcNow;
+        PaidAt = paidAt;
+        UpdatedAt = paidAt;
 
         return Result.Success();
     }
