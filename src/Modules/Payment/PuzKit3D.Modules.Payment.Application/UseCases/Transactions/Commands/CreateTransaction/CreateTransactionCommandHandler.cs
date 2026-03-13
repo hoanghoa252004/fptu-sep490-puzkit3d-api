@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Http;
 using PuzKit3D.Modules.Payment.Application.Abstractions;
 using PuzKit3D.Modules.Payment.Application.Repositories;
-using PuzKit3D.Modules.Payment.Application.Services;
 using PuzKit3D.Modules.Payment.Application.UnitOfWork;
 using PuzKit3D.Modules.Payment.Application.UseCases.Transactions.Queries.GetTransactionsByPayment;
 using PuzKit3D.Modules.Payment.Domain.Entities.Payments;
@@ -20,7 +19,6 @@ internal sealed class CreateTransactionCommandHandler : ICommandTHandler<CreateT
     private readonly IPaymentRepository _paymentRepository;
     private readonly ITransactionRepository _transactionRepository;
     private readonly IPaymentGatewayFactory _paymentGatewayFactory;
-    private readonly ITransactionCodeGenerator _transactionCodeGenerator;
     private readonly IPaymentUnitOfWork _unitOfWork;
 
     public CreateTransactionCommandHandler(
@@ -29,7 +27,6 @@ internal sealed class CreateTransactionCommandHandler : ICommandTHandler<CreateT
         IPaymentRepository paymentRepository,
         ITransactionRepository transactionRepository,
         IPaymentGatewayFactory paymentGatewayFactory,
-        ITransactionCodeGenerator transactionCodeGenerator,
         IPaymentUnitOfWork unitOfWork)
     {
         _currentUser = currentUser;
@@ -37,7 +34,6 @@ internal sealed class CreateTransactionCommandHandler : ICommandTHandler<CreateT
         _paymentRepository = paymentRepository;
         _transactionRepository = transactionRepository;
         _paymentGatewayFactory = paymentGatewayFactory;
-        _transactionCodeGenerator = transactionCodeGenerator;
         _unitOfWork = unitOfWork;
     }
 
@@ -100,10 +96,8 @@ internal sealed class CreateTransactionCommandHandler : ICommandTHandler<CreateT
             }
 
             var paymentGateway = gatewayResult.Value;
-            var transactionCode = await _transactionCodeGenerator.GenerateNextCodeAsync(cancellationToken);
 
             var transactionResult = Transaction.Create(
-                code: transactionCode,
                 paymentId: payment.Id,
                 provider: paymentGateway.ProviderName,
                 status: TransactionStatus.Pending,
@@ -117,9 +111,12 @@ internal sealed class CreateTransactionCommandHandler : ICommandTHandler<CreateT
             var transaction = transactionResult.Value;
             _transactionRepository.Add(transaction);
 
+            var txnRef = DateTime.Now.Ticks.ToString();
+
             var paymentUrlParams = new CreatePaymentUrlParams(
                 Amount: payment.Amount,
                 Description: $"Payment for ORDER[{order.Code}] _ CUSTOMER {order.Id} ",
+                TxnRef: txnRef,
                 transactionResult.Value.CreatedAt,
                 transactionResult.Value.ExpiredAt);
 
@@ -132,7 +129,8 @@ internal sealed class CreateTransactionCommandHandler : ICommandTHandler<CreateT
 
             // Save payment URL to transaction
             transaction.SetPaymentUrl(paymentUrlResult.Value);
-            //_transactionRepository.Update(transaction);
+            // Save txn ref to transaction for later use in IPN:
+            transaction.SetTxnRef(txnRef);
 
             return Result.Success(paymentUrlResult.Value);
         }, cancellationToken);

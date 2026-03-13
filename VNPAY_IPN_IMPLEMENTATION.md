@@ -1,0 +1,234 @@
+# VNPAY IPN (Instant Payment Notification) Implementation
+
+## Overview
+This document explains the VNPAY IPN integration for handling payment notifications from VNPAY gateway.
+
+## Architecture
+
+### Components
+
+#### 1. **IPN Endpoint** (`IPN.cs`)
+- **Route**: `GET /IPN`
+- **Purpose**: Receives payment callback from VNPAY
+- **Handler**: MediatR command handler
+- **Response Format**: JSON with RspCode and Message
+
+#### 2. **Signature Validator** (`VnPaySignatureValidator.cs`)
+- **Purpose**: Validates HMACSHA512 signature to ensure data integrity
+- **Interface**: `IVnPaySignatureValidator`
+- **Key Methods**:
+  - `ValidateSignature()`: Validates secure hash
+  - `GetResponseData()`: Extracts query parameter values
+
+#### 3. **Command Handler** (`ProcessVnPayIPNCommandHandler.cs`)
+- **Purpose**: Orchestrates the IPN processing logic
+- **Input**: `ProcessVnPayIPNCommand` with IQueryCollection
+- **Output**: Result with success/failure status
+
+#### 4. **Domain Models**
+- **Transaction**: Updated with success/failed status and VNPAY transaction number
+- **Payment**: Updated with Paid/Failed status and paid timestamp
+
+## Processing Flow
+
+```
+???????????????????????????
+?  VNPAY Gateway Callback ?
+?  (GET /IPN?params...)   ?
+???????????????????????????
+               ?
+               ?
+???????????????????????????????????????????
+?  1. Validate Query Parameters Exist     ?
+?     ?? Return "99" if no params        ?
+???????????????????????????????????????????
+               ?
+               ?
+???????????????????????????????????????????
+?  2. Validate HMACSHA512 Signature       ?
+?     ?? Return "97" if invalid          ?
+???????????????????????????????????????????
+               ?
+               ?
+???????????????????????????????????????????
+?  3. Parse VNPAY Response Data           ?
+?     - vnp_TxnRef (transaction reference)?
+?     - vnp_TransactionNo (VNPAY trans ID)?
+?     - vnp_Amount (amount in cents)      ?
+?     - vnp_ResponseCode (result code)    ?
+?     ?? Return "99" if parse error      ?
+???????????????????????????????????????????
+               ?
+               ?
+???????????????????????????????????????????
+?  4. Find Transaction by vnp_TxnRef      ?
+?     ?? Return "01" if not found        ?
+???????????????????????????????????????????
+               ?
+               ?
+???????????????????????????????????????????
+?  5. Check Transaction Status = Pending  ?
+?     ?? Return "02" if already confirmed?
+???????????????????????????????????????????
+               ?
+               ?
+???????????????????????????????????????????
+?  6. Validate Amount Match               ?
+?     ?? Return "04" if amount mismatch  ?
+???????????????????????????????????????????
+               ?
+               ?
+???????????????????????????????????????????
+?  7. Update Transaction & Payment Status ?
+?     - Success: ResponseCode='00' &      ?
+?                TransactionStatus='00'   ?
+?     - Failed: Otherwise                 ?
+???????????????????????????????????????????
+               ?
+               ?
+???????????????????????????????????????????
+?  8. Save Changes to Database            ?
+?     ?? Return "00" on success          ?
+???????????????????????????????????????????
+```
+
+## Response Codes
+
+| Code | Message | HTTP Status | Description |
+|------|---------|-------------|-------------|
+| `00` | Confirm Success | 200 OK | Payment processed successfully |
+| `01` | Order not found | 400 Bad Request | Transaction not found by TxnRef |
+| `02` | Order already confirmed | 200 OK | Transaction already processed |
+| `04` | Invalid amount | 400 Bad Request | Amount mismatch |
+| `97` | Invalid signature | 400 Bad Request | Signature validation failed |
+| `99` | Internal error | 500 Internal Server Error | Processing error |
+
+## VNPAY Callback Parameters
+
+### Required Parameters
+```
+vnp_TmnCode      - Merchant code on VNPAY system
+vnp_Amount       - Amount in cents (divided by 100 to get VND)
+vnp_BankCode     - Bank code (e.g., NCB, VISA, etc.)
+vnp_OrderInfo    - Order description/info
+vnp_TransactionNo - VNPAY transaction ID
+vnp_ResponseCode - Payment result code
+vnp_TransactionStatus - Transaction status at VNPAY
+vnp_TxnRef       - Merchant transaction reference (our Code)
+vnp_SecureHash   - HMACSHA512 checksum
+```
+
+### Optional Parameters
+```
+vnp_BankTranNo   - Bank transaction reference
+vnp_CardType     - Card type (ATM, QRCODE, etc.)
+vnp_PayDate      - Payment time (yyyyMMddHHmmss)
+```
+
+## Configuration
+
+### Required in `appsettings.json`
+```json
+{
+  "VNPAY": {
+    "HashSecret": "your-hash-secret-key",
+    "TmnCode": "your-merchant-code",
+    "BaseUrl": "https://sandbox.vnpayment.vn/paygate/...",
+    "ReturnUrl": "https://yourapp.com/payment-return",
+    "Command": "pay",
+    "Version": "2.1.0",
+    "Locale": "vn",
+    "CurrCode": "VND",
+    "OrderType": "other",
+    "BankCode": "NCB"
+  },
+  "TimeZoneId": "SE Asia Standard Time"
+}
+```
+
+## Dependency Injection
+
+In `Payment.Infrastructure/DependencyInjection.cs`:
+```csharp
+services.AddScoped<IVnPaySignatureValidator, VnPaySignatureValidator>();
+```
+
+## Transaction Status Updates
+
+### Success Scenario (ResponseCode='00' AND TransactionStatus='00')
+- **Transaction**: Status = Success, TransactionNo = vnp_TransactionNo
+- **Payment**: Status = Paid, PaidAt = Current UTC Time
+
+### Failure Scenario (Any other combination)
+- **Transaction**: Status = Failed
+- **Payment**: Status = Failed
+
+## Security Considerations
+
+1. **Signature Validation**: Always validate HMACSHA512 signature before processing
+2. **Idempotency**: Check if transaction is already confirmed to prevent duplicate processing
+3. **Amount Verification**: Always verify the amount matches the order
+4. **Logging**: Log all major operations for audit trail
+5. **Error Handling**: Never expose internal errors to the caller
+
+## Testing
+
+### Sample Callback URL
+```
+https://yourdomain.com/IPN?vnp_Amount=1000000&vnp_BankCode=NCB&vnp_BankTranNo=VNP14226112&vnp_CardType=ATM&vnp_OrderInfo=Test&vnp_PayDate=20231207170112&vnp_ResponseCode=00&vnp_TmnCode=TESTCODE&vnp_TransactionNo=14226112&vnp_TransactionStatus=00&vnp_TxnRef=166117&vnp_SecureHash=xxx
+```
+
+### Test Amounts
+- VNPAY provides sandbox with test amounts
+- Amount in request is multiplied by 100 (i.e., 10000 cents = 100 VND)
+
+## Integration Points
+
+1. **Payment Module**:
+   - Domain: Payment & Transaction entities
+   - Application: Handler & Repositories
+   - Infrastructure: VNPAY integration
+
+2. **Database**:
+   - `Transactions` table: Updated with status and VNPAY transaction ID
+   - `Payments` table: Updated with status and paid timestamp
+
+3. **Logging**:
+   - ILogger<ProcessVnPayIPNCommandHandler>
+   - Warning for invalid signatures
+   - Error for database update failures
+   - Information for successful/failed transactions
+
+## Error Handling
+
+### Validation Errors (Return 400 Bad Request)
+- Empty query parameters ? RspCode: 99
+- Missing secure hash ? RspCode: 99
+- Invalid signature ? RspCode: 97
+- Transaction not found ? RspCode: 01
+- Amount mismatch ? RspCode: 04
+
+### Business Logic Errors (Return 200 OK)
+- Transaction already processed ? RspCode: 02
+
+### System Errors (Return 500 Internal Server Error)
+- Database save failure ? RspCode: 99
+- Uncaught exceptions ? RspCode: 99
+
+## Monitoring & Alerts
+
+Consider implementing:
+1. Monitor failed transactions (ResponseCode != 00)
+2. Alert on duplicate confirmation attempts
+3. Track amount mismatches (fraud detection)
+4. Monitor signature validation failures (security alert)
+5. Track total payment volume by bank
+
+## Related Files
+
+- `src/Modules/Payment/PuzKit3D.Modules.Payment.Api/Payments/IPN/IPN.cs`
+- `src/Modules/Payment/PuzKit3D.Modules.Payment.Application/UseCases/Transactions/Commands/ProcessVnPayIPN/ProcessVnPayIPNCommand.cs`
+- `src/Modules/Payment/PuzKit3D.Modules.Payment.Application/UseCases/Transactions/Commands/ProcessVnPayIPN/ProcessVnPayIPNCommandHandler.cs`
+- `src/Modules/Payment/PuzKit3D.Modules.Payment.Application/Abstractions/IVnPaySignatureValidator.cs`
+- `src/Modules/Payment/PuzKit3D.Modules.Payment.Infrastructure/PaymentGateways/VNPAY/VnPaySignatureValidator.cs`
+- `src/Modules/Payment/PuzKit3D.Modules.Payment.Infrastructure/DependencyInjection.cs`

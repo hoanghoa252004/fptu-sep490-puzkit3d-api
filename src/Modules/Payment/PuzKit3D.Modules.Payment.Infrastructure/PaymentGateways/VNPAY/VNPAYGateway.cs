@@ -23,7 +23,6 @@ internal sealed class VNPAYGateway : IPaymentGateway
         var timeZoneById = TimeZoneInfo.FindSystemTimeZoneById(_configuration["TimeZoneId"]!);
         var createdAt = TimeZoneInfo.ConvertTimeFromUtc(@params.createdAt, timeZoneById);
         var expiredAt = TimeZoneInfo.ConvertTimeFromUtc(@params.expiredAt, timeZoneById);
-        var tick = DateTime.Now.Ticks.ToString();
         var pay = new VnPayLibrary();
         var amount = ((long)@params.Amount * 100).ToString();
 
@@ -41,7 +40,7 @@ internal sealed class VNPAYGateway : IPaymentGateway
 
         pay.AddRequestData("vnp_Amount", amount);
         pay.AddRequestData("vnp_OrderInfo", @params.Description);
-        pay.AddRequestData("vnp_TxnRef", tick);
+        pay.AddRequestData("vnp_TxnRef", @params.TxnRef);
 
         var baseUrl = _configuration["VNPAY:BaseUrl"]!;
         var hashSecret = _configuration["VNPAY:HashSecret"]!;

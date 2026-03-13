@@ -157,12 +157,6 @@ namespace PuzKit3D.Modules.Payment.Persistence.Migrations
                         .HasColumnType("numeric(10,2)")
                         .HasColumnName("amount");
 
-                    b.Property<string>("Code")
-                        .IsRequired()
-                        .HasMaxLength(10)
-                        .HasColumnType("character varying(10)")
-                        .HasColumnName("code");
-
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("created_at");
@@ -198,6 +192,11 @@ namespace PuzKit3D.Modules.Payment.Persistence.Migrations
                         .HasColumnType("text")
                         .HasColumnName("transaction_no");
 
+                    b.Property<string>("TxnRef")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("txn_ref");
+
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("updated_at");
@@ -205,15 +204,15 @@ namespace PuzKit3D.Modules.Payment.Persistence.Migrations
                     b.HasKey("Id")
                         .HasName("pk_transactions");
 
-                    b.HasIndex("Code")
-                        .IsUnique()
-                        .HasDatabaseName("ix_transactions_code");
-
                     b.HasIndex("PaymentId")
                         .HasDatabaseName("ix_transactions_payment_id");
 
                     b.HasIndex("Status")
                         .HasDatabaseName("ix_transactions_status");
+
+                    b.HasIndex("TxnRef")
+                        .IsUnique()
+                        .HasDatabaseName("ix_transactions_txn_ref");
 
                     b.ToTable("transactions", "payment");
                 });

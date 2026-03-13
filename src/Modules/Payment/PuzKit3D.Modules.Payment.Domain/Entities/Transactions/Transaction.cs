@@ -6,7 +6,7 @@ namespace PuzKit3D.Modules.Payment.Domain.Entities.Transactions;
 
 public class Transaction : Entity<TransactionId>
 {
-    public string Code { get; private set; } = null!;
+    public string TxnRef { get; private set; } = null!;
     public PaymentId PaymentId { get; private set; } = null!;
     public string Provider { get; private set; } = null!;
     public string? TransactionNo { get; private set; }
@@ -22,7 +22,6 @@ public class Transaction : Entity<TransactionId>
 
     private Transaction(
         TransactionId id,
-        string code,
         PaymentId paymentId,
         string provider,
         TransactionStatus status,
@@ -30,7 +29,6 @@ public class Transaction : Entity<TransactionId>
         DateTime expiredAt,
         DateTime createdAt) : base(id)
     {
-        Code = code;
         PaymentId = paymentId;
         Provider = provider;
         Status = status;
@@ -45,15 +43,11 @@ public class Transaction : Entity<TransactionId>
     }
 
     public static ResultT<Transaction> Create(
-        string code,
         PaymentId paymentId,
         string provider,
         TransactionStatus status,
         decimal amount)
     {
-        if (string.IsNullOrWhiteSpace(code) || code.Length > 10)
-            return Result.Failure<Transaction>(TransactionError.InvalidCode());
-
         if (paymentId is null)
             return Result.Failure<Transaction>(TransactionError.InvalidPaymentId());
 
@@ -68,7 +62,6 @@ public class Transaction : Entity<TransactionId>
 
         var transaction = new Transaction(
             TransactionId.Create(),
-            code,
             paymentId,
             provider,
             status,
@@ -98,11 +91,30 @@ public class Transaction : Entity<TransactionId>
         return Result.Success();
     }
 
+    public Result UpdateToSuccess(string? transactionNo = null, string? rawResponsePayload = null)
+    {
+        return UpdateStatus(TransactionStatus.Success, transactionNo, rawResponsePayload);
+    }
+
+    public Result UpdateToFailed(string? rawResponsePayload = null)
+    {
+        return UpdateStatus(TransactionStatus.Failed, null, rawResponsePayload);
+    }
+
     public void SetPaymentUrl(string paymentUrl)
     {
         if (!string.IsNullOrWhiteSpace(paymentUrl))
         {
             PaymentUrl = paymentUrl;
+            UpdatedAt = DateTime.UtcNow;
+        }
+    }
+
+    public void SetTxnRef(string txnRef)
+    {
+        if (!string.IsNullOrWhiteSpace(txnRef))
+        {
+            TxnRef = txnRef;
             UpdatedAt = DateTime.UtcNow;
         }
     }

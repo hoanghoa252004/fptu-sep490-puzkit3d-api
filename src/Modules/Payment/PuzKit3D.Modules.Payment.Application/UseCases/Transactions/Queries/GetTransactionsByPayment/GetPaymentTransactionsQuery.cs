@@ -8,7 +8,7 @@ public sealed record GetPaymentTransactionsResponse(List<TransactionDto> Transac
 
 public sealed record TransactionDto(
     Guid Id,
-    string Code,
+    string TxnRef,
     string Provider,
     string Status,
     decimal Amount,

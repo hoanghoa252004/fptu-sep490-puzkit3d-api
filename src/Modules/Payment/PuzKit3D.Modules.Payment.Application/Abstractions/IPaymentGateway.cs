@@ -15,5 +15,6 @@ public interface IPaymentGateway
 public record CreatePaymentUrlParams(
     decimal Amount,
     string Description,
+    string TxnRef,
     DateTime createdAt,
     DateTime expiredAt);

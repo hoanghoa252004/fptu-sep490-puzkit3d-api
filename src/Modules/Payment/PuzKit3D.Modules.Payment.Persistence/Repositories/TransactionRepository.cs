@@ -40,6 +40,16 @@ internal sealed class TransactionRepository : ITransactionRepository
             .ToListAsync(cancellationToken);
     }
 
+    public async Task<IEnumerable<Transaction>> FindAsyncTracking(
+        Expression<Func<Transaction, bool>> predicate,
+        CancellationToken cancellationToken = default)
+    {
+        return await _context.Transactions
+            .Where(predicate)
+            .AsTracking()
+            .ToListAsync(cancellationToken);
+    }
+
     public void Add(Transaction entity)
     {
         _context.Transactions.Add(entity);

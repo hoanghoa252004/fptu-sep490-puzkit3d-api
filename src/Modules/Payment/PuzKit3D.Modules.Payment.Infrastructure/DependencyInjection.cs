@@ -16,6 +16,7 @@ public static class DependencyInjection
         IConfiguration configuration)
     {
         services.AddScoped<VNPAYGateway>();
+        services.AddScoped<IVnPaySignatureValidator, VnPaySignatureValidator>();
 
         services.AddScoped<IPaymentGatewayFactory, PaymentGatewayFactory>();
 

@@ -16,9 +16,9 @@ internal sealed class TransactionConfiguration : IEntityTypeConfiguration<Transa
                 id => id.Value,
                 value => TransactionId.From(value));
 
-        builder.Property(t => t.Code)
+        builder.Property(t => t.TxnRef)
             .IsRequired()
-            .HasMaxLength(10);
+            .HasColumnType("text");
 
         builder.Property(t => t.PaymentId)
             .IsRequired()
@@ -57,7 +57,7 @@ internal sealed class TransactionConfiguration : IEntityTypeConfiguration<Transa
         builder.Property(t => t.UpdatedAt)
             .IsRequired();
 
-        builder.HasIndex(t => t.Code).IsUnique();
+        builder.HasIndex(t => t.TxnRef).IsUnique();
         builder.HasIndex(t => t.PaymentId);
         builder.HasIndex(t => t.Status);
     }

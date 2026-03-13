@@ -61,7 +61,7 @@ internal sealed class GetPaymentTransactionsQueryHandler : IQueryHandler<GetPaym
             .OrderByDescending(t => t.CreatedAt)
             .Select(t => new TransactionDto(
                 t.Id.Value,
-                t.Code,
+                t.TxnRef,
                 t.Provider,
                 t.Status.ToString(),
                 t.Amount,

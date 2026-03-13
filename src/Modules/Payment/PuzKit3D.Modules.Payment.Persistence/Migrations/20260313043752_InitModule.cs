@@ -62,7 +62,7 @@ namespace PuzKit3D.Modules.Payment.Persistence.Migrations
                 columns: table => new
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
-                    code = table.Column<string>(type: "character varying(10)", maxLength: 10, nullable: false),
+                    txn_ref = table.Column<string>(type: "text", nullable: false),
                     payment_id = table.Column<Guid>(type: "uuid", nullable: false),
                     provider = table.Column<string>(type: "character varying(30)", maxLength: 30, nullable: false),
                     transaction_no = table.Column<string>(type: "text", nullable: true),
@@ -117,13 +117,6 @@ namespace PuzKit3D.Modules.Payment.Persistence.Migrations
                 column: "status");
 
             migrationBuilder.CreateIndex(
-                name: "ix_transactions_code",
-                schema: "payment",
-                table: "transactions",
-                column: "code",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
                 name: "ix_transactions_payment_id",
                 schema: "payment",
                 table: "transactions",
@@ -134,6 +127,13 @@ namespace PuzKit3D.Modules.Payment.Persistence.Migrations
                 schema: "payment",
                 table: "transactions",
                 column: "status");
+
+            migrationBuilder.CreateIndex(
+                name: "ix_transactions_txn_ref",
+                schema: "payment",
+                table: "transactions",
+                column: "txn_ref",
+                unique: true);
         }
 
         /// <inheritdoc />
