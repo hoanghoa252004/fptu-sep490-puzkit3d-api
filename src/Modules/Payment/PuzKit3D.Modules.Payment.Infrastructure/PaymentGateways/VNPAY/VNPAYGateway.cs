@@ -4,10 +4,6 @@ using Microsoft.Extensions.Logging;
 using PuzKit3D.Modules.Payment.Application.Abstractions;
 using PuzKit3D.SharedKernel.Domain.Errors;
 using PuzKit3D.SharedKernel.Domain.Results;
-using VNPAY;
-using VNPAY.Models;
-using VNPAY.Models.Enums;
-using VNPAY.Models.Exceptions;
 
 namespace PuzKit3D.Modules.Payment.Infrastructure.PaymentGateways.VnPay;
 

@@ -14,9 +14,6 @@ public static class TransactionError
     public static Error InvalidProvider() =>
         Error.Validation("Transaction.InvalidProvider", "Provider is required and cannot exceed 30 characters.");
 
-    public static Error InvalidTransactionNo(int maxLength) =>
-        Error.Validation("Transaction.InvalidTransactionNo", $"Transaction number cannot exceed {maxLength} characters.");
-
     public static Error InvalidAmount() =>
         Error.Validation("Transaction.InvalidAmount", "Amount must be greater than 0.");
 

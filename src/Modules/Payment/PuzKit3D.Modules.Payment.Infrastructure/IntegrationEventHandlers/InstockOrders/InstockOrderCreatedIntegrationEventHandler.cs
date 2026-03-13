@@ -1,6 +1,7 @@
 using PuzKit3D.Contract.InStock.InstockOrders;
 using PuzKit3D.Modules.Payment.Application.UnitOfWork;
 using PuzKit3D.Modules.Payment.Domain.Entities.OrderReplicas;
+using PuzKit3D.Modules.Payment.Domain.Entities.Payments;
 using PuzKit3D.Modules.Payment.Persistence;
 using PuzKit3D.SharedKernel.Application.Event;
 
@@ -38,6 +39,18 @@ internal sealed class InstockOrderCreatedIntegrationEventHandler
             @event.CreatedAt);
 
         await _dbContext.OrderReplicas.AddAsync(orderReplica, cancellationToken);
+
+        var paymentResult = Domain.Entities.Payments.Payment.Create(
+            referenceOrderId: @event.OrderId,
+            referenceOrderType: OrderType.Instock,
+            amount: @event.GrandTotalAmount);
+
+        if (paymentResult.IsFailure)
+        {
+            throw new InvalidOperationException($"Failed to create payment for order {orderReplica.Id}: {paymentResult.Error.Message}");
+        }
+
+        await _dbContext.Payments.AddAsync(paymentResult.Value, cancellationToken);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
     }
 }

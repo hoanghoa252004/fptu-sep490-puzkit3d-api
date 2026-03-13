@@ -12,9 +12,8 @@ public class Payment : AggregateRoot<PaymentId>
     public Guid ReferenceOrderId { get; private set; }
     public string ReferenceOrderType { get; private set; } = null!;
     public decimal Amount { get; private set; }
-    public string? Provider { get; private set; }
     public PaymentStatus Status { get; private set; }
-    public DateTime? ExpiredAt { get; private set; }
+    public DateTime ExpiredAt { get; private set; }
     public DateTime? PaidAt { get; private set; }
     public DateTime CreatedAt { get; private set; }
     public DateTime UpdatedAt { get; private set; }
@@ -27,18 +26,14 @@ public class Payment : AggregateRoot<PaymentId>
         string referenceOrderType,
         decimal amount,
         PaymentStatus status,
-        string? provider,
-        DateTime? expiredAt,
-        DateTime? paidAt,
+        DateTime expiredAt,
         DateTime createdAt) : base(id)
     {
         ReferenceOrderId = referenceOrderId;
         ReferenceOrderType = referenceOrderType;
         Amount = amount;
         Status = status;
-        Provider = provider;
         ExpiredAt = expiredAt;
-        PaidAt = paidAt;
         CreatedAt = createdAt;
         UpdatedAt = createdAt;
     }
@@ -50,12 +45,7 @@ public class Payment : AggregateRoot<PaymentId>
     public static ResultT<Payment> Create(
         Guid referenceOrderId,
         string referenceOrderType,
-        decimal amount,
-        PaymentStatus status,
-        string? provider = null,
-        DateTime? expiredAt = null,
-        DateTime? paidAt = null,
-        DateTime? createdAt = null)
+        decimal amount)
     {
         if (referenceOrderId == Guid.Empty)
             return Result.Failure<Payment>(PaymentError.InvalidReferenceOrderId());
@@ -66,22 +56,14 @@ public class Payment : AggregateRoot<PaymentId>
         if (amount <= 0)
             return Result.Failure<Payment>(PaymentError.InvalidAmount());
 
-        if (provider?.Length > 30)
-            return Result.Failure<Payment>(PaymentError.InvalidProvider(30));
-
-        if (!Enum.IsDefined(typeof(PaymentStatus), status))
-            return Result.Failure<Payment>(PaymentError.InvalidStatus());
-
         var payment = new Payment(
             PaymentId.Create(),
             referenceOrderId,
             referenceOrderType,
             amount,
-            status,
-            provider,
-            expiredAt,
-            paidAt,
-            createdAt ?? DateTime.UtcNow
+            PaymentStatus.Pending,
+            DateTime.UtcNow.AddDays(1),
+            DateTime.UtcNow
         );
 
         return Result.Success(payment);
@@ -93,11 +75,14 @@ public class Payment : AggregateRoot<PaymentId>
             return Result.Failure(PaymentError.InvalidStatus());
 
         Status = status;
+
         if (paidAt.HasValue)
         {
             PaidAt = paidAt;
         }
+
         UpdatedAt = DateTime.UtcNow;
+
         return Result.Success();
     }
 

@@ -39,46 +39,26 @@ internal sealed class CreatePaymentUrlCommandHandler : ICommandTHandler<CreatePa
             return Result.Failure<string>(PaymentError.OrderNotFound(request.OrderId));
         }
 
-        var existingPayment = await _paymentRepository.GetByOrderIdAsync(request.OrderId, cancellationToken);
+        var payment = await _paymentRepository.GetByOrderIdAsync(request.OrderId, cancellationToken);
 
-        Domain.Entities.Payments.Payment payment;
-
-        if (existingPayment is not null)
+        if (payment is null)
         {
-            if (existingPayment.Status == PaymentStatus.Paid)
-            {
-                return Result.Failure<string>(PaymentError.PaymentAlreadyPaid());
-            }
-
-            if (existingPayment.ExpiredAt.HasValue && existingPayment.ExpiredAt.Value < DateTime.UtcNow)
-            {
-                var updateStatusResult = existingPayment.UpdateStatus(PaymentStatus.Expired);
-                if (updateStatusResult.IsFailure)
-                {
-                    return Result.Failure<string>(updateStatusResult.Error);
-                }
-                return Result.Failure<string>(PaymentError.PaymentExpired());
-            }
-
-            payment = existingPayment;
+            return Result.Failure<string>(PaymentError.PaymentNotFound(request.OrderId));
         }
-        else
+
+        if (payment.Status == PaymentStatus.Paid)
         {
-            var paymentResult = Domain.Entities.Payments.Payment.Create(
-                referenceOrderId: request.OrderId,
-                referenceOrderType: order.Type,
-                amount: order.Amount,
-                status: PaymentStatus.Pending,
-                provider: _paymentGateway.ProviderName,
-                expiredAt: DateTime.UtcNow.AddDays(1));
+            return Result.Failure<string>(PaymentError.PaymentAlreadyPaid());
+        }
 
-            if (paymentResult.IsFailure)
+        if (payment.ExpiredAt< DateTime.UtcNow)
+        {
+            var updateStatusResult = payment.UpdateStatus(PaymentStatus.Expired);
+            if (updateStatusResult.IsFailure)
             {
-                return Result.Failure<string>(paymentResult.Error);
+                return Result.Failure<string>(updateStatusResult.Error);
             }
-
-            payment = paymentResult.Value;
-            _paymentRepository.Add(payment);
+            return Result.Failure<string>(PaymentError.PaymentExpired());
         }
 
         return await _unitOfWork.ExecuteAsync(async () =>

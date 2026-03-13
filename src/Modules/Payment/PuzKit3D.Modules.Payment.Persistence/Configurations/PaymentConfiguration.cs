@@ -27,14 +27,12 @@ internal sealed class PaymentConfiguration : IEntityTypeConfiguration<Domain.Ent
             .IsRequired()
             .HasPrecision(10, 2);
 
-        builder.Property(p => p.Provider)
-            .HasMaxLength(30);
-
         builder.Property(p => p.Status)
             .IsRequired()
             .HasConversion<int>();
 
-        builder.Property(p => p.ExpiredAt);
+        builder.Property(p => p.ExpiredAt)
+            .IsRequired();
 
         builder.Property(p => p.PaidAt);
 

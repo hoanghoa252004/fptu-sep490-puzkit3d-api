@@ -31,7 +31,7 @@ internal sealed class TransactionConfiguration : IEntityTypeConfiguration<Transa
             .HasMaxLength(30);
 
         builder.Property(t => t.TransactionNo)
-            .HasMaxLength(300);
+            .HasColumnType("text");
 
         builder.Property(t => t.Status)
             .IsRequired()
@@ -42,7 +42,7 @@ internal sealed class TransactionConfiguration : IEntityTypeConfiguration<Transa
             .HasPrecision(10, 2);
 
         builder.Property(t => t.RawResponsePayload)
-            .HasColumnType("jsonb");
+            .HasColumnType("text");
 
         builder.Property(t => t.ExpiredAt)
             .IsRequired();

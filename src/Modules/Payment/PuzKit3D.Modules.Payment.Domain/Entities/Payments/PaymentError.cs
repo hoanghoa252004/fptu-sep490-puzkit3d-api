@@ -23,6 +23,9 @@ public static class PaymentError
     public static Error OrderNotFound(Guid orderId) =>
         Error.NotFound("Payment.OrderNotFound", $"Order with ID '{orderId}' was not found.");
 
+    public static Error PaymentNotFound(Guid orderId) =>
+        Error.NotFound("Payment.PaymentNotFound", $"Payment for order ID '{orderId}' was not found.");
+
     public static Error PaymentExpired() =>
         Error.Validation("Payment.PaymentExpired", "Payment has expired.");
 

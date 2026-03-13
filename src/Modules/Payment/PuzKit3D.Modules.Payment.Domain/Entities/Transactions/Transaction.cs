@@ -87,8 +87,6 @@ public class Transaction : Entity<TransactionId>
         Status = status;
         if (!string.IsNullOrWhiteSpace(transactionNo))
         {
-            if (transactionNo.Length > 300)
-                return Result.Failure(TransactionError.InvalidTransactionNo(300));
             TransactionNo = transactionNo;
         }
         if (rawResponsePayload != null)
