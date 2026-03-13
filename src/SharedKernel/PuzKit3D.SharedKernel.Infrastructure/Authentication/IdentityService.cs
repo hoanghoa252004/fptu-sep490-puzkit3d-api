@@ -558,16 +558,26 @@ public sealed class IdentityService : IIdentityService
                 Error.NotFound("User.NotFound", $"User with ID {userId} not found"));
         }
 
-        user.FirstName = firstName;
-        user.LastName = lastName;
-        user.PhoneNumber = phoneNumber;
-        user.ProvinceId = provinceId;
-        user.ProvinceName = provinceName;
-        user.DistrictId = districtId;
-        user.DistrictName = districtName;
-        user.WardCode = wardCode;
-        user.WardName = wardName;
-        user.StreetAddress = streetAddress;
+        if (firstName is not null)
+            user.FirstName = firstName;
+        if (lastName is not null)
+            user.LastName = lastName;
+        if (phoneNumber is not null)
+            user.PhoneNumber = phoneNumber;
+        if (provinceId is not null)
+            user.ProvinceId = provinceId;
+        if (provinceName is not null)
+            user.ProvinceName = provinceName;
+        if (districtId is not null)
+            user.DistrictId = districtId;
+        if (districtName is not null)
+            user.DistrictName = districtName;
+        if (wardCode is not null)
+            user.WardCode = wardCode;
+        if (wardName is not null)
+            user.WardName = wardName;
+        if (streetAddress is not null)
+            user.StreetAddress = streetAddress;
         user.UpdatedAt = DateTime.UtcNow;
 
         var result = await _userManager.UpdateAsync(user);
