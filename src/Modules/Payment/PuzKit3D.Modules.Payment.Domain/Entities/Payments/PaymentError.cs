@@ -34,5 +34,8 @@ public static class PaymentError
 
     public static Error UnsupportedPaymentProvider(string provider) =>
         Error.Validation("Payment.UnsupportedPaymentProvider", $"Payment provider '{provider}' is not supported.");
+
+    public static Error ActiveTransactionExists() =>
+        Error.Validation("Payment.ActiveTransactionExists", "An active payment transaction already exists. Please wait for it to expire before creating a new one.");
 }
 

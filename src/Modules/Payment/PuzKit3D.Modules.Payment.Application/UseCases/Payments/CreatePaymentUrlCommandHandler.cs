@@ -74,6 +74,16 @@ internal sealed class CreatePaymentUrlCommandHandler : ICommandTHandler<CreatePa
             return Result.Failure<string>(PaymentError.PaymentExpired());
         }
 
+        // Check if there's an active (non-expired) transaction for this payment
+        var activeTransaction = await _transactionRepository.FindAsync(
+            t => t.PaymentId == payment.Id && t.ExpiredAt > DateTime.UtcNow,
+            cancellationToken);
+
+        if (activeTransaction.Any())
+        {
+            return Result.Failure<string>(PaymentError.ActiveTransactionExists());
+        }
+
         return await _unitOfWork.ExecuteAsync(async () =>
         {
             var gatewayResult = _paymentGatewayFactory.GetGateway(request.provider);
