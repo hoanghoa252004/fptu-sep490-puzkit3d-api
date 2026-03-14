@@ -30,6 +30,7 @@ public static class DependencyInjection
             (configuration.GetSection(EmailSettings.ConfigurationSection));
 
         // Đăng kí service:
+        //services.AddScoped<AwsSesEmailService>();
         services.AddScoped<IEmailService, AwsSesEmailService>();
 
         return services;
