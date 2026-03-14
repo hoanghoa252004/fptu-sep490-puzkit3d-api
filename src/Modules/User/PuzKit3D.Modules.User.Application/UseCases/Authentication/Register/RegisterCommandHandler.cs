@@ -1,4 +1,7 @@
+using MediatR;
+using PuzKit3D.Contract.User;
 using PuzKit3D.SharedKernel.Application.Authentication;
+using PuzKit3D.SharedKernel.Application.Event;
 using PuzKit3D.SharedKernel.Application.Message.Command;
 using PuzKit3D.SharedKernel.Domain.Results;
 
@@ -7,10 +10,12 @@ namespace PuzKit3D.Modules.User.Application.UseCases.Authentication.Register;
 public sealed class RegisterCommandHandler : ICommandTHandler<RegisterCommand, string>
 {
     private readonly IIdentityService _identityService;
+    private readonly IEventBus _eventBus;
 
-    public RegisterCommandHandler(IIdentityService identityService)
+    public RegisterCommandHandler(IIdentityService identityService, IEventBus eventBus)
     {
         _identityService = identityService;
+        _eventBus = eventBus;
     }
 
     public async Task<ResultT<string>> Handle(
@@ -24,6 +29,17 @@ public sealed class RegisterCommandHandler : ICommandTHandler<RegisterCommand, s
             request.LastName,
             cancellationToken);
 
-        return result;
+        if(result.IsSuccess)
+        {
+            await _eventBus.PublishAsync(
+            new UserRegisteredIntegrationEvent(
+                Guid.NewGuid(),
+                DateTime.UtcNow,
+                request.Email,
+                result.Value
+            ), cancellationToken);
+        }
+
+        return Result.Success($"User registered successfully with email {request.Email}, please confirm email ");
     }
 }

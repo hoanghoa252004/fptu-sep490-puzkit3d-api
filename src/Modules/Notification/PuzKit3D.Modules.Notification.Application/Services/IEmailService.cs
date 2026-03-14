@@ -10,4 +10,6 @@ namespace PuzKit3D.Modules.Notification.Application.Services;
 public interface IEmailService
 {
     Task<Result> SendAsync(string toEmail, string subject, string body);
+
+    Task SendVerifyEmailAsync(string toEmail, string token);
 }

@@ -46,7 +46,7 @@ public sealed class IdentityService : IIdentityService
             Email = email,
             FirstName = firstName,
             LastName = lastName,
-            EmailConfirmed = true,
+            EmailConfirmed = false,
             CreatedAt = DateTime.UtcNow,
             UpdatedAt = DateTime.UtcNow,
             LockoutEnabled = false
@@ -70,7 +70,9 @@ public sealed class IdentityService : IIdentityService
                 Error.Failure("Authentication.RoleAssignmentFailed", errors));
         }
 
-        return Result.Success($"User registered successfully with email {email}");
+        var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+
+        return Result.Success(token);
     }
 
     public async Task<ResultT<AuthenticationResult>> LoginAsync(
