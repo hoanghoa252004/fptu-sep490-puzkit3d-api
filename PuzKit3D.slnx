@@ -44,6 +44,11 @@
     <Project Path="src/Modules/InStock/PuzKit3D.Modules.InStock.Infrastructure/PuzKit3D.Modules.InStock.Infrastructure.csproj" Id="d7106428-d947-4b93-854b-ad55121f0c12" />
     <Project Path="src/Modules/InStock/PuzKit3D.Modules.InStock.Persistence/PuzKit3D.Modules.InStock.Persistence.csproj" Id="a0709e6b-340c-49ed-8611-3f83741efb10" />
   </Folder>
+  <Folder Name="/src/Modules/Media/">
+    <Project Path="src/Modules/Media/PuzKit3D.Modules.Media.Api/PuzKit3D.Modules.Media.Api.csproj" Id="f3186d1a-658f-45f7-85e4-3fdbfe71e405" />
+    <Project Path="src/Modules/Media/PuzKit3D.Modules.Media.Application/PuzKit3D.Modules.Media.Application.csproj" Id="e0c61481-418c-49de-aeb8-bb44c6931f23" />
+    <Project Path="src/Modules/Media/PuzKit3D.Modules.Media.Infrastructure/PuzKit3D.Modules.Media.Infrastructure.csproj" Id="8254cd68-c313-4d68-8ce0-fd2d50f10c2c" />
+  </Folder>
   <Folder Name="/src/Modules/Notification/">
     <Project Path="src/Modules/Notification/PuzKit3D.Modules.Notification.Api/PuzKit3D.Modules.Notification.Api.csproj" Id="2e08d216-9902-4123-a464-cde97817c6ec" />
     <Project Path="src/Modules/Notification/PuzKit3D.Modules.Notification.Application/PuzKit3D.Modules.Notification.Application.csproj" Id="cb5eb6ae-1561-45e5-bbc6-085b37f3b3f4" />
