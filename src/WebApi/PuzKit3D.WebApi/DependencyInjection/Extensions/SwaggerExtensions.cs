@@ -59,7 +59,14 @@ internal static class SwaggerExtensions
                 Description = "APIs for payment processing"
             });
 
-            
+            options.SwaggerDoc("notification", new OpenApiInfo
+            {
+                Title = "7. Notification Module",
+                Version = "v1",
+                Description = "APIs for notification processing"
+            });
+
+
 
             // Group endpoints by module based on route prefix
             options.DocInclusionPredicate((docName, apiDesc) =>
@@ -94,6 +101,9 @@ internal static class SwaggerExtensions
                     "payment" => routePath.StartsWith("api/payments")
                                 || routePath.StartsWith("api/ipn")
                                 || routePath.StartsWith("api/orders"),
+
+                    "notification" => routePath.StartsWith("api/emails"),
+
                     _ => false
                 };
             });
