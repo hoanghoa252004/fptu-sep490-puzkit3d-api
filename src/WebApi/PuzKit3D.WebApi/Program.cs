@@ -11,7 +11,9 @@ using PuzKit3D.Modules.InStock.Infrastructure;
 using PuzKit3D.Modules.InStock.Persistence;
 using PuzKit3D.Modules.Notification.Api;
 using PuzKit3D.Modules.Notification.Application;
+using PuzKit3D.Modules.Notification.Application.Services;
 using PuzKit3D.Modules.Notification.Infrastructure.DependencyInjection.Extensions;
+using PuzKit3D.Modules.Notification.Infrastructure.Services;
 using PuzKit3D.Modules.Partner.Api;
 using PuzKit3D.Modules.Partner.Application;
 using PuzKit3D.Modules.Partner.Persistence;
@@ -81,6 +83,12 @@ builder.Services.AddNotificationInfrastructure(builder.Configuration);
 
 var app = builder.Build();
 
+//using (var scope = app.Services.CreateScope())
+//{
+//    var emailService = scope.ServiceProvider.GetRequiredService<AwsSesEmailService>();
+
+//    await emailService.InitializeEmailTemplate();
+//}
 
 app.UseSwagger();
 // Tự động sinh file JSON chứa thông tin API tại endpoint /swagger/v1/swagger.json
