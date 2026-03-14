@@ -35,6 +35,10 @@
     <ProjectReference Include="..\..\Modules\InStock\PuzKit3D.Modules.InStock.Domain\PuzKit3D.Modules.InStock.Domain.csproj" />
     <ProjectReference Include="..\..\Modules\InStock\PuzKit3D.Modules.InStock.Infrastructure\PuzKit3D.Modules.InStock.Infrastructure.csproj" />
     <ProjectReference Include="..\..\Modules\InStock\PuzKit3D.Modules.InStock.Persistence\PuzKit3D.Modules.InStock.Persistence.csproj" />
+    <ProjectReference Include="..\..\Modules\Notification\PuzKit3D.Modules.Notification.Api\PuzKit3D.Modules.Notification.Api.csproj" />
+    <ProjectReference Include="..\..\Modules\Notification\PuzKit3D.Modules.Notification.Application\PuzKit3D.Modules.Notification.Application.csproj" />
+    <ProjectReference Include="..\..\Modules\Notification\PuzKit3D.Modules.Notification.Domain\PuzKit3D.Modules.Notification.Domain.csproj" />
+    <ProjectReference Include="..\..\Modules\Notification\PuzKit3D.Modules.Notification.Infrastructure\PuzKit3D.Modules.Notification.Infrastructure.csproj" />
     <ProjectReference Include="..\..\Modules\Partner\PuzKit3D.Modules.Partner.Api\PuzKit3D.Modules.Partner.Api.csproj" />
     <ProjectReference Include="..\..\Modules\Partner\PuzKit3D.Modules.Partner.Application\PuzKit3D.Modules.Partner.Application.csproj" />
     <ProjectReference Include="..\..\Modules\Partner\PuzKit3D.Modules.Partner.Domain\PuzKit3D.Modules.Partner.Domain.csproj" />

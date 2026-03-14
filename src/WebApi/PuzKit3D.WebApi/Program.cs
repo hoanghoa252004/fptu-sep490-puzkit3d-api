@@ -1,16 +1,25 @@
-﻿using PuzKit3D.Modules.Cart.Application;
+﻿using PuzKit3D.Modules.Cart.Api;
+using PuzKit3D.Modules.Cart.Application;
 using PuzKit3D.Modules.Cart.Infrastructure;
 using PuzKit3D.Modules.Cart.Persistence;
+using PuzKit3D.Modules.Catalog.Api;
 using PuzKit3D.Modules.Catalog.Application;
 using PuzKit3D.Modules.Catalog.Persistence;
+using PuzKit3D.Modules.InStock.Api;
 using PuzKit3D.Modules.InStock.Application;
 using PuzKit3D.Modules.InStock.Infrastructure;
 using PuzKit3D.Modules.InStock.Persistence;
+using PuzKit3D.Modules.Notification.Api;
+using PuzKit3D.Modules.Notification.Application;
+using PuzKit3D.Modules.Notification.Infrastructure.DependencyInjection.Extensions;
+using PuzKit3D.Modules.Partner.Api;
 using PuzKit3D.Modules.Partner.Application;
 using PuzKit3D.Modules.Partner.Persistence;
+using PuzKit3D.Modules.Payment.Api;
 using PuzKit3D.Modules.Payment.Application;
 using PuzKit3D.Modules.Payment.Infrastructure;
 using PuzKit3D.Modules.Payment.Persistence;
+using PuzKit3D.Modules.User.Api;
 using PuzKit3D.Modules.User.Application;
 using PuzKit3D.SharedKernel.Api.Endpoint;
 using PuzKit3D.SharedKernel.Application;
@@ -38,7 +47,8 @@ builder.Services.AddSharedKernelApplication(
         CatalogApplicationAssembly.Assembly,
         CartApplicationAssembly.Assembly,
         PartnerApplicationAssembly.Assembly,
-        PaymentApplicationAssembly.Assembly
+        PaymentApplicationAssembly.Assembly,
+        NotificationApplicationAssembly.Assembly
     } 
 );
 
@@ -46,12 +56,13 @@ builder.Services.AddSharedKernelApplication(
 builder.Services.AddEndpointsFromAssembly(
     new[]
     {
-       PuzKit3D.Modules.InStock.Api.InstockApiAssembly.Assembly,
-       PuzKit3D.Modules.User.Api.UserApiAssembly.Assembly,
-       PuzKit3D.Modules.Catalog.Api.CatalogApiAssembly.Assembly,
-       PuzKit3D.Modules.Cart.Api.CartApiAssembly.Assembly,
-       PuzKit3D.Modules.Partner.Api.PartnerApiAssembly.Assembly,
-       PuzKit3D.Modules.Payment.Api.PaymentApiAssembly.Assembly
+       InstockApiAssembly.Assembly,
+       UserApiAssembly.Assembly,
+       CatalogApiAssembly.Assembly,
+       CartApiAssembly.Assembly,
+       PartnerApiAssembly.Assembly,
+       PaymentApiAssembly.Assembly,
+       NotificationApiAssembly.Assembly
     }
 );
 
@@ -66,6 +77,7 @@ builder.Services.AddPaymentPersistence(builder.Configuration);
 builder.Services.AddInStockInfrastructure();
 builder.Services.AddCartInfrastructure();
 builder.Services.AddPaymentInfrastructure();
+builder.Services.AddNotificationInfrastructure(builder.Configuration);
 
 var app = builder.Build();
 
@@ -83,6 +95,7 @@ app.UseSwaggerUI(options =>
     options.SwaggerEndpoint("/swagger/instock/swagger.json", "4. Instock Module");
     options.SwaggerEndpoint("/swagger/partner/swagger.json", "5. Partner Module");
     options.SwaggerEndpoint("/swagger/payment/swagger.json", "6. Payment Module");
+    options.SwaggerEndpoint("/swagger/notification/swagger.json", "7. Notification Module");
     // Main API document
     options.SwaggerEndpoint("/swagger/v1/swagger.json", "All Modules");
 
