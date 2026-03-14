@@ -66,6 +66,13 @@ internal static class SwaggerExtensions
                 Description = "APIs for notification processing"
             });
 
+            options.SwaggerDoc("media", new OpenApiInfo
+            {
+                Title = "8. Media Module",
+                Version = "v1",
+                Description = "APIs for media processing"
+            });
+
 
 
             // Group endpoints by module based on route prefix
@@ -103,6 +110,8 @@ internal static class SwaggerExtensions
                                 || routePath.StartsWith("api/orders"),
 
                     "notification" => routePath.StartsWith("api/emails"),
+
+                    "media" => routePath.StartsWith("api/uploads"),
 
                     _ => false
                 };

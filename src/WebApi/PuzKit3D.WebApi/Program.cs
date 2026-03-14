@@ -9,6 +9,7 @@ using PuzKit3D.Modules.InStock.Api;
 using PuzKit3D.Modules.InStock.Application;
 using PuzKit3D.Modules.InStock.Infrastructure;
 using PuzKit3D.Modules.InStock.Persistence;
+using PuzKit3D.Modules.Media.Infrastructure.DependencyInjection.Extensions;
 using PuzKit3D.Modules.Notification.Api;
 using PuzKit3D.Modules.Notification.Application;
 using PuzKit3D.Modules.Notification.Application.Services;
@@ -50,7 +51,8 @@ builder.Services.AddSharedKernelApplication(
         CartApplicationAssembly.Assembly,
         PartnerApplicationAssembly.Assembly,
         PaymentApplicationAssembly.Assembly,
-        NotificationApplicationAssembly.Assembly
+        NotificationApplicationAssembly.Assembly,
+        MediaApplicationAssembly.Assembly
     } 
 );
 
@@ -64,7 +66,8 @@ builder.Services.AddEndpointsFromAssembly(
        CartApiAssembly.Assembly,
        PartnerApiAssembly.Assembly,
        PaymentApiAssembly.Assembly,
-       NotificationApiAssembly.Assembly
+       NotificationApiAssembly.Assembly,
+       MediaApiAssembly.Assembly
     }
 );
 
@@ -80,6 +83,7 @@ builder.Services.AddInStockInfrastructure();
 builder.Services.AddCartInfrastructure();
 builder.Services.AddPaymentInfrastructure();
 builder.Services.AddNotificationInfrastructure(builder.Configuration);
+builder.Services.AddMediaInfrastructure(builder.Configuration);
 
 var app = builder.Build();
 
@@ -104,12 +108,13 @@ app.UseSwaggerUI(options =>
     options.SwaggerEndpoint("/swagger/partner/swagger.json", "5. Partner Module");
     options.SwaggerEndpoint("/swagger/payment/swagger.json", "6. Payment Module");
     options.SwaggerEndpoint("/swagger/notification/swagger.json", "7. Notification Module");
+    options.SwaggerEndpoint("/swagger/media/swagger.json", "8. Media Module");
     // Main API document
     options.SwaggerEndpoint("/swagger/v1/swagger.json", "All Modules");
 
     options.RoutePrefix = "swagger"; // Access at /swagger [default]
     options.DisplayRequestDuration(); // Show request duration
-    //options.DocExpansion(Swashbuckle.AspNetCore.SwaggerUI.DocExpansion.None); // Collapse all by default
+    options.DocExpansion(Swashbuckle.AspNetCore.SwaggerUI.DocExpansion.None); 
 });
 
 
