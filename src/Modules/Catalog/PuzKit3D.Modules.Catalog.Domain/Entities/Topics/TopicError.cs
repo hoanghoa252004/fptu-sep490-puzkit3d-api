@@ -35,4 +35,8 @@ public static class TopicError
     public static Error CircularReference() => Error.Validation(
         "Topic.CircularReference",
         "Cannot set a topic as its own parent or create a circular reference.");
+
+    public static Error InvalidActiveStatus() => Error.Conflict(
+        "Topic.InvalidActiveStatus",
+        "The active status is already set to this value.");
 }

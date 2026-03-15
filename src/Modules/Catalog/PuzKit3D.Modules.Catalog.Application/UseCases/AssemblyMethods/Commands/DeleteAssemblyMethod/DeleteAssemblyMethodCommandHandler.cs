@@ -33,6 +33,7 @@ internal sealed class DeleteAssemblyMethodCommandHandler : ICommandHandler<Delet
         // Execute in transaction
         return await _unitOfWork.ExecuteAsync(async () =>
         {
+            assemblyMethod.Delete();
             // Delete from repository
             _assemblyMethodRepository.Delete(assemblyMethod);
 
