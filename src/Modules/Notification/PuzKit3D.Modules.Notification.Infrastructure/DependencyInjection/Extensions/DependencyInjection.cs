@@ -1,8 +1,11 @@
 ﻿using Amazon.SimpleEmail;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using PuzKit3D.Contract.InStock.InstockOrders;
+using PuzKit3D.Contract.User;
 using PuzKit3D.Modules.Notification.Application.Services;
 using PuzKit3D.Modules.Notification.Infrastructure.DependencyInjection.Options;
+using PuzKit3D.Modules.Notification.Infrastructure.IntegrationEventHandlers;
 using PuzKit3D.Modules.Notification.Infrastructure.Services;
 using PuzKit3D.SharedKernel.Application.Event;
 
@@ -33,6 +36,8 @@ public static class DependencyInjection
         //services.AddScoped<AwsSesEmailService>();
         services.AddScoped<IEmailService, AwsSesEmailService>();
 
+        services.AddScoped<IIntegrationEventHandler<UserRegisteredIntegrationEvent>,
+            UserRegisteredIntegrationEventHandler>();
         return services;
     }
 }
