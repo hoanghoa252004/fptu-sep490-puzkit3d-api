@@ -33,6 +33,7 @@ internal sealed class DeleteCapabilityCommandHandler : ICommandHandler<DeleteCap
         // Execute in transaction
         return await _unitOfWork.ExecuteAsync(async () =>
         {
+            capability.Delete();
             // Delete from repository
             _capabilityRepository.Delete(capability);
 

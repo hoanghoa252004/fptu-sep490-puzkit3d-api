@@ -31,4 +31,8 @@ public static class CapabilityError
     public static Error DuplicateSlug(string slug) => Error.Conflict(
         "Capability.DuplicateSlug",
         $"Capability with slug '{slug}' already exists.");
+
+    public static Error InvalidActiveStatus() => Error.Conflict(
+        "Capability.InvalidActiveStatus",
+        "The active status is already set to this value.");
 }

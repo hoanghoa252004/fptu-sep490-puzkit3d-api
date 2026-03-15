@@ -33,6 +33,7 @@ internal sealed class DeleteMaterialCommandHandler : ICommandHandler<DeleteMater
         // Execute in transaction
         return await _unitOfWork.ExecuteAsync(async () =>
         {
+            material.Delete();
             // Delete from repository
             _materialRepository.Delete(material);
 

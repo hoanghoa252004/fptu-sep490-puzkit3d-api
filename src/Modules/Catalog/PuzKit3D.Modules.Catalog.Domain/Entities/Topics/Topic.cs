@@ -1,3 +1,4 @@
+using PuzKit3D.Modules.Catalog.Domain.Entities.Topics.DomainEvents;
 using PuzKit3D.SharedKernel.Domain;
 using PuzKit3D.SharedKernel.Domain.Results;
 
@@ -66,36 +67,76 @@ public class Topic : AggregateRoot<TopicId>
             isActive,
             timestamp);
 
+        topic.RaiseDomainEvent(new TopicCreatedDomainEvent(
+            topic.Id.Value,
+            topic.Name,
+            topic.Slug,
+            topic.ParentId?.Value,
+            topic.Description,
+            topic.IsActive,
+            topic.CreatedAt));
+
         return Result.Success(topic);
     }
 
-    public Result Update(string name, string slug, TopicId parentId, string? description = null)
+    public Result Update(string? name = null, string? slug = null, TopicId? parentId = null, string? description = null, bool? isActive = null)
     {
-        if (string.IsNullOrWhiteSpace(name))
-            return Result.Failure(TopicError.InvalidName());
+        // Validate only provided fields
+        if (name != null)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+                return Result.Failure(TopicError.InvalidName());
 
-        if (name.Length > 30)
-            return Result.Failure(TopicError.NameTooLong(name.Length));
+            if (name.Length > 30)
+                return Result.Failure(TopicError.NameTooLong(name.Length));
 
-        if (string.IsNullOrWhiteSpace(slug))
-            return Result.Failure(TopicError.InvalidSlug());
+            Name = name;
+        }
 
-        if (slug.Length > 30)
-            return Result.Failure(TopicError.SlugTooLong(slug.Length));
+        if (slug != null)
+        {
+            if (string.IsNullOrWhiteSpace(slug))
+                return Result.Failure(TopicError.InvalidSlug());
 
-        Name = name;
-        Slug = slug;
-        ParentId = parentId;
-        Description = description;
+            if (slug.Length > 30)
+                return Result.Failure(TopicError.SlugTooLong(slug.Length));
+
+            Slug = slug;
+        }
+
+        if (parentId != null)
+        {
+            ParentId = parentId;
+        }
+
+        if (description != null)
+        {
+            Description = description;
+        }
+
+        if (isActive.HasValue && isActive.Value != IsActive)
+        {
+            IsActive = isActive.Value;
+        }
+
         UpdatedAt = DateTime.UtcNow;
+
+        RaiseDomainEvent(new TopicUpdatedDomainEvent(
+            Id.Value,
+            Name,
+            Slug,
+            ParentId?.Value,
+            Description,
+            UpdatedAt));
 
         return Result.Success();
     }
 
-    public void Activate()
+    public void Delete()
     {
-        IsActive = true;
-        UpdatedAt = DateTime.UtcNow;
+        RaiseDomainEvent(new TopicDeletedDomainEvent(
+            Id.Value,
+            DateTime.UtcNow));
     }
 
     public void Deactivate()

@@ -32,4 +32,7 @@ public static class AssemblyMethodError
         "AssemblyMethod.DuplicateSlug",
         $"Assembly method with slug '{slug}' already exists.");
 
+    public static Error InvalidActiveStatus() => Error.Conflict(
+        "AssemblyMethod.InvalidActiveStatus",
+        "The active status is already set to this value.");
 }

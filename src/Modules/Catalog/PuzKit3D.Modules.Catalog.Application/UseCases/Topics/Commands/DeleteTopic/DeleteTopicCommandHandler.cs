@@ -32,6 +32,7 @@ internal sealed class DeleteTopicCommandHandler : ICommandHandler<DeleteTopicCom
         // Execute in transaction
         return await _unitOfWork.ExecuteAsync(async () =>
         {
+            topic.Delete();
             _topicRepository.Delete(topic);
             return Result.Success();
         }, cancellationToken);
