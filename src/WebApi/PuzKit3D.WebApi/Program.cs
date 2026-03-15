@@ -82,8 +82,8 @@ builder.Services.AddPaymentPersistence(builder.Configuration);
 builder.Services.AddInStockInfrastructure();
 builder.Services.AddCartInfrastructure();
 builder.Services.AddPaymentInfrastructure();
-builder.Services.AddNotificationInfrastructure(builder.Configuration);
-builder.Services.AddMediaInfrastructure(builder.Configuration);
+builder.Services.AddNotificationInfrastructure(builder.Configuration, builder.Environment);
+builder.Services.AddMediaInfrastructure(builder.Configuration, builder.Environment);
 
 var app = builder.Build();
 

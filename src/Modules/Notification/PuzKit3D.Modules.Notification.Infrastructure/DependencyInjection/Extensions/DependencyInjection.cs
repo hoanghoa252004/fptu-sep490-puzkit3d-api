@@ -1,6 +1,7 @@
 ﻿using Amazon.SimpleEmail;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using PuzKit3D.Contract.InStock.InstockOrders;
 using PuzKit3D.Contract.User;
 using PuzKit3D.Modules.Notification.Application.Services;
@@ -14,16 +15,18 @@ namespace PuzKit3D.Modules.Notification.Infrastructure.DependencyInjection.Exten
 public static class DependencyInjection
 {
     public static IServiceCollection AddNotificationInfrastructure(
-        this IServiceCollection services, IConfiguration configuration)
+        this IServiceCollection services, IConfiguration configuration, IHostEnvironment _env)
     {
         // ==========  Setting DI for Aws Ses========== 
-        // Lấy config từ appsettings
-
         var awsOptions = configuration.GetAWSOptions();
-        awsOptions.Credentials = new Amazon.Runtime.BasicAWSCredentials(
-        configuration["AWS:AccessKey"],
-        configuration["AWS:SecretKey"]
-        );
+        if (_env.IsDevelopment())
+        {
+            // Lấy config từ appsettings
+            awsOptions.Credentials = new Amazon.Runtime.BasicAWSCredentials(
+            configuration["AWS:AccessKey"],
+            configuration["AWS:SecretKey"]
+            );
+        }
 
         services.AddDefaultAWSOptions(awsOptions);
 
