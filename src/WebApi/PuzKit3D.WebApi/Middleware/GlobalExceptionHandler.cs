@@ -48,12 +48,8 @@ internal class GlobalExceptionHandler(ILogger<GlobalExceptionHandler> _logger, I
             Status = statusCode,
             Type = type,
             Title = title,
-            Detail = _env.IsDevelopment()
-                ? exception.Message
-                : statusCode == StatusCodes.Status400BadRequest
-                    ? "The request was malformed or invalid. Please check your input."
-                    : "An unexpected error occurred. Please try again later or contact support.",
-            Instance = context.Request.Path,
+            Detail = exception.Message,
+            Instance = context.Request.Path
         };
 
         // Add trace ID for debugging
