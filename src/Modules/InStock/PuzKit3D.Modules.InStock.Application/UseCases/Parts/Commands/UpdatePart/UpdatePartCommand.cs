@@ -5,5 +5,6 @@ namespace PuzKit3D.Modules.InStock.Application.UseCases.Parts.Commands.UpdatePar
 public sealed record UpdatePartCommand(
     Guid ProductId,
     Guid PartId,
-    string Name,
-    string PartType) : ICommand;
+    string? Name,
+    string? PartType) : ICommand;
+

@@ -12,8 +12,9 @@ public sealed record CreateInstockProductCommand(
     Dictionary<string, string> PreviewAsset,
     Guid TopicId,
     Guid AssemblyMethodId,
-    Guid CapabilityId,
+    List<Guid> CapabilityIds,
     Guid MaterialId,
     string? Description = null,
     bool IsActive = false) : ICommandT<Guid>;
+
 

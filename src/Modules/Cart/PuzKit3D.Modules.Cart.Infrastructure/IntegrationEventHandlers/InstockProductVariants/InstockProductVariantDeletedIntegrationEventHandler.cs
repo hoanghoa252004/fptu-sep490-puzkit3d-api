@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using PuzKit3D.Contract.InStock.InstockProductVariants;
 using PuzKit3D.Modules.Cart.Persistence;
 using PuzKit3D.SharedKernel.Application.Event;
+using PuzKit3D.SharedKernel.Application.Exceptions;
 
 namespace PuzKit3D.Modules.Cart.Infrastructure.IntegrationEventHandlers.InstockProductVariants;
 
@@ -28,8 +29,18 @@ internal sealed class InstockProductVariantDeletedIntegrationEventHandler
             return;
         }
 
-        // Soft delete: set IsActive = false instead of hard delete
-        variant.Deactivate();
+        // Check if any cart items are using this variant
+        var hasCartItems = await _context.CartItems
+            .AnyAsync(ci => ci.ItemId == @event.VariantId, cancellationToken);
+
+        if (hasCartItems)
+        {
+            throw new PuzKit3DException("Someone has added this item to their cart");
+        }
+
+        // Delete variant replica
+        _context.InStockProductVariantReplicas.Remove(variant);
         await _context.SaveChangesAsync(cancellationToken);
     }
 }
+

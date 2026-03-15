@@ -29,15 +29,10 @@ internal sealed class DeleteInstockPriceCommandHandler : ICommandHandler<DeleteI
             return Result.Failure(InstockPriceError.NotFound(request.PriceId));
         }
 
-        if (!price.IsActive)
-        {
-            return Result.Failure(InstockPriceError.AlreadyInactive(request.PriceId));
-        }
-
         return await _unitOfWork.ExecuteAsync<Result>(async () =>
         {
-            price.Deactivate();
-            _priceRepository.Update(price);
+            price.Delete();
+            _priceRepository.Delete(price);
 
             return Result.Success();
         }, cancellationToken);

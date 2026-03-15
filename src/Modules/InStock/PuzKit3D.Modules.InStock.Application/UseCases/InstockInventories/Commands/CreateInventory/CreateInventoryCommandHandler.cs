@@ -6,16 +6,16 @@ using PuzKit3D.Modules.InStock.Domain.Entities.InstockProductVariants;
 using PuzKit3D.SharedKernel.Application.Message.Command;
 using PuzKit3D.SharedKernel.Domain.Results;
 
-namespace PuzKit3D.Modules.InStock.Application.UseCases.InstockInventories.Commands.UpdateInventory;
+namespace PuzKit3D.Modules.InStock.Application.UseCases.InstockInventories.Commands.CreateInventory;
 
-internal sealed class UpdateInventoryCommandHandler : ICommandHandler<UpdateInventoryCommand>
+internal sealed class CreateInventoryCommandHandler : ICommandHandler<CreateInventoryCommand>
 {
     private readonly IInstockInventoryRepository _inventoryRepository;
     private readonly IInstockProductRepository _productRepository;
     private readonly IInstockProductVariantRepository _variantRepository;
     private readonly IInStockUnitOfWork _unitOfWork;
 
-    public UpdateInventoryCommandHandler(
+    public CreateInventoryCommandHandler(
         IInstockInventoryRepository inventoryRepository,
         IInstockProductRepository productRepository,
         IInstockProductVariantRepository variantRepository,
@@ -27,7 +27,7 @@ internal sealed class UpdateInventoryCommandHandler : ICommandHandler<UpdateInve
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<Result> Handle(UpdateInventoryCommand request, CancellationToken cancellationToken)
+    public async Task<Result> Handle(CreateInventoryCommand request, CancellationToken cancellationToken)
     {
         // Validate product exists
         var productId = InstockProductId.From(request.ProductId);
@@ -53,25 +53,24 @@ internal sealed class UpdateInventoryCommandHandler : ICommandHandler<UpdateInve
                 InstockProductVariantError.VariantDoesNotBelongToProduct(request.VariantId, request.ProductId));
         }
 
+        // Check inventory doesn't already exist
+        var existingInventory = await _inventoryRepository.GetByVariantIdAsync(request.VariantId, cancellationToken);
+        if (existingInventory is not null)
+        {
+            return Result.Failure(InstockInventoryError.AlreadyExists(request.VariantId));
+        }
+
         return await _unitOfWork.ExecuteAsync<Result>(async () =>
         {
-            // Get inventory - must exist
-            var inventory = await _inventoryRepository.GetByVariantIdAsync(request.VariantId, cancellationToken);
-
-            if (inventory is null)
+            // Create new inventory
+            var createResult = InstockInventory.Create(variantId, request.Quantity);
+            
+            if (createResult.IsFailure)
             {
-                return Result.Failure(InstockInventoryError.NotFound(request.VariantId));
+                return Result.Failure(createResult.Error);
             }
 
-            // Update existing inventory
-            var updateResult = inventory.SetStock(request.Quantity);
-
-            if (updateResult.IsFailure)
-            {
-                return Result.Failure(updateResult.Error);
-            }
-
-            _inventoryRepository.Update(inventory);
+            _inventoryRepository.Add(createResult.Value);
 
             return Result.Success();
         }, cancellationToken);

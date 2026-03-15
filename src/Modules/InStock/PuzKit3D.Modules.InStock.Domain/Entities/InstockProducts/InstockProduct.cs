@@ -377,17 +377,8 @@ public sealed partial class InstockProduct : AggregateRoot<InstockProductId>
     }
 
 
-    public void Activate()
+    public void Delete()
     {
-        IsActive = true;
-        UpdatedAt = DateTime.UtcNow;
-    }
-
-    public void Deactivate()
-    {
-        IsActive = false;
-        UpdatedAt = DateTime.UtcNow;
-
         RaiseDomainEvent(new InstockProductDeletedDomainEvent(Id.Value));
     }
 

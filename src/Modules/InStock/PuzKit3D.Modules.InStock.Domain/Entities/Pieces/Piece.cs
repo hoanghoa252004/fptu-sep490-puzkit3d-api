@@ -73,5 +73,24 @@ public sealed partial class Piece : Entity<PieceId>
 
         return Result.Success();
     }
+
+    public Result PartialUpdate(int? quantity = null)
+    {
+        if (quantity.HasValue)
+        {
+            if (quantity.Value <= 0)
+                return Result.Failure(PieceError.InvalidQuantity());
+
+            Quantity = quantity.Value;
+        }
+
+        return Result.Success();
+    }
+
+    public void Delete()
+    {
+        // Hard delete - no domain event needed as we're removing the aggregate
+    }
 }
+
 

@@ -106,4 +106,11 @@ public sealed class InstockInventory : Entity<InstockInventoryId>
 
         return Result.Success();
     }
+
+    public void Delete()
+    {
+        RaiseDomainEvent(new InstockInventoryDeletedDomainEvent(
+            Id.Value,
+            InstockProductVariantId.Value));
+    }
 }

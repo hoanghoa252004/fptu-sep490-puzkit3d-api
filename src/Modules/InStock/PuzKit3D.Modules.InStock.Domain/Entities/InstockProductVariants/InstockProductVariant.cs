@@ -218,19 +218,12 @@ public sealed class InstockProductVariant : Entity<InstockProductVariantId>
         return Result.Success();
     }
 
-    public void Activate()
+    public void Delete()
     {
-        IsActive = true;
-        UpdatedAt = DateTime.UtcNow;
-    }
-
-    public void Deactivate()
-    {
-        IsActive = false;
-        UpdatedAt = DateTime.UtcNow;
-
         RaiseDomainEvent(new InstockProductVariantDeletedDomainEvent(
             Id.Value,
             InstockProductId.Value));
     }
 }
+
+

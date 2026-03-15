@@ -12,13 +12,25 @@ internal sealed class GetAllInstockProductsQueryHandler
 {
     private readonly IInstockProductRepository _productRepository;
     private readonly ICurrentUser _currentUser;
+    private readonly ITopicReplicaRepository _topicReplicaRepository;
+    private readonly IMaterialReplicaRepository _materialReplicaRepository;
+    private readonly IAssemblyMethodReplicaRepository _assemblyMethodReplicaRepository;
+    private readonly ICapabilityReplicaRepository _capabilityReplicaRepository;
 
     public GetAllInstockProductsQueryHandler(
         IInstockProductRepository productRepository,
-        ICurrentUser currentUser)
+        ICurrentUser currentUser,
+        ITopicReplicaRepository topicReplicaRepository,
+        IMaterialReplicaRepository materialReplicaRepository,
+        IAssemblyMethodReplicaRepository assemblyMethodReplicaRepository,
+        ICapabilityReplicaRepository capabilityReplicaRepository)
     {
         _productRepository = productRepository;
         _currentUser = currentUser;
+        _topicReplicaRepository = topicReplicaRepository;
+        _materialReplicaRepository = materialReplicaRepository;
+        _assemblyMethodReplicaRepository = assemblyMethodReplicaRepository;
+        _capabilityReplicaRepository = capabilityReplicaRepository;
     }
 
     public async Task<ResultT<PagedResult<object>>> Handle(
@@ -42,11 +54,49 @@ internal sealed class GetAllInstockProductsQueryHandler
         if (!string.IsNullOrWhiteSpace(request.SearchTerm))
         {
             var searchTerm = request.SearchTerm.ToLower();
-            query = query.Where(p => 
-                p.Name.ToLower().Contains(searchTerm) || 
+            
+            // Get all replicas for search
+            var topics = await _topicReplicaRepository.GetAllAsync(cancellationToken);
+            var materials = await _materialReplicaRepository.GetAllAsync(cancellationToken);
+            var assemblyMethods = await _assemblyMethodReplicaRepository.GetAllAsync(cancellationToken);
+            var capabilities = await _capabilityReplicaRepository.GetAllAsync(cancellationToken);
+
+            // Find matching replica IDs
+            var matchingTopicIds = topics
+                .Where(t => t.Name.ToLower().Contains(searchTerm) || t.Slug.ToLower().Contains(searchTerm))
+                .Select(t => t.Id)
+                .ToList();
+
+            var matchingMaterialIds = materials
+                .Where(m => m.Name.ToLower().Contains(searchTerm) || m.Slug.ToLower().Contains(searchTerm))
+                .Select(m => m.Id)
+                .ToList();
+
+            var matchingAssemblyMethodIds = assemblyMethods
+                .Where(a => a.Name.ToLower().Contains(searchTerm) || a.Slug.ToLower().Contains(searchTerm))
+                .Select(a => a.Id)
+                .ToList();
+
+            var matchingCapabilityIds = capabilities
+                .Where(c => c.Name.ToLower().Contains(searchTerm) || c.Slug.ToLower().Contains(searchTerm))
+                .Select(c => c.Id)
+                .ToList();
+
+            // Filter products by search term (product fields + related entities)
+            query = query.Where(p =>
+                // Product fields
+                p.Name.ToLower().Contains(searchTerm) ||
                 p.Code.ToLower().Contains(searchTerm) ||
                 p.Slug.ToLower().Contains(searchTerm) ||
-                (p.Description != null && p.Description.ToLower().Contains(searchTerm)));
+                (p.Description != null && p.Description.ToLower().Contains(searchTerm)) ||
+                // Topic search
+                (matchingTopicIds.Count > 0 && matchingTopicIds.Contains(p.TopicId)) ||
+                // Material search
+                (matchingMaterialIds.Count > 0 && matchingMaterialIds.Contains(p.MaterialId)) ||
+                // Assembly method search
+                (matchingAssemblyMethodIds.Count > 0 && matchingAssemblyMethodIds.Contains(p.AssemblyMethodId)) ||
+                // Capability search
+                (matchingCapabilityIds.Count > 0 && p.CapabilityIds.Any(cId => matchingCapabilityIds.Contains(cId))));
         }
 
         // Apply IsActive filter (only for staff/manager)
@@ -78,7 +128,11 @@ internal sealed class GetAllInstockProductsQueryHandler
                     p.Description,
                     p.IsActive,
                     p.CreatedAt,
-                    p.UpdatedAt) as object)
+                    p.UpdatedAt,
+                    p.TopicId,
+                    p.MaterialId,
+                    p.AssemblyMethodId,
+                    p.CapabilityIds.ToList()) as object)
                 .ToList();
         }
         else
@@ -96,7 +150,11 @@ internal sealed class GetAllInstockProductsQueryHandler
                     p.DifficultLevel,
                     p.EstimatedBuildTime,
                     p.ThumbnailUrl,
-                    p.Description) as object)
+                    p.Description,
+                    p.TopicId,
+                    p.MaterialId,
+                    p.AssemblyMethodId,
+                    p.CapabilityIds.ToList()) as object)
                 .ToList();
         }
 
@@ -109,4 +167,5 @@ internal sealed class GetAllInstockProductsQueryHandler
         return Result.Success(pagedResult);
     }
 }
+
 

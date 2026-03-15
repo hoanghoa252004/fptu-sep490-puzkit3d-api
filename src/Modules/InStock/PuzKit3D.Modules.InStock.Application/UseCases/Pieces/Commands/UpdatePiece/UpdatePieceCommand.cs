@@ -6,5 +6,6 @@ public sealed record UpdatePieceCommand(
     Guid ProductId,
     Guid PartId,
     Guid PieceId,
-    int Quantity,
+    int? Quantity,
     Guid? NewPartId) : ICommand;
+

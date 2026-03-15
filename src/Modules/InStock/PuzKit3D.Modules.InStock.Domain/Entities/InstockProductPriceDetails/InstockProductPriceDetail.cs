@@ -122,14 +122,12 @@ public sealed class InstockProductPriceDetail : Entity<InstockProductPriceDetail
         UpdatedAt = DateTime.UtcNow;
     }
 
-    public void Deactivate()
+    public void Delete()
     {
-        IsActive = false;
-        UpdatedAt = DateTime.UtcNow;
-
         RaiseDomainEvent(new InstockProductPriceDetailDeletedDomainEvent(
             Id.Value,
             InstockPriceId.Value,
             InstockProductVariantId.Value));
     }
 }
+

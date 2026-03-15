@@ -30,7 +30,7 @@ internal sealed class CreateInstockProduct : IEndpoint
                     request.PreviewAsset,
                     request.TopicId,
                     request.AssemblyMethodId,
-                    request.CapabilityId,
+                    request.CapabilityIds,
                     request.MaterialId,
                     request.Description,
                     request.IsActive);
@@ -62,7 +62,7 @@ string ThumbnailUrl,
 Dictionary<string, string> PreviewAsset,
 Guid TopicId,
 Guid AssemblyMethodId,
-Guid CapabilityId,
+List<Guid> CapabilityIds,
 Guid MaterialId,
 string? Description,
 bool IsActive);

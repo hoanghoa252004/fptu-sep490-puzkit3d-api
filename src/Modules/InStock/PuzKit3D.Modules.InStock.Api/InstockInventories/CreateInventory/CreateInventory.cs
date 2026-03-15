@@ -1,40 +1,48 @@
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
-using PuzKit3D.Modules.InStock.Application.UseCases.InstockProductVariants.Commands.ActivateInstockProductVariant;
+using PuzKit3D.Modules.InStock.Application.UseCases.InstockInventories.Commands.CreateInventory;
 using PuzKit3D.SharedKernel.Api.Endpoint;
 using PuzKit3D.SharedKernel.Api.Results.Extensions;
 using PuzKit3D.SharedKernel.Application.Authorization;
 
-namespace PuzKit3D.Modules.InStock.Api.InstockProductVariants.ActivateInstockProductVariant;
+namespace PuzKit3D.Modules.InStock.Api.InstockInventories.CreateInventory;
 
-internal sealed class ActivateInstockProductVariant : IEndpoint
+internal sealed class CreateInventory : IEndpoint
 {
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapVariantsGroup()
-            .MapPatch("/{variantId:guid}/activate", async (
+        app.MapInventoryGroup()
+            .MapPost("", async (
                 Guid productId,
                 Guid variantId,
+                [FromBody] CreateInventoryRequestDto request,
                 ISender sender,
                 CancellationToken cancellationToken) =>
             {
-                var command = new ActivateInstockProductVariantCommand(variantId);
+                var command = new CreateInventoryCommand(
+                    productId,
+                    variantId,
+                    request.Quantity);
 
                 var result = await sender.Send(command, cancellationToken);
 
-                return result.MatchOk();
+                return result.MatchNoContent();
             })
-            .WithName("ActivateInstockProductVariant")
-            .WithSummary("Activate an instock product variant (Staff/Manager only)")
-            .WithDescription("Activates an instock product variant by setting IsActive to true. Returns 400 if variant is already active. Requires Staff or Manager role.")
+            .WithName("CreateInventory")
+            .WithSummary("Create inventory for a product variant")
+            .WithDescription("Creates inventory for a specific product variant. Requires Staff or Manager role.")
             .RequireAuthorization(policy => policy.RequireRole(Roles.Staff, Roles.BusinessManager))
-            .Produces(StatusCodes.Status204NoContent)
+            .Produces(StatusCodes.Status201Created)
             .ProducesValidationProblem(StatusCodes.Status400BadRequest)
             .ProducesProblem(StatusCodes.Status401Unauthorized)
             .ProducesProblem(StatusCodes.Status403Forbidden)
             .ProducesProblem(StatusCodes.Status404NotFound)
+            .ProducesProblem(StatusCodes.Status409Conflict)
             .ProducesProblem(StatusCodes.Status500InternalServerError);
     }
 }
+
+internal sealed record CreateInventoryRequestDto(int Quantity);
