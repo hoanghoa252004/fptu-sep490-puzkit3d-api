@@ -20,6 +20,6 @@ internal sealed class UserRegisteredIntegrationEventHandler : IIntegrationEventH
 
     public async Task HandleAsync(UserRegisteredIntegrationEvent @event, CancellationToken cancellationToken = default)
     {
-        await _emailService.SendVerifyEmailAsync(@event.Email, @event.Token);
+        await _emailService.SendVerifyEmailAsync(@event.Email, @event.UserId, @event.Token);
     }
 }

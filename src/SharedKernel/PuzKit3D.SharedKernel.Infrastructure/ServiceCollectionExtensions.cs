@@ -8,6 +8,7 @@ using PuzKit3D.SharedKernel.Application.Authentication;
 using PuzKit3D.SharedKernel.Application.Clock;
 using PuzKit3D.SharedKernel.Application.Data;
 using PuzKit3D.SharedKernel.Application.Event;
+using PuzKit3D.SharedKernel.Application.Identity;
 using PuzKit3D.SharedKernel.Application.User;
 using PuzKit3D.SharedKernel.Infrastructure.Authentication;
 using PuzKit3D.SharedKernel.Infrastructure.Clock;
@@ -124,6 +125,7 @@ public static class ServiceCollectionExtensions
         .AddEntityFrameworkStores<IdentityDbContext>()
         .AddDefaultTokenProviders();
 
+        services.AddScoped<IIdentityUnitOfWork>(sp => sp.GetRequiredService<IdentityDbContext>());
         return services;
     }
 

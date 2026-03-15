@@ -53,9 +53,9 @@ public sealed class AwsSesEmailService : IEmailService
         return Result.Success();
     }
 
-    public async Task SendVerifyEmailAsync(string toEmail, string token)
+    public async Task SendVerifyEmailAsync(string toEmail, string userId, string token)
     {
-        var verifyLink = $"http://127.0.0.1:5500/verify-email?token={token}";
+        var verifyLink = $"http://localhost:3000/verify-email?userId={userId}&token={token}";
 
         var request = new SendTemplatedEmailRequest
         {
@@ -69,10 +69,14 @@ public sealed class AwsSesEmailService : IEmailService
             })
         };
 
-        var response = await _ses.SendTemplatedEmailAsync(request);
-
-        if (response.HttpStatusCode != System.Net.HttpStatusCode.OK)
-            throw new PuzKit3DException(response.ResponseMetadata.ToString()!);
+        try
+        {
+            var response = await _ses.SendTemplatedEmailAsync(request);
+        }
+        catch (Exception ex)
+        {
+            throw new PuzKit3DException(ex.Message);
+        }
     }
 
     public async Task InitializeEmailTemplate()

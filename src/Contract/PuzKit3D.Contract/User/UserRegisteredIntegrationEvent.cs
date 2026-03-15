@@ -11,5 +11,6 @@ public sealed record UserRegisteredIntegrationEvent(
     Guid Id,
     DateTime OccurredOn,
     string Email,
+    string UserId,
     string Token
 ) : IIntegrationEvent;

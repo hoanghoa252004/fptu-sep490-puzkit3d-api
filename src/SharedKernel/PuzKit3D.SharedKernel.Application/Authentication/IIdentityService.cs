@@ -16,7 +16,7 @@ public interface IIdentityService
     /// <summary>
     /// Registers a new user
     /// </summary>
-    Task<ResultT<string>> RegisterAsync(
+    Task<ResultT<RegistedUserCredential>> RegisterAsync(
         string email,
         string password,
         string? firstName = null,
@@ -150,4 +150,19 @@ public interface IIdentityService
         string userId,
         string avatarUrl,
         CancellationToken cancellationToken = default);
+
+    Task<Result> ConfirmUserEmail(string userId, string token,
+        CancellationToken cancellationToken = default);
+
+    Task<Result> CheckEmailExist(string email,
+        CancellationToken cancellationToken = default);
+
+    Task<Result> CheckEmailConfirmed(string email,
+        CancellationToken cancellationToken = default);
+
+    Task<ResultT<string>> GetUserIdByEmail(
+        string email,
+        CancellationToken cancellationToken = default);
+
+    Task<ResultT<string>> GenerateConfirmEmailToken(string email, CancellationToken cancellationToken = default);
 }
