@@ -4,7 +4,8 @@ namespace PuzKit3D.Modules.Catalog.Application.UseCases.Materials.Commands.Updat
 
 public sealed record UpdateMaterialCommand(
     Guid Id,
-    string Name,
-    string Slug,
+    string? Name,
+    string? Slug,
     string? Description,
-    bool IsActive) : ICommand;
+    bool? IsActive) : ICommand;
+

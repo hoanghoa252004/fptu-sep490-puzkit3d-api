@@ -1,3 +1,4 @@
+using PuzKit3D.Modules.Catalog.Domain.Entities.AssemblyMethods.DomainEvents;
 using PuzKit3D.SharedKernel.Domain;
 using PuzKit3D.SharedKernel.Domain.Results;
 
@@ -61,30 +62,69 @@ public class AssemblyMethod : AggregateRoot<AssemblyMethodId>
             isActive,
             timestamp);
 
+        assemblyMethod.RaiseDomainEvent(new AssemblyMethodCreatedDomainEvent(
+            assemblyMethod.Id.Value,
+            assemblyMethod.Name,
+            assemblyMethod.Slug,
+            assemblyMethod.Description,
+            assemblyMethod.IsActive,
+            assemblyMethod.CreatedAt));
+
         return Result.Success(assemblyMethod);
     }
 
-    public Result Update(string name, string slug, string? description, bool isActive)
+    public Result Update(string? name = null, string? slug = null, string? description = null, bool? isActive = null)
     {
-        if (string.IsNullOrWhiteSpace(name))
-            return Result.Failure(AssemblyMethodError.InvalidName());
+        // Validate only provided fields
+        if (name != null)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+                return Result.Failure(AssemblyMethodError.InvalidName());
 
-        if (name.Length > 30)
-            return Result.Failure(AssemblyMethodError.NameTooLong(name.Length));
+            if (name.Length > 30)
+                return Result.Failure(AssemblyMethodError.NameTooLong(name.Length));
 
-        if (string.IsNullOrWhiteSpace(slug))
-            return Result.Failure(AssemblyMethodError.InvalidSlug());
+            Name = name;
+        }
 
-        if (slug.Length > 30)
-            return Result.Failure(AssemblyMethodError.SlugTooLong(slug.Length));
+        if (slug != null)
+        {
+            if (string.IsNullOrWhiteSpace(slug))
+                return Result.Failure(AssemblyMethodError.InvalidSlug());
 
-        Name = name;
-        Slug = slug;
-        Description = description;
-        IsActive = isActive;
+            if (slug.Length > 30)
+                return Result.Failure(AssemblyMethodError.SlugTooLong(slug.Length));
+
+            Slug = slug;
+        }
+
+        if (description != null)
+        {
+            Description = description;
+        }
+
+        if (isActive.HasValue && isActive.Value != IsActive)
+        {
+            IsActive = isActive.Value;
+        }
+
         UpdatedAt = DateTime.UtcNow;
 
+        RaiseDomainEvent(new AssemblyMethodUpdatedDomainEvent(
+            Id.Value,
+            Name,
+            Slug,
+            Description,
+            UpdatedAt));
+
         return Result.Success();
+    }
+
+    public void Delete()
+    {
+        RaiseDomainEvent(new AssemblyMethodDeletedDomainEvent(
+            Id.Value,
+            DateTime.UtcNow));
     }
 
     public void Activate()

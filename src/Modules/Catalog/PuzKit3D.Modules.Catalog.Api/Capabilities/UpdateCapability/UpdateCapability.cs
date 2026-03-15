@@ -47,7 +47,7 @@ internal sealed class UpdateCapability : IEndpoint
 }
 
 internal sealed record UpdateCapabilityRequestDto(
-    string Name,
-    string Slug,
-    string? Description,
-    bool IsActive);
+string? Name,
+string? Slug,
+string? Description,
+bool? IsActive);

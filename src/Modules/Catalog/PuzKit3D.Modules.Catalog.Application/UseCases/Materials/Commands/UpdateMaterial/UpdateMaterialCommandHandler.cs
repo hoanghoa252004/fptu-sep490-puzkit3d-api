@@ -47,21 +47,12 @@ internal sealed class UpdateMaterialCommandHandler : ICommandHandler<UpdateMater
             var updateResult = material.Update(
                 request.Name,
                 request.Slug,
-                request.Description);
+                request.Description,
+                request.IsActive);
 
             if (updateResult.IsFailure)
             {
                 return updateResult;
-            }
-
-            // Update IsActive status
-            if (request.IsActive && !material.IsActive)
-            {
-                material.Activate();
-            }
-            else if (!request.IsActive && material.IsActive)
-            {
-                material.Deactivate();
             }
 
             // Update in repository
