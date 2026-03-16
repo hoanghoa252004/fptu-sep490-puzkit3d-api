@@ -9,7 +9,7 @@ public sealed class OrderReplica : Entity<Guid>
     public string Code { get; private set; } = null!;
     public Guid CustomerId { get; private set; }
     public decimal Amount { get; private set; }
-    public string Status { get; private set; } = null!;
+    public OrderReplicaStatus Status { get; private set; }
     public string PaymentMethod { get; private set; } = null!;
     public bool IsPaid { get; private set; }
     public DateTime? PaidAt { get; private set; }
@@ -22,7 +22,7 @@ public sealed class OrderReplica : Entity<Guid>
         string code,
         Guid customerId,
         decimal amount,
-        string status,
+        OrderReplicaStatus status,
         string paymentMethod,
         bool isPaid,
         DateTime? paidAt,
@@ -51,7 +51,7 @@ public sealed class OrderReplica : Entity<Guid>
         string code,
         Guid customerId,
         decimal amount,
-        string status,
+        OrderReplicaStatus status,
         string paymentMethod,
         bool isPaid,
         DateTime? paidAt,
@@ -73,7 +73,7 @@ public sealed class OrderReplica : Entity<Guid>
     }
 
     public void Update(
-        string status,
+        OrderReplicaStatus status,
         string paymentMethod,
         bool isPaid,
         DateTime? paidAt,
@@ -93,6 +93,7 @@ public sealed class OrderReplica : Entity<Guid>
             return; // Already marked as paid
         }
 
+        Status = OrderReplicaStatus.Paid;
         IsPaid = true;
         PaidAt = paidAt;
         UpdatedAt = paidAt;

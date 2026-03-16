@@ -5,10 +5,19 @@ public static class InstockOrderStatusTransition
     private static readonly Dictionary<InstockOrderStatus, HashSet<InstockOrderStatus>> AllowedTransitions = new()
     {
         {
-            InstockOrderStatus.PaymentPending, new HashSet<InstockOrderStatus>
+            InstockOrderStatus.Waiting, new HashSet<InstockOrderStatus>
+            {
+                InstockOrderStatus.Processing,
+                InstockOrderStatus.Expired,
+                InstockOrderStatus.Cancelled
+            }
+        },
+        {
+            InstockOrderStatus.Pending, new HashSet<InstockOrderStatus>
             {
                 InstockOrderStatus.Paid,
-                InstockOrderStatus.Expired
+                InstockOrderStatus.Expired,
+                InstockOrderStatus.Cancelled
             }
         },
         {
@@ -20,17 +29,26 @@ public static class InstockOrderStatusTransition
         {
             InstockOrderStatus.Processing, new HashSet<InstockOrderStatus>
             {
-                InstockOrderStatus.Shipped
+                InstockOrderStatus.Shipping
             }
         },
         {
-            InstockOrderStatus.Shipped, new HashSet<InstockOrderStatus>
+            InstockOrderStatus.Shipping, new HashSet<InstockOrderStatus>
+            {
+                InstockOrderStatus.Delivered
+            }
+        },
+        {
+            InstockOrderStatus.Delivered, new HashSet<InstockOrderStatus>
             {
                 InstockOrderStatus.Completed
             }
         },
         {
             InstockOrderStatus.Expired, new HashSet<InstockOrderStatus>()
+        },
+        {
+            InstockOrderStatus.Cancelled, new HashSet<InstockOrderStatus>()
         },
         {
             InstockOrderStatus.Completed, new HashSet<InstockOrderStatus>()
@@ -61,6 +79,6 @@ public static class InstockOrderStatusTransition
 
     public static string GetTransitionPath()
     {
-        return "PaymentPending -> [Paid | Expired], Paid -> Processing -> Shipped -> Completed";
+        return "COD: Waiting -> [Processing | Expired | Cancelled], Processing -> Shipping -> Delivered -> Completed; Online: Pending -> [Paid | Expired | Cancelled], Paid -> Processing -> Shipping -> Delivered -> Completed";
     }
 }

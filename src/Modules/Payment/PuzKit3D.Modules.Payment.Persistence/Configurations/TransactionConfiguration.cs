@@ -39,7 +39,7 @@ internal sealed class TransactionConfiguration : IEntityTypeConfiguration<Transa
 
         builder.Property(t => t.Status)
             .IsRequired()
-            .HasConversion<int>();
+            .HasConversion<string>();
 
         builder.Property(t => t.Amount)
             .IsRequired()

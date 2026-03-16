@@ -30,7 +30,7 @@ internal sealed class OrderReplicaConfiguration : IEntityTypeConfiguration<Order
 
         builder.Property(x => x.Status)
             .IsRequired()
-            .HasMaxLength(50);
+            .HasConversion<string>();
 
         builder.Property(x => x.PaymentMethod)
             .IsRequired()
