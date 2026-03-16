@@ -56,9 +56,6 @@ internal sealed class InstockProductConfiguration : IEntityTypeConfiguration<Ins
         builder.Property(p => p.AssemblyMethodId)
             .IsRequired();
 
-        builder.Property(p => p.CapabilityId)
-            .IsRequired();
-
         builder.Property(p => p.MaterialId)
             .IsRequired();
 
@@ -79,7 +76,9 @@ internal sealed class InstockProductConfiguration : IEntityTypeConfiguration<Ins
         builder.Navigation(p => p.Parts)
             .UsePropertyAccessMode(PropertyAccessMode.Field);
 
-        builder.Ignore(p => p.CapabilityIds);
+        builder.Navigation(p => p.CapabilityDetails)
+            .UsePropertyAccessMode(PropertyAccessMode.Field);
+
         builder.Ignore(p => p.DomainEvents);
     }
 }

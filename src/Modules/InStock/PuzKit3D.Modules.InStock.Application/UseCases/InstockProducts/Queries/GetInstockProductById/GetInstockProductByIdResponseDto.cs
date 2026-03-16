@@ -13,7 +13,7 @@ public sealed record GetInstockProductByIdResponseDto(
     string? Description,
     Guid TopicId,
     Guid AssemblyMethodId,
-    Guid CapabilityId,
+    List<Guid> CapabilityIds,
     Guid MaterialId,
     bool IsActive,
     DateTime CreatedAt,

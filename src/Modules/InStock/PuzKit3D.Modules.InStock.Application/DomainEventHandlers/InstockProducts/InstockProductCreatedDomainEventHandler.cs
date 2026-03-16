@@ -33,7 +33,6 @@ internal sealed class InstockProductCreatedDomainEventHandler
             notification.Description,
             notification.TopicId,
             notification.AssemblyMethodId,
-            notification.CapabilityId,
             notification.MaterialId,
             notification.IsActive,
             notification.CreatedAt);

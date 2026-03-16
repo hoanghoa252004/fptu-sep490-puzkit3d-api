@@ -462,6 +462,108 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                         .HasName("pk_instock_product_capability_detail");
 
                     b.ToTable("instock_product_capability_detail", "instock");
+
+                    b.HasData(
+                        new
+                        {
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000001"),
+                            CapabilityId = new Guid("e1e1e1e1-e1e1-e1e1-e1e1-e1e1e1e1e1e1")
+                        },
+                        new
+                        {
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000001"),
+                            CapabilityId = new Guid("f2f2f2f2-f2f2-f2f2-f2f2-f2f2f2f2f2f2")
+                        },
+                        new
+                        {
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000002"),
+                            CapabilityId = new Guid("f2f2f2f2-f2f2-f2f2-f2f2-f2f2f2f2f2f2")
+                        },
+                        new
+                        {
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000002"),
+                            CapabilityId = new Guid("a3a3a3a3-a3a3-a3a3-a3a3-a3a3a3a3a3a3")
+                        },
+                        new
+                        {
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000003"),
+                            CapabilityId = new Guid("a3a3a3a3-a3a3-a3a3-a3a3-a3a3a3a3a3a3")
+                        },
+                        new
+                        {
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000003"),
+                            CapabilityId = new Guid("b4b4b4b4-b4b4-b4b4-b4b4-b4b4b4b4b4b4")
+                        },
+                        new
+                        {
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000004"),
+                            CapabilityId = new Guid("b4b4b4b4-b4b4-b4b4-b4b4-b4b4b4b4b4b4")
+                        },
+                        new
+                        {
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000004"),
+                            CapabilityId = new Guid("c5c5c5c5-c5c5-c5c5-c5c5-c5c5c5c5c5c5")
+                        },
+                        new
+                        {
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000005"),
+                            CapabilityId = new Guid("c5c5c5c5-c5c5-c5c5-c5c5-c5c5c5c5c5c5")
+                        },
+                        new
+                        {
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000005"),
+                            CapabilityId = new Guid("e1e1e1e1-e1e1-e1e1-e1e1-e1e1e1e1e1e1")
+                        },
+                        new
+                        {
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000006"),
+                            CapabilityId = new Guid("e1e1e1e1-e1e1-e1e1-e1e1-e1e1e1e1e1e1")
+                        },
+                        new
+                        {
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000006"),
+                            CapabilityId = new Guid("f2f2f2f2-f2f2-f2f2-f2f2-f2f2f2f2f2f2")
+                        },
+                        new
+                        {
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000007"),
+                            CapabilityId = new Guid("f2f2f2f2-f2f2-f2f2-f2f2-f2f2f2f2f2f2")
+                        },
+                        new
+                        {
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000007"),
+                            CapabilityId = new Guid("a3a3a3a3-a3a3-a3a3-a3a3-a3a3a3a3a3a3")
+                        },
+                        new
+                        {
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000008"),
+                            CapabilityId = new Guid("a3a3a3a3-a3a3-a3a3-a3a3-a3a3a3a3a3a3")
+                        },
+                        new
+                        {
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000008"),
+                            CapabilityId = new Guid("b4b4b4b4-b4b4-b4b4-b4b4-b4b4b4b4b4b4")
+                        },
+                        new
+                        {
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000009"),
+                            CapabilityId = new Guid("b4b4b4b4-b4b4-b4b4-b4b4-b4b4b4b4b4b4")
+                        },
+                        new
+                        {
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000009"),
+                            CapabilityId = new Guid("c5c5c5c5-c5c5-c5c5-c5c5-c5c5c5c5c5c5")
+                        },
+                        new
+                        {
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000010"),
+                            CapabilityId = new Guid("c5c5c5c5-c5c5-c5c5-c5c5-c5c5c5c5c5c5")
+                        },
+                        new
+                        {
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000010"),
+                            CapabilityId = new Guid("e1e1e1e1-e1e1-e1e1-e1e1-e1e1e1e1e1e1")
+                        });
                 });
 
             modelBuilder.Entity("PuzKit3D.Modules.InStock.Domain.Entities.InstockProductPriceDetails.InstockProductPriceDetail", b =>
@@ -1112,10 +1214,6 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("assembly_method_id");
 
-                    b.Property<Guid>("CapabilityId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("capability_id");
-
                     b.Property<string>("Code")
                         .IsRequired()
                         .HasMaxLength(10)
@@ -1198,7 +1296,6 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                         {
                             Id = new Guid("10000000-0000-0000-0000-000000000001"),
                             AssemblyMethodId = new Guid("d1d1d1d1-d1d1-d1d1-d1d1-d1d1d1d1d1d1"),
-                            CapabilityId = new Guid("e1e1e1e1-e1e1-e1e1-e1e1-e1e1e1e1e1e1"),
                             Code = "INP001",
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Beautiful lion 3D puzzle",
@@ -1207,7 +1304,7 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                             IsActive = true,
                             MaterialId = new Guid("f1f1f1f1-f1f1-f1f1-f1f1-f1f1f1f1f1f1"),
                             Name = "Lion 3D Puzzle",
-                            PreviewAsset = "{\"main\":\"https://example.com/lion-preview.jpg\"}",
+                            PreviewAsset = "{\"additionalProp1\":\"https://example.com/lion-preview.jpg\",\"additionalProp2\":\"https://example.com/lion-preview-alt.jpg\"}",
                             Slug = "lion-3d-puzzle",
                             ThumbnailUrl = "https://example.com/lion.jpg",
                             TopicId = new Guid("a1a1a1a1-a1a1-a1a1-a1a1-a1a1a1a1a1a1"),
@@ -1218,7 +1315,6 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                         {
                             Id = new Guid("10000000-0000-0000-0000-000000000002"),
                             AssemblyMethodId = new Guid("e2e2e2e2-e2e2-e2e2-e2e2-e2e2e2e2e2e2"),
-                            CapabilityId = new Guid("f2f2f2f2-f2f2-f2f2-f2f2-f2f2f2f2f2f2"),
                             Code = "INP002",
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Majestic elephant 3D puzzle",
@@ -1227,7 +1323,7 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                             IsActive = true,
                             MaterialId = new Guid("a2a2a2a2-a2a2-a2a2-a2a2-a2a2a2a2a2a2"),
                             Name = "Elephant 3D Puzzle",
-                            PreviewAsset = "{\"main\":\"https://example.com/elephant-preview.jpg\"}",
+                            PreviewAsset = "{\"additionalProp1\":\"https://example.com/elephant-preview.jpg\",\"additionalProp2\":\"https://example.com/elephant-preview-alt.jpg\"}",
                             Slug = "elephant-3d-puzzle",
                             ThumbnailUrl = "https://example.com/elephant.jpg",
                             TopicId = new Guid("a1a1a1a1-a1a1-a1a1-a1a1-a1a1a1a1a1a1"),
@@ -1238,7 +1334,6 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                         {
                             Id = new Guid("10000000-0000-0000-0000-000000000003"),
                             AssemblyMethodId = new Guid("f3f3f3f3-f3f3-f3f3-f3f3-f3f3f3f3f3f3"),
-                            CapabilityId = new Guid("a3a3a3a3-a3a3-a3a3-a3a3-a3a3a3a3a3a3"),
                             Code = "INP003",
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Soaring eagle 3D puzzle",
@@ -1247,7 +1342,7 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                             IsActive = true,
                             MaterialId = new Guid("b3b3b3b3-b3b3-b3b3-b3b3-b3b3b3b3b3b3"),
                             Name = "Eagle 3D Puzzle",
-                            PreviewAsset = "{\"main\":\"https://example.com/eagle-preview.jpg\"}",
+                            PreviewAsset = "{\"additionalProp1\":\"https://example.com/eagle-preview.jpg\",\"additionalProp2\":\"https://example.com/eagle-preview-alt.jpg\"}",
                             Slug = "eagle-3d-puzzle",
                             ThumbnailUrl = "https://example.com/eagle.jpg",
                             TopicId = new Guid("a1a1a1a1-a1a1-a1a1-a1a1-a1a1a1a1a1a1"),
@@ -1258,7 +1353,6 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                         {
                             Id = new Guid("10000000-0000-0000-0000-000000000004"),
                             AssemblyMethodId = new Guid("a4a4a4a4-a4a4-a4a4-a4a4-a4a4a4a4a4a4"),
-                            CapabilityId = new Guid("b4b4b4b4-b4b4-b4b4-b4b4-b4b4b4b4b4b4"),
                             Code = "INP004",
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Sleek sports car 3D puzzle",
@@ -1267,7 +1361,7 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                             IsActive = true,
                             MaterialId = new Guid("c4c4c4c4-c4c4-c4c4-c4c4-c4c4c4c4c4c4"),
                             Name = "Sports Car 3D Puzzle",
-                            PreviewAsset = "{\"main\":\"https://example.com/sports-car-preview.jpg\"}",
+                            PreviewAsset = "{\"additionalProp1\":\"https://example.com/sports-car-preview.jpg\",\"additionalProp2\":\"https://example.com/sports-car-preview-alt.jpg\"}",
                             Slug = "sports-car-3d-puzzle",
                             ThumbnailUrl = "https://example.com/sports-car.jpg",
                             TopicId = new Guid("b2b2b2b2-b2b2-b2b2-b2b2-b2b2b2b2b2b2"),
@@ -1278,7 +1372,6 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                         {
                             Id = new Guid("10000000-0000-0000-0000-000000000005"),
                             AssemblyMethodId = new Guid("b5b5b5b5-b5b5-b5b5-b5b5-b5b5b5b5b5b5"),
-                            CapabilityId = new Guid("c5c5c5c5-c5c5-c5c5-c5c5-c5c5c5c5c5c5"),
                             Code = "INP005",
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Flying airplane 3D puzzle",
@@ -1287,7 +1380,7 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                             IsActive = true,
                             MaterialId = new Guid("d5d5d5d5-d5d5-d5d5-d5d5-d5d5d5d5d5d5"),
                             Name = "Airplane 3D Puzzle",
-                            PreviewAsset = "{\"main\":\"https://example.com/airplane-preview.jpg\"}",
+                            PreviewAsset = "{\"additionalProp1\":\"https://example.com/airplane-preview.jpg\",\"additionalProp2\":\"https://example.com/airplane-preview-alt.jpg\"}",
                             Slug = "airplane-3d-puzzle",
                             ThumbnailUrl = "https://example.com/airplane.jpg",
                             TopicId = new Guid("b2b2b2b2-b2b2-b2b2-b2b2-b2b2b2b2b2b2"),
@@ -1298,7 +1391,6 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                         {
                             Id = new Guid("10000000-0000-0000-0000-000000000006"),
                             AssemblyMethodId = new Guid("d1d1d1d1-d1d1-d1d1-d1d1-d1d1d1d1d1d1"),
-                            CapabilityId = new Guid("e1e1e1e1-e1e1-e1e1-e1e1-e1e1e1e1e1e1"),
                             Code = "INP006",
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Cool motorcycle 3D puzzle",
@@ -1307,7 +1399,7 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                             IsActive = true,
                             MaterialId = new Guid("f1f1f1f1-f1f1-f1f1-f1f1-f1f1f1f1f1f1"),
                             Name = "Motorcycle 3D Puzzle",
-                            PreviewAsset = "{\"main\":\"https://example.com/motorcycle-preview.jpg\"}",
+                            PreviewAsset = "{\"additionalProp1\":\"https://example.com/motorcycle-preview.jpg\",\"additionalProp2\":\"https://example.com/motorcycle-preview-alt.jpg\"}",
                             Slug = "motorcycle-3d-puzzle",
                             ThumbnailUrl = "https://example.com/motorcycle.jpg",
                             TopicId = new Guid("c3c3c3c3-c3c3-c3c3-c3c3-c3c3c3c3c3c3"),
@@ -1318,7 +1410,6 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                         {
                             Id = new Guid("10000000-0000-0000-0000-000000000007"),
                             AssemblyMethodId = new Guid("e2e2e2e2-e2e2-e2e2-e2e2-e2e2e2e2e2e2"),
-                            CapabilityId = new Guid("f2f2f2f2-f2f2-f2f2-f2f2-f2f2f2f2f2f2"),
                             Code = "INP007",
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Fierce tiger 3D puzzle",
@@ -1327,7 +1418,7 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                             IsActive = true,
                             MaterialId = new Guid("a2a2a2a2-a2a2-a2a2-a2a2-a2a2a2a2a2a2"),
                             Name = "Tiger 3D Puzzle",
-                            PreviewAsset = "{\"main\":\"https://example.com/tiger-preview.jpg\"}",
+                            PreviewAsset = "{\"additionalProp1\":\"https://example.com/tiger-preview.jpg\",\"additionalProp2\":\"https://example.com/tiger-preview-alt.jpg\"}",
                             Slug = "tiger-3d-puzzle",
                             ThumbnailUrl = "https://example.com/tiger.jpg",
                             TopicId = new Guid("a1a1a1a1-a1a1-a1a1-a1a1-a1a1a1a1a1a1"),
@@ -1338,7 +1429,6 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                         {
                             Id = new Guid("10000000-0000-0000-0000-000000000008"),
                             AssemblyMethodId = new Guid("f3f3f3f3-f3f3-f3f3-f3f3-f3f3f3f3f3f3"),
-                            CapabilityId = new Guid("a3a3a3a3-a3a3-a3a3-a3a3-a3a3a3a3a3a3"),
                             Code = "INP008",
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Playful dolphin 3D puzzle",
@@ -1347,7 +1437,7 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                             IsActive = true,
                             MaterialId = new Guid("b3b3b3b3-b3b3-b3b3-b3b3-b3b3b3b3b3b3"),
                             Name = "Dolphin 3D Puzzle",
-                            PreviewAsset = "{\"main\":\"https://example.com/dolphin-preview.jpg\"}",
+                            PreviewAsset = "{\"additionalProp1\":\"https://example.com/dolphin-preview.jpg\",\"additionalProp2\":\"https://example.com/dolphin-preview-alt.jpg\"}",
                             Slug = "dolphin-3d-puzzle",
                             ThumbnailUrl = "https://example.com/dolphin.jpg",
                             TopicId = new Guid("d4d4d4d4-d4d4-d4d4-d4d4-d4d4d4d4d4d4"),
@@ -1358,7 +1448,6 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                         {
                             Id = new Guid("10000000-0000-0000-0000-000000000009"),
                             AssemblyMethodId = new Guid("a4a4a4a4-a4a4-a4a4-a4a4-a4a4a4a4a4a4"),
-                            CapabilityId = new Guid("b4b4b4b4-b4b4-b4b4-b4b4-b4b4b4b4b4b4"),
                             Code = "INP009",
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Flying helicopter 3D puzzle",
@@ -1367,7 +1456,7 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                             IsActive = true,
                             MaterialId = new Guid("c4c4c4c4-c4c4-c4c4-c4c4-c4c4c4c4c4c4"),
                             Name = "Helicopter 3D Puzzle",
-                            PreviewAsset = "{\"main\":\"https://example.com/helicopter-preview.jpg\"}",
+                            PreviewAsset = "{\"additionalProp1\":\"https://example.com/helicopter-preview.jpg\",\"additionalProp2\":\"https://example.com/helicopter-preview-alt.jpg\"}",
                             Slug = "helicopter-3d-puzzle",
                             ThumbnailUrl = "https://example.com/helicopter.jpg",
                             TopicId = new Guid("b2b2b2b2-b2b2-b2b2-b2b2-b2b2b2b2b2b2"),
@@ -1378,7 +1467,6 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                         {
                             Id = new Guid("10000000-0000-0000-0000-000000000010"),
                             AssemblyMethodId = new Guid("b5b5b5b5-b5b5-b5b5-b5b5-b5b5b5b5b5b5"),
-                            CapabilityId = new Guid("c5c5c5c5-c5c5-c5c5-c5c5-c5c5c5c5c5c5"),
                             Code = "INP010",
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Mythical dragon 3D puzzle",
@@ -1387,7 +1475,7 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                             IsActive = true,
                             MaterialId = new Guid("d5d5d5d5-d5d5-d5d5-d5d5-d5d5d5d5d5d5"),
                             Name = "Dragon 3D Puzzle",
-                            PreviewAsset = "{\"main\":\"https://example.com/dragon-preview.jpg\"}",
+                            PreviewAsset = "{\"additionalProp1\":\"https://example.com/dragon-preview.jpg\",\"additionalProp2\":\"https://example.com/dragon-preview-alt.jpg\"}",
                             Slug = "dragon-3d-puzzle",
                             ThumbnailUrl = "https://example.com/dragon.jpg",
                             TopicId = new Guid("e5e5e5e5-e5e5-e5e5-e5e5-e5e5e5e5e5e5"),
@@ -1899,11 +1987,11 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
             modelBuilder.Entity("PuzKit3D.Modules.InStock.Domain.Entities.InstockProductCapabilityDetails.InstockProductCapabilityDetail", b =>
                 {
                     b.HasOne("PuzKit3D.Modules.InStock.Domain.Entities.InstockProducts.InstockProduct", null)
-                        .WithMany()
+                        .WithMany("CapabilityDetails")
                         .HasForeignKey("InstockProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
-                        .HasConstraintName("FK__instock_product__instock_product_capability_detail");
+                        .HasConstraintName("fk_instock_product_capability_detail_instock_products_instock_");
                 });
 
             modelBuilder.Entity("PuzKit3D.Modules.InStock.Domain.Entities.InstockProductPriceDetails.InstockProductPriceDetail", b =>
@@ -1960,6 +2048,8 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
 
             modelBuilder.Entity("PuzKit3D.Modules.InStock.Domain.Entities.InstockProducts.InstockProduct", b =>
                 {
+                    b.Navigation("CapabilityDetails");
+
                     b.Navigation("Parts");
                 });
 

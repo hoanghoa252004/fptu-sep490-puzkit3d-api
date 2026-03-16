@@ -1,7 +1,8 @@
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using PuzKit3D.Modules.InStock.Domain.Entities.InstockInventories;
 using PuzKit3D.Modules.InStock.Domain.Entities.InstockPrices;
+using PuzKit3D.Modules.InStock.Domain.Entities.InstockProductCapabilityDetails;
 using PuzKit3D.Modules.InStock.Domain.Entities.InstockProductPriceDetails;
 using PuzKit3D.Modules.InStock.Domain.Entities.InstockProducts;
 using PuzKit3D.Modules.InStock.Domain.Entities.InstockProductVariants;
@@ -312,11 +313,10 @@ internal static class InstockSeedDataConfiguration
                 DifficultLevel = "Basic",
                 EstimatedBuildTime = 120,
                 ThumbnailUrl = "https://example.com/lion.jpg",
-                PreviewAsset = "{\"main\":\"https://example.com/lion-preview.jpg\"}",
+                PreviewAsset = "{\"additionalProp1\":\"https://example.com/lion-preview.jpg\",\"additionalProp2\":\"https://example.com/lion-preview-alt.jpg\"}",
                 Description = "Beautiful lion 3D puzzle",
                 TopicId = TopicId1,
                 AssemblyMethodId = AssemblyMethodId1,
-                CapabilityId = CapabilityId1,
                 MaterialId = MaterialId1,
                 IsActive = true,
                 CreatedAt = SeedDate,
@@ -332,11 +332,10 @@ internal static class InstockSeedDataConfiguration
                 DifficultLevel = "Intermediate",
                 EstimatedBuildTime = 180,
                 ThumbnailUrl = "https://example.com/elephant.jpg",
-                PreviewAsset = "{\"main\":\"https://example.com/elephant-preview.jpg\"}",
+                PreviewAsset = "{\"additionalProp1\":\"https://example.com/elephant-preview.jpg\",\"additionalProp2\":\"https://example.com/elephant-preview-alt.jpg\"}",
                 Description = "Majestic elephant 3D puzzle",
                 TopicId = TopicId1,
                 AssemblyMethodId = AssemblyMethodId2,
-                CapabilityId = CapabilityId2,
                 MaterialId = MaterialId2,
                 IsActive = true,
                 CreatedAt = SeedDate,
@@ -352,11 +351,10 @@ internal static class InstockSeedDataConfiguration
                 DifficultLevel = "Advanced",
                 EstimatedBuildTime = 240,
                 ThumbnailUrl = "https://example.com/eagle.jpg",
-                PreviewAsset = "{\"main\":\"https://example.com/eagle-preview.jpg\"}",
+                PreviewAsset = "{\"additionalProp1\":\"https://example.com/eagle-preview.jpg\",\"additionalProp2\":\"https://example.com/eagle-preview-alt.jpg\"}",
                 Description = "Soaring eagle 3D puzzle",
                 TopicId = TopicId1,
                 AssemblyMethodId = AssemblyMethodId3,
-                CapabilityId = CapabilityId3,
                 MaterialId = MaterialId3,
                 IsActive = true,
                 CreatedAt = SeedDate,
@@ -372,11 +370,10 @@ internal static class InstockSeedDataConfiguration
                 DifficultLevel = "Advanced",
                 EstimatedBuildTime = 300,
                 ThumbnailUrl = "https://example.com/sports-car.jpg",
-                PreviewAsset = "{\"main\":\"https://example.com/sports-car-preview.jpg\"}",
+                PreviewAsset = "{\"additionalProp1\":\"https://example.com/sports-car-preview.jpg\",\"additionalProp2\":\"https://example.com/sports-car-preview-alt.jpg\"}",
                 Description = "Sleek sports car 3D puzzle",
                 TopicId = TopicId2,
                 AssemblyMethodId = AssemblyMethodId4,
-                CapabilityId = CapabilityId4,
                 MaterialId = MaterialId4,
                 IsActive = true,
                 CreatedAt = SeedDate,
@@ -392,11 +389,10 @@ internal static class InstockSeedDataConfiguration
                 DifficultLevel = "Intermediate",
                 EstimatedBuildTime = 200,
                 ThumbnailUrl = "https://example.com/airplane.jpg",
-                PreviewAsset = "{\"main\":\"https://example.com/airplane-preview.jpg\"}",
+                PreviewAsset = "{\"additionalProp1\":\"https://example.com/airplane-preview.jpg\",\"additionalProp2\":\"https://example.com/airplane-preview-alt.jpg\"}",
                 Description = "Flying airplane 3D puzzle",
                 TopicId = TopicId2,
                 AssemblyMethodId = AssemblyMethodId5,
-                CapabilityId = CapabilityId5,
                 MaterialId = MaterialId5,
                 IsActive = true,
                 CreatedAt = SeedDate,
@@ -412,11 +408,10 @@ internal static class InstockSeedDataConfiguration
                 DifficultLevel = "Intermediate",
                 EstimatedBuildTime = 150,
                 ThumbnailUrl = "https://example.com/motorcycle.jpg",
-                PreviewAsset = "{\"main\":\"https://example.com/motorcycle-preview.jpg\"}",
+                PreviewAsset = "{\"additionalProp1\":\"https://example.com/motorcycle-preview.jpg\",\"additionalProp2\":\"https://example.com/motorcycle-preview-alt.jpg\"}",
                 Description = "Cool motorcycle 3D puzzle",
                 TopicId = TopicId3,
                 AssemblyMethodId = AssemblyMethodId1,
-                CapabilityId = CapabilityId1,
                 MaterialId = MaterialId1,
                 IsActive = true,
                 CreatedAt = SeedDate,
@@ -432,11 +427,10 @@ internal static class InstockSeedDataConfiguration
                 DifficultLevel = "Basic",
                 EstimatedBuildTime = 130,
                 ThumbnailUrl = "https://example.com/tiger.jpg",
-                PreviewAsset = "{\"main\":\"https://example.com/tiger-preview.jpg\"}",
+                PreviewAsset = "{\"additionalProp1\":\"https://example.com/tiger-preview.jpg\",\"additionalProp2\":\"https://example.com/tiger-preview-alt.jpg\"}",
                 Description = "Fierce tiger 3D puzzle",
                 TopicId = TopicId1,
                 AssemblyMethodId = AssemblyMethodId2,
-                CapabilityId = CapabilityId2,
                 MaterialId = MaterialId2,
                 IsActive = true,
                 CreatedAt = SeedDate,
@@ -452,11 +446,10 @@ internal static class InstockSeedDataConfiguration
                 DifficultLevel = "Basic",
                 EstimatedBuildTime = 100,
                 ThumbnailUrl = "https://example.com/dolphin.jpg",
-                PreviewAsset = "{\"main\":\"https://example.com/dolphin-preview.jpg\"}",
+                PreviewAsset = "{\"additionalProp1\":\"https://example.com/dolphin-preview.jpg\",\"additionalProp2\":\"https://example.com/dolphin-preview-alt.jpg\"}",
                 Description = "Playful dolphin 3D puzzle",
                 TopicId = TopicId4,
                 AssemblyMethodId = AssemblyMethodId3,
-                CapabilityId = CapabilityId3,
                 MaterialId = MaterialId3,
                 IsActive = true,
                 CreatedAt = SeedDate,
@@ -472,11 +465,10 @@ internal static class InstockSeedDataConfiguration
                 DifficultLevel = "Intermediate",
                 EstimatedBuildTime = 170,
                 ThumbnailUrl = "https://example.com/helicopter.jpg",
-                PreviewAsset = "{\"main\":\"https://example.com/helicopter-preview.jpg\"}",
+                PreviewAsset = "{\"additionalProp1\":\"https://example.com/helicopter-preview.jpg\",\"additionalProp2\":\"https://example.com/helicopter-preview-alt.jpg\"}",
                 Description = "Flying helicopter 3D puzzle",
                 TopicId = TopicId2,
                 AssemblyMethodId = AssemblyMethodId4,
-                CapabilityId = CapabilityId4,
                 MaterialId = MaterialId4,
                 IsActive = true,
                 CreatedAt = SeedDate,
@@ -492,11 +484,10 @@ internal static class InstockSeedDataConfiguration
                 DifficultLevel = "Advanced",
                 EstimatedBuildTime = 360,
                 ThumbnailUrl = "https://example.com/dragon.jpg",
-                PreviewAsset = "{\"main\":\"https://example.com/dragon-preview.jpg\"}",
+                PreviewAsset = "{\"additionalProp1\":\"https://example.com/dragon-preview.jpg\",\"additionalProp2\":\"https://example.com/dragon-preview-alt.jpg\"}",
                 Description = "Mythical dragon 3D puzzle",
                 TopicId = TopicId5,
                 AssemblyMethodId = AssemblyMethodId5,
-                CapabilityId = CapabilityId5,
                 MaterialId = MaterialId5,
                 IsActive = true,
                 CreatedAt = SeedDate,
@@ -622,4 +613,53 @@ internal static class InstockSeedDataConfiguration
         modelBuilder.Entity<InstockProductPriceDetail>().HasData(priceDetails);
         modelBuilder.Entity<InstockInventory>().HasData(inventories);
     }
+
+    public static void SeedProductCapabilityDetails(this ModelBuilder modelBuilder)
+    {
+        var details = new[]
+        {
+            // Lion: Static Display, Move with Motor
+            new { InstockProductId = InstockProductId.From(Guid.Parse("10000000-0000-0000-0000-000000000001")), CapabilityId = CapabilityId1 },
+            new { InstockProductId = InstockProductId.From(Guid.Parse("10000000-0000-0000-0000-000000000001")), CapabilityId = CapabilityId2 },
+            
+            // Elephant: Move with Motor, Manual Movement
+            new { InstockProductId = InstockProductId.From(Guid.Parse("10000000-0000-0000-0000-000000000002")), CapabilityId = CapabilityId2 },
+            new { InstockProductId = InstockProductId.From(Guid.Parse("10000000-0000-0000-0000-000000000002")), CapabilityId = CapabilityId3 },
+            
+            // Eagle: Manual Movement, LED Light Feature
+            new { InstockProductId = InstockProductId.From(Guid.Parse("10000000-0000-0000-0000-000000000003")), CapabilityId = CapabilityId3 },
+            new { InstockProductId = InstockProductId.From(Guid.Parse("10000000-0000-0000-0000-000000000003")), CapabilityId = CapabilityId4 },
+            
+            // Sports Car: LED Light Feature, Musical Gear
+            new { InstockProductId = InstockProductId.From(Guid.Parse("10000000-0000-0000-0000-000000000004")), CapabilityId = CapabilityId4 },
+            new { InstockProductId = InstockProductId.From(Guid.Parse("10000000-0000-0000-0000-000000000004")), CapabilityId = CapabilityId5 },
+            
+            // Airplane: Musical Gear, Static Display
+            new { InstockProductId = InstockProductId.From(Guid.Parse("10000000-0000-0000-0000-000000000005")), CapabilityId = CapabilityId5 },
+            new { InstockProductId = InstockProductId.From(Guid.Parse("10000000-0000-0000-0000-000000000005")), CapabilityId = CapabilityId1 },
+            
+            // Motorcycle: Static Display, Move with Motor
+            new { InstockProductId = InstockProductId.From(Guid.Parse("10000000-0000-0000-0000-000000000006")), CapabilityId = CapabilityId1 },
+            new { InstockProductId = InstockProductId.From(Guid.Parse("10000000-0000-0000-0000-000000000006")), CapabilityId = CapabilityId2 },
+            
+            // Tiger: Move with Motor, Manual Movement
+            new { InstockProductId = InstockProductId.From(Guid.Parse("10000000-0000-0000-0000-000000000007")), CapabilityId = CapabilityId2 },
+            new { InstockProductId = InstockProductId.From(Guid.Parse("10000000-0000-0000-0000-000000000007")), CapabilityId = CapabilityId3 },
+            
+            // Dolphin: Manual Movement, LED Light Feature
+            new { InstockProductId = InstockProductId.From(Guid.Parse("10000000-0000-0000-0000-000000000008")), CapabilityId = CapabilityId3 },
+            new { InstockProductId = InstockProductId.From(Guid.Parse("10000000-0000-0000-0000-000000000008")), CapabilityId = CapabilityId4 },
+            
+            // Helicopter: LED Light Feature, Musical Gear
+            new { InstockProductId = InstockProductId.From(Guid.Parse("10000000-0000-0000-0000-000000000009")), CapabilityId = CapabilityId4 },
+            new { InstockProductId = InstockProductId.From(Guid.Parse("10000000-0000-0000-0000-000000000009")), CapabilityId = CapabilityId5 },
+            
+            // Dragon: Musical Gear, Static Display
+            new { InstockProductId = InstockProductId.From(Guid.Parse("10000000-0000-0000-0000-000000000010")), CapabilityId = CapabilityId5 },
+            new { InstockProductId = InstockProductId.From(Guid.Parse("10000000-0000-0000-0000-000000000010")), CapabilityId = CapabilityId1 }
+        };
+
+        modelBuilder.Entity<InstockProductCapabilityDetail>().HasData(details);
+    }
 }
+

@@ -96,7 +96,7 @@ internal sealed class GetAllInstockProductsQueryHandler
                 // Assembly method search
                 (matchingAssemblyMethodIds.Count > 0 && matchingAssemblyMethodIds.Contains(p.AssemblyMethodId)) ||
                 // Capability search
-                (matchingCapabilityIds.Count > 0 && p.CapabilityIds.Any(cId => matchingCapabilityIds.Contains(cId))));
+                (matchingCapabilityIds.Count > 0 && p.CapabilityDetails.Any(c => matchingCapabilityIds.Contains(c.CapabilityId))));
         }
 
         // Apply IsActive filter (only for staff/manager)
@@ -132,7 +132,7 @@ internal sealed class GetAllInstockProductsQueryHandler
                     p.TopicId,
                     p.MaterialId,
                     p.AssemblyMethodId,
-                    p.CapabilityIds.ToList()) as object)
+                    p.GetCapabilityIds()) as object)
                 .ToList();
         }
         else
@@ -154,7 +154,7 @@ internal sealed class GetAllInstockProductsQueryHandler
                     p.TopicId,
                     p.MaterialId,
                     p.AssemblyMethodId,
-                    p.CapabilityIds.ToList()) as object)
+                    p.GetCapabilityIds()) as object)
                 .ToList();
         }
 
