@@ -85,7 +85,7 @@ internal sealed class GetCustomerOrdersQueryHandler
                 o.Code,
                 o.GrandTotalAmount,
                 totalQuantity,
-                o.Status,
+                o.Status.ToString(),
                 o.PaymentMethod,
                 o.IsPaid,
                 o.PaidAt,

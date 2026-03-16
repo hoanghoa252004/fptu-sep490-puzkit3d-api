@@ -350,8 +350,9 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                         .HasColumnType("decimal(10,2)")
                         .HasColumnName("shipping_fee");
 
-                    b.Property<int>("Status")
-                        .HasColumnType("integer")
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("text")
                         .HasColumnName("status");
 
                     b.Property<decimal>("SubTotalAmount")

@@ -55,6 +55,7 @@ internal sealed class GetPaymentByOrderIdQueryHandler : IQueryHandler<GetPayment
             OrderId: payment.ReferenceOrderId,
             OrderType: payment.ReferenceOrderType,
             Amount: payment.Amount,
+            PaymentMethod: payment.PaymentMethod,
             Status: payment.Status.ToString(),
             ExpiredAt: payment.ExpiredAt,
             PaidAt: payment.PaidAt,

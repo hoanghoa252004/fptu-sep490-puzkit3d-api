@@ -102,7 +102,6 @@ public sealed class InstockOrder : AggregateRoot<InstockOrderId>
         decimal usedCoinAmountAsMoney,
         decimal grandTotalAmount,
         string paymentMethod,
-        InstockOrderStatus status = InstockOrderStatus.PaymentPending,
         bool isPaid = false,
         DateTime? createdAt = null)
     {
@@ -138,6 +137,12 @@ public sealed class InstockOrder : AggregateRoot<InstockOrderId>
 
         var orderId = InstockOrderId.Create();
         var timestamp = createdAt ?? DateTime.UtcNow;
+        
+        // Determine initial status based on payment method
+        var initialStatus = paymentMethod.Equals("COD", StringComparison.OrdinalIgnoreCase)
+            ? InstockOrderStatus.Waiting
+            : InstockOrderStatus.Pending;
+        
         var order = new InstockOrder(
             orderId,
             code,
@@ -156,7 +161,7 @@ public sealed class InstockOrder : AggregateRoot<InstockOrderId>
             usedCoinAmount,
             usedCoinAmountAsMoney,
             grandTotalAmount,
-            status,
+            initialStatus,
             paymentMethod,
             isPaid,
             timestamp);
@@ -189,7 +194,7 @@ public sealed class InstockOrder : AggregateRoot<InstockOrderId>
             return Result.Failure(InstockOrderError.OrderAlreadyPaid());
         }
 
-        if (Status != InstockOrderStatus.PaymentPending)
+        if (Status != InstockOrderStatus.Pending && Status != InstockOrderStatus.Waiting)
         {
             return Result.Failure(InstockOrderError.InvalidStatusTransition(Status, InstockOrderStatus.Paid));
         }
@@ -204,7 +209,7 @@ public sealed class InstockOrder : AggregateRoot<InstockOrderId>
 
     public Result MarkAsExpired()
     {
-        if (Status != InstockOrderStatus.PaymentPending)
+        if (Status != InstockOrderStatus.Pending && Status != InstockOrderStatus.Waiting)
         {
             return Result.Failure(InstockOrderError.CannotExpireOrder());
         }
@@ -228,14 +233,27 @@ public sealed class InstockOrder : AggregateRoot<InstockOrderId>
         return Result.Success();
     }
 
-    public Result MarkAsShipped()
+    public Result MarkAsShipping()
     {
         if (Status != InstockOrderStatus.Processing)
         {
-            return Result.Failure(InstockOrderError.InvalidStatusTransition(Status, InstockOrderStatus.Shipped));
+            return Result.Failure(InstockOrderError.InvalidStatusTransition(Status, InstockOrderStatus.Shipping));
         }
 
-        Status = InstockOrderStatus.Shipped;
+        Status = InstockOrderStatus.Shipping;
+        UpdatedAt = DateTime.UtcNow;
+
+        return Result.Success();
+    }
+
+    public Result MarkAsDelivered()
+    {
+        if (Status != InstockOrderStatus.Shipping)
+        {
+            return Result.Failure(InstockOrderError.InvalidStatusTransition(Status, InstockOrderStatus.Delivered));
+        }
+
+        Status = InstockOrderStatus.Delivered;
         UpdatedAt = DateTime.UtcNow;
 
         return Result.Success();
@@ -243,7 +261,7 @@ public sealed class InstockOrder : AggregateRoot<InstockOrderId>
 
     public Result Complete()
     {
-        if (Status != InstockOrderStatus.Shipped)
+        if (Status != InstockOrderStatus.Delivered)
         {
             return Result.Failure(InstockOrderError.InvalidStatusTransition(Status, InstockOrderStatus.Completed));
         }
@@ -254,6 +272,19 @@ public sealed class InstockOrder : AggregateRoot<InstockOrderId>
         }
 
         Status = InstockOrderStatus.Completed;
+        UpdatedAt = DateTime.UtcNow;
+
+        return Result.Success();
+    }
+
+    public Result Cancel()
+    {
+        if (Status != InstockOrderStatus.Waiting && Status != InstockOrderStatus.Pending)
+        {
+            return Result.Failure(InstockOrderError.InvalidStatusTransition(Status, InstockOrderStatus.Cancelled));
+        }
+
+        Status = InstockOrderStatus.Cancelled;
         UpdatedAt = DateTime.UtcNow;
 
         return Result.Success();

@@ -12,7 +12,7 @@ using PuzKit3D.Modules.Payment.Persistence;
 namespace PuzKit3D.Modules.Payment.Persistence.Migrations
 {
     [DbContext(typeof(PaymentDbContext))]
-    [Migration("20260313043752_InitModule")]
+    [Migration("20260316073233_InitModule")]
     partial class InitModule
     {
         /// <inheritdoc />
@@ -67,8 +67,7 @@ namespace PuzKit3D.Modules.Payment.Persistence.Migrations
 
                     b.Property<string>("Status")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)")
+                        .HasColumnType("text")
                         .HasColumnName("status");
 
                     b.Property<string>("Type")
@@ -119,6 +118,12 @@ namespace PuzKit3D.Modules.Payment.Persistence.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("paid_at");
 
+                    b.Property<string>("PaymentMethod")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
+                        .HasColumnName("payment_method");
+
                     b.Property<Guid>("ReferenceOrderId")
                         .HasColumnType("uuid")
                         .HasColumnName("reference_order_id");
@@ -129,8 +134,9 @@ namespace PuzKit3D.Modules.Payment.Persistence.Migrations
                         .HasColumnType("character varying(30)")
                         .HasColumnName("reference_order_type");
 
-                    b.Property<int>("Status")
-                        .HasColumnType("integer")
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("text")
                         .HasColumnName("status");
 
                     b.Property<DateTime>("UpdatedAt")
@@ -187,8 +193,9 @@ namespace PuzKit3D.Modules.Payment.Persistence.Migrations
                         .HasColumnType("text")
                         .HasColumnName("raw_response_payload");
 
-                    b.Property<int>("Status")
-                        .HasColumnType("integer")
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("text")
                         .HasColumnName("status");
 
                     b.Property<string>("TransactionNo")

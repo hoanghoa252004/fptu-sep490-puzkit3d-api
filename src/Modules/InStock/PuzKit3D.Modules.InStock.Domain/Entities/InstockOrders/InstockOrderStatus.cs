@@ -2,10 +2,13 @@ namespace PuzKit3D.Modules.InStock.Domain.Entities.InstockOrders;
 
 public enum InstockOrderStatus
 {
-    PaymentPending = 0,
-    Paid = 1,
-    Expired = 2,
-    Processing = 3,
-    Shipped = 4,
-    Completed = 5
+    Waiting = 0,
+    Pending = 1,
+    Paid = 2,
+    Expired = 3,
+    Processing = 4,
+    Shipping = 5,
+    Delivered = 6,
+    Completed = 7,
+    Cancelled = 8
 }

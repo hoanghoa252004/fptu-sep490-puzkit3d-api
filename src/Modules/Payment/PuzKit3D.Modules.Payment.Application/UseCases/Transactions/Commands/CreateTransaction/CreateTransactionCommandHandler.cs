@@ -47,6 +47,13 @@ internal sealed class CreateTransactionCommandHandler : ICommandTHandler<CreateT
                 PaymentError.PaymentNotFound(request.paymentId));
         }
 
+        // Only Online payments can create transactions
+        if (!payment.PaymentMethod.Equals("Online", StringComparison.OrdinalIgnoreCase))
+        {
+            return Result.Failure<string>(
+                PaymentError.InvalidOperationOnPaymentMethod());
+        }
+
         if (payment.Status == PaymentStatus.Paid)
         {
             return Result.Failure<string>(PaymentError.PaymentAlreadyPaid());
@@ -77,9 +84,13 @@ internal sealed class CreateTransactionCommandHandler : ICommandTHandler<CreateT
         //    return Result.Failure<string>(PaymentError.PaymentExpired());
         //}
 
-        // Check if there's an active (non-expired) transaction for this payment
+        // Check if there's an active Pending transaction for this payment
+        // Only Pending transactions that haven't expired block new transaction creation
+        // Failed, Cancelled, Expired transactions allow retry
         var activeTransactions = await _transactionRepository.FindAsync(
-            t => t.PaymentId == payment.Id && t.ExpiredAt > DateTime.UtcNow,
+            t => t.PaymentId == payment.Id 
+                && t.Status == TransactionStatus.Pending 
+                && t.ExpiredAt > DateTime.UtcNow,
             cancellationToken);
 
         if (activeTransactions.Any())
