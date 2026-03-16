@@ -50,14 +50,20 @@ internal sealed class UpdateInstockProductCommandHandler : ICommandHandler<Updat
                 request.PreviewAsset,
                 request.TopicId,
                 request.AssemblyMethodId,
-                request.CapabilityId,
                 request.MaterialId,
+                request.CapabilityIds,
                 request.Description,
                 request.IsActive);
 
             if (updateResult.IsFailure)
             {
                 return updateResult;
+            }
+
+            // Update capabilities if provided
+            if (request.CapabilityIds != null)
+            {
+                product.SetCapabilities(request.CapabilityIds);
             }
 
             _productRepository.Update(product);

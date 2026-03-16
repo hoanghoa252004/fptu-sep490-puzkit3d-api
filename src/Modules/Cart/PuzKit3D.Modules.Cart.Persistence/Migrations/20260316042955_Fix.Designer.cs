@@ -12,8 +12,8 @@ using PuzKit3D.Modules.Cart.Persistence;
 namespace PuzKit3D.Modules.Cart.Persistence.Migrations
 {
     [DbContext(typeof(CartDbContext))]
-    [Migration("20260312103617_InitModule")]
-    partial class InitModule
+    [Migration("20260316042955_Fix")]
+    partial class Fix
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -695,10 +695,6 @@ namespace PuzKit3D.Modules.Cart.Persistence.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("assembly_method_id");
 
-                    b.Property<Guid>("CapabilityId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("capability_id");
-
                     b.Property<string>("Code")
                         .IsRequired()
                         .HasMaxLength(10)
@@ -780,190 +776,180 @@ namespace PuzKit3D.Modules.Cart.Persistence.Migrations
                         new
                         {
                             Id = new Guid("10000000-0000-0000-0000-000000000001"),
-                            AssemblyMethodId = new Guid("33333333-3333-3333-3333-333333333333"),
-                            CapabilityId = new Guid("77777777-7777-7777-7777-777777777777"),
+                            AssemblyMethodId = new Guid("d1d1d1d1-d1d1-d1d1-d1d1-d1d1d1d1d1d1"),
                             Code = "INP001",
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             DifficultLevel = "Basic",
                             EstimatedBuildTime = 120,
                             IsActive = true,
-                            MaterialId = new Guid("55555555-5555-5555-5555-555555555555"),
+                            MaterialId = new Guid("f1f1f1f1-f1f1-f1f1-f1f1-f1f1f1f1f1f1"),
                             Name = "Lion 3D Puzzle",
-                            PreviewAsset = "{\"main\":\"https://example.com/lion-preview.jpg\"}",
+                            PreviewAsset = "{\"additionalProp1\":\"https://example.com/lion-preview.jpg\",\"additionalProp2\":\"https://example.com/lion-preview-alt.jpg\"}",
                             Slug = "lion-3d-puzzle",
                             ThumbnailUrl = "https://example.com/lion.jpg",
-                            TopicId = new Guid("11111111-1111-1111-1111-111111111111"),
+                            TopicId = new Guid("a1a1a1a1-a1a1-a1a1-a1a1-a1a1a1a1a1a1"),
                             TotalPieceCount = 150,
                             UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
                         },
                         new
                         {
                             Id = new Guid("10000000-0000-0000-0000-000000000002"),
-                            AssemblyMethodId = new Guid("33333333-3333-3333-3333-333333333333"),
-                            CapabilityId = new Guid("77777777-7777-7777-7777-777777777777"),
+                            AssemblyMethodId = new Guid("e2e2e2e2-e2e2-e2e2-e2e2-e2e2e2e2e2e2"),
                             Code = "INP002",
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             DifficultLevel = "Intermediate",
                             EstimatedBuildTime = 180,
                             IsActive = true,
-                            MaterialId = new Guid("55555555-5555-5555-5555-555555555555"),
+                            MaterialId = new Guid("a2a2a2a2-a2a2-a2a2-a2a2-a2a2a2a2a2a2"),
                             Name = "Elephant 3D Puzzle",
-                            PreviewAsset = "{\"main\":\"https://example.com/elephant-preview.jpg\"}",
+                            PreviewAsset = "{\"additionalProp1\":\"https://example.com/elephant-preview.jpg\",\"additionalProp2\":\"https://example.com/elephant-preview-alt.jpg\"}",
                             Slug = "elephant-3d-puzzle",
                             ThumbnailUrl = "https://example.com/elephant.jpg",
-                            TopicId = new Guid("11111111-1111-1111-1111-111111111111"),
+                            TopicId = new Guid("a1a1a1a1-a1a1-a1a1-a1a1-a1a1a1a1a1a1"),
                             TotalPieceCount = 200,
                             UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
                         },
                         new
                         {
                             Id = new Guid("10000000-0000-0000-0000-000000000003"),
-                            AssemblyMethodId = new Guid("44444444-4444-4444-4444-444444444444"),
-                            CapabilityId = new Guid("88888888-8888-8888-8888-888888888888"),
+                            AssemblyMethodId = new Guid("f3f3f3f3-f3f3-f3f3-f3f3-f3f3f3f3f3f3"),
                             Code = "INP003",
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             DifficultLevel = "Advanced",
                             EstimatedBuildTime = 240,
                             IsActive = true,
-                            MaterialId = new Guid("55555555-5555-5555-5555-555555555555"),
+                            MaterialId = new Guid("b3b3b3b3-b3b3-b3b3-b3b3-b3b3b3b3b3b3"),
                             Name = "Eagle 3D Puzzle",
-                            PreviewAsset = "{\"main\":\"https://example.com/eagle-preview.jpg\"}",
+                            PreviewAsset = "{\"additionalProp1\":\"https://example.com/eagle-preview.jpg\",\"additionalProp2\":\"https://example.com/eagle-preview-alt.jpg\"}",
                             Slug = "eagle-3d-puzzle",
                             ThumbnailUrl = "https://example.com/eagle.jpg",
-                            TopicId = new Guid("11111111-1111-1111-1111-111111111111"),
+                            TopicId = new Guid("a1a1a1a1-a1a1-a1a1-a1a1-a1a1a1a1a1a1"),
                             TotalPieceCount = 180,
                             UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
                         },
                         new
                         {
                             Id = new Guid("10000000-0000-0000-0000-000000000004"),
-                            AssemblyMethodId = new Guid("44444444-4444-4444-4444-444444444444"),
-                            CapabilityId = new Guid("88888888-8888-8888-8888-888888888888"),
+                            AssemblyMethodId = new Guid("a4a4a4a4-a4a4-a4a4-a4a4-a4a4a4a4a4a4"),
                             Code = "INP004",
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             DifficultLevel = "Advanced",
                             EstimatedBuildTime = 300,
                             IsActive = true,
-                            MaterialId = new Guid("66666666-6666-6666-6666-666666666666"),
+                            MaterialId = new Guid("c4c4c4c4-c4c4-c4c4-c4c4-c4c4c4c4c4c4"),
                             Name = "Sports Car 3D Puzzle",
-                            PreviewAsset = "{\"main\":\"https://example.com/sports-car-preview.jpg\"}",
+                            PreviewAsset = "{\"additionalProp1\":\"https://example.com/sports-car-preview.jpg\",\"additionalProp2\":\"https://example.com/sports-car-preview-alt.jpg\"}",
                             Slug = "sports-car-3d-puzzle",
                             ThumbnailUrl = "https://example.com/sports-car.jpg",
-                            TopicId = new Guid("22222222-2222-2222-2222-222222222222"),
+                            TopicId = new Guid("b2b2b2b2-b2b2-b2b2-b2b2-b2b2b2b2b2b2"),
                             TotalPieceCount = 250,
                             UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
                         },
                         new
                         {
                             Id = new Guid("10000000-0000-0000-0000-000000000005"),
-                            AssemblyMethodId = new Guid("33333333-3333-3333-3333-333333333333"),
-                            CapabilityId = new Guid("77777777-7777-7777-7777-777777777777"),
+                            AssemblyMethodId = new Guid("b5b5b5b5-b5b5-b5b5-b5b5-b5b5b5b5b5b5"),
                             Code = "INP005",
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             DifficultLevel = "Intermediate",
                             EstimatedBuildTime = 200,
                             IsActive = true,
-                            MaterialId = new Guid("66666666-6666-6666-6666-666666666666"),
+                            MaterialId = new Guid("d5d5d5d5-d5d5-d5d5-d5d5-d5d5d5d5d5d5"),
                             Name = "Airplane 3D Puzzle",
-                            PreviewAsset = "{\"main\":\"https://example.com/airplane-preview.jpg\"}",
+                            PreviewAsset = "{\"additionalProp1\":\"https://example.com/airplane-preview.jpg\",\"additionalProp2\":\"https://example.com/airplane-preview-alt.jpg\"}",
                             Slug = "airplane-3d-puzzle",
                             ThumbnailUrl = "https://example.com/airplane.jpg",
-                            TopicId = new Guid("22222222-2222-2222-2222-222222222222"),
+                            TopicId = new Guid("b2b2b2b2-b2b2-b2b2-b2b2-b2b2b2b2b2b2"),
                             TotalPieceCount = 220,
                             UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
                         },
                         new
                         {
                             Id = new Guid("10000000-0000-0000-0000-000000000006"),
-                            AssemblyMethodId = new Guid("33333333-3333-3333-3333-333333333333"),
-                            CapabilityId = new Guid("77777777-7777-7777-7777-777777777777"),
+                            AssemblyMethodId = new Guid("d1d1d1d1-d1d1-d1d1-d1d1-d1d1d1d1d1d1"),
                             Code = "INP006",
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             DifficultLevel = "Intermediate",
                             EstimatedBuildTime = 150,
                             IsActive = true,
-                            MaterialId = new Guid("66666666-6666-6666-6666-666666666666"),
+                            MaterialId = new Guid("f1f1f1f1-f1f1-f1f1-f1f1-f1f1f1f1f1f1"),
                             Name = "Motorcycle 3D Puzzle",
-                            PreviewAsset = "{\"main\":\"https://example.com/motorcycle-preview.jpg\"}",
+                            PreviewAsset = "{\"additionalProp1\":\"https://example.com/motorcycle-preview.jpg\",\"additionalProp2\":\"https://example.com/motorcycle-preview-alt.jpg\"}",
                             Slug = "motorcycle-3d-puzzle",
                             ThumbnailUrl = "https://example.com/motorcycle.jpg",
-                            TopicId = new Guid("22222222-2222-2222-2222-222222222222"),
+                            TopicId = new Guid("b2b2b2b2-b2b2-b2b2-b2b2-b2b2b2b2b2b2"),
                             TotalPieceCount = 180,
                             UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
                         },
                         new
                         {
                             Id = new Guid("10000000-0000-0000-0000-000000000007"),
-                            AssemblyMethodId = new Guid("33333333-3333-3333-3333-333333333333"),
-                            CapabilityId = new Guid("77777777-7777-7777-7777-777777777777"),
+                            AssemblyMethodId = new Guid("e2e2e2e2-e2e2-e2e2-e2e2-e2e2e2e2e2e2"),
                             Code = "INP007",
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             DifficultLevel = "Basic",
                             EstimatedBuildTime = 130,
                             IsActive = true,
-                            MaterialId = new Guid("55555555-5555-5555-5555-555555555555"),
+                            MaterialId = new Guid("a2a2a2a2-a2a2-a2a2-a2a2-a2a2a2a2a2a2"),
                             Name = "Tiger 3D Puzzle",
-                            PreviewAsset = "{\"main\":\"https://example.com/tiger-preview.jpg\"}",
+                            PreviewAsset = "{\"additionalProp1\":\"https://example.com/tiger-preview.jpg\",\"additionalProp2\":\"https://example.com/tiger-preview-alt.jpg\"}",
                             Slug = "tiger-3d-puzzle",
                             ThumbnailUrl = "https://example.com/tiger.jpg",
-                            TopicId = new Guid("11111111-1111-1111-1111-111111111111"),
+                            TopicId = new Guid("a1a1a1a1-a1a1-a1a1-a1a1-a1a1a1a1a1a1"),
                             TotalPieceCount = 170,
                             UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
                         },
                         new
                         {
                             Id = new Guid("10000000-0000-0000-0000-000000000008"),
-                            AssemblyMethodId = new Guid("33333333-3333-3333-3333-333333333333"),
-                            CapabilityId = new Guid("77777777-7777-7777-7777-777777777777"),
+                            AssemblyMethodId = new Guid("f3f3f3f3-f3f3-f3f3-f3f3-f3f3f3f3f3f3"),
                             Code = "INP008",
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             DifficultLevel = "Basic",
                             EstimatedBuildTime = 100,
                             IsActive = true,
-                            MaterialId = new Guid("55555555-5555-5555-5555-555555555555"),
+                            MaterialId = new Guid("b3b3b3b3-b3b3-b3b3-b3b3-b3b3b3b3b3b3"),
                             Name = "Dolphin 3D Puzzle",
-                            PreviewAsset = "{\"main\":\"https://example.com/dolphin-preview.jpg\"}",
+                            PreviewAsset = "{\"additionalProp1\":\"https://example.com/dolphin-preview.jpg\",\"additionalProp2\":\"https://example.com/dolphin-preview-alt.jpg\"}",
                             Slug = "dolphin-3d-puzzle",
                             ThumbnailUrl = "https://example.com/dolphin.jpg",
-                            TopicId = new Guid("11111111-1111-1111-1111-111111111111"),
+                            TopicId = new Guid("a1a1a1a1-a1a1-a1a1-a1a1-a1a1a1a1a1a1"),
                             TotalPieceCount = 130,
                             UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
                         },
                         new
                         {
                             Id = new Guid("10000000-0000-0000-0000-000000000009"),
-                            AssemblyMethodId = new Guid("33333333-3333-3333-3333-333333333333"),
-                            CapabilityId = new Guid("77777777-7777-7777-7777-777777777777"),
+                            AssemblyMethodId = new Guid("e2e2e2e2-e2e2-e2e2-e2e2-e2e2e2e2e2e2"),
                             Code = "INP009",
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             DifficultLevel = "Intermediate",
                             EstimatedBuildTime = 170,
                             IsActive = true,
-                            MaterialId = new Guid("66666666-6666-6666-6666-666666666666"),
+                            MaterialId = new Guid("a2a2a2a2-a2a2-a2a2-a2a2-a2a2a2a2a2a2"),
                             Name = "Helicopter 3D Puzzle",
-                            PreviewAsset = "{\"main\":\"https://example.com/helicopter-preview.jpg\"}",
+                            PreviewAsset = "{\"additionalProp1\":\"https://example.com/helicopter-preview.jpg\",\"additionalProp2\":\"https://example.com/helicopter-preview-alt.jpg\"}",
                             Slug = "helicopter-3d-puzzle",
                             ThumbnailUrl = "https://example.com/helicopter.jpg",
-                            TopicId = new Guid("22222222-2222-2222-2222-222222222222"),
+                            TopicId = new Guid("b2b2b2b2-b2b2-b2b2-b2b2-b2b2b2b2b2b2"),
                             TotalPieceCount = 190,
                             UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
                         },
                         new
                         {
                             Id = new Guid("10000000-0000-0000-0000-000000000010"),
-                            AssemblyMethodId = new Guid("44444444-4444-4444-4444-444444444444"),
-                            CapabilityId = new Guid("88888888-8888-8888-8888-888888888888"),
+                            AssemblyMethodId = new Guid("a4a4a4a4-a4a4-a4a4-a4a4-a4a4a4a4a4a4"),
                             Code = "INP010",
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             DifficultLevel = "Advanced",
                             EstimatedBuildTime = 360,
                             IsActive = true,
-                            MaterialId = new Guid("55555555-5555-5555-5555-555555555555"),
+                            MaterialId = new Guid("c4c4c4c4-c4c4-c4c4-c4c4-c4c4c4c4c4c4"),
                             Name = "Dragon 3D Puzzle",
-                            PreviewAsset = "{\"main\":\"https://example.com/dragon-preview.jpg\"}",
+                            PreviewAsset = "{\"additionalProp1\":\"https://example.com/dragon-preview.jpg\",\"additionalProp2\":\"https://example.com/dragon-preview-alt.jpg\"}",
                             Slug = "dragon-3d-puzzle",
                             ThumbnailUrl = "https://example.com/dragon.jpg",
-                            TopicId = new Guid("11111111-1111-1111-1111-111111111111"),
+                            TopicId = new Guid("a1a1a1a1-a1a1-a1a1-a1a1-a1a1a1a1a1a1"),
                             TotalPieceCount = 300,
                             UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
                         });

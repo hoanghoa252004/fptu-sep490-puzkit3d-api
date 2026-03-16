@@ -60,7 +60,7 @@ internal sealed class GetInstockProductByIdQueryHandler
             product.Description,
             product.TopicId,
             product.AssemblyMethodId,
-            product.CapabilityId,
+            product.GetCapabilityIds(),
             product.MaterialId,
             product.IsActive,
             product.CreatedAt,

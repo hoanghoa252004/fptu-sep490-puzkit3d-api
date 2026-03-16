@@ -84,9 +84,6 @@ internal sealed class CreateInstockProductCommandHandler : ICommandTHandler<Crea
             var code = await _codeGenerator.GenerateNextCodeAsync(cancellationToken);
             var previewAssetJson = JsonSerializer.Serialize(request.PreviewAsset);
 
-            // Use first capability as primary, others will be added via AddCapability
-            var primaryCapabilityId = request.CapabilityIds[0];
-
             var productResult = InstockProduct.Create(
                 code,
                 request.Slug,
@@ -98,8 +95,8 @@ internal sealed class CreateInstockProductCommandHandler : ICommandTHandler<Crea
                 previewAssetJson,
                 request.TopicId,
                 request.AssemblyMethodId,
-                primaryCapabilityId,
                 request.MaterialId,
+                request.CapabilityIds,
                 request.Description,
                 request.IsActive);
 
@@ -110,10 +107,10 @@ internal sealed class CreateInstockProductCommandHandler : ICommandTHandler<Crea
 
             var product = productResult.Value;
 
-            // Add remaining capabilities
-            for (int i = 1; i < request.CapabilityIds.Count; i++)
+            // Set capabilities
+            if (request.CapabilityIds != null && request.CapabilityIds.Count > 0)
             {
-                product.AddCapability(request.CapabilityIds[i]);
+                product.SetCapabilities(request.CapabilityIds);
             }
 
             _productRepository.Add(product);

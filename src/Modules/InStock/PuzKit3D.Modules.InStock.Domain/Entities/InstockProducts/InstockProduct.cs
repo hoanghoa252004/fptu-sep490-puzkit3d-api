@@ -1,4 +1,5 @@
 using PuzKit3D.Modules.InStock.Domain.Entities.InstockProducts.DomainEvents;
+using PuzKit3D.Modules.InStock.Domain.Entities.InstockProductCapabilityDetails;
 using PuzKit3D.Modules.InStock.Domain.Entities.Parts;
 using PuzKit3D.SharedKernel.Domain;
 using PuzKit3D.SharedKernel.Domain.Results;
@@ -10,7 +11,7 @@ public sealed partial class InstockProduct : AggregateRoot<InstockProductId>
 {
     private static readonly Regex CodeRegex = CodeRegexPattern();
     private readonly List<Part> _parts = new();
-    private readonly List<Guid> _capabilityIds = new();
+    private readonly List<InstockProductCapabilityDetail> _capabilityDetails = new();
 
     public static readonly HashSet<string> ValidDifficultLevels = new()
     {
@@ -30,14 +31,13 @@ public sealed partial class InstockProduct : AggregateRoot<InstockProductId>
     public string? Description { get; private set; }
     public Guid TopicId { get; private set; }
     public Guid AssemblyMethodId { get; private set; }
-    public Guid CapabilityId { get; private set; }
     public Guid MaterialId { get; private set; }
     public bool IsActive { get; private set; }
     public DateTime CreatedAt { get; private set; }
     public DateTime UpdatedAt { get; private set; }
 
     public IReadOnlyCollection<Part> Parts => _parts.AsReadOnly();
-    public IReadOnlyCollection<Guid> CapabilityIds => _capabilityIds.AsReadOnly();
+    public IReadOnlyCollection<InstockProductCapabilityDetail> CapabilityDetails => _capabilityDetails.AsReadOnly();
 
     [GeneratedRegex(@"^INP\d{3}$", RegexOptions.Compiled)]
     private static partial Regex CodeRegexPattern();
@@ -55,7 +55,6 @@ public sealed partial class InstockProduct : AggregateRoot<InstockProductId>
         string? description,
         Guid topicId,
         Guid assemblyMethodId,
-        Guid capabilityId,
         Guid materialId,
         bool isActive,
         DateTime createdAt) : base(id)
@@ -71,7 +70,6 @@ public sealed partial class InstockProduct : AggregateRoot<InstockProductId>
         Description = description;
         TopicId = topicId;
         AssemblyMethodId = assemblyMethodId;
-        CapabilityId = capabilityId;
         MaterialId = materialId;
         IsActive = isActive;
         CreatedAt = createdAt;
@@ -93,8 +91,8 @@ public sealed partial class InstockProduct : AggregateRoot<InstockProductId>
         string previewAsset,
         Guid topicId,
         Guid assemblyMethodId,
-        Guid capabilityId,
         Guid materialId,
+        List<Guid>? capabilityIds = null,
         string? description = null,
         bool isActive = false,
         DateTime? createdAt = null)
@@ -123,7 +121,6 @@ public sealed partial class InstockProduct : AggregateRoot<InstockProductId>
         if (totalPieceCount <= 0)
             return Result.Failure<InstockProduct>(InstockProductError.InvalidTotalPieceCount());
 
-
         if (string.IsNullOrWhiteSpace(difficultLevel))
             return Result.Failure<InstockProduct>(InstockProductError.InvalidDifficultLevel());
 
@@ -131,7 +128,6 @@ public sealed partial class InstockProduct : AggregateRoot<InstockProductId>
             return Result.Failure<InstockProduct>(InstockProductError.InvalidDifficultLevelValue(difficultLevel));
 
         if (estimatedBuildTime <= 0)
-
             return Result.Failure<InstockProduct>(InstockProductError.InvalidEstimatedBuildTime());
 
         if (string.IsNullOrWhiteSpace(thumbnailUrl))
@@ -155,7 +151,6 @@ public sealed partial class InstockProduct : AggregateRoot<InstockProductId>
             description,
             topicId,
             assemblyMethodId,
-            capabilityId,
             materialId,
             isActive,
             timestamp);
@@ -173,84 +168,11 @@ public sealed partial class InstockProduct : AggregateRoot<InstockProductId>
             product.Description,
             product.TopicId,
             product.AssemblyMethodId,
-            product.CapabilityId,
             product.MaterialId,
             product.IsActive,
             product.CreatedAt));
 
         return Result.Success(product);
-    }
-
-    public Result Update(
-        string code,
-        string slug,
-        string name,
-        int totalPieceCount,
-        string difficultLevel,
-        int estimatedBuildTime,
-        string thumbnailUrl,
-        string previewAsset,
-        Guid topicId,
-        Guid assemblyMethodId,
-        Guid capabilityId,
-        Guid materialId,
-        string? description)
-    {
-        if (string.IsNullOrWhiteSpace(code))
-            return Result.Failure(InstockProductError.InvalidCode());
-
-        if (!CodeRegex.IsMatch(code))
-            return Result.Failure(InstockProductError.InvalidCodeFormat());
-
-        if (code.Length > 10)
-            return Result.Failure(InstockProductError.CodeTooLong(code.Length));
-
-        if (string.IsNullOrWhiteSpace(slug))
-            return Result.Failure(InstockProductError.InvalidSlug());
-
-        if (slug.Length > 30)
-            return Result.Failure(InstockProductError.SlugTooLong(slug.Length));
-
-        if (string.IsNullOrWhiteSpace(name))
-            return Result.Failure(InstockProductError.InvalidName());
-
-        if (name.Length > 30)
-            return Result.Failure(InstockProductError.NameTooLong(name.Length));
-
-        if (totalPieceCount <= 0)
-            return Result.Failure(InstockProductError.InvalidTotalPieceCount());
-
-        if (string.IsNullOrWhiteSpace(difficultLevel))
-            return Result.Failure(InstockProductError.InvalidDifficultLevel());
-
-        if (!ValidDifficultLevels.Contains(difficultLevel))
-            return Result.Failure(InstockProductError.InvalidDifficultLevelValue(difficultLevel));
-
-        if (estimatedBuildTime <= 0)
-            return Result.Failure(InstockProductError.InvalidEstimatedBuildTime());
-
-        if (string.IsNullOrWhiteSpace(thumbnailUrl))
-            return Result.Failure(InstockProductError.InvalidThumbnailUrl());
-
-        if (string.IsNullOrWhiteSpace(previewAsset))
-            return Result.Failure(InstockProductError.InvalidPreviewAsset());
-
-        Code = code;
-        Slug = slug;
-        Name = name;
-        TotalPieceCount = totalPieceCount;
-        DifficultLevel = difficultLevel;
-        EstimatedBuildTime = estimatedBuildTime;
-        ThumbnailUrl = thumbnailUrl;
-        PreviewAsset = previewAsset;
-        Description = description;
-        TopicId = topicId;
-        AssemblyMethodId = assemblyMethodId;
-        CapabilityId = capabilityId;
-        MaterialId = materialId;
-        UpdatedAt = DateTime.UtcNow;
-
-        return Result.Success();
     }
 
     public Result PartialUpdate(
@@ -263,8 +185,8 @@ public sealed partial class InstockProduct : AggregateRoot<InstockProductId>
         Dictionary<string, string>? previewAsset = null,
         Guid? topicId = null,
         Guid? assemblyMethodId = null,
-        Guid? capabilityId = null,
         Guid? materialId = null,
+        List<Guid>? capabilityIds = null,
         string? description = null,
         bool? isActive = null)
     {
@@ -336,9 +258,6 @@ public sealed partial class InstockProduct : AggregateRoot<InstockProductId>
         if (assemblyMethodId.HasValue)
             AssemblyMethodId = assemblyMethodId.Value;
 
-        if (capabilityId.HasValue)
-            CapabilityId = capabilityId.Value;
-
         if (materialId.HasValue)
             MaterialId = materialId.Value;
 
@@ -368,7 +287,6 @@ public sealed partial class InstockProduct : AggregateRoot<InstockProductId>
             Description,
             TopicId,
             AssemblyMethodId,
-            CapabilityId,
             MaterialId,
             IsActive,
             UpdatedAt));
@@ -394,19 +312,38 @@ public sealed partial class InstockProduct : AggregateRoot<InstockProductId>
         UpdatedAt = DateTime.UtcNow;
     }
 
+    public void SetCapabilities(List<Guid> capabilityIds)
+    {
+        _capabilityDetails.Clear();
+        if (capabilityIds != null && capabilityIds.Count > 0)
+        {
+            foreach (var capabilityId in capabilityIds)
+            {
+                _capabilityDetails.Add(InstockProductCapabilityDetail.Create(Id, capabilityId));
+            }
+        }
+        UpdatedAt = DateTime.UtcNow;
+    }
+
     public void AddCapability(Guid capabilityId)
     {
-        if (!_capabilityIds.Contains(capabilityId))
+        if (!_capabilityDetails.Any(c => c.CapabilityId == capabilityId))
         {
-            _capabilityIds.Add(capabilityId);
+            _capabilityDetails.Add(InstockProductCapabilityDetail.Create(Id, capabilityId));
             UpdatedAt = DateTime.UtcNow;
         }
     }
 
     public void RemoveCapability(Guid capabilityId)
     {
-        _capabilityIds.Remove(capabilityId);
-        UpdatedAt = DateTime.UtcNow;
+        var detail = _capabilityDetails.FirstOrDefault(c => c.CapabilityId == capabilityId);
+        if (detail is not null)
+        {
+            _capabilityDetails.Remove(detail);
+            UpdatedAt = DateTime.UtcNow;
+        }
     }
+
+    public List<Guid> GetCapabilityIds() => _capabilityDetails.Select(c => c.CapabilityId).ToList();
 }
 
