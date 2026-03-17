@@ -5,10 +5,15 @@ using PuzKit3D.Modules.Cart.Persistence;
 using PuzKit3D.Modules.Catalog.Api;
 using PuzKit3D.Modules.Catalog.Application;
 using PuzKit3D.Modules.Catalog.Persistence;
+using PuzKit3D.Modules.Delivery.Api;
+using PuzKit3D.Modules.Delivery.Application;
+using PuzKit3D.Modules.Delivery.Infrastructure.DependencyInjection.Extensions;
 using PuzKit3D.Modules.InStock.Api;
 using PuzKit3D.Modules.InStock.Application;
 using PuzKit3D.Modules.InStock.Infrastructure;
 using PuzKit3D.Modules.InStock.Persistence;
+using PuzKit3D.Modules.Media.Api;
+using PuzKit3D.Modules.Media.Application;
 using PuzKit3D.Modules.Media.Infrastructure.DependencyInjection.Extensions;
 using PuzKit3D.Modules.Notification.Api;
 using PuzKit3D.Modules.Notification.Application;
@@ -52,7 +57,8 @@ builder.Services.AddSharedKernelApplication(
         PartnerApplicationAssembly.Assembly,
         PaymentApplicationAssembly.Assembly,
         NotificationApplicationAssembly.Assembly,
-        MediaApplicationAssembly.Assembly
+        MediaApplicationAssembly.Assembly,
+        DeliveryApplicationAssembly.Assembly
     } 
 );
 
@@ -67,7 +73,8 @@ builder.Services.AddEndpointsFromAssembly(
        PartnerApiAssembly.Assembly,
        PaymentApiAssembly.Assembly,
        NotificationApiAssembly.Assembly,
-       MediaApiAssembly.Assembly
+       MediaApiAssembly.Assembly,
+       DeliveryApiAssembly.Assembly
     }
 );
 
@@ -84,6 +91,7 @@ builder.Services.AddCartInfrastructure();
 builder.Services.AddPaymentInfrastructure();
 builder.Services.AddNotificationInfrastructure(builder.Configuration, builder.Environment);
 builder.Services.AddMediaInfrastructure(builder.Configuration, builder.Environment);
+builder.Services.AddDeliveryInfrastructure(builder.Configuration, builder.Environment);
 
 var app = builder.Build();
 
@@ -109,6 +117,7 @@ app.UseSwaggerUI(options =>
     options.SwaggerEndpoint("/swagger/payment/swagger.json", "6. Payment Module");
     options.SwaggerEndpoint("/swagger/notification/swagger.json", "7. Notification Module");
     options.SwaggerEndpoint("/swagger/media/swagger.json", "8. Media Module");
+    options.SwaggerEndpoint("/swagger/delivery/swagger.json", "9. Delivery Module");
     // Main API document
     options.SwaggerEndpoint("/swagger/v1/swagger.json", "All Modules");
 
