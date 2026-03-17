@@ -11,4 +11,10 @@ public static class EndpointGroupExtension
         return app.MapGroup("api/delivery/address")
             .WithTags("Address");
     }
+
+    public static RouteGroupBuilder MapShippingGroup(this IEndpointRouteBuilder app)
+    {
+        return app.MapGroup("api/delivery")
+            .WithTags("Shipping");
+    }
 }
