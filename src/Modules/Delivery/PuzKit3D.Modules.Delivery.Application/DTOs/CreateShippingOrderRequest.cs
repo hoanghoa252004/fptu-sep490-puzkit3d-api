@@ -1,17 +1,18 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
 namespace PuzKit3D.Modules.Delivery.Application.DTOs;
 
 /// <summary>
-/// DTO nhận từ Client - camelCase, kiểu dữ liệu đơn giản
+/// DTO nh?n t? Client - camelCase, ki?u d? li?u ??n gi?n
+/// Sender info t? DeliverySettings.MyShopSettings (ko c?n truy?n)
+/// PaymentTypeId lu�n = 2 (Shop pays)
+/// ServiceTypeId lu�n = 2 (E-commerce)
+/// Weight lu�n = 1
+/// PickShift lu�n = [1]
 /// </summary>
 public class CreateShippingOrderRequest
 {
-    [JsonPropertyName("paymentTypeId")]
-    [Range(1, 2, ErrorMessage = "paymentTypeId must be 1 (Shop) or 2 (Buyer)")]
-    public int PaymentTypeId { get; set; }
-
     [JsonPropertyName("note")]
     [MaxLength(5000)]
     public string? Note { get; set; }
@@ -22,36 +23,9 @@ public class CreateShippingOrderRequest
         ErrorMessage = "requiredNote must be CHOTHUHANG, CHOXEMHANGKHONGTHU, or KHONGCHOXEMHANG")]
     public string RequiredNote { get; set; } = string.Empty;
 
-    [JsonPropertyName("fromName")]
-    [Required]
-    [MaxLength(1024)]
-    public string FromName { get; set; } = string.Empty;
-
-    [JsonPropertyName("fromPhone")]
-    [Required]
-    [MaxLength(20)]
-    public string FromPhone { get; set; } = string.Empty;
-
-    [JsonPropertyName("fromAddress")]
-    [Required]
-    [MaxLength(1024)]
-    public string FromAddress { get; set; } = string.Empty;
-
-    [JsonPropertyName("fromWardName")]
-    [Required]
-    public string FromWardName { get; set; } = string.Empty;
-
-    [JsonPropertyName("fromDistrictName")]
-    [Required]
-    public string FromDistrictName { get; set; } = string.Empty;
-
-    [JsonPropertyName("fromProvinceName")]
-    [Required]
-    public string FromProvinceName { get; set; } = string.Empty;
-
-    [JsonPropertyName("clientOrderCode")]
+    [JsonPropertyName("orderCode")]
     [MaxLength(50)]
-    public string? ClientOrderCode { get; set; }
+    public string? OrderCode { get; set; }
 
     [JsonPropertyName("toName")]
     [Required]
@@ -80,11 +54,6 @@ public class CreateShippingOrderRequest
     [Required]
     public string ToProvinceName { get; set; } = string.Empty;
 
-    [JsonPropertyName("serviceTypeId")]
-    [Required]
-    [Range(2, 5, ErrorMessage = "serviceTypeId must be 2 (E-commerce) or 5 (Traditional)")]
-    public int ServiceTypeId { get; set; }
-
     [JsonPropertyName("codAmount")]
     [Range(0, 50_000_000)]
     public int? CodAmount { get; set; }
@@ -92,14 +61,6 @@ public class CreateShippingOrderRequest
     [JsonPropertyName("content")]
     [MaxLength(2000)]
     public string? Content { get; set; }
-
-    [JsonPropertyName("weight")]
-    [Required]
-    [Range(1, 50_000)]
-    public int Weight { get; set; }
-
-    [JsonPropertyName("pickShift")]
-    public List<int>? PickShift { get; set; }
 
     [JsonPropertyName("items")]
     [Required]
@@ -127,3 +88,4 @@ public class ShippingOrderItem
     [Range(0, int.MaxValue)]
     public int? Price { get; set; }
 }
+

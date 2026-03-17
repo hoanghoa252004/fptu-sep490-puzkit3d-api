@@ -4,31 +4,31 @@ namespace PuzKit3D.Modules.Delivery.Application.Mappers;
 
 public static class ShippingOrderMapper
 {
-    public static CreateShippingOrderGhnRequest ToGhnRequest(this CreateShippingOrderRequest clientRequest)
+    public static CreateShippingOrderGhnRequest ToGhnRequest(this CreateShippingOrderRequest clientRequest, SenderInfo senderInfo)
     {
         return new CreateShippingOrderGhnRequest
         {
-            PaymentTypeId = clientRequest.PaymentTypeId,
+            PaymentTypeId = 2,  // Always 2 (Shop pays)
             Note = clientRequest.Note,
             RequiredNote = clientRequest.RequiredNote,
-            FromName = clientRequest.FromName,
-            FromPhone = clientRequest.FromPhone,
-            FromAddress = clientRequest.FromAddress,
-            FromWardName = clientRequest.FromWardName,
-            FromDistrictName = clientRequest.FromDistrictName,
-            FromProvinceName = clientRequest.FromProvinceName,
-            ClientOrderCode = clientRequest.ClientOrderCode,
+            FromName = senderInfo.Name,
+            FromPhone = senderInfo.Phone,
+            FromAddress = senderInfo.Address,
+            FromWardName = senderInfo.Ward,
+            FromDistrictName = senderInfo.District,
+            FromProvinceName = senderInfo.Province,
+            ClientOrderCode = clientRequest.OrderCode,
             ToName = clientRequest.ToName,
             ToPhone = clientRequest.ToPhone,
             ToAddress = clientRequest.ToAddress,
             ToWardName = clientRequest.ToWardName,
             ToDistrictName = clientRequest.ToDistrictName,
             ToProvinceName = clientRequest.ToProvinceName,
-            ServiceTypeId = clientRequest.ServiceTypeId,
+            ServiceTypeId = 2,  // Always 2 (E-commerce)
             CodAmount = clientRequest.CodAmount,
             Content = clientRequest.Content,
-            Weight = clientRequest.Weight,
-            PickShift = clientRequest.PickShift,
+            Weight = 1,  // Always 1
+            PickShift = new List<int> { 1 },  // Always [1]
             Items = clientRequest.Items.Select(item => new ShippingOrderItemGhn
             {
                 Name = item.Name,
@@ -39,3 +39,6 @@ public static class ShippingOrderMapper
         };
     }
 }
+
+
+

@@ -1,5 +1,6 @@
 using Microsoft.Extensions.Options;
 using PuzKit3D.Modules.Delivery.Application.DTOs;
+using PuzKit3D.Modules.Delivery.Application.Mappers;
 using PuzKit3D.Modules.Delivery.Application.Services;
 using PuzKit3D.Modules.Delivery.Infrastructure.DependencyInjection.Options;
 using PuzKit3D.Modules.Delivery.Infrastructure.Services.Helpers;
@@ -191,17 +192,28 @@ public sealed class GhnDeliveryService : IDeliveryService
         }
     }
 
-    public async Task<ResultT<object>> CreateShippingOrderAsync(object request)
+    public async Task<ResultT<object>> CreateShippingOrderAsync(CreateShippingOrderRequest request)
     {
         try
         {
+            var senderInfo = new SenderInfo
+            {
+                Name = _settings.MyShop.Name,
+                Phone = _settings.MyShop.Phone,
+                Address = _settings.MyShop.Address,
+                Ward = _settings.MyShop.Ward,
+                District = _settings.MyShop.District,
+                Province = _settings.MyShop.Province
+            };
+
+            var ghnRequest = request.ToGhnRequest(senderInfo);
             var url = $"{_settings.GhnApiKey.ApiEndpoint}/v2/shipping-order/create";
             
             var httpRequest = new HttpRequestMessage(HttpMethod.Post, url);
             httpRequest.Headers.Add("token", _settings.GhnApiKey.ApiKey);
             httpRequest.Headers.Add("ShopId", _settings.MyShop.ShopId);
 
-            var requestBody = JsonSerializer.Serialize(request);
+            var requestBody = JsonSerializer.Serialize(ghnRequest);
             httpRequest.Content = new StringContent(requestBody, Encoding.UTF8, "application/json");
 
             var response = await _httpClient.SendAsync(httpRequest);

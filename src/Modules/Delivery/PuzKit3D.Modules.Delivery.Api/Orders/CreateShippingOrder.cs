@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using PuzKit3D.Modules.Delivery.Application.DTOs;
-using PuzKit3D.Modules.Delivery.Application.Mappers;
 using PuzKit3D.Modules.Delivery.Application.Services;
 using PuzKit3D.Modules.Delivery.Api;
 using PuzKit3D.SharedKernel.Api.Endpoint;
@@ -17,12 +16,11 @@ internal sealed class CreateShippingOrder : IEndpoint
         app.MapShippingGroup()
             .MapPost("/orders", async (CreateShippingOrderRequest request, IDeliveryService deliveryService) =>
             {
-                var ghnRequest = request.ToGhnRequest();
-                var result = await deliveryService.CreateShippingOrderAsync(ghnRequest);
+                var result = await deliveryService.CreateShippingOrderAsync(request);
                 return result.MatchOk();
             })
             .WithName("CreateShippingOrder")
-            .WithDescription("Create a shipping order with GHN")
+            .WithDescription("Create a shipping order with GHN (sender info from DeliverySettings)")
             .AllowAnonymous()
             .Produces(StatusCodes.Status200OK)
             .ProducesProblem(StatusCodes.Status500InternalServerError);
