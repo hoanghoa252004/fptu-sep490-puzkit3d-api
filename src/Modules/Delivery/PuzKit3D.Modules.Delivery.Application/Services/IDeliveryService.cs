@@ -11,4 +11,6 @@ public interface IDeliveryService
     Task<ResultT<object>> GetAvailableServicesAsync(int fromDistrict, int toDistrict);
     Task<ResultT<object>> CreateShippingOrderAsync(object request);
     Task<ResultT<object>> GetShippingOrderDetailAsync(string orderCode);
+    Task<ResultT<string>> GeneratePrintTokenAsync(List<string> orderCodes);
+    Task<ResultT<string>> GetPrintOrderUrlAsync(string token);
 }

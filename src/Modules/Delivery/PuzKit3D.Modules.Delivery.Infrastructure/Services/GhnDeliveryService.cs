@@ -256,4 +256,64 @@ public sealed class GhnDeliveryService : IDeliveryService
                 Error.Failure("GHN_EXCEPTION", $"Error getting shipping order detail: {ex.Message}"));
         }
     }
+
+    public async Task<ResultT<string>> GeneratePrintTokenAsync(List<string> orderCodes)
+    {
+        try
+        {
+            var url = $"{_settings.GhnApiKey.ApiEndpoint}/v2/a5/gen-token";
+            
+            var httpRequest = new HttpRequestMessage(HttpMethod.Post, url);
+            httpRequest.Headers.Add("token", _settings.GhnApiKey.ApiKey);
+
+            var requestData = new { order_codes = orderCodes };
+            var requestBody = JsonSerializer.Serialize(requestData);
+            httpRequest.Content = new StringContent(requestBody, Encoding.UTF8, "application/json");
+
+            var response = await _httpClient.SendAsync(httpRequest);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                var errorMessage = $"GHN API Error: {response.StatusCode} - {await response.Content.ReadAsStringAsync()}";
+                return Result.Failure<string>(
+                    Error.Failure("GHN_API_ERROR", errorMessage));
+            }
+
+            var content = await response.Content.ReadAsStringAsync();
+            using var doc = JsonDocument.Parse(content);
+            var token = doc.RootElement.GetProperty("data").GetProperty("token").GetString();
+
+            if (string.IsNullOrEmpty(token))
+            {
+                return Result.Failure<string>(
+                    Error.Failure("GHN_API_ERROR", "Failed to generate print token"));
+            }
+
+            return Result.Success(token);
+        }
+        catch (Exception ex)
+        {
+            return Result.Failure<string>(
+                Error.Failure("GHN_EXCEPTION", $"Error generating print token: {ex.Message}"));
+        }
+    }
+
+    public async Task<ResultT<string>> GetPrintOrderUrlAsync(string token)
+    {
+        try
+        {
+            var url = $"https://dev-online-gateway.ghn.vn/a5/public-api/printA5?token={token}";
+            return Result.Success(url);
+        }
+        catch (Exception ex)
+        {
+            return Result.Failure<string>(
+                Error.Failure("GHN_EXCEPTION", $"Error generating print URL: {ex.Message}"));
+        }
+    }
+
+    public async Task<ResultT<string>> PrintOrderAsync(string token, string format)
+    {
+        return await GetPrintOrderUrlAsync(token);
+    }
 }
