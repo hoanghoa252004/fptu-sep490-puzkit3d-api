@@ -192,7 +192,7 @@ public sealed class GhnDeliveryService : IDeliveryService
         }
     }
 
-    public async Task<ResultT<object>> CreateShippingOrderAsync(CreateShippingOrderRequest request)
+    public async Task<ResultT<object>> CreateShippingOrderAsync(CreateShippingOrderRequest request, CancellationToken cancellationToken = default)
     {
         try
         {
@@ -216,7 +216,7 @@ public sealed class GhnDeliveryService : IDeliveryService
             var requestBody = JsonSerializer.Serialize(ghnRequest);
             httpRequest.Content = new StringContent(requestBody, Encoding.UTF8, "application/json");
 
-            var response = await _httpClient.SendAsync(httpRequest);
+            var response = await _httpClient.SendAsync(httpRequest, cancellationToken);
 
             if (!response.IsSuccessStatusCode)
             {
