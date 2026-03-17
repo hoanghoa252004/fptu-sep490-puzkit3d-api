@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 
-namespace PuzKit3D.Modules.Notification.Application;
+namespace PuzKit3D.Modules.Media.Api;
 
 public static class MediaApiAssembly
 {
