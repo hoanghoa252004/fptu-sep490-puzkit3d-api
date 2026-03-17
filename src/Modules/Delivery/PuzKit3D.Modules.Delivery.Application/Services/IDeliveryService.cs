@@ -10,4 +10,5 @@ public interface IDeliveryService
     Task<ResultT<object>> CalculateShippingFeeAsync(object request);
     Task<ResultT<object>> GetAvailableServicesAsync(int fromDistrict, int toDistrict);
     Task<ResultT<object>> CreateShippingOrderAsync(object request);
+    Task<ResultT<object>> GetShippingOrderDetailAsync(string orderCode);
 }

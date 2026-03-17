@@ -222,4 +222,38 @@ public sealed class GhnDeliveryService : IDeliveryService
                 Error.Failure("GHN_EXCEPTION", $"Error creating shipping order: {ex.Message}"));
         }
     }
+
+    public async Task<ResultT<object>> GetShippingOrderDetailAsync(string orderCode)
+    {
+        try
+        {
+            var url = $"{_settings.GhnApiKey.ApiEndpoint}/v2/shipping-order/detail";
+            
+            var httpRequest = new HttpRequestMessage(HttpMethod.Post, url);
+            httpRequest.Headers.Add("token", _settings.GhnApiKey.ApiKey);
+
+            var requestData = new { order_code = orderCode };
+            var requestBody = JsonSerializer.Serialize(requestData);
+            httpRequest.Content = new StringContent(requestBody, Encoding.UTF8, "application/json");
+
+            var response = await _httpClient.SendAsync(httpRequest);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                var errorMessage = $"GHN API Error: {response.StatusCode} - {await response.Content.ReadAsStringAsync()}";
+                return Result.Failure<object>(
+                    Error.Failure("GHN_API_ERROR", errorMessage));
+            }
+
+            var content = await response.Content.ReadAsStringAsync();
+            var jsonData = JsonSerializer.Deserialize<object>(content);
+
+            return Result.Success(jsonData ?? new object());
+        }
+        catch (Exception ex)
+        {
+            return Result.Failure<object>(
+                Error.Failure("GHN_EXCEPTION", $"Error getting shipping order detail: {ex.Message}"));
+        }
+    }
 }
