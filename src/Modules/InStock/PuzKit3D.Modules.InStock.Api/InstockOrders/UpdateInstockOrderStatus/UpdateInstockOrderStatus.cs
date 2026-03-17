@@ -16,13 +16,19 @@ internal sealed class UpdateInstockOrderStatus : IEndpoint
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
         app.MapOrdersGroup()
-            .MapPut("/{id:guid}/status", async (
+            .MapPatch("/{id:guid}/status", async (
                 Guid id,
                 [FromBody] UpdateInstockOrderStatusRequestDto request,
                 ISender sender,
                 CancellationToken cancellationToken) =>
             {
-                var command = new UpdateInstockOrderStatusCommand(id, request.NewStatus);
+                // Validate and convert string status to enum
+                if (!Enum.TryParse<InstockOrderStatus>(request.NewStatus, ignoreCase: true, out var status))
+                {
+                    return Results.BadRequest(new { error = $"Invalid status '{request.NewStatus}'. Valid values are: {string.Join(", ", Enum.GetNames(typeof(InstockOrderStatus)))}" });
+                }
+
+                var command = new UpdateInstockOrderStatusCommand(id, status);
                 var result = await sender.Send(command, cancellationToken);
 
                 return result.MatchNoContent();
@@ -40,5 +46,5 @@ internal sealed class UpdateInstockOrderStatus : IEndpoint
 }
 
 public sealed record UpdateInstockOrderStatusRequestDto(
-    InstockOrderStatus NewStatus);
+    string NewStatus);
 
