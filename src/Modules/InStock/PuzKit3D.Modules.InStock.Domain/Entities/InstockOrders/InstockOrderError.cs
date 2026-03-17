@@ -107,5 +107,13 @@ public static class InstockOrderError
     public static Error Unauthorized() => Error.Unauthorized(
         "InstockOrder.Unauthorized",
         "User must be authenticated to access orders.");
+
+    public static Error InvalidDeliveryOrderCode() => Error.Validation(
+        "InstockOrder.InvalidDeliveryOrderCode",
+        "Delivery order code cannot be empty.");
+
+    public static Error DeliveryInfoAlreadySet() => Error.Validation(
+        "InstockOrder.DeliveryInfoAlreadySet",
+        "Delivery information has already been set for this order.");
 }
 

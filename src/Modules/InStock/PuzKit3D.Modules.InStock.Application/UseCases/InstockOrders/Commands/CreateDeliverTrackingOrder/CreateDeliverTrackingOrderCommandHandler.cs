@@ -6,14 +6,14 @@ using PuzKit3D.SharedKernel.Domain.Errors;
 using PuzKit3D.SharedKernel.Domain.Results;
 using System.Text.Json;
 
-namespace PuzKit3D.Modules.InStock.Application.UseCases.InstockOrders.Queries.GetGhnOrderCodeByInstockOrderId;
+namespace PuzKit3D.Modules.InStock.Application.UseCases.InstockOrders.Commands.CreateDeliverTrackingOrder;
 
-internal sealed class GetGhnOrderCodeQueryHandler : IQueryHandler<GetGhnOrderCodeQuery, GetGhnOrderCodeResponseDto>
+internal sealed class CreateDeliverTrackingOrderCommandHandler : IQueryHandler<CreateDeliverTrackingOrderCommand, CreateDeliverTrackingOrderResponseDto>
 {
     private readonly IInstockOrderRepository _orderRepository;
     private readonly IDeliveryService _deliveryService;
 
-    public GetGhnOrderCodeQueryHandler(
+    public CreateDeliverTrackingOrderCommandHandler(
         IInstockOrderRepository orderRepository,
         IDeliveryService deliveryService)
     {
@@ -21,7 +21,7 @@ internal sealed class GetGhnOrderCodeQueryHandler : IQueryHandler<GetGhnOrderCod
         _deliveryService = deliveryService;
     }
 
-    public async Task<ResultT<GetGhnOrderCodeResponseDto>> Handle(GetGhnOrderCodeQuery request, CancellationToken cancellationToken)
+    public async Task<ResultT<CreateDeliverTrackingOrderResponseDto>> Handle(CreateDeliverTrackingOrderCommand request, CancellationToken cancellationToken)
     {
         // Validate order exists with details
         var orderId = InstockOrderId.From(request.OrderId);
@@ -29,12 +29,26 @@ internal sealed class GetGhnOrderCodeQueryHandler : IQueryHandler<GetGhnOrderCod
 
         if (order == null)
         {
-            return Result.Failure<GetGhnOrderCodeResponseDto>(
+            return Result.Failure<CreateDeliverTrackingOrderResponseDto>(
                 Error.NotFound("INSTOCK_ORDER_NOT_FOUND", $"Order with ID {request.OrderId} not found"));
         }
 
+        // Check if order status is Processing
+        if (order.Status != InstockOrderStatus.Processing)
+        {
+            return Result.Failure<CreateDeliverTrackingOrderResponseDto>(
+                InstockOrderError.InvalidStatusTransition(order.Status, InstockOrderStatus.Processing));
+        }
+
+        // Check if delivery info already exists
+        if (order.DeliveryOrderCode != null && order.ExpectedDeliveryDate != null)
+        {
+            return Result.Failure<CreateDeliverTrackingOrderResponseDto>(
+                InstockOrderError.DeliveryInfoAlreadySet());
+        }
+
         // Build shipping items from order details
-        var items = order.OrderDetails.Select(detail => new Modules.Delivery.Application.DTOs.ShippingOrderItem
+        var items = order.OrderDetails.Select(detail => new Delivery.Application.DTOs.ShippingOrderItem
         {
             Name = $"{detail.ProductName ?? "Product"} - {detail.VariantName ?? "Variant"}",
             Code = detail.Sku,
@@ -43,7 +57,7 @@ internal sealed class GetGhnOrderCodeQueryHandler : IQueryHandler<GetGhnOrderCod
         }).ToList();
 
         // Create shipping order with GHN
-        var shippingRequest = new Modules.Delivery.Application.DTOs.CreateShippingOrderRequest
+        var shippingRequest = new Delivery.Application.DTOs.CreateShippingOrderRequest
         {
             ToName = order.CustomerName,
             ToPhone = order.CustomerPhone,
@@ -63,7 +77,7 @@ internal sealed class GetGhnOrderCodeQueryHandler : IQueryHandler<GetGhnOrderCod
 
         if (result.IsFailure)
         {
-            return Result.Failure<GetGhnOrderCodeResponseDto>(result.Error);
+            return Result.Failure<CreateDeliverTrackingOrderResponseDto>(result.Error);
         }
 
         // Parse GHN response
@@ -79,28 +93,28 @@ internal sealed class GetGhnOrderCodeQueryHandler : IQueryHandler<GetGhnOrderCod
             // Extract data object
             if (!root.TryGetProperty("data", out var dataElement))
             {
-                return Result.Failure<GetGhnOrderCodeResponseDto>(
+                return Result.Failure<CreateDeliverTrackingOrderResponseDto>(
                     GhnOrderError.InvalidGhnResponse("Missing 'data' property in GHN response"));
             }
 
             // Extract order_code
             if (!dataElement.TryGetProperty("order_code", out var orderCodeElement))
             {
-                return Result.Failure<GetGhnOrderCodeResponseDto>(
+                return Result.Failure<CreateDeliverTrackingOrderResponseDto>(
                     GhnOrderError.InvalidGhnResponse("Missing 'order_code' in GHN data"));
             }
 
             // Extract sort_code
             if (!dataElement.TryGetProperty("sort_code", out var sortCodeElement))
             {
-                return Result.Failure<GetGhnOrderCodeResponseDto>(
+                return Result.Failure<CreateDeliverTrackingOrderResponseDto>(
                     GhnOrderError.InvalidGhnResponse("Missing 'sort_code' in GHN data"));
             }
 
             // Extract expected_delivery_time
             if (!dataElement.TryGetProperty("expected_delivery_time", out var expectedDeliveryElement))
             {
-                return Result.Failure<GetGhnOrderCodeResponseDto>(
+                return Result.Failure<CreateDeliverTrackingOrderResponseDto>(
                     GhnOrderError.InvalidGhnResponse("Missing 'expected_delivery_time' in GHN data"));
             }
 
@@ -109,20 +123,17 @@ internal sealed class GetGhnOrderCodeQueryHandler : IQueryHandler<GetGhnOrderCod
             
             if (!DateTime.TryParse(expectedDeliveryElement.GetString(), out var expectedDeliveryTime))
             {
-                return Result.Failure<GetGhnOrderCodeResponseDto>(
+                return Result.Failure<CreateDeliverTrackingOrderResponseDto>(
                     GhnOrderError.InvalidGhnResponse("Invalid 'expected_delivery_time' format"));
             }
 
-            var response = new GetGhnOrderCodeResponseDto(
-                orderCode,
-                sortCode,
-                expectedDeliveryTime);
+            var response = new CreateDeliverTrackingOrderResponseDto(orderCode, expectedDeliveryTime);
 
             return Result.Success(response);
         }
         catch (Exception ex)
         {
-            return Result.Failure<GetGhnOrderCodeResponseDto>(
+            return Result.Failure<CreateDeliverTrackingOrderResponseDto>(
                 GhnOrderError.ParsingGhnResponseFailed(ex.Message));
         }
     }
