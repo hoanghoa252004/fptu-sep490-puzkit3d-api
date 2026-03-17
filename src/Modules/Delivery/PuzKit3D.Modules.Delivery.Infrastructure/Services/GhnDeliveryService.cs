@@ -1,6 +1,8 @@
 using Microsoft.Extensions.Options;
+using PuzKit3D.Modules.Delivery.Application.DTOs;
 using PuzKit3D.Modules.Delivery.Application.Services;
 using PuzKit3D.Modules.Delivery.Infrastructure.DependencyInjection.Options;
+using PuzKit3D.Modules.Delivery.Infrastructure.Services.Helpers;
 using PuzKit3D.SharedKernel.Domain.Errors;
 using PuzKit3D.SharedKernel.Domain.Results;
 using System.Text.Json;
@@ -315,5 +317,12 @@ public sealed class GhnDeliveryService : IDeliveryService
     public async Task<ResultT<string>> PrintOrderAsync(string token, string format)
     {
         return await GetPrintOrderUrlAsync(token);
+    }
+
+    public async Task<ResultT<int>> CalculateShippingFeeByLocationAsync(CalculateShippingFeeByLocationRequest request)
+    {
+        var fromDistrictId = int.Parse(_settings.MyShop.District ?? "1");
+        var calculator = new ShippingFeeCalculator(this);
+        return await calculator.CalculateAsync(request, fromDistrictId);
     }
 }

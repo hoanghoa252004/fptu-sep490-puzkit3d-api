@@ -1,4 +1,5 @@
-﻿using PuzKit3D.SharedKernel.Domain.Results;
+﻿using PuzKit3D.Modules.Delivery.Application.DTOs;
+using PuzKit3D.SharedKernel.Domain.Results;
 
 namespace PuzKit3D.Modules.Delivery.Application.Services;
 
@@ -13,4 +14,5 @@ public interface IDeliveryService
     Task<ResultT<object>> GetShippingOrderDetailAsync(string orderCode);
     Task<ResultT<string>> GeneratePrintTokenAsync(List<string> orderCodes);
     Task<ResultT<string>> GetPrintOrderUrlAsync(string token);
+    Task<ResultT<int>> CalculateShippingFeeByLocationAsync(CalculateShippingFeeByLocationRequest request);
 }

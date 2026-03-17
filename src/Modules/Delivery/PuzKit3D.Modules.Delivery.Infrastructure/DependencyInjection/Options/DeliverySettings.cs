@@ -17,4 +17,5 @@ public sealed class GhnApiSettings
 public sealed class MyShopSettings
 {
     public string ShopId { get; set; } = string.Empty;
+    public string? District { get; set; }
 }
