@@ -69,6 +69,16 @@ internal sealed class InstockOrderRepository : IInstockOrderRepository
             .ToListAsync(cancellationToken);
     }
 
+    public async Task<IEnumerable<InstockOrder>> GetAllOrdersAsync(
+        CancellationToken cancellationToken = default)
+    {
+        return await _context.InstockOrders
+            .Include(o => o.OrderDetails)
+            .OrderByDescending(o => o.CreatedAt)
+            .AsNoTracking()
+            .ToListAsync(cancellationToken);
+    }
+
     public void Add(InstockOrder entity)
     {
         _context.InstockOrders.Add(entity);

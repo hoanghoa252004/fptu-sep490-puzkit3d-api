@@ -8,8 +8,7 @@ public static class InstockOrderStatusTransition
             InstockOrderStatus.Waiting, new HashSet<InstockOrderStatus>
             {
                 InstockOrderStatus.Processing,
-                InstockOrderStatus.Expired,
-                InstockOrderStatus.Cancelled
+                //InstockOrderStatus.Cancelled
             }
         },
         {

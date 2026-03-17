@@ -1,4 +1,4 @@
-using PuzKit3D.Modules.InStock.Domain.Entities.InstockOrderDetails;
+﻿using PuzKit3D.Modules.InStock.Domain.Entities.InstockOrderDetails;
 using PuzKit3D.Modules.InStock.Domain.Entities.InstockOrders.DomainEvents;
 using PuzKit3D.SharedKernel.Domain;
 using PuzKit3D.SharedKernel.Domain.Results;
@@ -31,6 +31,8 @@ public sealed class InstockOrder : AggregateRoot<InstockOrderId>
     public string PaymentMethod { get; private set; } = null!;
     public bool IsPaid { get; private set; }
     public DateTime? PaidAt { get; private set; }
+    public string? DeliveryOrderCode { get; private set; }
+    public DateTime? ExpectedDeliveryDate { get; private set; }
 
     public IReadOnlyCollection<InstockOrderDetail> OrderDetails => _orderDetails.AsReadOnly();
 
@@ -285,6 +287,42 @@ public sealed class InstockOrder : AggregateRoot<InstockOrderId>
         }
 
         Status = InstockOrderStatus.Cancelled;
+        UpdatedAt = DateTime.UtcNow;
+
+        return Result.Success();
+    }
+
+    public Result SetDeliveryInfo(string deliveryOrderCode, DateTime expectedDeliveryDate)
+    {
+        if (string.IsNullOrWhiteSpace(deliveryOrderCode))
+        {
+            return Result.Failure(InstockOrderError.InvalidDeliveryOrderCode());
+        }
+
+        if (DeliveryOrderCode != null && ExpectedDeliveryDate != null)
+        {
+            return Result.Failure(InstockOrderError.DeliveryInfoAlreadySet());
+        }
+
+        DeliveryOrderCode = deliveryOrderCode;
+
+        DateTime utcDateTime;
+
+        if (expectedDeliveryDate.Kind == DateTimeKind.Utc)
+        {
+            utcDateTime = expectedDeliveryDate;
+        }
+        else if (expectedDeliveryDate.Kind == DateTimeKind.Local)
+        {
+            utcDateTime = expectedDeliveryDate.ToUniversalTime();
+        }
+        else // Unspecified (trường hợp nguy hiểm nhất)
+        {
+            var vietnamTimeZone = TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time");
+            utcDateTime = TimeZoneInfo.ConvertTimeToUtc(expectedDeliveryDate, vietnamTimeZone);
+        }
+
+        ExpectedDeliveryDate = utcDateTime;
         UpdatedAt = DateTime.UtcNow;
 
         return Result.Success();
