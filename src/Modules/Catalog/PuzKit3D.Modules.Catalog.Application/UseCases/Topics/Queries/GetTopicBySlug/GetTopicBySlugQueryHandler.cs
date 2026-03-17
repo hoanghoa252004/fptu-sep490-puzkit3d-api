@@ -1,4 +1,5 @@
 using PuzKit3D.Modules.Catalog.Application.Repositories;
+using PuzKit3D.Modules.Catalog.Application.UseCases.Topics.Queries.Shared;
 using PuzKit3D.Modules.Catalog.Domain.Entities.Topics;
 using PuzKit3D.SharedKernel.Application.Message.Query;
 using PuzKit3D.SharedKernel.Application.User;
@@ -40,27 +41,23 @@ internal sealed class GetTopicBySlugQueryHandler : IQueryHandler<GetTopicBySlugQ
             return Result.Failure<object>(TopicError.NotFound(Guid.Empty));
         }
 
-        // Build response DTO based on user role
-        object topicDto = isStaffOrManager
-            ? new
-            {
-                topic.Id,
-                topic.Name,
-                topic.Slug,
-                topic.ParentId,
-                topic.Description,
-                topic.IsActive,
-                topic.CreatedAt,
-                topic.UpdatedAt
-            }
-            : new
-            {
-                topic.Id,
-                topic.Name,
-                topic.Slug,
-                topic.ParentId,
-                topic.Description
-            };
+         // Build response DTO based on user role
+         object topicDto = isStaffOrManager
+             ? new GetTopicDetailedResponseDto(
+                 topic.Id.Value,
+                 topic.Name,
+                 topic.Slug,
+                 topic.ParentId?.Value,
+                 topic.Description,
+                 topic.IsActive,
+                 topic.CreatedAt,
+                 topic.UpdatedAt)
+             : new GetTopicResponseDto(
+                 topic.Id.Value,
+                 topic.Name,
+                 topic.Slug,
+                 topic.ParentId?.Value,
+                 topic.Description);
 
         return Result.Success(topicDto);
     }
