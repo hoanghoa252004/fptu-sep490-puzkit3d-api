@@ -65,12 +65,12 @@ internal sealed class CreateDeliverTrackingOrderCommandHandler : IQueryHandler<C
             ToWardName = order.CustomerWardName,
             ToDistrictName = order.CustomerDistrictName,
             ToProvinceName = order.CustomerProvinceName,
-            OrderCode = order.Code,
+            OrderCode = order.Id.Value.ToString(),
             RequiredNote = "CHOXEMHANGKHONGTHU",
             Note = $"Order {order.Code}",
             Items = items,
             Content = "Puzzle 3D Product",
-            CodAmount = (int)order.GrandTotalAmount
+            CodAmount =  string.Equals(order.PaymentMethod, "COD", StringComparison.OrdinalIgnoreCase) ? (int)order.SubTotalAmount : 0
         };
 
         var result = await _deliveryService.CreateShippingOrderAsync(shippingRequest, cancellationToken);

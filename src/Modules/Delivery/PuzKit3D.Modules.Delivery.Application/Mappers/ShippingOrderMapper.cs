@@ -6,9 +6,14 @@ public static class ShippingOrderMapper
 {
     public static CreateShippingOrderGhnRequest ToGhnRequest(this CreateShippingOrderRequest clientRequest, SenderInfo senderInfo)
     {
+        // Determine payment type based on COD amount
+        // If CodAmount == 0: payment_type_id = 1 (Shop pays for online orders)
+        // If CodAmount > 0: payment_type_id = 2 (Customer pays via COD)
+        var paymentTypeId = clientRequest.CodAmount == 0 ? 1 : 2;
+
         return new CreateShippingOrderGhnRequest
         {
-            PaymentTypeId = 2,  // Always 2 (Shop pays)
+            PaymentTypeId = paymentTypeId,
             Note = clientRequest.Note,
             RequiredNote = clientRequest.RequiredNote,
             FromName = senderInfo.Name,

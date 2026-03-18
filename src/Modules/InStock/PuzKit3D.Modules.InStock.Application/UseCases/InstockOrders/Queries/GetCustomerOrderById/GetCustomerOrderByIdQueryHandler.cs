@@ -47,10 +47,10 @@ internal sealed class GetCustomerOrderByIdQueryHandler
             return Result.Failure<GetCustomerOrderByIdResponseDto>(
                 InstockOrderError.NotFound(request.OrderId));
 
-        // Verify order belongs to current customer
-        if (order.CustomerId != customerId)
-            return Result.Failure<GetCustomerOrderByIdResponseDto>(
-                InstockOrderError.Unauthorized());
+        //// Verify order belongs to current customer
+        //if (order.CustomerId != customerId)
+        //    return Result.Failure<GetCustomerOrderByIdResponseDto>(
+        //        InstockOrderError.Unauthorized());
 
         // Get all variant IDs and product IDs
         var variantIds = order.OrderDetails.Select(od => od.InstockProductVariantId.Value).Distinct().ToList();
