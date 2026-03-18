@@ -50,7 +50,7 @@ public sealed record ProductFullDetailsDto(
     int EstimatedBuildTime,
     int TotalPieceCount,
     string ThumbnailUrl,
-    string PreviewAsset,
+    List<string> PreviewAsset,
     bool IsActive);
 
 public sealed record VariantFullDetailsDto(
@@ -59,3 +59,5 @@ public sealed record VariantFullDetailsDto(
     int AssembledWidthMm,
     int AssembledHeightMm,
     bool IsActive);
+
+

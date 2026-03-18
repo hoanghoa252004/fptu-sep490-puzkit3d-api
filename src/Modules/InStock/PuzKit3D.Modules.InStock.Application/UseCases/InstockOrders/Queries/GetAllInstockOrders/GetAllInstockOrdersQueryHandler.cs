@@ -1,4 +1,5 @@
 using PuzKit3D.Modules.InStock.Application.Repositories;
+using PuzKit3D.Modules.InStock.Application.Services;
 using PuzKit3D.Modules.InStock.Domain.Entities.InstockOrders;
 using PuzKit3D.SharedKernel.Application.Message.Query;
 using PuzKit3D.SharedKernel.Application.Pagination;
@@ -11,13 +12,16 @@ internal sealed class GetAllInstockOrdersQueryHandler
 {
     private readonly IInstockOrderRepository _orderRepository;
     private readonly IInstockProductVariantRepository _variantRepository;
+    private readonly IAssetUrlService _assetUrlService;
 
     public GetAllInstockOrdersQueryHandler(
         IInstockOrderRepository orderRepository,
-        IInstockProductVariantRepository variantRepository)
+        IInstockProductVariantRepository variantRepository,
+        IAssetUrlService assetUrlService)
     {
         _orderRepository = orderRepository;
         _variantRepository = variantRepository;
+        _assetUrlService = assetUrlService;
     }
 
     public async Task<ResultT<PagedResult<GetAllInstockOrdersResponseDto>>> Handle(
@@ -67,7 +71,7 @@ internal sealed class GetAllInstockOrdersQueryHandler
                     od.Quantity,
                     od.UnitPrice,
                     productThumbnails.TryGetValue(od.InstockProductVariantId.Value, out var thumbnail) 
-                        ? thumbnail 
+                        ? _assetUrlService.BuildAssetUrl(thumbnail)
                         : null))
                 .ToList();
 
@@ -96,3 +100,5 @@ internal sealed class GetAllInstockOrdersQueryHandler
         return Result.Success(pagedResult);
     }
 }
+
+

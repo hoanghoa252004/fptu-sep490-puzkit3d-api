@@ -86,8 +86,8 @@ builder.Services.AddPartnerPersistence(builder.Configuration);
 builder.Services.AddPaymentPersistence(builder.Configuration);
 
 // Add Infrastructure services (Domain Event Handlers, Integration Event Handlers):
-builder.Services.AddInStockInfrastructure();
-builder.Services.AddCartInfrastructure();
+builder.Services.AddInStockInfrastructure(builder.Configuration);
+builder.Services.AddCartInfrastructure(builder.Configuration);
 builder.Services.AddPaymentInfrastructure();
 builder.Services.AddNotificationInfrastructure(builder.Configuration, builder.Environment);
 builder.Services.AddMediaInfrastructure(builder.Configuration, builder.Environment);

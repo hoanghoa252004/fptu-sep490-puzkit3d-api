@@ -1,4 +1,5 @@
 using PuzKit3D.Modules.InStock.Application.Repositories;
+using PuzKit3D.Modules.InStock.Application.Services;
 using PuzKit3D.SharedKernel.Application.Authorization;
 using PuzKit3D.SharedKernel.Application.Message.Query;
 using PuzKit3D.SharedKernel.Application.Pagination;
@@ -16,6 +17,7 @@ internal sealed class GetAllInstockProductsQueryHandler
     private readonly IMaterialReplicaRepository _materialReplicaRepository;
     private readonly IAssemblyMethodReplicaRepository _assemblyMethodReplicaRepository;
     private readonly ICapabilityReplicaRepository _capabilityReplicaRepository;
+    private readonly IAssetUrlService _assetUrlService;
 
     public GetAllInstockProductsQueryHandler(
         IInstockProductRepository productRepository,
@@ -23,7 +25,8 @@ internal sealed class GetAllInstockProductsQueryHandler
         ITopicReplicaRepository topicReplicaRepository,
         IMaterialReplicaRepository materialReplicaRepository,
         IAssemblyMethodReplicaRepository assemblyMethodReplicaRepository,
-        ICapabilityReplicaRepository capabilityReplicaRepository)
+        ICapabilityReplicaRepository capabilityReplicaRepository,
+        IAssetUrlService assetUrlService)
     {
         _productRepository = productRepository;
         _currentUser = currentUser;
@@ -31,6 +34,7 @@ internal sealed class GetAllInstockProductsQueryHandler
         _materialReplicaRepository = materialReplicaRepository;
         _assemblyMethodReplicaRepository = assemblyMethodReplicaRepository;
         _capabilityReplicaRepository = capabilityReplicaRepository;
+        _assetUrlService = assetUrlService;
     }
 
     public async Task<ResultT<PagedResult<object>>> Handle(
@@ -124,7 +128,7 @@ internal sealed class GetAllInstockProductsQueryHandler
                     p.TotalPieceCount,
                     p.DifficultLevel,
                     p.EstimatedBuildTime,
-                    p.ThumbnailUrl,
+                    _assetUrlService.BuildAssetUrl(p.ThumbnailUrl),
                     p.Description,
                     p.IsActive,
                     p.CreatedAt,
@@ -149,7 +153,7 @@ internal sealed class GetAllInstockProductsQueryHandler
                     p.TotalPieceCount,
                     p.DifficultLevel,
                     p.EstimatedBuildTime,
-                    p.ThumbnailUrl,
+                    _assetUrlService.BuildAssetUrl(p.ThumbnailUrl),
                     p.Description,
                     p.TopicId,
                     p.MaterialId,
@@ -167,5 +171,7 @@ internal sealed class GetAllInstockProductsQueryHandler
         return Result.Success(pagedResult);
     }
 }
+
+
 
 

@@ -9,7 +9,7 @@ int TotalPieceCount,
 string DifficultLevel,
 int EstimatedBuildTime,
 string ThumbnailUrl,
-string PreviewAsset,
+List<string> PreviewAsset,
 string? Description,
 Guid TopicId,
 Guid AssemblyMethodId,
@@ -18,4 +18,6 @@ Guid MaterialId,
 bool IsActive,
 DateTime CreatedAt,
 DateTime UpdatedAt);
+
+
 
