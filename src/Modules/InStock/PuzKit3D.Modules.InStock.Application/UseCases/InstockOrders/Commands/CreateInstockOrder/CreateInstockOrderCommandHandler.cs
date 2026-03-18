@@ -5,6 +5,7 @@ using PuzKit3D.Modules.InStock.Domain.Entities.InstockOrderDetails;
 using PuzKit3D.Modules.InStock.Domain.Entities.InstockOrders;
 using PuzKit3D.Modules.InStock.Domain.Entities.InstockProductPriceDetails;
 using PuzKit3D.Modules.InStock.Domain.Entities.InstockProductVariants;
+using PuzKit3D.Modules.InStock.Domain.Entities.InstockPrices;
 using PuzKit3D.SharedKernel.Application.Message.Command;
 using PuzKit3D.SharedKernel.Domain.Results;
 
@@ -87,7 +88,7 @@ internal sealed class CreateInstockOrderCommandHandler : ICommandTHandler<Create
                     return Result.Failure<Guid>(InstockOrderError.PriceDetailNotActive(cartItem.PriceDetailId));
                 }
 
-                // Get price and validate it's active and has highest priority
+                // Get price and validate it's active
                 var price = await _priceRepository.GetByIdAsync(priceDetail.InstockPriceId, cancellationToken);
                 
                 if (price == null || !price.IsActive)
@@ -95,12 +96,30 @@ internal sealed class CreateInstockOrderCommandHandler : ICommandTHandler<Create
                     return Result.Failure<Guid>(InstockOrderError.PriceNotActiveOrNotFound());
                 }
 
-                // Check if this price has the highest priority among active prices
-                var now = DateTime.UtcNow;
-                var activePrices = await _priceRepository.GetActivePricesAsync(now, cancellationToken);
-                var highestPriority = activePrices.OrderByDescending(p => p.Priority).FirstOrDefault();
+                // Check if this price has the highest priority among prices assigned to this variant
+                var variantPriceDetails = await _priceDetailRepository.GetAllByProductVariantIdAsync(variantId, cancellationToken);
+                var activePrices = new List<InstockPrice>();
                 
-                if (highestPriority == null || price.Priority != highestPriority.Priority)
+                foreach (var pd in variantPriceDetails.Where(pd => pd.IsActive))
+                {
+                    var pdPrice = await _priceRepository.GetByIdAsync(pd.InstockPriceId, cancellationToken);
+                    if (pdPrice != null && pdPrice.IsActive)
+                    {
+                        activePrices.Add(pdPrice);
+                    }
+                }
+                
+                if (!activePrices.Any())
+                {
+                    return Result.Failure<Guid>(InstockOrderError.PriceNotHighestPriority());
+                }
+                
+                // Find highest priority price for this variant
+                var highestPriorityPrice = activePrices
+                    .OrderByDescending(p => p.Priority)
+                    .FirstOrDefault();
+                
+                if (highestPriorityPrice == null || price.Priority != highestPriorityPrice.Priority)
                 {
                     return Result.Failure<Guid>(InstockOrderError.PriceNotHighestPriority());
                 }
