@@ -13,16 +13,16 @@ internal sealed class GetShippingOrderDetail : IEndpoint
 {
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapShippingGroup()
-            .MapPost("/orders/detail", async (GetShippingOrderDetailRequest request, IDeliveryService deliveryService) =>
-            {
-                var result = await deliveryService.GetShippingOrderDetailAsync(request.OrderCode);
-                return result.MatchOk();
-            })
-            .WithName("GetShippingOrderDetail")
-            .WithDescription("Get shipping order detail from GHN")
-            .AllowAnonymous()
-            .Produces(StatusCodes.Status200OK)
-            .ProducesProblem(StatusCodes.Status500InternalServerError);
+        //app.MapShippingGroup()
+        //    .MapPost("/orders/detail", async (GetShippingOrderDetailRequest request, IDeliveryService deliveryService) =>
+        //    {
+        //        var result = await deliveryService.GetShippingOrderDetailAsync(request.OrderCode);
+        //        return result.MatchOk();
+        //    })
+        //    .WithName("GetShippingOrderDetail")
+        //    .WithDescription("Get shipping order detail from GHN")
+        //    .AllowAnonymous()
+        //    .Produces(StatusCodes.Status200OK)
+        //    .ProducesProblem(StatusCodes.Status500InternalServerError);
     }
 }

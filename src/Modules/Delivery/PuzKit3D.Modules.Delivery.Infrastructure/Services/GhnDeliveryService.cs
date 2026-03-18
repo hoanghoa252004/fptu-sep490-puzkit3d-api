@@ -333,7 +333,7 @@ public sealed class GhnDeliveryService : IDeliveryService
 
     public async Task<ResultT<int>> CalculateShippingFeeByLocationAsync(CalculateShippingFeeByLocationRequest request)
     {
-        var fromDistrictId = int.Parse(_settings.MyShop.District ?? "1");
+        var fromDistrictId = int.Parse(_settings.MyShop.DistrictId ?? "1");
         var calculator = new ShippingFeeCalculator(this);
         return await calculator.CalculateAsync(request, fromDistrictId);
     }

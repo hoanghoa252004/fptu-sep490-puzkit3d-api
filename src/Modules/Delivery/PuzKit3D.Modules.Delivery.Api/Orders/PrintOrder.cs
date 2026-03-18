@@ -13,31 +13,31 @@ internal sealed class PrintOrder : IEndpoint
 {
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapShippingGroup()
-            .MapPost("/orders/print", async (PrintOrderRequest request, IDeliveryService deliveryService) =>
-            {
-                // Generate token
-                var tokenResult = await deliveryService.GeneratePrintTokenAsync(request.OrderCodes);
-                if (!tokenResult.IsSuccess)
-                    return Results.BadRequest(tokenResult.Error);
+        //app.MapShippingGroup()
+        //    .MapPost("/orders/print", async (PrintOrderRequest request, IDeliveryService deliveryService) =>
+        //    {
+        //        // Generate token
+        //        var tokenResult = await deliveryService.GeneratePrintTokenAsync(request.OrderCodes);
+        //        if (!tokenResult.IsSuccess)
+        //            return Results.BadRequest(tokenResult.Error);
 
-                // Get print URL (A5 format only)
-                var urlResult = await deliveryService.GetPrintOrderUrlAsync(tokenResult.Value);
-                if (!urlResult.IsSuccess)
-                    return Results.BadRequest(urlResult.Error);
+        //        // Get print URL (A5 format only)
+        //        var urlResult = await deliveryService.GetPrintOrderUrlAsync(tokenResult.Value);
+        //        if (!urlResult.IsSuccess)
+        //            return Results.BadRequest(urlResult.Error);
 
-                // Return URL
-                return Results.Ok(new 
-                { 
-                    downloadUrl = urlResult.Value,
-                    format = "A5",
-                    orderCodes = request.OrderCodes
-                });
-            })
-            .WithName("PrintOrder")
-            .WithDescription("Get print shipping order label URL (A5 format)")
-            .AllowAnonymous()
-            .Produces(StatusCodes.Status200OK)
-            .ProducesProblem(StatusCodes.Status500InternalServerError);
+        //        // Return URL
+        //        return Results.Ok(new 
+        //        { 
+        //            downloadUrl = urlResult.Value,
+        //            format = "A5",
+        //            orderCodes = request.OrderCodes
+        //        });
+        //    })
+        //    .WithName("PrintOrder")
+        //    .WithDescription("Get print shipping order label URL (A5 format)")
+        //    .AllowAnonymous()
+        //    .Produces(StatusCodes.Status200OK)
+        //    .ProducesProblem(StatusCodes.Status500InternalServerError);
     }
 }

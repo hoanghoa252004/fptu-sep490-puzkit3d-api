@@ -4,8 +4,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 using PuzKit3D.Modules.Delivery.Application.Services;
 using PuzKit3D.Modules.InStock.Application.Repositories;
+using PuzKit3D.Modules.InStock.Application.UnitOfWork;
 using PuzKit3D.Modules.InStock.Domain.Entities.InstockOrders;
 using PuzKit3D.SharedKernel.Api.Endpoint;
+using PuzKit3D.SharedKernel.Domain.Results;
 using System.Text.Json;
 
 namespace PuzKit3D.Modules.InStock.Api.InstockOrders.GetDeliveryTracking;
@@ -37,6 +39,7 @@ internal sealed class GetDeliveryTracking : IEndpoint
             .MapGet("/", async (
                 Guid orderId,
                 IInstockOrderRepository orderRepository,
+                IInStockUnitOfWork unitOfWork,
                 IDeliveryService deliveryService,
                 CancellationToken cancellationToken) =>
             {
@@ -73,12 +76,32 @@ internal sealed class GetDeliveryTracking : IEndpoint
                     // Map GHN status to InstockOrderStatus
                     var mappedStatus = GhnStatusMapper.MapGhnStatusToOrderStatus(ghnStatus);
 
-                    if (mappedStatus == null)
+                    // Check if status needs to be updated
+                    var statusUpdated = false;
+                    if (mappedStatus.HasValue && mappedStatus.Value != order.Status)
                     {
-                        return Results.Ok(new { ghnStatus = ghnStatus, orderStatus = "Unknown" });
+                        // Try to update the order status
+                        var updateResult = order.UpdateStatus(mappedStatus.Value);
+                        
+                        if (updateResult.IsSuccess)
+                        {
+                            // Save the updated order
+                            await unitOfWork.ExecuteAsync(async () =>
+                            {
+                                orderRepository.Update(order);
+                                return Result.Success();
+                            }, cancellationToken);
+                            
+                            statusUpdated = true;
+                        }
                     }
 
-                    return Results.Ok(new { ghnStatus = ghnStatus, orderStatus = mappedStatus.Value.ToString() });
+                    if (mappedStatus == null)
+                    {
+                        return Results.Ok(new { ghnStatus = ghnStatus, orderStatus = "Unknown", statusUpdated = false });
+                    }
+
+                    return Results.Ok(new { ghnStatus = ghnStatus, orderStatus = mappedStatus.Value.ToString(), statusUpdated = statusUpdated });
                 }
                 catch (JsonException ex)
                 {
