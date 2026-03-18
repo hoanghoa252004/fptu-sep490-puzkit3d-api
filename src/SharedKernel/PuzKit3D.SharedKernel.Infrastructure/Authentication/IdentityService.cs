@@ -95,6 +95,12 @@ public sealed class IdentityService : IIdentityService
                 Error.Unauthorized("Authentication.AccountDeactivated", "Account has been deactivated"));
         }
 
+        if (!user.EmailConfirmed)
+        {
+            return Result.Failure<AuthenticationResult>(
+                Error.Unauthorized("Authentication.EmailNotVerified", "Email has not been verified. Please check your email to verify your account"));
+        }
+
         var result = await _signInManager.CheckPasswordSignInAsync(user, password, lockoutOnFailure: false);
 
         if (!result.Succeeded)
