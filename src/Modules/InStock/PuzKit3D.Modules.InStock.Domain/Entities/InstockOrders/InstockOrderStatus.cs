@@ -10,5 +10,8 @@ public enum InstockOrderStatus
     Shipping = 5,
     Delivered = 6,
     Completed = 7,
-    Cancelled = 8
+    Cancelled = 8,
+    HandedOverToDelivery = 9,
+    Rejected = 10,
+    Returned = 11
 }

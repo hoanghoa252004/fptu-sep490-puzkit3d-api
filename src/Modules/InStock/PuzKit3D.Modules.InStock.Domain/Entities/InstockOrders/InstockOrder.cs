@@ -14,12 +14,10 @@ public sealed class InstockOrder : AggregateRoot<InstockOrderId>
     public string CustomerName { get; private set; } = null!;
     public string CustomerPhone { get; private set; } = null!;
     public string CustomerEmail { get; private set; } = null!;
-    public string CustomerProvinceCode { get; private set; } = null!;
     public string CustomerProvinceName { get; private set; } = null!;
-    public string CustomerDistrictCode { get; private set; } = null!;
     public string CustomerDistrictName { get; private set; } = null!;
-    public string CustomerWardCode { get; private set; } = null!;
     public string CustomerWardName { get; private set; } = null!;
+    public string DetailAddress { get; private set; } = null!;
     public decimal SubTotalAmount { get; private set; }
     public decimal ShippingFee { get; private set; }
     public int UsedCoinAmount { get; private set; }
@@ -33,6 +31,7 @@ public sealed class InstockOrder : AggregateRoot<InstockOrderId>
     public DateTime? PaidAt { get; private set; }
     public string? DeliveryOrderCode { get; private set; }
     public DateTime? ExpectedDeliveryDate { get; private set; }
+    public string? HandoverProofImageUrl { get; private set; }
 
     public IReadOnlyCollection<InstockOrderDetail> OrderDetails => _orderDetails.AsReadOnly();
 
@@ -43,12 +42,10 @@ public sealed class InstockOrder : AggregateRoot<InstockOrderId>
         string customerName,
         string customerPhone,
         string customerEmail,
-        string customerProvinceCode,
         string customerProvinceName,
-        string customerDistrictCode,
         string customerDistrictName,
-        string customerWardCode,
         string customerWardName,
+        string detailAddress,
         decimal subTotalAmount,
         decimal shippingFee,
         int usedCoinAmount,
@@ -64,12 +61,10 @@ public sealed class InstockOrder : AggregateRoot<InstockOrderId>
         CustomerName = customerName;
         CustomerPhone = customerPhone;
         CustomerEmail = customerEmail;
-        CustomerProvinceCode = customerProvinceCode;
         CustomerProvinceName = customerProvinceName;
-        CustomerDistrictCode = customerDistrictCode;
         CustomerDistrictName = customerDistrictName;
-        CustomerWardCode = customerWardCode;
         CustomerWardName = customerWardName;
+        DetailAddress = detailAddress;
         SubTotalAmount = subTotalAmount;
         ShippingFee = shippingFee;
         UsedCoinAmount = usedCoinAmount;
@@ -92,12 +87,10 @@ public sealed class InstockOrder : AggregateRoot<InstockOrderId>
         string customerName,
         string customerPhone,
         string customerEmail,
-        string customerProvinceCode,
         string customerProvinceName,
-        string customerDistrictCode,
         string customerDistrictName,
-        string customerWardCode,
         string customerWardName,
+        string detailAddress,
         decimal subTotalAmount,
         decimal shippingFee,
         int usedCoinAmount,
@@ -119,13 +112,10 @@ public sealed class InstockOrder : AggregateRoot<InstockOrderId>
         if (string.IsNullOrWhiteSpace(customerEmail))
             return Result.Failure<InstockOrder>(InstockOrderError.InvalidCustomerEmail());
 
-        if (string.IsNullOrWhiteSpace(customerProvinceCode) || string.IsNullOrWhiteSpace(customerProvinceName))
-            return Result.Failure<InstockOrder>(InstockOrderError.InvalidAddress());
-
-        if (string.IsNullOrWhiteSpace(customerDistrictCode) || string.IsNullOrWhiteSpace(customerDistrictName))
-            return Result.Failure<InstockOrder>(InstockOrderError.InvalidAddress());
-
-        if (string.IsNullOrWhiteSpace(customerWardCode) || string.IsNullOrWhiteSpace(customerWardName))
+        if (string.IsNullOrWhiteSpace(customerProvinceName)
+            || string.IsNullOrWhiteSpace(customerDistrictName)
+            || string.IsNullOrWhiteSpace(customerWardName)
+            || string.IsNullOrWhiteSpace(detailAddress))
             return Result.Failure<InstockOrder>(InstockOrderError.InvalidAddress());
 
         if (string.IsNullOrWhiteSpace(paymentMethod))
@@ -152,11 +142,9 @@ public sealed class InstockOrder : AggregateRoot<InstockOrderId>
             customerName,
             customerPhone,
             customerEmail,
-            customerProvinceCode,
             customerProvinceName,
-            customerDistrictCode,
             customerDistrictName,
-            customerWardCode,
+            detailAddress,
             customerWardName,
             subTotalAmount,
             shippingFee,

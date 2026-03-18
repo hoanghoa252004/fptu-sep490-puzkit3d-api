@@ -121,12 +121,10 @@ internal sealed class GetCustomerOrderByIdQueryHandler
             order.CustomerName,
             order.CustomerPhone,
             order.CustomerEmail,
-            order.CustomerProvinceCode,
             order.CustomerProvinceName,
-            order.CustomerDistrictCode,
             order.CustomerDistrictName,
-            order.CustomerWardCode,
             order.CustomerWardName,
+            order.DetailAddress,
             order.SubTotalAmount,
             order.ShippingFee,
             order.UsedCoinAmount,
@@ -138,6 +136,8 @@ internal sealed class GetCustomerOrderByIdQueryHandler
             order.PaidAt,
             order.CreatedAt,
             order.UpdatedAt,
+            order.DeliveryOrderCode,
+            order.ExpectedDeliveryDate,
             orderDetails);
 
         return Result.Success(response);

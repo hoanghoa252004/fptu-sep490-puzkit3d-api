@@ -10,6 +10,25 @@ using System.Text.Json;
 
 namespace PuzKit3D.Modules.InStock.Api.InstockOrders.GetDeliveryTracking;
 
+internal static class GhnStatusMapper
+{
+    public static InstockOrderStatus? MapGhnStatusToOrderStatus(string? ghnStatus)
+    {
+        if (string.IsNullOrWhiteSpace(ghnStatus))
+            return null;
+
+        return ghnStatus.ToLowerInvariant() switch
+        {
+            "picked" => InstockOrderStatus.HandedOverToDelivery,
+            "delivering" => InstockOrderStatus.Shipping,
+            "delivered" => InstockOrderStatus.Delivered,
+            "return" => InstockOrderStatus.Rejected,
+            "returned" => InstockOrderStatus.Returned,
+            _ => null
+        };
+    }
+}
+
 internal sealed class GetDeliveryTracking : IEndpoint
 {
     public void MapEndpoint(IEndpointRouteBuilder app)
@@ -49,9 +68,17 @@ internal sealed class GetDeliveryTracking : IEndpoint
                     
                     // Navigate to data.status
                     var dataProperty = doc.RootElement.GetProperty("data");
-                    var status = dataProperty.GetProperty("status").GetString();
+                    var ghnStatus = dataProperty.GetProperty("status").GetString();
 
-                    return Results.Ok(new { status = status });
+                    // Map GHN status to InstockOrderStatus
+                    var mappedStatus = GhnStatusMapper.MapGhnStatusToOrderStatus(ghnStatus);
+
+                    if (mappedStatus == null)
+                    {
+                        return Results.Ok(new { ghnStatus = ghnStatus, orderStatus = "Unknown" });
+                    }
+
+                    return Results.Ok(new { ghnStatus = ghnStatus, orderStatus = mappedStatus.Value.ToString() });
                 }
                 catch (JsonException ex)
                 {

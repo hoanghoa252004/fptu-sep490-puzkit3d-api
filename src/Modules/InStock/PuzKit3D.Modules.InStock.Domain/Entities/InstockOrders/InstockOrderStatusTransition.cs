@@ -8,7 +8,7 @@ public static class InstockOrderStatusTransition
             InstockOrderStatus.Waiting, new HashSet<InstockOrderStatus>
             {
                 InstockOrderStatus.Processing,
-                //InstockOrderStatus.Cancelled
+                InstockOrderStatus.Cancelled
             }
         },
         {
@@ -28,19 +28,32 @@ public static class InstockOrderStatusTransition
         {
             InstockOrderStatus.Processing, new HashSet<InstockOrderStatus>
             {
+                InstockOrderStatus.HandedOverToDelivery
+            }
+        },
+        {
+            InstockOrderStatus.HandedOverToDelivery, new HashSet<InstockOrderStatus>
+            {
                 InstockOrderStatus.Shipping
             }
         },
         {
             InstockOrderStatus.Shipping, new HashSet<InstockOrderStatus>
             {
-                InstockOrderStatus.Delivered
+                InstockOrderStatus.Delivered,
+                InstockOrderStatus.Rejected
             }
         },
         {
             InstockOrderStatus.Delivered, new HashSet<InstockOrderStatus>
             {
                 InstockOrderStatus.Completed
+            }
+        },
+        {
+            InstockOrderStatus.Rejected, new HashSet<InstockOrderStatus>
+            {
+                InstockOrderStatus.Returned
             }
         },
         {
