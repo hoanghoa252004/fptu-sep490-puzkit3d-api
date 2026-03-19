@@ -12,4 +12,7 @@ public interface IEmailService
     Task<Result> SendAsync(string toEmail, string subject, string body);
 
     Task SendVerifyEmailAsync(string toEmail, string userId, string token);
+
+    Task SendResetPasswordEmailAsync(string toEmail, string resetUrl);
 }
+

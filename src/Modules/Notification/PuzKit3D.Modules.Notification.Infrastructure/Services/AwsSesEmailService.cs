@@ -79,6 +79,30 @@ public sealed class AwsSesEmailService : IEmailService
         }
     }
 
+    public async Task SendResetPasswordEmailAsync(string toEmail, string resetUrl)
+    {
+        var request = new SendTemplatedEmailRequest
+        {
+            Source = _emailSettings.SenderEmail,
+            Template = EmailTemplate.ResetPasswordTemplate,
+            Destination = new Destination([toEmail]),
+            TemplateData = JsonSerializer.Serialize(new
+            {
+                email = toEmail,
+                reset_url = resetUrl
+            })
+        };
+
+        try
+        {
+            var response = await _ses.SendTemplatedEmailAsync(request);
+        }
+        catch (Exception ex)
+        {
+            throw new PuzKit3DException(ex.Message);
+        }
+    }
+
     public async Task InitializeEmailTemplate()
     {
         var orderCreatedSuccessEmailTemplate = new CreateTemplateRequest
@@ -1065,6 +1089,160 @@ public sealed class AwsSesEmailService : IEmailService
             }
         };
 
+        var resetPasswordEmailTemplate = new CreateTemplateRequest
+        {
+            Template = new Template
+            {
+                TemplateName = EmailTemplate.ResetPasswordTemplate,
+                SubjectPart = "PuzKit3D - Verify your email",
+                HtmlPart = """              
+                
+                <!DOCTYPE html>
+                <html lang="en">
+                <head>
+                	<meta charset="UTF-8">
+                	<title>Reset Your Password | PuzKit3D</title>
+                	<style>
+                		/* Only minimal resets, avoid flex/grid/animation */
+                		body {
+                			margin: 0;
+                			padding: 0;
+                			background: #f7f8fa;
+                		}
+                		.email-container {
+                			width: 100%;
+                			background: #f7f8fa;
+                			padding: 24px 0;
+                		}
+                		.main-table {
+                			max-width: 480px;
+                			width: 100%;
+                			margin: 0 auto;
+                			background: #fff;
+                			border-radius: 16px;
+                			box-shadow: 0 8px 32px rgba(35,35,76,0.12);
+                			border: 1px solid #e3e6ee;
+                		}
+                		.brand {
+                			color: #23324c;
+                			font-family: Arial, sans-serif;
+                			font-size: 32px;
+                			font-weight: bold;
+                			letter-spacing: 0.04em;
+                			padding-top: 32px;
+                			text-align: center;
+                		}
+                		.accent {
+                			color: #d32f2f;
+                		}
+                		.title {
+                			font-size: 20px;
+                			font-weight: 600;
+                			text-align: center;
+                			margin: 0;
+                			padding: 16px 0 8px 0;
+                			color: #23324c;
+                		}
+                		.content {
+                			font-size: 16px;
+                			color: #23234c;
+                			text-align: center;
+                			padding: 0 24px 24px 24px;
+                			line-height: 1.6;
+                		}
+                		.button-row {
+                			text-align: center;
+                			padding: 16px 0 0 0;
+                		}
+                		.button {
+                			display: inline-block;
+                			background: #23324c;
+                			background: linear-gradient(90deg, #23324c 60%, #d32f2f 100%);
+                			color: #fff;
+                			font-weight: bold;
+                			padding: 14px 36px;
+                			border-radius: 10px;
+                			text-decoration: none;
+                			font-size: 18px;
+                			margin-top: 8px;
+                			margin-bottom: 8px;
+                		}
+                		.footer {
+                			font-size: 14px;
+                			color: #7a7a9a;
+                			text-align: center;
+                			padding: 24px 0 32px 0;
+                		}
+                		@media only screen and (max-width: 600px) {
+                			.main-table {
+                				max-width: 98vw !important;
+                				border-radius: 8px !important;
+                				padding: 0 !important;
+                			}
+                			.content {
+                				font-size: 15px !important;
+                				padding: 0 8px 16px 8px !important;
+                			}
+                			.brand {
+                				font-size: 24px !important;
+                				padding-top: 16px !important;
+                			}
+                			.button {
+                				font-size: 16px !important;
+                				padding: 10px 20px !important;
+                			}
+                			.footer {
+                				font-size: 12px !important;
+                				padding: 16px 0 16px 0 !important;
+                			}
+                		}
+                	</style>
+                </head>
+                <body>
+                	<div class="email-container">
+                		<table class="main-table" align="center" cellpadding="0" cellspacing="0" style="max-width:480px;width:100%;background:#fff;border-radius:16px;box-shadow:0 8px 32px rgba(35,35,76,0.12);border:1px solid #e3e6ee;">
+                			<tr>
+                				<td>
+                					<div class="brand">PuzKit<span class="accent">3D</span></div>
+                				</td>
+                			</tr>
+                			<tr>
+                				<td>
+                					<div class="title">Reset Your Password</div>
+                				</td>
+                			</tr>
+                			<tr>
+                				<td>
+                					<div class="content">
+                						Hello <strong>{{email}}</strong>,<br>
+                						We received a request to reset your password.<br>
+                						Click the button below to set a new password.
+                					</div>
+                				</td>
+                			</tr>
+                			<tr>
+                				<td class="button-row">
+                					<a href="{{reset_url}}" class="button">Reset Password</a>
+                				</td>
+                			</tr>
+                			<tr>
+                				<td>
+                					<div class="footer">
+                						If you did not request a password reset, please ignore this email.<br>
+                						This link will expire in 24 hours.<br>
+                						&copy; 2026 PuzKit3D. All rights reserved.
+                					</div>
+                				</td>
+                			</tr>
+                		</table>
+                	</div>
+                </body>
+                </html>
+                
+                """
+            }
+        };
+
         await _ses.DeleteTemplateAsync(new DeleteTemplateRequest
         {
             TemplateName = EmailTemplate.OrderCreatedSuccessEmailTemplate
@@ -1075,8 +1253,15 @@ public sealed class AwsSesEmailService : IEmailService
             TemplateName = EmailTemplate.VerifyEmailTemplate
         });
 
+        await _ses.DeleteTemplateAsync(new DeleteTemplateRequest
+        {
+            TemplateName = EmailTemplate.ResetPasswordTemplate
+        });
+
         await _ses.CreateTemplateAsync(orderCreatedSuccessEmailTemplate);
 
         await _ses.CreateTemplateAsync(verifyEmailTemplate);
+
+        await _ses.CreateTemplateAsync(resetPasswordEmailTemplate);
     }
 }

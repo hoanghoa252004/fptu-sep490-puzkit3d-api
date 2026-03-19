@@ -165,4 +165,6 @@ public interface IIdentityService
         CancellationToken cancellationToken = default);
 
     Task<ResultT<string>> GenerateConfirmEmailToken(string email, CancellationToken cancellationToken = default);
+
+    Task<ResultT<string>> GeneratePasswordResetToken(string email, CancellationToken cancellationToken = default);
 }

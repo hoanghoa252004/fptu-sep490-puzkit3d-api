@@ -706,5 +706,17 @@ public sealed class IdentityService : IIdentityService
         var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
         return Result.Success(token);
     }
+
+    public async Task<ResultT<string>> GeneratePasswordResetToken(string email, CancellationToken cancellationToken = default)
+    {
+        var user = await _userManager.FindByEmailAsync(email);
+        if (user is null)
+        {
+            return Result.Failure<string>(
+                Error.Unauthorized("Authentication.UserNotFound", "User not found for email " + email));
+        }
+        var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+        return Result.Success(token);
+    }
 }
 
