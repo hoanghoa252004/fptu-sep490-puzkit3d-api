@@ -1,6 +1,7 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using PuzKit3D.Modules.Feedback.Application.UnitOfWork;
+using PuzKit3D.Modules.Feedback.Persistence.Configurations.SeedData;
 using FeedbackEntity = PuzKit3D.Modules.Feedback.Domain.Entities.Feedbacks.Feedback;
 using PuzKit3D.Modules.Feedback.Domain.Entities.OrderReplicas;
 using PuzKit3D.Modules.Feedback.Domain.Entities.ProductReplicas;
@@ -32,6 +33,9 @@ public sealed class FeedbackDbContext : DbContext, IFeedbackUnitOfWork
         builder.HasDefaultSchema(Schema.Feedback);
 
         builder.ApplyConfigurationsFromAssembly(typeof(FeedbackDbContext).Assembly);
+
+        // Seed data
+        builder.SeedProductReplicas();
     }
 
     public async Task<T> ExecuteAsync<T>(Func<Task<T>> action, CancellationToken cancellationToken = default)

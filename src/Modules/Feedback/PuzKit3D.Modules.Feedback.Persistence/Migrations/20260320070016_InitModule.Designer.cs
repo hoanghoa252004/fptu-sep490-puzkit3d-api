@@ -12,7 +12,7 @@ using PuzKit3D.Modules.Feedback.Persistence;
 namespace PuzKit3D.Modules.Feedback.Persistence.Migrations
 {
     [DbContext(typeof(FeedbackDbContext))]
-    [Migration("20260320043832_InitModule")]
+    [Migration("20260320070016_InitModule")]
     partial class InitModule
     {
         /// <inheritdoc />
@@ -142,6 +142,68 @@ namespace PuzKit3D.Modules.Feedback.Persistence.Migrations
                         .HasDatabaseName("ix_product_replicas_type");
 
                     b.ToTable("product_replicas", "feedback");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("10000000-0000-0000-0000-000000000001"),
+                            Name = "UGT-24 Endurance Racer",
+                            Type = "Instock"
+                        },
+                        new
+                        {
+                            Id = new Guid("10000000-0000-0000-0000-000000000002"),
+                            Name = "Mad Hornet Airplane",
+                            Type = "Instock"
+                        },
+                        new
+                        {
+                            Id = new Guid("10000000-0000-0000-0000-000000000003"),
+                            Name = "Eagle 3D Puzzle",
+                            Type = "Instock"
+                        },
+                        new
+                        {
+                            Id = new Guid("10000000-0000-0000-0000-000000000004"),
+                            Name = "Sports Car 3D Puzzle",
+                            Type = "Instock"
+                        },
+                        new
+                        {
+                            Id = new Guid("10000000-0000-0000-0000-000000000005"),
+                            Name = "Airplane 3D Puzzle",
+                            Type = "Instock"
+                        },
+                        new
+                        {
+                            Id = new Guid("10000000-0000-0000-0000-000000000006"),
+                            Name = "Motorcycle 3D Puzzle",
+                            Type = "Instock"
+                        },
+                        new
+                        {
+                            Id = new Guid("10000000-0000-0000-0000-000000000007"),
+                            Name = "Tiger 3D Puzzle",
+                            Type = "Instock"
+                        },
+                        new
+                        {
+                            Id = new Guid("10000000-0000-0000-0000-000000000008"),
+                            Name = "Dolphin 3D Puzzle",
+                            Type = "Instock"
+                        },
+                        new
+                        {
+                            Id = new Guid("10000000-0000-0000-0000-000000000009"),
+                            Name = "Helicopter 3D Puzzle",
+                            Type = "Instock"
+                        },
+                        new
+                        {
+                            Id = new Guid("10000000-0000-0000-0000-000000000010"),
+                            Name = "Dragon 3D Puzzle",
+                            Type = "Instock"
+                        });
                 });
 #pragma warning restore 612, 618
         }

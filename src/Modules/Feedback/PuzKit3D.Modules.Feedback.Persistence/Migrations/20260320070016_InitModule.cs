@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace PuzKit3D.Modules.Feedback.Persistence.Migrations
 {
     /// <inheritdoc />
@@ -61,6 +63,24 @@ namespace PuzKit3D.Modules.Feedback.Persistence.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("pk_product_replicas", x => x.id);
+                });
+
+            migrationBuilder.InsertData(
+                schema: "feedback",
+                table: "product_replicas",
+                columns: new[] { "id", "name", "type" },
+                values: new object[,]
+                {
+                    { new Guid("10000000-0000-0000-0000-000000000001"), "UGT-24 Endurance Racer", "Instock" },
+                    { new Guid("10000000-0000-0000-0000-000000000002"), "Mad Hornet Airplane", "Instock" },
+                    { new Guid("10000000-0000-0000-0000-000000000003"), "Eagle 3D Puzzle", "Instock" },
+                    { new Guid("10000000-0000-0000-0000-000000000004"), "Sports Car 3D Puzzle", "Instock" },
+                    { new Guid("10000000-0000-0000-0000-000000000005"), "Airplane 3D Puzzle", "Instock" },
+                    { new Guid("10000000-0000-0000-0000-000000000006"), "Motorcycle 3D Puzzle", "Instock" },
+                    { new Guid("10000000-0000-0000-0000-000000000007"), "Tiger 3D Puzzle", "Instock" },
+                    { new Guid("10000000-0000-0000-0000-000000000008"), "Dolphin 3D Puzzle", "Instock" },
+                    { new Guid("10000000-0000-0000-0000-000000000009"), "Helicopter 3D Puzzle", "Instock" },
+                    { new Guid("10000000-0000-0000-0000-000000000010"), "Dragon 3D Puzzle", "Instock" }
                 });
 
             migrationBuilder.CreateIndex(
