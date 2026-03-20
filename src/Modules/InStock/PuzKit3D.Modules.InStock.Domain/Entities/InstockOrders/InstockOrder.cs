@@ -169,6 +169,11 @@ public sealed class InstockOrder : AggregateRoot<InstockOrderId>
         Status = newStatus;
         UpdatedAt = DateTime.UtcNow;
 
+        if (newStatus == InstockOrderStatus.Completed)
+        {
+            RaiseOrderCompletedEvent();
+        }
+
         return Result.Success();
     }
 
@@ -264,6 +269,8 @@ public sealed class InstockOrder : AggregateRoot<InstockOrderId>
         Status = InstockOrderStatus.Completed;
         UpdatedAt = DateTime.UtcNow;
 
+        RaiseOrderCompletedEvent();
+
         return Result.Success();
     }
 
@@ -341,5 +348,20 @@ public sealed class InstockOrder : AggregateRoot<InstockOrderId>
             PaymentMethod,
             IsPaid,
             PaidAt));
+    }
+
+    private void RaiseOrderCompletedEvent()
+    {
+        var orderDetails = _orderDetails.Select(od => new OrderDetailInfo(
+            od.Id.Value,
+            od.InstockProductVariantId.Value))
+            .ToList();
+
+        RaiseDomainEvent(new InstockOrderCompletedDomainEvent(
+            Id.Value,
+            Code,
+            CustomerId,
+            orderDetails,
+            UpdatedAt));
     }
 }

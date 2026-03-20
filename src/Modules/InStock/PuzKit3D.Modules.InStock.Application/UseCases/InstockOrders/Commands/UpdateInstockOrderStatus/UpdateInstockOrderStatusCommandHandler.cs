@@ -23,7 +23,7 @@ internal sealed class UpdateInstockOrderStatusCommandHandler : ICommandHandler<U
     public async Task<Result> Handle(UpdateInstockOrderStatusCommand request, CancellationToken cancellationToken)
     {
         var orderId = InstockOrderId.From(request.OrderId);
-        var order = await _orderRepository.GetByIdAsync(orderId, cancellationToken);
+        var order = await _orderRepository.GetByIdWithDetailsAsync(orderId, cancellationToken);
 
         if (order is null)
         {
