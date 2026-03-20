@@ -161,6 +161,11 @@ public sealed class InstockOrder : AggregateRoot<InstockOrderId>
 
     public Result UpdateStatus(InstockOrderStatus newStatus)
     {
+        if (Status == newStatus)
+        {
+            return Result.Failure(InstockOrderError.InvalidStatusTransition(Status, newStatus));
+        }
+
         if (!InstockOrderStatusTransition.IsValidTransition(Status, newStatus))
         {
             return Result.Failure(InstockOrderError.InvalidStatusTransition(Status, newStatus));

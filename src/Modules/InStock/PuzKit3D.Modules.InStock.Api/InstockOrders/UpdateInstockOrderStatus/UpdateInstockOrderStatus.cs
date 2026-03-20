@@ -34,9 +34,9 @@ internal sealed class UpdateInstockOrderStatus : IEndpoint
                 return result.MatchNoContent();
             })
             .WithName("UpdateInstockOrderStatus")
-            .WithSummary("Update instock order status (Staff/Admin only)")
-            .WithDescription("Updates the status of an instock order. Validates status transitions based on workflow rules. Requires Staff or BusinessManager role.")
-            .RequireAuthorization(policy => policy.RequireRole(Roles.Staff, Roles.BusinessManager))
+            .WithSummary("Update instock order status")
+            .WithDescription("Updates the status of an instock order. Customer can only update to Cancelled or Completed. Staff/Manager/BusinessManager can update to any valid status.")
+            .RequireAuthorization(policy => policy.RequireRole(Roles.Staff, Roles.BusinessManager, Roles.Customer))
             .Produces(StatusCodes.Status204NoContent)
             .ProducesProblem(StatusCodes.Status400BadRequest)
             .ProducesProblem(StatusCodes.Status401Unauthorized)
