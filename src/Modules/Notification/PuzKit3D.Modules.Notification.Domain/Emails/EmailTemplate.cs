@@ -10,4 +10,6 @@ public static class EmailTemplate
 {
     public const string OrderCreatedSuccessEmailTemplate = nameof(OrderCreatedSuccessEmailTemplate);
     public const string VerifyEmailTemplate = nameof(VerifyEmailTemplate);
+    public const string ResetPasswordTemplate = nameof(ResetPasswordTemplate);
 }
+

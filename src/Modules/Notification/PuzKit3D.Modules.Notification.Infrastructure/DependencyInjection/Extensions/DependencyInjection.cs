@@ -41,6 +41,9 @@ public static class DependencyInjection
 
         services.AddScoped<IIntegrationEventHandler<UserRegisteredIntegrationEvent>,
             UserRegisteredIntegrationEventHandler>();
+
+        services.AddScoped<IIntegrationEventHandler<ForgotPasswordIntegrationEvent>,
+            ForgotPasswordIntegrationEventHandler>();
         return services;
     }
 }
