@@ -174,6 +174,10 @@ public sealed class InstockOrder : AggregateRoot<InstockOrderId>
         Status = newStatus;
         UpdatedAt = DateTime.UtcNow;
 
+        // Raise generic status changed event
+        RaiseStatusChangedEvent();
+
+        // Raise specific completed event for Feedback module
         if (newStatus == InstockOrderStatus.Completed)
         {
             RaiseOrderCompletedEvent();
@@ -353,6 +357,16 @@ public sealed class InstockOrder : AggregateRoot<InstockOrderId>
             PaymentMethod,
             IsPaid,
             PaidAt));
+    }
+
+    private void RaiseStatusChangedEvent()
+    {
+        RaiseDomainEvent(new InstockOrderStatusChangedDomainEvent(
+            Id.Value,
+            Code,
+            CustomerId,
+            Status,
+            UpdatedAt));
     }
 
     private void RaiseOrderCompletedEvent()

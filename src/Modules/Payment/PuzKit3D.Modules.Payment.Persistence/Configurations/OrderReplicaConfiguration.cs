@@ -29,8 +29,7 @@ internal sealed class OrderReplicaConfiguration : IEntityTypeConfiguration<Order
             .HasPrecision(18, 2);
 
         builder.Property(x => x.Status)
-            .IsRequired()
-            .HasConversion<string>();
+            .IsRequired();
 
         builder.Property(x => x.PaymentMethod)
             .IsRequired()
