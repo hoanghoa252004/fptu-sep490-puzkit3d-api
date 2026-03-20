@@ -26,15 +26,13 @@ internal sealed class InstockOrderCreatedIntegrationEventHandler
         InstockOrderCreatedIntegrationEvent @event,
         CancellationToken cancellationToken = default)
     {
-        var status = ConvertStatusToOrderReplicaStatus(@event.Status, @event.IsPaid);
-        
         var orderReplica = OrderReplica.Create(
             @event.OrderId,
             OrderType.Instock,
             @event.Code,
             @event.CustomerId,
             @event.GrandTotalAmount,
-            status,
+            @event.Status,
             @event.PaymentMethod,
             @event.IsPaid,
             @event.PaidAt,
@@ -57,17 +55,5 @@ internal sealed class InstockOrderCreatedIntegrationEventHandler
         await _dbContext.Payments.AddAsync(paymentResult.Value, cancellationToken);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
     }
-
-    private static OrderReplicaStatus ConvertStatusToOrderReplicaStatus(string inStockStatus, bool isPaid)
-    {
-        return inStockStatus switch
-        {
-            "Paid" => OrderReplicaStatus.Paid,
-            "Pending" => isPaid ? OrderReplicaStatus.Paid : OrderReplicaStatus.Pending,
-            "Waiting" => OrderReplicaStatus.Pending,  // COD orders start as Waiting in InStock but Pending in Payment
-            "Expired" => OrderReplicaStatus.NotPaid,
-            "Cancelled" => OrderReplicaStatus.NotPaid,
-            _ => OrderReplicaStatus.Pending
-        };
-    }
 }
+

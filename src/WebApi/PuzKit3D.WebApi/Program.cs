@@ -8,6 +8,10 @@ using PuzKit3D.Modules.Catalog.Persistence;
 using PuzKit3D.Modules.Delivery.Api;
 using PuzKit3D.Modules.Delivery.Application;
 using PuzKit3D.Modules.Delivery.Infrastructure.DependencyInjection.Extensions;
+using PuzKit3D.Modules.Feedback.Api;
+using PuzKit3D.Modules.Feedback.Application;
+using PuzKit3D.Modules.Feedback.Infrastructure;
+using PuzKit3D.Modules.Feedback.Persistence;
 using PuzKit3D.Modules.InStock.Api;
 using PuzKit3D.Modules.InStock.Application;
 using PuzKit3D.Modules.InStock.Infrastructure;
@@ -58,7 +62,8 @@ builder.Services.AddSharedKernelApplication(
         PaymentApplicationAssembly.Assembly,
         NotificationApplicationAssembly.Assembly,
         MediaApplicationAssembly.Assembly,
-        DeliveryApplicationAssembly.Assembly
+        DeliveryApplicationAssembly.Assembly,
+        FeedbackApplicationAssembly.Assembly
     } 
 );
 
@@ -74,7 +79,8 @@ builder.Services.AddEndpointsFromAssembly(
        PaymentApiAssembly.Assembly,
        NotificationApiAssembly.Assembly,
        MediaApiAssembly.Assembly,
-       DeliveryApiAssembly.Assembly
+       DeliveryApiAssembly.Assembly,
+       FeedbackApiAssembly.Assembly
     }
 );
 
@@ -84,11 +90,13 @@ builder.Services.AddCatalogPersistence(builder.Configuration);
 builder.Services.AddCartPersistence(builder.Configuration);
 builder.Services.AddPartnerPersistence(builder.Configuration);
 builder.Services.AddPaymentPersistence(builder.Configuration);
+builder.Services.AddFeedbackPersistence(builder.Configuration);
 
 // Add Infrastructure services (Domain Event Handlers, Integration Event Handlers):
 builder.Services.AddInStockInfrastructure(builder.Configuration);
 builder.Services.AddCartInfrastructure(builder.Configuration);
 builder.Services.AddPaymentInfrastructure();
+builder.Services.AddFeedbackInfrastructure();
 builder.Services.AddNotificationInfrastructure(builder.Configuration, builder.Environment);
 builder.Services.AddMediaInfrastructure(builder.Configuration, builder.Environment);
 builder.Services.AddDeliveryInfrastructure(builder.Configuration, builder.Environment);
@@ -118,6 +126,7 @@ app.UseSwaggerUI(options =>
     options.SwaggerEndpoint("/swagger/notification/swagger.json", "7. Notification Module");
     options.SwaggerEndpoint("/swagger/media/swagger.json", "8. Media Module");
     options.SwaggerEndpoint("/swagger/delivery/swagger.json", "9. Delivery Module");
+    options.SwaggerEndpoint("/swagger/feedback/swagger.json", "10. Feedback Module");
     // Main API document
     options.SwaggerEndpoint("/swagger/v1/swagger.json", "All Modules");
 

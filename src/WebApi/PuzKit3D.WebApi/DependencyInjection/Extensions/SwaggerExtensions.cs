@@ -80,6 +80,13 @@ internal static class SwaggerExtensions
                 Description = "APIs for delivery processing"
             });
 
+            options.SwaggerDoc("feedback", new OpenApiInfo
+            {
+                Title = "10. Feedback Module",
+                Version = "v1",
+                Description = "APIs for feedback processing"
+            });
+
 
 
             // Group endpoints by module based on route prefix
@@ -121,6 +128,8 @@ internal static class SwaggerExtensions
                     "media" => routePath.StartsWith("api/uploads"),
 
                     "delivery" => routePath.StartsWith("api/delivery"),
+
+                    "feedback" => routePath.Contains("feedback"),
 
                     _ => false
                 };

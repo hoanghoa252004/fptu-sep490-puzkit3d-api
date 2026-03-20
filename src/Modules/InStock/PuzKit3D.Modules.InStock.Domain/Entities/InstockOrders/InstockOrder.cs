@@ -161,6 +161,11 @@ public sealed class InstockOrder : AggregateRoot<InstockOrderId>
 
     public Result UpdateStatus(InstockOrderStatus newStatus)
     {
+        if (Status == newStatus)
+        {
+            return Result.Failure(InstockOrderError.InvalidStatusTransition(Status, newStatus));
+        }
+
         if (!InstockOrderStatusTransition.IsValidTransition(Status, newStatus))
         {
             return Result.Failure(InstockOrderError.InvalidStatusTransition(Status, newStatus));
@@ -168,6 +173,15 @@ public sealed class InstockOrder : AggregateRoot<InstockOrderId>
 
         Status = newStatus;
         UpdatedAt = DateTime.UtcNow;
+
+        // Raise generic status changed event
+        RaiseStatusChangedEvent();
+
+        // Raise specific completed event for Feedback module
+        if (newStatus == InstockOrderStatus.Completed)
+        {
+            RaiseOrderCompletedEvent();
+        }
 
         return Result.Success();
     }
@@ -264,6 +278,8 @@ public sealed class InstockOrder : AggregateRoot<InstockOrderId>
         Status = InstockOrderStatus.Completed;
         UpdatedAt = DateTime.UtcNow;
 
+        RaiseOrderCompletedEvent();
+
         return Result.Success();
     }
 
@@ -341,5 +357,30 @@ public sealed class InstockOrder : AggregateRoot<InstockOrderId>
             PaymentMethod,
             IsPaid,
             PaidAt));
+    }
+
+    private void RaiseStatusChangedEvent()
+    {
+        RaiseDomainEvent(new InstockOrderStatusChangedDomainEvent(
+            Id.Value,
+            Code,
+            CustomerId,
+            Status,
+            UpdatedAt));
+    }
+
+    private void RaiseOrderCompletedEvent()
+    {
+        var orderDetails = _orderDetails.Select(od => new OrderDetailInfo(
+            od.Id.Value,
+            od.InstockProductVariantId.Value))
+            .ToList();
+
+        RaiseDomainEvent(new InstockOrderCompletedDomainEvent(
+            Id.Value,
+            Code,
+            CustomerId,
+            orderDetails,
+            UpdatedAt));
     }
 }

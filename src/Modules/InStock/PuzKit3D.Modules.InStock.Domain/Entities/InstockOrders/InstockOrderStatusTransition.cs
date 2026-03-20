@@ -69,11 +69,6 @@ public static class InstockOrderStatusTransition
 
     public static bool IsValidTransition(InstockOrderStatus currentStatus, InstockOrderStatus newStatus)
     {
-        if (currentStatus == newStatus)
-        {
-            return true;
-        }
-
         if (!AllowedTransitions.ContainsKey(currentStatus))
         {
             return false;
