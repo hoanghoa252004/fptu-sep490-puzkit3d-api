@@ -49,4 +49,10 @@ public static class SupportTicketError
 
     public static Error StatusAlreadySet(SupportTicketStatus status) =>
         Error.Validation("SupportTicket.StatusAlreadySet", $"Support ticket status is already {status}");
+
+    public static Error PartNotFound(Guid partId) =>
+        Error.NotFound("SupportTicket.PartNotFound", $"Part with ID {partId} not found");
+
+    public static Error ReplacePartQuantityExceedsAvailable(Guid partId, int availableQuantity, int requestedQuantity) =>
+        Error.Validation("SupportTicket.ReplacePartQuantityExceedsAvailable", $"Requested quantity ({requestedQuantity}) exceeds available part quantity ({availableQuantity}) for part {partId}");
 }

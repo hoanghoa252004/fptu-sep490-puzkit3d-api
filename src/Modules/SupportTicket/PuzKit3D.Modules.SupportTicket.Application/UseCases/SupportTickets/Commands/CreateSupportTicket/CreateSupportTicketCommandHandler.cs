@@ -16,18 +16,21 @@ internal sealed class CreateSupportTicketCommandHandler
     private readonly ISupportTicketRepository _repository;
     private readonly IOrderReplicaRepository _orderReplicaRepository;
     private readonly IOrderDetailReplicaRepository _orderDetailReplicaRepository;
+    private readonly IPartReplicaRepository _partReplicaRepository;
     private readonly ISupportTicketUnitOfWork _unitOfWork;
 
     public CreateSupportTicketCommandHandler(
         ISupportTicketRepository repository,
         IOrderReplicaRepository orderReplicaRepository,
         IOrderDetailReplicaRepository orderDetailReplicaRepository,
+        IPartReplicaRepository partReplicaRepository,
         ISupportTicketUnitOfWork unitOfWork)
     {
         _repository = repository;
         _unitOfWork = unitOfWork;
         _orderReplicaRepository = orderReplicaRepository;
         _orderDetailReplicaRepository = orderDetailReplicaRepository;
+        _partReplicaRepository = partReplicaRepository;
     }
 
     public async Task<ResultT<Guid>> Handle(CreateSupportTicketCommand request, CancellationToken cancellationToken)
@@ -58,6 +61,22 @@ internal sealed class CreateSupportTicketCommandHandler
             if (request.Type == SupportTicketType.ReplacePart && item.PartId == null)
             {
                 return Result.Failure<Guid>(SupportTicketError.PartIdRequiredForReplacePart());
+            }
+
+            // Validation: if type is ReplacePart, check if part exists and has sufficient quantity
+            if (request.Type == SupportTicketType.ReplacePart && item.PartId.HasValue)
+            {
+                var part = await _partReplicaRepository.GetByIdAsync(item.PartId.Value, cancellationToken);
+                
+                if (part is null)
+                {
+                    return Result.Failure<Guid>(SupportTicketError.PartNotFound(item.PartId.Value));
+                }
+
+                if (item.Quantity > part.Quantity)
+                {
+                    return Result.Failure<Guid>(SupportTicketError.ReplacePartQuantityExceedsAvailable(item.PartId.Value, part.Quantity, item.Quantity));
+                }
             }
 
             // Validation: if type is Exchange, quantity must be <= orderDetail quantity

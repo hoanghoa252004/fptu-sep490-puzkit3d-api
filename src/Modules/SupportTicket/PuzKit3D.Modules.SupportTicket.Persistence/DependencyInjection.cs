@@ -39,6 +39,7 @@ public static class DependencyInjection
         services.AddScoped<ISupportTicketRepository, SupportTicketRepository>();
         services.AddScoped<IOrderReplicaRepository, OrderReplicaRepository>();
         services.AddScoped<IOrderDetailReplicaRepository, OrderDetailReplicaRepository>();
+        services.AddScoped<IPartReplicaRepository, PartReplicaRepository>();
 
         return services;
     }
