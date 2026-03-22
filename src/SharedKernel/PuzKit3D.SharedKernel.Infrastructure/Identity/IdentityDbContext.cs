@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using PuzKit3D.SharedKernel.Application.Identity;
+using PuzKit3D.SharedKernel.Domain.Results;
 using PuzKit3D.SharedKernel.Infrastructure.Data;
 
 namespace PuzKit3D.SharedKernel.Infrastructure.Identity;
@@ -15,7 +17,7 @@ public sealed class IdentityDbContext : IdentityDbContext<
     ApplicationUserRole,
     Microsoft.AspNetCore.Identity.IdentityUserLogin<string>,
     Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>,
-    Microsoft.AspNetCore.Identity.IdentityUserToken<string>>
+    Microsoft.AspNetCore.Identity.IdentityUserToken<string>>, IIdentityUnitOfWork
 {
     // Role IDs as constants
     private const string AdminRoleId = "9b7da615-9c41-4700-92a9-ca17337c5724";
@@ -208,6 +210,27 @@ public sealed class IdentityDbContext : IdentityDbContext<
             new ApplicationUserRole { UserId = StaffUserId, RoleId = StaffRoleId },
             new ApplicationUserRole { UserId = CustomerUserId, RoleId = CustomerRoleId }
         );
+    }
+
+    public async Task<T> ExecuteAsync<T>(Func<Task<T>> action, CancellationToken cancellationToken = default)
+    {
+        var strategy = Database.CreateExecutionStrategy();
+        return await strategy.ExecuteAsync(async () =>
+        {
+            await using var transaction = await Database.BeginTransactionAsync(cancellationToken);
+            {
+                var response = await action();
+                if (response is Result result && result.IsFailure)
+                {
+                    await transaction.RollbackAsync(cancellationToken);
+                    return response;
+                }
+                await SaveChangesAsync(cancellationToken);
+                await transaction.CommitAsync(cancellationToken);
+
+                return response;
+            }
+        });
     }
 }
 

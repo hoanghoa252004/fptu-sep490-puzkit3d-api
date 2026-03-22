@@ -6,6 +6,7 @@ using PuzKit3D.Modules.InStock.Application.UseCases.InstockOrders.Queries.GetCus
 using PuzKit3D.Modules.InStock.Domain.Entities.InstockOrders;
 using PuzKit3D.SharedKernel.Api.Endpoint;
 using PuzKit3D.SharedKernel.Api.Results.Extensions;
+using PuzKit3D.SharedKernel.Application.Authorization;
 using PuzKit3D.SharedKernel.Application.Pagination;
 
 namespace PuzKit3D.Modules.InStock.Api.InstockOrders.GetCustomerOrders;
@@ -34,7 +35,7 @@ internal sealed class GetCustomerOrders : IEndpoint
             .WithName("GetCustomerOrders")
             .WithSummary("Get customer orders with pagination and filter by status")
             .WithDescription("Retrieves a paginated list of orders for the authenticated customer. Can filter by order status.")
-            .RequireAuthorization()
+            .RequireAuthorization(policy => policy.RequireRole(Roles.Customer))
             .Produces<PagedResult<GetCustomerOrdersResponseDto>>(StatusCodes.Status200OK)
             .ProducesValidationProblem(StatusCodes.Status400BadRequest)
             .ProducesProblem(StatusCodes.Status401Unauthorized)

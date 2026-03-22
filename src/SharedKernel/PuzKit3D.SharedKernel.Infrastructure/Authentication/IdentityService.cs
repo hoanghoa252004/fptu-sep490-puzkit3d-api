@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.EntityFrameworkCore;
 using PuzKit3D.SharedKernel.Application.Authentication;
 using PuzKit3D.SharedKernel.Application.Authentication.Dtos;
@@ -7,6 +8,7 @@ using PuzKit3D.SharedKernel.Domain.Errors;
 using PuzKit3D.SharedKernel.Domain.Results;
 using PuzKit3D.SharedKernel.Infrastructure.Identity;
 using System.Security.Cryptography;
+using System.Text;
 
 namespace PuzKit3D.SharedKernel.Infrastructure.Authentication;
 
@@ -26,7 +28,7 @@ public sealed class IdentityService : IIdentityService
         _jwtProvider = jwtProvider;
     }
 
-    public async Task<ResultT<string>> RegisterAsync(
+    public async Task<ResultT<RegistedUserCredential>> RegisterAsync(
         string email,
         string password,
         string? firstName,
@@ -36,7 +38,7 @@ public sealed class IdentityService : IIdentityService
         var existingUser = await _userManager.FindByEmailAsync(email);
         if (existingUser is not null)
         {
-            return Result.Failure<string>(
+            return Result.Failure<RegistedUserCredential>(
                 Error.Conflict("Authentication.EmailAlreadyExists", $"User with email {email} already exists"));
         }
 
@@ -46,7 +48,7 @@ public sealed class IdentityService : IIdentityService
             Email = email,
             FirstName = firstName,
             LastName = lastName,
-            EmailConfirmed = true,
+            EmailConfirmed = false,
             CreatedAt = DateTime.UtcNow,
             UpdatedAt = DateTime.UtcNow,
             LockoutEnabled = false
@@ -57,7 +59,7 @@ public sealed class IdentityService : IIdentityService
         if (!result.Succeeded)
         {
             var errors = string.Join(", ", result.Errors.Select(e => e.Description));
-            return Result.Failure<string>(
+            return Result.Failure<RegistedUserCredential>(
                 Error.Failure("Authentication.RegistrationFailed", errors));
         }
 
@@ -66,11 +68,13 @@ public sealed class IdentityService : IIdentityService
         if (!roleResult.Succeeded)
         {
             var errors = string.Join(", ", roleResult.Errors.Select(e => e.Description));
-            return Result.Failure<string>(
+            return Result.Failure<RegistedUserCredential>(
                 Error.Failure("Authentication.RoleAssignmentFailed", errors));
         }
 
-        return Result.Success($"User registered successfully with email {email}");
+        var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+
+        return Result.Success(new RegistedUserCredential(user.Id, token));
     }
 
     public async Task<ResultT<AuthenticationResult>> LoginAsync(
@@ -89,6 +93,12 @@ public sealed class IdentityService : IIdentityService
         {
             return Result.Failure<AuthenticationResult>(
                 Error.Unauthorized("Authentication.AccountDeactivated", "Account has been deactivated"));
+        }
+
+        if (!user.EmailConfirmed)
+        {
+            return Result.Failure<AuthenticationResult>(
+                Error.Unauthorized("Authentication.EmailNotVerified", "Email has not been verified. Please check your email to verify your account"));
         }
 
         var result = await _signInManager.CheckPasswordSignInAsync(user, password, lockoutOnFailure: false);
@@ -625,6 +635,88 @@ public sealed class IdentityService : IIdentityService
         using var rng = RandomNumberGenerator.Create();
         rng.GetBytes(randomNumber);
         return Convert.ToBase64String(randomNumber);
+    }
+
+    public async Task<Result> ConfirmUserEmail(string userId, string token, CancellationToken cancellationToken = default)
+    {
+        var user = await _userManager.FindByIdAsync(userId);
+
+        if (user == null)
+            return Result.Failure(
+                Error.NotFound("User.NotFound", "User not found"));
+
+        token = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(token));
+
+        var result = await _userManager.ConfirmEmailAsync(user, token);
+
+        if (!result.Succeeded)
+            return Result.Failure(
+                Error.Failure("ConfirmEmail.InvalidToken", "Token to verify email is invalid"));
+
+        return Result.Success();
+    }
+
+    public async Task<Result> CheckEmailExist(string email, CancellationToken cancellationToken = default)
+    {
+        var existingUser = await _userManager.FindByEmailAsync(email);
+        if (existingUser is not null)
+        {
+            return Result.Success();
+            
+        }
+        return Result.Failure(
+                Error.Conflict("Authentication.EmailAlreadyExists", $"User with email {email} already exists"));
+    }
+
+    public async Task<Result> CheckEmailConfirmed(string email, CancellationToken cancellationToken = default)
+    {
+        var existingUser = await _userManager.FindByEmailAsync(email);
+
+        if (existingUser is not null)
+        {
+            if (existingUser.EmailConfirmed == false)
+            {
+                return Result.Failure(
+                    Error.Failure("ConfirmEmail.EmailNotConfirmed", $"Email {email} has not been confirmed, we have just sent confirmation link, please confirm !"));
+            }
+        }
+
+        return Result.Success();
+    }
+
+    public async Task<ResultT<string>> GetUserIdByEmail(string email, CancellationToken cancellationToken = default)
+    {
+        var user = await _userManager.FindByEmailAsync(email);
+        if (user is null)
+        {
+            return Result.Failure<string>(
+                Error.Unauthorized("Authentication.UserNotFound", "User not found for email " + email));
+        }
+        return Result.Success(user.Id);
+    }
+
+    public async Task<ResultT<string>> GenerateConfirmEmailToken(string email, CancellationToken cancellationToken = default)
+    {
+        var user = await _userManager.FindByEmailAsync(email);
+        if (user is null)
+        {
+            return Result.Failure<string>(
+                Error.Unauthorized("Authentication.UserNotFound", "User not found for email " + email));
+        }
+        var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+        return Result.Success(token);
+    }
+
+    public async Task<ResultT<string>> GeneratePasswordResetToken(string email, CancellationToken cancellationToken = default)
+    {
+        var user = await _userManager.FindByEmailAsync(email);
+        if (user is null)
+        {
+            return Result.Failure<string>(
+                Error.Unauthorized("Authentication.UserNotFound", "User not found for email " + email));
+        }
+        var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+        return Result.Success(token);
     }
 }
 

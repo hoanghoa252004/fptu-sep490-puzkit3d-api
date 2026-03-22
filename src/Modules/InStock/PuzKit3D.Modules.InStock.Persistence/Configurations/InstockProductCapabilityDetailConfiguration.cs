@@ -27,9 +27,8 @@ internal sealed class InstockProductCapabilityDetailConfiguration : IEntityTypeC
         builder.HasKey(e => new { e.InstockProductId, e.CapabilityId });
 
         builder.HasOne<InstockProduct>()
-            .WithMany()
+            .WithMany(p => p.CapabilityDetails)
             .HasForeignKey(e => e.InstockProductId)
-            .HasConstraintName("FK__instock_product__instock_product_capability_detail")
             .OnDelete(DeleteBehavior.Cascade);
 
         builder.Ignore(e => e.DomainEvents);

@@ -31,4 +31,8 @@ public static class MaterialError
     public static Error DuplicateSlug(string slug) => Error.Conflict(
         "Material.DuplicateSlug",
         $"Material with slug '{slug}' already exists.");
+
+    public static Error InvalidActiveStatus() => Error.Conflict(
+        "Material.InvalidActiveStatus",
+        "The active status is already set to this value.");
 }

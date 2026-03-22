@@ -60,4 +60,10 @@ public static class EndpointGroupExtension
         return app.MapGroup($"{ApiRoutes.ApiPrefix}/instock-orders")
             .WithTags("InStock Orders");
     }
+
+    public static RouteGroupBuilder MapDeliveryInstockOrderGroup(this IEndpointRouteBuilder app)
+    {
+        return app.MapGroup($"{ApiRoutes.ApiPrefix}/instock-orders/{{orderId:guid}}/delivery-tracking")
+            .WithTags("InStock Orders Delivery Tracking");
+    }
 }

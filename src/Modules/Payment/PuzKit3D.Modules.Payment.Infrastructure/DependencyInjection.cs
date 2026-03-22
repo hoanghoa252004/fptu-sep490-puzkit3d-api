@@ -23,6 +23,9 @@ public static class DependencyInjection
         services.AddScoped<IIntegrationEventHandler<InstockOrderCreatedIntegrationEvent>,
             InstockOrderCreatedIntegrationEventHandler>();
 
+        services.AddScoped<IIntegrationEventHandler<InstockOrderStatusChangedIntegrationEvent>,
+            InstockOrderStatusChangedIntegrationEventHandler>();
+
         return services;
     }
 }

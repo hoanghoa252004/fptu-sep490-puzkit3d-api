@@ -83,5 +83,21 @@ public static class InstockProductError
     public static Error IsActiveUnchanged(bool currentValue) => Error.Validation(
         "InstockProduct.IsActiveUnchanged",
         $"Product is already {(currentValue ? "active" : "inactive")}. No change needed.");
+
+    public static Error InvalidTopic() => Error.NotFound(
+        "InstockProduct.InvalidTopic",
+        "The specified topic does not exist.");
+
+    public static Error InvalidAssemblyMethod() => Error.NotFound(
+        "InstockProduct.InvalidAssemblyMethod",
+        "The specified assembly method does not exist.");
+
+    public static Error InvalidCapability() => Error.NotFound(
+        "InstockProduct.InvalidCapability",
+        "The specified capability does not exist.");
+
+    public static Error InvalidMaterial() => Error.NotFound(
+        "InstockProduct.InvalidMaterial",
+        "The specified material does not exist.");
 }
 

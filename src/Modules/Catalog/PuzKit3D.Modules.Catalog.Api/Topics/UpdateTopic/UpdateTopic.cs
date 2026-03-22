@@ -48,8 +48,8 @@ internal sealed class UpdateTopic : IEndpoint
 }
 
 internal sealed record UpdateTopicRequestDto(
-    string Name,
-    string Slug,
-    Guid? ParentId,
-    string? Description,
-    bool IsActive);
+string? Name,
+string? Slug,
+Guid? ParentId,
+string? Description,
+bool? IsActive);

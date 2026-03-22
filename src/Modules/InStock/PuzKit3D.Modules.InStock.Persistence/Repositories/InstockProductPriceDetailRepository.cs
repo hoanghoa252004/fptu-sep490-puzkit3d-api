@@ -66,6 +66,16 @@ internal sealed class InstockProductPriceDetailRepository : IInstockProductPrice
             .ToListAsync(cancellationToken);
     }
 
+    public async Task<IEnumerable<InstockProductPriceDetail>> GetAllByPriceIdAsync(
+        InstockPriceId priceId,
+        CancellationToken cancellationToken = default)
+    {
+        return await _context.InstockProductPriceDetails
+            .Where(pd => pd.InstockPriceId == priceId)
+            .AsNoTracking()
+            .ToListAsync(cancellationToken);
+    }
+
     public void Add(InstockProductPriceDetail entity)
     {
         _context.InstockProductPriceDetails.Add(entity);

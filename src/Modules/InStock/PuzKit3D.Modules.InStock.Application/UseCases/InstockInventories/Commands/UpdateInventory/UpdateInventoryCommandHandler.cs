@@ -55,33 +55,23 @@ internal sealed class UpdateInventoryCommandHandler : ICommandHandler<UpdateInve
 
         return await _unitOfWork.ExecuteAsync<Result>(async () =>
         {
-            // Get or create inventory
+            // Get inventory - must exist
             var inventory = await _inventoryRepository.GetByVariantIdAsync(request.VariantId, cancellationToken);
 
             if (inventory is null)
             {
-                // Create new inventory
-                var createResult = InstockInventory.Create(variantId, request.Quantity);
-                
-                if (createResult.IsFailure)
-                {
-                    return Result.Failure(createResult.Error);
-                }
-
-                _inventoryRepository.Add(createResult.Value);
+                return Result.Failure(InstockInventoryError.NotFound(request.VariantId));
             }
-            else
+
+            // Update existing inventory
+            var updateResult = inventory.SetStock(request.Quantity);
+
+            if (updateResult.IsFailure)
             {
-                // Update existing inventory
-                var updateResult = inventory.SetStock(request.Quantity);
-
-                if (updateResult.IsFailure)
-                {
-                    return Result.Failure(updateResult.Error);
-                }
-
-                _inventoryRepository.Update(inventory);
+                return Result.Failure(updateResult.Error);
             }
+
+            _inventoryRepository.Update(inventory);
 
             return Result.Success();
         }, cancellationToken);

@@ -61,9 +61,12 @@ internal sealed class UpdatePieceCommandHandler : ICommandHandler<UpdatePieceCom
 
                 part.RemovePiece(piece);
 
+                // Use provided quantity or keep existing
+                var quantity = request.Quantity ?? piece.Quantity;
+
                 var newPieceResult = Piece.Create(
                     piece.Code,
-                    request.Quantity,
+                    quantity,
                     newPartId);
 
                 if (newPieceResult.IsFailure)
@@ -73,9 +76,9 @@ internal sealed class UpdatePieceCommandHandler : ICommandHandler<UpdatePieceCom
 
                 newPart.AddPiece(newPieceResult.Value);
             }
-            else
+            else if (request.Quantity.HasValue)
             {
-                var updateResult = piece.Update(piece.Code, request.Quantity);
+                var updateResult = piece.PartialUpdate(request.Quantity);
 
                 if (updateResult.IsFailure)
                 {

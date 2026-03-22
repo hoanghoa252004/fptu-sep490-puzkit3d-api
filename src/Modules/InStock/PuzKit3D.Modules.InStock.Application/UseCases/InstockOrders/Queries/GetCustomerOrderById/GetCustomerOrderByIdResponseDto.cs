@@ -3,29 +3,29 @@ using PuzKit3D.Modules.InStock.Domain.Entities.InstockOrders;
 namespace PuzKit3D.Modules.InStock.Application.UseCases.InstockOrders.Queries.GetCustomerOrderById;
 
 public sealed record GetCustomerOrderByIdResponseDto(
-    Guid Id,
-    string Code,
-    string CustomerName,
-    string CustomerPhone,
-    string CustomerEmail,
-    string CustomerProvinceCode,
-    string CustomerProvinceName,
-    string CustomerDistrictCode,
-    string CustomerDistrictName,
-    string CustomerWardCode,
-    string CustomerWardName,
-    decimal SubTotalAmount,
-    decimal ShippingFee,
-    int UsedCoinAmount,
-    decimal UsedCoinAmountAsMoney,
-    decimal GrandTotalAmount,
-    InstockOrderStatus Status,
-    string PaymentMethod,
-    bool IsPaid,
-    DateTime? PaidAt,
-    DateTime CreatedAt,
-    DateTime UpdatedAt,
-    List<OrderDetailFullDto> OrderDetails);
+Guid Id,
+string Code,
+string CustomerName,
+string CustomerPhone,
+string CustomerEmail,
+string CustomerProvinceName,
+string CustomerDistrictName,
+string CustomerWardName,
+string DetailAddress,
+decimal SubTotalAmount,
+decimal ShippingFee,
+int UsedCoinAmount,
+decimal UsedCoinAmountAsMoney,
+decimal GrandTotalAmount,
+string Status,
+string PaymentMethod,
+bool IsPaid,
+DateTime? PaidAt,
+DateTime CreatedAt,
+DateTime UpdatedAt,
+string? DeliveryOrderCode,
+DateTime? ExpectedDeliveryDate,
+List<OrderDetailFullDto> OrderDetails);
 
 public sealed record OrderDetailFullDto(
     Guid Id,
@@ -50,7 +50,7 @@ public sealed record ProductFullDetailsDto(
     int EstimatedBuildTime,
     int TotalPieceCount,
     string ThumbnailUrl,
-    string PreviewAsset,
+    List<string> PreviewAsset,
     bool IsActive);
 
 public sealed record VariantFullDetailsDto(
@@ -59,3 +59,5 @@ public sealed record VariantFullDetailsDto(
     int AssembledWidthMm,
     int AssembledHeightMm,
     bool IsActive);
+
+

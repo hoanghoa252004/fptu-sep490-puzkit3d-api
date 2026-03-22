@@ -14,6 +14,12 @@ public static class PaymentError
     public static Error InvalidAmount() =>
         Error.Validation("Payment.InvalidAmount", "Amount must be greater than 0.");
 
+    public static Error InvalidPaymentMethod() =>
+        Error.Validation("Payment.InvalidPaymentMethod", "Payment method is required and invalid.");
+
+    public static Error InvalidOperationOnPaymentMethod() =>
+        Error.Validation("Payment.InvalidPaymentMethod", "Can not create transation ( online payment ) for COD payment");
+
     public static Error InvalidStatus() =>
         Error.Validation("Payment.InvalidStatus", "Payment status is invalid.");
 

@@ -47,21 +47,12 @@ internal sealed class UpdateTopicCommandHandler : ICommandHandler<UpdateTopicCom
                 request.Name,
                 request.Slug,
                 request.ParentId.HasValue ? TopicId.From(request.ParentId.Value) : null,
-                request.Description);
+                request.Description,
+                request.IsActive);
 
             if (updateResult.IsFailure)
             {
                 return updateResult;
-            }
-
-            // Update active status
-            if (request.IsActive)
-            {
-                topic.Activate();
-            }
-            else
-            {
-                topic.Deactivate();
             }
 
             return Result.Success();

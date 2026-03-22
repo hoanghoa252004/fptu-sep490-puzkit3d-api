@@ -34,25 +34,20 @@ internal sealed class InstockOrderConfiguration : IEntityTypeConfiguration<Insto
             .IsRequired()
             .HasMaxLength(30);
 
-        builder.Property(o => o.CustomerProvinceCode)
-            .IsRequired()
-            .HasMaxLength(10);
-
         builder.Property(o => o.CustomerProvinceName)
             .IsRequired()
             .HasMaxLength(30);
-
-        builder.Property(o => o.CustomerDistrictCode)
-            .IsRequired()
-            .HasMaxLength(10);
 
         builder.Property(o => o.CustomerDistrictName)
             .IsRequired()
             .HasMaxLength(30);
 
-        builder.Property(o => o.CustomerWardCode)
+        builder.Property(o => o.DetailAddress)
             .IsRequired()
-            .HasMaxLength(10);
+            .HasMaxLength(100);
+
+        builder.Property(o => o.HandoverProofImageUrl)
+            .HasColumnType("text");
 
         builder.Property(o => o.CustomerWardName)
             .IsRequired()
@@ -78,7 +73,7 @@ internal sealed class InstockOrderConfiguration : IEntityTypeConfiguration<Insto
             .IsRequired();
 
         builder.Property(o => o.Status)
-            .HasConversion<int>()
+            .HasConversion<string>()
             .IsRequired();
 
         builder.Property(o => o.CreatedAt)
@@ -96,6 +91,11 @@ internal sealed class InstockOrderConfiguration : IEntityTypeConfiguration<Insto
             .HasDefaultValue(false);
 
         builder.Property(o => o.PaidAt);
+
+        builder.Property(o => o.DeliveryOrderCode)
+            .HasMaxLength(20);
+
+        builder.Property(o => o.ExpectedDeliveryDate);
 
         builder.HasIndex(o => o.Code)
             .IsUnique()

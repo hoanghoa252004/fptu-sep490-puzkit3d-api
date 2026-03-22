@@ -15,7 +15,6 @@ public sealed class InStockProductReplica : Entity<Guid>
     public string? Description { get; private set; }
     public Guid TopicId { get; private set; }
     public Guid AssemblyMethodId { get; private set; }
-    public Guid CapabilityId { get; private set; }
     public Guid MaterialId { get; private set; }
     public bool IsActive { get; private set; }
     public DateTime CreatedAt { get; private set; }
@@ -32,12 +31,12 @@ public sealed class InStockProductReplica : Entity<Guid>
         string? description,
         string difficultLevel,
         int estimatedBuildTime,
+        int totalPieceCount,
         string thumbnailUrl,
         string slug,
         string previewAsset,
         Guid topicId,
         Guid assemblyMethodId,
-        Guid capabilityId,
         Guid materialId,
         bool isActive,
         DateTime createdAt,
@@ -51,12 +50,12 @@ public sealed class InStockProductReplica : Entity<Guid>
             Description = description,
             DifficultLevel = difficultLevel,
             EstimatedBuildTime = estimatedBuildTime,
+            TotalPieceCount = totalPieceCount,
             ThumbnailUrl = thumbnailUrl,
             Slug = slug,
             PreviewAsset = previewAsset,
             TopicId = topicId,
             AssemblyMethodId = assemblyMethodId,
-            CapabilityId = capabilityId,
             MaterialId = materialId,
             IsActive = isActive,
             CreatedAt = createdAt,
@@ -74,7 +73,6 @@ public sealed class InStockProductReplica : Entity<Guid>
         string previewAsset,
         Guid topicId,
         Guid assemblyMethodId,
-        Guid capabilityId,
         Guid materialId,
         string? description,
         bool isActive,
@@ -89,7 +87,6 @@ public sealed class InStockProductReplica : Entity<Guid>
         PreviewAsset = previewAsset;
         TopicId = topicId;
         AssemblyMethodId = assemblyMethodId;
-        CapabilityId = capabilityId;
         MaterialId = materialId;
         IsActive = isActive;
         UpdatedAt = updatedAt;

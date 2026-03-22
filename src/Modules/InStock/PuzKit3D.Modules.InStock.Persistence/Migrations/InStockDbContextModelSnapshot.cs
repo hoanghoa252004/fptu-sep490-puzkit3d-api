@@ -268,12 +268,6 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("created_at");
 
-                    b.Property<string>("CustomerDistrictCode")
-                        .IsRequired()
-                        .HasMaxLength(10)
-                        .HasColumnType("character varying(10)")
-                        .HasColumnName("customer_district_code");
-
                     b.Property<string>("CustomerDistrictName")
                         .IsRequired()
                         .HasMaxLength(30)
@@ -302,23 +296,11 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                         .HasColumnType("character varying(30)")
                         .HasColumnName("customer_phone");
 
-                    b.Property<string>("CustomerProvinceCode")
-                        .IsRequired()
-                        .HasMaxLength(10)
-                        .HasColumnType("character varying(10)")
-                        .HasColumnName("customer_province_code");
-
                     b.Property<string>("CustomerProvinceName")
                         .IsRequired()
                         .HasMaxLength(30)
                         .HasColumnType("character varying(30)")
                         .HasColumnName("customer_province_name");
-
-                    b.Property<string>("CustomerWardCode")
-                        .IsRequired()
-                        .HasMaxLength(10)
-                        .HasColumnType("character varying(10)")
-                        .HasColumnName("customer_ward_code");
 
                     b.Property<string>("CustomerWardName")
                         .IsRequired()
@@ -326,9 +308,28 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                         .HasColumnType("character varying(30)")
                         .HasColumnName("customer_ward_name");
 
+                    b.Property<string>("DeliveryOrderCode")
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)")
+                        .HasColumnName("delivery_order_code");
+
+                    b.Property<string>("DetailAddress")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("detail_address");
+
+                    b.Property<DateTime?>("ExpectedDeliveryDate")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("expected_delivery_date");
+
                     b.Property<decimal>("GrandTotalAmount")
                         .HasColumnType("decimal(10,2)")
                         .HasColumnName("grand_total_amount");
+
+                    b.Property<string>("HandoverProofImageUrl")
+                        .HasColumnType("text")
+                        .HasColumnName("handover_proof_image_url");
 
                     b.Property<bool>("IsPaid")
                         .ValueGeneratedOnAdd()
@@ -350,8 +351,9 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                         .HasColumnType("decimal(10,2)")
                         .HasColumnName("shipping_fee");
 
-                    b.Property<int>("Status")
-                        .HasColumnType("integer")
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("text")
                         .HasColumnName("status");
 
                     b.Property<decimal>("SubTotalAmount")
@@ -462,6 +464,108 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                         .HasName("pk_instock_product_capability_detail");
 
                     b.ToTable("instock_product_capability_detail", "instock");
+
+                    b.HasData(
+                        new
+                        {
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000001"),
+                            CapabilityId = new Guid("e1e1e1e1-e1e1-e1e1-e1e1-e1e1e1e1e1e1")
+                        },
+                        new
+                        {
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000001"),
+                            CapabilityId = new Guid("f2f2f2f2-f2f2-f2f2-f2f2-f2f2f2f2f2f2")
+                        },
+                        new
+                        {
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000002"),
+                            CapabilityId = new Guid("f2f2f2f2-f2f2-f2f2-f2f2-f2f2f2f2f2f2")
+                        },
+                        new
+                        {
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000002"),
+                            CapabilityId = new Guid("a3a3a3a3-a3a3-a3a3-a3a3-a3a3a3a3a3a3")
+                        },
+                        new
+                        {
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000003"),
+                            CapabilityId = new Guid("a3a3a3a3-a3a3-a3a3-a3a3-a3a3a3a3a3a3")
+                        },
+                        new
+                        {
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000003"),
+                            CapabilityId = new Guid("b4b4b4b4-b4b4-b4b4-b4b4-b4b4b4b4b4b4")
+                        },
+                        new
+                        {
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000004"),
+                            CapabilityId = new Guid("b4b4b4b4-b4b4-b4b4-b4b4-b4b4b4b4b4b4")
+                        },
+                        new
+                        {
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000004"),
+                            CapabilityId = new Guid("c5c5c5c5-c5c5-c5c5-c5c5-c5c5c5c5c5c5")
+                        },
+                        new
+                        {
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000005"),
+                            CapabilityId = new Guid("c5c5c5c5-c5c5-c5c5-c5c5-c5c5c5c5c5c5")
+                        },
+                        new
+                        {
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000005"),
+                            CapabilityId = new Guid("e1e1e1e1-e1e1-e1e1-e1e1-e1e1e1e1e1e1")
+                        },
+                        new
+                        {
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000006"),
+                            CapabilityId = new Guid("e1e1e1e1-e1e1-e1e1-e1e1-e1e1e1e1e1e1")
+                        },
+                        new
+                        {
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000006"),
+                            CapabilityId = new Guid("f2f2f2f2-f2f2-f2f2-f2f2-f2f2f2f2f2f2")
+                        },
+                        new
+                        {
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000007"),
+                            CapabilityId = new Guid("f2f2f2f2-f2f2-f2f2-f2f2-f2f2f2f2f2f2")
+                        },
+                        new
+                        {
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000007"),
+                            CapabilityId = new Guid("a3a3a3a3-a3a3-a3a3-a3a3-a3a3a3a3a3a3")
+                        },
+                        new
+                        {
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000008"),
+                            CapabilityId = new Guid("a3a3a3a3-a3a3-a3a3-a3a3-a3a3a3a3a3a3")
+                        },
+                        new
+                        {
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000008"),
+                            CapabilityId = new Guid("b4b4b4b4-b4b4-b4b4-b4b4-b4b4b4b4b4b4")
+                        },
+                        new
+                        {
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000009"),
+                            CapabilityId = new Guid("b4b4b4b4-b4b4-b4b4-b4b4-b4b4b4b4b4b4")
+                        },
+                        new
+                        {
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000009"),
+                            CapabilityId = new Guid("c5c5c5c5-c5c5-c5c5-c5c5-c5c5c5c5c5c5")
+                        },
+                        new
+                        {
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000010"),
+                            CapabilityId = new Guid("c5c5c5c5-c5c5-c5c5-c5c5-c5c5c5c5c5c5")
+                        },
+                        new
+                        {
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000010"),
+                            CapabilityId = new Guid("e1e1e1e1-e1e1-e1e1-e1e1-e1e1e1e1e1e1")
+                        });
                 });
 
             modelBuilder.Entity("PuzKit3D.Modules.InStock.Domain.Entities.InstockProductPriceDetails.InstockProductPriceDetail", b =>
@@ -1112,10 +1216,6 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("assembly_method_id");
 
-                    b.Property<Guid>("CapabilityId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("capability_id");
-
                     b.Property<string>("Code")
                         .IsRequired()
                         .HasMaxLength(10)
@@ -1198,18 +1298,17 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                         {
                             Id = new Guid("10000000-0000-0000-0000-000000000001"),
                             AssemblyMethodId = new Guid("d1d1d1d1-d1d1-d1d1-d1d1-d1d1d1d1d1d1"),
-                            CapabilityId = new Guid("e1e1e1e1-e1e1-e1e1-e1e1-e1e1e1e1e1e1"),
                             Code = "INP001",
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "Beautiful lion 3D puzzle",
+                            Description = "New wooden mechanical 3D puzzle UGT-24 Endurance Racer by Ugears. A large car featuring a blue racing stripe and plastic windows drives 5-6 m thanks to a spring motor. Cool gift!",
                             DifficultLevel = "Basic",
                             EstimatedBuildTime = 120,
                             IsActive = true,
                             MaterialId = new Guid("f1f1f1f1-f1f1-f1f1-f1f1-f1f1f1f1f1f1"),
-                            Name = "Lion 3D Puzzle",
-                            PreviewAsset = "{\"main\":\"https://example.com/lion-preview.jpg\"}",
-                            Slug = "lion-3d-puzzle",
-                            ThumbnailUrl = "https://example.com/lion.jpg",
+                            Name = "UGT-24 Endurance Racer",
+                            PreviewAsset = "{\"additionalProp1\":\"instock-products/ugt-24-endurance-racer/image-01.png\",\"additionalProp2\":\"instock-products/ugt-24-endurance-racer/image-02.png\"}",
+                            Slug = "ugt-24-endurance-racer",
+                            ThumbnailUrl = "instock-products/ugt-24-endurance-racer/thumbnail.png",
                             TopicId = new Guid("a1a1a1a1-a1a1-a1a1-a1a1-a1a1a1a1a1a1"),
                             TotalPieceCount = 150,
                             UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
@@ -1218,18 +1317,17 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                         {
                             Id = new Guid("10000000-0000-0000-0000-000000000002"),
                             AssemblyMethodId = new Guid("e2e2e2e2-e2e2-e2e2-e2e2-e2e2e2e2e2e2"),
-                            CapabilityId = new Guid("f2f2f2f2-f2f2-f2f2-f2f2-f2f2f2f2f2f2"),
                             Code = "INP002",
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "Majestic elephant 3D puzzle",
+                            Description = "Wooden 3D puzzle Mad Hornet Airplane from Ugears. Pre-flight check mode and taxi mode. Moves without batteries. Assemble without glue. The perfect gift!",
                             DifficultLevel = "Intermediate",
                             EstimatedBuildTime = 180,
                             IsActive = true,
                             MaterialId = new Guid("a2a2a2a2-a2a2-a2a2-a2a2-a2a2a2a2a2a2"),
-                            Name = "Elephant 3D Puzzle",
-                            PreviewAsset = "{\"main\":\"https://example.com/elephant-preview.jpg\"}",
-                            Slug = "elephant-3d-puzzle",
-                            ThumbnailUrl = "https://example.com/elephant.jpg",
+                            Name = "Mad Hornet Airplane",
+                            PreviewAsset = "{\"additionalProp1\":\"instock-products/mad-hornet-airplane/image-01.png\",\"additionalProp2\":\"instock-products/mad-hornet-airplane/image-02.png\"}",
+                            Slug = "mad-hornet-airplane",
+                            ThumbnailUrl = "instock-products/mad-hornet-airplane/thumbnail.png",
                             TopicId = new Guid("a1a1a1a1-a1a1-a1a1-a1a1-a1a1a1a1a1a1"),
                             TotalPieceCount = 200,
                             UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
@@ -1238,18 +1336,17 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                         {
                             Id = new Guid("10000000-0000-0000-0000-000000000003"),
                             AssemblyMethodId = new Guid("f3f3f3f3-f3f3-f3f3-f3f3-f3f3f3f3f3f3"),
-                            CapabilityId = new Guid("a3a3a3a3-a3a3-a3a3-a3a3-a3a3a3a3a3a3"),
                             Code = "INP003",
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "Soaring eagle 3D puzzle",
+                            Description = "New wooden mechanical 3D puzzle UGT-24 Endurance Racer by Ugears. A large car featuring a blue racing stripe and plastic windows drives 5-6 m thanks to a spring motor. Cool gift!",
                             DifficultLevel = "Advanced",
                             EstimatedBuildTime = 240,
                             IsActive = true,
                             MaterialId = new Guid("b3b3b3b3-b3b3-b3b3-b3b3-b3b3b3b3b3b3"),
                             Name = "Eagle 3D Puzzle",
-                            PreviewAsset = "{\"main\":\"https://example.com/eagle-preview.jpg\"}",
+                            PreviewAsset = "{\"additionalProp1\":\"instock-products/ugt-24-endurance-racer/image-01.png\",\"additionalProp2\":\"instock-products/ugt-24-endurance-racer/image-02.png\"}",
                             Slug = "eagle-3d-puzzle",
-                            ThumbnailUrl = "https://example.com/eagle.jpg",
+                            ThumbnailUrl = "instock-products/ugt-24-endurance-racer/thumbnail.png",
                             TopicId = new Guid("a1a1a1a1-a1a1-a1a1-a1a1-a1a1a1a1a1a1"),
                             TotalPieceCount = 180,
                             UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
@@ -1258,18 +1355,17 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                         {
                             Id = new Guid("10000000-0000-0000-0000-000000000004"),
                             AssemblyMethodId = new Guid("a4a4a4a4-a4a4-a4a4-a4a4-a4a4a4a4a4a4"),
-                            CapabilityId = new Guid("b4b4b4b4-b4b4-b4b4-b4b4-b4b4b4b4b4b4"),
                             Code = "INP004",
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "Sleek sports car 3D puzzle",
+                            Description = "Wooden 3D puzzle Mad Hornet Airplane from Ugears. Pre-flight check mode and taxi mode. Moves without batteries. Assemble without glue. The perfect gift!",
                             DifficultLevel = "Advanced",
                             EstimatedBuildTime = 300,
                             IsActive = true,
                             MaterialId = new Guid("c4c4c4c4-c4c4-c4c4-c4c4-c4c4c4c4c4c4"),
                             Name = "Sports Car 3D Puzzle",
-                            PreviewAsset = "{\"main\":\"https://example.com/sports-car-preview.jpg\"}",
+                            PreviewAsset = "{\"additionalProp1\":\"instock-products/mad-hornet-airplane/image-01.png\",\"additionalProp2\":\"instock-products/mad-hornet-airplane/image-02.png\"}",
                             Slug = "sports-car-3d-puzzle",
-                            ThumbnailUrl = "https://example.com/sports-car.jpg",
+                            ThumbnailUrl = "instock-products/mad-hornet-airplane/thumbnail.png",
                             TopicId = new Guid("b2b2b2b2-b2b2-b2b2-b2b2-b2b2b2b2b2b2"),
                             TotalPieceCount = 250,
                             UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
@@ -1278,18 +1374,17 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                         {
                             Id = new Guid("10000000-0000-0000-0000-000000000005"),
                             AssemblyMethodId = new Guid("b5b5b5b5-b5b5-b5b5-b5b5-b5b5b5b5b5b5"),
-                            CapabilityId = new Guid("c5c5c5c5-c5c5-c5c5-c5c5-c5c5c5c5c5c5"),
                             Code = "INP005",
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "Flying airplane 3D puzzle",
+                            Description = "New wooden mechanical 3D puzzle UGT-24 Endurance Racer by Ugears. A large car featuring a blue racing stripe and plastic windows drives 5-6 m thanks to a spring motor. Cool gift!",
                             DifficultLevel = "Intermediate",
                             EstimatedBuildTime = 200,
                             IsActive = true,
                             MaterialId = new Guid("d5d5d5d5-d5d5-d5d5-d5d5-d5d5d5d5d5d5"),
                             Name = "Airplane 3D Puzzle",
-                            PreviewAsset = "{\"main\":\"https://example.com/airplane-preview.jpg\"}",
+                            PreviewAsset = "{\"additionalProp1\":\"instock-products/ugt-24-endurance-racer/image-01.png\",\"additionalProp2\":\"instock-products/ugt-24-endurance-racer/image-02.png\"}",
                             Slug = "airplane-3d-puzzle",
-                            ThumbnailUrl = "https://example.com/airplane.jpg",
+                            ThumbnailUrl = "instock-products/ugt-24-endurance-racer/thumbnail.png",
                             TopicId = new Guid("b2b2b2b2-b2b2-b2b2-b2b2-b2b2b2b2b2b2"),
                             TotalPieceCount = 220,
                             UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
@@ -1298,18 +1393,17 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                         {
                             Id = new Guid("10000000-0000-0000-0000-000000000006"),
                             AssemblyMethodId = new Guid("d1d1d1d1-d1d1-d1d1-d1d1-d1d1d1d1d1d1"),
-                            CapabilityId = new Guid("e1e1e1e1-e1e1-e1e1-e1e1-e1e1e1e1e1e1"),
                             Code = "INP006",
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "Cool motorcycle 3D puzzle",
+                            Description = "New wooden mechanical 3D puzzle UGT-24 Endurance Racer by Ugears. A large car featuring a blue racing stripe and plastic windows drives 5-6 m thanks to a spring motor. Cool gift!",
                             DifficultLevel = "Intermediate",
                             EstimatedBuildTime = 150,
                             IsActive = true,
                             MaterialId = new Guid("f1f1f1f1-f1f1-f1f1-f1f1-f1f1f1f1f1f1"),
                             Name = "Motorcycle 3D Puzzle",
-                            PreviewAsset = "{\"main\":\"https://example.com/motorcycle-preview.jpg\"}",
+                            PreviewAsset = "{\"additionalProp1\":\"instock-products/ugt-24-endurance-racer/image-01.png\",\"additionalProp2\":\"instock-products/ugt-24-endurance-racer/image-02.png\"}",
                             Slug = "motorcycle-3d-puzzle",
-                            ThumbnailUrl = "https://example.com/motorcycle.jpg",
+                            ThumbnailUrl = "instock-products/ugt-24-endurance-racer/thumbnail.png",
                             TopicId = new Guid("c3c3c3c3-c3c3-c3c3-c3c3-c3c3c3c3c3c3"),
                             TotalPieceCount = 180,
                             UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
@@ -1318,18 +1412,17 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                         {
                             Id = new Guid("10000000-0000-0000-0000-000000000007"),
                             AssemblyMethodId = new Guid("e2e2e2e2-e2e2-e2e2-e2e2-e2e2e2e2e2e2"),
-                            CapabilityId = new Guid("f2f2f2f2-f2f2-f2f2-f2f2-f2f2f2f2f2f2"),
                             Code = "INP007",
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "Fierce tiger 3D puzzle",
+                            Description = "Wooden 3D puzzle Mad Hornet Airplane from Ugears. Pre-flight check mode and taxi mode. Moves without batteries. Assemble without glue. The perfect gift!",
                             DifficultLevel = "Basic",
                             EstimatedBuildTime = 130,
                             IsActive = true,
                             MaterialId = new Guid("a2a2a2a2-a2a2-a2a2-a2a2-a2a2a2a2a2a2"),
                             Name = "Tiger 3D Puzzle",
-                            PreviewAsset = "{\"main\":\"https://example.com/tiger-preview.jpg\"}",
+                            PreviewAsset = "{\"additionalProp1\":\"instock-products/mad-hornet-airplane/image-01.png\",\"additionalProp2\":\"instock-products/mad-hornet-airplane/image-02.png\"}",
                             Slug = "tiger-3d-puzzle",
-                            ThumbnailUrl = "https://example.com/tiger.jpg",
+                            ThumbnailUrl = "instock-products/mad-hornet-airplane/thumbnail.png",
                             TopicId = new Guid("a1a1a1a1-a1a1-a1a1-a1a1-a1a1a1a1a1a1"),
                             TotalPieceCount = 170,
                             UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
@@ -1338,18 +1431,17 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                         {
                             Id = new Guid("10000000-0000-0000-0000-000000000008"),
                             AssemblyMethodId = new Guid("f3f3f3f3-f3f3-f3f3-f3f3-f3f3f3f3f3f3"),
-                            CapabilityId = new Guid("a3a3a3a3-a3a3-a3a3-a3a3-a3a3a3a3a3a3"),
                             Code = "INP008",
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "Playful dolphin 3D puzzle",
+                            Description = "Wooden 3D puzzle Mad Hornet Airplane from Ugears. Pre-flight check mode and taxi mode. Moves without batteries. Assemble without glue. The perfect gift!",
                             DifficultLevel = "Basic",
                             EstimatedBuildTime = 100,
                             IsActive = true,
                             MaterialId = new Guid("b3b3b3b3-b3b3-b3b3-b3b3-b3b3b3b3b3b3"),
                             Name = "Dolphin 3D Puzzle",
-                            PreviewAsset = "{\"main\":\"https://example.com/dolphin-preview.jpg\"}",
+                            PreviewAsset = "{\"additionalProp1\":\"instock-products/mad-hornet-airplane/image-01.png\",\"additionalProp2\":\"instock-products/mad-hornet-airplane/image-02.png\"}",
                             Slug = "dolphin-3d-puzzle",
-                            ThumbnailUrl = "https://example.com/dolphin.jpg",
+                            ThumbnailUrl = "instock-products/mad-hornet-airplane/thumbnail.png",
                             TopicId = new Guid("d4d4d4d4-d4d4-d4d4-d4d4-d4d4d4d4d4d4"),
                             TotalPieceCount = 130,
                             UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
@@ -1358,18 +1450,17 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                         {
                             Id = new Guid("10000000-0000-0000-0000-000000000009"),
                             AssemblyMethodId = new Guid("a4a4a4a4-a4a4-a4a4-a4a4-a4a4a4a4a4a4"),
-                            CapabilityId = new Guid("b4b4b4b4-b4b4-b4b4-b4b4-b4b4b4b4b4b4"),
                             Code = "INP009",
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "Flying helicopter 3D puzzle",
+                            Description = "New wooden mechanical 3D puzzle UGT-24 Endurance Racer by Ugears. A large car featuring a blue racing stripe and plastic windows drives 5-6 m thanks to a spring motor. Cool gift!",
                             DifficultLevel = "Intermediate",
                             EstimatedBuildTime = 170,
                             IsActive = true,
                             MaterialId = new Guid("c4c4c4c4-c4c4-c4c4-c4c4-c4c4c4c4c4c4"),
                             Name = "Helicopter 3D Puzzle",
-                            PreviewAsset = "{\"main\":\"https://example.com/helicopter-preview.jpg\"}",
+                            PreviewAsset = "{\"additionalProp1\":\"instock-products/ugt-24-endurance-racer/image-01.png\",\"additionalProp2\":\"instock-products/ugt-24-endurance-racer/image-02.png\"}",
                             Slug = "helicopter-3d-puzzle",
-                            ThumbnailUrl = "https://example.com/helicopter.jpg",
+                            ThumbnailUrl = "instock-products/ugt-24-endurance-racer/thumbnail.png",
                             TopicId = new Guid("b2b2b2b2-b2b2-b2b2-b2b2-b2b2b2b2b2b2"),
                             TotalPieceCount = 190,
                             UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
@@ -1378,18 +1469,17 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                         {
                             Id = new Guid("10000000-0000-0000-0000-000000000010"),
                             AssemblyMethodId = new Guid("b5b5b5b5-b5b5-b5b5-b5b5-b5b5b5b5b5b5"),
-                            CapabilityId = new Guid("c5c5c5c5-c5c5-c5c5-c5c5-c5c5c5c5c5c5"),
                             Code = "INP010",
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "Mythical dragon 3D puzzle",
+                            Description = "Wooden 3D puzzle Mad Hornet Airplane from Ugears. Pre-flight check mode and taxi mode. Moves without batteries. Assemble without glue. The perfect gift!",
                             DifficultLevel = "Advanced",
                             EstimatedBuildTime = 360,
                             IsActive = true,
                             MaterialId = new Guid("d5d5d5d5-d5d5-d5d5-d5d5-d5d5d5d5d5d5"),
                             Name = "Dragon 3D Puzzle",
-                            PreviewAsset = "{\"main\":\"https://example.com/dragon-preview.jpg\"}",
+                            PreviewAsset = "{\"additionalProp1\":\"instock-products/mad-hornet-airplane/image-01.png\",\"additionalProp2\":\"instock-products/mad-hornet-airplane/image-02.png\"}",
                             Slug = "dragon-3d-puzzle",
-                            ThumbnailUrl = "https://example.com/dragon.jpg",
+                            ThumbnailUrl = "instock-products/mad-hornet-airplane/thumbnail.png",
                             TopicId = new Guid("e5e5e5e5-e5e5-e5e5-e5e5-e5e5e5e5e5e5"),
                             TotalPieceCount = 300,
                             UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
@@ -1899,11 +1989,11 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
             modelBuilder.Entity("PuzKit3D.Modules.InStock.Domain.Entities.InstockProductCapabilityDetails.InstockProductCapabilityDetail", b =>
                 {
                     b.HasOne("PuzKit3D.Modules.InStock.Domain.Entities.InstockProducts.InstockProduct", null)
-                        .WithMany()
+                        .WithMany("CapabilityDetails")
                         .HasForeignKey("InstockProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
-                        .HasConstraintName("FK__instock_product__instock_product_capability_detail");
+                        .HasConstraintName("fk_instock_product_capability_detail_instock_products_instock_");
                 });
 
             modelBuilder.Entity("PuzKit3D.Modules.InStock.Domain.Entities.InstockProductPriceDetails.InstockProductPriceDetail", b =>
@@ -1960,6 +2050,8 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
 
             modelBuilder.Entity("PuzKit3D.Modules.InStock.Domain.Entities.InstockProducts.InstockProduct", b =>
                 {
+                    b.Navigation("CapabilityDetails");
+
                     b.Navigation("Parts");
                 });
 

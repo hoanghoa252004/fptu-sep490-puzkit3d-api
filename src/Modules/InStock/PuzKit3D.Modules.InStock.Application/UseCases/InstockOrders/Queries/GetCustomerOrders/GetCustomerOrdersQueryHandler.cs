@@ -1,4 +1,5 @@
 using PuzKit3D.Modules.InStock.Application.Repositories;
+using PuzKit3D.Modules.InStock.Application.Services;
 using PuzKit3D.Modules.InStock.Domain.Entities.InstockOrders;
 using PuzKit3D.SharedKernel.Application.Message.Query;
 using PuzKit3D.SharedKernel.Application.Pagination;
@@ -13,15 +14,18 @@ internal sealed class GetCustomerOrdersQueryHandler
     private readonly IInstockOrderRepository _orderRepository;
     private readonly IInstockProductVariantRepository _variantRepository;
     private readonly ICurrentUser _currentUser;
+    private readonly IAssetUrlService _assetUrlService;
 
     public GetCustomerOrdersQueryHandler(
         IInstockOrderRepository orderRepository,
         IInstockProductVariantRepository variantRepository,
-        ICurrentUser currentUser)
+        ICurrentUser currentUser,
+        IAssetUrlService assetUrlService)
     {
         _orderRepository = orderRepository;
         _variantRepository = variantRepository;
         _currentUser = currentUser;
+        _assetUrlService = assetUrlService;
     }
 
     public async Task<ResultT<PagedResult<GetCustomerOrdersResponseDto>>> Handle(
@@ -76,7 +80,7 @@ internal sealed class GetCustomerOrdersQueryHandler
                     od.Quantity,
                     od.UnitPrice,
                     productThumbnails.TryGetValue(od.InstockProductVariantId.Value, out var thumbnail) 
-                        ? thumbnail 
+                        ? _assetUrlService.BuildAssetUrl(thumbnail)
                         : null))
                 .ToList();
 
@@ -85,7 +89,7 @@ internal sealed class GetCustomerOrdersQueryHandler
                 o.Code,
                 o.GrandTotalAmount,
                 totalQuantity,
-                o.Status,
+                o.Status.ToString(),
                 o.PaymentMethod,
                 o.IsPaid,
                 o.PaidAt,
@@ -102,3 +106,5 @@ internal sealed class GetCustomerOrdersQueryHandler
         return Result.Success(pagedResult);
     }
 }
+
+

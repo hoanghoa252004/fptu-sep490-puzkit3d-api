@@ -29,15 +29,10 @@ internal sealed class DeleteInstockProductPriceDetailCommandHandler : ICommandHa
             return Result.Failure(InstockProductPriceDetailError.NotFound(request.PriceDetailId));
         }
 
-        if (!priceDetail.IsActive)
-        {
-            return Result.Failure(InstockProductPriceDetailError.AlreadyInactive(request.PriceDetailId));
-        }
-
         return await _unitOfWork.ExecuteAsync<Result>(async () =>
         {
-            priceDetail.Deactivate();
-            _priceDetailRepository.Update(priceDetail);
+            priceDetail.Delete();
+            _priceDetailRepository.Delete(priceDetail);
 
             return Result.Success();
         }, cancellationToken);

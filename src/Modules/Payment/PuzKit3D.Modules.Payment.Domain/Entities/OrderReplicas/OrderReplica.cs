@@ -93,6 +93,7 @@ public sealed class OrderReplica : Entity<Guid>
             return; // Already marked as paid
         }
 
+        Status = "Paid";
         IsPaid = true;
         PaidAt = paidAt;
         UpdatedAt = paidAt;

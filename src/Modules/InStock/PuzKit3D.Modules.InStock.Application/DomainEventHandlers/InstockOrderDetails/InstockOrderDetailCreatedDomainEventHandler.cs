@@ -2,6 +2,7 @@ using MediatR;
 using PuzKit3D.Modules.InStock.Application.Repositories;
 using PuzKit3D.Modules.InStock.Domain.Entities.InstockOrderDetails.DomainEvents;
 using PuzKit3D.Modules.InStock.Domain.Entities.InstockProductVariants;
+using PuzKit3D.SharedKernel.Application.Exceptions;
 
 namespace PuzKit3D.Modules.InStock.Application.DomainEventHandlers.InstockOrderDetails;
 
@@ -31,7 +32,7 @@ internal sealed class InstockOrderDetailCreatedDomainEventHandler : INotificatio
         {
             // Log error - insufficient inventory
             Console.WriteLine($"Error: Failed to reduce stock for variant {notification.VariantId}. Error: {result.Error.Message}");
-            throw new InvalidOperationException($"Failed to reduce stock: {result.Error.Message}");
+            throw new PuzKit3DException($"Failed to reduce stock: {result.Error.Message}");
         }
 
         _inventoryRepository.Update(inventory);

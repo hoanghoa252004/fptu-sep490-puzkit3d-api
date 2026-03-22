@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using PuzKit3D.Contract.InStock.InstockInventories;
 using PuzKit3D.Modules.Cart.Persistence;
 using PuzKit3D.SharedKernel.Application.Event;
+using PuzKit3D.SharedKernel.Application.Exceptions;
 
 namespace PuzKit3D.Modules.Cart.Infrastructure.IntegrationEventHandlers.InstockInventories;
 
@@ -28,7 +29,18 @@ internal sealed class InstockInventoryDeletedIntegrationEventHandler
             return;
         }
 
+        // Check if any cart items are using this inventory's variant
+        var hasCartItems = await _context.CartItems
+            .AnyAsync(ci => ci.ItemId == @event.VariantId, cancellationToken);
+
+        if (hasCartItems)
+        {
+            throw new PuzKit3DException("Someone has added this item to their cart");
+        }
+
+        // Delete inventory replica
         _context.InStockInventoryReplicas.Remove(inventory);
         await _context.SaveChangesAsync(cancellationToken);
     }
 }
+

@@ -48,5 +48,5 @@ internal sealed class UpdatePiece : IEndpoint
 }
 
 internal sealed record UpdatePieceRequestDto(
-    int Quantity,
-    Guid? NewPartId);
+int? Quantity,
+Guid? NewPartId);

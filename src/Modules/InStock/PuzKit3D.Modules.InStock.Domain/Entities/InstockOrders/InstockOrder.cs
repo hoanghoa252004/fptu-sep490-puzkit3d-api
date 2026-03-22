@@ -1,4 +1,4 @@
-using PuzKit3D.Modules.InStock.Domain.Entities.InstockOrderDetails;
+﻿using PuzKit3D.Modules.InStock.Domain.Entities.InstockOrderDetails;
 using PuzKit3D.Modules.InStock.Domain.Entities.InstockOrders.DomainEvents;
 using PuzKit3D.SharedKernel.Domain;
 using PuzKit3D.SharedKernel.Domain.Results;
@@ -14,12 +14,10 @@ public sealed class InstockOrder : AggregateRoot<InstockOrderId>
     public string CustomerName { get; private set; } = null!;
     public string CustomerPhone { get; private set; } = null!;
     public string CustomerEmail { get; private set; } = null!;
-    public string CustomerProvinceCode { get; private set; } = null!;
     public string CustomerProvinceName { get; private set; } = null!;
-    public string CustomerDistrictCode { get; private set; } = null!;
     public string CustomerDistrictName { get; private set; } = null!;
-    public string CustomerWardCode { get; private set; } = null!;
     public string CustomerWardName { get; private set; } = null!;
+    public string DetailAddress { get; private set; } = null!;
     public decimal SubTotalAmount { get; private set; }
     public decimal ShippingFee { get; private set; }
     public int UsedCoinAmount { get; private set; }
@@ -31,6 +29,9 @@ public sealed class InstockOrder : AggregateRoot<InstockOrderId>
     public string PaymentMethod { get; private set; } = null!;
     public bool IsPaid { get; private set; }
     public DateTime? PaidAt { get; private set; }
+    public string? DeliveryOrderCode { get; private set; }
+    public DateTime? ExpectedDeliveryDate { get; private set; }
+    public string? HandoverProofImageUrl { get; private set; }
 
     public IReadOnlyCollection<InstockOrderDetail> OrderDetails => _orderDetails.AsReadOnly();
 
@@ -41,12 +42,10 @@ public sealed class InstockOrder : AggregateRoot<InstockOrderId>
         string customerName,
         string customerPhone,
         string customerEmail,
-        string customerProvinceCode,
         string customerProvinceName,
-        string customerDistrictCode,
         string customerDistrictName,
-        string customerWardCode,
         string customerWardName,
+        string detailAddress,
         decimal subTotalAmount,
         decimal shippingFee,
         int usedCoinAmount,
@@ -62,12 +61,10 @@ public sealed class InstockOrder : AggregateRoot<InstockOrderId>
         CustomerName = customerName;
         CustomerPhone = customerPhone;
         CustomerEmail = customerEmail;
-        CustomerProvinceCode = customerProvinceCode;
         CustomerProvinceName = customerProvinceName;
-        CustomerDistrictCode = customerDistrictCode;
         CustomerDistrictName = customerDistrictName;
-        CustomerWardCode = customerWardCode;
         CustomerWardName = customerWardName;
+        DetailAddress = detailAddress;
         SubTotalAmount = subTotalAmount;
         ShippingFee = shippingFee;
         UsedCoinAmount = usedCoinAmount;
@@ -90,19 +87,16 @@ public sealed class InstockOrder : AggregateRoot<InstockOrderId>
         string customerName,
         string customerPhone,
         string customerEmail,
-        string customerProvinceCode,
         string customerProvinceName,
-        string customerDistrictCode,
         string customerDistrictName,
-        string customerWardCode,
         string customerWardName,
+        string detailAddress,
         decimal subTotalAmount,
         decimal shippingFee,
         int usedCoinAmount,
         decimal usedCoinAmountAsMoney,
         decimal grandTotalAmount,
         string paymentMethod,
-        InstockOrderStatus status = InstockOrderStatus.PaymentPending,
         bool isPaid = false,
         DateTime? createdAt = null)
     {
@@ -118,13 +112,10 @@ public sealed class InstockOrder : AggregateRoot<InstockOrderId>
         if (string.IsNullOrWhiteSpace(customerEmail))
             return Result.Failure<InstockOrder>(InstockOrderError.InvalidCustomerEmail());
 
-        if (string.IsNullOrWhiteSpace(customerProvinceCode) || string.IsNullOrWhiteSpace(customerProvinceName))
-            return Result.Failure<InstockOrder>(InstockOrderError.InvalidAddress());
-
-        if (string.IsNullOrWhiteSpace(customerDistrictCode) || string.IsNullOrWhiteSpace(customerDistrictName))
-            return Result.Failure<InstockOrder>(InstockOrderError.InvalidAddress());
-
-        if (string.IsNullOrWhiteSpace(customerWardCode) || string.IsNullOrWhiteSpace(customerWardName))
+        if (string.IsNullOrWhiteSpace(customerProvinceName)
+            || string.IsNullOrWhiteSpace(customerDistrictName)
+            || string.IsNullOrWhiteSpace(customerWardName)
+            || string.IsNullOrWhiteSpace(detailAddress))
             return Result.Failure<InstockOrder>(InstockOrderError.InvalidAddress());
 
         if (string.IsNullOrWhiteSpace(paymentMethod))
@@ -138,6 +129,12 @@ public sealed class InstockOrder : AggregateRoot<InstockOrderId>
 
         var orderId = InstockOrderId.Create();
         var timestamp = createdAt ?? DateTime.UtcNow;
+        
+        // Determine initial status based on payment method
+        var initialStatus = paymentMethod.Equals("COD", StringComparison.OrdinalIgnoreCase)
+            ? InstockOrderStatus.Waiting
+            : InstockOrderStatus.Pending;
+        
         var order = new InstockOrder(
             orderId,
             code,
@@ -145,18 +142,16 @@ public sealed class InstockOrder : AggregateRoot<InstockOrderId>
             customerName,
             customerPhone,
             customerEmail,
-            customerProvinceCode,
             customerProvinceName,
-            customerDistrictCode,
             customerDistrictName,
-            customerWardCode,
+            detailAddress,
             customerWardName,
             subTotalAmount,
             shippingFee,
             usedCoinAmount,
             usedCoinAmountAsMoney,
             grandTotalAmount,
-            status,
+            initialStatus,
             paymentMethod,
             isPaid,
             timestamp);
@@ -166,6 +161,11 @@ public sealed class InstockOrder : AggregateRoot<InstockOrderId>
 
     public Result UpdateStatus(InstockOrderStatus newStatus)
     {
+        if (Status == newStatus)
+        {
+            return Result.Failure(InstockOrderError.InvalidStatusTransition(Status, newStatus));
+        }
+
         if (!InstockOrderStatusTransition.IsValidTransition(Status, newStatus))
         {
             return Result.Failure(InstockOrderError.InvalidStatusTransition(Status, newStatus));
@@ -173,6 +173,15 @@ public sealed class InstockOrder : AggregateRoot<InstockOrderId>
 
         Status = newStatus;
         UpdatedAt = DateTime.UtcNow;
+
+        // Raise generic status changed event
+        RaiseStatusChangedEvent();
+
+        // Raise specific completed event for Feedback module
+        if (newStatus == InstockOrderStatus.Completed)
+        {
+            RaiseOrderCompletedEvent();
+        }
 
         return Result.Success();
     }
@@ -189,7 +198,7 @@ public sealed class InstockOrder : AggregateRoot<InstockOrderId>
             return Result.Failure(InstockOrderError.OrderAlreadyPaid());
         }
 
-        if (Status != InstockOrderStatus.PaymentPending)
+        if (Status != InstockOrderStatus.Pending && Status != InstockOrderStatus.Waiting)
         {
             return Result.Failure(InstockOrderError.InvalidStatusTransition(Status, InstockOrderStatus.Paid));
         }
@@ -204,7 +213,7 @@ public sealed class InstockOrder : AggregateRoot<InstockOrderId>
 
     public Result MarkAsExpired()
     {
-        if (Status != InstockOrderStatus.PaymentPending)
+        if (Status != InstockOrderStatus.Pending && Status != InstockOrderStatus.Waiting)
         {
             return Result.Failure(InstockOrderError.CannotExpireOrder());
         }
@@ -228,14 +237,27 @@ public sealed class InstockOrder : AggregateRoot<InstockOrderId>
         return Result.Success();
     }
 
-    public Result MarkAsShipped()
+    public Result MarkAsShipping()
     {
         if (Status != InstockOrderStatus.Processing)
         {
-            return Result.Failure(InstockOrderError.InvalidStatusTransition(Status, InstockOrderStatus.Shipped));
+            return Result.Failure(InstockOrderError.InvalidStatusTransition(Status, InstockOrderStatus.Shipping));
         }
 
-        Status = InstockOrderStatus.Shipped;
+        Status = InstockOrderStatus.Shipping;
+        UpdatedAt = DateTime.UtcNow;
+
+        return Result.Success();
+    }
+
+    public Result MarkAsDelivered()
+    {
+        if (Status != InstockOrderStatus.Shipping)
+        {
+            return Result.Failure(InstockOrderError.InvalidStatusTransition(Status, InstockOrderStatus.Delivered));
+        }
+
+        Status = InstockOrderStatus.Delivered;
         UpdatedAt = DateTime.UtcNow;
 
         return Result.Success();
@@ -243,7 +265,7 @@ public sealed class InstockOrder : AggregateRoot<InstockOrderId>
 
     public Result Complete()
     {
-        if (Status != InstockOrderStatus.Shipped)
+        if (Status != InstockOrderStatus.Delivered)
         {
             return Result.Failure(InstockOrderError.InvalidStatusTransition(Status, InstockOrderStatus.Completed));
         }
@@ -254,6 +276,57 @@ public sealed class InstockOrder : AggregateRoot<InstockOrderId>
         }
 
         Status = InstockOrderStatus.Completed;
+        UpdatedAt = DateTime.UtcNow;
+
+        RaiseOrderCompletedEvent();
+
+        return Result.Success();
+    }
+
+    public Result Cancel()
+    {
+        if (Status != InstockOrderStatus.Waiting && Status != InstockOrderStatus.Pending)
+        {
+            return Result.Failure(InstockOrderError.InvalidStatusTransition(Status, InstockOrderStatus.Cancelled));
+        }
+
+        Status = InstockOrderStatus.Cancelled;
+        UpdatedAt = DateTime.UtcNow;
+
+        return Result.Success();
+    }
+
+    public Result SetDeliveryInfo(string deliveryOrderCode, DateTime expectedDeliveryDate)
+    {
+        if (string.IsNullOrWhiteSpace(deliveryOrderCode))
+        {
+            return Result.Failure(InstockOrderError.InvalidDeliveryOrderCode());
+        }
+
+        if (DeliveryOrderCode != null && ExpectedDeliveryDate != null)
+        {
+            return Result.Failure(InstockOrderError.DeliveryInfoAlreadySet());
+        }
+
+        DeliveryOrderCode = deliveryOrderCode;
+
+        DateTime utcDateTime;
+
+        if (expectedDeliveryDate.Kind == DateTimeKind.Utc)
+        {
+            utcDateTime = expectedDeliveryDate;
+        }
+        else if (expectedDeliveryDate.Kind == DateTimeKind.Local)
+        {
+            utcDateTime = expectedDeliveryDate.ToUniversalTime();
+        }
+        else // Unspecified (trường hợp nguy hiểm nhất)
+        {
+            var vietnamTimeZone = TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time");
+            utcDateTime = TimeZoneInfo.ConvertTimeToUtc(expectedDeliveryDate, vietnamTimeZone);
+        }
+
+        ExpectedDeliveryDate = utcDateTime;
         UpdatedAt = DateTime.UtcNow;
 
         return Result.Success();
@@ -284,5 +357,30 @@ public sealed class InstockOrder : AggregateRoot<InstockOrderId>
             PaymentMethod,
             IsPaid,
             PaidAt));
+    }
+
+    private void RaiseStatusChangedEvent()
+    {
+        RaiseDomainEvent(new InstockOrderStatusChangedDomainEvent(
+            Id.Value,
+            Code,
+            CustomerId,
+            Status,
+            UpdatedAt));
+    }
+
+    private void RaiseOrderCompletedEvent()
+    {
+        var orderDetails = _orderDetails.Select(od => new OrderDetailInfo(
+            od.Id.Value,
+            od.InstockProductVariantId.Value))
+            .ToList();
+
+        RaiseDomainEvent(new InstockOrderCompletedDomainEvent(
+            Id.Value,
+            Code,
+            CustomerId,
+            orderDetails,
+            UpdatedAt));
     }
 }

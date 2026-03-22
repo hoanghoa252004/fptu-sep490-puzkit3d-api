@@ -155,6 +155,17 @@ public sealed class InstockPrice : AggregateRoot<InstockPriceId>
 
         if (isActive.HasValue)
         {
+            // When activating, check date range and effective period
+            if (isActive.Value == true)
+            {
+                if (EffectiveFrom >= EffectiveTo)
+                    return Result.Failure(InstockPriceError.InvalidDateRange());
+
+                var now = DateTime.UtcNow;
+                if (now < EffectiveFrom || now > EffectiveTo)
+                    return Result.Failure(InstockPriceError.PriceNotEffectiveNow());
+            }
+
             if (isActive.Value == IsActive)
                 return Result.Failure(InstockPriceError.IsActiveUnchanged(IsActive));
 
@@ -175,17 +186,26 @@ public sealed class InstockPrice : AggregateRoot<InstockPriceId>
         return Result.Success();
     }
 
-    public void Activate()
+    public Result Activate()
     {
+        // Check date range is valid
+        if (EffectiveFrom >= EffectiveTo)
+            return Result.Failure(InstockPriceError.InvalidDateRange());
+
+        // Check current time is within effective period
+        var now = DateTime.UtcNow;
+        if (now < EffectiveFrom || now > EffectiveTo)
+            return Result.Failure(InstockPriceError.PriceNotEffectiveNow());
+
         IsActive = true;
         UpdatedAt = DateTime.UtcNow;
+
+        return Result.Success();
     }
 
-    public void Deactivate()
+    public void Delete()
     {
-        IsActive = false;
-        UpdatedAt = DateTime.UtcNow;
-
         RaiseDomainEvent(new InstockPriceDeletedDomainEvent(Id.Value));
     }
 }
+

@@ -12,7 +12,11 @@ public sealed record GetAllInstockProductsResponseDto(
     string? Description,
     bool IsActive,
     DateTime CreatedAt,
-    DateTime UpdatedAt);
+    DateTime UpdatedAt,
+    Guid TopicId,
+    Guid MaterialId,
+    Guid AssemblyMethodId,
+    List<Guid> CapabilityIds);
 
 public sealed record GetAllInstockProductsPublicResponseDto(
     Guid Id,
@@ -23,4 +27,9 @@ public sealed record GetAllInstockProductsPublicResponseDto(
     string DifficultLevel,
     int EstimatedBuildTime,
     string ThumbnailUrl,
-    string? Description);
+    string? Description,
+    Guid TopicId,
+    Guid MaterialId,
+    Guid AssemblyMethodId,
+    List<Guid> CapabilityIds);
+

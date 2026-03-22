@@ -1,4 +1,5 @@
 using PuzKit3D.Modules.InStock.Application.Repositories;
+using PuzKit3D.Modules.InStock.Application.Services;
 using PuzKit3D.Modules.InStock.Domain.Entities.InstockOrders;
 using PuzKit3D.SharedKernel.Application.Message.Query;
 using PuzKit3D.SharedKernel.Application.User;
@@ -13,17 +14,20 @@ internal sealed class GetCustomerOrderByIdQueryHandler
     private readonly IInstockProductRepository _productRepository;
     private readonly IInstockProductVariantRepository _variantRepository;
     private readonly ICurrentUser _currentUser;
+    private readonly IAssetUrlService _assetUrlService;
 
     public GetCustomerOrderByIdQueryHandler(
         IInstockOrderRepository orderRepository,
         IInstockProductRepository productRepository,
         IInstockProductVariantRepository variantRepository,
-        ICurrentUser currentUser)
+        ICurrentUser currentUser,
+        IAssetUrlService assetUrlService)
     {
         _orderRepository = orderRepository;
         _productRepository = productRepository;
         _variantRepository = variantRepository;
         _currentUser = currentUser;
+        _assetUrlService = assetUrlService;
     }
 
     public async Task<ResultT<GetCustomerOrderByIdResponseDto>> Handle(
@@ -43,10 +47,10 @@ internal sealed class GetCustomerOrderByIdQueryHandler
             return Result.Failure<GetCustomerOrderByIdResponseDto>(
                 InstockOrderError.NotFound(request.OrderId));
 
-        // Verify order belongs to current customer
-        if (order.CustomerId != customerId)
-            return Result.Failure<GetCustomerOrderByIdResponseDto>(
-                InstockOrderError.Unauthorized());
+        //// Verify order belongs to current customer
+        //if (order.CustomerId != customerId)
+        //    return Result.Failure<GetCustomerOrderByIdResponseDto>(
+        //        InstockOrderError.Unauthorized());
 
         // Get all variant IDs and product IDs
         var variantIds = order.OrderDetails.Select(od => od.InstockProductVariantId.Value).Distinct().ToList();
@@ -70,7 +74,7 @@ internal sealed class GetCustomerOrderByIdQueryHandler
         var variantToThumbnailMap = variantsMap.Values.ToDictionary(
             v => v.Id.Value,
             v => productsMap.TryGetValue(v.InstockProductId.Value, out var product) 
-                ? product.ThumbnailUrl 
+                ? _assetUrlService.BuildAssetUrl(product.ThumbnailUrl)
                 : null);
 
         var orderDetails = order.OrderDetails.Select(od =>
@@ -101,8 +105,8 @@ internal sealed class GetCustomerOrderByIdQueryHandler
                         product.DifficultLevel,
                         product.EstimatedBuildTime,
                         product.TotalPieceCount,
-                        product.ThumbnailUrl,
-                        product.PreviewAsset,
+                        _assetUrlService.BuildAssetUrl(product.ThumbnailUrl),
+                        _assetUrlService.BuildAssetUrls(product.PreviewAsset),
                         product.IsActive)
                     : null,
                 variant != null
@@ -121,25 +125,29 @@ internal sealed class GetCustomerOrderByIdQueryHandler
             order.CustomerName,
             order.CustomerPhone,
             order.CustomerEmail,
-            order.CustomerProvinceCode,
             order.CustomerProvinceName,
-            order.CustomerDistrictCode,
             order.CustomerDistrictName,
-            order.CustomerWardCode,
             order.CustomerWardName,
+            order.DetailAddress,
             order.SubTotalAmount,
             order.ShippingFee,
             order.UsedCoinAmount,
             order.UsedCoinAmountAsMoney,
             order.GrandTotalAmount,
-            order.Status,
+            order.Status.ToString(),
             order.PaymentMethod,
             order.IsPaid,
             order.PaidAt,
             order.CreatedAt,
             order.UpdatedAt,
+            order.DeliveryOrderCode,
+            order.ExpectedDeliveryDate,
             orderDetails);
 
         return Result.Success(response);
     }
 }
+
+
+
+

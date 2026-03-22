@@ -12,6 +12,7 @@ public class Payment : AggregateRoot<PaymentId>
     public Guid ReferenceOrderId { get; private set; }
     public string ReferenceOrderType { get; private set; } = null!;
     public decimal Amount { get; private set; }
+    public string PaymentMethod { get; private set; } = null!;
     public PaymentStatus Status { get; private set; }
     public DateTime ExpiredAt { get; private set; }
     public DateTime? PaidAt { get; private set; }
@@ -25,6 +26,7 @@ public class Payment : AggregateRoot<PaymentId>
         Guid referenceOrderId,
         string referenceOrderType,
         decimal amount,
+        string paymentMethod,
         PaymentStatus status,
         DateTime expiredAt,
         DateTime createdAt) : base(id)
@@ -32,6 +34,7 @@ public class Payment : AggregateRoot<PaymentId>
         ReferenceOrderId = referenceOrderId;
         ReferenceOrderType = referenceOrderType;
         Amount = amount;
+        PaymentMethod = paymentMethod;
         Status = status;
         ExpiredAt = expiredAt;
         CreatedAt = createdAt;
@@ -45,7 +48,8 @@ public class Payment : AggregateRoot<PaymentId>
     public static ResultT<Payment> Create(
         Guid referenceOrderId,
         string referenceOrderType,
-        decimal amount)
+        decimal amount,
+        string paymentMethod)
     {
         if (referenceOrderId == Guid.Empty)
             return Result.Failure<Payment>(PaymentError.InvalidReferenceOrderId());
@@ -56,14 +60,23 @@ public class Payment : AggregateRoot<PaymentId>
         if (amount <= 0)
             return Result.Failure<Payment>(PaymentError.InvalidAmount());
 
+        if (string.IsNullOrWhiteSpace(paymentMethod))
+            return Result.Failure<Payment>(PaymentError.InvalidPaymentMethod());
+
+        var now = DateTime.UtcNow;
+        var expiredAt = paymentMethod.Equals("Online", StringComparison.OrdinalIgnoreCase)
+            ? now.AddDays(1)
+            : now.AddMonths(1);
+
         var payment = new Payment(
             PaymentId.Create(),
             referenceOrderId,
             referenceOrderType,
             amount,
+            paymentMethod,
             PaymentStatus.Pending,
-            DateTime.UtcNow.AddDays(1),
-            DateTime.UtcNow
+            expiredAt,
+            now
         );
 
         return Result.Success(payment);

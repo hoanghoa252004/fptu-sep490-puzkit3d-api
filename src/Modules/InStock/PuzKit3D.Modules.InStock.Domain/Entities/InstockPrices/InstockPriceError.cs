@@ -43,4 +43,8 @@ public static class InstockPriceError
     public static Error IsActiveUnchanged(bool currentValue) => Error.Validation(
         "InstockPrice.IsActiveUnchanged",
         $"Price is already {(currentValue ? "active" : "inactive")}. No change needed.");
+
+    public static Error PriceNotEffectiveNow() => Error.Validation(
+        "InstockPrice.PriceNotEffectiveNow",
+        "This price is not effective at the current time. The effective period must include the current date and time.");
 }

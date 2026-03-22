@@ -19,4 +19,8 @@ public static class InstockInventoryError
     public static Error NotFoundByVariantId(Guid variantId) => Error.NotFound(
         "InstockInventory.NotFoundByVariantId",
         $"Instock inventory for variant ID '{variantId}' was not found.");
+
+    public static Error AlreadyExists(Guid variantId) => Error.Conflict(
+        "InstockInventory.AlreadyExists",
+        $"Instock inventory for variant ID '{variantId}' already exists.");
 }

@@ -1,3 +1,4 @@
+using PuzKit3D.Modules.Catalog.Domain.Entities.Capabilities.DomainEvents;
 using PuzKit3D.SharedKernel.Domain;
 using PuzKit3D.SharedKernel.Domain.Results;
 
@@ -61,40 +62,68 @@ public class Capability : AggregateRoot<CapabilityId>
             isActive,
             timestamp);
 
+        capability.RaiseDomainEvent(new CapabilityCreatedDomainEvent(
+            capability.Id.Value,
+            capability.Name,
+            capability.Slug,
+            capability.Description,
+            capability.IsActive,
+            capability.CreatedAt));
+
         return Result.Success(capability);
     }
 
-    public Result Update(string name, string slug, string? description = null)
+    public Result Update(string? name = null, string? slug = null, string? description = null, bool? isActive = null)
     {
-        if (string.IsNullOrWhiteSpace(name))
-            return Result.Failure(CapabilityError.InvalidName());
+        // Validate only provided fields
+        if (name != null)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+                return Result.Failure(CapabilityError.InvalidName());
 
-        if (name.Length > 30)
-            return Result.Failure(CapabilityError.NameTooLong(name.Length));
+            if (name.Length > 30)
+                return Result.Failure(CapabilityError.NameTooLong(name.Length));
 
-        if (string.IsNullOrWhiteSpace(slug))
-            return Result.Failure(CapabilityError.InvalidSlug());
+            Name = name;
+        }
 
-        if (slug.Length > 30)
-            return Result.Failure(CapabilityError.SlugTooLong(slug.Length));
+        if (slug != null)
+        {
+            if (string.IsNullOrWhiteSpace(slug))
+                return Result.Failure(CapabilityError.InvalidSlug());
 
-        Name = name;
-        Slug = slug;
-        Description = description;
+            if (slug.Length > 30)
+                return Result.Failure(CapabilityError.SlugTooLong(slug.Length));
+
+            Slug = slug;
+        }
+
+        if (description != null)
+        {
+            Description = description;
+        }
+
+        if (isActive.HasValue && isActive.Value != IsActive)
+        {
+            IsActive = isActive.Value;
+        }
+
         UpdatedAt = DateTime.UtcNow;
+
+        RaiseDomainEvent(new CapabilityUpdatedDomainEvent(
+            Id.Value,
+            Name,
+            Slug,
+            Description,
+            UpdatedAt));
 
         return Result.Success();
     }
 
-    public void Activate()
+    public void Delete()
     {
-        IsActive = true;
-        UpdatedAt = DateTime.UtcNow;
-    }
-
-    public void Deactivate()
-    {
-        IsActive = false;
-        UpdatedAt = DateTime.UtcNow;
+        RaiseDomainEvent(new CapabilityDeletedDomainEvent(
+            Id.Value,
+            DateTime.UtcNow));
     }
 }

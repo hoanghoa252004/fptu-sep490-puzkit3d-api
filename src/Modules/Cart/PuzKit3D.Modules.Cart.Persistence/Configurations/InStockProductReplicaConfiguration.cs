@@ -52,9 +52,6 @@ internal sealed class InStockProductReplicaConfiguration : IEntityTypeConfigurat
         builder.Property(p => p.AssemblyMethodId)
             .IsRequired();
 
-        builder.Property(p => p.CapabilityId)
-            .IsRequired();
-
         builder.Property(p => p.MaterialId)
             .IsRequired();
 

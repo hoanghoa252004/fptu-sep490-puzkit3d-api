@@ -46,5 +46,5 @@ internal sealed class UpdatePart : IEndpoint
 }
 
 internal sealed record UpdatePartRequestDto(
-    string Name,
-    string PartType);
+string? Name,
+string? PartType);

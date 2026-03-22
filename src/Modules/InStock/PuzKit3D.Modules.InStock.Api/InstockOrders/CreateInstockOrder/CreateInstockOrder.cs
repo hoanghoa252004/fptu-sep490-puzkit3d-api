@@ -38,12 +38,10 @@ internal sealed class CreateInstockOrder : IEndpoint
                     request.CustomerName,
                     request.CustomerPhone,
                     request.CustomerEmail,
-                    request.CustomerProvinceCode,
                     request.CustomerProvinceName,
-                    request.CustomerDistrictCode,
                     request.CustomerDistrictName,
-                    request.CustomerWardCode,
                     request.CustomerWardName,
+                    request.CustomerDetailAddress,
                     cartItems,
                     request.ShippingFee,
                     request.UsedCoinAmount,
@@ -57,7 +55,7 @@ internal sealed class CreateInstockOrder : IEndpoint
             .WithName("CreateInstockOrder")
             .WithSummary("Create a new instock order")
             .WithDescription("Creates a new instock order from cart items. Validates prices, calculates totals, and creates order details. Raises events for inventory update and cart clearing.")
-            .RequireAuthorization()
+            .RequireAuthorization(policy => policy.RequireRole(Roles.Customer))
             .Produces<Guid>(StatusCodes.Status201Created)
             .ProducesValidationProblem(StatusCodes.Status400BadRequest)
             .ProducesProblem(StatusCodes.Status401Unauthorized)
@@ -70,12 +68,10 @@ public sealed record CreateInstockOrderRequestDto(
     string CustomerName,
     string CustomerPhone,
     string CustomerEmail,
-    string CustomerProvinceCode,
     string CustomerProvinceName,
-    string CustomerDistrictCode,
     string CustomerDistrictName,
-    string CustomerWardCode,
     string CustomerWardName,
+    string CustomerDetailAddress,
     List<CartItemRequestDto> CartItems,
     decimal ShippingFee,
     int UsedCoinAmount,

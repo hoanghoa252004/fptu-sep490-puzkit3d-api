@@ -21,7 +21,7 @@ public static class ServiceCollectionExtentions
 
                 cfg.RegisterServicesFromAssemblies(moduleAssemblies);
 
-                cfg.AddOpenBehavior(typeof(ExceptionHandlingBehavior<,>));
+                //cfg.AddOpenBehavior(typeof(ExceptionHandlingBehavior<,>));
                 cfg.AddOpenBehavior(typeof(LoggingBehavior<,>));
                 cfg.AddOpenBehavior(typeof(ValidationBehavior<,>));
                 //cfg.AddOpenBehavior(typeof(TransactionBehavior<,>));

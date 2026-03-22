@@ -1,4 +1,5 @@
 using PuzKit3D.Modules.InStock.Application.Repositories;
+using PuzKit3D.Modules.InStock.Application.Services;
 using PuzKit3D.Modules.InStock.Domain.Entities.InstockProducts;
 using PuzKit3D.SharedKernel.Application.Authorization;
 using PuzKit3D.SharedKernel.Application.Message.Query;
@@ -13,13 +14,16 @@ internal sealed class GetInstockProductBySlugQueryHandler
 {
     private readonly IInstockProductRepository _productRepository;
     private readonly ICurrentUser _currentUser;
+    private readonly IAssetUrlService _assetUrlService;
 
     public GetInstockProductBySlugQueryHandler(
         IInstockProductRepository productRepository,
-        ICurrentUser currentUser)
+        ICurrentUser currentUser,
+        IAssetUrlService assetUrlService)
     {
         _productRepository = productRepository;
         _currentUser = currentUser;
+        _assetUrlService = assetUrlService;
     }
 
     public async Task<ResultT<GetInstockProductBySlugResponseDto>> Handle(
@@ -55,12 +59,12 @@ internal sealed class GetInstockProductBySlugQueryHandler
             product.TotalPieceCount,
             product.DifficultLevel,
             product.EstimatedBuildTime,
-            product.ThumbnailUrl,
-            product.PreviewAsset,
+            _assetUrlService.BuildAssetUrl(product.ThumbnailUrl),
+            _assetUrlService.BuildAssetUrls(product.PreviewAsset),
             product.Description,
             product.TopicId,
             product.AssemblyMethodId,
-            product.CapabilityId,
+            product.GetCapabilityIds(),
             product.MaterialId,
             product.IsActive,
             product.CreatedAt,
@@ -69,5 +73,9 @@ internal sealed class GetInstockProductBySlugQueryHandler
         return Result.Success(response);
     }
 }
+
+
+
+
 
 

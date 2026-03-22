@@ -29,15 +29,10 @@ internal sealed class DeleteInstockProductCommandHandler : ICommandHandler<Delet
             return Result.Failure(InstockProductError.NotFound(request.Id));
         }
 
-        if (!product.IsActive)
-        {
-            return Result.Failure(InstockProductError.AlreadyInactive(request.Id));
-        }
-
         return await _unitOfWork.ExecuteAsync<Result>(async () =>
         {
-            product.Deactivate();
-            _productRepository.Update(product);
+            product.Delete();
+            _productRepository.Delete(product);
 
             return Result.Success();
         }, cancellationToken);

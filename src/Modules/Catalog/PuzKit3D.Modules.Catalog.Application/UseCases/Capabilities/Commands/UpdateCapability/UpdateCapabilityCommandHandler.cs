@@ -47,21 +47,12 @@ internal sealed class UpdateCapabilityCommandHandler : ICommandHandler<UpdateCap
             var updateResult = capability.Update(
                 request.Name,
                 request.Slug,
-                request.Description);
+                request.Description,
+                request.IsActive);
 
             if (updateResult.IsFailure)
             {
                 return updateResult;
-            }
-
-            // Update IsActive status
-            if (request.IsActive && !capability.IsActive)
-            {
-                capability.Activate();
-            }
-            else if (!request.IsActive && capability.IsActive)
-            {
-                capability.Deactivate();
             }
 
             // Update in repository

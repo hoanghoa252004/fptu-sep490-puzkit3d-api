@@ -5,10 +5,18 @@ public static class InstockOrderStatusTransition
     private static readonly Dictionary<InstockOrderStatus, HashSet<InstockOrderStatus>> AllowedTransitions = new()
     {
         {
-            InstockOrderStatus.PaymentPending, new HashSet<InstockOrderStatus>
+            InstockOrderStatus.Waiting, new HashSet<InstockOrderStatus>
+            {
+                InstockOrderStatus.Processing,
+                InstockOrderStatus.Cancelled
+            }
+        },
+        {
+            InstockOrderStatus.Pending, new HashSet<InstockOrderStatus>
             {
                 InstockOrderStatus.Paid,
-                InstockOrderStatus.Expired
+                InstockOrderStatus.Expired,
+                InstockOrderStatus.Cancelled
             }
         },
         {
@@ -20,17 +28,39 @@ public static class InstockOrderStatusTransition
         {
             InstockOrderStatus.Processing, new HashSet<InstockOrderStatus>
             {
-                InstockOrderStatus.Shipped
+                InstockOrderStatus.HandedOverToDelivery
             }
         },
         {
-            InstockOrderStatus.Shipped, new HashSet<InstockOrderStatus>
+            InstockOrderStatus.HandedOverToDelivery, new HashSet<InstockOrderStatus>
+            {
+                InstockOrderStatus.Shipping
+            }
+        },
+        {
+            InstockOrderStatus.Shipping, new HashSet<InstockOrderStatus>
+            {
+                InstockOrderStatus.Delivered,
+                InstockOrderStatus.Rejected
+            }
+        },
+        {
+            InstockOrderStatus.Delivered, new HashSet<InstockOrderStatus>
             {
                 InstockOrderStatus.Completed
             }
         },
         {
+            InstockOrderStatus.Rejected, new HashSet<InstockOrderStatus>
+            {
+                InstockOrderStatus.Returned
+            }
+        },
+        {
             InstockOrderStatus.Expired, new HashSet<InstockOrderStatus>()
+        },
+        {
+            InstockOrderStatus.Cancelled, new HashSet<InstockOrderStatus>()
         },
         {
             InstockOrderStatus.Completed, new HashSet<InstockOrderStatus>()
@@ -39,11 +69,6 @@ public static class InstockOrderStatusTransition
 
     public static bool IsValidTransition(InstockOrderStatus currentStatus, InstockOrderStatus newStatus)
     {
-        if (currentStatus == newStatus)
-        {
-            return true;
-        }
-
         if (!AllowedTransitions.ContainsKey(currentStatus))
         {
             return false;
@@ -61,6 +86,6 @@ public static class InstockOrderStatusTransition
 
     public static string GetTransitionPath()
     {
-        return "PaymentPending -> [Paid | Expired], Paid -> Processing -> Shipped -> Completed";
+        return "COD: Waiting -> [Processing | Expired | Cancelled], Processing -> Shipping -> Delivered -> Completed; Online: Pending -> [Paid | Expired | Cancelled], Paid -> Processing -> Shipping -> Delivered -> Completed";
     }
 }

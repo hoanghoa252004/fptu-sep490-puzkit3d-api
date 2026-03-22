@@ -17,4 +17,5 @@ public static class Schema
     public const string SupportTicket = "support_ticket";
     public const string Cart = "cart";
     public const string Catalog = "catalog";
+    public const string Feedback = "feedback";
 }

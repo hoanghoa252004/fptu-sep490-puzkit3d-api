@@ -29,15 +29,10 @@ internal sealed class DeleteInstockProductVariantCommandHandler : ICommandHandle
             return Result.Failure(InstockProductVariantError.NotFound(request.VariantId));
         }
 
-        if (!variant.IsActive)
-        {
-            return Result.Failure(InstockProductVariantError.AlreadyInactive(request.VariantId));
-        }
-
         return await _unitOfWork.ExecuteAsync<Result>(async () =>
         {
-            variant.Deactivate();
-            _variantRepository.Update(variant);
+            variant.Delete();
+            _variantRepository.Delete(variant);
 
             return Result.Success();
         }, cancellationToken);

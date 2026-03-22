@@ -1,3 +1,4 @@
+using PuzKit3D.Modules.Catalog.Domain.Entities.Materials.DomainEvents;
 using PuzKit3D.SharedKernel.Domain;
 using PuzKit3D.SharedKernel.Domain.Results;
 
@@ -61,40 +62,68 @@ public class Material : AggregateRoot<MaterialId>
             isActive,
             timestamp);
 
+        material.RaiseDomainEvent(new MaterialCreatedDomainEvent(
+            material.Id.Value,
+            material.Name,
+            material.Slug,
+            material.Description,
+            material.IsActive,
+            material.CreatedAt));
+
         return Result.Success(material);
     }
 
-    public Result Update(string name, string slug, string? description = null)
+    public Result Update(string? name = null, string? slug = null, string? description = null, bool? isActive = null)
     {
-        if (string.IsNullOrWhiteSpace(name))
-            return Result.Failure(MaterialError.InvalidName());
+        // Validate only provided fields
+        if (name != null)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+                return Result.Failure(MaterialError.InvalidName());
 
-        if (name.Length > 30)
-            return Result.Failure(MaterialError.NameTooLong(name.Length));
+            if (name.Length > 30)
+                return Result.Failure(MaterialError.NameTooLong(name.Length));
 
-        if (string.IsNullOrWhiteSpace(slug))
-            return Result.Failure(MaterialError.InvalidSlug());
+            Name = name;
+        }
 
-        if (slug.Length > 30)
-            return Result.Failure(MaterialError.SlugTooLong(slug.Length));
+        if (slug != null)
+        {
+            if (string.IsNullOrWhiteSpace(slug))
+                return Result.Failure(MaterialError.InvalidSlug());
 
-        Name = name;
-        Slug = slug;
-        Description = description;
+            if (slug.Length > 30)
+                return Result.Failure(MaterialError.SlugTooLong(slug.Length));
+
+            Slug = slug;
+        }
+
+        if (description != null)
+        {
+            Description = description;
+        }
+
+        if (isActive.HasValue && isActive.Value != IsActive)
+        {
+            IsActive = isActive.Value;
+        }
+
         UpdatedAt = DateTime.UtcNow;
+
+        RaiseDomainEvent(new MaterialUpdatedDomainEvent(
+            Id.Value,
+            Name,
+            Slug,
+            Description,
+            UpdatedAt));
 
         return Result.Success();
     }
 
-    public void Activate()
+    public void Delete()
     {
-        IsActive = true;
-        UpdatedAt = DateTime.UtcNow;
-    }
-
-    public void Deactivate()
-    {
-        IsActive = false;
-        UpdatedAt = DateTime.UtcNow;
+        RaiseDomainEvent(new MaterialDeletedDomainEvent(
+            Id.Value,
+            DateTime.UtcNow));
     }
 }

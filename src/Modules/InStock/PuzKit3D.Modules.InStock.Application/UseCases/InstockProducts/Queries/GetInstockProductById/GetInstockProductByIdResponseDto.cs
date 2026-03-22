@@ -9,12 +9,14 @@ public sealed record GetInstockProductByIdResponseDto(
     string DifficultLevel,
     int EstimatedBuildTime,
     string ThumbnailUrl,
-    string PreviewAsset,
+    List<string> PreviewAsset,
     string? Description,
     Guid TopicId,
     Guid AssemblyMethodId,
-    Guid CapabilityId,
+    List<Guid> CapabilityIds,
     Guid MaterialId,
     bool IsActive,
     DateTime CreatedAt,
     DateTime UpdatedAt);
+
+

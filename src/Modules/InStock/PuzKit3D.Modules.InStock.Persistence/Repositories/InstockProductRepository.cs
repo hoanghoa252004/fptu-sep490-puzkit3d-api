@@ -19,6 +19,7 @@ internal sealed class InstockProductRepository : IInstockProductRepository
         CancellationToken cancellationToken = default)
     {
         return await _context.InstockProducts
+            .Include(p => p.CapabilityDetails)
             .FirstOrDefaultAsync(p => p.Id == id, cancellationToken);
     }
 
@@ -36,6 +37,7 @@ internal sealed class InstockProductRepository : IInstockProductRepository
         CancellationToken cancellationToken = default)
     {
         return await _context.InstockProducts
+            .Include(p => p.CapabilityDetails)
             .AsNoTracking()
             .ToListAsync(cancellationToken);
     }
@@ -45,6 +47,7 @@ internal sealed class InstockProductRepository : IInstockProductRepository
         CancellationToken cancellationToken = default)
     {
         return await _context.InstockProducts
+            .Include(p => p.CapabilityDetails)
             .Where(predicate)
             .AsNoTracking()
             .ToListAsync(cancellationToken);
@@ -55,6 +58,7 @@ internal sealed class InstockProductRepository : IInstockProductRepository
         CancellationToken cancellationToken = default)
     {
         return await _context.InstockProducts
+            .Include(p => p.CapabilityDetails)
             .FirstOrDefaultAsync(p => p.Slug == slug, cancellationToken);
     }
 

@@ -155,24 +155,40 @@ internal sealed class ProcessVnPayIPNCommandHandler : IRequestHandler<ProcessVnP
                 }
                 else
                 {
-                    // Payment failed
-                    var updateResult = transaction.UpdateToFailed();
+                    // Payment failed/cancelled/expired - Update transaction status only
+                    // Do NOT update payment status as transaction is just one attempt to pay
+                    // User can create multiple transactions to retry payment
+                    Result updateResult;
+                    string failureReason;
+
+                    if (vnp_ResponseCode == "11")
+                    {
+                        // Transaction expired
+                        updateResult = transaction.UpdateToExpired();
+                        failureReason = "Transaction expired";
+                    }
+                    else if (vnp_ResponseCode == "24")
+                    {
+                        // Transaction cancelled
+                        updateResult = transaction.UpdateToCancelled();
+                        failureReason = "Transaction cancelled";
+                    }
+                    else
+                    {
+                        // Other codes - treat as failed
+                        updateResult = transaction.UpdateToFailed();
+                        failureReason = $"Transaction failed with response code {vnp_ResponseCode}";
+                    }
+
                     if (updateResult.IsFailure)
                     {
-                        _logger.LogError("Failed to update transaction to failed. TxnRef: {TxnRef}", transactionRef);
+                        _logger.LogError("Failed to update transaction status. TxnRef: {TxnRef}, ResponseCode: {ResponseCode}",
+                            transactionRef, vnp_ResponseCode);
                         return Result.Failure(Error.Failure("99", "Failed to update transaction"));
                     }
 
-                    // Update payment status to Failed
-                    var paymentUpdateResult = payment.UpdateStatus(PaymentStatus.Failed);
-                    if (paymentUpdateResult.IsFailure)
-                    {
-                        _logger.LogError("Failed to update payment status. PaymentId: {PaymentId}", payment.Id);
-                        return Result.Failure(Error.Failure("99", "Failed to update payment status"));
-                    }
-
-                    _logger.LogInformation("Payment failed. TxnRef: {TxnRef}, ResponseCode: {ResponseCode}, PaymentId: {PaymentId}",
-                        transactionRef, vnp_ResponseCode, payment.Id);
+                    _logger.LogInformation("Transaction {FailureReason}. TxnRef: {TxnRef}, ResponseCode: {ResponseCode}, PaymentId: {PaymentId}",
+                        failureReason, transactionRef, vnp_ResponseCode, payment.Id);
                 }
                 return Result.Success();
             }

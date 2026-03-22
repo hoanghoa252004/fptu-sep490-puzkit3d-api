@@ -101,6 +101,16 @@ public class Transaction : Entity<TransactionId>
         return UpdateStatus(TransactionStatus.Failed, null, rawResponsePayload);
     }
 
+    public Result UpdateToExpired(string? rawResponsePayload = null)
+    {
+        return UpdateStatus(TransactionStatus.Expired, null, rawResponsePayload);
+    }
+
+    public Result UpdateToCancelled(string? rawResponsePayload = null)
+    {
+        return UpdateStatus(TransactionStatus.Cancelled, null, rawResponsePayload);
+    }
+
     public void SetPaymentUrl(string paymentUrl)
     {
         if (!string.IsNullOrWhiteSpace(paymentUrl))

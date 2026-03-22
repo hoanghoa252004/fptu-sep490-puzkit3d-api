@@ -63,15 +63,9 @@ internal sealed class DeleteInventoryCommandHandler : ICommandHandler<DeleteInve
 
         return await _unitOfWork.ExecuteAsync<Result>(async () =>
         {
-            // Set quantity to 0
-            var result = inventory.SetStock(0);
-
-            if (result.IsFailure)
-            {
-                return Result.Failure(result.Error);
-            }
-
-            _inventoryRepository.Update(inventory);
+            // Delete inventory - publish event
+            inventory.Delete();
+            _inventoryRepository.Delete(inventory);
 
             return Result.Success();
         }, cancellationToken);

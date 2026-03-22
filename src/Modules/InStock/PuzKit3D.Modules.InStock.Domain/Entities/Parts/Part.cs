@@ -95,6 +95,38 @@ public sealed partial class Part : Entity<PartId>
         return Result.Success();
     }
 
+    public Result PartialUpdate(string? name = null, string? partType = null)
+    {
+        if (name is not null)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+                return Result.Failure(PartError.InvalidName());
+
+            if (name.Length > 30)
+                return Result.Failure(PartError.NameTooLong(name.Length));
+
+            Name = name;
+        }
+
+        if (partType is not null)
+        {
+            if (string.IsNullOrWhiteSpace(partType))
+                return Result.Failure(PartError.InvalidPartType());
+
+            if (partType.Length > 30)
+                return Result.Failure(PartError.PartTypeTooLong(partType.Length));
+
+            PartType = partType;
+        }
+
+        return Result.Success();
+    }
+
+    public void Delete()
+    {
+        // Hard delete - no domain event needed as we're removing the aggregate
+    }
+
     public void AddPiece(Piece piece)
     {
         _pieces.Add(piece);

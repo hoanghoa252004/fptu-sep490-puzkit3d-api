@@ -33,8 +33,8 @@ internal class GlobalExceptionHandler(ILogger<GlobalExceptionHandler> _logger, I
                  "https://datatracker.ietf.org/doc/html/rfc7231#section-6.5.1"),
 
             PuzKit3DException =>
-                (StatusCodes.Status500InternalServerError,
-                 "PuzKit3D Web Api Failure",
+                (StatusCodes.Status400BadRequest,
+                 "Bad Request",
                  "https://datatracker.ietf.org/doc/html/rfc7231#section-6.6.1"),
 
             _ =>
@@ -48,22 +48,28 @@ internal class GlobalExceptionHandler(ILogger<GlobalExceptionHandler> _logger, I
             Status = statusCode,
             Type = type,
             Title = title,
-            Detail = _env.IsDevelopment()
-                ? exception.Message
-                : statusCode == StatusCodes.Status400BadRequest
-                    ? "The request was malformed or invalid. Please check your input."
-                    : "An unexpected error occurred. Please try again later or contact support.",
-            Instance = context.Request.Path,
+            Detail = exception.Message,
+            Instance = context.Request.Path
         };
 
         // Add trace ID for debugging
         problemDetails.Extensions["traceId"] = context.TraceIdentifier;
 
         // Include details only in development
-        if (_env.IsDevelopment())
+        if (problemDetails.Status == StatusCodes.Status500InternalServerError)
         {
             problemDetails.Extensions["exceptionType"] = exception.GetType().FullName;
             problemDetails.Extensions["stackTrace"] = exception.StackTrace;
+
+            if (exception.InnerException != null)
+            {
+                problemDetails.Extensions["innerException"] = exception.InnerException.Message;
+            }
+        }
+
+        if (problemDetails.Status == StatusCodes.Status400BadRequest)
+        {
+            problemDetails.Extensions["exceptionType"] = exception.GetType().FullName;
 
             if (exception.InnerException != null)
             {
