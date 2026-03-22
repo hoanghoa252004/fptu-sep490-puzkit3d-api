@@ -4,6 +4,7 @@ namespace PuzKit3D.Modules.Feedback.Application.UseCases.Feedbacks.Commands.Crea
 
 public sealed record CreateFeedbackCommand(
 Guid OrderId,
+Guid? OrderDetailId,
 Guid UserId,
 int Rating,
 string? Comment = null) : ICommandT<Guid>;

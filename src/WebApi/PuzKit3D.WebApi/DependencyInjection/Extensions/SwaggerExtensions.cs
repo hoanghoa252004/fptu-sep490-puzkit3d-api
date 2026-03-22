@@ -87,6 +87,13 @@ internal static class SwaggerExtensions
                 Description = "APIs for feedback processing"
             });
 
+            options.SwaggerDoc("support-tickets", new OpenApiInfo
+            {
+                Title = "11. Support Ticket",
+                Version = "v1",
+                Description = "APIs for support ticket processing"
+            });
+
 
 
             // Group endpoints by module based on route prefix
@@ -130,6 +137,8 @@ internal static class SwaggerExtensions
                     "delivery" => routePath.StartsWith("api/delivery"),
 
                     "feedback" => routePath.Contains("feedback"),
+
+                    "support-tickets" => routePath.StartsWith("api/support-tickets"),
 
                     _ => false
                 };

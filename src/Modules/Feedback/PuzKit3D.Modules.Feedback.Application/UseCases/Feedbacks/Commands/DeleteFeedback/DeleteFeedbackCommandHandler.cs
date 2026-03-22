@@ -10,12 +10,12 @@ internal sealed class DeleteFeedbackCommandHandler : ICommandHandler<DeleteFeedb
 {
     private readonly IFeedbackRepository _feedbackRepository;
     private readonly IFeedbackUnitOfWork _unitOfWork;
-    private readonly ICompletedOrderReplicaRepository _orderReplicaRepository;
+    private readonly IOrderDetailReplicaRepository _orderReplicaRepository;
 
     public DeleteFeedbackCommandHandler(
         IFeedbackRepository feedbackRepository,
         IFeedbackUnitOfWork unitOfWork,
-        ICompletedOrderReplicaRepository orderReplicaRepository)
+        IOrderDetailReplicaRepository orderReplicaRepository)
     {
         _feedbackRepository = feedbackRepository;
         _unitOfWork = unitOfWork;
@@ -24,13 +24,6 @@ internal sealed class DeleteFeedbackCommandHandler : ICommandHandler<DeleteFeedb
 
     public async Task<Result> Handle(DeleteFeedbackCommand request, CancellationToken cancellationToken)
     {
-        // Check if order exists
-        var order = await _orderReplicaRepository.GetByIdAsync(request.OrderId, cancellationToken);
-        if (order is null)
-        {
-            return Result.Failure(FeedbackError.OrderNotFoundOrNotCompleted(request.OrderId));
-        }
-
         // Check if feedback exists
         var feedback = await _feedbackRepository.GetByIdAsync(
             FeedbackId.From(request.FeedbackId),

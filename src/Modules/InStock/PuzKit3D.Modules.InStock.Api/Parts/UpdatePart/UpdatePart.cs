@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 using PuzKit3D.Modules.InStock.Application.UseCases.Parts.Commands.UpdatePart;
+using PuzKit3D.Modules.InStock.Domain.Entities.Parts;
 using PuzKit3D.SharedKernel.Api.Endpoint;
 using PuzKit3D.SharedKernel.Api.Results.Extensions;
 using PuzKit3D.SharedKernel.Application.Authorization;
@@ -22,19 +23,31 @@ internal sealed class UpdatePart : IEndpoint
                 ISender sender,
                 CancellationToken cancellationToken) =>
             {
+                // Parse PartType from string if provided
+                PartType? partType = null;
+                if (!string.IsNullOrWhiteSpace(request.PartType))
+                {
+                    if (!Enum.TryParse<PartType>(request.PartType, ignoreCase: true, out var parsedType))
+                    {
+                        return Results.BadRequest(new { error = $"Invalid part type '{request.PartType}'. Valid values are: {string.Join(", ", Enum.GetNames(typeof(PartType)))}" });
+                    }
+                    partType = parsedType;
+                }
+
                 var command = new UpdatePartCommand(
                     productId,
                     partId,
                     request.Name,
-                    request.PartType);
+                    partType,
+                    request.Quantity);
 
                 var result = await sender.Send(command, cancellationToken);
 
-                return result.MatchOk();
+                return result.MatchNoContent();
             })
             .WithName("UpdatePart")
             .WithSummary("Update a part (Staff/Manager only)")
-            .WithDescription("Updates name and part type of an existing part. Requires Staff or Manager role.")
+            .WithDescription("Updates name and part type of an existing part. PartType must be one of: Structural, Mechanical, Decorative. Requires Staff or Manager role.")
             .RequireAuthorization(policy => policy.RequireRole(Roles.Staff, Roles.BusinessManager))
             .Produces(StatusCodes.Status204NoContent)
             .ProducesValidationProblem(StatusCodes.Status400BadRequest)
@@ -47,4 +60,5 @@ internal sealed class UpdatePart : IEndpoint
 
 internal sealed record UpdatePartRequestDto(
 string? Name,
-string? PartType);
+string? PartType,
+int? Quantity);

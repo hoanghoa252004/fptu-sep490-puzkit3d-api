@@ -1510,9 +1510,12 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
 
                     b.Property<string>("PartType")
                         .IsRequired()
-                        .HasMaxLength(30)
-                        .HasColumnType("character varying(30)")
+                        .HasColumnType("text")
                         .HasColumnName("part_type");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("integer")
+                        .HasColumnName("quantity");
 
                     b.HasKey("Id")
                         .HasName("pk_parts");
@@ -1521,35 +1524,6 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                         .HasDatabaseName("ix_parts_instock_product_id");
 
                     b.ToTable("parts", "instock");
-                });
-
-            modelBuilder.Entity("PuzKit3D.Modules.InStock.Domain.Entities.Pieces.Piece", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uuid")
-                        .HasColumnName("id");
-
-                    b.Property<string>("Code")
-                        .IsRequired()
-                        .HasMaxLength(10)
-                        .HasColumnType("character varying(10)")
-                        .HasColumnName("code");
-
-                    b.Property<Guid>("PartId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("part_id");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("integer")
-                        .HasColumnName("quantity");
-
-                    b.HasKey("Id")
-                        .HasName("pk_pieces");
-
-                    b.HasIndex("PartId")
-                        .HasDatabaseName("ix_pieces_part_id");
-
-                    b.ToTable("pieces", "instock");
                 });
 
             modelBuilder.Entity("PuzKit3D.Modules.InStock.Domain.Entities.Replicas.AssemblyMethodReplica", b =>
@@ -2033,16 +2007,6 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                         .HasConstraintName("FK__instock_product__part");
                 });
 
-            modelBuilder.Entity("PuzKit3D.Modules.InStock.Domain.Entities.Pieces.Piece", b =>
-                {
-                    b.HasOne("PuzKit3D.Modules.InStock.Domain.Entities.Parts.Part", null)
-                        .WithMany("Pieces")
-                        .HasForeignKey("PartId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
-                        .HasConstraintName("FK__part__piece");
-                });
-
             modelBuilder.Entity("PuzKit3D.Modules.InStock.Domain.Entities.InstockOrders.InstockOrder", b =>
                 {
                     b.Navigation("OrderDetails");
@@ -2053,11 +2017,6 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                     b.Navigation("CapabilityDetails");
 
                     b.Navigation("Parts");
-                });
-
-            modelBuilder.Entity("PuzKit3D.Modules.InStock.Domain.Entities.Parts.Part", b =>
-                {
-                    b.Navigation("Pieces");
                 });
 #pragma warning restore 612, 618
         }

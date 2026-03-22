@@ -22,11 +22,14 @@ internal sealed class PartConfiguration : IEntityTypeConfiguration<Part>
 
         builder.Property(p => p.PartType)
             .IsRequired()
-            .HasMaxLength(30);
+            .HasConversion<string>();
 
         builder.Property(p => p.Code)
             .IsRequired()
             .HasMaxLength(10);
+
+        builder.Property(p => p.Quantity)
+            .IsRequired();
 
         builder.Property(p => p.InstockProductId)
             .HasConversion(
@@ -39,9 +42,6 @@ internal sealed class PartConfiguration : IEntityTypeConfiguration<Part>
             .HasForeignKey(p => p.InstockProductId)
             .HasConstraintName("FK__instock_product__part")
             .OnDelete(DeleteBehavior.Cascade);
-
-        builder.Navigation(p => p.Pieces)
-            .UsePropertyAccessMode(PropertyAccessMode.Field);
 
         builder.Ignore(p => p.DomainEvents);
     }

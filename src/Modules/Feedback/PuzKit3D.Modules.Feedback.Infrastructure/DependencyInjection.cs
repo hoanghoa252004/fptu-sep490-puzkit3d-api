@@ -13,8 +13,11 @@ public static class DependencyInjection
         this IServiceCollection services)
     {
         // InstockOrder events
-        services.AddScoped<IIntegrationEventHandler<InstockOrderCompletedIntegrationEvent>,
-            InstockOrderCompletedIntegrationEventHandler>();
+        services.AddScoped<IIntegrationEventHandler<InstockOrderCreatedIntegrationEvent>,
+            InstockOrderCreatedIntegrationEventHandler>();
+
+        services.AddScoped<IIntegrationEventHandler<InstockOrderStatusChangedIntegrationEvent>,
+            InstockOrderStatusChangedIntegrationEventHandler>();
 
         // InstockProduct events
         services.AddScoped<IIntegrationEventHandler<InstockProductCreatedIntegrationEvent>,

@@ -16,14 +16,13 @@ internal sealed class DeleteFeedback : IEndpoint
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
         app.MapFeedbacksGroup()
-            .MapDelete("/orders/{orderId}/feedbacks/{feedbackId}", async (
-                [FromRoute] Guid orderId,
+            .MapDelete("/feedbacks/{feedbackId}", async (
                 [FromRoute] Guid feedbackId,
                 ICurrentUser currentUser = null!,
                 ISender sender = null!,
                 CancellationToken cancellationToken = default) =>
             {
-                var command = new DeleteFeedbackCommand(orderId, feedbackId, Guid.Parse(currentUser.UserId!));
+                var command = new DeleteFeedbackCommand(feedbackId, Guid.Parse(currentUser.UserId!));
                 var result = await sender.Send(command, cancellationToken);
 
                 return result.MatchOk(() => Results.NoContent());
@@ -31,7 +30,6 @@ internal sealed class DeleteFeedback : IEndpoint
             .WithName("DeleteFeedback")
             .WithSummary("Delete a feedback")
             .WithDescription("Allows a customer to delete their feedback for an order.")
-            .WithOpenApi()
             .RequireAuthorization(policy => policy.RequireRole(Roles.Customer))
             .ProducesProblem(StatusCodes.Status401Unauthorized)
             .ProducesProblem(StatusCodes.Status403Forbidden)

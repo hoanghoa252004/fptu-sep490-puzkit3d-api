@@ -16,27 +16,26 @@ internal sealed class CreateFeedback : IEndpoint
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
         app.MapFeedbacksGroup()
-            .MapPost("/orders/{orderId}/feedbacks", async (
-                [FromRoute] Guid orderId,
+            .MapPost("/feedbacks", async (
                 [FromBody] CreateFeedbackRequestDto request,
                 ICurrentUser currentUser = null!,
                 ISender sender = null!,
                 CancellationToken cancellationToken = default) =>
             {
                 var command = new CreateFeedbackCommand(
-                    orderId,
+                    request.OrderId,
+                    request.OrderDetailId,
                     Guid.Parse(currentUser.UserId!),
                     request.Rating,
                     request.Comment);
 
                 var result = await sender.Send(command, cancellationToken);
 
-                return result.MatchOk(id => Results.Created($"/api/orders/{orderId}/feedbacks/{id}", id));
+                return result.MatchOk(id => Results.Created($"/api/feedbacks/{id}", id));
             })
             .WithName("CreateFeedback")
             .WithSummary("Create a feedback for an order")
             .WithDescription("Allows a customer to create a feedback for an order. Each customer can only create one feedback per order.")
-            .WithOpenApi()
             .RequireAuthorization(policy => policy.RequireRole(Roles.Customer))
             .Produces<Guid>(StatusCodes.Status201Created)
             .ProducesValidationProblem(StatusCodes.Status400BadRequest)
@@ -49,5 +48,7 @@ internal sealed class CreateFeedback : IEndpoint
 }
 
 internal sealed record CreateFeedbackRequestDto(
+Guid OrderId,
+Guid? OrderDetailId,
 int Rating,
 string? Comment = null);

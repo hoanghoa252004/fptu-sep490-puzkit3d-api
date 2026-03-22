@@ -178,10 +178,10 @@ public sealed class InstockOrder : AggregateRoot<InstockOrderId>
         RaiseStatusChangedEvent();
 
         // Raise specific completed event for Feedback module
-        if (newStatus == InstockOrderStatus.Completed)
-        {
-            RaiseOrderCompletedEvent();
-        }
+        //if (newStatus == InstockOrderStatus.Completed)
+        //{
+        //    RaiseOrderCompletedEvent();
+        //}
 
         return Result.Success();
     }
@@ -278,7 +278,7 @@ public sealed class InstockOrder : AggregateRoot<InstockOrderId>
         Status = InstockOrderStatus.Completed;
         UpdatedAt = DateTime.UtcNow;
 
-        RaiseOrderCompletedEvent();
+        //RaiseOrderCompletedEvent();
 
         return Result.Success();
     }
@@ -346,6 +346,12 @@ public sealed class InstockOrder : AggregateRoot<InstockOrderId>
 
     public void RaiseOrderCreatedEvent(List<Guid> cartItemIds)
     {
+        var orderDetails = _orderDetails.Select(od => new OrderDetailInfo(
+            od.Id.Value,
+            od.InstockProductVariantId.Value,
+            od.Quantity))
+            .ToList();
+
         RaiseDomainEvent(new InstockOrderCreatedDomainEvent(
             Id.Value,
             Code,
@@ -356,7 +362,8 @@ public sealed class InstockOrder : AggregateRoot<InstockOrderId>
             Status.ToString(),
             PaymentMethod,
             IsPaid,
-            PaidAt));
+            PaidAt,
+            orderDetails));
     }
 
     private void RaiseStatusChangedEvent()
@@ -366,21 +373,6 @@ public sealed class InstockOrder : AggregateRoot<InstockOrderId>
             Code,
             CustomerId,
             Status,
-            UpdatedAt));
-    }
-
-    private void RaiseOrderCompletedEvent()
-    {
-        var orderDetails = _orderDetails.Select(od => new OrderDetailInfo(
-            od.Id.Value,
-            od.InstockProductVariantId.Value))
-            .ToList();
-
-        RaiseDomainEvent(new InstockOrderCompletedDomainEvent(
-            Id.Value,
-            Code,
-            CustomerId,
-            orderDetails,
             UpdatedAt));
     }
 }

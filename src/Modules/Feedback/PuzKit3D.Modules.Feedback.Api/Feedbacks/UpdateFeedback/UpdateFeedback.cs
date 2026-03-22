@@ -16,8 +16,7 @@ internal sealed class UpdateFeedback : IEndpoint
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
         app.MapFeedbacksGroup()
-            .MapPut("/orders/{orderId}/feedbacks/{feedbackId}", async (
-                [FromRoute] Guid orderId,
+            .MapPut("/feedbacks/{feedbackId}", async (
                 [FromRoute] Guid feedbackId,
                 [FromBody] UpdateFeedbackRequestDto request,
                 ICurrentUser currentUser = null!,
@@ -25,7 +24,6 @@ internal sealed class UpdateFeedback : IEndpoint
                 CancellationToken cancellationToken = default) =>
             {
                 var command = new UpdateFeedbackCommand(
-                    orderId,
                     feedbackId,
                     Guid.Parse(currentUser.UserId!),
                     request.Rating,
@@ -38,7 +36,6 @@ internal sealed class UpdateFeedback : IEndpoint
             .WithName("UpdateFeedback")
             .WithSummary("Update a feedback")
             .WithDescription("Allows a customer to update their feedback for an order. Only the rating and comment can be updated.")
-            .WithOpenApi()
             .RequireAuthorization(policy => policy.RequireRole(Roles.Customer))
             .ProducesValidationProblem(StatusCodes.Status400BadRequest)
             .ProducesProblem(StatusCodes.Status401Unauthorized)

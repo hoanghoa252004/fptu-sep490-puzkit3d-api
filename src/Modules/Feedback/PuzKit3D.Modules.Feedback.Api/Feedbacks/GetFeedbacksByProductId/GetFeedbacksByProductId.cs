@@ -43,7 +43,6 @@ internal sealed class GetFeedbacksByProductId : IEndpoint
             .WithName("GetFeedbacksByProductId")
             .WithSummary("Get all feedbacks for a product")
             .WithDescription("Retrieves all feedbacks for a specific product with optional rating filter and pagination.")
-            .WithOpenApi()
             .Produces<PagedResult<FeedbackDto>>(StatusCodes.Status200OK)
             .ProducesProblem(StatusCodes.Status404NotFound)
             .ProducesProblem(StatusCodes.Status500InternalServerError)

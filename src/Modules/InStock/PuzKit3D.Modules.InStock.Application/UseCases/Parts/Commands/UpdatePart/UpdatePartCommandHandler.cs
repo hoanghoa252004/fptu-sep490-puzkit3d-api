@@ -40,7 +40,7 @@ internal sealed class UpdatePartCommandHandler : ICommandHandler<UpdatePartComma
 
         return await _unitOfWork.ExecuteAsync(async () =>
         {
-            var updateResult = part.PartialUpdate(request.Name, request.PartType);
+            var updateResult = part.PartialUpdate(request.Name, request.PartType, request.Quantity);
 
             if (updateResult.IsFailure)
             {
