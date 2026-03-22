@@ -35,4 +35,20 @@ public static class PartnerProductError
     public static Error DuplicateSlug(string slug) => Error.Conflict(
         "PartnerProduct.DuplicateSlug",
         $"Partner product with slug '{slug}' already exists for this partner.");
+
+    public static Error AlreadyActive(Guid id) => Error.Validation(
+        "PartnerProduct.AlreadyActive",
+        $"Partner product with ID '{id}' is already active.");
+
+    public static Error AlreadyInactive(Guid id) => Error.Validation(
+        "PartnerProduct.AlreadyInactive",
+        $"Partner product with ID '{id}' is already inactive.");
+
+    public static Error InvalidThumbnailUrl() => Error.Validation(
+        "PartnerProduct.InvalidThumbnailUrl",
+        "Thumbnail URL cannot be empty.");
+
+    public static Error InvalidPreviewAsset() => Error.Validation(
+        "PartnerProduct.InvalidPreviewAsset",
+        "Preview asset cannot be empty.");
 }

@@ -1,7 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using PuzKit3D.Modules.Partner.Application.Repositories;
 using PuzKit3D.Modules.Partner.Application.UnitOfWork;
+using PuzKit3D.Modules.Partner.Persistence.Repositories;
 using PuzKit3D.SharedKernel.Infrastructure.Data;
 
 namespace PuzKit3D.Modules.Partner.Persistence;
@@ -34,6 +36,8 @@ public static class DependencyInjection
         });
 
         services.AddScoped<IPartnerUnitOfWork>(sp => sp.GetRequiredService<PartnerDbContext>());
+        services.AddScoped<IPartnerRepository, PartnerRepository>();
+        services.AddScoped<IPartnerProductRepository, PartnerProductRepository>();
 
         return services;
     }

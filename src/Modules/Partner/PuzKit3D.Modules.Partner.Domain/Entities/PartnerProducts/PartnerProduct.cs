@@ -1,3 +1,4 @@
+using PuzKit3D.Modules.Partner.Domain.Entities.PartnerProducts.DomainEvents;
 using PuzKit3D.Modules.Partner.Domain.Entities.Partners;
 using PuzKit3D.SharedKernel.Domain;
 using PuzKit3D.SharedKernel.Domain.Results;
@@ -65,6 +66,12 @@ public class PartnerProduct : AggregateRoot<PartnerProductId>
         if (referencePrice < 0)
             return Result.Failure<PartnerProduct>(PartnerProductError.InvalidReferencePrice());
 
+        if (string.IsNullOrWhiteSpace(thumbnailUrl))
+            return Result.Failure<PartnerProduct>(PartnerProductError.InvalidThumbnailUrl());
+
+        if (string.IsNullOrWhiteSpace(previewAsset))
+            return Result.Failure<PartnerProduct>(PartnerProductError.InvalidPreviewAsset());
+
         if (string.IsNullOrWhiteSpace(slug))
             return Result.Failure<PartnerProduct>(PartnerProductError.InvalidSlug());
 
@@ -86,6 +93,18 @@ public class PartnerProduct : AggregateRoot<PartnerProductId>
             isActive,
             timestamp);
 
+        product.RaiseDomainEvent(new PartnerProductCreatedDomainEvent(
+            product.Id.Value,
+            product.PartnerId.Value,
+            product.Name,
+            product.ReferencePrice,
+            product.ThumbnailUrl,
+            product.PreviewAsset,
+            product.Slug,
+            product.Description,
+            product.IsActive,
+            product.CreatedAt));
+
         return Result.Success(product);
     }
 
@@ -106,6 +125,12 @@ public class PartnerProduct : AggregateRoot<PartnerProductId>
         if (referencePrice < 0)
             return Result.Failure(PartnerProductError.InvalidReferencePrice());
 
+        if (string.IsNullOrWhiteSpace(thumbnailUrl))
+            return Result.Failure(PartnerProductError.InvalidThumbnailUrl());
+
+        if (string.IsNullOrWhiteSpace(previewAsset))
+            return Result.Failure(PartnerProductError.InvalidPreviewAsset());
+
         if (string.IsNullOrWhiteSpace(slug))
             return Result.Failure(PartnerProductError.InvalidSlug());
 
@@ -120,6 +145,17 @@ public class PartnerProduct : AggregateRoot<PartnerProductId>
         Description = description;
         UpdatedAt = DateTime.UtcNow;
 
+        RaiseDomainEvent(new PartnerProductUpdatedDomainEvent(
+            Id.Value,
+            PartnerId.Value,
+            Name,
+            ReferencePrice,
+            ThumbnailUrl,
+            PreviewAsset,
+            Slug,
+            Description,
+            UpdatedAt));
+
         return Result.Success();
     }
 
@@ -127,11 +163,15 @@ public class PartnerProduct : AggregateRoot<PartnerProductId>
     {
         IsActive = true;
         UpdatedAt = DateTime.UtcNow;
+
+        RaiseDomainEvent(new PartnerProductActivatedDomainEvent(Id.Value, UpdatedAt));
     }
 
     public void Deactivate()
     {
         IsActive = false;
         UpdatedAt = DateTime.UtcNow;
+
+        RaiseDomainEvent(new PartnerProductDeletedDomainEvent(Id.Value, UpdatedAt));
     }
 }

@@ -31,4 +31,12 @@ public static class PartnerError
     public static Error DuplicateSlug(string slug) => Error.Conflict(
         "Partner.DuplicateSlug",
         $"Partner with slug '{slug}' already exists.");
+
+    public static Error AlreadyInactive(Guid id) => Error.Conflict(
+        "Partner.AlreadyInactive",
+        $"Partner with ID '{id}' is already inactive.");
+
+    public static Error AlreadyActive(Guid id) => Error.Conflict(
+        "Partner.AlreadyActive",
+        $"Partner with ID '{id}' is already active.");
 }

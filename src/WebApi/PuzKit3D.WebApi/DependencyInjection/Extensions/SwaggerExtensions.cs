@@ -96,7 +96,11 @@ internal static class SwaggerExtensions
                                 || routePath.StartsWith("api/auth")
                                 || routePath.StartsWith("api/profile"),
 
-                    "partner" => routePath.StartsWith("api/partnerXXX"),
+                    "partner" => routePath.StartsWith("api/partner-products") 
+                                || routePath.StartsWith("api/partners")
+                                || routePath.StartsWith("api/partner-requests")
+                                || routePath.StartsWith("api/partner-quotations")
+                                || routePath.StartsWith("api/partner-orders"),
 
                     "payment" => routePath.StartsWith("api/payments")
                                 || routePath.StartsWith("api/ipn")
