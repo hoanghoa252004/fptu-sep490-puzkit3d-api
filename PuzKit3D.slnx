@@ -80,6 +80,13 @@
     <Project Path="src/Modules/Payment/PuzKit3D.Modules.Payment.Infrastructure/PuzKit3D.Modules.Payment.Infrastructure.csproj" Id="ee9e1c5d-1417-405b-bfcb-cf5fad4e526a" />
     <Project Path="src/Modules/Payment/PuzKit3D.Modules.Payment.Persistence/PuzKit3D.Modules.Payment.Persistence.csproj" Id="f6b6e4d3-f3bb-42af-a38d-bae4169ab586" />
   </Folder>
+  <Folder Name="/src/Modules/SupportTicket/">
+    <Project Path="src/Modules/SupportTicket/PuzKit3D.Modules.SupportTicket.Api/PuzKit3D.Modules.SupportTicket.Api.csproj" Id="1461f986-8dbb-47b0-842c-0c3c77b33456" />
+    <Project Path="src/Modules/SupportTicket/PuzKit3D.Modules.SupportTicket.Application/PuzKit3D.Modules.SupportTicket.Application.csproj" Id="97015b9f-2bcc-49c6-91f5-532d92033663" />
+    <Project Path="src/Modules/SupportTicket/PuzKit3D.Modules.SupportTicket.Domain/PuzKit3D.Modules.SupportTicket.Domain.csproj" Id="ebe4b7cd-f756-444b-b963-c79f844e51dc" />
+    <Project Path="src/Modules/SupportTicket/PuzKit3D.Modules.SupportTicket.Infrastructure/PuzKit3D.Modules.SupportTicket.Infrastructure.csproj" Id="877b03c1-54a7-4e2a-b803-55097a7acf2f" />
+    <Project Path="src/Modules/SupportTicket/PuzKit3D.Modules.SupportTicket.Persistence/PuzKit3D.Modules.SupportTicket.Persistence.csproj" Id="06f59fc0-969c-42b2-ad6d-c96f336e7088" />
+  </Folder>
   <Folder Name="/src/Modules/User/">
     <Project Path="src/Modules/User/PuzKit3D.Modules.User.Api/PuzKit3D.Modules.User.Api.csproj" Id="bf1d8c89-d765-46e3-a01e-c48ec187b781" />
     <Project Path="src/Modules/User/PuzKit3D.Modules.User.Application/PuzKit3D.Modules.User.Application.csproj" Id="9381a79e-86a8-4a57-857c-3e0d579b727e" />
