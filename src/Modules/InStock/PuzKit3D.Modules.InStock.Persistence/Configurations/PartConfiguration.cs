@@ -43,9 +43,6 @@ internal sealed class PartConfiguration : IEntityTypeConfiguration<Part>
             .HasConstraintName("FK__instock_product__part")
             .OnDelete(DeleteBehavior.Cascade);
 
-        builder.Navigation(p => p.Pieces)
-            .UsePropertyAccessMode(PropertyAccessMode.Field);
-
         builder.Ignore(p => p.DomainEvents);
     }
 }

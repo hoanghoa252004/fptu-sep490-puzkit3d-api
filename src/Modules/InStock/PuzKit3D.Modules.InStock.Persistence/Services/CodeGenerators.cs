@@ -64,38 +64,6 @@ internal sealed class PartCodeGenerator : IPartCodeGenerator
     }
 }
 
-internal sealed class PieceCodeGenerator : IPieceCodeGenerator
-{
-    private readonly InStockDbContext _context;
-
-    public PieceCodeGenerator(InStockDbContext context)
-    {
-        _context = context;
-    }
-
-    public async Task<string> GenerateNextCodeAsync(CancellationToken cancellationToken = default)
-    {
-        var allCodes = await _context.InstockProducts
-            .SelectMany(p => p.Parts)
-            .SelectMany(part => part.Pieces)
-            .Where(piece => piece.Code.StartsWith("PIE") && piece.Code.Length == 8)
-            .Select(piece => piece.Code)
-            .ToListAsync(cancellationToken);
-
-        if (!allCodes.Any())
-        {
-            return "PIE00001";
-        }
-
-        var maxCode = allCodes
-            .Select(code => int.TryParse(code.Substring(3), out var num) ? num : 0)
-            .Max();
-
-        var nextNumber = maxCode + 1;
-        return $"PIE{nextNumber:D5}";
-    }
-}
-
 internal sealed class InstockProductVariantSkuGenerator : IInstockProductVariantSkuGenerator
 {
     private readonly InStockDbContext _context;

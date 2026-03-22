@@ -37,17 +37,12 @@ internal sealed class GetPartByIdQueryHandler : IQueryHandler<GetPartByIdQuery, 
                 PartError.NotFound(request.PartId));
         }
 
-        var pieces = part.Pieces
-            .Select(p => new PieceDto(p.Id.Value, p.Code, p.Quantity))
-            .ToList();
-
         var response = new GetPartByIdResponseDto(
             part.Id.Value,
             part.Name,
             part.PartType.ToString(),
             part.Code,
-            part.Quantity,
-            pieces);
+            part.Quantity);
 
         return Result.Success(response);
     }

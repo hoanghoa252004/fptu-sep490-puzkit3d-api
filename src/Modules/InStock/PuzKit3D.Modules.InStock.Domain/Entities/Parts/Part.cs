@@ -1,5 +1,4 @@
 using PuzKit3D.Modules.InStock.Domain.Entities.InstockProducts;
-using PuzKit3D.Modules.InStock.Domain.Entities.Pieces;
 using PuzKit3D.SharedKernel.Domain;
 using PuzKit3D.SharedKernel.Domain.Results;
 using System.Text.RegularExpressions;
@@ -9,15 +8,12 @@ namespace PuzKit3D.Modules.InStock.Domain.Entities.Parts;
 public sealed partial class Part : Entity<PartId>
 {
     private static readonly Regex CodeRegex = CodeRegexPattern();
-    private readonly List<Piece> _pieces = new();
 
     public string Name { get; private set; } = null!;
     public PartType PartType { get; private set; }
     public string Code { get; private set; } = null!;
     public int Quantity { get; private set; }
     public InstockProductId InstockProductId { get; private set; } = null!;
-
-    public IReadOnlyCollection<Piece> Pieces => _pieces.AsReadOnly();
 
     [GeneratedRegex(@"^PAR\d{4}$", RegexOptions.Compiled)]
     private static partial Regex CodeRegexPattern();
@@ -121,21 +117,6 @@ public sealed partial class Part : Entity<PartId>
         }
 
         return Result.Success();
-    }
-
-    public void Delete()
-    {
-        // Hard delete - no domain event needed as we're removing the aggregate
-    }
-
-    public void AddPiece(Piece piece)
-    {
-        _pieces.Add(piece);
-    }
-
-    public void RemovePiece(Piece piece)
-    {
-        _pieces.Remove(piece);
     }
 }
 

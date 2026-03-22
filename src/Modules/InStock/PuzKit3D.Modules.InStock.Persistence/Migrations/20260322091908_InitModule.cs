@@ -298,28 +298,6 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "pieces",
-                schema: "instock",
-                columns: table => new
-                {
-                    id = table.Column<Guid>(type: "uuid", nullable: false),
-                    code = table.Column<string>(type: "character varying(10)", maxLength: 10, nullable: false),
-                    quantity = table.Column<int>(type: "integer", nullable: false),
-                    part_id = table.Column<Guid>(type: "uuid", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("pk_pieces", x => x.id);
-                    table.ForeignKey(
-                        name: "FK__part__piece",
-                        column: x => x.part_id,
-                        principalSchema: "instock",
-                        principalTable: "parts",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "instock_order_details",
                 schema: "instock",
                 columns: table => new
@@ -651,12 +629,6 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                 column: "instock_product_id");
 
             migrationBuilder.CreateIndex(
-                name: "ix_pieces_part_id",
-                schema: "instock",
-                table: "pieces",
-                column: "part_id");
-
-            migrationBuilder.CreateIndex(
                 name: "UK__topic_replica__slug",
                 schema: "instock",
                 table: "topic_replicas",
@@ -692,7 +664,7 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                 schema: "instock");
 
             migrationBuilder.DropTable(
-                name: "pieces",
+                name: "parts",
                 schema: "instock");
 
             migrationBuilder.DropTable(
@@ -705,10 +677,6 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
 
             migrationBuilder.DropTable(
                 name: "instock_product_price_details",
-                schema: "instock");
-
-            migrationBuilder.DropTable(
-                name: "parts",
                 schema: "instock");
 
             migrationBuilder.DropTable(
