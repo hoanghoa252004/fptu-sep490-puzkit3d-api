@@ -1,6 +1,8 @@
 using Microsoft.Extensions.DependencyInjection;
 using PuzKit3D.Contract.InStock.InstockOrders;
+using PuzKit3D.Contract.InStock.Part;
 using PuzKit3D.Modules.SupportTicket.Infrastructure.IntegrationEventHandlers.InstockOrders;
+using PuzKit3D.Modules.SupportTicket.Infrastructure.IntegrationEventHandlers.Parts;
 using PuzKit3D.SharedKernel.Application.Event;
 
 namespace PuzKit3D.Modules.SupportTicket.Infrastructure;
@@ -13,6 +15,16 @@ public static class DependencyInjection
         //// InstockOrder events
         services.AddScoped<IIntegrationEventHandler<InstockOrderCreatedIntegrationEvent>,
             InstockOrderCreatedIntegrationEventHandler>();
+
+        //// Part events
+        services.AddScoped<IIntegrationEventHandler<PartCreatedIntegrationEvent>,
+            PartCreatedIntegrationEventHandler>();
+
+        services.AddScoped<IIntegrationEventHandler<PartUpdatedIntegrationEvent>,
+            PartUpdatedIntegrationEventHandler>();
+
+        services.AddScoped<IIntegrationEventHandler<PartDeletedIntegrationEvent>,
+            PartDeletedIntegrationEventHandler>();
 
         services.AddScoped<IIntegrationEventHandler<InstockOrderStatusChangedIntegrationEvent>,
             InstockOrderStatusChangedIntegrationEventHandler>();

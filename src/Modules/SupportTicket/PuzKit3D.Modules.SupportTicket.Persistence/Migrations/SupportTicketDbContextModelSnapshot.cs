@@ -104,6 +104,56 @@ namespace PuzKit3D.Modules.SupportTicket.Persistence.Migrations
                     b.ToTable("order_replicas", "support_ticket");
                 });
 
+            modelBuilder.Entity("PuzKit3D.Modules.SupportTicket.Domain.Entities.PartReplicas.PartReplica", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("character varying(10)")
+                        .HasColumnName("code");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at");
+
+                    b.Property<Guid>("InstockProductId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("instock_product_id");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("character varying(30)")
+                        .HasColumnName("name");
+
+                    b.Property<Guid>("PartId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("part_id");
+
+                    b.Property<string>("PartType")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("part_type");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("integer")
+                        .HasColumnName("quantity");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("updated_at");
+
+                    b.HasKey("Id")
+                        .HasName("pk_part_replicas");
+
+                    b.ToTable("part_replicas", "support_ticket");
+                });
+
             modelBuilder.Entity("PuzKit3D.Modules.SupportTicket.Domain.Entities.SupportTicketDetails.SupportTicketDetail", b =>
                 {
                     b.Property<Guid>("Id")
