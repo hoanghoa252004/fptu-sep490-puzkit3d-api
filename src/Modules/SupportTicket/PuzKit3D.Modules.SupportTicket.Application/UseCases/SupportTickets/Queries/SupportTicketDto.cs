@@ -7,9 +7,10 @@ public sealed record SupportTicketDto(
     Guid Id,
     Guid UserId,
     Guid OrderId,
-    SupportTicketType Type,
-    SupportTicketStatus Status,
+    string Type,
+    string Status,
     string Reason,
     string Proof,
     DateTime CreatedAt,
-    DateTime UpdatedAt);
+    DateTime UpdatedAt,
+    IReadOnlyList<SupportTicketDetailDto> Details);

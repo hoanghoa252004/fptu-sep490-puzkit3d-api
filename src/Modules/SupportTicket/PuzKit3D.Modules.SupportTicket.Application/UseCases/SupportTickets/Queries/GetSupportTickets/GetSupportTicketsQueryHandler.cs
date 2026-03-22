@@ -63,12 +63,20 @@ internal sealed class GetSupportTicketsQueryHandler
             st.Id.Value,
             st.UserId,
             st.OrderId,
-            st.Type,
-            st.Status,
+            st.Type.ToString(),
+            st.Status.ToString(),
             st.Reason,
             st.Proof,
             st.CreatedAt,
-            st.UpdatedAt)).ToList();
+            st.UpdatedAt,
+            st.Details
+                .Select(d => new SupportTicketDetailDto(
+                    d.Id.Value,
+                    d.OrderItemId,
+                    d.PartId,
+                    d.Quantity,
+                    d.Note))
+                .ToList())).ToList();
 
         var pagedResult = new PagedResult<SupportTicketDto>(
             dtos,

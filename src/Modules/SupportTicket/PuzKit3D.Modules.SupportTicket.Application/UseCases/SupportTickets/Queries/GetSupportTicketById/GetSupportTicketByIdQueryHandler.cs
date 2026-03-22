@@ -29,16 +29,26 @@ internal sealed class GetSupportTicketByIdQueryHandler
 
         var ticket = result.Value;
 
-        var dto =  new SupportTicketDto(
+        var details = ticket.Details
+            .Select(d => new SupportTicketDetailDto(
+                d.Id.Value,
+                d.OrderItemId,
+                d.PartId,
+                d.Quantity,
+                d.Note))
+            .ToList();
+
+        var dto = new SupportTicketDto(
             ticket.Id.Value,
             ticket.UserId,
             ticket.OrderId,
-            ticket.Type,
-            ticket.Status,
+            ticket.Type.ToString(),
+            ticket.Status.ToString(),
             ticket.Reason,
             ticket.Proof,
             ticket.CreatedAt,
-            ticket.UpdatedAt);
+            ticket.UpdatedAt,
+            details);
         return Result.Success(dto);
     }
 }
