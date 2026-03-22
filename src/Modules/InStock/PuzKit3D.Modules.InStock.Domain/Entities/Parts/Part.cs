@@ -1,4 +1,5 @@
 using PuzKit3D.Modules.InStock.Domain.Entities.InstockProducts;
+using PuzKit3D.Modules.InStock.Domain.Entities.Parts.DomainEvents;
 using PuzKit3D.SharedKernel.Domain;
 using PuzKit3D.SharedKernel.Domain.Results;
 using System.Text.RegularExpressions;
@@ -62,6 +63,14 @@ public sealed partial class Part : Entity<PartId>
         var partId = PartId.Create();
         var part = new Part(partId, name, partType, code, quantity, instockProductId);
 
+        part.RaiseDomainEvent(new PartCreatedDomainEvent(
+            part.Id.Value,
+            part.Name,
+            part.PartType.ToString(),
+            part.Code,
+            part.Quantity,
+            part.InstockProductId.Value));
+
         return Result.Success(part);
     }
 
@@ -87,11 +96,21 @@ public sealed partial class Part : Entity<PartId>
         Code = code;
         Quantity = quantity;
 
+        RaiseDomainEvent(new PartUpdatedDomainEvent(
+                Id.Value,
+                Name,
+                PartType.ToString(),
+                Code,
+                Quantity,
+                InstockProductId.Value));
+
         return Result.Success();
     }
 
     public Result PartialUpdate(string? name = null, PartType? partType = null, int? quantity = null)
     {
+        var hasChanges = false;
+
         if (name is not null)
         {
             if (string.IsNullOrWhiteSpace(name))
@@ -101,11 +120,13 @@ public sealed partial class Part : Entity<PartId>
                 return Result.Failure(PartError.NameTooLong(name.Length));
 
             Name = name;
+            hasChanges = true;
         }
 
         if (partType is not null)
         {
             PartType = partType.Value;
+            hasChanges = true;
         }
 
         if (quantity is not null)
@@ -114,8 +135,27 @@ public sealed partial class Part : Entity<PartId>
                 return Result.Failure(PartError.InvalidQuantity());
 
             Quantity = quantity.Value;
+            hasChanges = true;
         }
 
+        if (hasChanges)
+        {
+            RaiseDomainEvent(new PartUpdatedDomainEvent(
+                Id.Value,
+                Name,
+                PartType.ToString(),
+                Code,
+                Quantity,
+                InstockProductId.Value));
+        }
+
+        return Result.Success();
+    }
+
+    public Result Delete()
+    {
+        RaiseDomainEvent(new PartDeletedDomainEvent(
+                Id.Value));
         return Result.Success();
     }
 }

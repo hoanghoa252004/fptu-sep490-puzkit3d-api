@@ -1,6 +1,7 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using PuzKit3D.Modules.SupportTicket.Application.UnitOfWork;
+using PuzKit3D.Modules.SupportTicket.Domain.Entities.PartReplicas;
 using PuzKit3D.Modules.SupportTicket.Persistence.Configurations;
 using SupportTicketEntity = PuzKit3D.Modules.SupportTicket.Domain.Entities.SupportTickets.SupportTicket;
 using SupportTicketDetailEntity = PuzKit3D.Modules.SupportTicket.Domain.Entities.SupportTicketDetails.SupportTicketDetail;
@@ -27,6 +28,7 @@ public sealed class SupportTicketDbContext : DbContext, ISupportTicketUnitOfWork
     public DbSet<SupportTicketDetailEntity> SupportTicketDetails => Set<SupportTicketDetailEntity>();
     public DbSet<OrderReplicaEntity> OrderReplicas => Set<OrderReplicaEntity>();
     public DbSet<OrderDetailReplicaEntity> OrderDetailReplicas => Set<OrderDetailReplicaEntity>();
+    public DbSet<PartReplica> PartReplicas => Set<PartReplica>();
 
     protected override void OnModelCreating(ModelBuilder builder)
     {

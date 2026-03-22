@@ -11,7 +11,7 @@ using PuzKit3D.SharedKernel.Api.Endpoint;
 using PuzKit3D.SharedKernel.Api.Results.Extensions;
 using PuzKit3D.SharedKernel.Domain.Results;
 
-namespace PuzKit3D.Modules.InStock.Api.InstockOrders.GetGhnOrderCode;
+namespace PuzKit3D.Modules.InStock.Api.InstockOrders.CreateDeliverTrackingOrder;
 
 internal sealed class CreateDeliverTrackingOrder : IEndpoint
 {

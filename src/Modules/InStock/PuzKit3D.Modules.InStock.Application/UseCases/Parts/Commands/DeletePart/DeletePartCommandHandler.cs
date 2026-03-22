@@ -40,6 +40,7 @@ internal sealed class DeletePartCommandHandler : ICommandHandler<DeletePartComma
 
         return await _unitOfWork.ExecuteAsync(async () =>
         {
+            part.Delete();
             product.RemovePart(part);
             _productRepository.Update(product);
 
