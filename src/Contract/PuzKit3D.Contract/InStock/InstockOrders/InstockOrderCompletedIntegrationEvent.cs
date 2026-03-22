@@ -14,4 +14,5 @@ public sealed record InstockOrderCompletedIntegrationEvent(
 public sealed record OrderDetailCompletedInfo(
     Guid OrderDetailId,
     Guid VariantId,
-    Guid ProductId);
+    Guid ProductId,
+    int Quantity);

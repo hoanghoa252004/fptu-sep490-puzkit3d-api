@@ -31,6 +31,9 @@ using PuzKit3D.Modules.Payment.Api;
 using PuzKit3D.Modules.Payment.Application;
 using PuzKit3D.Modules.Payment.Infrastructure;
 using PuzKit3D.Modules.Payment.Persistence;
+using PuzKit3D.Modules.SupportTicket.Api;
+using PuzKit3D.Modules.SupportTicket.Application;
+using PuzKit3D.Modules.SupportTicket.Persistence;
 using PuzKit3D.Modules.User.Api;
 using PuzKit3D.Modules.User.Application;
 using PuzKit3D.SharedKernel.Api.Endpoint;
@@ -63,7 +66,8 @@ builder.Services.AddSharedKernelApplication(
         NotificationApplicationAssembly.Assembly,
         MediaApplicationAssembly.Assembly,
         DeliveryApplicationAssembly.Assembly,
-        FeedbackApplicationAssembly.Assembly
+        FeedbackApplicationAssembly.Assembly,
+        SupportTicketApplicationAssembly.Assembly,
     } 
 );
 
@@ -80,7 +84,8 @@ builder.Services.AddEndpointsFromAssembly(
        NotificationApiAssembly.Assembly,
        MediaApiAssembly.Assembly,
        DeliveryApiAssembly.Assembly,
-       FeedbackApiAssembly.Assembly
+       FeedbackApiAssembly.Assembly,
+       SupportTicketApiAssembly.Assembly,
     }
 );
 
@@ -91,6 +96,7 @@ builder.Services.AddCartPersistence(builder.Configuration);
 builder.Services.AddPartnerPersistence(builder.Configuration);
 builder.Services.AddPaymentPersistence(builder.Configuration);
 builder.Services.AddFeedbackPersistence(builder.Configuration);
+builder.Services.AddSupportTicketPersistence(builder.Configuration);
 
 // Add Infrastructure services (Domain Event Handlers, Integration Event Handlers):
 builder.Services.AddInStockInfrastructure(builder.Configuration);
@@ -127,6 +133,7 @@ app.UseSwaggerUI(options =>
     options.SwaggerEndpoint("/swagger/media/swagger.json", "8. Media Module");
     options.SwaggerEndpoint("/swagger/delivery/swagger.json", "9. Delivery Module");
     options.SwaggerEndpoint("/swagger/feedback/swagger.json", "10. Feedback Module");
+    options.SwaggerEndpoint("/swagger/support-tickets/swagger.json", "11. Support Ticket");
     // Main API document
     options.SwaggerEndpoint("/swagger/v1/swagger.json", "All Modules");
 

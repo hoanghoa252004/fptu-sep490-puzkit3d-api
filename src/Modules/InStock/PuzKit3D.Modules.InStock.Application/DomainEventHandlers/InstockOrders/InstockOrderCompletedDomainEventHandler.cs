@@ -36,11 +36,12 @@ internal sealed class InstockOrderCompletedDomainEventHandler
             orderDetails.Add(new OrderDetailCompletedInfo(
                 detail.OrderDetailId,
                 detail.VariantId,
-                productId!.Value));
+                productId!.Value,
+                detail.Quantity));
         }
 
         var integrationEvent = new InstockOrderCompletedIntegrationEvent(
-            Guid.NewGuid(),
+            notification.OrderId,
             notification.OccurredOn,
             notification.OrderId,
             notification.Code,

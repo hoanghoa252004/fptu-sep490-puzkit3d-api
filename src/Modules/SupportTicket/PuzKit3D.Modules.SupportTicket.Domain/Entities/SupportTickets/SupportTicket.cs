@@ -1,0 +1,110 @@
+using PuzKit3D.Modules.SupportTicket.Domain.Entities.SupportTicketDetails;
+using PuzKit3D.SharedKernel.Domain;
+using PuzKit3D.SharedKernel.Domain.Results;
+
+namespace PuzKit3D.Modules.SupportTicket.Domain.Entities.SupportTickets;
+
+public sealed class SupportTicket : AggregateRoot<SupportTicketId>
+{
+    private readonly List<SupportTicketDetail> _details = new();
+
+    public Guid UserId { get; private set; }
+    public Guid OrderId { get; private set; }
+    public SupportTicketType Type { get; private set; }
+    public SupportTicketStatus Status { get; private set; }
+    public string Reason { get; private set; } = null!;
+    public string Proof { get; private set; } = null!;
+    public DateTime CreatedAt { get; private set; }
+    public DateTime UpdatedAt { get; private set; }
+
+    public IReadOnlyCollection<SupportTicketDetail> Details => _details.AsReadOnly();
+
+    private SupportTicket(
+        SupportTicketId id,
+        Guid userId,
+        Guid orderId,
+        SupportTicketType type,
+        SupportTicketStatus status,
+        string reason,
+        string proof,
+        DateTime createdAt) : base(id)
+    {
+        UserId = userId;
+        OrderId = orderId;
+        Type = type;
+        Status = status;
+        Reason = reason;
+        Proof = proof;
+        CreatedAt = createdAt;
+        UpdatedAt = createdAt;
+    }
+
+    private SupportTicket() : base()
+    {
+    }
+
+    public static ResultT<SupportTicket> Create(
+        Guid userId,
+        Guid orderId,
+        SupportTicketType type,
+        string reason,
+        string proof,
+        DateTime? createdAt = null)
+    {
+        if (userId == Guid.Empty)
+            return Result.Failure<SupportTicket>(SupportTicketError.InvalidUserId());
+
+        if (orderId == Guid.Empty)
+            return Result.Failure<SupportTicket>(SupportTicketError.InvalidOrderId());
+
+        if (string.IsNullOrWhiteSpace(reason))
+            return Result.Failure<SupportTicket>(SupportTicketError.InvalidReason());
+
+        if (reason.Length > 1000)
+            return Result.Failure<SupportTicket>(SupportTicketError.ReasonTooLong());
+
+        if (string.IsNullOrWhiteSpace(proof))
+            return Result.Failure<SupportTicket>(SupportTicketError.InvalidProof());
+
+        if (proof.Length > 500)
+            return Result.Failure<SupportTicket>(SupportTicketError.ProofTooLong());
+
+        var now = createdAt ?? DateTime.UtcNow;
+
+        var ticket = new SupportTicket(
+            SupportTicketId.Create(),
+            userId,
+            orderId,
+            type,
+            SupportTicketStatus.Open,
+            reason,
+            proof,
+            now);
+
+        return Result.Success(ticket);
+    }
+
+    public void UpdateStatus(SupportTicketStatus newStatus)
+    {
+        Status = newStatus;
+        UpdatedAt = DateTime.UtcNow;
+    }
+
+    public void AddDetail(SupportTicketDetail detail)
+    {
+        if (!_details.Contains(detail))
+        {
+            _details.Add(detail);
+            UpdatedAt = DateTime.UtcNow;
+        }
+    }
+
+    public void RemoveDetail(SupportTicketDetail detail)
+    {
+        if (_details.Contains(detail))
+        {
+            _details.Remove(detail);
+            UpdatedAt = DateTime.UtcNow;
+        }
+    }
+}

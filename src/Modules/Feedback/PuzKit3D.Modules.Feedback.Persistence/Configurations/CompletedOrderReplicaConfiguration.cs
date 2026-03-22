@@ -14,10 +14,6 @@ internal sealed class CompletedOrderReplicaConfiguration : IEntityTypeConfigurat
             .IsRequired()
             .HasMaxLength(50);
 
-        builder.Property(o => o.Code)
-            .IsRequired()
-            .HasMaxLength(100);
-
         builder.Property(o => o.CustomerId)
             .IsRequired();
 
@@ -26,9 +22,6 @@ internal sealed class CompletedOrderReplicaConfiguration : IEntityTypeConfigurat
 
         builder.Property(o => o.VariantId)
             .IsRequired(false);
-
-        builder.HasIndex(o => o.Code)
-            .IsUnique();
 
         builder.HasIndex(o => o.CustomerId);
 

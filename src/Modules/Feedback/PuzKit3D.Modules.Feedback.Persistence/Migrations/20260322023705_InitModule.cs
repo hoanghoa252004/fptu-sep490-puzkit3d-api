@@ -23,7 +23,6 @@ namespace PuzKit3D.Modules.Feedback.Persistence.Migrations
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
                     type = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
-                    code = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     customer_id = table.Column<Guid>(type: "uuid", nullable: false),
                     product_id = table.Column<Guid>(type: "uuid", nullable: false),
                     variant_id = table.Column<Guid>(type: "uuid", nullable: true)
@@ -82,13 +81,6 @@ namespace PuzKit3D.Modules.Feedback.Persistence.Migrations
                     { new Guid("10000000-0000-0000-0000-000000000009"), "Helicopter 3D Puzzle", "Instock" },
                     { new Guid("10000000-0000-0000-0000-000000000010"), "Dragon 3D Puzzle", "Instock" }
                 });
-
-            migrationBuilder.CreateIndex(
-                name: "ix_completed_order_replicas_code",
-                schema: "feedback",
-                table: "completed_order_replicas",
-                column: "code",
-                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "ix_completed_order_replicas_customer_id",

@@ -30,7 +30,6 @@ internal sealed class InstockOrderCompletedIntegrationEventHandler
             var replica = CompletedOrderReplica.Create(
                 orderDetail.OrderDetailId,
                 "Instock",
-                @event.Code,
                 @event.CustomerId,
                 orderDetail.ProductId,
                 orderDetail.VariantId);

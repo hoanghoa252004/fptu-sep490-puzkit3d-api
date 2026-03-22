@@ -60,6 +60,11 @@
     <ProjectReference Include="..\..\Modules\Payment\PuzKit3D.Modules.Payment.Domain\PuzKit3D.Modules.Payment.Domain.csproj" />
     <ProjectReference Include="..\..\Modules\Payment\PuzKit3D.Modules.Payment.Infrastructure\PuzKit3D.Modules.Payment.Infrastructure.csproj" />
     <ProjectReference Include="..\..\Modules\Payment\PuzKit3D.Modules.Payment.Persistence\PuzKit3D.Modules.Payment.Persistence.csproj" />
+    <ProjectReference Include="..\..\Modules\SupportTicket\PuzKit3D.Modules.SupportTicket.Api\PuzKit3D.Modules.SupportTicket.Api.csproj" />
+    <ProjectReference Include="..\..\Modules\SupportTicket\PuzKit3D.Modules.SupportTicket.Application\PuzKit3D.Modules.SupportTicket.Application.csproj" />
+    <ProjectReference Include="..\..\Modules\SupportTicket\PuzKit3D.Modules.SupportTicket.Domain\PuzKit3D.Modules.SupportTicket.Domain.csproj" />
+    <ProjectReference Include="..\..\Modules\SupportTicket\PuzKit3D.Modules.SupportTicket.Infrastructure\PuzKit3D.Modules.SupportTicket.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\Modules\SupportTicket\PuzKit3D.Modules.SupportTicket.Persistence\PuzKit3D.Modules.SupportTicket.Persistence.csproj" />
     <ProjectReference Include="..\..\Modules\User\PuzKit3D.Modules.User.Api\PuzKit3D.Modules.User.Api.csproj" />
     <ProjectReference Include="..\..\Modules\User\PuzKit3D.Modules.User.Application\PuzKit3D.Modules.User.Application.csproj" />
     <ProjectReference Include="..\..\Modules\User\PuzKit3D.Modules.User.Domain\PuzKit3D.Modules.User.Domain.csproj" />

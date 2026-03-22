@@ -12,7 +12,7 @@ using PuzKit3D.Modules.Feedback.Persistence;
 namespace PuzKit3D.Modules.Feedback.Persistence.Migrations
 {
     [DbContext(typeof(FeedbackDbContext))]
-    [Migration("20260320070016_InitModule")]
+    [Migration("20260322023705_InitModule")]
     partial class InitModule
     {
         /// <inheritdoc />
@@ -76,12 +76,6 @@ namespace PuzKit3D.Modules.Feedback.Persistence.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("id");
 
-                    b.Property<string>("Code")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)")
-                        .HasColumnName("code");
-
                     b.Property<Guid>("CustomerId")
                         .HasColumnType("uuid")
                         .HasColumnName("customer_id");
@@ -102,10 +96,6 @@ namespace PuzKit3D.Modules.Feedback.Persistence.Migrations
 
                     b.HasKey("Id")
                         .HasName("pk_completed_order_replicas");
-
-                    b.HasIndex("Code")
-                        .IsUnique()
-                        .HasDatabaseName("ix_completed_order_replicas_code");
 
                     b.HasIndex("CustomerId")
                         .HasDatabaseName("ix_completed_order_replicas_customer_id");

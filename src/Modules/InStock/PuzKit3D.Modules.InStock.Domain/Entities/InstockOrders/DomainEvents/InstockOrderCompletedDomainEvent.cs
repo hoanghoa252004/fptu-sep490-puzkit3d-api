@@ -11,4 +11,5 @@ public sealed record InstockOrderCompletedDomainEvent(
 
 public sealed record OrderDetailInfo(
     Guid OrderDetailId,
-    Guid VariantId);
+    Guid VariantId,
+    int Quantity);
