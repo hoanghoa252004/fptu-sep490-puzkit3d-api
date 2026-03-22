@@ -40,4 +40,13 @@ public static class SupportTicketError
 
     public static Error Unauthorized() =>
         Error.Forbidden("SupportTicket.Unauthorized", "You can only delete your own support tickets");
+
+    public static Error InvalidStatusTransition(SupportTicketStatus currentStatus, SupportTicketStatus newStatus) =>
+        Error.Validation("SupportTicket.InvalidStatusTransition", $"Cannot transition from {currentStatus} to {newStatus}");
+
+    public static Error UnauthorizedStatusTransition() =>
+        Error.Forbidden("SupportTicket.UnauthorizedStatusTransition", "You are not authorized to update the support ticket status to this value");
+
+    public static Error StatusAlreadySet(SupportTicketStatus status) =>
+        Error.Validation("SupportTicket.StatusAlreadySet", $"Support ticket status is already {status}");
 }

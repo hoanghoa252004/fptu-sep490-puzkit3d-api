@@ -84,10 +84,23 @@ public sealed class SupportTicket : AggregateRoot<SupportTicketId>
         return Result.Success(ticket);
     }
 
-    public void UpdateStatus(SupportTicketStatus newStatus)
+    public ResultT<bool> UpdateStatus(SupportTicketStatus newStatus)
     {
+        // Validate status transition
+        var validTransition = (Status, newStatus) switch
+        {
+            (SupportTicketStatus.Open, SupportTicketStatus.Processing) => true,
+            (SupportTicketStatus.Open, SupportTicketStatus.Rejected) => true,
+            (SupportTicketStatus.Processing, SupportTicketStatus.Resolved) => true,
+            _ => false
+        };
+
+        if (!validTransition)
+            return Result.Failure<bool>(SupportTicketError.InvalidStatusTransition(Status, newStatus));
+
         Status = newStatus;
         UpdatedAt = DateTime.UtcNow;
+        return Result.Success(true);
     }
 
     public void AddDetail(SupportTicketDetail detail)

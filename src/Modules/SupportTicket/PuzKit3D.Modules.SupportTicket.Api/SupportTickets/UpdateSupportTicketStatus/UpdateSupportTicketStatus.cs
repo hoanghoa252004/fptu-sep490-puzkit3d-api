@@ -29,12 +29,12 @@ internal sealed class UpdateSupportTicketStatus : IEndpoint
                 var command = new UpdateSupportTicketStatusCommand(id, status);
                 var result = await sender.Send(command, cancellationToken);
 
-                return result.MatchOk();
+                return result.MatchNoContent();
             })
             .WithName("UpdateSupportTicketStatus")
             .WithSummary("Update support ticket status")
-            .WithDescription("Updates the status of a support ticket. Requires Staff role")
-            .RequireAuthorization(policy => policy.RequireRole(Roles.Staff))
+            .WithDescription("Updates the status of a support ticket. Staff can update to any valid status, Customers can only update to Resolved.")
+            .RequireAuthorization()
             .Produces(StatusCodes.Status204NoContent)
             .ProducesValidationProblem(StatusCodes.Status400BadRequest)
             .ProducesProblem(StatusCodes.Status401Unauthorized)
