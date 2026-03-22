@@ -23,14 +23,13 @@ internal sealed class GetFeedbackByOrderId : IEndpoint
                 var query = new GetFeedbackByOrderIdQuery(orderId);
                 var result = await sender.Send(query, cancellationToken);
 
-                return result.MatchOk(feedback =>
-                    Results.Ok(feedback));
+                return result.MatchOk(feedbacks =>
+                    Results.Ok(feedbacks));
             })
             .WithName("GetFeedbackByOrderId")
-            .WithSummary("Get feedback for an order")
-            .WithDescription("Retrieves the feedback for a specific order. Nếu là instock hoặc partner thì orderId truyền vào là orderDetailId, nếu là custom design thì là orderId truyền vào là orderId gốc")
-            .WithOpenApi()
-            .Produces<FeedbackDto>(StatusCodes.Status200OK)
+            .WithSummary("Get feedbacks for an order")
+            .WithDescription("Retrieves the feedbacks for a specific order. Nếu là instock hoặc partner thì orderId truyền vào là orderDetailId, nếu là custom design thì là orderId truyền vào là orderId gốc")
+            .Produces<IEnumerable<FeedbackDto>>(StatusCodes.Status200OK)
             .ProducesProblem(StatusCodes.Status404NotFound)
             .ProducesProblem(StatusCodes.Status500InternalServerError)
             .AllowAnonymous();

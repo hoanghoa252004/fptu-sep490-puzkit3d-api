@@ -4,17 +4,13 @@ using PuzKit3D.Modules.Feedback.Domain.Entities.OrderReplicas;
 
 namespace PuzKit3D.Modules.Feedback.Persistence.Configurations;
 
-internal sealed class CompletedOrderReplicaConfiguration : IEntityTypeConfiguration<CompletedOrderReplica>
+internal sealed class OrderDetailReplicaConfiguration : IEntityTypeConfiguration<OrderDetailReplica>
 {
-    public void Configure(EntityTypeBuilder<CompletedOrderReplica> builder)
+    public void Configure(EntityTypeBuilder<OrderDetailReplica> builder)
     {
         builder.HasKey(o => o.Id);
 
-        builder.Property(o => o.Type)
-            .IsRequired()
-            .HasMaxLength(50);
-
-        builder.Property(o => o.CustomerId)
+        builder.Property(o => o.OrderId)
             .IsRequired();
 
         builder.Property(o => o.ProductId)
@@ -23,8 +19,10 @@ internal sealed class CompletedOrderReplicaConfiguration : IEntityTypeConfigurat
         builder.Property(o => o.VariantId)
             .IsRequired(false);
 
-        builder.HasIndex(o => o.CustomerId);
+        builder.Property(o => o.Quantity)
+            .IsRequired();
 
+        builder.HasIndex(o => o.OrderId);
         builder.HasIndex(o => o.ProductId);
     }
 }

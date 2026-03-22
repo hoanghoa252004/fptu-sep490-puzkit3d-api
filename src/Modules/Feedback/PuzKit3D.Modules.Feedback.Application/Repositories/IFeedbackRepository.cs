@@ -8,6 +8,8 @@ public interface IFeedbackRepository : IRepositoryBase<FeedbackEntity, FeedbackI
 {
     Task<FeedbackEntity?> GetByOrderIdAsync(Guid orderId, CancellationToken cancellationToken = default);
     
+    Task<IEnumerable<FeedbackEntity>> GetByOrderIdsAsync(IEnumerable<Guid> orderIds, CancellationToken cancellationToken = default);
+    
     Task<FeedbackEntity?> GetByOrderIdAndUserIdAsync(Guid orderId, Guid userId, CancellationToken cancellationToken = default);
     
     Task<IEnumerable<FeedbackEntity>> GetByUserIdAsync(Guid userId, CancellationToken cancellationToken = default);

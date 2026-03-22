@@ -5,20 +5,23 @@ using PuzKit3D.SharedKernel.Domain.Results;
 
 namespace PuzKit3D.Modules.Feedback.Application.UseCases.Feedbacks.Queries.GetFeedbacksByOrderId;
 
-internal sealed class GetFeedbackByOrderIdQueryHandler : IQueryHandler<GetFeedbackByOrderIdQuery, FeedbackDto>
+internal sealed class GetFeedbackByOrderIdQueryHandler : IQueryHandler<GetFeedbackByOrderIdQuery, IEnumerable<FeedbackDto>>
 {
     private readonly IFeedbackRepository _feedbackRepository;
-    private readonly ICompletedOrderReplicaRepository _orderReplicaRepository;
+    private readonly IOrderReplicaRepository _orderReplicaRepository;
+    private readonly IOrderDetailReplicaRepository _orderDetailReplicaRepository;
 
     public GetFeedbackByOrderIdQueryHandler(
         IFeedbackRepository feedbackRepository,
-        ICompletedOrderReplicaRepository orderReplicaRepository)
+        IOrderReplicaRepository orderReplicaRepository,
+        IOrderDetailReplicaRepository orderDetailReplicaRepository)
     {
         _feedbackRepository = feedbackRepository;
         _orderReplicaRepository = orderReplicaRepository;
+        _orderDetailReplicaRepository = orderDetailReplicaRepository;
     }
 
-    public async Task<ResultT<FeedbackDto>> Handle(
+    public async Task<ResultT<IEnumerable<FeedbackDto>>> Handle(
         GetFeedbackByOrderIdQuery request,
         CancellationToken cancellationToken)
     {
@@ -26,27 +29,61 @@ internal sealed class GetFeedbackByOrderIdQueryHandler : IQueryHandler<GetFeedba
         var order = await _orderReplicaRepository.GetByIdAsync(request.OrderId, cancellationToken);
         if (order is null)
         {
-            return Result.Failure<FeedbackDto>(
-                FeedbackError.OrderNotFoundOrNotCompleted(request.OrderId));
+            return Result.Failure<IEnumerable<FeedbackDto>>(FeedbackError.OrderNotFound(request.OrderId));
         }
 
-        var feedback = await _feedbackRepository.GetByOrderIdAsync(request.OrderId, cancellationToken);
-        if (feedback is null)
+        IEnumerable<FeedbackDto> feedbackDtos;
+
+        // If order type is not "Custom Design", get all feedbacks for all order details
+        if (order.Type != "Custom Design")
         {
-            return Result.Failure<FeedbackDto>(
-                FeedbackError.FeedbackNotFoundForOrder(request.OrderId));
+            var orderDetails = await _orderDetailReplicaRepository.GetByOrderIdAsync(request.OrderId, cancellationToken);
+            var orderDetailIds = orderDetails.Select(od => od.Id).ToList();
+
+            if (!orderDetailIds.Any())
+            {
+                return Result.Success(Enumerable.Empty<FeedbackDto>());
+            }
+
+            var feedbacks = await _feedbackRepository.GetByOrderIdsAsync(orderDetailIds, cancellationToken);
+
+            feedbackDtos = feedbacks.Select(feedback =>
+            {
+                var orderDetail = orderDetails.First(od => od.Id == feedback.OrderId);
+                return new FeedbackDto(
+                    feedback.Id.Value,
+                    feedback.UserId,
+                    feedback.Rating,
+                    feedback.Comment,
+                    feedback.CreatedAt,
+                    feedback.UpdatedAt);
+            }).ToList();
+        }
+        else
+        {
+            // For Custom Design orders, get the single feedback for the order
+            var feedback = await _feedbackRepository.GetByOrderIdAsync(request.OrderId, cancellationToken);
+            
+            if (feedback is null)
+            {
+                return Result.Success(Enumerable.Empty<FeedbackDto>());
+            }
+
+            // For Custom Design, we get product info from the order detail associated with this order
+            var orderDetail = (await _orderDetailReplicaRepository.GetByOrderIdAsync(request.OrderId, cancellationToken))
+                .FirstOrDefault();
+
+            var feedbackDto = new FeedbackDto(
+                feedback.Id.Value,
+                feedback.UserId,
+                feedback.Rating,
+                feedback.Comment,
+                feedback.CreatedAt,
+                feedback.UpdatedAt);
+
+            feedbackDtos = new[] { feedbackDto };
         }
 
-        var feedbackDto = new FeedbackDto(
-            feedback.Id.Value,
-            order.ProductId,
-            order.VariantId,
-            feedback.UserId,
-            feedback.Rating,
-            feedback.Comment,
-            feedback.CreatedAt,
-            feedback.UpdatedAt);
-
-        return Result.Success(feedbackDto);
+        return Result.Success(feedbackDtos);
     }
 }

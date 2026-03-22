@@ -23,7 +23,8 @@ public sealed class FeedbackDbContext : DbContext, IFeedbackUnitOfWork
     }
 
     public DbSet<FeedbackEntity> Feedbacks => Set<FeedbackEntity>();
-    public DbSet<CompletedOrderReplica> CompletedOrderReplicas => Set<CompletedOrderReplica>();
+    public DbSet<OrderReplica> OrderReplicas => Set<OrderReplica>();
+    public DbSet<OrderDetailReplica> OrderDetailReplicas => Set<OrderDetailReplica>();
     public DbSet<ProductReplica> ProductReplicas => Set<ProductReplica>();
 
     protected override void OnModelCreating(ModelBuilder builder)

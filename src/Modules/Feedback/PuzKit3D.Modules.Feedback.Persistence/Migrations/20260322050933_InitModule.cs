@@ -17,22 +17,6 @@ namespace PuzKit3D.Modules.Feedback.Persistence.Migrations
                 name: "feedback");
 
             migrationBuilder.CreateTable(
-                name: "completed_order_replicas",
-                schema: "feedback",
-                columns: table => new
-                {
-                    id = table.Column<Guid>(type: "uuid", nullable: false),
-                    type = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
-                    customer_id = table.Column<Guid>(type: "uuid", nullable: false),
-                    product_id = table.Column<Guid>(type: "uuid", nullable: false),
-                    variant_id = table.Column<Guid>(type: "uuid", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("pk_completed_order_replicas", x => x.id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "feedbacks",
                 schema: "feedback",
                 columns: table => new
@@ -48,6 +32,40 @@ namespace PuzKit3D.Modules.Feedback.Persistence.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("pk_feedbacks", x => x.id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "order_detail_replicas",
+                schema: "feedback",
+                columns: table => new
+                {
+                    id = table.Column<Guid>(type: "uuid", nullable: false),
+                    order_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    product_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    variant_id = table.Column<Guid>(type: "uuid", nullable: true),
+                    quantity = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_order_detail_replicas", x => x.id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "order_replicas",
+                schema: "feedback",
+                columns: table => new
+                {
+                    id = table.Column<Guid>(type: "uuid", nullable: false),
+                    type = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
+                    code = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
+                    customer_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    status = table.Column<string>(type: "character varying(30)", maxLength: 30, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_order_replicas", x => x.id);
                 });
 
             migrationBuilder.CreateTable(
@@ -83,18 +101,6 @@ namespace PuzKit3D.Modules.Feedback.Persistence.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "ix_completed_order_replicas_customer_id",
-                schema: "feedback",
-                table: "completed_order_replicas",
-                column: "customer_id");
-
-            migrationBuilder.CreateIndex(
-                name: "ix_completed_order_replicas_product_id",
-                schema: "feedback",
-                table: "completed_order_replicas",
-                column: "product_id");
-
-            migrationBuilder.CreateIndex(
                 name: "ix_feedbacks_order_id_user_id",
                 schema: "feedback",
                 table: "feedbacks",
@@ -108,6 +114,24 @@ namespace PuzKit3D.Modules.Feedback.Persistence.Migrations
                 column: "user_id");
 
             migrationBuilder.CreateIndex(
+                name: "ix_order_detail_replicas_order_id",
+                schema: "feedback",
+                table: "order_detail_replicas",
+                column: "order_id");
+
+            migrationBuilder.CreateIndex(
+                name: "ix_order_detail_replicas_product_id",
+                schema: "feedback",
+                table: "order_detail_replicas",
+                column: "product_id");
+
+            migrationBuilder.CreateIndex(
+                name: "ix_order_replicas_customer_id",
+                schema: "feedback",
+                table: "order_replicas",
+                column: "customer_id");
+
+            migrationBuilder.CreateIndex(
                 name: "ix_product_replicas_type",
                 schema: "feedback",
                 table: "product_replicas",
@@ -118,11 +142,15 @@ namespace PuzKit3D.Modules.Feedback.Persistence.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "completed_order_replicas",
+                name: "feedbacks",
                 schema: "feedback");
 
             migrationBuilder.DropTable(
-                name: "feedbacks",
+                name: "order_detail_replicas",
+                schema: "feedback");
+
+            migrationBuilder.DropTable(
+                name: "order_replicas",
                 schema: "feedback");
 
             migrationBuilder.DropTable(

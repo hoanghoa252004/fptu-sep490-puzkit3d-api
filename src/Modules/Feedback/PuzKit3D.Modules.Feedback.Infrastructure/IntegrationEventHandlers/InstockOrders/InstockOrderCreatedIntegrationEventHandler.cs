@@ -1,3 +1,4 @@
+﻿using Microsoft.EntityFrameworkCore;
 using PuzKit3D.Contract.InStock.InstockOrders;
 using PuzKit3D.Modules.Feedback.Application.UnitOfWork;
 using PuzKit3D.Modules.Feedback.Domain.Entities.OrderReplicas;
@@ -6,13 +7,13 @@ using PuzKit3D.SharedKernel.Application.Event;
 
 namespace PuzKit3D.Modules.Feedback.Infrastructure.IntegrationEventHandlers.InstockOrders;
 
-internal sealed class InstockOrderCompletedIntegrationEventHandler
-    : IIntegrationEventHandler<InstockOrderCompletedIntegrationEvent>
+internal sealed class InstockOrderCreatedIntegrationEventHandler
+    : IIntegrationEventHandler<InstockOrderCreatedIntegrationEvent>
 {
     private readonly FeedbackDbContext _dbContext;
     private readonly IFeedbackUnitOfWork _unitOfWork;
 
-    public InstockOrderCompletedIntegrationEventHandler(
+    public InstockOrderCreatedIntegrationEventHandler(
         FeedbackDbContext dbContext,
         IFeedbackUnitOfWork unitOfWork)
     {
@@ -21,20 +22,29 @@ internal sealed class InstockOrderCompletedIntegrationEventHandler
     }
 
     public async Task HandleAsync(
-        InstockOrderCompletedIntegrationEvent @event,
+        InstockOrderCreatedIntegrationEvent @event,
         CancellationToken cancellationToken = default)
     {
-        // Create a CompletedOrderReplica for each OrderDetail with correct ProductId and VariantId
+        var replica = OrderReplica.Create(
+            @event.OrderId,
+            "Instock",
+            @event.CustomerId,
+            @event.Code,
+            @event.Status);
+
+        await _dbContext.OrderReplicas.AddAsync(replica, cancellationToken);
+
         foreach (var orderDetail in @event.OrderDetails)
         {
-            var replica = CompletedOrderReplica.Create(
-                orderDetail.OrderDetailId,
-                "Instock",
-                @event.CustomerId,
-                orderDetail.ProductId,
-                orderDetail.VariantId);
 
-            await _dbContext.CompletedOrderReplicas.AddAsync(replica, cancellationToken);
+            var orderDetailReplica = OrderDetailReplica.Create(
+                orderDetail.OrderDetailId,
+                @event.OrderId,
+                orderDetail.ProductId,
+                orderDetail.VariantId,
+                orderDetail.Quantity);
+
+            await _dbContext.OrderDetailReplicas.AddAsync(orderDetailReplica, cancellationToken);
         }
 
         await _unitOfWork.SaveChangesAsync(cancellationToken);

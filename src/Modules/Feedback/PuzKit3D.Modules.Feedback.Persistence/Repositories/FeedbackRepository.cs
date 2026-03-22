@@ -31,6 +31,16 @@ internal sealed class FeedbackRepository : IFeedbackRepository
             .FirstOrDefaultAsync(f => f.OrderId == orderId, cancellationToken);
     }
 
+    public async Task<IEnumerable<FeedbackEntity>> GetByOrderIdsAsync(
+        IEnumerable<Guid> orderIds,
+        CancellationToken cancellationToken = default)
+    {
+        return await _context.Feedbacks
+            .Where(f => orderIds.Contains(f.OrderId))
+            .AsNoTracking()
+            .ToListAsync(cancellationToken);
+    }
+
     public async Task<FeedbackEntity?> GetByOrderIdAndUserIdAsync(
         Guid orderId,
         Guid userId,
@@ -54,13 +64,13 @@ internal sealed class FeedbackRepository : IFeedbackRepository
         Guid productId,
         CancellationToken cancellationToken = default)
     {
-        var orderIds = await _context.CompletedOrderReplicas
+        var orderDetailIds = await _context.OrderDetailReplicas
             .Where(o => o.ProductId == productId)
             .Select(o => o.Id)
             .ToListAsync(cancellationToken);
 
         return await _context.Feedbacks
-            .Where(f => orderIds.Contains(f.OrderId))
+            .Where(f => orderDetailIds.Contains(f.OrderId))
             .AsNoTracking()
             .ToListAsync(cancellationToken);
     }

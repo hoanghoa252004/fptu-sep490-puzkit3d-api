@@ -9,28 +9,24 @@ namespace PuzKit3D.Modules.Feedback.Application.UseCases.Feedbacks.Commands.Upda
 internal sealed class UpdateFeedbackCommandHandler : ICommandHandler<UpdateFeedbackCommand>
 {
     private readonly IFeedbackRepository _feedbackRepository;
-    private readonly ICompletedOrderReplicaRepository _orderReplicaRepository;
+    private readonly IOrderReplicaRepository _orderReplicaRepository;
+    private readonly IOrderDetailReplicaRepository _orderDetailReplicaRepository;
     private readonly IFeedbackUnitOfWork _unitOfWork;
 
     public UpdateFeedbackCommandHandler(
         IFeedbackRepository feedbackRepository,
-        ICompletedOrderReplicaRepository orderReplicaRepository,
+        IOrderReplicaRepository orderReplicaRepository,
+        IOrderDetailReplicaRepository orderDetailReplicaRepository,
         IFeedbackUnitOfWork unitOfWork)
     {
         _feedbackRepository = feedbackRepository;
         _orderReplicaRepository = orderReplicaRepository;
+        _orderDetailReplicaRepository = orderDetailReplicaRepository;
         _unitOfWork = unitOfWork;
     }
 
     public async Task<Result> Handle(UpdateFeedbackCommand request, CancellationToken cancellationToken)
     {
-        // Check if order exists
-        var order = await _orderReplicaRepository.GetByIdAsync(request.OrderId, cancellationToken);
-        if (order is null)
-        {
-            return Result.Failure(FeedbackError.OrderNotFoundOrNotCompleted(request.OrderId));
-        }
-
         // Check if feedback exists
         var feedback = await _feedbackRepository.GetByIdAsync(
             FeedbackId.From(request.FeedbackId),
