@@ -8,6 +8,7 @@ using PuzKit3D.Modules.SupportTicket.Application.UseCases.SupportTickets.Command
 using PuzKit3D.Modules.SupportTicket.Domain.Entities.SupportTickets;
 using PuzKit3D.SharedKernel.Api.Endpoint;
 using PuzKit3D.SharedKernel.Api.Results.Extensions;
+using PuzKit3D.SharedKernel.Application.Authorization;
 using System.Security.Claims;
 
 namespace PuzKit3D.Modules.SupportTicket.Api.SupportTickets.CreateSupportTicket;
@@ -60,7 +61,7 @@ internal sealed class CreateSupportTicket : IEndpoint
             .WithName("CreateSupportTicket")
             .WithSummary("Create a new support ticket")
             .WithDescription("Creates a new support ticket. Type should be one of: ReplacePart, Exchange, Return")
-            .RequireAuthorization()
+            .RequireAuthorization(policy => policy.RequireRole(Roles.Customer))
             .Produces(200)
             .ProducesValidationProblem(StatusCodes.Status400BadRequest)
             .ProducesProblem(StatusCodes.Status401Unauthorized)

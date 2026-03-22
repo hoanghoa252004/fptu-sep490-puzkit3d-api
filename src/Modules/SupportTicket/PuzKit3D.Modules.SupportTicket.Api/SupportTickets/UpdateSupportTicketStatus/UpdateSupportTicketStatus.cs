@@ -35,7 +35,7 @@ internal sealed class UpdateSupportTicketStatus : IEndpoint
             .WithSummary("Update support ticket status")
             .WithDescription("Updates the status of a support ticket. Requires Staff role")
             .RequireAuthorization(policy => policy.RequireRole(Roles.Staff))
-            .Produces(200)
+            .Produces(StatusCodes.Status204NoContent)
             .ProducesValidationProblem(StatusCodes.Status400BadRequest)
             .ProducesProblem(StatusCodes.Status401Unauthorized)
             .ProducesProblem(StatusCodes.Status403Forbidden)

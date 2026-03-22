@@ -34,4 +34,10 @@ public static class SupportTicketError
 
     public static Error ExchangeQuantityExceedsOrderDetailQuantity(Guid orderDetailId, int orderDetailQuantity) =>
         Error.Validation("SupportTicket.ExchangeQuantityExceedsOrderDetailQuantity", $"Exchange quantity cannot exceed order detail quantity ({orderDetailQuantity}) for order detail {orderDetailId}");
+
+    public static Error CanOnlyDeleteOpenTickets() =>
+        Error.Validation("SupportTicket.CanOnlyDeleteOpenTickets", "Can only delete support tickets with Open status");
+
+    public static Error Unauthorized() =>
+        Error.Forbidden("SupportTicket.Unauthorized", "You can only delete your own support tickets");
 }

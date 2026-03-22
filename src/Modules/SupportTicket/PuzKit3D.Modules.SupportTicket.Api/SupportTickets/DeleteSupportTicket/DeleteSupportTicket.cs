@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using PuzKit3D.Modules.SupportTicket.Application.UseCases.SupportTickets.Commands.DeleteSupportTicket;
 using PuzKit3D.SharedKernel.Api.Endpoint;
+using PuzKit3D.SharedKernel.Api.Results.Extensions;
 using PuzKit3D.SharedKernel.Application.Authorization;
 using System.Security.Claims;
 
@@ -23,13 +24,13 @@ internal sealed class DeleteSupportTicket : IEndpoint
                 var command = new DeleteSupportTicketCommand(id);
                 var result = await sender.Send(command, cancellationToken);
 
-                return Results.Ok(result);
+                return result.MatchNoContent();
             })
             .WithName("DeleteSupportTicket")
             .WithSummary("Delete a support ticket")
             .WithDescription("Deletes a support ticket if its status is 'Open'. Customers can only delete their own tickets, Staff can delete any Open ticket.")
             .RequireAuthorization(policy => policy.RequireRole(Roles.Customer))
-            .Produces(200)
+            .Produces(StatusCodes.Status204NoContent)
             .ProducesValidationProblem(StatusCodes.Status400BadRequest)
             .ProducesProblem(StatusCodes.Status401Unauthorized)
             .ProducesProblem(StatusCodes.Status403Forbidden)

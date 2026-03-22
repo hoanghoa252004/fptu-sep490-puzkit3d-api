@@ -2,13 +2,16 @@ using MediatR;
 using PuzKit3D.Modules.SupportTicket.Application.Repositories;
 using PuzKit3D.Modules.SupportTicket.Application.UnitOfWork;
 using PuzKit3D.Modules.SupportTicket.Domain.Entities.SupportTickets;
+using PuzKit3D.SharedKernel.Application.Authorization;
+using PuzKit3D.SharedKernel.Application.Message.Command;
 using PuzKit3D.SharedKernel.Application.User;
+using PuzKit3D.SharedKernel.Domain.Results;
 using SupportTicketEntity = PuzKit3D.Modules.SupportTicket.Domain.Entities.SupportTickets.SupportTicket;
 
 namespace PuzKit3D.Modules.SupportTicket.Application.UseCases.SupportTickets.Commands.DeleteSupportTicket;
 
 internal sealed class DeleteSupportTicketCommandHandler
-    : IRequestHandler<DeleteSupportTicketCommand, DeleteSupportTicketResponse>
+    : ICommandHandler<DeleteSupportTicketCommand>
 {
     private readonly ISupportTicketRepository _repository;
     private readonly ISupportTicketUnitOfWork _unitOfWork;
@@ -24,7 +27,7 @@ internal sealed class DeleteSupportTicketCommandHandler
         _currentUser = currentUser;
     }
 
-    public async Task<DeleteSupportTicketResponse> Handle(
+    public async Task<Result> Handle(
         DeleteSupportTicketCommand request,
         CancellationToken cancellationToken)
     {
@@ -34,30 +37,28 @@ internal sealed class DeleteSupportTicketCommandHandler
             cancellationToken);
 
         if (ticketResult.IsFailure)
-            throw new InvalidOperationException(ticketResult.Error.Message);
+            return Result.Failure(ticketResult.Error);
 
         var ticket = ticketResult.Value;
 
         // Check if status is Open
         if (ticket.Status != SupportTicketStatus.Open)
-            throw new InvalidOperationException("Can only delete support tickets with Open status");
+            return Result.Failure(SupportTicketError.CanOnlyDeleteOpenTickets());
 
         // Check if user is the owner or staff
         var userId = Guid.Parse(_currentUser.UserId!);
-        var isStaff = _currentUser.IsInRole("Staff") || _currentUser.IsInRole("System Administrator");
+        var isStaff = _currentUser.IsInRole(Roles.Staff);
 
         if (!isStaff && ticket.UserId != userId)
-            throw new UnauthorizedAccessException("You can only delete your own support tickets");
+            return Result.Failure(SupportTicketError.Unauthorized());
 
         // Delete the support ticket
         var deleteResult = await _repository.DeleteAsync(ticket.Id, cancellationToken);
         if (deleteResult.IsFailure)
-            throw new InvalidOperationException(deleteResult.Error.Message);
+            return Result.Failure(deleteResult.Error);
 
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-        return new DeleteSupportTicketResponse(
-            true,
-            "Support ticket deleted successfully");
+        return Result.Success();
     }
 }
