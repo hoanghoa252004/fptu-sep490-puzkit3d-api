@@ -42,6 +42,7 @@ internal sealed class CreatePartCommandHandler : ICommandTHandler<CreatePartComm
                 request.Name,
                 request.PartType,
                 code,
+                request.Quantity,
                 productId);
 
             if (partResult.IsFailure)

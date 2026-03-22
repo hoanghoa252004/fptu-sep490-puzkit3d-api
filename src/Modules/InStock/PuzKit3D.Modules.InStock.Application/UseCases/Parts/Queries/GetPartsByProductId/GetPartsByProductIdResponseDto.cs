@@ -5,4 +5,5 @@ public sealed record GetPartsByProductIdResponseDto(
     string Name,
     string PartType,
     string Code,
+    int Quantity,
     int TotalPieces);

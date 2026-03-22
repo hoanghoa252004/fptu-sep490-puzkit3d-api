@@ -14,11 +14,7 @@ public static class PartError
 
     public static Error InvalidPartType() => Error.Validation(
         "Part.InvalidPartType",
-        "Part type cannot be empty.");
-
-    public static Error PartTypeTooLong(int length) => Error.Validation(
-        "Part.PartTypeTooLong",
-        $"Part type is too long: {length} characters. Maximum is 30 characters.");
+        $"Part type must be one of: {string.Join(", ", System.Enum.GetNames(typeof(PartType)))}");
 
     public static Error InvalidCode() => Error.Validation(
         "Part.InvalidCode",
@@ -27,6 +23,10 @@ public static class PartError
     public static Error InvalidCodeFormat() => Error.Validation(
         "Part.InvalidCodeFormat",
         "Part code must be in format PARxxxx (e.g., PAR0001, PAR0002).");
+
+    public static Error InvalidQuantity() => Error.Validation(
+        "Part.InvalidQuantity",
+        "Part quantity must be greater than 0.");
 
     public static Error NotFound(Guid id) => Error.NotFound(
         "Part.NotFound",

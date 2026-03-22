@@ -5,6 +5,7 @@ public sealed record GetPartByIdResponseDto(
     string Name,
     string PartType,
     string Code,
+    int Quantity,
     IReadOnlyList<PieceDto> Pieces);
 
 public sealed record PieceDto(

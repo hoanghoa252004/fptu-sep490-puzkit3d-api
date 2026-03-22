@@ -12,8 +12,9 @@ public sealed partial class Part : Entity<PartId>
     private readonly List<Piece> _pieces = new();
 
     public string Name { get; private set; } = null!;
-    public string PartType { get; private set; } = null!;
+    public PartType PartType { get; private set; }
     public string Code { get; private set; } = null!;
+    public int Quantity { get; private set; }
     public InstockProductId InstockProductId { get; private set; } = null!;
 
     public IReadOnlyCollection<Piece> Pieces => _pieces.AsReadOnly();
@@ -24,13 +25,15 @@ public sealed partial class Part : Entity<PartId>
     private Part(
         PartId id,
         string name,
-        string partType,
+        PartType partType,
         string code,
+        int quantity,
         InstockProductId instockProductId) : base(id)
     {
         Name = name;
         PartType = partType;
         Code = code;
+        Quantity = quantity;
         InstockProductId = instockProductId;
     }
 
@@ -40,8 +43,9 @@ public sealed partial class Part : Entity<PartId>
 
     public static ResultT<Part> Create(
         string name,
-        string partType,
+        PartType partType,
         string code,
+        int quantity,
         InstockProductId instockProductId)
     {
         if (string.IsNullOrWhiteSpace(name))
@@ -50,25 +54,22 @@ public sealed partial class Part : Entity<PartId>
         if (name.Length > 30)
             return Result.Failure<Part>(PartError.NameTooLong(name.Length));
 
-        if (string.IsNullOrWhiteSpace(partType))
-            return Result.Failure<Part>(PartError.InvalidPartType());
-
-        if (partType.Length > 30)
-            return Result.Failure<Part>(PartError.PartTypeTooLong(partType.Length));
-
         if (string.IsNullOrWhiteSpace(code))
             return Result.Failure<Part>(PartError.InvalidCode());
 
         if (!CodeRegex.IsMatch(code))
             return Result.Failure<Part>(PartError.InvalidCodeFormat());
 
+        if (quantity <= 0)
+            return Result.Failure<Part>(PartError.InvalidQuantity());
+
         var partId = PartId.Create();
-        var part = new Part(partId, name, partType, code, instockProductId);
+        var part = new Part(partId, name, partType, code, quantity, instockProductId);
 
         return Result.Success(part);
     }
 
-    public Result Update(string name, string partType, string code)
+    public Result Update(string name, PartType partType, string code, int quantity)
     {
         if (string.IsNullOrWhiteSpace(name))
             return Result.Failure(PartError.InvalidName());
@@ -76,26 +77,24 @@ public sealed partial class Part : Entity<PartId>
         if (name.Length > 30)
             return Result.Failure(PartError.NameTooLong(name.Length));
 
-        if (string.IsNullOrWhiteSpace(partType))
-            return Result.Failure(PartError.InvalidPartType());
-
-        if (partType.Length > 30)
-            return Result.Failure(PartError.PartTypeTooLong(partType.Length));
-
         if (string.IsNullOrWhiteSpace(code))
             return Result.Failure(PartError.InvalidCode());
 
         if (!CodeRegex.IsMatch(code))
             return Result.Failure(PartError.InvalidCodeFormat());
 
+        if (quantity <= 0)
+            return Result.Failure(PartError.InvalidQuantity());
+
         Name = name;
         PartType = partType;
         Code = code;
+        Quantity = quantity;
 
         return Result.Success();
     }
 
-    public Result PartialUpdate(string? name = null, string? partType = null)
+    public Result PartialUpdate(string? name = null, PartType? partType = null, int? quantity = null)
     {
         if (name is not null)
         {
@@ -110,13 +109,15 @@ public sealed partial class Part : Entity<PartId>
 
         if (partType is not null)
         {
-            if (string.IsNullOrWhiteSpace(partType))
-                return Result.Failure(PartError.InvalidPartType());
+            PartType = partType.Value;
+        }
 
-            if (partType.Length > 30)
-                return Result.Failure(PartError.PartTypeTooLong(partType.Length));
+        if (quantity is not null)
+        {
+            if (quantity.Value <= 0)
+                return Result.Failure(PartError.InvalidQuantity());
 
-            PartType = partType;
+            Quantity = quantity.Value;
         }
 
         return Result.Success();

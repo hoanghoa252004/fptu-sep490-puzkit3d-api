@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 using PuzKit3D.Modules.InStock.Application.UseCases.Parts.Commands.CreatePart;
+using PuzKit3D.Modules.InStock.Domain.Entities.Parts;
 using PuzKit3D.SharedKernel.Api.Endpoint;
 using PuzKit3D.SharedKernel.Api.Results.Extensions;
 using PuzKit3D.SharedKernel.Application.Authorization;
@@ -21,10 +22,17 @@ internal sealed class CreatePart : IEndpoint
                 ISender sender,
                 CancellationToken cancellationToken) =>
             {
+                // Parse PartType from string
+                if (!Enum.TryParse<PartType>(request.PartType, ignoreCase: true, out var partType))
+                {
+                    return Results.BadRequest(new { error = $"Invalid part type '{request.PartType}'. Valid values are: {string.Join(", ", Enum.GetNames(typeof(PartType)))}" });
+                }
+
                 var command = new CreatePartCommand(
                     productId,
                     request.Name,
-                    request.PartType);
+                    partType,
+                    request.Quantity);
 
                 var result = await sender.Send(command, cancellationToken);
 
@@ -32,7 +40,7 @@ internal sealed class CreatePart : IEndpoint
             })
             .WithName("CreatePart")
             .WithSummary("Create a new part for a product (Staff/Manager only)")
-            .WithDescription("Creates a new part for the specified product. Code is auto-generated (PARxxxx). Requires Staff or Manager role.")
+            .WithDescription("Creates a new part for the specified product. Code is auto-generated (PARxxxx). PartType must be one of: Structural, Mechanical, Decorative. Requires Staff or Manager role.")
             .RequireAuthorization(policy => policy.RequireRole(Roles.Staff, Roles.BusinessManager))
             .Produces<Guid>(StatusCodes.Status201Created)
             .ProducesValidationProblem(StatusCodes.Status400BadRequest)
@@ -44,6 +52,7 @@ internal sealed class CreatePart : IEndpoint
 }
 
 internal sealed record CreatePartRequestDto(
-    string Name,
-    string PartType);
+string Name,
+string PartType,
+int Quantity);
 

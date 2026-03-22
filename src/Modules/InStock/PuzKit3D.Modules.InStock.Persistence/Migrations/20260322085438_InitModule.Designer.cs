@@ -12,7 +12,7 @@ using PuzKit3D.Modules.InStock.Persistence;
 namespace PuzKit3D.Modules.InStock.Persistence.Migrations
 {
     [DbContext(typeof(InStockDbContext))]
-    [Migration("20260318045506_InitModule")]
+    [Migration("20260322085438_InitModule")]
     partial class InitModule
     {
         /// <inheritdoc />
@@ -1513,9 +1513,12 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
 
                     b.Property<string>("PartType")
                         .IsRequired()
-                        .HasMaxLength(30)
-                        .HasColumnType("character varying(30)")
+                        .HasColumnType("text")
                         .HasColumnName("part_type");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("integer")
+                        .HasColumnName("quantity");
 
                     b.HasKey("Id")
                         .HasName("pk_parts");

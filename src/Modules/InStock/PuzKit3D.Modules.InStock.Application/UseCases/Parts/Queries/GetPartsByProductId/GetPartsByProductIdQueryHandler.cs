@@ -33,8 +33,9 @@ internal sealed class GetPartsByProductIdQueryHandler
             .Select(p => new GetPartsByProductIdResponseDto(
                 p.Id.Value,
                 p.Name,
-                p.PartType,
+                p.PartType.ToString(),
                 p.Code,
+                p.Quantity,
                 p.Pieces.Sum(piece => piece.Quantity)))
             .ToList();
 

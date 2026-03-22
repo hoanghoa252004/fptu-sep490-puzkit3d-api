@@ -44,8 +44,9 @@ internal sealed class GetPartByIdQueryHandler : IQueryHandler<GetPartByIdQuery, 
         var response = new GetPartByIdResponseDto(
             part.Id.Value,
             part.Name,
-            part.PartType,
+            part.PartType.ToString(),
             part.Code,
+            part.Quantity,
             pieces);
 
         return Result.Success(response);
