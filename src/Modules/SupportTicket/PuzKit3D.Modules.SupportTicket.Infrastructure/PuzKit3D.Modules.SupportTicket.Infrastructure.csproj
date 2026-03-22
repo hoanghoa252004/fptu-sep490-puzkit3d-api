@@ -14,9 +14,5 @@
     <ProjectReference Include="..\PuzKit3D.Modules.SupportTicket.Persistence\PuzKit3D.Modules.SupportTicket.Persistence.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="IntegrationEventHandlers\InstockOrders\" />
-  </ItemGroup>
-
 </Project>
 

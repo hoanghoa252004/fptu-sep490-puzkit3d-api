@@ -27,7 +27,7 @@ internal sealed class SupportTicketDetailConfiguration : IEntityTypeConfiguratio
             .IsRequired();
 
         builder.Property(d => d.PartId)
-            .IsRequired();
+            .IsRequired(false);
 
         builder.Property(d => d.Quantity)
             .IsRequired();

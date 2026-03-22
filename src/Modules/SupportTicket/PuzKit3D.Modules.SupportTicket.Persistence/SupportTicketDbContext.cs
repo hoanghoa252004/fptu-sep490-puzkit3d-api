@@ -4,8 +4,8 @@ using PuzKit3D.Modules.SupportTicket.Application.UnitOfWork;
 using PuzKit3D.Modules.SupportTicket.Persistence.Configurations;
 using SupportTicketEntity = PuzKit3D.Modules.SupportTicket.Domain.Entities.SupportTickets.SupportTicket;
 using SupportTicketDetailEntity = PuzKit3D.Modules.SupportTicket.Domain.Entities.SupportTicketDetails.SupportTicketDetail;
-using CompletedOrderReplicaEntity = PuzKit3D.Modules.SupportTicket.Domain.Entities.CompletedOrderReplicas.CompletedOrderReplica;
-using CompletedOrderItemReplicaEntity = PuzKit3D.Modules.SupportTicket.Domain.Entities.CompletedOrderItemReplicas.CompletedOrderItemReplica;
+using OrderReplicaEntity = PuzKit3D.Modules.SupportTicket.Domain.Entities.OrderReplicas.OrderReplica;
+using OrderDetailReplicaEntity = PuzKit3D.Modules.SupportTicket.Domain.Entities.OrderReplicas.OrderDetailReplica;
 using PuzKit3D.SharedKernel.Domain;
 using PuzKit3D.SharedKernel.Domain.Results;
 using PuzKit3D.SharedKernel.Infrastructure.Data;
@@ -25,11 +25,12 @@ public sealed class SupportTicketDbContext : DbContext, ISupportTicketUnitOfWork
 
     public DbSet<SupportTicketEntity> SupportTickets => Set<SupportTicketEntity>();
     public DbSet<SupportTicketDetailEntity> SupportTicketDetails => Set<SupportTicketDetailEntity>();
-    public DbSet<CompletedOrderReplicaEntity> CompletedOrderReplicas => Set<CompletedOrderReplicaEntity>();
-    public DbSet<CompletedOrderItemReplicaEntity> CompletedOrderItemReplicas => Set<CompletedOrderItemReplicaEntity>();
+    public DbSet<OrderReplicaEntity> OrderReplicas => Set<OrderReplicaEntity>();
+    public DbSet<OrderDetailReplicaEntity> OrderDetailReplicas => Set<OrderDetailReplicaEntity>();
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
+        builder.HasDefaultSchema(Schema.SupportTicket);
         builder.ApplyConfigurationsFromAssembly(typeof(SupportTicketConfiguration).Assembly);
 
         base.OnModelCreating(builder);

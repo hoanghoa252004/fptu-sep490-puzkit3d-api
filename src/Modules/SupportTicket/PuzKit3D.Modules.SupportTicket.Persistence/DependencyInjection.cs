@@ -37,8 +37,8 @@ public static class DependencyInjection
 
         services.AddScoped<ISupportTicketUnitOfWork>(sp => sp.GetRequiredService<SupportTicketDbContext>());
         services.AddScoped<ISupportTicketRepository, SupportTicketRepository>();
-        services.AddScoped<ICompletedOrderReplicaRepository, CompletedOrderReplicaRepository>();
-        services.AddScoped<ICompletedOrderItemReplicaRepository, CompletedOrderItemReplicaRepository>();
+        services.AddScoped<IOrderReplicaRepository, OrderReplicaRepository>();
+        services.AddScoped<IOrderDetailReplicaRepository, OrderDetailReplicaRepository>();
 
         return services;
     }

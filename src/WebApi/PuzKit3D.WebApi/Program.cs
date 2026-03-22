@@ -33,6 +33,7 @@ using PuzKit3D.Modules.Payment.Infrastructure;
 using PuzKit3D.Modules.Payment.Persistence;
 using PuzKit3D.Modules.SupportTicket.Api;
 using PuzKit3D.Modules.SupportTicket.Application;
+using PuzKit3D.Modules.SupportTicket.Infrastructure;
 using PuzKit3D.Modules.SupportTicket.Persistence;
 using PuzKit3D.Modules.User.Api;
 using PuzKit3D.Modules.User.Application;
@@ -106,6 +107,7 @@ builder.Services.AddFeedbackInfrastructure();
 builder.Services.AddNotificationInfrastructure(builder.Configuration, builder.Environment);
 builder.Services.AddMediaInfrastructure(builder.Configuration, builder.Environment);
 builder.Services.AddDeliveryInfrastructure(builder.Configuration, builder.Environment);
+builder.Services.AddSupportTicketInfrastructure();
 
 var app = builder.Build();
 

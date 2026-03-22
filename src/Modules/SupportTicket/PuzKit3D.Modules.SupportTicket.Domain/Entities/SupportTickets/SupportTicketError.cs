@@ -25,4 +25,13 @@ public static class SupportTicketError
 
     public static Error ProofTooLong() =>
         Error.Validation("SupportTicket.ProofTooLong", "Proof path cannot exceed 500 characters");
+
+    public static Error DetailsRequiredForReplacePart() =>
+        Error.Validation("SupportTicket.DetailsRequiredForReplacePart", "At least one detail is required for ReplacePart type");
+
+    public static Error PartIdRequiredForReplacePart() =>
+        Error.Validation("SupportTicket.PartIdRequiredForReplacePart", "PartId is required when type is ReplacePart");
+
+    public static Error ExchangeQuantityExceedsOrderDetailQuantity(Guid orderDetailId, int orderDetailQuantity) =>
+        Error.Validation("SupportTicket.ExchangeQuantityExceedsOrderDetailQuantity", $"Exchange quantity cannot exceed order detail quantity ({orderDetailQuantity}) for order detail {orderDetailId}");
 }

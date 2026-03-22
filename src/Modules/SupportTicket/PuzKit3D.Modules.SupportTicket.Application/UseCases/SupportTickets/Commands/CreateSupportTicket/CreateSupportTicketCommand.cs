@@ -8,4 +8,11 @@ public sealed record CreateSupportTicketCommand(
     Guid OrderId,
     SupportTicketType Type,
     string Reason,
-    string Proof) : ICommandT<Guid>;
+    string Proof,
+    IReadOnlyList<CreateSupportTicketDetailDto> Details) : ICommandT<Guid>;
+
+public sealed record CreateSupportTicketDetailDto(
+    Guid OrderDetailId,
+    Guid? PartId,
+    int Quantity,
+    string? Note);

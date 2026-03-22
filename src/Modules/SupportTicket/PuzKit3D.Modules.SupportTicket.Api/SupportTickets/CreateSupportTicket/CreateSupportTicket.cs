@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
+using PuzKit3D.Modules.SupportTicket.Api;
 using PuzKit3D.Modules.SupportTicket.Application.UseCases.SupportTickets.Commands.CreateSupportTicket;
 using PuzKit3D.Modules.SupportTicket.Domain.Entities.SupportTickets;
 using PuzKit3D.SharedKernel.Api.Endpoint;
@@ -34,12 +35,23 @@ internal sealed class CreateSupportTicket : IEndpoint
                     return Results.BadRequest(new { error = $"Invalid type '{request.Type}'. Valid values are: {string.Join(", ", Enum.GetNames(typeof(SupportTicketType)))}" });
                 }
 
+                // Validate that at least one detail is provided
+                if (request.Details == null || request.Details.Count == 0)
+                {
+                    return Results.BadRequest(new { error = "At least one support ticket detail is required" });
+                }
+
+                var details = request.Details
+                    .Select(d => new CreateSupportTicketDetailDto(d.OrderDetailId, d.PartId, d.Quantity, d.Note))
+                    .ToList();
+
                 var command = new CreateSupportTicketCommand(
                     userId,
                     request.OrderId,
                     typeEnum,
                     request.Reason,
-                    request.Proof);
+                    request.Proof,
+                    details);
 
                 var result = await sender.Send(command, cancellationToken);
 
@@ -60,5 +72,12 @@ public sealed record CreateSupportTicketRequestDto(
     Guid OrderId,
     string Type,
     string Reason,
-    string Proof);
+    string Proof,
+    IReadOnlyList<CreateSupportTicketDetailRequestDto> Details);
+
+public sealed record CreateSupportTicketDetailRequestDto(
+Guid OrderDetailId,
+Guid? PartId,
+int Quantity,
+string? Note);
 
