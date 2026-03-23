@@ -39,6 +39,9 @@ public static class DependencyInjection
         services.AddScoped<IDeliveryTrackingRepository, DeliveryTrackingRepository>();
         services.AddScoped<IOrderReplicaRepository, OrderReplicaRepository>();
         services.AddScoped<IOrderDetailReplicaRepository, OrderDetailReplicaRepository>();
+        services.AddScoped<ISupportTicketReplicaRepository, SupportTicketReplicaRepository>();
+        services.AddScoped<IPartReplicaRepository, PartReplicaRepository>();
+        services.AddScoped<IUserReplicaRepository, UserReplicaRepository>();
 
         return services;
     }

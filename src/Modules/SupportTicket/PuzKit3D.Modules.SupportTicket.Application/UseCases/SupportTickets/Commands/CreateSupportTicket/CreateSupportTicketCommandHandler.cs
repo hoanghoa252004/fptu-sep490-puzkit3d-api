@@ -38,7 +38,7 @@ internal sealed class CreateSupportTicketCommandHandler
 
         // Check if order exists
         var order = await _orderReplicaRepository.GetByIdAsync(request.OrderId, cancellationToken);
-        if (order is null)
+        if (order.IsFailure == true)
         {
             return Result.Failure<Guid>(OrderReplicaError.OrderNotFound(request.OrderId));
         }

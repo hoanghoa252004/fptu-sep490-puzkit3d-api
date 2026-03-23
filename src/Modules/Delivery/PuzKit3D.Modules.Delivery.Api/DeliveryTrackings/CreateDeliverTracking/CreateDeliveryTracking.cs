@@ -21,7 +21,7 @@ public sealed class CreateDeliveryTracking : IEndpoint
     {
         app.MapDeliveryGroup()
             .MapPost("/", async (
-                [FromBody] CreateSupportTicketRequestDto request,
+                [FromBody] CreateDeliveryTrackingRequestDto request,
                 ISender sender,
                 CancellationToken cancellationToken) =>
             {
@@ -42,6 +42,6 @@ public sealed class CreateDeliveryTracking : IEndpoint
             .ProducesProblem(StatusCodes.Status500InternalServerError);
     }
 }
-public sealed record CreateSupportTicketRequestDto(
+public sealed record CreateDeliveryTrackingRequestDto(
     Guid OrderId,
     Guid? SupportTicketId);

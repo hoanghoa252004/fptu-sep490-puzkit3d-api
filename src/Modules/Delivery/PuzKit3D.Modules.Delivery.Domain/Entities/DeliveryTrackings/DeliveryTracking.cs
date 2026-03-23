@@ -1,4 +1,4 @@
-using PuzKit3D.SharedKernel.Domain;
+﻿using PuzKit3D.SharedKernel.Domain;
 using PuzKit3D.SharedKernel.Domain.Results;
 
 namespace PuzKit3D.Modules.Delivery.Domain.Entities.DeliveryTrackings;
@@ -19,7 +19,7 @@ public sealed class DeliveryTracking : AggregateRoot<DeliveryTrackingId>
     public DateTime UpdatedAt { get; private set; }
 
     /// <summary>
-    /// Navigation property - Items trong delivery n�y
+    /// Navigation property - Items trong delivery này
     /// </summary>
     public IReadOnlyCollection<DeliveryTrackingDetail> Details => _details.AsReadOnly();
 
@@ -67,6 +67,21 @@ public sealed class DeliveryTracking : AggregateRoot<DeliveryTrackingId>
             return Result.Failure<DeliveryTracking>(
                 DeliveryTrackingError.InvalidExpectedDeliveryDate());
 
+        DateTime utcDateTime;
+
+        if (expectedDeliveryDate.Kind == DateTimeKind.Utc)
+        {
+            utcDateTime = expectedDeliveryDate;
+        }
+        else if (expectedDeliveryDate.Kind == DateTimeKind.Local)
+        {
+            utcDateTime = expectedDeliveryDate.ToUniversalTime();
+        }
+        else // Unspecified (trường hợp nguy hiểm nhất)
+        {
+            var vietnamTimeZone = TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time");
+            utcDateTime = TimeZoneInfo.ConvertTimeToUtc(expectedDeliveryDate, vietnamTimeZone);
+        }
         var id = DeliveryTrackingId.NewId();
         var tracking = new DeliveryTracking(
             id,
@@ -74,7 +89,7 @@ public sealed class DeliveryTracking : AggregateRoot<DeliveryTrackingId>
             deliveryOrderCode,
             DeliveryTrackingStatus.ReadyToPick,
             type,
-            expectedDeliveryDate,
+            utcDateTime,
             supportTicketId)
         {
             Note = note

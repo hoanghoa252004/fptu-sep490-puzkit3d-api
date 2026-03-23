@@ -71,6 +71,25 @@ namespace PuzKit3D.Modules.Delivery.Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "part_replicas",
+                schema: "delivery",
+                columns: table => new
+                {
+                    id = table.Column<Guid>(type: "uuid", nullable: false),
+                    name = table.Column<string>(type: "character varying(30)", maxLength: 30, nullable: false),
+                    part_type = table.Column<string>(type: "text", nullable: false),
+                    code = table.Column<string>(type: "character varying(10)", maxLength: 10, nullable: false),
+                    quantity = table.Column<int>(type: "integer", nullable: false),
+                    instock_product_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_part_replicas", x => x.id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "support_ticket_replicas",
                 schema: "delivery",
                 columns: table => new
@@ -286,6 +305,10 @@ namespace PuzKit3D.Modules.Delivery.Persistence.Migrations
 
             migrationBuilder.DropTable(
                 name: "order_replicas",
+                schema: "delivery");
+
+            migrationBuilder.DropTable(
+                name: "part_replicas",
                 schema: "delivery");
 
             migrationBuilder.DropTable(
