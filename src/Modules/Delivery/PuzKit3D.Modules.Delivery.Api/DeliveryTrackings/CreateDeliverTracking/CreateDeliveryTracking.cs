@@ -26,11 +26,11 @@ public sealed class CreateDeliveryTracking : IEndpoint
                 CancellationToken cancellationToken) =>
             {
                 // Validate and convert string type to enum
-                if (!Enum.TryParse<DeliveryTrackingType>(request.DeliveryTrackingType, ignoreCase: true, out var typeEnum))
-                {
-                    return Results.BadRequest(new { error = $"Invalid type '{request.DeliveryTrackingType}'. Valid values are: {string.Join(", ", Enum.GetNames(typeof(DeliveryTrackingType)))}" });
-                }
-                var query = new CreateDeliveryTrackingCommand(request.OrderId, typeEnum);
+                //if (!Enum.TryParse<DeliveryTrackingType>(request.DeliveryTrackingType, ignoreCase: true, out var typeEnum))
+                //{
+                //    return Results.BadRequest(new { error = $"Invalid type '{request.DeliveryTrackingType}'. Valid values are: {string.Join(", ", Enum.GetNames(typeof(DeliveryTrackingType)))}" });
+                //}
+                var query = new CreateDeliveryTrackingCommand(request.OrderId, request.SupportTicketId);
                 var result = await sender.Send(query, cancellationToken);
                 return result.MatchOk();
             })
@@ -44,4 +44,4 @@ public sealed class CreateDeliveryTracking : IEndpoint
 }
 public sealed record CreateSupportTicketRequestDto(
     Guid OrderId,
-    string DeliveryTrackingType);
+    Guid? SupportTicketId);

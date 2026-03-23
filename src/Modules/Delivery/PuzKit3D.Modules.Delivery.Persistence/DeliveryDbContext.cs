@@ -33,6 +33,8 @@ public sealed class DeliveryDbContext : DbContext, IDeliveryUnitOfWork
     public DbSet<SupportTicketReplica> SupportTicketReplicas => Set<SupportTicketReplica>();
     public DbSet<SupportTicketDetailReplica> SupportTicketDetailReplicas => Set<SupportTicketDetailReplica>();
 
+    public DbSet<PartReplica> PartReplicas => Set<PartReplica>();
+
     public DbSet<UserReplica> UserReplicas => Set<UserReplica>();
 
     protected override void OnModelCreating(ModelBuilder builder)

@@ -2,11 +2,13 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using PuzKit3D.Contract.InStock.InstockOrders;
+using PuzKit3D.Contract.InStock.Part;
 using PuzKit3D.Contract.SupportTicket.SupportTickets;
 using PuzKit3D.Contract.User;
 using PuzKit3D.Modules.Delivery.Application.Services;
 using PuzKit3D.Modules.Delivery.Infrastructure.DependencyInjection.Options;
 using PuzKit3D.Modules.Delivery.Infrastructure.IntegrationEventHandlers.InstockOrders;
+using PuzKit3D.Modules.Delivery.Infrastructure.IntegrationEventHandlers.Parts;
 using PuzKit3D.Modules.Delivery.Infrastructure.IntegrationEventHandlers.SupportTickets;
 using PuzKit3D.Modules.Delivery.Infrastructure.IntegrationEventHandlers.Users;
 using PuzKit3D.Modules.Delivery.Infrastructure.Services;
@@ -52,6 +54,16 @@ public static class DependencyInjection
 
         services.AddScoped<IIntegrationEventHandler<UserUpdatedIntegrationEvent>,
             UserUpdatedIntegrationEventHandler>();
+
+        //// Part events
+        services.AddScoped<IIntegrationEventHandler<PartCreatedIntegrationEvent>,
+            PartCreatedIntegrationEventHandler>();
+
+        services.AddScoped<IIntegrationEventHandler<PartUpdatedIntegrationEvent>,
+            PartUpdatedIntegrationEventHandler>();
+
+        services.AddScoped<IIntegrationEventHandler<PartDeletedIntegrationEvent>,
+            PartDeletedIntegrationEventHandler>();
         return services;
     }
 }

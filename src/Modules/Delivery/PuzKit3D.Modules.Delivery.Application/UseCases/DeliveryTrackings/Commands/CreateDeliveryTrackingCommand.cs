@@ -9,4 +9,4 @@ using System.Windows.Input;
 
 namespace PuzKit3D.Modules.Delivery.Application.UseCases.DeliveryTrackings.Commands;
 
-public sealed record CreateDeliveryTrackingCommand(Guid OrderId, DeliveryTrackingType DeliveryTrackingType) : ICommandT<Guid>;
+public sealed record CreateDeliveryTrackingCommand(Guid OrderId, Guid? SupportTicketId) : ICommandT<Guid>;
