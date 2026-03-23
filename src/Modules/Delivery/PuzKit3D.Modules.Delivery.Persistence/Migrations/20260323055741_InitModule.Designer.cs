@@ -12,7 +12,7 @@ using PuzKit3D.Modules.Delivery.Persistence;
 namespace PuzKit3D.Modules.Delivery.Persistence.Migrations
 {
     [DbContext(typeof(DeliveryDbContext))]
-    [Migration("20260323044241_InitModule")]
+    [Migration("20260323055741_InitModule")]
     partial class InitModule
     {
         /// <inheritdoc />
@@ -314,6 +314,87 @@ namespace PuzKit3D.Modules.Delivery.Persistence.Migrations
                         .HasDatabaseName("ix_support_ticket_replicas_user_id");
 
                     b.ToTable("support_ticket_replicas", "delivery");
+                });
+
+            modelBuilder.Entity("PuzKit3D.Modules.Delivery.Domain.Entities.Replicas.UserReplica", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at");
+
+                    b.Property<DateTime?>("DateOfBirth")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("date_of_birth");
+
+                    b.Property<string>("District")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("district");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("character varying(30)")
+                        .HasColumnName("email");
+
+                    b.Property<string>("FullName")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("character varying(30)")
+                        .HasColumnName("full_name");
+
+                    b.Property<string>("PasswordHash")
+                        .IsRequired()
+                        .HasMaxLength(300)
+                        .HasColumnType("character varying(300)")
+                        .HasColumnName("password_hash");
+
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasMaxLength(15)
+                        .HasColumnType("character varying(15)")
+                        .HasColumnName("phone_number");
+
+                    b.Property<string>("Province")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("province");
+
+                    b.Property<Guid>("RoleId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("role_id");
+
+                    b.Property<string>("StreetAddress")
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)")
+                        .HasColumnName("street_address");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("updated_at");
+
+                    b.Property<string>("Ward")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("ward");
+
+                    b.HasKey("Id")
+                        .HasName("pk_user_replicas");
+
+                    b.HasIndex("Email")
+                        .IsUnique()
+                        .HasDatabaseName("UK__user_replica__email");
+
+                    b.HasIndex("PhoneNumber")
+                        .IsUnique()
+                        .HasDatabaseName("UK__user_replica__phone_number");
+
+                    b.ToTable("user_replicas", "delivery");
                 });
 
             modelBuilder.Entity("PuzKit3D.Modules.Delivery.Domain.Entities.DeliveryTrackings.DeliveryTrackingDetail", b =>

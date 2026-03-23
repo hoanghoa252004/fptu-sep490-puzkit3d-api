@@ -3,10 +3,12 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using PuzKit3D.Contract.InStock.InstockOrders;
 using PuzKit3D.Contract.SupportTicket.SupportTickets;
+using PuzKit3D.Contract.User;
 using PuzKit3D.Modules.Delivery.Application.Services;
 using PuzKit3D.Modules.Delivery.Infrastructure.DependencyInjection.Options;
 using PuzKit3D.Modules.Delivery.Infrastructure.IntegrationEventHandlers.InstockOrders;
 using PuzKit3D.Modules.Delivery.Infrastructure.IntegrationEventHandlers.SupportTickets;
+using PuzKit3D.Modules.Delivery.Infrastructure.IntegrationEventHandlers.Users;
 using PuzKit3D.Modules.Delivery.Infrastructure.Services;
 using PuzKit3D.SharedKernel.Application.Event;
 
@@ -43,6 +45,13 @@ public static class DependencyInjection
         services.AddScoped<IIntegrationEventHandler<SupportTicketStatusChangedIntegrationEvent>,
             SupportTicketStatusChangedIntegrationEventHandler>();
 
+
+        //// User events
+        services.AddScoped<IIntegrationEventHandler<UserEmailConfirmedIntegrationEvent>,
+            UserEmailConfirmedIntegrationEventHandler>();
+
+        services.AddScoped<IIntegrationEventHandler<UserUpdatedIntegrationEvent>,
+            UserUpdatedIntegrationEventHandler>();
         return services;
     }
 }

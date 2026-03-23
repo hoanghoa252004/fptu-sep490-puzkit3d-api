@@ -91,6 +91,30 @@ namespace PuzKit3D.Modules.Delivery.Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "user_replicas",
+                schema: "delivery",
+                columns: table => new
+                {
+                    id = table.Column<Guid>(type: "uuid", nullable: false),
+                    email = table.Column<string>(type: "character varying(30)", maxLength: 30, nullable: false),
+                    password_hash = table.Column<string>(type: "character varying(300)", maxLength: 300, nullable: false),
+                    role_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    full_name = table.Column<string>(type: "character varying(30)", maxLength: 30, nullable: false),
+                    date_of_birth = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    phone_number = table.Column<string>(type: "character varying(15)", maxLength: 15, nullable: false),
+                    province = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    district = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    ward = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    street_address = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: true),
+                    created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_user_replicas", x => x.id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "delivery_tracking_details",
                 schema: "delivery",
                 columns: table => new
@@ -233,6 +257,20 @@ namespace PuzKit3D.Modules.Delivery.Persistence.Migrations
                 schema: "delivery",
                 table: "support_ticket_replicas",
                 column: "user_id");
+
+            migrationBuilder.CreateIndex(
+                name: "UK__user_replica__email",
+                schema: "delivery",
+                table: "user_replicas",
+                column: "email",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "UK__user_replica__phone_number",
+                schema: "delivery",
+                table: "user_replicas",
+                column: "phone_number",
+                unique: true);
         }
 
         /// <inheritdoc />
@@ -252,6 +290,10 @@ namespace PuzKit3D.Modules.Delivery.Persistence.Migrations
 
             migrationBuilder.DropTable(
                 name: "support_ticket_detail_replicas",
+                schema: "delivery");
+
+            migrationBuilder.DropTable(
+                name: "user_replicas",
                 schema: "delivery");
 
             migrationBuilder.DropTable(
