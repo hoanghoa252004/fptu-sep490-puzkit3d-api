@@ -1,4 +1,5 @@
 using PuzKit3D.Modules.SupportTicket.Domain.Entities.SupportTicketDetails;
+using PuzKit3D.Modules.SupportTicket.Domain.Entities.SupportTickets.DomainEvents;
 using PuzKit3D.SharedKernel.Domain;
 using PuzKit3D.SharedKernel.Domain.Results;
 
@@ -84,6 +85,34 @@ public sealed class SupportTicket : AggregateRoot<SupportTicketId>
         return Result.Success(ticket);
     }
 
+    public void RaiseCreateSupportTicket()
+    {
+        // Build detail information from _details list
+        var detailInfos = _details.Select(d => new SupportTicketDetailInfo(
+            d.Id.Value,
+            d.OrderItemId,
+            d.PartId,
+            d.Quantity,
+            d.Note)).ToList();
+
+        var now = DateTime.UtcNow;
+
+        // Emit SupportTicketCreatedDomainEvent
+        var @event = new SupportTicketCreatedDomainEvent(
+            Id.Value,
+            UserId,
+            OrderId,
+            Type.ToString(),
+            SupportTicketStatus.Open.ToString(),
+            Reason,
+            Proof,
+            now,
+            now,
+            detailInfos);
+
+        RaiseDomainEvent(@event);
+    }
+
     public ResultT<bool> UpdateStatus(SupportTicketStatus newStatus)
     {
         // Validate status transition
@@ -100,6 +129,15 @@ public sealed class SupportTicket : AggregateRoot<SupportTicketId>
 
         Status = newStatus;
         UpdatedAt = DateTime.UtcNow;
+
+        // Emit SupportTicketStatusChangedDomainEvent
+        var @event = new SupportTicketStatusChangedDomainEvent(
+            Id.Value,
+            Status.ToString(),
+            UpdatedAt);
+
+        RaiseDomainEvent(@event);
+
         return Result.Success(true);
     }
 
@@ -119,5 +157,12 @@ public sealed class SupportTicket : AggregateRoot<SupportTicketId>
             _details.Remove(detail);
             UpdatedAt = DateTime.UtcNow;
         }
+    }
+
+    public void Delete()
+    {
+        // Emit SupportTicketDeletedDomainEvent
+        var @event = new SupportTicketDeletedDomainEvent(Id.Value);
+        RaiseDomainEvent(@event);
     }
 }

@@ -52,6 +52,9 @@ internal sealed class DeleteSupportTicketCommandHandler
         if (!isStaff && ticket.UserId != userId)
             return Result.Failure(SupportTicketError.Unauthorized());
 
+        // Emit delete event before deleting
+        ticket.Delete();
+
         // Delete the support ticket
         var deleteResult = await _repository.DeleteAsync(ticket.Id, cancellationToken);
         if (deleteResult.IsFailure)

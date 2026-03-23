@@ -118,6 +118,7 @@ internal sealed class CreateSupportTicketCommandHandler
 
             await _repository.AddAsync(ticket, cancellationToken);
 
+            ticket.RaiseCreateSupportTicket();
             return Result.Success(result.Value.Id.Value);
         }, cancellationToken);
     }
