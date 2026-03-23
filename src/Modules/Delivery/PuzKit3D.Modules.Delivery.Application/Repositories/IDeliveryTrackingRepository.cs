@@ -30,6 +30,12 @@ public interface IDeliveryTrackingRepository
         CancellationToken cancellationToken = default);
 
     /// <summary>
+    /// Get all delivery trackings
+    /// </summary>
+    Task<List<DeliveryTracking>> GetAllAsync(
+        CancellationToken cancellationToken = default);
+
+    /// <summary>
     /// Get delivery trackings by status
     /// </summary>
     Task<List<DeliveryTracking>> GetByStatusAsync(

@@ -5,7 +5,7 @@ using PuzKit3D.SharedKernel.Application.Message.Query;
 using PuzKit3D.SharedKernel.Domain.Errors;
 using PuzKit3D.SharedKernel.Domain.Results;
 
-namespace PuzKit3D.Modules.Delivery.Application.UseCases.DeliveryTrackings.Queries;
+namespace PuzKit3D.Modules.Delivery.Application.UseCases.DeliveryTrackings.Queries.GetDeliveryTrackingsByOrderId;
 
 internal sealed class GetDeliveryTrackingsByOrderIdQueryHandler : IQueryHandler<GetDeliveryTrackingsByOrderIdQuery, PaginatedDeliveryTrackingDto>
 {

@@ -46,6 +46,15 @@ internal sealed class DeliveryTrackingRepository : IDeliveryTrackingRepository
             .ToListAsync(cancellationToken);
     }
 
+    public async Task<List<DeliveryTracking>> GetAllAsync(
+        CancellationToken cancellationToken = default)
+    {
+        return await _dbContext.DeliveryTrackings
+            .Include(dt => dt.Details)
+            .OrderByDescending(dt => dt.CreatedAt)
+            .ToListAsync(cancellationToken);
+    }
+
     public async Task<List<DeliveryTracking>> GetByStatusAsync(
         DeliveryTrackingStatus status,
         CancellationToken cancellationToken = default)

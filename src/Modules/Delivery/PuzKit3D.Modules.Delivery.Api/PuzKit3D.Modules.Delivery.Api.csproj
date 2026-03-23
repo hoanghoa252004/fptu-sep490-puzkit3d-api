@@ -12,9 +12,4 @@
     <ProjectReference Include="..\PuzKit3D.Modules.Delivery.Application\PuzKit3D.Modules.Delivery.Application.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="DeliveryTrackings\CreateDeliveryTracking\" />
-    <Folder Include="DeliveryTrackings\GetDeliveryTrackingByOrderId\" />
-  </ItemGroup>
-
 </Project>

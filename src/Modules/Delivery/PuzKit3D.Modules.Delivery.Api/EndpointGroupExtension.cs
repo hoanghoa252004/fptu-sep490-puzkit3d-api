@@ -8,7 +8,7 @@ public static class EndpointGroupExtension
 {
     public static RouteGroupBuilder MapDeliveryGroup(this IEndpointRouteBuilder app)
     {
-        return app.MapGroup("api/delivery-tracking")
-            .WithTags("Delivery");
+        return app.MapGroup("api/delivery-trackings")
+            .WithTags("Delivery Tracking");
     }
 }
