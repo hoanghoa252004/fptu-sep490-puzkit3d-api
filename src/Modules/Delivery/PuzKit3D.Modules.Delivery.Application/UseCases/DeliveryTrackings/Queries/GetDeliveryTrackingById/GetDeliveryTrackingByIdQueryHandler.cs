@@ -1,19 +1,48 @@
 using PuzKit3D.Modules.Delivery.Application.DTOs;
 using PuzKit3D.Modules.Delivery.Application.Repositories;
+using PuzKit3D.Modules.Delivery.Application.Services;
+using PuzKit3D.Modules.Delivery.Application.UnitOfWork;
 using PuzKit3D.Modules.Delivery.Domain.Entities.DeliveryTrackings;
 using PuzKit3D.SharedKernel.Application.Message.Query;
 using PuzKit3D.SharedKernel.Domain.Errors;
 using PuzKit3D.SharedKernel.Domain.Results;
+using System.Text.Json;
 
 namespace PuzKit3D.Modules.Delivery.Application.UseCases.DeliveryTrackings.Queries.GetDeliveryTrackingById;
+
+internal static class GhnStatusMapperForDeliveryTracking
+{
+    public static DeliveryTrackingStatus? MapGhnStatusToDeliveryTrackingStatus(string? ghnStatus)
+    {
+        if (string.IsNullOrWhiteSpace(ghnStatus))
+            return null;
+
+        return ghnStatus.ToLowerInvariant() switch
+        {
+            "picked" => DeliveryTrackingStatus.HandedOverToDelivery,
+            "delivering" => DeliveryTrackingStatus.Shipping,
+            "delivered" => DeliveryTrackingStatus.Delivered,
+            "return" => DeliveryTrackingStatus.Return,
+            "returned" => DeliveryTrackingStatus.Returned,
+            _ => null
+        };
+    }
+}
 
 internal sealed class GetDeliveryTrackingByIdQueryHandler : IQueryHandler<GetDeliveryTrackingByIdQuery, DeliveryTrackingDto>
 {
     private readonly IDeliveryTrackingRepository _deliveryTrackingRepository;
+    private readonly IDeliveryService _deliveryService;
+    private readonly IDeliveryUnitOfWork _unitOfWork;
 
-    public GetDeliveryTrackingByIdQueryHandler(IDeliveryTrackingRepository deliveryTrackingRepository)
+    public GetDeliveryTrackingByIdQueryHandler(
+        IDeliveryTrackingRepository deliveryTrackingRepository,
+        IDeliveryService deliveryService,
+        IDeliveryUnitOfWork unitOfWork)
     {
         _deliveryTrackingRepository = deliveryTrackingRepository;
+        _deliveryService = deliveryService;
+        _unitOfWork = unitOfWork;
     }
 
     public async Task<ResultT<DeliveryTrackingDto>> Handle(
@@ -29,6 +58,9 @@ internal sealed class GetDeliveryTrackingByIdQueryHandler : IQueryHandler<GetDel
                 Error.NotFound("DeliveryTracking.NotFound", 
                     $"Delivery tracking with ID {request.DeliveryTrackingId} not found"));
         }
+
+        // Sync status from GHN
+        await SyncDeliveryTrackingStatusFromGhnAsync(tracking, cancellationToken);
 
         var dto = MapToDto(tracking);
         return Result.Success(dto);
@@ -53,6 +85,63 @@ internal sealed class GetDeliveryTrackingByIdQueryHandler : IQueryHandler<GetDel
                 d.Type.ToString(),
                 d.ItemId,
                 d.Quantity)).ToList());
+    }
+
+    private async Task SyncDeliveryTrackingStatusFromGhnAsync(DeliveryTracking tracking, CancellationToken cancellationToken)
+    {
+        if (string.IsNullOrWhiteSpace(tracking.DeliveryOrderCode))
+            return;
+
+        var result = await _deliveryService.GetShippingOrderDetailAsync(tracking.DeliveryOrderCode);
+
+        if (result.IsFailure)
+            return;
+
+        try
+        {
+            // Serialize the response to JSON and parse it
+            var json = JsonSerializer.Serialize(result.Value);
+            using var doc = JsonDocument.Parse(json);
+            
+            // Navigate to data.status
+            if (!doc.RootElement.TryGetProperty("data", out var dataProperty))
+                return;
+
+            if (!dataProperty.TryGetProperty("status", out var statusProperty))
+                return;
+
+            var ghnStatus = statusProperty.GetString();
+
+            // Map GHN status to DeliveryTrackingStatus
+            var mappedStatus = GhnStatusMapperForDeliveryTracking.MapGhnStatusToDeliveryTrackingStatus(ghnStatus);
+
+            // Check if status needs to be updated
+            if (mappedStatus.HasValue && mappedStatus.Value != tracking.Status)
+            {
+                // Update the tracking status based on the new status
+                var updateResult = mappedStatus.Value switch
+                {
+                    DeliveryTrackingStatus.HandedOverToDelivery => tracking.MarkAsPicked(),
+                    DeliveryTrackingStatus.Shipping => tracking.MarkAsShipping(),
+                    DeliveryTrackingStatus.Delivered => tracking.MarkAsDelivered(),
+                    DeliveryTrackingStatus.Return => tracking.MarkAsReturn(),
+                    DeliveryTrackingStatus.Returned => tracking.MarkAsReturned(),
+                    _ => Result.Failure(Error.Validation("InvalidStatus", "Invalid delivery tracking status"))
+                };
+
+                if (updateResult.IsSuccess)
+                {
+                    // Update the tracking in the repository
+                    _deliveryTrackingRepository.Update(tracking);
+                    await _unitOfWork.SaveChangesAsync(cancellationToken);
+                }
+            }
+        }
+        catch
+        {
+            // Silently continue if parsing fails
+            return;
+        }
     }
 }
 

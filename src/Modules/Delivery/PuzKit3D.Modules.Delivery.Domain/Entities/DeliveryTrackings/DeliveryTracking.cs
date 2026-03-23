@@ -127,16 +127,16 @@ public sealed class DeliveryTracking : AggregateRoot<DeliveryTrackingId>
     {
         if (Status != DeliveryTrackingStatus.ReadyToPick)
             return Result.Failure(
-                DeliveryTrackingError.InvalidStatusTransition(Status, DeliveryTrackingStatus.Picked));
+                DeliveryTrackingError.InvalidStatusTransition(Status, DeliveryTrackingStatus.HandedOverToDelivery));
 
-        Status = DeliveryTrackingStatus.Picked;
+        Status = DeliveryTrackingStatus.HandedOverToDelivery;
         UpdatedAt = DateTime.UtcNow;
         return Result.Success();
     }
 
     public Result MarkAsShipping()
     {
-        if (Status != DeliveryTrackingStatus.Picked)
+        if (Status != DeliveryTrackingStatus.HandedOverToDelivery)
             return Result.Failure(
                 DeliveryTrackingError.InvalidStatusTransition(Status, DeliveryTrackingStatus.Shipping));
 
