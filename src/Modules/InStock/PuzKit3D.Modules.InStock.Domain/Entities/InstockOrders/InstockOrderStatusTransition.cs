@@ -34,25 +34,7 @@ public static class InstockOrderStatusTransition
         {
             InstockOrderStatus.HandedOverToDelivery, new HashSet<InstockOrderStatus>
             {
-                InstockOrderStatus.Shipping
-            }
-        },
-        {
-            InstockOrderStatus.Shipping, new HashSet<InstockOrderStatus>
-            {
-                InstockOrderStatus.Delivered,
-                InstockOrderStatus.Rejected
-            }
-        },
-        {
-            InstockOrderStatus.Delivered, new HashSet<InstockOrderStatus>
-            {
-                InstockOrderStatus.Completed
-            }
-        },
-        {
-            InstockOrderStatus.Rejected, new HashSet<InstockOrderStatus>
-            {
+                InstockOrderStatus.Completed,
                 InstockOrderStatus.Returned
             }
         },
@@ -86,6 +68,7 @@ public static class InstockOrderStatusTransition
 
     public static string GetTransitionPath()
     {
-        return "COD: Waiting -> [Processing | Expired | Cancelled], Processing -> Shipping -> Delivered -> Completed; Online: Pending -> [Paid | Expired | Cancelled], Paid -> Processing -> Shipping -> Delivered -> Completed";
+        return "COD: Waiting -> [Processing | Cancelled] -> HandedOverToDelivery -> [Completed | Returned]; " +
+               "Online: Pending -> [Paid | Expired | Cancelled], Paid -> Processing -> HandedOverToDelivery -> [Completed | Returned]";
     }
 }

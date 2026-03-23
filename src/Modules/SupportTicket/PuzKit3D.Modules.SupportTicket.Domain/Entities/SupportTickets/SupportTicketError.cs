@@ -55,4 +55,7 @@ public static class SupportTicketError
 
     public static Error ReplacePartQuantityExceedsAvailable(Guid partId, int availableQuantity, int requestedQuantity) =>
         Error.Validation("SupportTicket.ReplacePartQuantityExceedsAvailable", $"Requested quantity ({requestedQuantity}) exceeds available part quantity ({availableQuantity}) for part {partId}");
+
+    public static Error CannotCreateNewTicketWithUnresolvedTickets() =>
+        Error.Validation("SupportTicket.CannotCreateNewTicket", "Cannot create a new support ticket while there are unresolved support tickets for this order");
 }

@@ -46,9 +46,6 @@ internal sealed class InstockOrderConfiguration : IEntityTypeConfiguration<Insto
             .IsRequired()
             .HasMaxLength(100);
 
-        builder.Property(o => o.HandoverProofImageUrl)
-            .HasColumnType("text");
-
         builder.Property(o => o.CustomerWardName)
             .IsRequired()
             .HasMaxLength(30);
@@ -91,11 +88,6 @@ internal sealed class InstockOrderConfiguration : IEntityTypeConfiguration<Insto
             .HasDefaultValue(false);
 
         builder.Property(o => o.PaidAt);
-
-        builder.Property(o => o.DeliveryOrderCode)
-            .HasMaxLength(20);
-
-        builder.Property(o => o.ExpectedDeliveryDate);
 
         builder.HasIndex(o => o.Code)
             .IsUnique()

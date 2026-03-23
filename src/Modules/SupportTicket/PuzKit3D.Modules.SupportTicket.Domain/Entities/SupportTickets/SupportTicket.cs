@@ -1,4 +1,5 @@
 using PuzKit3D.Modules.SupportTicket.Domain.Entities.SupportTicketDetails;
+using PuzKit3D.Modules.SupportTicket.Domain.Entities.SupportTickets.DomainEvents;
 using PuzKit3D.SharedKernel.Domain;
 using PuzKit3D.SharedKernel.Domain.Results;
 
@@ -16,7 +17,7 @@ public sealed class SupportTicket : AggregateRoot<SupportTicketId>
     public string Proof { get; private set; } = null!;
     public DateTime CreatedAt { get; private set; }
     public DateTime UpdatedAt { get; private set; }
-
+    public string Code { get; private set; }
     public IReadOnlyCollection<SupportTicketDetail> Details => _details.AsReadOnly();
 
     private SupportTicket(
@@ -27,7 +28,8 @@ public sealed class SupportTicket : AggregateRoot<SupportTicketId>
         SupportTicketStatus status,
         string reason,
         string proof,
-        DateTime createdAt) : base(id)
+        DateTime createdAt,
+        string code) : base(id)
     {
         UserId = userId;
         OrderId = orderId;
@@ -37,6 +39,7 @@ public sealed class SupportTicket : AggregateRoot<SupportTicketId>
         Proof = proof;
         CreatedAt = createdAt;
         UpdatedAt = createdAt;
+        Code = code;
     }
 
     private SupportTicket() : base()
@@ -49,6 +52,7 @@ public sealed class SupportTicket : AggregateRoot<SupportTicketId>
         SupportTicketType type,
         string reason,
         string proof,
+        string code,
         DateTime? createdAt = null)
     {
         if (userId == Guid.Empty)
@@ -79,9 +83,39 @@ public sealed class SupportTicket : AggregateRoot<SupportTicketId>
             SupportTicketStatus.Open,
             reason,
             proof,
-            now);
+            now,
+            code);
 
         return Result.Success(ticket);
+    }
+
+    public void RaiseCreateSupportTicket()
+    {
+        // Build detail information from _details list
+        var detailInfos = _details.Select(d => new SupportTicketDetailInfo(
+            d.Id.Value,
+            d.OrderItemId,
+            d.PartId,
+            d.Quantity,
+            d.Note)).ToList();
+
+        var now = DateTime.UtcNow;
+
+        // Emit SupportTicketCreatedDomainEvent
+        var @event = new SupportTicketCreatedDomainEvent(
+            Id.Value,
+            Code,
+            UserId,
+            OrderId,
+            Type.ToString(),
+            SupportTicketStatus.Open.ToString(),
+            Reason,
+            Proof,
+            now,
+            now,
+            detailInfos);
+
+        RaiseDomainEvent(@event);
     }
 
     public ResultT<bool> UpdateStatus(SupportTicketStatus newStatus)
@@ -100,6 +134,15 @@ public sealed class SupportTicket : AggregateRoot<SupportTicketId>
 
         Status = newStatus;
         UpdatedAt = DateTime.UtcNow;
+
+        // Emit SupportTicketStatusChangedDomainEvent
+        var @event = new SupportTicketStatusChangedDomainEvent(
+            Id.Value,
+            Status.ToString(),
+            UpdatedAt);
+
+        RaiseDomainEvent(@event);
+
         return Result.Success(true);
     }
 
@@ -119,5 +162,12 @@ public sealed class SupportTicket : AggregateRoot<SupportTicketId>
             _details.Remove(detail);
             UpdatedAt = DateTime.UtcNow;
         }
+    }
+
+    public void Delete()
+    {
+        // Emit SupportTicketDeletedDomainEvent
+        var @event = new SupportTicketDeletedDomainEvent(Id.Value);
+        RaiseDomainEvent(@event);
     }
 }

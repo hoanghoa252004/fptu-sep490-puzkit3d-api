@@ -18,4 +18,5 @@ public static class Schema
     public const string Cart = "cart";
     public const string Catalog = "catalog";
     public const string Feedback = "feedback";
+    public const string Delivery = "delivery";
 }

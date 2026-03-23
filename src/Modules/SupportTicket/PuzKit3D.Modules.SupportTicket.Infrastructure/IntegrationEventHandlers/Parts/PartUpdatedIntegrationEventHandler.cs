@@ -19,7 +19,7 @@ internal class PartUpdatedIntegrationEventHandler : IIntegrationEventHandler<Par
     public async Task HandleAsync(PartUpdatedIntegrationEvent @event, CancellationToken cancellationToken = default)
     {
         var partReplica = await _dbContext.PartReplicas
-            .FirstOrDefaultAsync(p => p.PartId == @event.PartId, cancellationToken);
+            .FirstOrDefaultAsync(p => p.Id == @event.PartId, cancellationToken);
 
         if (partReplica != null)
         {

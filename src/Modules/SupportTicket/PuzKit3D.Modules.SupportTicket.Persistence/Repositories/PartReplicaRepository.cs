@@ -18,7 +18,7 @@ internal sealed class PartReplicaRepository : IPartReplicaRepository
     public async Task<PartReplica?> GetByIdAsync(Guid partId, CancellationToken cancellationToken = default)
     {
         return await _dbContext.PartReplicas
-            .FirstOrDefaultAsync(p => p.PartId == partId, cancellationToken);
+            .FirstOrDefaultAsync(p => p.Id == partId, cancellationToken);
     }
 
     public async Task<Result> AddAsync(PartReplica replica, CancellationToken cancellationToken = default)

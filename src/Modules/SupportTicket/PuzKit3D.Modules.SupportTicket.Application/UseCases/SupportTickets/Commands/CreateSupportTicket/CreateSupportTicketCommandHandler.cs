@@ -7,6 +7,7 @@ using PuzKit3D.SharedKernel.Application.Message.Command;
 using PuzKit3D.SharedKernel.Domain.Results;
 using SupportTicketEntity = PuzKit3D.Modules.SupportTicket.Domain.Entities.SupportTickets.SupportTicket;
 using PuzKit3D.Modules.SupportTicket.Domain.Entities.OrderReplicas;
+using PuzKit3D.Modules.SupportTicket.Application.Services;
 
 namespace PuzKit3D.Modules.SupportTicket.Application.UseCases.SupportTickets.Commands.CreateSupportTicket;
 
@@ -18,19 +19,22 @@ internal sealed class CreateSupportTicketCommandHandler
     private readonly IOrderDetailReplicaRepository _orderDetailReplicaRepository;
     private readonly IPartReplicaRepository _partReplicaRepository;
     private readonly ISupportTicketUnitOfWork _unitOfWork;
+    private readonly ISupportTicketCodeGenerator _supportTicketCodeGenerator;
 
     public CreateSupportTicketCommandHandler(
         ISupportTicketRepository repository,
         IOrderReplicaRepository orderReplicaRepository,
         IOrderDetailReplicaRepository orderDetailReplicaRepository,
         IPartReplicaRepository partReplicaRepository,
-        ISupportTicketUnitOfWork unitOfWork)
+        ISupportTicketUnitOfWork unitOfWork,
+        ISupportTicketCodeGenerator supportTicketCodeGenerator)
     {
         _repository = repository;
         _unitOfWork = unitOfWork;
         _orderReplicaRepository = orderReplicaRepository;
         _orderDetailReplicaRepository = orderDetailReplicaRepository;
         _partReplicaRepository = partReplicaRepository;
+        _supportTicketCodeGenerator = supportTicketCodeGenerator;
     }
 
     public async Task<ResultT<Guid>> Handle(CreateSupportTicketCommand request, CancellationToken cancellationToken)
@@ -38,9 +42,22 @@ internal sealed class CreateSupportTicketCommandHandler
 
         // Check if order exists
         var order = await _orderReplicaRepository.GetByIdAsync(request.OrderId, cancellationToken);
-        if (order is null)
+        if (order.IsFailure == true)
         {
             return Result.Failure<Guid>(OrderReplicaError.OrderNotFound(request.OrderId));
+        }
+
+        // Check if there are existing support tickets for this order
+        var existingTicketsResult = await _repository.GetByOrderIdAsync(request.OrderId, cancellationToken);
+        if (existingTicketsResult.IsSuccess && existingTicketsResult.Value.Any())
+        {
+            // Ensure all existing support tickets are Resolved
+            var unresolvedTickets = existingTicketsResult.Value.Where(t => t.Status != SupportTicketStatus.Resolved).ToList();
+            if (unresolvedTickets.Any())
+            {
+                return Result.Failure<Guid>(
+                    SupportTicketError.CannotCreateNewTicketWithUnresolvedTickets());
+            }
         }
 
         // Validation: requires at least 1 detail
@@ -88,12 +105,14 @@ internal sealed class CreateSupportTicketCommandHandler
 
         return await _unitOfWork.ExecuteAsync(async () =>
         {
+            var code = await _supportTicketCodeGenerator.GenerateNextCodeAsync(cancellationToken);
             var result = SupportTicketEntity.Create(
             request.UserId,
             request.OrderId,
             request.Type,
             request.Reason,
-            request.Proof);
+            request.Proof,
+            code);
 
             if (result.IsFailure)
                 return Result.Failure<Guid>(result.Error);
@@ -118,6 +137,7 @@ internal sealed class CreateSupportTicketCommandHandler
 
             await _repository.AddAsync(ticket, cancellationToken);
 
+            ticket.RaiseCreateSupportTicket();
             return Result.Success(result.Value.Id.Value);
         }, cancellationToken);
     }

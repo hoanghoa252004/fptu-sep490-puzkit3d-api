@@ -23,8 +23,6 @@ bool IsPaid,
 DateTime? PaidAt,
 DateTime CreatedAt,
 DateTime UpdatedAt,
-string? DeliveryOrderCode,
-DateTime? ExpectedDeliveryDate,
 List<OrderDetailFullDto> OrderDetails);
 
 public sealed record OrderDetailFullDto(

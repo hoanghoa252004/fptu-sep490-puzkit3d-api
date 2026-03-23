@@ -16,7 +16,7 @@ internal sealed class CalculateShippingFee : IEndpoint
 {
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapShippingGroup()
+        app.MapDeliveryGroup()
             .MapGet("/shipping-fee", async (
                 string provinceName, 
                 string districtName,

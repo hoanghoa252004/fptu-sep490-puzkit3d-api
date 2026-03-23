@@ -5,6 +5,7 @@ namespace PuzKit3D.Modules.SupportTicket.Application.UseCases.SupportTickets.Que
 
 public sealed record SupportTicketDto(
     Guid Id,
+    string Code,
     Guid UserId,
     Guid OrderId,
     string Type,
