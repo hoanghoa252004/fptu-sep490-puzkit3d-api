@@ -47,6 +47,19 @@ internal sealed class CreateSupportTicketCommandHandler
             return Result.Failure<Guid>(OrderReplicaError.OrderNotFound(request.OrderId));
         }
 
+        // Check if there are existing support tickets for this order
+        var existingTicketsResult = await _repository.GetByOrderIdAsync(request.OrderId, cancellationToken);
+        if (existingTicketsResult.IsSuccess && existingTicketsResult.Value.Any())
+        {
+            // Ensure all existing support tickets are Resolved
+            var unresolvedTickets = existingTicketsResult.Value.Where(t => t.Status != SupportTicketStatus.Resolved).ToList();
+            if (unresolvedTickets.Any())
+            {
+                return Result.Failure<Guid>(
+                    SupportTicketError.CannotCreateNewTicketWithUnresolvedTickets());
+            }
+        }
+
         // Validation: requires at least 1 detail
         if (request.Details.Count == 0)
             return Result.Failure<Guid>(SupportTicketError.DetailsRequiredForReplacePart());

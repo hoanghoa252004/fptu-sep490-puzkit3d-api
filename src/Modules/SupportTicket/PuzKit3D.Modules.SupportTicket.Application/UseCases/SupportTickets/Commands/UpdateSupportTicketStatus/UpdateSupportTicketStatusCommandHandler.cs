@@ -31,33 +31,36 @@ internal sealed class UpdateSupportTicketStatusCommandHandler
         UpdateSupportTicketStatusCommand request,
         CancellationToken cancellationToken)
     {
-        var ticketResult = await _repository.GetByIdAsync(
+        return await _unitOfWork.ExecuteAsync(async () =>
+        {
+            var ticketResult = await _repository.GetByIdAsync(
             SupportTicketId.From(request.SupportTicketId),
             cancellationToken);
 
-        if (ticketResult.IsFailure)
-            return Result.Failure(ticketResult.Error);
+            if (ticketResult.IsFailure)
+                return Result.Failure(ticketResult.Error);
 
-        var ticket = ticketResult.Value;
+            var ticket = ticketResult.Value;
 
-        // Check if new status is same as current status
-        if (ticket.Status == request.NewStatus)
-            return Result.Failure(SupportTicketError.StatusAlreadySet(request.NewStatus));
+            // Check if new status is same as current status
+            if (ticket.Status == request.NewStatus)
+                return Result.Failure(SupportTicketError.StatusAlreadySet(request.NewStatus));
 
-        var isStaff = _currentUser.IsInRole(Roles.Staff);
+            var isStaff = _currentUser.IsInRole(Roles.Staff);
 
-        // Check authorization: Customer can only update to Resolved
-        if (!isStaff && request.NewStatus != SupportTicketStatus.Resolved)
-            return Result.Failure(SupportTicketError.UnauthorizedStatusTransition());
+            // Check authorization: Customer can only update to Resolved
+            if (!isStaff && request.NewStatus != SupportTicketStatus.Resolved)
+                return Result.Failure(SupportTicketError.UnauthorizedStatusTransition());
 
-        // Validate status transition
-        var updateResult = ticket.UpdateStatus(request.NewStatus);
-        if (updateResult.IsFailure)
-            return Result.Failure(updateResult.Error);
+            // Validate status transition
+            var updateResult = ticket.UpdateStatus(request.NewStatus);
+            if (updateResult.IsFailure)
+                return Result.Failure(updateResult.Error);
 
-        await _repository.UpdateAsync(ticket, cancellationToken);
-        await _unitOfWork.SaveChangesAsync(cancellationToken);
+            await _repository.UpdateAsync(ticket, cancellationToken);
+            await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-        return Result.Success();
+            return Result.Success();
+        });
     }
 }

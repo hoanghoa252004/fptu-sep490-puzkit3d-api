@@ -128,17 +128,15 @@ app.UseSwagger();
 app.UseSwaggerUI(options =>
 {
     // Module-specific documents
-    options.SwaggerEndpoint("/swagger/user/swagger.json", "1. User Module");
-    options.SwaggerEndpoint("/swagger/cart/swagger.json", "2. Cart Module");
-    options.SwaggerEndpoint("/swagger/catalog/swagger.json", "3. Catalog Module");
-    options.SwaggerEndpoint("/swagger/instock/swagger.json", "4. Instock Module");
-    options.SwaggerEndpoint("/swagger/partner/swagger.json", "5. Partner Module");
-    options.SwaggerEndpoint("/swagger/payment/swagger.json", "6. Payment Module");
-    options.SwaggerEndpoint("/swagger/notification/swagger.json", "7. Notification Module");
-    options.SwaggerEndpoint("/swagger/media/swagger.json", "8. Media Module");
-    options.SwaggerEndpoint("/swagger/delivery/swagger.json", "9. Delivery Module");
-    options.SwaggerEndpoint("/swagger/feedback/swagger.json", "10. Feedback Module");
-    options.SwaggerEndpoint("/swagger/support-tickets/swagger.json", "11. Support Ticket");
+    options.SwaggerEndpoint("/swagger/user/swagger.json", "User API");
+    options.SwaggerEndpoint("/swagger/cart/swagger.json", "Cart API");
+    options.SwaggerEndpoint("/swagger/catalog/swagger.json", "Catalog API");
+    options.SwaggerEndpoint("/swagger/instock/swagger.json", "Instock API");
+    options.SwaggerEndpoint("/swagger/partner/swagger.json", "Partner API");
+    options.SwaggerEndpoint("/swagger/payment/swagger.json", "Payment API");
+    options.SwaggerEndpoint("/swagger/media/swagger.json", "Media Storage API");
+    options.SwaggerEndpoint("/swagger/delivery/swagger.json", "Delivery Tracking API");
+    options.SwaggerEndpoint("/swagger/after-sale/swagger.json", "After Sale API");
     // Main API document
     options.SwaggerEndpoint("/swagger/v1/swagger.json", "All Modules");
 

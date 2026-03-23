@@ -31,37 +31,40 @@ internal sealed class DeleteSupportTicketCommandHandler
         DeleteSupportTicketCommand request,
         CancellationToken cancellationToken)
     {
-        // Get the support ticket
-        var ticketResult = await _repository.GetByIdAsync(
-            SupportTicketId.From(request.SupportTicketId),
-            cancellationToken);
+        return await _unitOfWork.ExecuteAsync(async () =>
+        {
+            // Get the support ticket
+            var ticketResult = await _repository.GetByIdAsync(
+                SupportTicketId.From(request.SupportTicketId),
+                cancellationToken);
 
-        if (ticketResult.IsFailure)
-            return Result.Failure(ticketResult.Error);
+            if (ticketResult.IsFailure)
+                return Result.Failure(ticketResult.Error);
 
-        var ticket = ticketResult.Value;
+            var ticket = ticketResult.Value;
 
-        // Check if status is Open
-        if (ticket.Status != SupportTicketStatus.Open)
-            return Result.Failure(SupportTicketError.CanOnlyDeleteOpenTickets());
+            // Check if status is Open
+            if (ticket.Status != SupportTicketStatus.Open)
+                return Result.Failure(SupportTicketError.CanOnlyDeleteOpenTickets());
 
-        // Check if user is the owner or staff
-        var userId = Guid.Parse(_currentUser.UserId!);
-        var isStaff = _currentUser.IsInRole(Roles.Staff);
+            // Check if user is the owner or staff
+            var userId = Guid.Parse(_currentUser.UserId!);
+            var isStaff = _currentUser.IsInRole(Roles.Staff);
 
-        if (!isStaff && ticket.UserId != userId)
-            return Result.Failure(SupportTicketError.Unauthorized());
+            if (!isStaff && ticket.UserId != userId)
+                return Result.Failure(SupportTicketError.Unauthorized());
 
-        // Emit delete event before deleting
-        ticket.Delete();
+            // Emit delete event before deleting
+            ticket.Delete();
 
-        // Delete the support ticket
-        var deleteResult = await _repository.DeleteAsync(ticket.Id, cancellationToken);
-        if (deleteResult.IsFailure)
-            return Result.Failure(deleteResult.Error);
+            // Delete the support ticket
+            var deleteResult = await _repository.DeleteAsync(ticket.Id, cancellationToken);
+            if (deleteResult.IsFailure)
+                return Result.Failure(deleteResult.Error);
 
-        await _unitOfWork.SaveChangesAsync(cancellationToken);
+            await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-        return Result.Success();
+            return Result.Success();
+        });
     }
 }

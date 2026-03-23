@@ -56,14 +56,6 @@ public sealed class CreateDeliveryTrackingCommandHandler : ICommandTHandler<Crea
 
             var order = orderResult.Value;
 
-            // 1b. Check if order status is Processing
-            if (!order.Status.Equals("Processing", StringComparison.OrdinalIgnoreCase))
-            {
-                return Result.Failure<Guid>(
-                    Error.Validation("Delivery.OrderNotProcessing",
-                        "Delivery tracking can only be created for orders with Processing status"));
-            }
-
             // 2. Check if DeliveryTracking already exists for this order
             var existingTrackings = await _deliveryTrackingRepository.GetByOrderIdAsync(request.OrderId, cancellationToken);
             var trackingType = !existingTrackings.Any() ? DeliveryTrackingType.Original : DeliveryTrackingType.Support;
@@ -100,6 +92,14 @@ public sealed class CreateDeliveryTrackingCommandHandler : ICommandTHandler<Crea
                 }
 
                 supportTicket = ticketResult.Value;
+
+                // Check if support ticket status is Processing
+                if (!supportTicket.Status.Equals("Processing", StringComparison.OrdinalIgnoreCase))
+                {
+                    return Result.Failure<Guid>(
+                        Error.Validation("Delivery.SupportTicketNotProcessing",
+                            "Delivery tracking can only be created for support tickets with Processing status"));
+                }
             }
             else if (request.SupportTicketId.HasValue && request.SupportTicketId != Guid.Empty)
             {
@@ -130,6 +130,14 @@ public sealed class CreateDeliveryTrackingCommandHandler : ICommandTHandler<Crea
 
             if (trackingType == DeliveryTrackingType.Original)
             {
+                // 1b. Check if order status is Processing
+                if (!order.Status.Equals("Processing", StringComparison.OrdinalIgnoreCase))
+                {
+                    return Result.Failure<Guid>(
+                        Error.Validation("Delivery.OrderNotProcessing",
+                            "Delivery tracking can only be created for orders with Processing status"));
+                }
+
                 // For Original delivery, use order details directly (products)
                 items = orderDetails.Select(detail => new ShippingOrderItem
                 {
