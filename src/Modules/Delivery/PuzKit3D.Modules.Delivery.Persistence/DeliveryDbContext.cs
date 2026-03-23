@@ -29,6 +29,9 @@ public sealed class DeliveryDbContext : DbContext, IDeliveryUnitOfWork
 
     public DbSet<OrderReplica> OrderReplicas => Set<OrderReplica>();
     public DbSet<OrderDetailReplica> OrderDetailReplicas => Set<OrderDetailReplica>();
+
+    public DbSet<SupportTicketReplica> SupportTicketReplicas => Set<SupportTicketReplica>();
+    public DbSet<SupportTicketDetailReplica> SupportTicketDetailReplicas => Set<SupportTicketDetailReplica>();
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);

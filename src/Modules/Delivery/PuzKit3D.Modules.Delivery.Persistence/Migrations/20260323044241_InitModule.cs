@@ -71,6 +71,26 @@ namespace PuzKit3D.Modules.Delivery.Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "support_ticket_replicas",
+                schema: "delivery",
+                columns: table => new
+                {
+                    id = table.Column<Guid>(type: "uuid", nullable: false),
+                    user_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    order_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    type = table.Column<string>(type: "text", nullable: false),
+                    status = table.Column<string>(type: "text", nullable: false),
+                    reason = table.Column<string>(type: "text", nullable: false),
+                    proof = table.Column<string>(type: "varchar(500)", nullable: false),
+                    created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_support_ticket_replicas", x => x.id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "delivery_tracking_details",
                 schema: "delivery",
                 columns: table => new
@@ -89,6 +109,30 @@ namespace PuzKit3D.Modules.Delivery.Persistence.Migrations
                         column: x => x.delivery_tracking_id,
                         principalSchema: "delivery",
                         principalTable: "delivery_trackings",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "support_ticket_detail_replicas",
+                schema: "delivery",
+                columns: table => new
+                {
+                    id = table.Column<Guid>(type: "uuid", nullable: false),
+                    support_ticket_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    order_item_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    part_id = table.Column<Guid>(type: "uuid", nullable: true),
+                    quantity = table.Column<int>(type: "integer", nullable: false),
+                    note = table.Column<string>(type: "varchar(500)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_support_ticket_detail_replicas", x => x.id);
+                    table.ForeignKey(
+                        name: "fk_support_ticket_detail_replicas_support_ticket_replicas_supp",
+                        column: x => x.support_ticket_id,
+                        principalSchema: "delivery",
+                        principalTable: "support_ticket_replicas",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -159,6 +203,36 @@ namespace PuzKit3D.Modules.Delivery.Persistence.Migrations
                 schema: "delivery",
                 table: "order_replicas",
                 column: "customer_id");
+
+            migrationBuilder.CreateIndex(
+                name: "ix_support_ticket_detail_replicas_order_item_id",
+                schema: "delivery",
+                table: "support_ticket_detail_replicas",
+                column: "order_item_id");
+
+            migrationBuilder.CreateIndex(
+                name: "ix_support_ticket_detail_replicas_support_ticket_id",
+                schema: "delivery",
+                table: "support_ticket_detail_replicas",
+                column: "support_ticket_id");
+
+            migrationBuilder.CreateIndex(
+                name: "ix_support_ticket_replicas_order_id",
+                schema: "delivery",
+                table: "support_ticket_replicas",
+                column: "order_id");
+
+            migrationBuilder.CreateIndex(
+                name: "ix_support_ticket_replicas_status",
+                schema: "delivery",
+                table: "support_ticket_replicas",
+                column: "status");
+
+            migrationBuilder.CreateIndex(
+                name: "ix_support_ticket_replicas_user_id",
+                schema: "delivery",
+                table: "support_ticket_replicas",
+                column: "user_id");
         }
 
         /// <inheritdoc />
@@ -177,7 +251,15 @@ namespace PuzKit3D.Modules.Delivery.Persistence.Migrations
                 schema: "delivery");
 
             migrationBuilder.DropTable(
+                name: "support_ticket_detail_replicas",
+                schema: "delivery");
+
+            migrationBuilder.DropTable(
                 name: "delivery_trackings",
+                schema: "delivery");
+
+            migrationBuilder.DropTable(
+                name: "support_ticket_replicas",
                 schema: "delivery");
         }
     }

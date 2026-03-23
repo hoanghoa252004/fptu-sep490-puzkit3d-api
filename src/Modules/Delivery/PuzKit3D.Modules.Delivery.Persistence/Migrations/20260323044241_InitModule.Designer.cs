@@ -12,7 +12,7 @@ using PuzKit3D.Modules.Delivery.Persistence;
 namespace PuzKit3D.Modules.Delivery.Persistence.Migrations
 {
     [DbContext(typeof(DeliveryDbContext))]
-    [Migration("20260323024026_InitModule")]
+    [Migration("20260323044241_InitModule")]
     partial class InitModule
     {
         /// <inheritdoc />
@@ -219,6 +219,103 @@ namespace PuzKit3D.Modules.Delivery.Persistence.Migrations
                     b.ToTable("order_replicas", "delivery");
                 });
 
+            modelBuilder.Entity("PuzKit3D.Modules.Delivery.Domain.Entities.Replicas.SupportTicketDetailReplica", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<string>("Note")
+                        .HasColumnType("varchar(500)")
+                        .HasColumnName("note");
+
+                    b.Property<Guid>("OrderItemId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("order_item_id");
+
+                    b.Property<Guid?>("PartId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("part_id");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("integer")
+                        .HasColumnName("quantity");
+
+                    b.Property<Guid>("SupportTicketId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("support_ticket_id");
+
+                    b.HasKey("Id")
+                        .HasName("pk_support_ticket_detail_replicas");
+
+                    b.HasIndex("OrderItemId")
+                        .HasDatabaseName("ix_support_ticket_detail_replicas_order_item_id");
+
+                    b.HasIndex("SupportTicketId")
+                        .HasDatabaseName("ix_support_ticket_detail_replicas_support_ticket_id");
+
+                    b.ToTable("support_ticket_detail_replicas", "delivery");
+                });
+
+            modelBuilder.Entity("PuzKit3D.Modules.Delivery.Domain.Entities.Replicas.SupportTicketReplica", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at");
+
+                    b.Property<Guid>("OrderId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("order_id");
+
+                    b.Property<string>("Proof")
+                        .IsRequired()
+                        .HasColumnType("varchar(500)")
+                        .HasColumnName("proof");
+
+                    b.Property<string>("Reason")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("reason");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("status");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("type");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("updated_at");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("user_id");
+
+                    b.HasKey("Id")
+                        .HasName("pk_support_ticket_replicas");
+
+                    b.HasIndex("OrderId")
+                        .HasDatabaseName("ix_support_ticket_replicas_order_id");
+
+                    b.HasIndex("Status")
+                        .HasDatabaseName("ix_support_ticket_replicas_status");
+
+                    b.HasIndex("UserId")
+                        .HasDatabaseName("ix_support_ticket_replicas_user_id");
+
+                    b.ToTable("support_ticket_replicas", "delivery");
+                });
+
             modelBuilder.Entity("PuzKit3D.Modules.Delivery.Domain.Entities.DeliveryTrackings.DeliveryTrackingDetail", b =>
                 {
                     b.HasOne("PuzKit3D.Modules.Delivery.Domain.Entities.DeliveryTrackings.DeliveryTracking", null)
@@ -229,7 +326,22 @@ namespace PuzKit3D.Modules.Delivery.Persistence.Migrations
                         .HasConstraintName("fk_delivery_tracking_details_delivery_trackings_delivery_track");
                 });
 
+            modelBuilder.Entity("PuzKit3D.Modules.Delivery.Domain.Entities.Replicas.SupportTicketDetailReplica", b =>
+                {
+                    b.HasOne("PuzKit3D.Modules.Delivery.Domain.Entities.Replicas.SupportTicketReplica", null)
+                        .WithMany("Details")
+                        .HasForeignKey("SupportTicketId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_support_ticket_detail_replicas_support_ticket_replicas_supp");
+                });
+
             modelBuilder.Entity("PuzKit3D.Modules.Delivery.Domain.Entities.DeliveryTrackings.DeliveryTracking", b =>
+                {
+                    b.Navigation("Details");
+                });
+
+            modelBuilder.Entity("PuzKit3D.Modules.Delivery.Domain.Entities.Replicas.SupportTicketReplica", b =>
                 {
                     b.Navigation("Details");
                 });

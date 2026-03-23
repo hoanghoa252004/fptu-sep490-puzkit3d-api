@@ -37,6 +37,8 @@ public static class DependencyInjection
 
         services.AddScoped<IDeliveryUnitOfWork>(sp => sp.GetRequiredService<DeliveryDbContext>());
         services.AddScoped<IDeliveryTrackingRepository, DeliveryTrackingRepository>();
+        services.AddScoped<IOrderReplicaRepository, OrderReplicaRepository>();
+        services.AddScoped<IOrderDetailReplicaRepository, OrderDetailReplicaRepository>();
 
         return services;
     }
