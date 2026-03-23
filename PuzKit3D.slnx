@@ -39,7 +39,9 @@
   <Folder Name="/src/Modules/Delivery/">
     <Project Path="src/Modules/Delivery/PuzKit3D.Modules.Delivery.Api/PuzKit3D.Modules.Delivery.Api.csproj" Id="b8b010b8-6c03-4b4b-ad7b-42bca6a53780" />
     <Project Path="src/Modules/Delivery/PuzKit3D.Modules.Delivery.Application/PuzKit3D.Modules.Delivery.Application.csproj" Id="8217e14f-4629-4b7c-b65e-e9799d04ffa7" />
+    <Project Path="src/Modules/Delivery/PuzKit3D.Modules.Delivery.Domain/PuzKit3D.Modules.Delivery.Domain.csproj" Id="32e92ca4-3fd1-4f4e-9b69-744ddc64ab2a" />
     <Project Path="src/Modules/Delivery/PuzKit3D.Modules.Delivery.Infrastructure/PuzKit3D.Modules.Delivery.Infrastructure.csproj" Id="99be8b9c-3c58-4809-8068-ce350882a540" />
+    <Project Path="src/Modules/Delivery/PuzKit3D.Modules.Delivery.Persistence/PuzKit3D.Modules.Delivery.Persistence.csproj" Id="7fc1c9e4-936f-4911-8938-8609f1e7bd20" />
   </Folder>
   <Folder Name="/src/Modules/Feedback/">
     <Project Path="src/Modules/Feedback/PuzKit3D.Modules.Feedback.Api/PuzKit3D.Modules.Feedback.Api.csproj" Id="8478a646-ce8a-4663-8e74-74a719fbe92a" />
