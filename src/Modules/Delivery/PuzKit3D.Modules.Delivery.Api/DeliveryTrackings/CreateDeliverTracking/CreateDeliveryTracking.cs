@@ -1,8 +1,12 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
+using PuzKit3D.Modules.Delivery.Application.UseCases.DeliveryTrackings.Commands;
+using PuzKit3D.Modules.Delivery.Domain.Entities.DeliveryTrackings;
 using PuzKit3D.SharedKernel.Api.Endpoint;
+using PuzKit3D.SharedKernel.Api.Results.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,50 +21,20 @@ public sealed class CreateDeliveryTracking : IEndpoint
     {
         app.MapDeliveryGroup()
             .MapPost("/", async (
-                Guid orderId,
+                [FromBody] CreateSupportTicketRequestDto request,
                 ISender sender,
                 CancellationToken cancellationToken) =>
             {
-                var query = new CreateDeliverTrackingOrderCommand(orderId);
+                // Validate and convert string type to enum
+                if (!Enum.TryParse<DeliveryTrackingType>(request.DeliveryTrackingType, ignoreCase: true, out var typeEnum))
+                {
+                    return Results.BadRequest(new { error = $"Invalid type '{request.DeliveryTrackingType}'. Valid values are: {string.Join(", ", Enum.GetNames(typeof(DeliveryTrackingType)))}" });
+                }
+                var query = new CreateDeliveryTrackingCommand(request.OrderId, typeEnum);
                 var result = await sender.Send(query, cancellationToken);
-
-                if (result.IsFailure)
-                {
-                    return Results.BadRequest(new { error = result.Error.Message });
-                }
-
-                // Get the GHN response
-                var ghnResponse = result.Value;
-
-                // Update order with delivery information
-                var orderIdObj = InstockOrderId.From(orderId);
-                var order = await orderRepository.GetByIdAsync(orderIdObj, cancellationToken);
-
-                if (order == null)
-                {
-                    return Results.NotFound(new { error = "Order not found" });
-                }
-
-                // Set delivery info and get expected delivery date from GHN
-                var setDeliveryResult = order.SetDeliveryInfo(
-                    ghnResponse.DeliveryOrderCode,
-                    ghnResponse.ExpectedDeliveryTime);
-
-                if (setDeliveryResult.IsFailure)
-                {
-                    return Results.BadRequest(new { error = setDeliveryResult.Error.Message });
-                }
-
-                // Save to database
-                await unitOfWork.ExecuteAsync(async () =>
-                {
-                    orderRepository.Update(order);
-                    return Result.Success();
-                }, cancellationToken);
-
-                return Results.Ok(new { deliveryOrderCode = ghnResponse.DeliveryOrderCode });
+                return result.MatchOk();
             })
-            .WithName("GetGhnOrderCode")
+            .WithName("CreateDeliveryTracking")
             .WithDescription("Create GHN shipping order and get delivery order code by InstockOrder ID")
             .Produces(StatusCodes.Status200OK)
             .ProducesProblem(StatusCodes.Status400BadRequest)
@@ -68,3 +42,6 @@ public sealed class CreateDeliveryTracking : IEndpoint
             .ProducesProblem(StatusCodes.Status500InternalServerError);
     }
 }
+public sealed record CreateSupportTicketRequestDto(
+    Guid OrderId,
+    string DeliveryTrackingType);

@@ -49,6 +49,7 @@ public sealed class OrderReplica : Entity<Guid>
             status);
     }
 
+
     public void Update(
         string status)
     {
