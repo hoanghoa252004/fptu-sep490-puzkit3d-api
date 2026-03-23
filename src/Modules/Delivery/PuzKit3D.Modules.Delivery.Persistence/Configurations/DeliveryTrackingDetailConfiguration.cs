@@ -17,13 +17,17 @@ internal sealed class DeliveryTrackingDetailConfiguration : IEntityTypeConfigura
         builder.Property(dtd => dtd.DeliveryTrackingId)
             .HasConversion(
                 id => id.Value,
-                value => DeliveryTrackingId.From(value));
+                value => DeliveryTrackingId.From(value))
+            .IsRequired();
 
-        // ItemId - can be VariantId, PartId, OrderDetailId, etc.
+        // ItemId - can be VariantId (Product) or PartId (Part)
         builder.Property(dtd => dtd.ItemId)
             .IsRequired();
 
-        // Quantity
+        builder.Property(dtd => dtd.Type)
+            .IsRequired()
+            .HasConversion<string>();
+
         builder.Property(dtd => dtd.Quantity)
             .IsRequired();
 
