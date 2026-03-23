@@ -131,10 +131,6 @@ namespace PuzKit3D.Modules.SupportTicket.Persistence.Migrations
                         .HasColumnType("character varying(30)")
                         .HasColumnName("name");
 
-                    b.Property<Guid>("PartId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("part_id");
-
                     b.Property<string>("PartType")
                         .IsRequired()
                         .HasColumnType("text")

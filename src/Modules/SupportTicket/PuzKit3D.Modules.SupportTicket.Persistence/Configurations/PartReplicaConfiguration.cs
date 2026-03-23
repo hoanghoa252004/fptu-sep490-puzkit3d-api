@@ -10,9 +10,6 @@ internal sealed class PartReplicaConfiguration : IEntityTypeConfiguration<PartRe
     {
         builder.HasKey(p => p.Id);
 
-        builder.Property(p => p.PartId)
-            .IsRequired();
-
         builder.Property(p => p.Name)
             .IsRequired()
             .HasMaxLength(30);

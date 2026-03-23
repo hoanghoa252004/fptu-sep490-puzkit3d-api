@@ -54,7 +54,6 @@ namespace PuzKit3D.Modules.SupportTicket.Persistence.Migrations
                 columns: table => new
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
-                    part_id = table.Column<Guid>(type: "uuid", nullable: false),
                     name = table.Column<string>(type: "character varying(30)", maxLength: 30, nullable: false),
                     part_type = table.Column<string>(type: "text", nullable: false),
                     code = table.Column<string>(type: "character varying(10)", maxLength: 10, nullable: false),
