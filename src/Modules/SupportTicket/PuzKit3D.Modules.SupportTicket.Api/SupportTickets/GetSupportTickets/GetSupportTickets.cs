@@ -47,7 +47,7 @@ internal sealed class GetSupportTickets : IEndpoint
             .WithName("GetSupportTickets")
             .WithSummary("Get support tickets with pagination and filtering")
             .WithDescription("Retrieves paginated support tickets. Customers see only their own tickets, Staff see all tickets. Can filter by status.")
-            .RequireAuthorization(policy => policy.RequireRole(Roles.Customer, Roles.Staff))
+            .RequireAuthorization(policy => policy.RequireRole(Roles.Customer, Roles.Staff, Roles.BusinessManager))
             .Produces(200)
             .ProducesValidationProblem(StatusCodes.Status400BadRequest)
             .ProducesProblem(StatusCodes.Status401Unauthorized)

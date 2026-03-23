@@ -26,7 +26,7 @@ internal sealed class GetSupportTicketById : IEndpoint
             })
             .WithName("GetSupportTicketById")
             .WithSummary("Get a support ticket by ID")
-            .RequireAuthorization(policy => policy.RequireRole(Roles.Customer, Roles.Staff))
+            .RequireAuthorization(policy => policy.RequireRole(Roles.Customer, Roles.Staff, Roles.BusinessManager))
             .Produces(200)
             .ProducesProblem(StatusCodes.Status401Unauthorized)
             .ProducesProblem(StatusCodes.Status404NotFound)
