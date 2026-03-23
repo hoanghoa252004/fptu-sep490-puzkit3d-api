@@ -1,8 +1,10 @@
+using PuzKit3D.Contract.Delivery;
 using PuzKit3D.Modules.Delivery.Application.DTOs;
 using PuzKit3D.Modules.Delivery.Application.Repositories;
 using PuzKit3D.Modules.Delivery.Application.Services;
 using PuzKit3D.Modules.Delivery.Application.UnitOfWork;
 using PuzKit3D.Modules.Delivery.Domain.Entities.DeliveryTrackings;
+using PuzKit3D.SharedKernel.Application.Event;
 using PuzKit3D.SharedKernel.Application.Message.Query;
 using PuzKit3D.SharedKernel.Domain.Errors;
 using PuzKit3D.SharedKernel.Domain.Results;
@@ -19,8 +21,8 @@ internal static class GhnStatusMapperForDeliveryTracking
 
         return ghnStatus.ToLowerInvariant() switch
         {
-            "picked" => DeliveryTrackingStatus.HandedOverToDelivery,
-            "delivering" => DeliveryTrackingStatus.Shipping,
+            "picked" => DeliveryTrackingStatus.Picked,
+            "delivering" => DeliveryTrackingStatus.Delivering,
             "delivered" => DeliveryTrackingStatus.Delivered,
             "return" => DeliveryTrackingStatus.Return,
             "returned" => DeliveryTrackingStatus.Returned,
@@ -34,15 +36,18 @@ internal sealed class GetDeliveryTrackingByIdQueryHandler : IQueryHandler<GetDel
     private readonly IDeliveryTrackingRepository _deliveryTrackingRepository;
     private readonly IDeliveryService _deliveryService;
     private readonly IDeliveryUnitOfWork _unitOfWork;
+    private readonly IEventBus _eventBus;
 
     public GetDeliveryTrackingByIdQueryHandler(
         IDeliveryTrackingRepository deliveryTrackingRepository,
         IDeliveryService deliveryService,
-        IDeliveryUnitOfWork unitOfWork)
+        IDeliveryUnitOfWork unitOfWork,
+        IEventBus eventbus)
     {
         _deliveryTrackingRepository = deliveryTrackingRepository;
         _deliveryService = deliveryService;
         _unitOfWork = unitOfWork;
+        _eventBus = eventbus;
     }
 
     public async Task<ResultT<DeliveryTrackingDto>> Handle(
@@ -59,11 +64,14 @@ internal sealed class GetDeliveryTrackingByIdQueryHandler : IQueryHandler<GetDel
                     $"Delivery tracking with ID {request.DeliveryTrackingId} not found"));
         }
 
-        // Sync status from GHN
-        await SyncDeliveryTrackingStatusFromGhnAsync(tracking, cancellationToken);
-
-        var dto = MapToDto(tracking);
-        return Result.Success(dto);
+            // Sync status from GHN
+            await SyncDeliveryTrackingStatusFromGhnAsync(tracking, cancellationToken);
+            if(tracking.Status == DeliveryTrackingStatus.Delivered)
+            {
+                await _eventBus.PublishAsync(new OrderDeliveredIntegrationEvent(Guid.NewGuid(), DateTime.Now, tracking.OrderId), cancellationToken);
+            }
+            var dto = MapToDto(tracking);
+            return Result.Success(dto);
     }
 
     private static DeliveryTrackingDto MapToDto(DeliveryTracking tracking)
@@ -121,8 +129,8 @@ internal sealed class GetDeliveryTrackingByIdQueryHandler : IQueryHandler<GetDel
                 // Update the tracking status based on the new status
                 var updateResult = mappedStatus.Value switch
                 {
-                    DeliveryTrackingStatus.HandedOverToDelivery => tracking.MarkAsPicked(),
-                    DeliveryTrackingStatus.Shipping => tracking.MarkAsShipping(),
+                    DeliveryTrackingStatus.Picked => tracking.MarkAsPicked(),
+                    DeliveryTrackingStatus.Delivering => tracking.MarkAsShipping(),
                     DeliveryTrackingStatus.Delivered => tracking.MarkAsDelivered(),
                     DeliveryTrackingStatus.Return => tracking.MarkAsReturn(),
                     DeliveryTrackingStatus.Returned => tracking.MarkAsReturned(),

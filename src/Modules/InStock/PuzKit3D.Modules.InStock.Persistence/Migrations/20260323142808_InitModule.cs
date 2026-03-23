@@ -77,10 +77,7 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                     updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     payment_method = table.Column<string>(type: "character varying(10)", maxLength: 10, nullable: false),
                     is_paid = table.Column<bool>(type: "boolean", nullable: false, defaultValue: false),
-                    paid_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
-                    delivery_order_code = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: true),
-                    expected_delivery_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
-                    handover_proof_image_url = table.Column<string>(type: "text", nullable: true)
+                    paid_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
                 },
                 constraints: table =>
                 {

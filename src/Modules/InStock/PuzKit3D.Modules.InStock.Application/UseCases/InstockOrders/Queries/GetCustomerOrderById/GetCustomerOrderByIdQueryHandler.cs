@@ -140,8 +140,6 @@ internal sealed class GetCustomerOrderByIdQueryHandler
             order.PaidAt,
             order.CreatedAt,
             order.UpdatedAt,
-            order.DeliveryOrderCode,
-            order.ExpectedDeliveryDate,
             orderDetails);
 
         return Result.Success(response);

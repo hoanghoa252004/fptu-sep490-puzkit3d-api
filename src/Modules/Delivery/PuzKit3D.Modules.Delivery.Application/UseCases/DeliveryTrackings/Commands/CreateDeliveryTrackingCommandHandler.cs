@@ -56,6 +56,14 @@ public sealed class CreateDeliveryTrackingCommandHandler : ICommandTHandler<Crea
 
             var order = orderResult.Value;
 
+            // 1b. Check if order status is Processing
+            if (!order.Status.Equals("Processing", StringComparison.OrdinalIgnoreCase))
+            {
+                return Result.Failure<Guid>(
+                    Error.Validation("Delivery.OrderNotProcessing",
+                        "Delivery tracking can only be created for orders with Processing status"));
+            }
+
             // 2. Check if DeliveryTracking already exists for this order
             var existingTrackings = await _deliveryTrackingRepository.GetByOrderIdAsync(request.OrderId, cancellationToken);
             var trackingType = !existingTrackings.Any() ? DeliveryTrackingType.Original : DeliveryTrackingType.Support;
@@ -192,7 +200,7 @@ public sealed class CreateDeliveryTrackingCommandHandler : ICommandTHandler<Crea
             {
                 orderCode = $"{order.Code}";
             }
-                var shippingRequest = new CreateShippingOrderRequest
+            var shippingRequest = new CreateShippingOrderRequest
                 {
                     ToName = user.FullName,
                     ToPhone = user.PhoneNumber,
@@ -200,7 +208,7 @@ public sealed class CreateDeliveryTrackingCommandHandler : ICommandTHandler<Crea
                     ToWardName = user.Ward!,
                     ToDistrictName = user.District!,
                     ToProvinceName = user.Province!,
-                    OrderCode = orderCode,
+                    OrderCode = Guid.NewGuid().ToString(),
                     RequiredNote = "CHOXEMHANGKHONGTHU",
                     Note = "Welcome to Puzkit3D",
                     Items = items,

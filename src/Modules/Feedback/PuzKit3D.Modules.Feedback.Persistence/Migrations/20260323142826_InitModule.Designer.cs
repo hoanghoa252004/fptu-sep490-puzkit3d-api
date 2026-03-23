@@ -12,7 +12,7 @@ using PuzKit3D.Modules.Feedback.Persistence;
 namespace PuzKit3D.Modules.Feedback.Persistence.Migrations
 {
     [DbContext(typeof(FeedbackDbContext))]
-    [Migration("20260322050933_InitModule")]
+    [Migration("20260323142826_InitModule")]
     partial class InitModule
     {
         /// <inheritdoc />

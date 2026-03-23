@@ -12,7 +12,7 @@ using PuzKit3D.Modules.InStock.Persistence;
 namespace PuzKit3D.Modules.InStock.Persistence.Migrations
 {
     [DbContext(typeof(InStockDbContext))]
-    [Migration("20260322091908_InitModule")]
+    [Migration("20260323142808_InitModule")]
     partial class InitModule
     {
         /// <inheritdoc />
@@ -311,28 +311,15 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                         .HasColumnType("character varying(30)")
                         .HasColumnName("customer_ward_name");
 
-                    b.Property<string>("DeliveryOrderCode")
-                        .HasMaxLength(20)
-                        .HasColumnType("character varying(20)")
-                        .HasColumnName("delivery_order_code");
-
                     b.Property<string>("DetailAddress")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)")
                         .HasColumnName("detail_address");
 
-                    b.Property<DateTime?>("ExpectedDeliveryDate")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("expected_delivery_date");
-
                     b.Property<decimal>("GrandTotalAmount")
                         .HasColumnType("decimal(10,2)")
                         .HasColumnName("grand_total_amount");
-
-                    b.Property<string>("HandoverProofImageUrl")
-                        .HasColumnType("text")
-                        .HasColumnName("handover_proof_image_url");
 
                     b.Property<bool>("IsPaid")
                         .ValueGeneratedOnAdd()

@@ -12,7 +12,7 @@ using PuzKit3D.Modules.Delivery.Persistence;
 namespace PuzKit3D.Modules.Delivery.Persistence.Migrations
 {
     [DbContext(typeof(DeliveryDbContext))]
-    [Migration("20260323070859_InitModule")]
+    [Migration("20260323142843_InitModule")]
     partial class InitModule
     {
         /// <inheritdoc />
@@ -310,6 +310,10 @@ namespace PuzKit3D.Modules.Delivery.Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
                         .HasColumnName("id");
+
+                    b.Property<string>("Code")
+                        .HasColumnType("text")
+                        .HasColumnName("code");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone")

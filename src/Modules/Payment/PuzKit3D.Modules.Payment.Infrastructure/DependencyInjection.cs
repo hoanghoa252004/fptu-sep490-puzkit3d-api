@@ -1,7 +1,9 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using PuzKit3D.Contract.Delivery;
 using PuzKit3D.Contract.InStock.InstockOrders;
 using PuzKit3D.Modules.Payment.Application.Abstractions;
+using PuzKit3D.Modules.Payment.Infrastructure.IntegrationEventHandlers.DeliveryTrackings;
 using PuzKit3D.Modules.Payment.Infrastructure.IntegrationEventHandlers.InstockOrders;
 using PuzKit3D.Modules.Payment.Infrastructure.PaymentGateways;
 using PuzKit3D.Modules.Payment.Infrastructure.PaymentGateways.VNPAY;
@@ -25,6 +27,9 @@ public static class DependencyInjection
 
         services.AddScoped<IIntegrationEventHandler<InstockOrderStatusChangedIntegrationEvent>,
             InstockOrderStatusChangedIntegrationEventHandler>();
+
+        services.AddScoped<IIntegrationEventHandler<OrderDeliveredIntegrationEvent>,
+            OrderDeliveredIntegrationEventHandler>();
 
         return services;
     }

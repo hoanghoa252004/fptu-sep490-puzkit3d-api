@@ -29,9 +29,9 @@ public sealed class InstockOrder : AggregateRoot<InstockOrderId>
     public string PaymentMethod { get; private set; } = null!;
     public bool IsPaid { get; private set; }
     public DateTime? PaidAt { get; private set; }
-    public string? DeliveryOrderCode { get; private set; }
-    public DateTime? ExpectedDeliveryDate { get; private set; }
-    public string? HandoverProofImageUrl { get; private set; }
+    //public string? DeliveryOrderCode { get; private set; }
+    //public DateTime? ExpectedDeliveryDate { get; private set; }
+    //public string? HandoverProofImageUrl { get; private set; }
 
     public IReadOnlyCollection<InstockOrderDetail> OrderDetails => _orderDetails.AsReadOnly();
 
@@ -198,12 +198,15 @@ public sealed class InstockOrder : AggregateRoot<InstockOrderId>
             return Result.Failure(InstockOrderError.OrderAlreadyPaid());
         }
 
-        if (Status != InstockOrderStatus.Pending && Status != InstockOrderStatus.Waiting)
+        if(string.Equals(PaymentMethod, "Online", StringComparison.OrdinalIgnoreCase))
         {
-            return Result.Failure(InstockOrderError.InvalidStatusTransition(Status, InstockOrderStatus.Paid));
+            if (Status != InstockOrderStatus.Pending)
+            {
+                return Result.Failure(InstockOrderError.InvalidStatusTransition(Status, InstockOrderStatus.Paid));
+            }
+            Status = InstockOrderStatus.Paid;
         }
 
-        Status = InstockOrderStatus.Paid;
         IsPaid = true;
         PaidAt = paidAt;
         UpdatedAt = paidAt;
@@ -237,35 +240,10 @@ public sealed class InstockOrder : AggregateRoot<InstockOrderId>
         return Result.Success();
     }
 
-    public Result MarkAsShipping()
-    {
-        if (Status != InstockOrderStatus.Processing)
-        {
-            return Result.Failure(InstockOrderError.InvalidStatusTransition(Status, InstockOrderStatus.Shipping));
-        }
-
-        Status = InstockOrderStatus.Shipping;
-        UpdatedAt = DateTime.UtcNow;
-
-        return Result.Success();
-    }
-
-    public Result MarkAsDelivered()
-    {
-        if (Status != InstockOrderStatus.Shipping)
-        {
-            return Result.Failure(InstockOrderError.InvalidStatusTransition(Status, InstockOrderStatus.Delivered));
-        }
-
-        Status = InstockOrderStatus.Delivered;
-        UpdatedAt = DateTime.UtcNow;
-
-        return Result.Success();
-    }
 
     public Result Complete()
     {
-        if (Status != InstockOrderStatus.Delivered)
+        if (Status != InstockOrderStatus.HandedOverToDelivery)
         {
             return Result.Failure(InstockOrderError.InvalidStatusTransition(Status, InstockOrderStatus.Completed));
         }
@@ -296,41 +274,41 @@ public sealed class InstockOrder : AggregateRoot<InstockOrderId>
         return Result.Success();
     }
 
-    public Result SetDeliveryInfo(string deliveryOrderCode, DateTime expectedDeliveryDate)
-    {
-        if (string.IsNullOrWhiteSpace(deliveryOrderCode))
-        {
-            return Result.Failure(InstockOrderError.InvalidDeliveryOrderCode());
-        }
+    //public Result SetDeliveryInfo(string deliveryOrderCode, DateTime expectedDeliveryDate)
+    //{
+    //    if (string.IsNullOrWhiteSpace(deliveryOrderCode))
+    //    {
+    //        return Result.Failure(InstockOrderError.InvalidDeliveryOrderCode());
+    //    }
 
-        if (DeliveryOrderCode != null && ExpectedDeliveryDate != null)
-        {
-            return Result.Failure(InstockOrderError.DeliveryInfoAlreadySet());
-        }
+    //    if (DeliveryOrderCode != null && ExpectedDeliveryDate != null)
+    //    {
+    //        return Result.Failure(InstockOrderError.DeliveryInfoAlreadySet());
+    //    }
 
-        DeliveryOrderCode = deliveryOrderCode;
+    //    DeliveryOrderCode = deliveryOrderCode;
 
-        DateTime utcDateTime;
+    //    DateTime utcDateTime;
 
-        if (expectedDeliveryDate.Kind == DateTimeKind.Utc)
-        {
-            utcDateTime = expectedDeliveryDate;
-        }
-        else if (expectedDeliveryDate.Kind == DateTimeKind.Local)
-        {
-            utcDateTime = expectedDeliveryDate.ToUniversalTime();
-        }
-        else // Unspecified (trường hợp nguy hiểm nhất)
-        {
-            var vietnamTimeZone = TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time");
-            utcDateTime = TimeZoneInfo.ConvertTimeToUtc(expectedDeliveryDate, vietnamTimeZone);
-        }
+    //    if (expectedDeliveryDate.Kind == DateTimeKind.Utc)
+    //    {
+    //        utcDateTime = expectedDeliveryDate;
+    //    }
+    //    else if (expectedDeliveryDate.Kind == DateTimeKind.Local)
+    //    {
+    //        utcDateTime = expectedDeliveryDate.ToUniversalTime();
+    //    }
+    //    else // Unspecified (trường hợp nguy hiểm nhất)
+    //    {
+    //        var vietnamTimeZone = TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time");
+    //        utcDateTime = TimeZoneInfo.ConvertTimeToUtc(expectedDeliveryDate, vietnamTimeZone);
+    //    }
 
-        ExpectedDeliveryDate = utcDateTime;
-        UpdatedAt = DateTime.UtcNow;
+    //    ExpectedDeliveryDate = utcDateTime;
+    //    UpdatedAt = DateTime.UtcNow;
 
-        return Result.Success();
-    }
+    //    return Result.Success();
+    //}
 
     public void AddOrderDetail(InstockOrderDetail orderDetail)
     {

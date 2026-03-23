@@ -13,7 +13,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PuzKit3D.Modules.Delivery.Api.DeliveryTrackings.CreateDeliverTracking;
+namespace PuzKit3D.Modules.Delivery.Api.DeliveryTrackings.CreateDeliveryTracking;
 
 public sealed class CreateDeliveryTracking : IEndpoint
 {

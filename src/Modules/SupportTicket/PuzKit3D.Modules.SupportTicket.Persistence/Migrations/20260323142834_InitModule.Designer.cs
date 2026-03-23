@@ -12,7 +12,7 @@ using PuzKit3D.Modules.SupportTicket.Persistence;
 namespace PuzKit3D.Modules.SupportTicket.Persistence.Migrations
 {
     [DbContext(typeof(SupportTicketDbContext))]
-    [Migration("20260323045835_InitModule")]
+    [Migration("20260323142834_InitModule")]
     partial class InitModule
     {
         /// <inheritdoc />
@@ -196,6 +196,10 @@ namespace PuzKit3D.Modules.SupportTicket.Persistence.Migrations
                     b.Property<Guid>("Id")
                         .HasColumnType("uuid")
                         .HasColumnName("id");
+
+                    b.Property<string>("Code")
+                        .HasColumnType("text")
+                        .HasColumnName("code");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone")

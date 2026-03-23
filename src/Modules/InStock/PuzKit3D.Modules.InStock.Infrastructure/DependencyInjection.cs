@@ -4,12 +4,14 @@ using PuzKit3D.Contract.Catalog.AssemblyMethods;
 using PuzKit3D.Contract.Catalog.Capabilities;
 using PuzKit3D.Contract.Catalog.Materials;
 using PuzKit3D.Contract.Catalog.Topics;
+using PuzKit3D.Contract.Delivery;
 using PuzKit3D.Contract.InStock.InstockOrders;
 using PuzKit3D.Modules.InStock.Application.Services;
 using PuzKit3D.Modules.InStock.Infrastructure.IntegrationEventHandlers.Catalog.AssemblyMethods;
 using PuzKit3D.Modules.InStock.Infrastructure.IntegrationEventHandlers.Catalog.Capabilities;
 using PuzKit3D.Modules.InStock.Infrastructure.IntegrationEventHandlers.Catalog.Materials;
 using PuzKit3D.Modules.InStock.Infrastructure.IntegrationEventHandlers.Catalog.Topics;
+using PuzKit3D.Modules.InStock.Infrastructure.IntegrationEventHandlers.DeliveryTrackings;
 using PuzKit3D.Modules.InStock.Infrastructure.IntegrationEventHandlers.InstockOrders;
 using PuzKit3D.Modules.InStock.Infrastructure.Options;
 using PuzKit3D.Modules.InStock.Infrastructure.Services;
@@ -31,6 +33,10 @@ public static class DependencyInjection
         // Register Integration Event Handlers - InStock Events
         services.AddScoped<IIntegrationEventHandler<InstockOrderPaidSuccessIntegrationEvent>,
             InstockOrderPaidSuccessIntegrationEventHandler>();
+
+        // Register Integration Event Handlers - Delivery Events
+        services.AddScoped<IIntegrationEventHandler<OrderDeliveredIntegrationEvent>,
+            OrderDeliveredIntegrationEventHandler>();
 
         // Register Integration Event Handlers - Catalog AssemblyMethod Events
         services.AddScoped<IIntegrationEventHandler<AssemblyMethodCreatedIntegrationEvent>,

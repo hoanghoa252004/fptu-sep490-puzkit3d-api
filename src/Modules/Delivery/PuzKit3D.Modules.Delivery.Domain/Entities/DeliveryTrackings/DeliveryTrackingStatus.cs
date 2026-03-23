@@ -6,9 +6,9 @@ public enum DeliveryTrackingStatus
 
     ReadyToPick = 0,
 
-    HandedOverToDelivery = 1,
+    Picked = 1,
 
-    Shipping = 2,
+    Delivering = 2,
 
     Delivered = 3,
 

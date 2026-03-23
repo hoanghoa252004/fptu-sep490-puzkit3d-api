@@ -80,7 +80,8 @@ namespace PuzKit3D.Modules.SupportTicket.Persistence.Migrations
                     reason = table.Column<string>(type: "text", nullable: false),
                     proof = table.Column<string>(type: "varchar(500)", nullable: false),
                     created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                    updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    code = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
