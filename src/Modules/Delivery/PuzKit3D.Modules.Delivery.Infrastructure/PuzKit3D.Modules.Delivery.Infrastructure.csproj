@@ -7,13 +7,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\SharedKernel\PuzKit3D.SharedKernel.Application\PuzKit3D.SharedKernel.Application.csproj" />
-    <ProjectReference Include="..\..\..\SharedKernel\PuzKit3D.SharedKernel.Infrastructure\PuzKit3D.SharedKernel.Infrastructure.csproj" />
-    <ProjectReference Include="..\PuzKit3D.Modules.Delivery.Application\PuzKit3D.Modules.Delivery.Application.csproj" />
+    <Compile Remove="Mappers\**" />
+    <EmbeddedResource Remove="Mappers\**" />
+    <None Remove="Mappers\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Mappers\" />
+    <ProjectReference Include="..\..\..\SharedKernel\PuzKit3D.SharedKernel.Application\PuzKit3D.SharedKernel.Application.csproj" />
+    <ProjectReference Include="..\..\..\SharedKernel\PuzKit3D.SharedKernel.Infrastructure\PuzKit3D.SharedKernel.Infrastructure.csproj" />
+    <ProjectReference Include="..\PuzKit3D.Modules.Delivery.Application\PuzKit3D.Modules.Delivery.Application.csproj" />
   </ItemGroup>
 
 </Project>
