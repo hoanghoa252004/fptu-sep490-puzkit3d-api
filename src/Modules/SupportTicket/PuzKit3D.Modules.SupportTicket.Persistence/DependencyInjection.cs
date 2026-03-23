@@ -2,8 +2,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using PuzKit3D.Modules.SupportTicket.Application.Repositories;
+using PuzKit3D.Modules.SupportTicket.Application.Services;
 using PuzKit3D.Modules.SupportTicket.Application.UnitOfWork;
 using PuzKit3D.Modules.SupportTicket.Persistence.Repositories;
+using PuzKit3D.Modules.SupportTicket.Persistence.Services;
 using PuzKit3D.SharedKernel.Infrastructure.Data;
 
 namespace PuzKit3D.Modules.SupportTicket.Persistence;
@@ -40,6 +42,7 @@ public static class DependencyInjection
         services.AddScoped<IOrderReplicaRepository, OrderReplicaRepository>();
         services.AddScoped<IOrderDetailReplicaRepository, OrderDetailReplicaRepository>();
         services.AddScoped<IPartReplicaRepository, PartReplicaRepository>();
+        services.AddScoped<ISupportTicketCodeGenerator, SupportTicketCodeGenerator>();
 
         return services;
     }

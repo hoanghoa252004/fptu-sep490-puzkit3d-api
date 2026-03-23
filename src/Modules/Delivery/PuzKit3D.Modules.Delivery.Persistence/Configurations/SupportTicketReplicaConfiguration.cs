@@ -38,6 +38,10 @@ internal sealed class SupportTicketReplicaConfiguration : IEntityTypeConfigurati
         builder.Property(st => st.UpdatedAt)
             .IsRequired();
 
+        builder.Property(st => st.Code)
+            .IsRequired(false);
+
+
         builder.HasMany(st => st.Details)
             .WithOne()
             .HasForeignKey(d => d.SupportTicketId)

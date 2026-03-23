@@ -23,6 +23,7 @@ internal sealed class SupportTicketCreatedDomainEventHandler
             Guid.NewGuid(),
             DateTime.UtcNow,
             notification.SupportTicketId,
+            notification.Code,
             notification.UserId,
             notification.OrderId,
             notification.Type,

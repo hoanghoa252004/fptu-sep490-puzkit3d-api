@@ -6,6 +6,7 @@ public sealed record SupportTicketCreatedIntegrationEvent(
     Guid Id,
     DateTime OccurredOn,
     Guid SupportTicketId,
+    string Code,
     Guid UserId,
     Guid OrderId,
     string Type,

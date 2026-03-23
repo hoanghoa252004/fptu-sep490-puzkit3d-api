@@ -22,6 +22,7 @@ internal sealed class SupportTicketCreatedIntegrationEventHandler
     {
         var replica = SupportTicketReplica.Create(
             @event.SupportTicketId,
+            @event.Code,
             @event.UserId,
             @event.OrderId,
             @event.Type,

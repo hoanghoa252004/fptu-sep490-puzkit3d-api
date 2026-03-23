@@ -61,6 +61,7 @@ internal sealed class GetSupportTicketsQueryHandler
 
         var dtos = tickets.Select(st => new SupportTicketDto(
             st.Id.Value,
+            st.Code,
             st.UserId,
             st.OrderId,
             st.Type.ToString(),

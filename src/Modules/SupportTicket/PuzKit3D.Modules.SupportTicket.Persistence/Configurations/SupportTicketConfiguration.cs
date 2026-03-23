@@ -44,6 +44,9 @@ internal sealed class SupportTicketConfiguration : IEntityTypeConfiguration<Supp
         builder.Property(st => st.UpdatedAt)
             .IsRequired();
 
+        builder.Property(st => st.Code)
+            .IsRequired(false);
+
         builder.HasMany(st => st.Details)
             .WithOne()
             .HasForeignKey(d => d.SupportTicketId)

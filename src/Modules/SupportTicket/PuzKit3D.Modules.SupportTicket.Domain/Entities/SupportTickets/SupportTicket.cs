@@ -17,7 +17,7 @@ public sealed class SupportTicket : AggregateRoot<SupportTicketId>
     public string Proof { get; private set; } = null!;
     public DateTime CreatedAt { get; private set; }
     public DateTime UpdatedAt { get; private set; }
-
+    public string Code { get; private set; }
     public IReadOnlyCollection<SupportTicketDetail> Details => _details.AsReadOnly();
 
     private SupportTicket(
@@ -28,7 +28,8 @@ public sealed class SupportTicket : AggregateRoot<SupportTicketId>
         SupportTicketStatus status,
         string reason,
         string proof,
-        DateTime createdAt) : base(id)
+        DateTime createdAt,
+        string code) : base(id)
     {
         UserId = userId;
         OrderId = orderId;
@@ -38,6 +39,7 @@ public sealed class SupportTicket : AggregateRoot<SupportTicketId>
         Proof = proof;
         CreatedAt = createdAt;
         UpdatedAt = createdAt;
+        Code = code;
     }
 
     private SupportTicket() : base()
@@ -50,6 +52,7 @@ public sealed class SupportTicket : AggregateRoot<SupportTicketId>
         SupportTicketType type,
         string reason,
         string proof,
+        string code,
         DateTime? createdAt = null)
     {
         if (userId == Guid.Empty)
@@ -80,7 +83,8 @@ public sealed class SupportTicket : AggregateRoot<SupportTicketId>
             SupportTicketStatus.Open,
             reason,
             proof,
-            now);
+            now,
+            code);
 
         return Result.Success(ticket);
     }
@@ -100,6 +104,7 @@ public sealed class SupportTicket : AggregateRoot<SupportTicketId>
         // Emit SupportTicketCreatedDomainEvent
         var @event = new SupportTicketCreatedDomainEvent(
             Id.Value,
+            Code,
             UserId,
             OrderId,
             Type.ToString(),

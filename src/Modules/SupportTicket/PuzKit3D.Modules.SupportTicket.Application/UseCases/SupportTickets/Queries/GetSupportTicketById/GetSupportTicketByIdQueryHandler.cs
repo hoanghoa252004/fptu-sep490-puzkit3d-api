@@ -40,6 +40,7 @@ internal sealed class GetSupportTicketByIdQueryHandler
 
         var dto = new SupportTicketDto(
             ticket.Id.Value,
+            ticket.Code,
             ticket.UserId,
             ticket.OrderId,
             ticket.Type.ToString(),

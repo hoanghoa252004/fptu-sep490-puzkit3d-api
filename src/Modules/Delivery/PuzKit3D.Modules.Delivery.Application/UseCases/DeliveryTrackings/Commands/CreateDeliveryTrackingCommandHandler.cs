@@ -183,21 +183,30 @@ public sealed class CreateDeliveryTrackingCommandHandler : ICommandTHandler<Crea
             }
 
             // 6. Create shipping order request
-            var shippingRequest = new CreateShippingOrderRequest
+            var orderCode = "";
+            if(supportTicket != null)
             {
-                ToName = user.FullName,
-                ToPhone = user.PhoneNumber,
-                ToAddress = user.StreetAddress!,
-                ToWardName = user.Ward!,
-                ToDistrictName = user.District!,
-                ToProvinceName = user.Province!,
-                OrderCode = $"{Guid.NewGuid().ToString()}",
-                RequiredNote = "CHOXEMHANGKHONGTHU",
-                Note = $"Order {order.Code}",
-                Items = items,
-                Content = "Puzzle 3D Product",
-                CodAmount = 0
-            };
+                orderCode = $"{order.Code}-{supportTicket.Code}";
+            }
+            else
+            {
+                orderCode = $"{order.Code}";
+            }
+                var shippingRequest = new CreateShippingOrderRequest
+                {
+                    ToName = user.FullName,
+                    ToPhone = user.PhoneNumber,
+                    ToAddress = user.StreetAddress!,
+                    ToWardName = user.Ward!,
+                    ToDistrictName = user.District!,
+                    ToProvinceName = user.Province!,
+                    OrderCode = orderCode,
+                    RequiredNote = "CHOXEMHANGKHONGTHU",
+                    Note = "Welcome to Puzkit3D",
+                    Items = items,
+                    Content = "Puzzle 3D Product",
+                    CodAmount = 0
+                };
 
             // 7. Create shipping order with delivery service
             var ghnResult = await _deliveryService.CreateShippingOrderAsync(shippingRequest, cancellationToken);

@@ -4,6 +4,7 @@ namespace PuzKit3D.Modules.Delivery.Domain.Entities.Replicas;
 
 public sealed class SupportTicketReplica : Entity<Guid>
 {
+    public string Code { get; private set; } = null!;
     public Guid UserId { get; private set; }
     public Guid OrderId { get; private set; }
     public string Type { get; private set; } = null!;
@@ -25,7 +26,8 @@ public sealed class SupportTicketReplica : Entity<Guid>
         string reason,
         string proof,
         DateTime createdAt,
-        DateTime updatedAt) : base(id)
+        DateTime updatedAt,
+        string code) : base(id)
     {
         UserId = userId;
         OrderId = orderId;
@@ -35,6 +37,7 @@ public sealed class SupportTicketReplica : Entity<Guid>
         Proof = proof;
         CreatedAt = createdAt;
         UpdatedAt = updatedAt;
+        Code = code;
     }
 
     private SupportTicketReplica() : base()
@@ -43,6 +46,7 @@ public sealed class SupportTicketReplica : Entity<Guid>
 
     public static SupportTicketReplica Create(
         Guid id,
+        string code,
         Guid userId,
         Guid orderId,
         string type,
@@ -61,7 +65,8 @@ public sealed class SupportTicketReplica : Entity<Guid>
             reason,
             proof,
             createdAt,
-            updatedAt);
+            updatedAt,
+            code);
     }
 
     public void UpdateStatus(string newStatus, DateTime updatedAt)

@@ -4,6 +4,7 @@ namespace PuzKit3D.Modules.SupportTicket.Domain.Entities.SupportTickets.DomainEv
 
 public sealed record SupportTicketCreatedDomainEvent(
     Guid SupportTicketId,
+    string Code,
     Guid UserId,
     Guid OrderId,
     string Type,
