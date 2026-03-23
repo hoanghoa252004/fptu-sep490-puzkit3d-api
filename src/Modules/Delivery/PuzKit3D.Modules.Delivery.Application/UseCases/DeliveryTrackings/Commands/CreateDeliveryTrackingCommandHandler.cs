@@ -60,6 +60,18 @@ public sealed class CreateDeliveryTrackingCommandHandler : ICommandTHandler<Crea
             var existingTrackings = await _deliveryTrackingRepository.GetByOrderIdAsync(request.OrderId, cancellationToken);
             var trackingType = !existingTrackings.Any() ? DeliveryTrackingType.Original : DeliveryTrackingType.Support;
 
+            // 2b. If support type, verify all previous trackings are delivered
+            if (trackingType == DeliveryTrackingType.Support)
+            {
+                var hasUndeliveredTracking = existingTrackings.Any(t => t.Status != DeliveryTrackingStatus.Delivered);
+                if (hasUndeliveredTracking)
+                {
+                    return Result.Failure<Guid>(
+                        Error.Validation("Delivery.CannotCreateSupport",
+                            "Cannot create support delivery tracking while previous deliveries are not yet delivered"));
+                }
+            }
+
             // 3. Validate SupportTicketId based on tracking type
             SupportTicketReplica? supportTicket = null;
             if (trackingType == DeliveryTrackingType.Support)
