@@ -44,10 +44,17 @@ public interface IDeliveryTrackingRepository
         CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Get delivery trackings for multiple orders
+    /// Get all delivery trackings for multiple orders
     /// </summary>
     Task<List<DeliveryTracking>> GetByOrderIdsAsync(
         IEnumerable<Guid> orderIds,
+        CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Get delivery trackings by support ticket ID
+    /// </summary>
+    Task<List<DeliveryTracking>> GetBySupportTicketIdAsync(
+        Guid supportTicketId,
         CancellationToken cancellationToken = default);
 
     /// <summary>

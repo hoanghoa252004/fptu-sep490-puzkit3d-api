@@ -23,6 +23,10 @@ internal sealed class DeliveryTrackingConfiguration : IEntityTypeConfiguration<D
         builder.Property(dt => dt.OrderId)
             .IsRequired();
 
+        // SupportTicketId - nullable, references SupportTicket module
+        builder.Property(dt => dt.SupportTicketId)
+            .IsRequired(false);
+
         // DeliveryOrderCode - GHN order code, must be unique
         builder.Property(dt => dt.DeliveryOrderCode)
             .IsRequired()
@@ -67,6 +71,7 @@ internal sealed class DeliveryTrackingConfiguration : IEntityTypeConfiguration<D
 
         // Indexes for common queries
         builder.HasIndex(dt => dt.OrderId);
+        builder.HasIndex(dt => dt.SupportTicketId);
         builder.HasIndex(dt => dt.Status);
         builder.HasIndex(dt => dt.Type);
         builder.HasIndex(dt => dt.CreatedAt);

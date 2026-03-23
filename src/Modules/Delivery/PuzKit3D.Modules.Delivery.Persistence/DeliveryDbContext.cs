@@ -1,6 +1,8 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using PuzKit3D.Modules.Delivery.Application.UnitOfWork;
 using PuzKit3D.Modules.Delivery.Domain.Entities.DeliveryTrackings;
+using PuzKit3D.Modules.Delivery.Domain.Entities.Replicas;
 using PuzKit3D.SharedKernel.Domain;
 using PuzKit3D.SharedKernel.Domain.Results;
 using PuzKit3D.SharedKernel.Infrastructure.Data;
@@ -10,7 +12,7 @@ namespace PuzKit3D.Modules.Delivery.Persistence;
 /// <summary>
 /// DbContext for Delivery Module
 /// </summary>
-public sealed class DeliveryDbContext : DbContext
+public sealed class DeliveryDbContext : DbContext, IDeliveryUnitOfWork
 {
     private readonly IPublisher _publisher;
 
@@ -25,6 +27,8 @@ public sealed class DeliveryDbContext : DbContext
 
     public DbSet<DeliveryTrackingDetail> DeliveryTrackingDetails => Set<DeliveryTrackingDetail>();
 
+    public DbSet<OrderReplica> OrderReplicas => Set<OrderReplica>();
+    public DbSet<OrderDetailReplica> OrderDetailReplicas => Set<OrderDetailReplica>();
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
@@ -116,5 +120,10 @@ public sealed class DeliveryDbContext : DbContext
         {
             await _publisher.Publish(domainEvent, cancellationToken);
         }
+    }
+
+    Task IDeliveryUnitOfWork.SaveChangesAsync(CancellationToken cancellationToken)
+    {
+        return base.SaveChangesAsync(cancellationToken);
     }
 }

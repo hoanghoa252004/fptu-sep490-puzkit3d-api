@@ -1,9 +1,12 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using PuzKit3D.Contract.InStock.InstockOrders;
 using PuzKit3D.Modules.Delivery.Application.Services;
 using PuzKit3D.Modules.Delivery.Infrastructure.DependencyInjection.Options;
+using PuzKit3D.Modules.Delivery.Infrastructure.IntegrationEventHandlers.InstockOrders;
 using PuzKit3D.Modules.Delivery.Infrastructure.Services;
+using PuzKit3D.SharedKernel.Application.Event;
 
 namespace PuzKit3D.Modules.Delivery.Infrastructure.DependencyInjection.Extensions;
 
@@ -20,6 +23,13 @@ public static class DependencyInjection
 
         // Đăng kí service:
         services.AddScoped<IDeliveryService, GhnDeliveryService>();
+
+        //// InstockOrder events
+        services.AddScoped<IIntegrationEventHandler<InstockOrderCreatedIntegrationEvent>,
+            InstockOrderCreatedIntegrationEventHandler>();
+
+        services.AddScoped<IIntegrationEventHandler<InstockOrderStatusChangedIntegrationEvent>,
+            InstockOrderStatusChangedIntegrationEventHandler>();
 
         return services;
     }

@@ -7,7 +7,9 @@ using PuzKit3D.Modules.Catalog.Application;
 using PuzKit3D.Modules.Catalog.Persistence;
 using PuzKit3D.Modules.Delivery.Api;
 using PuzKit3D.Modules.Delivery.Application;
+using PuzKit3D.Modules.Delivery.Infrastructure;
 using PuzKit3D.Modules.Delivery.Infrastructure.DependencyInjection.Extensions;
+using PuzKit3D.Modules.Delivery.Persistence;
 using PuzKit3D.Modules.Feedback.Api;
 using PuzKit3D.Modules.Feedback.Application;
 using PuzKit3D.Modules.Feedback.Infrastructure;
@@ -98,6 +100,7 @@ builder.Services.AddPartnerPersistence(builder.Configuration);
 builder.Services.AddPaymentPersistence(builder.Configuration);
 builder.Services.AddFeedbackPersistence(builder.Configuration);
 builder.Services.AddSupportTicketPersistence(builder.Configuration);
+builder.Services.AddDeliveryPersistence(builder.Configuration);
 
 // Add Infrastructure services (Domain Event Handlers, Integration Event Handlers):
 builder.Services.AddInStockInfrastructure(builder.Configuration);

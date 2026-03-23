@@ -8,6 +8,7 @@ public sealed class DeliveryTracking : AggregateRoot<DeliveryTrackingId>
     private readonly List<DeliveryTrackingDetail> _details = new();
 
     public Guid OrderId { get; private set; }
+    public Guid? SupportTicketId { get; private set; }
     public string DeliveryOrderCode { get; private set; } = null!;
     public DeliveryTrackingStatus Status { get; private set; }
     public DeliveryTrackingType Type { get; private set; }
@@ -28,9 +29,11 @@ public sealed class DeliveryTracking : AggregateRoot<DeliveryTrackingId>
         string deliveryOrderCode,
         DeliveryTrackingStatus status,
         DeliveryTrackingType type,
-        DateTime expectedDeliveryDate) : base(id)
+        DateTime expectedDeliveryDate,
+        Guid? supportTicketId = null) : base(id)
     {
         OrderId = orderId;
+        SupportTicketId = supportTicketId;
         DeliveryOrderCode = deliveryOrderCode;
         Status = status;
         Type = type;
@@ -48,7 +51,8 @@ public sealed class DeliveryTracking : AggregateRoot<DeliveryTrackingId>
         string deliveryOrderCode,
         DateTime expectedDeliveryDate,
         DeliveryTrackingType type = DeliveryTrackingType.Original,
-        string? note = null)
+        string? note = null,
+        Guid? supportTicketId = null)
     {
         // Validation
         if (orderId == Guid.Empty)
@@ -70,7 +74,8 @@ public sealed class DeliveryTracking : AggregateRoot<DeliveryTrackingId>
             deliveryOrderCode,
             DeliveryTrackingStatus.ReadyToPick,
             type,
-            expectedDeliveryDate)
+            expectedDeliveryDate,
+            supportTicketId)
         {
             Note = note
         };
