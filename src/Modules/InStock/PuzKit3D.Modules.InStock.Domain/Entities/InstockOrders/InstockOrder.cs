@@ -151,6 +151,17 @@ public sealed class InstockOrder : AggregateRoot<InstockOrderId>
             isPaid,
             timestamp);
 
+        // Raise domain event for coin usage if coins were used
+        if (usedCoinAmount > 0)
+        {
+            order.RaiseDomainEvent(new CoinUsedDomainEvent(
+                orderId.Value,
+                code,
+                customerId,
+                usedCoinAmount,
+                timestamp));
+        }
+
         return Result.Success(order);
     }
 
@@ -181,8 +192,6 @@ public sealed class InstockOrder : AggregateRoot<InstockOrderId>
         if (Status == InstockOrderStatus.Cancelled)
         {
             RaiseDomainEvent(new OrderCancelledRefundCoinDomainEvent(
-            Guid.NewGuid(),
-            DateTime.UtcNow,
             Id.Value,
             Code,
             CustomerId,
