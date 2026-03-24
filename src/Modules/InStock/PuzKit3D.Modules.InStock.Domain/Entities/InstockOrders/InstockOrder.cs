@@ -182,6 +182,18 @@ public sealed class InstockOrder : AggregateRoot<InstockOrderId>
         //{
         //    RaiseOrderCompletedEvent();
         //}
+        // Raise domain event for wallet refund
+        if (Status == InstockOrderStatus.Cancelled)
+        {
+            RaiseDomainEvent(new OrderCancelledRefundCoinDomainEvent(
+            Guid.NewGuid(),
+            DateTime.UtcNow,
+            Id.Value,
+            Code,
+            CustomerId,
+            GrandTotalAmount,
+            UpdatedAt));
+        }
 
         return Result.Success();
     }
