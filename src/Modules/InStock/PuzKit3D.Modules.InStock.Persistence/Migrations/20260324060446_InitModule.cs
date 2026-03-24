@@ -70,7 +70,6 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                     sub_total_amount = table.Column<decimal>(type: "numeric(10,2)", nullable: false),
                     shipping_fee = table.Column<decimal>(type: "numeric(10,2)", nullable: false),
                     used_coin_amount = table.Column<int>(type: "integer", nullable: false),
-                    used_coin_amount_as_money = table.Column<decimal>(type: "numeric(10,2)", nullable: false),
                     grand_total_amount = table.Column<decimal>(type: "numeric(10,2)", nullable: false),
                     status = table.Column<string>(type: "text", nullable: false),
                     created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),

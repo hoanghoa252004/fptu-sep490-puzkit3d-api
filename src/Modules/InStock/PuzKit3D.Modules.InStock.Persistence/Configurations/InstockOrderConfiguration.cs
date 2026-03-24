@@ -61,10 +61,6 @@ internal sealed class InstockOrderConfiguration : IEntityTypeConfiguration<Insto
         builder.Property(o => o.UsedCoinAmount)
             .IsRequired();
 
-        builder.Property(o => o.UsedCoinAmountAsMoney)
-            .HasColumnType("decimal(10,2)")
-            .IsRequired();
-
         builder.Property(o => o.GrandTotalAmount)
             .HasColumnType("decimal(10,2)")
             .IsRequired();

@@ -21,7 +21,6 @@ public sealed class InstockOrder : AggregateRoot<InstockOrderId>
     public decimal SubTotalAmount { get; private set; }
     public decimal ShippingFee { get; private set; }
     public int UsedCoinAmount { get; private set; }
-    public decimal UsedCoinAmountAsMoney { get; private set; }
     public decimal GrandTotalAmount { get; private set; }
     public InstockOrderStatus Status { get; private set; }
     public DateTime CreatedAt { get; private set; }
@@ -49,7 +48,6 @@ public sealed class InstockOrder : AggregateRoot<InstockOrderId>
         decimal subTotalAmount,
         decimal shippingFee,
         int usedCoinAmount,
-        decimal usedCoinAmountAsMoney,
         decimal grandTotalAmount,
         InstockOrderStatus status,
         string paymentMethod,
@@ -68,7 +66,6 @@ public sealed class InstockOrder : AggregateRoot<InstockOrderId>
         SubTotalAmount = subTotalAmount;
         ShippingFee = shippingFee;
         UsedCoinAmount = usedCoinAmount;
-        UsedCoinAmountAsMoney = usedCoinAmountAsMoney;
         GrandTotalAmount = grandTotalAmount;
         Status = status;
         PaymentMethod = paymentMethod;
@@ -94,7 +91,6 @@ public sealed class InstockOrder : AggregateRoot<InstockOrderId>
         decimal subTotalAmount,
         decimal shippingFee,
         int usedCoinAmount,
-        decimal usedCoinAmountAsMoney,
         decimal grandTotalAmount,
         string paymentMethod,
         bool isPaid = false,
@@ -124,7 +120,7 @@ public sealed class InstockOrder : AggregateRoot<InstockOrderId>
         if (!paymentMethod.Equals("Online", StringComparison.OrdinalIgnoreCase) && !paymentMethod.Equals("COD", StringComparison.OrdinalIgnoreCase))
             return Result.Failure<InstockOrder>(InstockOrderError.InvalidPaymentMethod());
 
-        if (subTotalAmount < 0 || shippingFee < 0 || usedCoinAmountAsMoney < 0 || grandTotalAmount < 0)
+        if (subTotalAmount < 0 || shippingFee < 0 || usedCoinAmount < 0 || grandTotalAmount < 0)
             return Result.Failure<InstockOrder>(InstockOrderError.InvalidAmount());
 
         var orderId = InstockOrderId.Create();
@@ -149,7 +145,6 @@ public sealed class InstockOrder : AggregateRoot<InstockOrderId>
             subTotalAmount,
             shippingFee,
             usedCoinAmount,
-            usedCoinAmountAsMoney,
             grandTotalAmount,
             initialStatus,
             paymentMethod,
