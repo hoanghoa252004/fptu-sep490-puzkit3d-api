@@ -189,7 +189,7 @@ public sealed class InstockOrder : AggregateRoot<InstockOrderId>
         //    RaiseOrderCompletedEvent();
         //}
         // Raise domain event for wallet refund
-        if (Status == InstockOrderStatus.Cancelled)
+        if (Status == InstockOrderStatus.Cancelled && IsPaid == true)
         {
             RaiseDomainEvent(new OrderCancelledRefundCoinDomainEvent(
             Id.Value,
