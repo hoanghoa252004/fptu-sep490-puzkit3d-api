@@ -31,7 +31,7 @@ internal sealed class GetWaybillNumber : IEndpoint
             })
             .WithName("GetWaybillNumber")
             .WithDescription("Get waybill number URL for an InStock Order")
-            .Produces<object>(StatusCodes.Status200OK)
+            .Produces<string>(StatusCodes.Status200OK)
             .ProducesProblem(StatusCodes.Status400BadRequest)
             .ProducesProblem(StatusCodes.Status404NotFound)
             .ProducesProblem(StatusCodes.Status500InternalServerError);

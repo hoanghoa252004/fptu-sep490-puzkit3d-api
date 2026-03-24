@@ -30,4 +30,7 @@ public static class DeliveryTrackingError
 
     public static Error AlreadyReturned() =>
         Error.Validation("ALREADY_RETURNED", "Item has already been returned");
+
+    public static Error HandOverImageUrlTooLong() =>
+        Error.Validation("HANDOVER_IMAGE_URL_TOO_LONG", "Hand over image URL cannot exceed 500 characters");
 }

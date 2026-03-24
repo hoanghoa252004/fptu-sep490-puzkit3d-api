@@ -71,6 +71,7 @@ internal sealed class GetDeliveryTrackingsByOrderIdQueryHandler : IQueryHandler<
             tracking.Status.ToString(),
             tracking.Type.ToString(),
             tracking.Note,
+            tracking.HandOverImageUrl,
             tracking.ExpectedDeliveryDate,
             tracking.DeliveredAt,
             tracking.CreatedAt,

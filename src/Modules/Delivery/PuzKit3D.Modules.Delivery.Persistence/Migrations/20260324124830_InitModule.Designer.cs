@@ -12,7 +12,7 @@ using PuzKit3D.Modules.Delivery.Persistence;
 namespace PuzKit3D.Modules.Delivery.Persistence.Migrations
 {
     [DbContext(typeof(DeliveryDbContext))]
-    [Migration("20260323142843_InitModule")]
+    [Migration("20260324124830_InitModule")]
     partial class InitModule
     {
         /// <inheritdoc />
@@ -49,6 +49,10 @@ namespace PuzKit3D.Modules.Delivery.Persistence.Migrations
                     b.Property<DateTime>("ExpectedDeliveryDate")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("expected_delivery_date");
+
+                    b.Property<string>("HandOverImageUrl")
+                        .HasColumnType("text")
+                        .HasColumnName("hand_over_image_url");
 
                     b.Property<string>("Note")
                         .HasMaxLength(1000)

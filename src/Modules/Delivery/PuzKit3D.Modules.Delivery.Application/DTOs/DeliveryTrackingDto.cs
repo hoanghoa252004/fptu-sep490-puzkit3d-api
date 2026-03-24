@@ -10,6 +10,7 @@ public sealed record DeliveryTrackingDto(
     string Status,
     string Type,
     string? Note,
+    string? HandOverImageUrl,
     DateTime ExpectedDeliveryDate,
     DateTime? DeliveredAt,
     DateTime CreatedAt,

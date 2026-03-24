@@ -47,6 +47,10 @@ namespace PuzKit3D.Modules.Delivery.Persistence.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("expected_delivery_date");
 
+                    b.Property<string>("HandOverImageUrl")
+                        .HasColumnType("text")
+                        .HasColumnName("hand_over_image_url");
+
                     b.Property<string>("Note")
                         .HasMaxLength(1000)
                         .HasColumnType("character varying(1000)")

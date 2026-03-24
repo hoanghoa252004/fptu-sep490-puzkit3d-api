@@ -28,7 +28,7 @@ internal sealed class GetDeliveryTrackingsByOrderId : IEndpoint
                 return result.MatchOk();
             })
             .WithName("GetDeliveryTrackingsByOrderId")
-            .Produces(StatusCodes.Status200OK)
+            .Produces<PaginatedDeliveryTrackingDto>(StatusCodes.Status200OK)
             .ProducesProblem(StatusCodes.Status404NotFound)
             .ProducesProblem(StatusCodes.Status500InternalServerError);
     }

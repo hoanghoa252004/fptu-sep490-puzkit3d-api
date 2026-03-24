@@ -26,6 +26,7 @@ namespace PuzKit3D.Modules.Delivery.Persistence.Migrations
                     status = table.Column<string>(type: "text", nullable: false),
                     type = table.Column<string>(type: "text", nullable: false),
                     note = table.Column<string>(type: "character varying(1000)", maxLength: 1000, nullable: true),
+                    hand_over_image_url = table.Column<string>(type: "text", nullable: true),
                     expected_delivery_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     delivered_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),

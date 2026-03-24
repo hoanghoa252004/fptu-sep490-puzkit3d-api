@@ -13,6 +13,7 @@ public sealed class DeliveryTracking : AggregateRoot<DeliveryTrackingId>
     public DeliveryTrackingStatus Status { get; private set; }
     public DeliveryTrackingType Type { get; private set; }
     public string? Note { get; private set; }
+    public string? HandOverImageUrl { get; private set; }
     public DateTime ExpectedDeliveryDate { get; private set; }
     public DateTime? DeliveredAt { get; private set; }
     public DateTime CreatedAt { get; private set; }
@@ -185,6 +186,16 @@ public sealed class DeliveryTracking : AggregateRoot<DeliveryTrackingId>
     {
         Note = note;
         UpdatedAt = DateTime.UtcNow;
+    }
+
+    public Result UpdateHandOverImageUrl(string? imageUrl)
+    {
+        if (!string.IsNullOrWhiteSpace(imageUrl) && imageUrl.Length > 500)
+            return Result.Failure(DeliveryTrackingError.HandOverImageUrlTooLong());
+
+        HandOverImageUrl = imageUrl;
+        UpdatedAt = DateTime.UtcNow;
+        return Result.Success();
     }
 
     public int GetTotalQuantity() => _details.Sum(d => d.Quantity);
