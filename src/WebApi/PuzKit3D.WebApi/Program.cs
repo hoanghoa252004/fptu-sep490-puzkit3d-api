@@ -39,6 +39,7 @@ using PuzKit3D.Modules.SupportTicket.Infrastructure;
 using PuzKit3D.Modules.SupportTicket.Persistence;
 using PuzKit3D.Modules.User.Api;
 using PuzKit3D.Modules.User.Application;
+using PuzKit3D.Modules.Wallet.Persistence;
 using PuzKit3D.SharedKernel.Api.Endpoint;
 using PuzKit3D.SharedKernel.Application;
 using PuzKit3D.SharedKernel.Infrastructure;
@@ -101,6 +102,7 @@ builder.Services.AddPaymentPersistence(builder.Configuration);
 builder.Services.AddFeedbackPersistence(builder.Configuration);
 builder.Services.AddSupportTicketPersistence(builder.Configuration);
 builder.Services.AddDeliveryPersistence(builder.Configuration);
+builder.Services.AddWalletPersistence(builder.Configuration);
 
 // Add Infrastructure services (Domain Event Handlers, Integration Event Handlers):
 builder.Services.AddInStockInfrastructure(builder.Configuration);
