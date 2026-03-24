@@ -1,6 +1,8 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using PuzKit3D.Contract.Feedback;
 using PuzKit3D.Contract.User;
+using PuzKit3D.Modules.Wallet.Infrastructure.IntegrationEventHandlers.Feedback;
 using PuzKit3D.Modules.Wallet.Infrastructure.IntegrationEventHandlers.User;
 using PuzKit3D.SharedKernel.Application.Event;
 
@@ -15,6 +17,9 @@ public static class DependencyInjection
         // Register integration event handlers
         services.AddScoped<IIntegrationEventHandler<UserEmailConfirmedIntegrationEvent>,
             UserEmailConfirmedIntegrationEventHandler>();
+
+        services.AddScoped<IIntegrationEventHandler<FeedbackCreatedWithHighestRatingIntegrationEvent>,
+            FeedbackCreatedWithHighestRatingIntegrationEventHandler>();
 
         return services;
     }
