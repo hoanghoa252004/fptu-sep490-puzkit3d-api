@@ -58,4 +58,7 @@ public static class SupportTicketError
 
     public static Error CannotCreateNewTicketWithUnresolvedTickets() =>
         Error.Validation("SupportTicket.CannotCreateNewTicket", "Cannot create a new support ticket while there are unresolved support tickets for this order");
+
+    public static Error OrderStatusNotEligibleForSupportTicket(Guid orderId, string currentStatus) =>
+        Error.Validation("SupportTicket.OrderStatusNotEligible", $"Support ticket can only be created when order {orderId} status is 'HandedOverToDelivery', but current status is '{currentStatus}'");
 }

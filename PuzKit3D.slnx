@@ -96,6 +96,13 @@
     <Project Path="src/Modules/User/PuzKit3D.Modules.User.Infrastructure/PuzKit3D.Modules.User.Infrastructure.csproj" Id="88a0ee7e-f852-49ee-ae06-bfbfb1f3e3cf" />
     <Project Path="src/Modules/User/PuzKit3D.Modules.User.Persistence/PuzKit3D.Modules.User.Persistence.csproj" Id="e3959de4-5fb9-4173-afea-58fc5d86ca4e" />
   </Folder>
+  <Folder Name="/src/Modules/Wallet/">
+    <Project Path="src/Modules/Wallet/PuzKit3D.Modules.Wallet.Api/PuzKit3D.Modules.Wallet.Api.csproj" Id="071d4ccc-70f5-45e5-ae68-87324e562c12" />
+    <Project Path="src/Modules/Wallet/PuzKit3D.Modules.Wallet.Application/PuzKit3D.Modules.Wallet.Application.csproj" Id="0f9953d1-0045-4771-8962-183d2f03fd99" />
+    <Project Path="src/Modules/Wallet/PuzKit3D.Modules.Wallet.Domain/PuzKit3D.Modules.Wallet.Domain.csproj" Id="753ea87f-3a09-485d-ad0d-577908461c68" />
+    <Project Path="src/Modules/Wallet/PuzKit3D.Modules.Wallet.Infrastructure/PuzKit3D.Modules.Wallet.Infrastructure.csproj" Id="9f8570a1-790a-4581-902a-12d2a8c4d496" />
+    <Project Path="src/Modules/Wallet/PuzKit3D.Modules.Wallet.Persistence/PuzKit3D.Modules.Wallet.Persistence.csproj" Id="8dc4f52f-3589-4a0a-9652-dcda036db9df" />
+  </Folder>
   <Folder Name="/src/SharedKernel/">
     <Project Path="src/SharedKernel/PuzKit3D.SharedKernel.Api/PuzKit3D.SharedKernel.Api.csproj" />
     <Project Path="src/SharedKernel/PuzKit3D.SharedKernel.Application/PuzKit3D.SharedKernel.Application.csproj" />

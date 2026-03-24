@@ -12,7 +12,7 @@ using PuzKit3D.Modules.InStock.Persistence;
 namespace PuzKit3D.Modules.InStock.Persistence.Migrations
 {
     [DbContext(typeof(InStockDbContext))]
-    [Migration("20260323142808_InitModule")]
+    [Migration("20260324060446_InitModule")]
     partial class InitModule
     {
         /// <inheritdoc />
@@ -357,10 +357,6 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                     b.Property<int>("UsedCoinAmount")
                         .HasColumnType("integer")
                         .HasColumnName("used_coin_amount");
-
-                    b.Property<decimal>("UsedCoinAmountAsMoney")
-                        .HasColumnType("decimal(10,2)")
-                        .HasColumnName("used_coin_amount_as_money");
 
                     b.HasKey("Id")
                         .HasName("pk_instock_orders");

@@ -132,7 +132,6 @@ internal sealed class GetCustomerOrderByIdQueryHandler
             order.SubTotalAmount,
             order.ShippingFee,
             order.UsedCoinAmount,
-            order.UsedCoinAmountAsMoney,
             order.GrandTotalAmount,
             order.Status.ToString(),
             order.PaymentMethod,

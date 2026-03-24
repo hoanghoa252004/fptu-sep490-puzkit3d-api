@@ -355,10 +355,6 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("used_coin_amount");
 
-                    b.Property<decimal>("UsedCoinAmountAsMoney")
-                        .HasColumnType("decimal(10,2)")
-                        .HasColumnName("used_coin_amount_as_money");
-
                     b.HasKey("Id")
                         .HasName("pk_instock_orders");
 

@@ -47,6 +47,12 @@ internal sealed class CreateSupportTicketCommandHandler
             return Result.Failure<Guid>(OrderReplicaError.OrderNotFound(request.OrderId));
         }
 
+        // Validate: Order status must be HandedOverToDelivery
+        if (order.Value.Status != "HandedOverToDelivery")
+        {
+            return Result.Failure<Guid>(SupportTicketError.OrderStatusNotEligibleForSupportTicket(request.OrderId, order.Value.Status));
+        }
+
         // Check if there are existing support tickets for this order
         var existingTicketsResult = await _repository.GetByOrderIdAsync(request.OrderId, cancellationToken);
         if (existingTicketsResult.IsSuccess && existingTicketsResult.Value.Any())

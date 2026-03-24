@@ -1,5 +1,6 @@
 ﻿using PuzKit3D.SharedKernel.Domain;
 using PuzKit3D.SharedKernel.Domain.Results;
+using PuzKit3D.Modules.Feedback.Domain.Entities.Feedbacks.DomainEvents;
 
 namespace PuzKit3D.Modules.Feedback.Domain.Entities.Feedbacks;
 
@@ -60,6 +61,18 @@ public sealed class Feedback : AggregateRoot<FeedbackId>
             rating,
             comment,
             now);
+
+        // Raise domain event if feedback has highest rating (5)
+        if (rating == 5)
+        {
+            feedback.RaiseDomainEvent(new FeedbackCreatedWithHighestRatingDomainEvent(
+                feedback.Id.Value,
+                orderId,
+                userId,
+                rating,
+                comment,
+                now));
+        }
 
         return Result.Success(feedback);
     }

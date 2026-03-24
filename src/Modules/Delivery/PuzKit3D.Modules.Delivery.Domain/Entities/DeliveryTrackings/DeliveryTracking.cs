@@ -125,9 +125,9 @@ public sealed class DeliveryTracking : AggregateRoot<DeliveryTrackingId>
 
     public Result MarkAsPicked()
     {
-        if (Status != DeliveryTrackingStatus.ReadyToPick)
-            return Result.Failure(
-                DeliveryTrackingError.InvalidStatusTransition(Status, DeliveryTrackingStatus.Picked));
+        //if (Status != DeliveryTrackingStatus.ReadyToPick)
+        //    return Result.Failure(
+        //        DeliveryTrackingError.InvalidStatusTransition(Status, DeliveryTrackingStatus.Picked));
 
         Status = DeliveryTrackingStatus.Picked;
         UpdatedAt = DateTime.UtcNow;
@@ -136,9 +136,9 @@ public sealed class DeliveryTracking : AggregateRoot<DeliveryTrackingId>
 
     public Result MarkAsShipping()
     {
-        if (Status != DeliveryTrackingStatus.Picked)
-            return Result.Failure(
-                DeliveryTrackingError.InvalidStatusTransition(Status, DeliveryTrackingStatus.Delivering));
+        //if (Status != DeliveryTrackingStatus.Picked)
+        //    return Result.Failure(
+        //        DeliveryTrackingError.InvalidStatusTransition(Status, DeliveryTrackingStatus.Delivering));
 
         Status = DeliveryTrackingStatus.Delivering;
         UpdatedAt = DateTime.UtcNow;
@@ -147,9 +147,9 @@ public sealed class DeliveryTracking : AggregateRoot<DeliveryTrackingId>
 
     public Result MarkAsDelivered(DateTime? deliveredAt = null)
     {
-        if (Status != DeliveryTrackingStatus.Delivering)
-            return Result.Failure(
-                DeliveryTrackingError.InvalidStatusTransition(Status, DeliveryTrackingStatus.Delivered));
+        //if (Status != DeliveryTrackingStatus.Delivering)
+        //    return Result.Failure(
+        //        DeliveryTrackingError.InvalidStatusTransition(Status, DeliveryTrackingStatus.Delivered));
 
         DeliveredAt = deliveredAt ?? DateTime.UtcNow;
         Status = DeliveryTrackingStatus.Delivered;
@@ -171,9 +171,9 @@ public sealed class DeliveryTracking : AggregateRoot<DeliveryTrackingId>
 
     public Result MarkAsReturned(DateTime? returnedAt = null)
     {
-        if (Status != DeliveryTrackingStatus.Return)
-            return Result.Failure(
-                DeliveryTrackingError.InvalidStatusTransition(Status, DeliveryTrackingStatus.Returned));
+        //if (Status != DeliveryTrackingStatus.Return)
+        //    return Result.Failure(
+        //        DeliveryTrackingError.InvalidStatusTransition(Status, DeliveryTrackingStatus.Returned));
 
         DeliveredAt = returnedAt ?? DateTime.UtcNow;
         Status = DeliveryTrackingStatus.Returned;
