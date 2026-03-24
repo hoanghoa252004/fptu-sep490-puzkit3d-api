@@ -39,6 +39,8 @@ using PuzKit3D.Modules.SupportTicket.Infrastructure;
 using PuzKit3D.Modules.SupportTicket.Persistence;
 using PuzKit3D.Modules.User.Api;
 using PuzKit3D.Modules.User.Application;
+using PuzKit3D.Modules.Wallet.Api;
+using PuzKit3D.Modules.Wallet.Application;
 using PuzKit3D.Modules.Wallet.Infrastructure.DependencyInjection.Extensions;
 using PuzKit3D.Modules.Wallet.Persistence;
 using PuzKit3D.SharedKernel.Api.Endpoint;
@@ -73,6 +75,7 @@ builder.Services.AddSharedKernelApplication(
         DeliveryApplicationAssembly.Assembly,
         FeedbackApplicationAssembly.Assembly,
         SupportTicketApplicationAssembly.Assembly,
+        WalletApplicationAssembly.Assembly,
     } 
 );
 
@@ -91,6 +94,7 @@ builder.Services.AddEndpointsFromAssembly(
        DeliveryApiAssembly.Assembly,
        FeedbackApiAssembly.Assembly,
        SupportTicketApiAssembly.Assembly,
+       WalletApiAssembly.Assembly,
     }
 );
 

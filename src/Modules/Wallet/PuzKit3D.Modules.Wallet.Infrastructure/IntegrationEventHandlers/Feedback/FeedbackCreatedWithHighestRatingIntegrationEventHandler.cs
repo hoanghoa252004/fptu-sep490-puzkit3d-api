@@ -20,7 +20,7 @@ internal sealed class FeedbackCreatedWithHighestRatingIntegrationEventHandler
         FeedbackCreatedWithHighestRatingIntegrationEvent @event,
         CancellationToken cancellationToken = default)
     {
-        const decimal REWARD_COIN = 5000;
+        const decimal REWARD_COIN = 100;
 
         // Get wallet for this user
         var wallet = _dbContext.Wallets.FirstOrDefault(w => w.UserId == @event.UserId);

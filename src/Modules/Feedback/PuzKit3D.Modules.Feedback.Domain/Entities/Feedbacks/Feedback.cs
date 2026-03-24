@@ -66,8 +66,6 @@ public sealed class Feedback : AggregateRoot<FeedbackId>
         if (rating == 5)
         {
             feedback.RaiseDomainEvent(new FeedbackCreatedWithHighestRatingDomainEvent(
-                Guid.NewGuid(),
-                DateTime.UtcNow,
                 feedback.Id.Value,
                 orderId,
                 userId,
