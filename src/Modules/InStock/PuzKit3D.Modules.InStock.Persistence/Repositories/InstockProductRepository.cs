@@ -29,7 +29,6 @@ internal sealed class InstockProductRepository : IInstockProductRepository
     {
         return await _context.InstockProducts
             .Include(p => p.Parts)
-                .ThenInclude(part => part.Pieces)
             .FirstOrDefaultAsync(p => p.Id == id, cancellationToken);
     }
 

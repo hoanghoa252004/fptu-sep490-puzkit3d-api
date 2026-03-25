@@ -156,8 +156,7 @@ internal sealed class CreateInstockOrderCommandHandler : ICommandTHandler<Create
             }
 
             // Validate grand total matches
-            var usedCoinAmountAsMoney = request.UsedCoinAmount * 1000m; // Assuming 1 coin = 1000 VND
-            var calculatedGrandTotal = calculatedSubTotal + request.ShippingFee - usedCoinAmountAsMoney;
+            var calculatedGrandTotal = calculatedSubTotal + request.ShippingFee - request.UsedCoinAmount;
 
             if (Math.Abs(calculatedGrandTotal - request.GrandTotalAmount) > 0.01m) // Allow small rounding difference
             {
@@ -180,7 +179,6 @@ internal sealed class CreateInstockOrderCommandHandler : ICommandTHandler<Create
                 calculatedSubTotal,
                 request.ShippingFee,
                 request.UsedCoinAmount,
-                usedCoinAmountAsMoney,
                 request.GrandTotalAmount,
                 request.PaymentMethod);
 

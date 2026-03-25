@@ -20,6 +20,11 @@ internal sealed class CreateInstockProduct : IEndpoint
                 ISender sender,
                 CancellationToken cancellationToken) =>
             {
+                var previewAssetDict = request.PreviewAsset?.Count > 0
+                    ? request.PreviewAsset.Select((asset, index) => (Key: index.ToString(), Value: asset))
+                        .ToDictionary(x => x.Key, x => x.Value)
+                    : new Dictionary<string, string>();
+
                 var command = new CreateInstockProductCommand(
                     request.Slug,
                     request.Name,
@@ -27,7 +32,7 @@ internal sealed class CreateInstockProduct : IEndpoint
                     request.DifficultLevel,
                     request.EstimatedBuildTime,
                     request.ThumbnailUrl,
-                    request.PreviewAsset,
+                    previewAssetDict,
                     request.TopicId,
                     request.AssemblyMethodId,
                     request.CapabilityIds,
@@ -59,7 +64,7 @@ int TotalPieceCount,
 string DifficultLevel,
 int EstimatedBuildTime,
 string ThumbnailUrl,
-Dictionary<string, string> PreviewAsset,
+List<string> PreviewAsset,
 Guid TopicId,
 Guid AssemblyMethodId,
 List<Guid> CapabilityIds,

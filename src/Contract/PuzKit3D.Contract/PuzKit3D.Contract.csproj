@@ -1,6 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Modules\InStock\PuzKit3D.Modules.InStock.Domain\PuzKit3D.Modules.InStock.Domain.csproj" />
     <ProjectReference Include="..\..\SharedKernel\PuzKit3D.SharedKernel.Application\PuzKit3D.SharedKernel.Application.csproj" />
   </ItemGroup>
 

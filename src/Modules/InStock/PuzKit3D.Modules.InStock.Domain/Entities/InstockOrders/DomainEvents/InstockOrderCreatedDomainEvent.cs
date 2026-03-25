@@ -12,5 +12,14 @@ public sealed record InstockOrderCreatedDomainEvent(
     string Status,
     string PaymentMethod,
     bool IsPaid,
-    DateTime? PaidAt) : DomainEvent;
+    DateTime? PaidAt,
+    List<OrderDetailInfo> OrderDetails) : DomainEvent;
+
+public sealed record OrderDetailInfo(
+    Guid OrderDetailId,
+    Guid VariantId,
+    int Quantity,
+    string? ProductName,
+    string? VariantName);
+
 

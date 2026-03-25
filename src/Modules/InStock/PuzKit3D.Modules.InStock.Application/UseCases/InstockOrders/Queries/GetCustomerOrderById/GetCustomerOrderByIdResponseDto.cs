@@ -15,7 +15,6 @@ string DetailAddress,
 decimal SubTotalAmount,
 decimal ShippingFee,
 int UsedCoinAmount,
-decimal UsedCoinAmountAsMoney,
 decimal GrandTotalAmount,
 string Status,
 string PaymentMethod,
@@ -23,8 +22,6 @@ bool IsPaid,
 DateTime? PaidAt,
 DateTime CreatedAt,
 DateTime UpdatedAt,
-string? DeliveryOrderCode,
-DateTime? ExpectedDeliveryDate,
 List<OrderDetailFullDto> OrderDetails);
 
 public sealed record OrderDetailFullDto(

@@ -7,7 +7,9 @@ using PuzKit3D.Modules.Catalog.Application;
 using PuzKit3D.Modules.Catalog.Persistence;
 using PuzKit3D.Modules.Delivery.Api;
 using PuzKit3D.Modules.Delivery.Application;
+using PuzKit3D.Modules.Delivery.Infrastructure;
 using PuzKit3D.Modules.Delivery.Infrastructure.DependencyInjection.Extensions;
+using PuzKit3D.Modules.Delivery.Persistence;
 using PuzKit3D.Modules.Feedback.Api;
 using PuzKit3D.Modules.Feedback.Application;
 using PuzKit3D.Modules.Feedback.Infrastructure;
@@ -31,8 +33,16 @@ using PuzKit3D.Modules.Payment.Api;
 using PuzKit3D.Modules.Payment.Application;
 using PuzKit3D.Modules.Payment.Infrastructure;
 using PuzKit3D.Modules.Payment.Persistence;
+using PuzKit3D.Modules.SupportTicket.Api;
+using PuzKit3D.Modules.SupportTicket.Application;
+using PuzKit3D.Modules.SupportTicket.Infrastructure;
+using PuzKit3D.Modules.SupportTicket.Persistence;
 using PuzKit3D.Modules.User.Api;
 using PuzKit3D.Modules.User.Application;
+using PuzKit3D.Modules.Wallet.Api;
+using PuzKit3D.Modules.Wallet.Application;
+using PuzKit3D.Modules.Wallet.Infrastructure.DependencyInjection.Extensions;
+using PuzKit3D.Modules.Wallet.Persistence;
 using PuzKit3D.SharedKernel.Api.Endpoint;
 using PuzKit3D.SharedKernel.Application;
 using PuzKit3D.SharedKernel.Infrastructure;
@@ -63,7 +73,9 @@ builder.Services.AddSharedKernelApplication(
         NotificationApplicationAssembly.Assembly,
         MediaApplicationAssembly.Assembly,
         DeliveryApplicationAssembly.Assembly,
-        FeedbackApplicationAssembly.Assembly
+        FeedbackApplicationAssembly.Assembly,
+        SupportTicketApplicationAssembly.Assembly,
+        WalletApplicationAssembly.Assembly,
     } 
 );
 
@@ -80,7 +92,9 @@ builder.Services.AddEndpointsFromAssembly(
        NotificationApiAssembly.Assembly,
        MediaApiAssembly.Assembly,
        DeliveryApiAssembly.Assembly,
-       FeedbackApiAssembly.Assembly
+       FeedbackApiAssembly.Assembly,
+       SupportTicketApiAssembly.Assembly,
+       WalletApiAssembly.Assembly,
     }
 );
 
@@ -91,6 +105,9 @@ builder.Services.AddCartPersistence(builder.Configuration);
 builder.Services.AddPartnerPersistence(builder.Configuration);
 builder.Services.AddPaymentPersistence(builder.Configuration);
 builder.Services.AddFeedbackPersistence(builder.Configuration);
+builder.Services.AddSupportTicketPersistence(builder.Configuration);
+builder.Services.AddDeliveryPersistence(builder.Configuration);
+builder.Services.AddWalletPersistence(builder.Configuration);
 
 // Add Infrastructure services (Domain Event Handlers, Integration Event Handlers):
 builder.Services.AddInStockInfrastructure(builder.Configuration);
@@ -100,6 +117,8 @@ builder.Services.AddFeedbackInfrastructure();
 builder.Services.AddNotificationInfrastructure(builder.Configuration, builder.Environment);
 builder.Services.AddMediaInfrastructure(builder.Configuration, builder.Environment);
 builder.Services.AddDeliveryInfrastructure(builder.Configuration, builder.Environment);
+builder.Services.AddSupportTicketInfrastructure();
+builder.Services.AddWalletInfrastructure(builder.Configuration);
 
 var app = builder.Build();
 
@@ -117,16 +136,15 @@ app.UseSwagger();
 app.UseSwaggerUI(options =>
 {
     // Module-specific documents
-    options.SwaggerEndpoint("/swagger/user/swagger.json", "1. User Module");
-    options.SwaggerEndpoint("/swagger/cart/swagger.json", "2. Cart Module");
-    options.SwaggerEndpoint("/swagger/catalog/swagger.json", "3. Catalog Module");
-    options.SwaggerEndpoint("/swagger/instock/swagger.json", "4. Instock Module");
-    options.SwaggerEndpoint("/swagger/partner/swagger.json", "5. Partner Module");
-    options.SwaggerEndpoint("/swagger/payment/swagger.json", "6. Payment Module");
-    options.SwaggerEndpoint("/swagger/notification/swagger.json", "7. Notification Module");
-    options.SwaggerEndpoint("/swagger/media/swagger.json", "8. Media Module");
-    options.SwaggerEndpoint("/swagger/delivery/swagger.json", "9. Delivery Module");
-    options.SwaggerEndpoint("/swagger/feedback/swagger.json", "10. Feedback Module");
+    options.SwaggerEndpoint("/swagger/user/swagger.json", "User API");
+    options.SwaggerEndpoint("/swagger/cart/swagger.json", "Cart API");
+    options.SwaggerEndpoint("/swagger/catalog/swagger.json", "Catalog API");
+    options.SwaggerEndpoint("/swagger/instock/swagger.json", "Instock API");
+    options.SwaggerEndpoint("/swagger/partner/swagger.json", "Partner API");
+    options.SwaggerEndpoint("/swagger/payment/swagger.json", "Payment API");
+    options.SwaggerEndpoint("/swagger/media/swagger.json", "Media Storage API");
+    options.SwaggerEndpoint("/swagger/delivery/swagger.json", "Delivery Tracking API");
+    options.SwaggerEndpoint("/swagger/after-sale/swagger.json", "After Sale API");
     // Main API document
     options.SwaggerEndpoint("/swagger/v1/swagger.json", "All Modules");
 

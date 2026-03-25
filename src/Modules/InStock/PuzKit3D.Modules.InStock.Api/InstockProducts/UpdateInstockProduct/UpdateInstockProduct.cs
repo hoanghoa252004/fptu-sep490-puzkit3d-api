@@ -21,6 +21,11 @@ internal sealed class UpdateInstockProduct : IEndpoint
                 ISender sender,
                 CancellationToken cancellationToken) =>
             {
+                var previewAssetDict = request.PreviewAsset?.Count > 0
+                    ? request.PreviewAsset.Select((asset, index) => (Key: index.ToString(), Value: asset))
+                        .ToDictionary(x => x.Key, x => x.Value)
+                    : null;
+
                 var command = new UpdateInstockProductCommand(
                     id,
                     request.Slug,
@@ -29,7 +34,7 @@ internal sealed class UpdateInstockProduct : IEndpoint
                     request.DifficultLevel,
                     request.EstimatedBuildTime,
                     request.ThumbnailUrl,
-                    request.PreviewAsset,
+                    previewAssetDict,
                     request.TopicId,
                     request.AssemblyMethodId,
                     request.CapabilityIds,
@@ -62,7 +67,7 @@ int? TotalPieceCount,
 string? DifficultLevel,
 int? EstimatedBuildTime,
 string? ThumbnailUrl,
-Dictionary<string, string>? PreviewAsset,
+List<string>? PreviewAsset,
 Guid? TopicId,
 Guid? AssemblyMethodId,
 List<Guid>? CapabilityIds,

@@ -308,28 +308,15 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                         .HasColumnType("character varying(30)")
                         .HasColumnName("customer_ward_name");
 
-                    b.Property<string>("DeliveryOrderCode")
-                        .HasMaxLength(20)
-                        .HasColumnType("character varying(20)")
-                        .HasColumnName("delivery_order_code");
-
                     b.Property<string>("DetailAddress")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)")
                         .HasColumnName("detail_address");
 
-                    b.Property<DateTime?>("ExpectedDeliveryDate")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("expected_delivery_date");
-
                     b.Property<decimal>("GrandTotalAmount")
                         .HasColumnType("decimal(10,2)")
                         .HasColumnName("grand_total_amount");
-
-                    b.Property<string>("HandoverProofImageUrl")
-                        .HasColumnType("text")
-                        .HasColumnName("handover_proof_image_url");
 
                     b.Property<bool>("IsPaid")
                         .ValueGeneratedOnAdd()
@@ -367,10 +354,6 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                     b.Property<int>("UsedCoinAmount")
                         .HasColumnType("integer")
                         .HasColumnName("used_coin_amount");
-
-                    b.Property<decimal>("UsedCoinAmountAsMoney")
-                        .HasColumnType("decimal(10,2)")
-                        .HasColumnName("used_coin_amount_as_money");
 
                     b.HasKey("Id")
                         .HasName("pk_instock_orders");
@@ -1510,9 +1493,12 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
 
                     b.Property<string>("PartType")
                         .IsRequired()
-                        .HasMaxLength(30)
-                        .HasColumnType("character varying(30)")
+                        .HasColumnType("text")
                         .HasColumnName("part_type");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("integer")
+                        .HasColumnName("quantity");
 
                     b.HasKey("Id")
                         .HasName("pk_parts");
@@ -1521,35 +1507,908 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                         .HasDatabaseName("ix_parts_instock_product_id");
 
                     b.ToTable("parts", "instock");
-                });
 
-            modelBuilder.Entity("PuzKit3D.Modules.InStock.Domain.Entities.Pieces.Piece", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uuid")
-                        .HasColumnName("id");
-
-                    b.Property<string>("Code")
-                        .IsRequired()
-                        .HasMaxLength(10)
-                        .HasColumnType("character varying(10)")
-                        .HasColumnName("code");
-
-                    b.Property<Guid>("PartId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("part_id");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("integer")
-                        .HasColumnName("quantity");
-
-                    b.HasKey("Id")
-                        .HasName("pk_pieces");
-
-                    b.HasIndex("PartId")
-                        .HasDatabaseName("ix_pieces_part_id");
-
-                    b.ToTable("pieces", "instock");
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("50000000-0001-0000-0000-000000000000"),
+                            Code = "PAR0001",
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000001"),
+                            Name = "Lion Part 1",
+                            PartType = "Structural",
+                            Quantity = 10
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0001-0001-0000-000000000000"),
+                            Code = "PAR0002",
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000001"),
+                            Name = "Lion Part 2",
+                            PartType = "Mechanical",
+                            Quantity = 15
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0001-0002-0000-000000000000"),
+                            Code = "PAR0003",
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000001"),
+                            Name = "Lion Part 3",
+                            PartType = "Decorative",
+                            Quantity = 20
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0001-0003-0000-000000000000"),
+                            Code = "PAR0004",
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000001"),
+                            Name = "Lion Part 4",
+                            PartType = "Structural",
+                            Quantity = 25
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0001-0004-0000-000000000000"),
+                            Code = "PAR0005",
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000001"),
+                            Name = "Lion Part 5",
+                            PartType = "Mechanical",
+                            Quantity = 30
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0001-0005-0000-000000000000"),
+                            Code = "PAR0006",
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000001"),
+                            Name = "Lion Part 6",
+                            PartType = "Decorative",
+                            Quantity = 35
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0001-0006-0000-000000000000"),
+                            Code = "PAR0007",
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000001"),
+                            Name = "Lion Part 7",
+                            PartType = "Structural",
+                            Quantity = 40
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0001-0007-0000-000000000000"),
+                            Code = "PAR0008",
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000001"),
+                            Name = "Lion Part 8",
+                            PartType = "Mechanical",
+                            Quantity = 45
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0001-0008-0000-000000000000"),
+                            Code = "PAR0009",
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000001"),
+                            Name = "Lion Part 9",
+                            PartType = "Decorative",
+                            Quantity = 50
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0001-0009-0000-000000000000"),
+                            Code = "PAR0010",
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000001"),
+                            Name = "Lion Part 10",
+                            PartType = "Structural",
+                            Quantity = 55
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0002-0000-0000-000000000000"),
+                            Code = "PAR0011",
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000002"),
+                            Name = "Elephant Part 1",
+                            PartType = "Structural",
+                            Quantity = 10
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0002-0001-0000-000000000000"),
+                            Code = "PAR0012",
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000002"),
+                            Name = "Elephant Part 2",
+                            PartType = "Mechanical",
+                            Quantity = 15
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0002-0002-0000-000000000000"),
+                            Code = "PAR0013",
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000002"),
+                            Name = "Elephant Part 3",
+                            PartType = "Decorative",
+                            Quantity = 20
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0002-0003-0000-000000000000"),
+                            Code = "PAR0014",
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000002"),
+                            Name = "Elephant Part 4",
+                            PartType = "Structural",
+                            Quantity = 25
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0002-0004-0000-000000000000"),
+                            Code = "PAR0015",
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000002"),
+                            Name = "Elephant Part 5",
+                            PartType = "Mechanical",
+                            Quantity = 30
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0002-0005-0000-000000000000"),
+                            Code = "PAR0016",
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000002"),
+                            Name = "Elephant Part 6",
+                            PartType = "Decorative",
+                            Quantity = 35
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0002-0006-0000-000000000000"),
+                            Code = "PAR0017",
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000002"),
+                            Name = "Elephant Part 7",
+                            PartType = "Structural",
+                            Quantity = 40
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0002-0007-0000-000000000000"),
+                            Code = "PAR0018",
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000002"),
+                            Name = "Elephant Part 8",
+                            PartType = "Mechanical",
+                            Quantity = 45
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0002-0008-0000-000000000000"),
+                            Code = "PAR0019",
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000002"),
+                            Name = "Elephant Part 9",
+                            PartType = "Decorative",
+                            Quantity = 50
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0002-0009-0000-000000000000"),
+                            Code = "PAR0020",
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000002"),
+                            Name = "Elephant Part 10",
+                            PartType = "Structural",
+                            Quantity = 55
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0003-0000-0000-000000000000"),
+                            Code = "PAR0021",
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000003"),
+                            Name = "Eagle Part 1",
+                            PartType = "Structural",
+                            Quantity = 10
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0003-0001-0000-000000000000"),
+                            Code = "PAR0022",
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000003"),
+                            Name = "Eagle Part 2",
+                            PartType = "Mechanical",
+                            Quantity = 15
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0003-0002-0000-000000000000"),
+                            Code = "PAR0023",
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000003"),
+                            Name = "Eagle Part 3",
+                            PartType = "Decorative",
+                            Quantity = 20
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0003-0003-0000-000000000000"),
+                            Code = "PAR0024",
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000003"),
+                            Name = "Eagle Part 4",
+                            PartType = "Structural",
+                            Quantity = 25
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0003-0004-0000-000000000000"),
+                            Code = "PAR0025",
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000003"),
+                            Name = "Eagle Part 5",
+                            PartType = "Mechanical",
+                            Quantity = 30
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0003-0005-0000-000000000000"),
+                            Code = "PAR0026",
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000003"),
+                            Name = "Eagle Part 6",
+                            PartType = "Decorative",
+                            Quantity = 35
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0003-0006-0000-000000000000"),
+                            Code = "PAR0027",
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000003"),
+                            Name = "Eagle Part 7",
+                            PartType = "Structural",
+                            Quantity = 40
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0003-0007-0000-000000000000"),
+                            Code = "PAR0028",
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000003"),
+                            Name = "Eagle Part 8",
+                            PartType = "Mechanical",
+                            Quantity = 45
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0003-0008-0000-000000000000"),
+                            Code = "PAR0029",
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000003"),
+                            Name = "Eagle Part 9",
+                            PartType = "Decorative",
+                            Quantity = 50
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0003-0009-0000-000000000000"),
+                            Code = "PAR0030",
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000003"),
+                            Name = "Eagle Part 10",
+                            PartType = "Structural",
+                            Quantity = 55
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0004-0000-0000-000000000000"),
+                            Code = "PAR0031",
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000004"),
+                            Name = "Sports Car Part 1",
+                            PartType = "Structural",
+                            Quantity = 10
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0004-0001-0000-000000000000"),
+                            Code = "PAR0032",
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000004"),
+                            Name = "Sports Car Part 2",
+                            PartType = "Mechanical",
+                            Quantity = 15
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0004-0002-0000-000000000000"),
+                            Code = "PAR0033",
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000004"),
+                            Name = "Sports Car Part 3",
+                            PartType = "Decorative",
+                            Quantity = 20
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0004-0003-0000-000000000000"),
+                            Code = "PAR0034",
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000004"),
+                            Name = "Sports Car Part 4",
+                            PartType = "Structural",
+                            Quantity = 25
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0004-0004-0000-000000000000"),
+                            Code = "PAR0035",
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000004"),
+                            Name = "Sports Car Part 5",
+                            PartType = "Mechanical",
+                            Quantity = 30
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0004-0005-0000-000000000000"),
+                            Code = "PAR0036",
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000004"),
+                            Name = "Sports Car Part 6",
+                            PartType = "Decorative",
+                            Quantity = 35
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0004-0006-0000-000000000000"),
+                            Code = "PAR0037",
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000004"),
+                            Name = "Sports Car Part 7",
+                            PartType = "Structural",
+                            Quantity = 40
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0004-0007-0000-000000000000"),
+                            Code = "PAR0038",
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000004"),
+                            Name = "Sports Car Part 8",
+                            PartType = "Mechanical",
+                            Quantity = 45
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0004-0008-0000-000000000000"),
+                            Code = "PAR0039",
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000004"),
+                            Name = "Sports Car Part 9",
+                            PartType = "Decorative",
+                            Quantity = 50
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0004-0009-0000-000000000000"),
+                            Code = "PAR0040",
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000004"),
+                            Name = "Sports Car Part 10",
+                            PartType = "Structural",
+                            Quantity = 55
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0005-0000-0000-000000000000"),
+                            Code = "PAR0041",
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000005"),
+                            Name = "Airplane Part 1",
+                            PartType = "Structural",
+                            Quantity = 10
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0005-0001-0000-000000000000"),
+                            Code = "PAR0042",
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000005"),
+                            Name = "Airplane Part 2",
+                            PartType = "Mechanical",
+                            Quantity = 15
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0005-0002-0000-000000000000"),
+                            Code = "PAR0043",
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000005"),
+                            Name = "Airplane Part 3",
+                            PartType = "Decorative",
+                            Quantity = 20
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0005-0003-0000-000000000000"),
+                            Code = "PAR0044",
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000005"),
+                            Name = "Airplane Part 4",
+                            PartType = "Structural",
+                            Quantity = 25
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0005-0004-0000-000000000000"),
+                            Code = "PAR0045",
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000005"),
+                            Name = "Airplane Part 5",
+                            PartType = "Mechanical",
+                            Quantity = 30
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0005-0005-0000-000000000000"),
+                            Code = "PAR0046",
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000005"),
+                            Name = "Airplane Part 6",
+                            PartType = "Decorative",
+                            Quantity = 35
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0005-0006-0000-000000000000"),
+                            Code = "PAR0047",
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000005"),
+                            Name = "Airplane Part 7",
+                            PartType = "Structural",
+                            Quantity = 40
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0005-0007-0000-000000000000"),
+                            Code = "PAR0048",
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000005"),
+                            Name = "Airplane Part 8",
+                            PartType = "Mechanical",
+                            Quantity = 45
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0005-0008-0000-000000000000"),
+                            Code = "PAR0049",
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000005"),
+                            Name = "Airplane Part 9",
+                            PartType = "Decorative",
+                            Quantity = 50
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0005-0009-0000-000000000000"),
+                            Code = "PAR0050",
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000005"),
+                            Name = "Airplane Part 10",
+                            PartType = "Structural",
+                            Quantity = 55
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0006-0000-0000-000000000000"),
+                            Code = "PAR0051",
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000006"),
+                            Name = "Motorcycle Part 1",
+                            PartType = "Structural",
+                            Quantity = 10
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0006-0001-0000-000000000000"),
+                            Code = "PAR0052",
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000006"),
+                            Name = "Motorcycle Part 2",
+                            PartType = "Mechanical",
+                            Quantity = 15
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0006-0002-0000-000000000000"),
+                            Code = "PAR0053",
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000006"),
+                            Name = "Motorcycle Part 3",
+                            PartType = "Decorative",
+                            Quantity = 20
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0006-0003-0000-000000000000"),
+                            Code = "PAR0054",
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000006"),
+                            Name = "Motorcycle Part 4",
+                            PartType = "Structural",
+                            Quantity = 25
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0006-0004-0000-000000000000"),
+                            Code = "PAR0055",
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000006"),
+                            Name = "Motorcycle Part 5",
+                            PartType = "Mechanical",
+                            Quantity = 30
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0006-0005-0000-000000000000"),
+                            Code = "PAR0056",
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000006"),
+                            Name = "Motorcycle Part 6",
+                            PartType = "Decorative",
+                            Quantity = 35
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0006-0006-0000-000000000000"),
+                            Code = "PAR0057",
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000006"),
+                            Name = "Motorcycle Part 7",
+                            PartType = "Structural",
+                            Quantity = 40
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0006-0007-0000-000000000000"),
+                            Code = "PAR0058",
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000006"),
+                            Name = "Motorcycle Part 8",
+                            PartType = "Mechanical",
+                            Quantity = 45
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0006-0008-0000-000000000000"),
+                            Code = "PAR0059",
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000006"),
+                            Name = "Motorcycle Part 9",
+                            PartType = "Decorative",
+                            Quantity = 50
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0006-0009-0000-000000000000"),
+                            Code = "PAR0060",
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000006"),
+                            Name = "Motorcycle Part 10",
+                            PartType = "Structural",
+                            Quantity = 55
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0007-0000-0000-000000000000"),
+                            Code = "PAR0061",
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000007"),
+                            Name = "Tiger Part 1",
+                            PartType = "Structural",
+                            Quantity = 10
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0007-0001-0000-000000000000"),
+                            Code = "PAR0062",
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000007"),
+                            Name = "Tiger Part 2",
+                            PartType = "Mechanical",
+                            Quantity = 15
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0007-0002-0000-000000000000"),
+                            Code = "PAR0063",
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000007"),
+                            Name = "Tiger Part 3",
+                            PartType = "Decorative",
+                            Quantity = 20
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0007-0003-0000-000000000000"),
+                            Code = "PAR0064",
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000007"),
+                            Name = "Tiger Part 4",
+                            PartType = "Structural",
+                            Quantity = 25
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0007-0004-0000-000000000000"),
+                            Code = "PAR0065",
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000007"),
+                            Name = "Tiger Part 5",
+                            PartType = "Mechanical",
+                            Quantity = 30
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0007-0005-0000-000000000000"),
+                            Code = "PAR0066",
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000007"),
+                            Name = "Tiger Part 6",
+                            PartType = "Decorative",
+                            Quantity = 35
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0007-0006-0000-000000000000"),
+                            Code = "PAR0067",
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000007"),
+                            Name = "Tiger Part 7",
+                            PartType = "Structural",
+                            Quantity = 40
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0007-0007-0000-000000000000"),
+                            Code = "PAR0068",
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000007"),
+                            Name = "Tiger Part 8",
+                            PartType = "Mechanical",
+                            Quantity = 45
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0007-0008-0000-000000000000"),
+                            Code = "PAR0069",
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000007"),
+                            Name = "Tiger Part 9",
+                            PartType = "Decorative",
+                            Quantity = 50
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0007-0009-0000-000000000000"),
+                            Code = "PAR0070",
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000007"),
+                            Name = "Tiger Part 10",
+                            PartType = "Structural",
+                            Quantity = 55
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0008-0000-0000-000000000000"),
+                            Code = "PAR0071",
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000008"),
+                            Name = "Dolphin Part 1",
+                            PartType = "Structural",
+                            Quantity = 10
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0008-0001-0000-000000000000"),
+                            Code = "PAR0072",
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000008"),
+                            Name = "Dolphin Part 2",
+                            PartType = "Mechanical",
+                            Quantity = 15
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0008-0002-0000-000000000000"),
+                            Code = "PAR0073",
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000008"),
+                            Name = "Dolphin Part 3",
+                            PartType = "Decorative",
+                            Quantity = 20
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0008-0003-0000-000000000000"),
+                            Code = "PAR0074",
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000008"),
+                            Name = "Dolphin Part 4",
+                            PartType = "Structural",
+                            Quantity = 25
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0008-0004-0000-000000000000"),
+                            Code = "PAR0075",
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000008"),
+                            Name = "Dolphin Part 5",
+                            PartType = "Mechanical",
+                            Quantity = 30
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0008-0005-0000-000000000000"),
+                            Code = "PAR0076",
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000008"),
+                            Name = "Dolphin Part 6",
+                            PartType = "Decorative",
+                            Quantity = 35
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0008-0006-0000-000000000000"),
+                            Code = "PAR0077",
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000008"),
+                            Name = "Dolphin Part 7",
+                            PartType = "Structural",
+                            Quantity = 40
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0008-0007-0000-000000000000"),
+                            Code = "PAR0078",
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000008"),
+                            Name = "Dolphin Part 8",
+                            PartType = "Mechanical",
+                            Quantity = 45
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0008-0008-0000-000000000000"),
+                            Code = "PAR0079",
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000008"),
+                            Name = "Dolphin Part 9",
+                            PartType = "Decorative",
+                            Quantity = 50
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0008-0009-0000-000000000000"),
+                            Code = "PAR0080",
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000008"),
+                            Name = "Dolphin Part 10",
+                            PartType = "Structural",
+                            Quantity = 55
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0009-0000-0000-000000000000"),
+                            Code = "PAR0081",
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000009"),
+                            Name = "Helicopter Part 1",
+                            PartType = "Structural",
+                            Quantity = 10
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0009-0001-0000-000000000000"),
+                            Code = "PAR0082",
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000009"),
+                            Name = "Helicopter Part 2",
+                            PartType = "Mechanical",
+                            Quantity = 15
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0009-0002-0000-000000000000"),
+                            Code = "PAR0083",
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000009"),
+                            Name = "Helicopter Part 3",
+                            PartType = "Decorative",
+                            Quantity = 20
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0009-0003-0000-000000000000"),
+                            Code = "PAR0084",
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000009"),
+                            Name = "Helicopter Part 4",
+                            PartType = "Structural",
+                            Quantity = 25
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0009-0004-0000-000000000000"),
+                            Code = "PAR0085",
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000009"),
+                            Name = "Helicopter Part 5",
+                            PartType = "Mechanical",
+                            Quantity = 30
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0009-0005-0000-000000000000"),
+                            Code = "PAR0086",
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000009"),
+                            Name = "Helicopter Part 6",
+                            PartType = "Decorative",
+                            Quantity = 35
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0009-0006-0000-000000000000"),
+                            Code = "PAR0087",
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000009"),
+                            Name = "Helicopter Part 7",
+                            PartType = "Structural",
+                            Quantity = 40
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0009-0007-0000-000000000000"),
+                            Code = "PAR0088",
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000009"),
+                            Name = "Helicopter Part 8",
+                            PartType = "Mechanical",
+                            Quantity = 45
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0009-0008-0000-000000000000"),
+                            Code = "PAR0089",
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000009"),
+                            Name = "Helicopter Part 9",
+                            PartType = "Decorative",
+                            Quantity = 50
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0009-0009-0000-000000000000"),
+                            Code = "PAR0090",
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000009"),
+                            Name = "Helicopter Part 10",
+                            PartType = "Structural",
+                            Quantity = 55
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0010-0000-0000-000000000000"),
+                            Code = "PAR0091",
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000010"),
+                            Name = "Dragon Part 1",
+                            PartType = "Structural",
+                            Quantity = 10
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0010-0001-0000-000000000000"),
+                            Code = "PAR0092",
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000010"),
+                            Name = "Dragon Part 2",
+                            PartType = "Mechanical",
+                            Quantity = 15
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0010-0002-0000-000000000000"),
+                            Code = "PAR0093",
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000010"),
+                            Name = "Dragon Part 3",
+                            PartType = "Decorative",
+                            Quantity = 20
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0010-0003-0000-000000000000"),
+                            Code = "PAR0094",
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000010"),
+                            Name = "Dragon Part 4",
+                            PartType = "Structural",
+                            Quantity = 25
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0010-0004-0000-000000000000"),
+                            Code = "PAR0095",
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000010"),
+                            Name = "Dragon Part 5",
+                            PartType = "Mechanical",
+                            Quantity = 30
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0010-0005-0000-000000000000"),
+                            Code = "PAR0096",
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000010"),
+                            Name = "Dragon Part 6",
+                            PartType = "Decorative",
+                            Quantity = 35
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0010-0006-0000-000000000000"),
+                            Code = "PAR0097",
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000010"),
+                            Name = "Dragon Part 7",
+                            PartType = "Structural",
+                            Quantity = 40
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0010-0007-0000-000000000000"),
+                            Code = "PAR0098",
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000010"),
+                            Name = "Dragon Part 8",
+                            PartType = "Mechanical",
+                            Quantity = 45
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0010-0008-0000-000000000000"),
+                            Code = "PAR0099",
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000010"),
+                            Name = "Dragon Part 9",
+                            PartType = "Decorative",
+                            Quantity = 50
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0010-0009-0000-000000000000"),
+                            Code = "PAR0100",
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000010"),
+                            Name = "Dragon Part 10",
+                            PartType = "Structural",
+                            Quantity = 55
+                        });
                 });
 
             modelBuilder.Entity("PuzKit3D.Modules.InStock.Domain.Entities.Replicas.AssemblyMethodReplica", b =>
@@ -2033,16 +2892,6 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                         .HasConstraintName("FK__instock_product__part");
                 });
 
-            modelBuilder.Entity("PuzKit3D.Modules.InStock.Domain.Entities.Pieces.Piece", b =>
-                {
-                    b.HasOne("PuzKit3D.Modules.InStock.Domain.Entities.Parts.Part", null)
-                        .WithMany("Pieces")
-                        .HasForeignKey("PartId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
-                        .HasConstraintName("FK__part__piece");
-                });
-
             modelBuilder.Entity("PuzKit3D.Modules.InStock.Domain.Entities.InstockOrders.InstockOrder", b =>
                 {
                     b.Navigation("OrderDetails");
@@ -2053,11 +2902,6 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                     b.Navigation("CapabilityDetails");
 
                     b.Navigation("Parts");
-                });
-
-            modelBuilder.Entity("PuzKit3D.Modules.InStock.Domain.Entities.Parts.Part", b =>
-                {
-                    b.Navigation("Pieces");
                 });
 #pragma warning restore 612, 618
         }

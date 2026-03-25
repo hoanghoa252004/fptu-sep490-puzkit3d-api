@@ -19,72 +19,65 @@ internal static class SwaggerExtensions
             // Module-specific documents
             options.SwaggerDoc("user", new OpenApiInfo
             {
-                Title = "1. User Module",
+                Title = "User API",
                 Version = "v1",
                 Description = "APIs for user management and authentication"
             });
 
             options.SwaggerDoc("cart", new OpenApiInfo
             {
-                Title = "2. Cart Module",
+                Title = "Cart API",
                 Version = "v1",
                 Description = "APIs for shopping cart management: INSTOCK_CART, PARTNER_CART"
             });
 
             options.SwaggerDoc("catalog", new OpenApiInfo
             {
-                Title = "3. Catalog Module",
+                Title = "Catalog API",
                 Version = "v1",
                 Description = "APIs for managing product catalog: TOPIC, MATERIAL, ASSEMBLY_METHOD, CAPABILITY"
             });
 
             options.SwaggerDoc("instock", new OpenApiInfo
             {
-                Title = "4. Instock Module",
+                Title = "Instock API",
                 Version = "v1",
                 Description = "APIs for instock management: INSTOCK_PRODUCT, INSTOCK_ORDER, INSTOCK_INVENTORY, PRICE"
             });
 
             options.SwaggerDoc("partner", new OpenApiInfo
             {
-                Title = "5. Partner Module",
+                Title = "Partner API",
                 Version = "v1",
                 Description = "APIs for partner management: PARTNER, PARTNER_PRODUCT, PARTNER_REQUEST, PARTNER_QUOTATION, PARTNER_ORDER"
             });
 
             options.SwaggerDoc("payment", new OpenApiInfo
             {
-                Title = "6. Payment Module",
+                Title = "Payment API",
                 Version = "v1",
                 Description = "APIs for payment processing"
             });
 
-            options.SwaggerDoc("notification", new OpenApiInfo
-            {
-                Title = "7. Notification Module",
-                Version = "v1",
-                Description = "APIs for notification processing"
-            });
-
             options.SwaggerDoc("media", new OpenApiInfo
             {
-                Title = "8. Media Module",
+                Title = "Media Storage API",
                 Version = "v1",
                 Description = "APIs for media processing"
             });
 
             options.SwaggerDoc("delivery", new OpenApiInfo
             {
-                Title = "9. Delivery Module",
+                Title = "Delivery Tracking API",
                 Version = "v1",
                 Description = "APIs for delivery processing"
             });
 
-            options.SwaggerDoc("feedback", new OpenApiInfo
+            options.SwaggerDoc("after-sale", new OpenApiInfo
             {
-                Title = "10. Feedback Module",
+                Title = "After Sale API",
                 Version = "v1",
-                Description = "APIs for feedback processing"
+                Description = "APIs for feedback, support ticket processing"
             });
 
 
@@ -124,17 +117,15 @@ internal static class SwaggerExtensions
                                 || routePath.StartsWith("api/partner-quotations")
                                 || routePath.StartsWith("api/partner-orders"),
 
-                    "payment" => routePath.StartsWith("api/payments")
-                                || routePath.StartsWith("api/ipn")
-                                || routePath.StartsWith("api/orders"),
-
-                    "notification" => routePath.StartsWith("api/emails"),
+                    "payment" => routePath.Contains("payments")
+                                || routePath.StartsWith("api/ipn"),
 
                     "media" => routePath.StartsWith("api/uploads"),
 
-                    "delivery" => routePath.StartsWith("api/delivery"),
+                    "delivery" => routePath.Contains("delivery"),
 
-                    "feedback" => routePath.Contains("feedback"),
+                    "after-sale" => routePath.Contains("feedback")
+                                || routePath.Contains("support"),
 
                     _ => false
                 };

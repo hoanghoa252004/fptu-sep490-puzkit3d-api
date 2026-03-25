@@ -21,7 +21,6 @@ public sealed class InstockOrder : AggregateRoot<InstockOrderId>
     public decimal SubTotalAmount { get; private set; }
     public decimal ShippingFee { get; private set; }
     public int UsedCoinAmount { get; private set; }
-    public decimal UsedCoinAmountAsMoney { get; private set; }
     public decimal GrandTotalAmount { get; private set; }
     public InstockOrderStatus Status { get; private set; }
     public DateTime CreatedAt { get; private set; }
@@ -29,9 +28,9 @@ public sealed class InstockOrder : AggregateRoot<InstockOrderId>
     public string PaymentMethod { get; private set; } = null!;
     public bool IsPaid { get; private set; }
     public DateTime? PaidAt { get; private set; }
-    public string? DeliveryOrderCode { get; private set; }
-    public DateTime? ExpectedDeliveryDate { get; private set; }
-    public string? HandoverProofImageUrl { get; private set; }
+    //public string? DeliveryOrderCode { get; private set; }
+    //public DateTime? ExpectedDeliveryDate { get; private set; }
+    //public string? HandoverProofImageUrl { get; private set; }
 
     public IReadOnlyCollection<InstockOrderDetail> OrderDetails => _orderDetails.AsReadOnly();
 
@@ -49,7 +48,6 @@ public sealed class InstockOrder : AggregateRoot<InstockOrderId>
         decimal subTotalAmount,
         decimal shippingFee,
         int usedCoinAmount,
-        decimal usedCoinAmountAsMoney,
         decimal grandTotalAmount,
         InstockOrderStatus status,
         string paymentMethod,
@@ -68,7 +66,6 @@ public sealed class InstockOrder : AggregateRoot<InstockOrderId>
         SubTotalAmount = subTotalAmount;
         ShippingFee = shippingFee;
         UsedCoinAmount = usedCoinAmount;
-        UsedCoinAmountAsMoney = usedCoinAmountAsMoney;
         GrandTotalAmount = grandTotalAmount;
         Status = status;
         PaymentMethod = paymentMethod;
@@ -94,7 +91,6 @@ public sealed class InstockOrder : AggregateRoot<InstockOrderId>
         decimal subTotalAmount,
         decimal shippingFee,
         int usedCoinAmount,
-        decimal usedCoinAmountAsMoney,
         decimal grandTotalAmount,
         string paymentMethod,
         bool isPaid = false,
@@ -124,7 +120,7 @@ public sealed class InstockOrder : AggregateRoot<InstockOrderId>
         if (!paymentMethod.Equals("Online", StringComparison.OrdinalIgnoreCase) && !paymentMethod.Equals("COD", StringComparison.OrdinalIgnoreCase))
             return Result.Failure<InstockOrder>(InstockOrderError.InvalidPaymentMethod());
 
-        if (subTotalAmount < 0 || shippingFee < 0 || usedCoinAmountAsMoney < 0 || grandTotalAmount < 0)
+        if (subTotalAmount < 0 || shippingFee < 0 || usedCoinAmount < 0 || grandTotalAmount < 0)
             return Result.Failure<InstockOrder>(InstockOrderError.InvalidAmount());
 
         var orderId = InstockOrderId.Create();
@@ -149,12 +145,22 @@ public sealed class InstockOrder : AggregateRoot<InstockOrderId>
             subTotalAmount,
             shippingFee,
             usedCoinAmount,
-            usedCoinAmountAsMoney,
             grandTotalAmount,
             initialStatus,
             paymentMethod,
             isPaid,
             timestamp);
+
+        // Raise domain event for coin usage if coins were used
+        if (usedCoinAmount > 0)
+        {
+            order.RaiseDomainEvent(new CoinUsedDomainEvent(
+                orderId.Value,
+                code,
+                customerId,
+                usedCoinAmount,
+                timestamp));
+        }
 
         return Result.Success(order);
     }
@@ -178,9 +184,19 @@ public sealed class InstockOrder : AggregateRoot<InstockOrderId>
         RaiseStatusChangedEvent();
 
         // Raise specific completed event for Feedback module
-        if (newStatus == InstockOrderStatus.Completed)
+        //if (newStatus == InstockOrderStatus.Completed)
+        //{
+        //    RaiseOrderCompletedEvent();
+        //}
+        // Raise domain event for wallet refund
+        if (Status == InstockOrderStatus.Cancelled && IsPaid == true)
         {
-            RaiseOrderCompletedEvent();
+            RaiseDomainEvent(new OrderCancelledRefundCoinDomainEvent(
+            Id.Value,
+            Code,
+            CustomerId,
+            GrandTotalAmount,
+            UpdatedAt));
         }
 
         return Result.Success();
@@ -198,12 +214,15 @@ public sealed class InstockOrder : AggregateRoot<InstockOrderId>
             return Result.Failure(InstockOrderError.OrderAlreadyPaid());
         }
 
-        if (Status != InstockOrderStatus.Pending && Status != InstockOrderStatus.Waiting)
+        if(string.Equals(PaymentMethod, "Online", StringComparison.OrdinalIgnoreCase))
         {
-            return Result.Failure(InstockOrderError.InvalidStatusTransition(Status, InstockOrderStatus.Paid));
+            if (Status != InstockOrderStatus.Pending)
+            {
+                return Result.Failure(InstockOrderError.InvalidStatusTransition(Status, InstockOrderStatus.Paid));
+            }
+            Status = InstockOrderStatus.Paid;
         }
 
-        Status = InstockOrderStatus.Paid;
         IsPaid = true;
         PaidAt = paidAt;
         UpdatedAt = paidAt;
@@ -237,35 +256,10 @@ public sealed class InstockOrder : AggregateRoot<InstockOrderId>
         return Result.Success();
     }
 
-    public Result MarkAsShipping()
-    {
-        if (Status != InstockOrderStatus.Processing)
-        {
-            return Result.Failure(InstockOrderError.InvalidStatusTransition(Status, InstockOrderStatus.Shipping));
-        }
-
-        Status = InstockOrderStatus.Shipping;
-        UpdatedAt = DateTime.UtcNow;
-
-        return Result.Success();
-    }
-
-    public Result MarkAsDelivered()
-    {
-        if (Status != InstockOrderStatus.Shipping)
-        {
-            return Result.Failure(InstockOrderError.InvalidStatusTransition(Status, InstockOrderStatus.Delivered));
-        }
-
-        Status = InstockOrderStatus.Delivered;
-        UpdatedAt = DateTime.UtcNow;
-
-        return Result.Success();
-    }
 
     public Result Complete()
     {
-        if (Status != InstockOrderStatus.Delivered)
+        if (Status != InstockOrderStatus.HandedOverToDelivery)
         {
             return Result.Failure(InstockOrderError.InvalidStatusTransition(Status, InstockOrderStatus.Completed));
         }
@@ -278,7 +272,7 @@ public sealed class InstockOrder : AggregateRoot<InstockOrderId>
         Status = InstockOrderStatus.Completed;
         UpdatedAt = DateTime.UtcNow;
 
-        RaiseOrderCompletedEvent();
+        //RaiseOrderCompletedEvent();
 
         return Result.Success();
     }
@@ -296,41 +290,41 @@ public sealed class InstockOrder : AggregateRoot<InstockOrderId>
         return Result.Success();
     }
 
-    public Result SetDeliveryInfo(string deliveryOrderCode, DateTime expectedDeliveryDate)
-    {
-        if (string.IsNullOrWhiteSpace(deliveryOrderCode))
-        {
-            return Result.Failure(InstockOrderError.InvalidDeliveryOrderCode());
-        }
+    //public Result SetDeliveryInfo(string deliveryOrderCode, DateTime expectedDeliveryDate)
+    //{
+    //    if (string.IsNullOrWhiteSpace(deliveryOrderCode))
+    //    {
+    //        return Result.Failure(InstockOrderError.InvalidDeliveryOrderCode());
+    //    }
 
-        if (DeliveryOrderCode != null && ExpectedDeliveryDate != null)
-        {
-            return Result.Failure(InstockOrderError.DeliveryInfoAlreadySet());
-        }
+    //    if (DeliveryOrderCode != null && ExpectedDeliveryDate != null)
+    //    {
+    //        return Result.Failure(InstockOrderError.DeliveryInfoAlreadySet());
+    //    }
 
-        DeliveryOrderCode = deliveryOrderCode;
+    //    DeliveryOrderCode = deliveryOrderCode;
 
-        DateTime utcDateTime;
+    //    DateTime utcDateTime;
 
-        if (expectedDeliveryDate.Kind == DateTimeKind.Utc)
-        {
-            utcDateTime = expectedDeliveryDate;
-        }
-        else if (expectedDeliveryDate.Kind == DateTimeKind.Local)
-        {
-            utcDateTime = expectedDeliveryDate.ToUniversalTime();
-        }
-        else // Unspecified (trường hợp nguy hiểm nhất)
-        {
-            var vietnamTimeZone = TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time");
-            utcDateTime = TimeZoneInfo.ConvertTimeToUtc(expectedDeliveryDate, vietnamTimeZone);
-        }
+    //    if (expectedDeliveryDate.Kind == DateTimeKind.Utc)
+    //    {
+    //        utcDateTime = expectedDeliveryDate;
+    //    }
+    //    else if (expectedDeliveryDate.Kind == DateTimeKind.Local)
+    //    {
+    //        utcDateTime = expectedDeliveryDate.ToUniversalTime();
+    //    }
+    //    else // Unspecified (trường hợp nguy hiểm nhất)
+    //    {
+    //        var vietnamTimeZone = TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time");
+    //        utcDateTime = TimeZoneInfo.ConvertTimeToUtc(expectedDeliveryDate, vietnamTimeZone);
+    //    }
 
-        ExpectedDeliveryDate = utcDateTime;
-        UpdatedAt = DateTime.UtcNow;
+    //    ExpectedDeliveryDate = utcDateTime;
+    //    UpdatedAt = DateTime.UtcNow;
 
-        return Result.Success();
-    }
+    //    return Result.Success();
+    //}
 
     public void AddOrderDetail(InstockOrderDetail orderDetail)
     {
@@ -346,6 +340,14 @@ public sealed class InstockOrder : AggregateRoot<InstockOrderId>
 
     public void RaiseOrderCreatedEvent(List<Guid> cartItemIds)
     {
+        var orderDetails = _orderDetails.Select(od => new OrderDetailInfo(
+            od.Id.Value,
+            od.InstockProductVariantId.Value,
+            od.Quantity,
+            od.ProductName,
+            od.VariantName))
+            .ToList();
+
         RaiseDomainEvent(new InstockOrderCreatedDomainEvent(
             Id.Value,
             Code,
@@ -356,7 +358,8 @@ public sealed class InstockOrder : AggregateRoot<InstockOrderId>
             Status.ToString(),
             PaymentMethod,
             IsPaid,
-            PaidAt));
+            PaidAt,
+            orderDetails));
     }
 
     private void RaiseStatusChangedEvent()
@@ -366,21 +369,6 @@ public sealed class InstockOrder : AggregateRoot<InstockOrderId>
             Code,
             CustomerId,
             Status,
-            UpdatedAt));
-    }
-
-    private void RaiseOrderCompletedEvent()
-    {
-        var orderDetails = _orderDetails.Select(od => new OrderDetailInfo(
-            od.Id.Value,
-            od.InstockProductVariantId.Value))
-            .ToList();
-
-        RaiseDomainEvent(new InstockOrderCompletedDomainEvent(
-            Id.Value,
-            Code,
-            CustomerId,
-            orderDetails,
             UpdatedAt));
     }
 }

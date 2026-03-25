@@ -10,7 +10,6 @@ using PuzKit3D.Modules.InStock.Domain.Entities.InstockProductPriceDetails;
 using PuzKit3D.Modules.InStock.Domain.Entities.InstockProducts;
 using PuzKit3D.Modules.InStock.Domain.Entities.InstockProductVariants;
 using PuzKit3D.Modules.InStock.Domain.Entities.Parts;
-using PuzKit3D.Modules.InStock.Domain.Entities.Pieces;
 using PuzKit3D.Modules.InStock.Domain.Entities.Replicas;
 using PuzKit3D.SharedKernel.Domain;
 using PuzKit3D.SharedKernel.Domain.Results;
@@ -33,7 +32,6 @@ public sealed class InStockDbContext : DbContext, IInStockUnitOfWork
     public DbSet<InstockProductVariant> InstockProductVariants => Set<InstockProductVariant>();
     public DbSet<InstockProductCapabilityDetail> InstockProductCapabilityDetails => Set<InstockProductCapabilityDetail>();
     public DbSet<Part> Parts => Set<Part>();
-    public DbSet<Piece> Pieces => Set<Piece>();
     public DbSet<InstockInventory> InstockInventories => Set<InstockInventory>();
     public DbSet<InstockPrice> InstockPrices => Set<InstockPrice>();
     public DbSet<InstockProductPriceDetail> InstockProductPriceDetails => Set<InstockProductPriceDetail>();
@@ -58,6 +56,7 @@ public sealed class InStockDbContext : DbContext, IInStockUnitOfWork
         Configurations.SeedData.InstockSeedDataConfiguration.SeedProducts(builder);
         Configurations.SeedData.InstockSeedDataConfiguration.SeedVariants(builder);
         Configurations.SeedData.InstockSeedDataConfiguration.SeedProductCapabilityDetails(builder);
+        Configurations.SeedData.InstockSeedDataConfiguration.SeedParts(builder);
     }
 
     public async Task<T> ExecuteAsync<T>(Func<Task<T>> action, CancellationToken cancellationToken = default)

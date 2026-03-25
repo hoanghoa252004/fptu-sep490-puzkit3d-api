@@ -10,16 +10,16 @@ internal sealed class GetFeedbacksByProductIdQueryHandler : IQueryHandler<GetFee
 {
     private readonly IFeedbackRepository _feedbackRepository;
     private readonly IProductReplicaRepository _productReplicaRepository;
-    private readonly ICompletedOrderReplicaRepository _orderReplicaRepository;
+    private readonly IOrderDetailReplicaRepository _orderDetailReplicaRepository;
 
     public GetFeedbacksByProductIdQueryHandler(
         IFeedbackRepository feedbackRepository,
         IProductReplicaRepository productReplicaRepository,
-        ICompletedOrderReplicaRepository orderReplicaRepository)
+        IOrderDetailReplicaRepository orderDetailReplicaRepository)
     {
         _feedbackRepository = feedbackRepository;
         _productReplicaRepository = productReplicaRepository;
-        _orderReplicaRepository = orderReplicaRepository;
+        _orderDetailReplicaRepository = orderDetailReplicaRepository;
     }
 
     public async Task<ResultT<PagedResult<Queries.FeedbackDto>>> Handle(
@@ -37,7 +37,7 @@ internal sealed class GetFeedbacksByProductIdQueryHandler : IQueryHandler<GetFee
         var feedbacks = await _feedbackRepository.GetByProductIdAsync(request.ProductId, cancellationToken);
         
         // Get all orders for this product
-        var orders = await _orderReplicaRepository.GetByProductIdAsync(request.ProductId, cancellationToken);
+        var orders = await _orderDetailReplicaRepository.GetByProductIdAsync(request.ProductId, cancellationToken);
         var orderDict = orders.ToDictionary(o => o.Id);
 
         // Create list of feedbacks with product and variant info
@@ -64,8 +64,6 @@ internal sealed class GetFeedbacksByProductIdQueryHandler : IQueryHandler<GetFee
             .Take(request.PageSize)
             .Select(x => new Queries.FeedbackDto(
                 x.Feedback.Id.Value,
-                x.Order.ProductId,
-                x.Order.VariantId,
                 x.Feedback.UserId,
                 x.Feedback.Rating,
                 x.Feedback.Comment,

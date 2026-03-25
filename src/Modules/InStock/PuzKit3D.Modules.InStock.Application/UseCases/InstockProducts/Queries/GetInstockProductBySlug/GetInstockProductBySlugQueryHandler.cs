@@ -1,7 +1,7 @@
 using PuzKit3D.Modules.InStock.Application.Repositories;
-using PuzKit3D.Modules.InStock.Application.Services;
 using PuzKit3D.Modules.InStock.Domain.Entities.InstockProducts;
 using PuzKit3D.SharedKernel.Application.Authorization;
+using PuzKit3D.SharedKernel.Application.Media;
 using PuzKit3D.SharedKernel.Application.Message.Query;
 using PuzKit3D.SharedKernel.Application.User;
 using PuzKit3D.SharedKernel.Domain.Errors;
@@ -14,12 +14,12 @@ internal sealed class GetInstockProductBySlugQueryHandler
 {
     private readonly IInstockProductRepository _productRepository;
     private readonly ICurrentUser _currentUser;
-    private readonly IAssetUrlService _assetUrlService;
+    private readonly IMediaAssetService _assetUrlService;
 
     public GetInstockProductBySlugQueryHandler(
         IInstockProductRepository productRepository,
         ICurrentUser currentUser,
-        IAssetUrlService assetUrlService)
+        IMediaAssetService assetUrlService)
     {
         _productRepository = productRepository;
         _currentUser = currentUser;

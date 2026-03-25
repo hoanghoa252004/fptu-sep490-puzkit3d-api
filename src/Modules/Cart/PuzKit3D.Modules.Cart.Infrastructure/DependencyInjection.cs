@@ -8,7 +8,6 @@ using PuzKit3D.Contract.InStock.InstockProducts;
 using PuzKit3D.Contract.InStock.InstockProductVariants;
 using PuzKit3D.Contract.Partner.PartnerProducts;
 using PuzKit3D.Contract.Partner.Partners;
-using PuzKit3D.Modules.Cart.Application.Services;
 using PuzKit3D.Modules.Cart.Infrastructure.IntegrationEventHandlers.InstockInventories;
 using PuzKit3D.Modules.Cart.Infrastructure.IntegrationEventHandlers.InstockOrders;
 using PuzKit3D.Modules.Cart.Infrastructure.IntegrationEventHandlers.InstockPrices;
@@ -17,8 +16,6 @@ using PuzKit3D.Modules.Cart.Infrastructure.IntegrationEventHandlers.InstockProdu
 using PuzKit3D.Modules.Cart.Infrastructure.IntegrationEventHandlers.InstockProductVariants;
 using PuzKit3D.Modules.Cart.Infrastructure.IntegrationEventHandlers.Partner.PartnerProducts;
 using PuzKit3D.Modules.Cart.Infrastructure.IntegrationEventHandlers.Partner.Partners;
-using PuzKit3D.Modules.Cart.Infrastructure.Options;
-using PuzKit3D.Modules.Cart.Infrastructure.Services;
 using PuzKit3D.SharedKernel.Application.Event;
 
 namespace PuzKit3D.Modules.Cart.Infrastructure;
@@ -28,42 +25,37 @@ public static class DependencyInjection
     public static IServiceCollection AddCartInfrastructure(
         this IServiceCollection services, IConfiguration configuration)
     {
-        // Configure S3Settings
-        services.Configure<S3Settings>(configuration.GetSection(S3Settings.ConfigurationSection));
-
-        // Register Services
-        services.AddScoped<IAssetUrlService, AssetUrlService>();
 
         // Register Integration Event Handlers for InStock events
-        services.AddScoped<IIntegrationEventHandler<InstockProductCreatedIntegrationEvent>, 
+        services.AddScoped<IIntegrationEventHandler<InstockProductCreatedIntegrationEvent>,
             InstockProductCreatedIntegrationEventHandler>();
-        services.AddScoped<IIntegrationEventHandler<InstockProductUpdatedIntegrationEvent>, 
+        services.AddScoped<IIntegrationEventHandler<InstockProductUpdatedIntegrationEvent>,
             InstockProductUpdatedIntegrationEventHandler>();
-        services.AddScoped<IIntegrationEventHandler<InstockProductDeletedIntegrationEvent>, 
+        services.AddScoped<IIntegrationEventHandler<InstockProductDeletedIntegrationEvent>,
             InstockProductDeletedIntegrationEventHandler>();
-        services.AddScoped<IIntegrationEventHandler<InstockProductVariantCreatedIntegrationEvent>, 
+        services.AddScoped<IIntegrationEventHandler<InstockProductVariantCreatedIntegrationEvent>,
             InstockProductVariantCreatedIntegrationEventHandler>();
-        services.AddScoped<IIntegrationEventHandler<InstockProductVariantUpdatedIntegrationEvent>, 
+        services.AddScoped<IIntegrationEventHandler<InstockProductVariantUpdatedIntegrationEvent>,
             InstockProductVariantUpdatedIntegrationEventHandler>();
-        services.AddScoped<IIntegrationEventHandler<InstockProductVariantDeletedIntegrationEvent>, 
+        services.AddScoped<IIntegrationEventHandler<InstockProductVariantDeletedIntegrationEvent>,
             InstockProductVariantDeletedIntegrationEventHandler>();
-        services.AddScoped<IIntegrationEventHandler<InstockInventoryCreatedIntegrationEvent>, 
+        services.AddScoped<IIntegrationEventHandler<InstockInventoryCreatedIntegrationEvent>,
             InstockInventoryCreatedIntegrationEventHandler>();
-        services.AddScoped<IIntegrationEventHandler<InstockInventoryUpdatedIntegrationEvent>, 
+        services.AddScoped<IIntegrationEventHandler<InstockInventoryUpdatedIntegrationEvent>,
             InstockInventoryUpdatedIntegrationEventHandler>();
-        services.AddScoped<IIntegrationEventHandler<InstockInventoryDeletedIntegrationEvent>, 
+        services.AddScoped<IIntegrationEventHandler<InstockInventoryDeletedIntegrationEvent>,
             InstockInventoryDeletedIntegrationEventHandler>();
-        services.AddScoped<IIntegrationEventHandler<InstockPriceCreatedIntegrationEvent>, 
+        services.AddScoped<IIntegrationEventHandler<InstockPriceCreatedIntegrationEvent>,
             InstockPriceCreatedIntegrationEventHandler>();
-        services.AddScoped<IIntegrationEventHandler<InstockPriceUpdatedIntegrationEvent>, 
+        services.AddScoped<IIntegrationEventHandler<InstockPriceUpdatedIntegrationEvent>,
             InstockPriceUpdatedIntegrationEventHandler>();
-        services.AddScoped<IIntegrationEventHandler<InstockPriceDeletedIntegrationEvent>, 
+        services.AddScoped<IIntegrationEventHandler<InstockPriceDeletedIntegrationEvent>,
             InstockPriceDeletedIntegrationEventHandler>();
-        services.AddScoped<IIntegrationEventHandler<InstockProductPriceDetailCreatedIntegrationEvent>, 
+        services.AddScoped<IIntegrationEventHandler<InstockProductPriceDetailCreatedIntegrationEvent>,
             InstockProductPriceDetailCreatedIntegrationEventHandler>();
-        services.AddScoped<IIntegrationEventHandler<InstockProductPriceDetailUpdatedIntegrationEvent>, 
+        services.AddScoped<IIntegrationEventHandler<InstockProductPriceDetailUpdatedIntegrationEvent>,
             InstockProductPriceDetailUpdatedIntegrationEventHandler>();
-        services.AddScoped<IIntegrationEventHandler<InstockProductPriceDetailDeletedIntegrationEvent>, 
+        services.AddScoped<IIntegrationEventHandler<InstockProductPriceDetailDeletedIntegrationEvent>,
             InstockProductPriceDetailDeletedIntegrationEventHandler>();
         services.AddScoped<IIntegrationEventHandler<InstockOrderCreatedIntegrationEvent>,
             InstockOrderCreatedIntegrationEventHandler>();

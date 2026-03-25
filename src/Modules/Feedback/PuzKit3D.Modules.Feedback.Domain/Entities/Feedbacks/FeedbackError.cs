@@ -23,8 +23,11 @@ public static class FeedbackError
     public static Error FeedbackNotFoundForOrder(Guid orderId) =>
         Error.NotFound("Feedback.FeedbackNotFoundForOrder", $"No feedback found for order '{orderId}'.");
 
-    public static Error OrderNotFoundOrNotCompleted(Guid orderId) =>
-        Error.NotFound("Feedback.OrderNotFoundOrNotCompleted", $"Order with ID '{orderId}' was not found or not complete to create feedback.");
+    public static Error OrderNotFound(Guid orderId) =>
+        Error.NotFound("Feedback.OrderNotFound", $"Order with ID '{orderId}' was not found .");
+
+    public static Error OrderNotCompleted(Guid orderId) =>
+        Error.NotFound("Feedback.OrderNotCompleted", $"Order with ID '{orderId}' was not completed to create feedback.");
 
     public static Error FeedbackAlreadyExists(Guid orderId, Guid userId) =>
         Error.Conflict("Feedback.FeedbackAlreadyExists", $"Feedback for order '{orderId}' from user '{userId}' already exists.");
@@ -37,4 +40,10 @@ public static class FeedbackError
 
     public static Error ProductNotFound() =>
         Error.NotFound("Feedback.ProductNotFound", "Product was not found.");
+
+    public static Error OrderDetailRequired() =>
+        Error.NotFound("Feedback.OrderDetailRequired", "Order detail required if feedback for Instock or Partner");
+
+    public static Error OrderDetailNotFound(Guid orderId) =>
+        Error.NotFound("Feedback.OrderDetailNotFound", $"Order Detail with ID '{orderId}' was not found.");
 }

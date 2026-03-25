@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.EntityFrameworkCore;
+using PuzKit3D.Contract.User;
 using PuzKit3D.SharedKernel.Application.Authentication;
 using PuzKit3D.SharedKernel.Application.Authentication.Dtos;
 using PuzKit3D.SharedKernel.Application.Authorization;
+using PuzKit3D.SharedKernel.Application.Event;
 using PuzKit3D.SharedKernel.Domain.Errors;
 using PuzKit3D.SharedKernel.Domain.Results;
 using PuzKit3D.SharedKernel.Infrastructure.Identity;
@@ -17,15 +19,21 @@ public sealed class IdentityService : IIdentityService
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly SignInManager<ApplicationUser> _signInManager;
     private readonly IJwtProvider _jwtProvider;
+    private readonly IEventBus _eventBus;
+    private readonly RoleManager<ApplicationRole> _roleManager;
 
     public IdentityService(
         UserManager<ApplicationUser> userManager,
         SignInManager<ApplicationUser> signInManager,
-        IJwtProvider jwtProvider)
+        IJwtProvider jwtProvider,
+        IEventBus eventBus,
+        RoleManager<ApplicationRole> roleManager)
     {
         _userManager = userManager;
         _signInManager = signInManager;
         _jwtProvider = jwtProvider;
+        _eventBus = eventBus;
+        _roleManager = roleManager;
     }
 
     public async Task<ResultT<RegistedUserCredential>> RegisterAsync(
@@ -146,6 +154,37 @@ public sealed class IdentityService : IIdentityService
         {
             return Result.Failure(Error.Failure("Authentication.EmailConfirmationFailed", "Email confirmation failed"));
         }
+
+        // Get user role
+        var roles = await _userManager.GetRolesAsync(user);
+        var roleId = Guid.Empty;
+        if (roles.Any())
+        {
+            var roleName = roles.First();
+            var role = await _roleManager.FindByNameAsync(roleName);
+            if (role is not null)
+            {
+                roleId = Guid.Parse(role.Id);
+            }
+        }
+
+        // Publish UserEmailConfirmedIntegrationEvent
+        var @event = new UserEmailConfirmedIntegrationEvent(
+            Guid.NewGuid(),
+            DateTime.UtcNow,
+            Guid.Parse(user.Id),
+            user.Email!,
+            user.PasswordHash!,
+            roleId,
+            $"{user.FirstName} {user.LastName}".Trim(),
+            null,
+            user.PhoneNumber ?? string.Empty,
+            user.Province,
+            user.District,
+            user.Ward,
+            user.StreetAddress);
+
+        await _eventBus.PublishAsync(@event, cancellationToken);
 
         return Result.Success();
     }
@@ -408,12 +447,9 @@ public sealed class IdentityService : IIdentityService
                 u.EmailConfirmed,
                 u.CreatedAt,
                 u.UpdatedAt,
-                u.ProvinceId,
-                u.ProvinceName,
-                u.DistrictId,
-                u.DistrictName,
-                u.WardCode,
-                u.WardName,
+                u.Province,
+                u.District,
+                u.Ward,
                 u.StreetAddress,
                 u.UserRoles.Select(ur => ur.Role.Name).FirstOrDefault(),
                 u.IsDeleted
@@ -526,12 +562,9 @@ public sealed class IdentityService : IIdentityService
                 u.EmailConfirmed,
                 u.CreatedAt,
                 u.UpdatedAt,
-                u.ProvinceId,
-                u.ProvinceName,
-                u.DistrictId,
-                u.DistrictName,
-                u.WardCode,
-                u.WardName,
+                u.Province,
+                u.District,
+                u.Ward,
                 u.StreetAddress,
                 u.UserRoles.Select(ur => ur.Role.Name).FirstOrDefault(),
                 u.IsDeleted
@@ -574,18 +607,12 @@ public sealed class IdentityService : IIdentityService
             user.LastName = lastName;
         if (phoneNumber is not null)
             user.PhoneNumber = phoneNumber;
-        if (provinceId is not null)
-            user.ProvinceId = provinceId;
         if (provinceName is not null)
-            user.ProvinceName = provinceName;
-        if (districtId is not null)
-            user.DistrictId = districtId;
+            user.Province = provinceName;
         if (districtName is not null)
-            user.DistrictName = districtName;
-        if (wardCode is not null)
-            user.WardCode = wardCode;
+            user.District = districtName;
         if (wardName is not null)
-            user.WardName = wardName;
+            user.Ward = wardName;
         if (streetAddress is not null)
             user.StreetAddress = streetAddress;
         user.UpdatedAt = DateTime.UtcNow;
@@ -599,8 +626,41 @@ public sealed class IdentityService : IIdentityService
                 Error.Failure("User.UpdateFailed", errors));
         }
 
+        // Get user role
+        var roles = await _userManager.GetRolesAsync(user);
+        var roleId = Guid.Empty;
+        if (roles.Any())
+        {
+            var roleName = roles.First();
+            var role = await _roleManager.FindByNameAsync(roleName);
+            if (role is not null)
+            {
+                roleId = Guid.Parse(role.Id);
+            }
+        }
+
+        // Publish UserUpdatedIntegrationEvent
+        var @event = new UserUpdatedIntegrationEvent(
+            Guid.NewGuid(),
+            DateTime.UtcNow,
+            Guid.Parse(user.Id),
+            user.Email!,
+            user.PasswordHash!,
+            roleId,
+            $"{user.FirstName} {user.LastName}".Trim(),
+            null,
+            user.PhoneNumber ?? string.Empty,
+            user.Province,
+            user.District,
+            user.Ward,
+            user.StreetAddress);
+
+        await _eventBus.PublishAsync(@event, cancellationToken);
+
         return Result.Success();
     }
+
+
 
     public async Task<Result> UpdateAvatarAsync(
         string userId,
