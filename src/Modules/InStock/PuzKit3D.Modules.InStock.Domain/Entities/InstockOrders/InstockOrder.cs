@@ -343,7 +343,9 @@ public sealed class InstockOrder : AggregateRoot<InstockOrderId>
         var orderDetails = _orderDetails.Select(od => new OrderDetailInfo(
             od.Id.Value,
             od.InstockProductVariantId.Value,
-            od.Quantity))
+            od.Quantity,
+            od.ProductName,
+            od.VariantName))
             .ToList();
 
         RaiseDomainEvent(new InstockOrderCreatedDomainEvent(

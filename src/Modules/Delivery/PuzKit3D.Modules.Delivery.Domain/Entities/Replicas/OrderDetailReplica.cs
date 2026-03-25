@@ -12,18 +12,24 @@ public sealed class OrderDetailReplica : Entity<Guid>
     public Guid ProductId { get; private set; }
     public Guid? VariantId { get; private set; }
     public int Quantity { get; private set; }
+    public string? ProductName { get; private set; }
+    public string? VariantName { get; private set; }
 
     private OrderDetailReplica(
         Guid id,
         Guid orderId,
         Guid productId,
         Guid? variantId,
-        int quantity) : base(id)
+        int quantity,
+        string? productName,
+        string? variantName) : base(id)
     {
         OrderId = orderId;
         ProductId = productId;
         VariantId = variantId;
         Quantity = quantity;
+        ProductName = productName;
+        VariantName = variantName;
     }
 
     private OrderDetailReplica() : base()
@@ -35,13 +41,17 @@ public sealed class OrderDetailReplica : Entity<Guid>
         Guid orderId,
         Guid productId,
         Guid? variantId,
-        int quantity)
+        int quantity,
+        string? productName,
+        string? variantName)
     {
         return new OrderDetailReplica(
             id,
             orderId,
             productId,
             variantId,
-            quantity);
+            quantity,
+            productName,
+            variantName);
     }
 }

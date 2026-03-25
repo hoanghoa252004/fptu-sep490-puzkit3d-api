@@ -46,7 +46,9 @@ namespace PuzKit3D.Modules.Delivery.Persistence.Migrations
                     order_id = table.Column<Guid>(type: "uuid", nullable: false),
                     product_id = table.Column<Guid>(type: "uuid", nullable: false),
                     variant_id = table.Column<Guid>(type: "uuid", nullable: true),
-                    quantity = table.Column<int>(type: "integer", nullable: false)
+                    quantity = table.Column<int>(type: "integer", nullable: false),
+                    product_name = table.Column<string>(type: "character varying(30)", maxLength: 30, nullable: true),
+                    variant_name = table.Column<string>(type: "character varying(30)", maxLength: 30, nullable: true)
                 },
                 constraints: table =>
                 {

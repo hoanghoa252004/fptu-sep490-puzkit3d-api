@@ -12,7 +12,7 @@ using PuzKit3D.Modules.Delivery.Persistence;
 namespace PuzKit3D.Modules.Delivery.Persistence.Migrations
 {
     [DbContext(typeof(DeliveryDbContext))]
-    [Migration("20260324124830_InitModule")]
+    [Migration("20260325072246_InitModule")]
     partial class InitModule
     {
         /// <inheritdoc />
@@ -157,6 +157,11 @@ namespace PuzKit3D.Modules.Delivery.Persistence.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("product_id");
 
+                    b.Property<string>("ProductName")
+                        .HasMaxLength(30)
+                        .HasColumnType("character varying(30)")
+                        .HasColumnName("product_name");
+
                     b.Property<int>("Quantity")
                         .HasColumnType("integer")
                         .HasColumnName("quantity");
@@ -164,6 +169,11 @@ namespace PuzKit3D.Modules.Delivery.Persistence.Migrations
                     b.Property<Guid?>("VariantId")
                         .HasColumnType("uuid")
                         .HasColumnName("variant_id");
+
+                    b.Property<string>("VariantName")
+                        .HasMaxLength(30)
+                        .HasColumnType("character varying(30)")
+                        .HasColumnName("variant_name");
 
                     b.HasKey("Id")
                         .HasName("pk_order_detail_replicas");

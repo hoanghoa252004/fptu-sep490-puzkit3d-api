@@ -141,7 +141,7 @@ public sealed class CreateDeliveryTrackingCommandHandler : ICommandTHandler<Crea
                 // For Original delivery, use order details directly (products)
                 items = orderDetails.Select(detail => new ShippingOrderItem
                 {
-                    Name = $"Product {detail.ProductId}",
+                    Name = $"{detail.ProductName} - {detail.VariantName}",
                     Code = (detail.VariantId ?? detail.ProductId).ToString(),
                     Quantity = detail.Quantity,
                     Price = 0
@@ -190,7 +190,7 @@ public sealed class CreateDeliveryTrackingCommandHandler : ICommandTHandler<Crea
                     // For other support types, use order details
                     items = orderDetails.Select(detail => new ShippingOrderItem
                     {
-                        Name = $"Product {detail.ProductId}",
+                        Name = $"{detail.ProductName}",
                         Code = (detail.VariantId ?? detail.ProductId).ToString(),
                         Quantity = detail.Quantity,
                         Price = 0

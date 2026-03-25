@@ -36,7 +36,9 @@ internal sealed class InstockOrderCreatedDomainEventHandler
                 detail.OrderDetailId,
                 detail.VariantId,
                 productId!.Value,
-                detail.Quantity));
+                detail.Quantity,
+                detail.ProductName,
+                detail.VariantName));
         }
 
         var integrationEvent = new InstockOrderCreatedIntegrationEvent(

@@ -22,6 +22,12 @@ internal sealed class OrderDetailReplicaConfiguration : IEntityTypeConfiguration
         builder.Property(o => o.Quantity)
             .IsRequired();
 
+        builder.Property(od => od.ProductName)
+            .HasMaxLength(30);
+
+        builder.Property(od => od.VariantName)
+            .HasMaxLength(30);
+
         builder.HasIndex(o => o.OrderId);
         builder.HasIndex(o => o.ProductId);
     }

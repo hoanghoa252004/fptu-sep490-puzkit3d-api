@@ -22,4 +22,6 @@ public sealed record OrderDetail(
     Guid OrderDetailId,
     Guid VariantId,
     Guid ProductId,
-    int Quantity);
+    int Quantity,
+    string? ProductName,
+    string? VariantName);

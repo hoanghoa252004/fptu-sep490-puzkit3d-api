@@ -37,7 +37,9 @@ internal sealed class InstockOrderCreatedIntegrationEventHandler
                 @event.OrderId,
                 orderDetail.ProductId,
                 orderDetail.VariantId,
-                orderDetail.Quantity);
+                orderDetail.Quantity,
+                orderDetail.ProductName,
+                orderDetail.VariantName);
 
             await _dbContext.OrderDetailReplicas.AddAsync(orderDetailReplica, cancellationToken);
         }

@@ -18,6 +18,8 @@ public sealed record InstockOrderCreatedDomainEvent(
 public sealed record OrderDetailInfo(
     Guid OrderDetailId,
     Guid VariantId,
-    int Quantity);
+    int Quantity,
+    string? ProductName,
+    string? VariantName);
 
 
