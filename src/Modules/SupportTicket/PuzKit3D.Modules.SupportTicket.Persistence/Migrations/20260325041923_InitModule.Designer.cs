@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using PuzKit3D.Modules.SupportTicket.Persistence;
@@ -11,9 +12,11 @@ using PuzKit3D.Modules.SupportTicket.Persistence;
 namespace PuzKit3D.Modules.SupportTicket.Persistence.Migrations
 {
     [DbContext(typeof(SupportTicketDbContext))]
-    partial class SupportTicketDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260325041923_InitModule")]
+    partial class InitModule
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
