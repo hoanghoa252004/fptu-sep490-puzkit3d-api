@@ -4,6 +4,7 @@ namespace PuzKit3D.Modules.Partner.Application.UseCases.Partners.Commands.Update
 
 public sealed record UpdatePartnerCommand(
     Guid Id,
+    Guid ImportServiceConfigId,
     string Name,
     string ContactEmail,
     string ContactPhone,

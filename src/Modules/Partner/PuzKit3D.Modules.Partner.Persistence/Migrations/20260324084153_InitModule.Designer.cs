@@ -12,8 +12,8 @@ using PuzKit3D.Modules.Partner.Persistence;
 namespace PuzKit3D.Modules.Partner.Persistence.Migrations
 {
     [DbContext(typeof(PartnerDbContext))]
-    [Migration("20260310025714_InitPartnerModule")]
-    partial class InitPartnerModule
+    [Migration("20260324084153_InitModule")]
+    partial class InitModule
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -36,12 +36,6 @@ namespace PuzKit3D.Modules.Partner.Persistence.Migrations
                         .HasPrecision(10, 2)
                         .HasColumnType("numeric(10,2)")
                         .HasColumnName("base_shipping_fee");
-
-                    b.Property<string>("Code")
-                        .IsRequired()
-                        .HasMaxLength(10)
-                        .HasColumnType("character varying(10)")
-                        .HasColumnName("code");
 
                     b.Property<string>("CountryCode")
                         .IsRequired()
@@ -518,6 +512,10 @@ namespace PuzKit3D.Modules.Partner.Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("jsonb")
                         .HasColumnName("preview_asset");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("integer")
+                        .HasColumnName("quantity");
 
                     b.Property<decimal>("ReferencePrice")
                         .HasPrecision(10, 2)

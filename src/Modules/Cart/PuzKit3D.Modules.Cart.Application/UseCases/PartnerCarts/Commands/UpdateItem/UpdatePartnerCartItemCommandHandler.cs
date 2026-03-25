@@ -30,9 +30,6 @@ internal sealed class UpdatePartnerCartItemCommandHandler : ICommandHandler<Upda
     {
         return await _unitOfWork.ExecuteAsync(async () =>
         {
-            if (!_currentUser.IsInRole("CUSTOMER"))
-                return Result.Failure(CartError.UnauthorizedAccess());
-
             if (!Guid.TryParse(_currentUser.UserId, out Guid customerId))
                 return Result.Failure(CartError.InvalidUserId());
 

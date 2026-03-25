@@ -15,20 +15,18 @@ internal sealed class PartnerProductReplicaConfiguration : IEntityTypeConfigurat
         builder.Property(p => p.PartnerId)
             .IsRequired();
 
-        builder.Property(p => p.PartnerProductSku)
-            .IsRequired()
-            .HasMaxLength(10);
-
         builder.Property(p => p.Name)
             .IsRequired()
             .HasMaxLength(30);
 
-        builder.Property(p => p.BriefDescription);
+        builder.Property(p => p.ReferencePrice)
+            .IsRequired()
+            .HasPrecision(10, 2);
 
-        builder.Property(p => p.DetailDescription);
+        builder.Property(p => p.Quantity)
+            .IsRequired();
 
-        builder.Property(p => p.ProductCatalog)
-            .HasColumnType("jsonb");
+        builder.Property(p => p.Description);
 
         builder.Property(p => p.ThumbnailUrl)
             .IsRequired();
@@ -54,10 +52,6 @@ internal sealed class PartnerProductReplicaConfiguration : IEntityTypeConfigurat
         builder.HasIndex(p => p.Slug)
             .IsUnique()
             .HasDatabaseName("UK__partner_product_replica__slug");
-
-        builder.HasIndex(p => new { p.PartnerId, p.PartnerProductSku })
-            .IsUnique()
-            .HasDatabaseName("CUK___partner_product_replica___partner_id__partner_product_sku");
 
         builder.Ignore(p => p.DomainEvents);
     }

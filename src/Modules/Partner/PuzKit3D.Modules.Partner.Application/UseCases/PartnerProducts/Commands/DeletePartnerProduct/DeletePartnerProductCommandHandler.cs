@@ -2,7 +2,6 @@ using PuzKit3D.Modules.Partner.Application.Repositories;
 using PuzKit3D.Modules.Partner.Application.UnitOfWork;
 using PuzKit3D.Modules.Partner.Domain.Entities.PartnerProducts;
 using PuzKit3D.SharedKernel.Application.Message.Command;
-using PuzKit3D.SharedKernel.Domain.Errors;
 using PuzKit3D.SharedKernel.Domain.Results;
 
 namespace PuzKit3D.Modules.Partner.Application.UseCases.PartnerProducts.Commands.DeletePartnerProduct;

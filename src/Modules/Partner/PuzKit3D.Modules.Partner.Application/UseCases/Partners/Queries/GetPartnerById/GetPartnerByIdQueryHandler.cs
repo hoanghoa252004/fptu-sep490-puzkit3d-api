@@ -50,6 +50,7 @@ internal sealed class GetPartnerByIdQueryHandler
         {
             responseDto = new GetPartnerByIdResponseDto(
                 partner.Id.Value,
+                partner.ImportServiceConfigId.Value,
                 partner.Name,
                 partner.Description,
                 partner.ContactEmail,
@@ -64,6 +65,7 @@ internal sealed class GetPartnerByIdQueryHandler
         {
             responseDto = new GetPartnerByIdPublicResponseDto(
                 partner.Id.Value,
+                partner.ImportServiceConfigId.Value,
                 partner.Name,
                 partner.Description,
                 partner.ContactEmail,

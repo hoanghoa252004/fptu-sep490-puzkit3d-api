@@ -30,6 +30,9 @@ internal sealed class PartnerProductConfiguration : IEntityTypeConfiguration<Par
             .IsRequired()
             .HasPrecision(10, 2);
 
+        builder.Property(p => p.Quantity)
+            .IsRequired();
+
         builder.Property(p => p.Description);
 
         builder.Property(p => p.ThumbnailUrl)

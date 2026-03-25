@@ -15,10 +15,6 @@ internal sealed class ImportServiceConfigConfiguration : IEntityTypeConfiguratio
                 id => id.Value,
                 value => ImportServiceConfigId.From(value));
 
-        builder.Property(c => c.Code)
-            .IsRequired()
-            .HasMaxLength(10);
-
         builder.Property(c => c.BaseShippingFee)
             .IsRequired()
             .HasPrecision(10, 2);

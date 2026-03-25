@@ -37,7 +37,7 @@ internal sealed class GetPartnerCartQueryHandler : IQueryHandler<GetPartnerCartQ
             kvp => kvp.Key,
             kvp => new ProductDetailsDto(
                 kvp.Value.Name,
-                kvp.Value.PartnerProductSku,
+                null,
                 null,
                 null,
                 null,

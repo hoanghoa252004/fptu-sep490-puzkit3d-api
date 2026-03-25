@@ -34,12 +34,6 @@ namespace PuzKit3D.Modules.Partner.Persistence.Migrations
                         .HasColumnType("numeric(10,2)")
                         .HasColumnName("base_shipping_fee");
 
-                    b.Property<string>("Code")
-                        .IsRequired()
-                        .HasMaxLength(10)
-                        .HasColumnType("character varying(10)")
-                        .HasColumnName("code");
-
                     b.Property<string>("CountryCode")
                         .IsRequired()
                         .HasMaxLength(10)
@@ -515,6 +509,10 @@ namespace PuzKit3D.Modules.Partner.Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("jsonb")
                         .HasColumnName("preview_asset");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("integer")
+                        .HasColumnName("quantity");
 
                     b.Property<decimal>("ReferencePrice")
                         .HasPrecision(10, 2)

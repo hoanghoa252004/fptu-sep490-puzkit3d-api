@@ -37,6 +37,7 @@ public static class DependencyInjection
 
         services.AddScoped<IPartnerUnitOfWork>(sp => sp.GetRequiredService<PartnerDbContext>());
         services.AddScoped<IPartnerRepository, PartnerRepository>();
+        services.AddScoped<IImportServiceConfigRepository, ImportServiceConfigRepository>();
         services.AddScoped<IPartnerProductRepository, PartnerProductRepository>();
 
         return services;

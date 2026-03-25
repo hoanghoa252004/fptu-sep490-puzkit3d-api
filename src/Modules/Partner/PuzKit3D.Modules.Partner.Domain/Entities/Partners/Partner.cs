@@ -1,6 +1,8 @@
 using PuzKit3D.Modules.Partner.Domain.Entities.ImportServiceConfigs;
+using PuzKit3D.Modules.Partner.Domain.Entities.Partners.DomainEvents;
 using PuzKit3D.SharedKernel.Domain;
 using PuzKit3D.SharedKernel.Domain.Results;
+using System.Text.RegularExpressions;
 
 namespace PuzKit3D.Modules.Partner.Domain.Entities.Partners;
 
@@ -56,17 +58,44 @@ public class Partner : AggregateRoot<PartnerId>
         bool isActive = false,
         DateTime? createdAt = null)
     {
+        // Name
         if (string.IsNullOrWhiteSpace(name))
-            return Result.Failure<Partner>(PartnerError.InvalidName());
+            return Result.Failure<Partner>(PartnerError.EmptyName());
 
         if (name.Length > 30)
             return Result.Failure<Partner>(PartnerError.NameTooLong(name.Length));
 
+        // ContactEmail
+        if (string.IsNullOrWhiteSpace(contactEmail))
+            return Result.Failure<Partner>(PartnerError.EmptyEmail());
+
+        if (!contactEmail.Contains("@"))
+            return Result.Failure<Partner>(PartnerError.InvalidEmail());
+
+        // ContactPhone
+        if (string.IsNullOrWhiteSpace(contactPhone))
+            return Result.Failure<Partner>(PartnerError.EmptyPhone());
+        var phoneRegex = @"^0\d{9}$";
+
+        if (!Regex.IsMatch(contactPhone, phoneRegex))
+            return Result.Failure<Partner>(PartnerError.InvalidPhone());
+        // Address
+        if (string.IsNullOrWhiteSpace(address))
+            return Result.Failure<Partner>(PartnerError.EmptyAddress());
+
+        // Slug
         if (string.IsNullOrWhiteSpace(slug))
-            return Result.Failure<Partner>(PartnerError.InvalidSlug());
+            return Result.Failure<Partner>(PartnerError.EmptySlug());
 
         if (slug.Length > 30)
             return Result.Failure<Partner>(PartnerError.SlugTooLong(slug.Length));
+
+        if (slug.Trim().Contains(" "))
+            return Result.Failure<Partner>(PartnerError.InvalidSlug());
+
+        // ImportServiceConfigId
+        if (importServiceConfigId is null)
+            return Result.Failure<Partner>(PartnerError.EmptyImportServiceConfig());
 
         var partnerId = PartnerId.Create();
         var timestamp = createdAt ?? DateTime.UtcNow;
@@ -87,6 +116,7 @@ public class Partner : AggregateRoot<PartnerId>
     }
 
     public Result Update(
+        ImportServiceConfigId importServiceConfigId,
         string name,
         string contactEmail,
         string contactPhone,
@@ -94,18 +124,48 @@ public class Partner : AggregateRoot<PartnerId>
         string slug,
         string? description = null)
     {
+        // ImportServiceConfigId
+        if (importServiceConfigId is null)
+            return Result.Failure(PartnerError.EmptyImportServiceConfig());
+
+        // Name
         if (string.IsNullOrWhiteSpace(name))
-            return Result.Failure(PartnerError.InvalidName());
+            return Result.Failure(PartnerError.EmptyName());
 
         if (name.Length > 30)
             return Result.Failure(PartnerError.NameTooLong(name.Length));
 
+        // ContactEmail
+        if (string.IsNullOrWhiteSpace(contactEmail))
+            return Result.Failure(PartnerError.EmptyEmail());
+
+        if (!contactEmail.Contains("@"))
+            return Result.Failure(PartnerError.InvalidEmail());
+
+        // ContactPhone
+        if (string.IsNullOrWhiteSpace(contactPhone))
+            return Result.Failure(PartnerError.EmptyPhone());
+
+        var phoneRegex = @"^0\d{9}$";
+
+        if (!Regex.IsMatch(contactPhone, phoneRegex))
+            return Result.Failure(PartnerError.InvalidPhone());
+
+        // Address
+        if (string.IsNullOrWhiteSpace(address))
+            return Result.Failure(PartnerError.EmptyAddress());
+
+        // Slug
         if (string.IsNullOrWhiteSpace(slug))
-            return Result.Failure(PartnerError.InvalidSlug());
+            return Result.Failure(PartnerError.EmptySlug());
 
         if (slug.Length > 30)
             return Result.Failure(PartnerError.SlugTooLong(slug.Length));
 
+        if (slug.Trim().Contains(" "))
+            return Result.Failure(PartnerError.InvalidSlug());
+
+        ImportServiceConfigId = importServiceConfigId;
         Name = name;
         ContactEmail = contactEmail;
         ContactPhone = contactPhone;
@@ -127,5 +187,6 @@ public class Partner : AggregateRoot<PartnerId>
     {
         IsActive = false;
         UpdatedAt = DateTime.UtcNow;
+        RaiseDomainEvent(new PartnerDeletedDomainEvent(Id.Value, UpdatedAt));
     }
 }

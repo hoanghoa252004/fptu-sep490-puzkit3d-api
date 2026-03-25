@@ -53,6 +53,7 @@ internal sealed class GetPartnerBySlugQueryHandler
         {
             responseDto = new GetPartnerBySlugResponseDto(
                 partner.Id.Value,
+                partner.ImportServiceConfigId.Value,
                 partner.Name,
                 partner.Description,
                 partner.ContactEmail,
@@ -67,6 +68,7 @@ internal sealed class GetPartnerBySlugQueryHandler
         {
             responseDto = new GetPartnerBySlugPublicResponseDto(
                 partner.Id.Value,
+                partner.ImportServiceConfigId.Value,
                 partner.Name,
                 partner.Description,
                 partner.ContactEmail,

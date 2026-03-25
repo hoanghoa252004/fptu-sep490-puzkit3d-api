@@ -11,6 +11,7 @@ public class PartnerProduct : AggregateRoot<PartnerProductId>
     public string Name { get; private set; } = null!;
     public decimal ReferencePrice { get; private set; }
     public string? Description { get; private set; }
+    public int Quantity { get; private set; }
     public string ThumbnailUrl { get; private set; } = null!;
     public string PreviewAsset { get; private set; } = null!;
     public string Slug { get; private set; } = null!;
@@ -23,6 +24,7 @@ public class PartnerProduct : AggregateRoot<PartnerProductId>
         PartnerId partnerId,
         string name,
         decimal referencePrice,
+        int quantity,
         string thumbnailUrl,
         string previewAsset,
         string slug,
@@ -33,6 +35,7 @@ public class PartnerProduct : AggregateRoot<PartnerProductId>
         PartnerId = partnerId;
         Name = name;
         ReferencePrice = referencePrice;
+        Quantity = quantity;
         ThumbnailUrl = thumbnailUrl;
         PreviewAsset = previewAsset;
         Slug = slug;
@@ -50,6 +53,7 @@ public class PartnerProduct : AggregateRoot<PartnerProductId>
         PartnerId partnerId,
         string name,
         decimal referencePrice,
+        int quantity,
         string thumbnailUrl,
         string previewAsset,
         string slug,
@@ -57,26 +61,38 @@ public class PartnerProduct : AggregateRoot<PartnerProductId>
         bool isActive = false,
         DateTime? createdAt = null)
     {
+        // Name
         if (string.IsNullOrWhiteSpace(name))
-            return Result.Failure<PartnerProduct>(PartnerProductError.InvalidName());
+            return Result.Failure<PartnerProduct>(PartnerProductError.EmptyName());
 
         if (name.Length > 30)
             return Result.Failure<PartnerProduct>(PartnerProductError.NameTooLong(name.Length));
 
-        if (referencePrice < 0)
+        // Reference Price
+        if (referencePrice < 50000)
             return Result.Failure<PartnerProduct>(PartnerProductError.InvalidReferencePrice());
 
+        // Quantity
+        if (quantity < 0)
+            return Result.Failure<PartnerProduct>(PartnerProductError.InvalidQuantity());
+
+        // Thumbnail URL
         if (string.IsNullOrWhiteSpace(thumbnailUrl))
-            return Result.Failure<PartnerProduct>(PartnerProductError.InvalidThumbnailUrl());
+            return Result.Failure<PartnerProduct>(PartnerProductError.EmptyThumbnailUrl());
 
+        // Preview Asset
         if (string.IsNullOrWhiteSpace(previewAsset))
-            return Result.Failure<PartnerProduct>(PartnerProductError.InvalidPreviewAsset());
-
+            return Result.Failure<PartnerProduct>(PartnerProductError.EmptyPreviewAsset());
+        
+        // Slug
         if (string.IsNullOrWhiteSpace(slug))
-            return Result.Failure<PartnerProduct>(PartnerProductError.InvalidSlug());
+            return Result.Failure<PartnerProduct>(PartnerProductError.EmptySlug());
 
         if (slug.Length > 30)
             return Result.Failure<PartnerProduct>(PartnerProductError.SlugTooLong(slug.Length));
+
+        if (slug.Trim().Contains(" "))
+            return Result.Failure<PartnerProduct>(PartnerProductError.InvalidSlug());
 
         var productId = PartnerProductId.Create();
         var timestamp = createdAt ?? DateTime.UtcNow;
@@ -86,6 +102,7 @@ public class PartnerProduct : AggregateRoot<PartnerProductId>
             partnerId,
             name,
             referencePrice,
+            quantity,
             thumbnailUrl,
             previewAsset,
             slug,
@@ -98,6 +115,7 @@ public class PartnerProduct : AggregateRoot<PartnerProductId>
             product.PartnerId.Value,
             product.Name,
             product.ReferencePrice,
+            product.Quantity,
             product.ThumbnailUrl,
             product.PreviewAsset,
             product.Slug,
@@ -111,34 +129,48 @@ public class PartnerProduct : AggregateRoot<PartnerProductId>
     public Result Update(
         string name,
         decimal referencePrice,
+        int quantity,
         string thumbnailUrl,
         string previewAsset,
         string slug,
         string? description = null)
     {
+        // Name
         if (string.IsNullOrWhiteSpace(name))
-            return Result.Failure(PartnerProductError.InvalidName());
+            return Result.Failure(PartnerProductError.EmptyName());
 
         if (name.Length > 30)
             return Result.Failure(PartnerProductError.NameTooLong(name.Length));
 
+        // Reference Price
         if (referencePrice < 0)
             return Result.Failure(PartnerProductError.InvalidReferencePrice());
 
+        // Quantity
+        if (quantity < 0)
+            return Result.Failure(PartnerProductError.InvalidQuantity());
+
+        // Thumbnail URL
         if (string.IsNullOrWhiteSpace(thumbnailUrl))
-            return Result.Failure(PartnerProductError.InvalidThumbnailUrl());
+            return Result.Failure(PartnerProductError.EmptyThumbnailUrl());
 
+        // Preview Asset
         if (string.IsNullOrWhiteSpace(previewAsset))
-            return Result.Failure(PartnerProductError.InvalidPreviewAsset());
+            return Result.Failure(PartnerProductError.EmptyPreviewAsset());
 
+        // Slug
         if (string.IsNullOrWhiteSpace(slug))
-            return Result.Failure(PartnerProductError.InvalidSlug());
+            return Result.Failure(PartnerProductError.EmptySlug());
 
         if (slug.Length > 30)
             return Result.Failure(PartnerProductError.SlugTooLong(slug.Length));
 
+        if (slug.Trim().Contains(" "))
+            return Result.Failure(PartnerProductError.InvalidSlug());
+
         Name = name;
         ReferencePrice = referencePrice;
+        Quantity = quantity;
         ThumbnailUrl = thumbnailUrl;
         PreviewAsset = previewAsset;
         Slug = slug;
@@ -150,6 +182,7 @@ public class PartnerProduct : AggregateRoot<PartnerProductId>
             PartnerId.Value,
             Name,
             ReferencePrice,
+            Quantity,
             ThumbnailUrl,
             PreviewAsset,
             Slug,

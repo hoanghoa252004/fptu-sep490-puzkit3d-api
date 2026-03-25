@@ -23,6 +23,7 @@ internal sealed class UpdatePartner : IEndpoint
             {
                 var command = new UpdatePartnerCommand(
                     id,
+                    request.ImportServiceConfigId,
                     request.Name,
                     request.ContactEmail,
                     request.ContactPhone,
@@ -49,6 +50,7 @@ internal sealed class UpdatePartner : IEndpoint
 }
 
 internal sealed record UpdatePartnerRequestDto(
+    Guid ImportServiceConfigId,
     string Name,
     string ContactEmail,
     string ContactPhone,

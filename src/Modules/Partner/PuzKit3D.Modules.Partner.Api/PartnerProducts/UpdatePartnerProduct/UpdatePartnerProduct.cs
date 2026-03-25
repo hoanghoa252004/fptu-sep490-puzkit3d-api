@@ -25,6 +25,7 @@ internal sealed class UpdatePartnerProduct : IEndpoint
                     id,
                     request.Name,
                     request.ReferencePrice,
+                    request.Quantity,
                     request.ThumbnailUrl,
                     request.PreviewAsset,
                     request.Slug,
@@ -51,6 +52,7 @@ internal sealed class UpdatePartnerProduct : IEndpoint
 internal sealed record UpdatePartnerProductRequestDto(
     string Name,
     decimal ReferencePrice,
+    int Quantity,
     string ThumbnailUrl,
     Dictionary<string, string> PreviewAsset,
     string Slug,

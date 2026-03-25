@@ -19,4 +19,12 @@ public static class ImportServiceConfigError
     public static Error NotFound(Guid id) => Error.NotFound(
         "ImportServiceConfig.NotFound",
         $"Import service config with ID '{id}' was not found.");
+
+    public static Error AlreadyInactive(Guid id) => Error.Conflict(
+        "ImportServiceConfig.AlreadyInactive",
+        $"Import service config with ID '{id}' is already inactive.");
+
+    public static Error AlreadyActive(Guid id) => Error.Conflict(
+        "ImportServiceConfig.AlreadyActive",
+        $"Import service config with ID '{id}' is already active.");
 }

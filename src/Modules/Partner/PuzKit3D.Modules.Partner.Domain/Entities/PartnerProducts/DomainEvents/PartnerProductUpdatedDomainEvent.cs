@@ -7,6 +7,7 @@ public sealed record PartnerProductUpdatedDomainEvent
     Guid PartnerId,
     string Name,
     decimal ReferencePrice,
+    int Quantity,
     string ThumbnailUrl,
     string PreviewAsset,
     string Slug,

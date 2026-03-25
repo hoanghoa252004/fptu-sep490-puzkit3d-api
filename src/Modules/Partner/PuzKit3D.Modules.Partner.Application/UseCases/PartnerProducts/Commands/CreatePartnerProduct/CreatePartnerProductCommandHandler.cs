@@ -39,6 +39,7 @@ internal sealed class CreatePartnerProductCommandHandler : ICommandTHandler<Crea
             PartnerId.From(request.PartnerId),
             request.Name,
             request.ReferencePrice,
+            request.Quantity,
             request.ThumbnailUrl,
             previewAssetJson,
             request.Slug,

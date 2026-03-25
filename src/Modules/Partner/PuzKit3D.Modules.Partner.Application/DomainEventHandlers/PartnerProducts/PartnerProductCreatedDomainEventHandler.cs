@@ -24,6 +24,7 @@ internal sealed class PartnerProductCreatedDomainEventHandler
             notification.PartnerId,
             notification.Name,
             notification.ReferencePrice,
+            notification.Quantity,
             notification.ThumbnailUrl,
             notification.PreviewAsset,
             notification.Slug,

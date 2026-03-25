@@ -10,6 +10,7 @@ public sealed record PartnerProductCreatedIntegrationEvent
     Guid PartnerId,
     string Name,
     decimal ReferencePrice,
+    int Quantity,
     string ThumbnailUrl,
     string PreviewAsset,
     string Slug,

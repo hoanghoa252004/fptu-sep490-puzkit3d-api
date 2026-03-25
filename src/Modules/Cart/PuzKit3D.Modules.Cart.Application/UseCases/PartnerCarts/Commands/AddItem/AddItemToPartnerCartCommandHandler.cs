@@ -45,12 +45,18 @@ internal sealed class AddItemToPartnerCartCommandHandler : ICommandHandler<AddIt
             // Set default quantity to 1 if not provided
             var quantity = request.Quantity ?? 1;
 
+
             // Validate Partner product
             var partnerProduct = await _queryRepository.GetPartnerProductByIdAsync(request.ItemId, cancellationToken);
 
             if (partnerProduct == null)
             {
                 return Result.Failure(CartError.ItemNotFound());
+            }
+
+            if (!partnerProduct.IsActive)
+            {
+                return Result.Failure(CartError.ItemNotActive());
             }
 
             // Get or create cart
@@ -72,14 +78,23 @@ internal sealed class AddItemToPartnerCartCommandHandler : ICommandHandler<AddIt
                 _cartRepository.Add(cart);
             }
 
-            // Add item to cart (no price detail for partner products)
-            var addItemResult = cart.AddItem(
-                request.ItemId,
-                null,
-                quantity);
+            var existingItem = cart.Items.FirstOrDefault(i => i.ItemId == request.ItemId);
+            if (existingItem != null)
+            {
+                var newQuantity = existingItem.Quantity + quantity;
+                existingItem.UpdateQuantity(newQuantity);
+            }
+            else
+            {
+                // Add item to cart (no price detail for partner products)
+                var addItemResult = cart.AddItem(
+                    request.ItemId,
+                    null,
+                    quantity);
 
-            if (addItemResult.IsFailure)
-                return Result.Failure(addItemResult.Error);
+                if (addItemResult.IsFailure)
+                    return Result.Failure(addItemResult.Error);
+            }
 
             if (!isNewCart)
             {

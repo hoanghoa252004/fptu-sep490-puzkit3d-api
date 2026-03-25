@@ -12,7 +12,7 @@ using PuzKit3D.Modules.Cart.Persistence;
 namespace PuzKit3D.Modules.Cart.Persistence.Migrations
 {
     [DbContext(typeof(CartDbContext))]
-    [Migration("20260318045456_InitModule")]
+    [Migration("20260324085556_InitModule")]
     partial class InitModule
     {
         /// <inheritdoc />
@@ -1240,17 +1240,13 @@ namespace PuzKit3D.Modules.Cart.Persistence.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("id");
 
-                    b.Property<string>("BriefDescription")
-                        .HasColumnType("text")
-                        .HasColumnName("brief_description");
-
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("created_at");
 
-                    b.Property<string>("DetailDescription")
+                    b.Property<string>("Description")
                         .HasColumnType("text")
-                        .HasColumnName("detail_description");
+                        .HasColumnName("description");
 
                     b.Property<bool>("IsActive")
                         .ValueGeneratedOnAdd()
@@ -1268,20 +1264,19 @@ namespace PuzKit3D.Modules.Cart.Persistence.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("partner_id");
 
-                    b.Property<string>("PartnerProductSku")
-                        .IsRequired()
-                        .HasMaxLength(10)
-                        .HasColumnType("character varying(10)")
-                        .HasColumnName("partner_product_sku");
-
                     b.Property<string>("PreviewAsset")
                         .IsRequired()
                         .HasColumnType("jsonb")
                         .HasColumnName("preview_asset");
 
-                    b.Property<string>("ProductCatalog")
-                        .HasColumnType("jsonb")
-                        .HasColumnName("product_catalog");
+                    b.Property<int>("Quantity")
+                        .HasColumnType("integer")
+                        .HasColumnName("quantity");
+
+                    b.Property<decimal>("ReferencePrice")
+                        .HasPrecision(10, 2)
+                        .HasColumnType("numeric(10,2)")
+                        .HasColumnName("reference_price");
 
                     b.Property<string>("Slug")
                         .IsRequired()
@@ -1304,10 +1299,6 @@ namespace PuzKit3D.Modules.Cart.Persistence.Migrations
                     b.HasIndex("Slug")
                         .IsUnique()
                         .HasDatabaseName("UK__partner_product_replica__slug");
-
-                    b.HasIndex("PartnerId", "PartnerProductSku")
-                        .IsUnique()
-                        .HasDatabaseName("CUK___partner_product_replica___partner_id__partner_product_sku");
 
                     b.ToTable("partner_product_replicas", "cart");
                 });

@@ -27,13 +27,13 @@ internal sealed class RemovePartnerCartItemCommandHandler : ICommandHandler<Remo
     {
         return await _unitOfWork.ExecuteAsync(async () =>
         {
-            if (!_currentUser.IsInRole("CUSTOMER"))
-                return Result.Failure(CartError.UnauthorizedAccess());
-
             if (!Guid.TryParse(_currentUser.UserId, out Guid customerId))
                 return Result.Failure(CartError.InvalidUserId());
 
-            var cart = await _cartRepository.GetByUserIdAndCartTypeAsync(customerId, "PARTNER", cancellationToken);
+            var cart = await _cartRepository.GetByUserIdAndCartTypeAsync(
+                customerId, 
+                "PARTNER", 
+                cancellationToken);
 
             if (cart == null)
                 return Result.Failure(CartError.CartNotFound());

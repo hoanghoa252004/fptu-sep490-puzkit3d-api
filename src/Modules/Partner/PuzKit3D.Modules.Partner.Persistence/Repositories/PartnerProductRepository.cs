@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using PuzKit3D.Modules.Partner.Application.Repositories;
 using PuzKit3D.Modules.Partner.Domain.Entities.PartnerProducts;
+using PuzKit3D.Modules.Partner.Domain.Entities.Partners;
 using System.Linq.Expressions;
 
 namespace PuzKit3D.Modules.Partner.Persistence.Repositories;
@@ -48,6 +49,15 @@ internal sealed class PartnerProductRepository : IPartnerProductRepository
             .FirstOrDefaultAsync(p => p.Slug == slug, cancellationToken);
     }
 
+    public async Task<IEnumerable<PartnerProduct>> FindByPartnerIdAsync(
+        Guid partnerId,
+        CancellationToken cancellationToken = default)
+    {
+        return await _context.PartnerProducts
+            .Where(p => p.PartnerId.Value == partnerId)
+            .ToListAsync(cancellationToken);
+    }
+
     public void Add(PartnerProduct entity)
     {
         _context.PartnerProducts.Add(entity);
@@ -66,5 +76,15 @@ internal sealed class PartnerProductRepository : IPartnerProductRepository
     public void DeleteMultiple(List<PartnerProduct> entities)
     {
         _context.PartnerProducts.RemoveRange(entities);
+    }
+
+    public async Task DeactivateByPartnerIdAsync(Guid partnerId, CancellationToken cancellationToken = default)
+    {
+        var partnerIdVo = PartnerId.From(partnerId);
+        await _context.PartnerProducts
+            .Where(p => p.PartnerId == partnerIdVo)
+            .ExecuteUpdateAsync(u => u
+                .SetProperty(p => p.IsActive, false)
+                .SetProperty(p => p.UpdatedAt, DateTime.UtcNow), cancellationToken);
     }
 }

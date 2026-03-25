@@ -6,6 +6,7 @@ public sealed record UpdatePartnerProductCommand(
     Guid Id,
     string Name,
     decimal ReferencePrice,
+    int Quantity,
     string ThumbnailUrl,
     Dictionary<string, string> PreviewAsset,
     string Slug,

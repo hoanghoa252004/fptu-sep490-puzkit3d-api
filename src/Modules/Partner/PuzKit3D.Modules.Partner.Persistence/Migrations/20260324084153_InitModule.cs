@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace PuzKit3D.Modules.Partner.Persistence.Migrations
 {
     /// <inheritdoc />
-    public partial class InitPartnerModule : Migration
+    public partial class InitModule : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -20,7 +20,6 @@ namespace PuzKit3D.Modules.Partner.Persistence.Migrations
                 columns: table => new
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
-                    code = table.Column<string>(type: "character varying(10)", maxLength: 10, nullable: false),
                     base_shipping_fee = table.Column<decimal>(type: "numeric(10,2)", precision: 10, scale: 2, nullable: false),
                     country_code = table.Column<string>(type: "character varying(10)", maxLength: 10, nullable: false),
                     country_name = table.Column<string>(type: "character varying(15)", maxLength: 15, nullable: false),
@@ -101,6 +100,7 @@ namespace PuzKit3D.Modules.Partner.Persistence.Migrations
                     name = table.Column<string>(type: "character varying(30)", maxLength: 30, nullable: false),
                     reference_price = table.Column<decimal>(type: "numeric(10,2)", precision: 10, scale: 2, nullable: false),
                     description = table.Column<string>(type: "text", nullable: true),
+                    quantity = table.Column<int>(type: "integer", nullable: false),
                     thumbnail_url = table.Column<string>(type: "text", nullable: false),
                     preview_asset = table.Column<string>(type: "jsonb", nullable: false),
                     slug = table.Column<string>(type: "character varying(30)", maxLength: 30, nullable: false),

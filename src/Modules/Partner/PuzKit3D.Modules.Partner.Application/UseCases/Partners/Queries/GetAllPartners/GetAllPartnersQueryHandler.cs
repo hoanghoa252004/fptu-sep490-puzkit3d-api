@@ -65,6 +65,7 @@ internal sealed class GetAllPartnersQueryHandler
             partnerDtos = partners
                 .Select(p => (object)new GetAllPartnersResponseDto(
                     p.Id.Value,
+                    p.ImportServiceConfigId.Value,
                     p.Name,
                     p.Description,
                     p.ContactEmail,
@@ -80,6 +81,7 @@ internal sealed class GetAllPartnersQueryHandler
         {
             partnerDtos = partners.Select(p => (object)new GetAllPartnersPublicResponseDto(
                     p.Id.Value,
+                    p.ImportServiceConfigId.Value,
                     p.Name,
                     p.Description,
                     p.ContactEmail,

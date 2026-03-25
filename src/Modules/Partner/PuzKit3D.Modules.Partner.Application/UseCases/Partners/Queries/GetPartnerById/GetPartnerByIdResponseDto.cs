@@ -2,6 +2,7 @@ namespace PuzKit3D.Modules.Partner.Application.UseCases.Partners.Queries.GetPart
 
 public sealed record GetPartnerByIdResponseDto(
     Guid Id,
+    Guid ImportServiceConfigId,
     string Name,
     string? Description,
     string ContactEmail,
@@ -14,6 +15,7 @@ public sealed record GetPartnerByIdResponseDto(
 
 public sealed record GetPartnerByIdPublicResponseDto(
     Guid Id,
+    Guid ImportServiceConfigId,
     string Name,
     string? Description,
     string ContactEmail,

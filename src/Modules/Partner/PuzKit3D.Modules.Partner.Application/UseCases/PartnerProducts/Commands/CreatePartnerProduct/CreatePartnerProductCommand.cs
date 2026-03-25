@@ -6,6 +6,7 @@ public sealed record CreatePartnerProductCommand(
     Guid PartnerId,
     string Name,
     decimal ReferencePrice,
+    int Quantity,
     string ThumbnailUrl,
     Dictionary<string, string> PreviewAsset,
     string Slug,

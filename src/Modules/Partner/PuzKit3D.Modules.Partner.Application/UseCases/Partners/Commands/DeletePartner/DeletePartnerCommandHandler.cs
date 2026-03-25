@@ -10,13 +10,16 @@ internal sealed class DeletePartnerCommandHandler : ICommandHandler<DeletePartne
 {
     private readonly IPartnerRepository _partnerRepository;
     private readonly IPartnerUnitOfWork _unitOfWork;
+    private readonly IServiceProvider _serviceProvider;
 
     public DeletePartnerCommandHandler(
         IPartnerRepository partnerRepository,
-        IPartnerUnitOfWork unitOfWork)
+        IPartnerUnitOfWork unitOfWork,
+        IServiceProvider serviceProvider)
     {
         _partnerRepository = partnerRepository;
         _unitOfWork = unitOfWork;
+        _serviceProvider = serviceProvider;
     }
 
     public async Task<Result> Handle(
@@ -39,8 +42,10 @@ internal sealed class DeletePartnerCommandHandler : ICommandHandler<DeletePartne
 
         return await _unitOfWork.ExecuteAsync<Result>(async () =>
         {
+            // Soft delete the partner
             partner.Deactivate();
             _partnerRepository.Update(partner);
+
             return Result.Success();
         }, cancellationToken);
     }

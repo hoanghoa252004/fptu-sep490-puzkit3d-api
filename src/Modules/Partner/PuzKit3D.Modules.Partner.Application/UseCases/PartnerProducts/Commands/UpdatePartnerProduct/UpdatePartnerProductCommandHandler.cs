@@ -46,6 +46,7 @@ internal sealed class UpdatePartnerProductCommandHandler : ICommandHandler<Updat
             var result = product.Update(
             request.Name,
             request.ReferencePrice,
+            request.Quantity,
             request.ThumbnailUrl,
             previewAssetJson,
             request.Slug,

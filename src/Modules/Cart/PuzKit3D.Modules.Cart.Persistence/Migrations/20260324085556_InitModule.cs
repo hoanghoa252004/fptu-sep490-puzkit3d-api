@@ -139,11 +139,10 @@ namespace PuzKit3D.Modules.Cart.Persistence.Migrations
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
                     partner_id = table.Column<Guid>(type: "uuid", nullable: false),
-                    partner_product_sku = table.Column<string>(type: "character varying(10)", maxLength: 10, nullable: false),
                     name = table.Column<string>(type: "character varying(30)", maxLength: 30, nullable: false),
-                    brief_description = table.Column<string>(type: "text", nullable: true),
-                    detail_description = table.Column<string>(type: "text", nullable: true),
-                    product_catalog = table.Column<string>(type: "jsonb", nullable: true),
+                    reference_price = table.Column<decimal>(type: "numeric(10,2)", precision: 10, scale: 2, nullable: false),
+                    quantity = table.Column<int>(type: "integer", nullable: false),
+                    description = table.Column<string>(type: "text", nullable: true),
                     thumbnail_url = table.Column<string>(type: "text", nullable: false),
                     preview_asset = table.Column<string>(type: "jsonb", nullable: false),
                     slug = table.Column<string>(type: "character varying(30)", maxLength: 30, nullable: false),
@@ -353,13 +352,6 @@ namespace PuzKit3D.Modules.Cart.Persistence.Migrations
                 schema: "cart",
                 table: "in_stock_product_variant_replicas",
                 column: "sku",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "CUK___partner_product_replica___partner_id__partner_product_sku",
-                schema: "cart",
-                table: "partner_product_replicas",
-                columns: new[] { "partner_id", "partner_product_sku" },
                 unique: true);
 
             migrationBuilder.CreateIndex(

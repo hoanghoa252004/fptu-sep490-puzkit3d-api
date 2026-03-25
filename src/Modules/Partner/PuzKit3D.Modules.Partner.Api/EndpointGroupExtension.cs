@@ -18,4 +18,10 @@ public static class EndpointGroupExtension
         return app.MapGroup($"{ApiRoutes.ApiPrefix}/partners")
             .WithTags("Partners");
     }
+
+    public static RouteGroupBuilder MapImportServiceConfigsGroup(this IEndpointRouteBuilder app)
+    {
+        return app.MapGroup($"{ApiRoutes.ApiPrefix}/import-service-configs")
+            .WithTags("Import Service Configs");
+    }
 }

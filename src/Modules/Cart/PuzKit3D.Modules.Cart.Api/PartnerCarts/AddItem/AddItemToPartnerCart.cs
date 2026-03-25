@@ -20,7 +20,9 @@ internal sealed class AddItemToPartnerCart : IEndpoint
                 ISender sender,
                 CancellationToken cancellationToken) =>
             {
-                var command = new AddItemToPartnerCartCommand(request.ItemId, request.Quantity);
+                var command = new AddItemToPartnerCartCommand(
+                    request.ItemId, 
+                    request.Quantity);
 
                 var result = await sender.Send(command, cancellationToken);
 

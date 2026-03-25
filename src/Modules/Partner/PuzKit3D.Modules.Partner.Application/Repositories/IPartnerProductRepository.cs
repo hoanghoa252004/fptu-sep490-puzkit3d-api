@@ -6,4 +6,6 @@ namespace PuzKit3D.Modules.Partner.Application.Repositories;
 public interface IPartnerProductRepository : IRepositoryBase<PartnerProduct, PartnerProductId>
 {
     Task<PartnerProduct?> GetBySlugAsync(string slug, CancellationToken cancellationToken = default);
+    Task<IEnumerable<PartnerProduct>> FindByPartnerIdAsync(Guid partnerId, CancellationToken cancellationToken = default);
+    Task DeactivateByPartnerIdAsync(Guid partnerId, CancellationToken cancellationToken = default);
 }

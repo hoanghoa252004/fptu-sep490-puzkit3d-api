@@ -6,6 +6,8 @@ using PuzKit3D.Contract.InStock.InstockPrices;
 using PuzKit3D.Contract.InStock.InstockProductPriceDetails;
 using PuzKit3D.Contract.InStock.InstockProducts;
 using PuzKit3D.Contract.InStock.InstockProductVariants;
+using PuzKit3D.Contract.Partner.PartnerProducts;
+using PuzKit3D.Contract.Partner.Partners;
 using PuzKit3D.Modules.Cart.Application.Services;
 using PuzKit3D.Modules.Cart.Infrastructure.IntegrationEventHandlers.InstockInventories;
 using PuzKit3D.Modules.Cart.Infrastructure.IntegrationEventHandlers.InstockOrders;
@@ -13,6 +15,8 @@ using PuzKit3D.Modules.Cart.Infrastructure.IntegrationEventHandlers.InstockPrice
 using PuzKit3D.Modules.Cart.Infrastructure.IntegrationEventHandlers.InstockProductPriceDetails;
 using PuzKit3D.Modules.Cart.Infrastructure.IntegrationEventHandlers.InstockProducts;
 using PuzKit3D.Modules.Cart.Infrastructure.IntegrationEventHandlers.InstockProductVariants;
+using PuzKit3D.Modules.Cart.Infrastructure.IntegrationEventHandlers.Partner.PartnerProducts;
+using PuzKit3D.Modules.Cart.Infrastructure.IntegrationEventHandlers.Partner.Partners;
 using PuzKit3D.Modules.Cart.Infrastructure.Options;
 using PuzKit3D.Modules.Cart.Infrastructure.Services;
 using PuzKit3D.SharedKernel.Application.Event;
@@ -63,6 +67,18 @@ public static class DependencyInjection
             InstockProductPriceDetailDeletedIntegrationEventHandler>();
         services.AddScoped<IIntegrationEventHandler<InstockOrderCreatedIntegrationEvent>,
             InstockOrderCreatedIntegrationEventHandler>();
+
+        // Register Integration Event Handlers for Partner events
+        services.AddScoped<IIntegrationEventHandler<PartnerProductCreatedIntegrationEvent>,
+            PartnerProductCreatedIntegrationEventHandler>();
+        services.AddScoped<IIntegrationEventHandler<PartnerProductUpdatedIntegrationEvent>,
+            PartnerProductUpdatedIntegrationEventHandler>();
+        services.AddScoped<IIntegrationEventHandler<PartnerProductDeletedIntegrationEvent>,
+            PartnerProductDeletedIntegrationEventHandler>();
+        services.AddScoped<IIntegrationEventHandler<PartnerProductActivatedIntegrationEvent>,
+            PartnerProductActivatedIntegrationEventHandler>();
+        services.AddScoped<IIntegrationEventHandler<PartnerDeletedIntegrationEvent>,
+            PartnerDeletedIntegrationEventHandler>();
 
         return services;
     }
