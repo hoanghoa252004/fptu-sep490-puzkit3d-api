@@ -1,15 +1,15 @@
-using System.Text.Json;
 using Microsoft.Extensions.Options;
-using PuzKit3D.Modules.Cart.Application.Services;
-using PuzKit3D.Modules.Cart.Infrastructure.Options;
+using PuzKit3D.SharedKernel.Application.Media;
+using PuzKit3D.SharedKernel.Infrastructure.Media;
+using System.Text.Json;
 
-namespace PuzKit3D.Modules.Cart.Infrastructure.Services;
+namespace PuzKit3D.Modules.InStock.Infrastructure.Services;
 
-internal sealed class AssetUrlService : IAssetUrlService
+internal sealed class MediaAssetService : IMediaAssetService
 {
     private readonly S3Settings _s3Settings;
 
-    public AssetUrlService(IOptions<S3Settings> options)
+    public MediaAssetService(IOptions<S3Settings> options)
     {
         _s3Settings = options.Value;
     }
@@ -65,3 +65,6 @@ internal sealed class AssetUrlService : IAssetUrlService
         return paths.Select(BuildAssetUrl).ToList();
     }
 }
+
+
+

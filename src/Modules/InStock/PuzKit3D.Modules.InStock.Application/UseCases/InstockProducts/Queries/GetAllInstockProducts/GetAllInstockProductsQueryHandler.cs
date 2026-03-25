@@ -1,6 +1,6 @@
 using PuzKit3D.Modules.InStock.Application.Repositories;
-using PuzKit3D.Modules.InStock.Application.Services;
 using PuzKit3D.SharedKernel.Application.Authorization;
+using PuzKit3D.SharedKernel.Application.Media;
 using PuzKit3D.SharedKernel.Application.Message.Query;
 using PuzKit3D.SharedKernel.Application.Pagination;
 using PuzKit3D.SharedKernel.Application.User;
@@ -17,7 +17,7 @@ internal sealed class GetAllInstockProductsQueryHandler
     private readonly IMaterialReplicaRepository _materialReplicaRepository;
     private readonly IAssemblyMethodReplicaRepository _assemblyMethodReplicaRepository;
     private readonly ICapabilityReplicaRepository _capabilityReplicaRepository;
-    private readonly IAssetUrlService _assetUrlService;
+    private readonly IMediaAssetService _assetUrlService;
 
     public GetAllInstockProductsQueryHandler(
         IInstockProductRepository productRepository,
@@ -26,7 +26,7 @@ internal sealed class GetAllInstockProductsQueryHandler
         IMaterialReplicaRepository materialReplicaRepository,
         IAssemblyMethodReplicaRepository assemblyMethodReplicaRepository,
         ICapabilityReplicaRepository capabilityReplicaRepository,
-        IAssetUrlService assetUrlService)
+        IMediaAssetService assetUrlService)
     {
         _productRepository = productRepository;
         _currentUser = currentUser;

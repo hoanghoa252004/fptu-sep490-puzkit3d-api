@@ -5,6 +5,7 @@ using PuzKit3D.Modules.Delivery.Application.Services;
 using PuzKit3D.Modules.Delivery.Application.UnitOfWork;
 using PuzKit3D.Modules.Delivery.Domain.Entities.DeliveryTrackings;
 using PuzKit3D.SharedKernel.Application.Event;
+using PuzKit3D.SharedKernel.Application.Media;
 using PuzKit3D.SharedKernel.Application.Message.Query;
 using PuzKit3D.SharedKernel.Domain.Errors;
 using PuzKit3D.SharedKernel.Domain.Results;
@@ -37,17 +38,20 @@ internal sealed class GetDeliveryTrackingByIdQueryHandler : IQueryHandler<GetDel
     private readonly IDeliveryService _deliveryService;
     private readonly IDeliveryUnitOfWork _unitOfWork;
     private readonly IEventBus _eventBus;
+    private readonly IMediaAssetService _mediaAssetService;
 
     public GetDeliveryTrackingByIdQueryHandler(
         IDeliveryTrackingRepository deliveryTrackingRepository,
         IDeliveryService deliveryService,
         IDeliveryUnitOfWork unitOfWork,
-        IEventBus eventbus)
+        IEventBus eventbus,
+        IMediaAssetService mediaAssetService)
     {
         _deliveryTrackingRepository = deliveryTrackingRepository;
         _deliveryService = deliveryService;
         _unitOfWork = unitOfWork;
         _eventBus = eventbus;
+        _mediaAssetService = mediaAssetService;
     }
 
     public async Task<ResultT<DeliveryTrackingDto>> Handle(
@@ -70,12 +74,15 @@ internal sealed class GetDeliveryTrackingByIdQueryHandler : IQueryHandler<GetDel
             {
                 await _eventBus.PublishAsync(new OrderDeliveredIntegrationEvent(Guid.NewGuid(), DateTime.Now, tracking.OrderId), cancellationToken);
             }
-            var dto = MapToDto(tracking);
+            var dto = MapToDto(tracking, _mediaAssetService);
             return Result.Success(dto);
     }
 
-    private static DeliveryTrackingDto MapToDto(DeliveryTracking tracking)
+    private static DeliveryTrackingDto MapToDto(DeliveryTracking tracking, IMediaAssetService _mediaAssetService)
     {
+        var handOverImageUrl = string.IsNullOrWhiteSpace(tracking.HandOverImageUrl) 
+            ? null 
+            : _mediaAssetService.BuildAssetUrl(tracking.HandOverImageUrl);
         return new DeliveryTrackingDto(
             tracking.Id.Value,
             tracking.OrderId,
@@ -84,7 +91,7 @@ internal sealed class GetDeliveryTrackingByIdQueryHandler : IQueryHandler<GetDel
             tracking.Status.ToString(),
             tracking.Type.ToString(),
             tracking.Note,
-            tracking.HandOverImageUrl,
+            handOverImageUrl,
             tracking.ExpectedDeliveryDate,
             tracking.DeliveredAt,
             tracking.CreatedAt,

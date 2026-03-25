@@ -4,17 +4,20 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using PuzKit3D.Modules.InStock.Infrastructure.Services;
 using PuzKit3D.SharedKernel.Application.Authentication;
 using PuzKit3D.SharedKernel.Application.Clock;
 using PuzKit3D.SharedKernel.Application.Data;
 using PuzKit3D.SharedKernel.Application.Event;
 using PuzKit3D.SharedKernel.Application.Identity;
+using PuzKit3D.SharedKernel.Application.Media;
 using PuzKit3D.SharedKernel.Application.User;
 using PuzKit3D.SharedKernel.Infrastructure.Authentication;
 using PuzKit3D.SharedKernel.Infrastructure.Clock;
 using PuzKit3D.SharedKernel.Infrastructure.Data;
 using PuzKit3D.SharedKernel.Infrastructure.Event;
 using PuzKit3D.SharedKernel.Infrastructure.Identity;
+using PuzKit3D.SharedKernel.Infrastructure.Media;
 using PuzKit3D.SharedKernel.Infrastructure.User;
 using System;
 using System.Collections.Generic;
@@ -36,6 +39,11 @@ public static class ServiceCollectionExtensions
         this IServiceCollection services,
         IConfiguration configuration)
     {
+        services.Configure<S3Settings>(configuration.GetSection(S3Settings.ConfigurationSection));
+
+        // Register Services
+        services.AddScoped<IMediaAssetService, MediaAssetService>();
+
         // CORS Configuration
         services.AddCors(options =>
         {

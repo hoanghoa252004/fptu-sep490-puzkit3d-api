@@ -1,7 +1,7 @@
 using PuzKit3D.Modules.Cart.Application.Repositories;
-using PuzKit3D.Modules.Cart.Application.Services;
 using PuzKit3D.Modules.Cart.Application.SharedResponseDto;
 using PuzKit3D.Modules.Cart.Domain.Entities.Carts;
+using PuzKit3D.SharedKernel.Application.Media;
 using PuzKit3D.SharedKernel.Application.Message.Query;
 using PuzKit3D.SharedKernel.Domain.Results;
 
@@ -11,12 +11,12 @@ internal sealed class GetInStockCartQueryHandler : IQueryHandler<GetInStockCartQ
 {
     private readonly ICartRepository _cartRepository;
     private readonly ICartQueryRepository _queryRepository;
-    private readonly IAssetUrlService _assetUrlService;
+    private readonly IMediaAssetService _assetUrlService;
 
     public GetInStockCartQueryHandler(
         ICartRepository cartRepository,
         ICartQueryRepository queryRepository,
-        IAssetUrlService assetUrlService)
+        IMediaAssetService assetUrlService)
     {
         _cartRepository = cartRepository;
         _queryRepository = queryRepository;

@@ -1,6 +1,7 @@
 using PuzKit3D.Modules.InStock.Application.Repositories;
 using PuzKit3D.Modules.InStock.Application.Services;
 using PuzKit3D.Modules.InStock.Domain.Entities.InstockOrders;
+using PuzKit3D.SharedKernel.Application.Media;
 using PuzKit3D.SharedKernel.Application.Message.Query;
 using PuzKit3D.SharedKernel.Application.User;
 using PuzKit3D.SharedKernel.Domain.Results;
@@ -14,14 +15,14 @@ internal sealed class GetCustomerOrderByIdQueryHandler
     private readonly IInstockProductRepository _productRepository;
     private readonly IInstockProductVariantRepository _variantRepository;
     private readonly ICurrentUser _currentUser;
-    private readonly IAssetUrlService _assetUrlService;
+    private readonly IMediaAssetService _assetUrlService;
 
     public GetCustomerOrderByIdQueryHandler(
         IInstockOrderRepository orderRepository,
         IInstockProductRepository productRepository,
         IInstockProductVariantRepository variantRepository,
         ICurrentUser currentUser,
-        IAssetUrlService assetUrlService)
+        IMediaAssetService assetUrlService)
     {
         _orderRepository = orderRepository;
         _productRepository = productRepository;

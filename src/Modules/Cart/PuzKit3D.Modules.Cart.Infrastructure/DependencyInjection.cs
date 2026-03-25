@@ -6,15 +6,12 @@ using PuzKit3D.Contract.InStock.InstockPrices;
 using PuzKit3D.Contract.InStock.InstockProductPriceDetails;
 using PuzKit3D.Contract.InStock.InstockProducts;
 using PuzKit3D.Contract.InStock.InstockProductVariants;
-using PuzKit3D.Modules.Cart.Application.Services;
 using PuzKit3D.Modules.Cart.Infrastructure.IntegrationEventHandlers.InstockInventories;
 using PuzKit3D.Modules.Cart.Infrastructure.IntegrationEventHandlers.InstockOrders;
 using PuzKit3D.Modules.Cart.Infrastructure.IntegrationEventHandlers.InstockPrices;
 using PuzKit3D.Modules.Cart.Infrastructure.IntegrationEventHandlers.InstockProductPriceDetails;
 using PuzKit3D.Modules.Cart.Infrastructure.IntegrationEventHandlers.InstockProducts;
 using PuzKit3D.Modules.Cart.Infrastructure.IntegrationEventHandlers.InstockProductVariants;
-using PuzKit3D.Modules.Cart.Infrastructure.Options;
-using PuzKit3D.Modules.Cart.Infrastructure.Services;
 using PuzKit3D.SharedKernel.Application.Event;
 
 namespace PuzKit3D.Modules.Cart.Infrastructure;
@@ -24,11 +21,6 @@ public static class DependencyInjection
     public static IServiceCollection AddCartInfrastructure(
         this IServiceCollection services, IConfiguration configuration)
     {
-        // Configure S3Settings
-        services.Configure<S3Settings>(configuration.GetSection(S3Settings.ConfigurationSection));
-
-        // Register Services
-        services.AddScoped<IAssetUrlService, AssetUrlService>();
 
         // Register Integration Event Handlers for InStock events
         services.AddScoped<IIntegrationEventHandler<InstockProductCreatedIntegrationEvent>, 
