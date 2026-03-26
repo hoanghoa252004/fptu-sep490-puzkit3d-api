@@ -44,17 +44,22 @@ internal sealed class GetInStockCartQueryHandler : IQueryHandler<GetInStockCartQ
         
         var productDetailsMap = variants.ToDictionary(
             kvp => kvp.Key,
-            kvp => new ProductDetailsDto(
-                $"{kvp.Value.Color} - {kvp.Value.AssembledLengthMm}x{kvp.Value.AssembledWidthMm}x{kvp.Value.AssembledHeightMm}mm",
-                kvp.Value.Sku,
-                kvp.Value.Color,
-                kvp.Value.AssembledLengthMm,
-                kvp.Value.AssembledWidthMm,
-                kvp.Value.AssembledHeightMm,
-                products.TryGetValue(kvp.Value.InStockProductId, out var product) 
-                    ? _assetUrlService.BuildAssetUrl(product.ThumbnailUrl)
-                    : null,
-                kvp.Value.IsActive));
+            kvp => 
+            {
+                var product = products.TryGetValue(kvp.Value.InStockProductId, out var p) ? p : null;
+                return new ProductDetailsDto(
+                    kvp.Value.InStockProductId,
+                    product?.Name ?? string.Empty,
+                    product?.Slug ?? string.Empty,
+                    $"{kvp.Value.Color} - {kvp.Value.AssembledLengthMm}x{kvp.Value.AssembledWidthMm}x{kvp.Value.AssembledHeightMm}mm",
+                    kvp.Value.Sku,
+                    kvp.Value.Color,
+                    kvp.Value.AssembledLengthMm,
+                    kvp.Value.AssembledWidthMm,
+                    kvp.Value.AssembledHeightMm,
+                    product != null ? _assetUrlService.BuildAssetUrl(product.ThumbnailUrl) : null,
+                    kvp.Value.IsActive);
+            });
 
         // Get price details for all cart items
         var priceDetailIds = cart.Items

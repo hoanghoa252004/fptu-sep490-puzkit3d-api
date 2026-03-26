@@ -36,6 +36,9 @@ internal sealed class GetPartnerCartQueryHandler : IQueryHandler<GetPartnerCartQ
         var productDetailsMap = products.ToDictionary(
             kvp => kvp.Key,
             kvp => new ProductDetailsDto(
+                kvp.Value.Id,
+                kvp.Value.Name,
+                kvp.Value.Slug,
                 kvp.Value.Name,
                 null,
                 null,

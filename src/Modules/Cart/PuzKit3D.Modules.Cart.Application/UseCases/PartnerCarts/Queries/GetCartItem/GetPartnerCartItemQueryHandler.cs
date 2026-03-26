@@ -40,6 +40,9 @@ internal sealed class GetPartnerCartItemQueryHandler : IQueryHandler<GetPartnerC
         if (product != null)
         {
             productDetails = new ProductDetailsDto(
+                product.Id,
+                product.Name,
+                product.Slug,
                 product.Name,
                 null,
                 null,
