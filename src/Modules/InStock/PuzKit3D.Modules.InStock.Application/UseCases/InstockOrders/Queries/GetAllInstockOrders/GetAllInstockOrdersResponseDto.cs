@@ -18,8 +18,10 @@ public sealed record GetAllInstockOrdersResponseDto(
     List<AllOrderDetailPreviewDto> OrderDetailsPreview);
 
 public sealed record AllOrderDetailPreviewDto(
-    string? ProductName,
-    string? VariantName,
-    int Quantity,
-    decimal UnitPrice,
-    string? ThumbnailUrl);
+Guid ProductId,
+string Slug,
+string? ProductName,
+string? VariantName,
+int Quantity,
+decimal UnitPrice,
+string? ThumbnailUrl);

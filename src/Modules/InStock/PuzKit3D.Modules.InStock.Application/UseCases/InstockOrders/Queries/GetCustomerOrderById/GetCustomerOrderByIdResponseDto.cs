@@ -39,16 +39,17 @@ public sealed record OrderDetailFullDto(
     VariantFullDetailsDto? VariantDetails);
 
 public sealed record ProductFullDetailsDto(
-    Guid ProductId,
-    string Code,
-    string Name,
-    string? Description,
-    string DifficultLevel,
-    int EstimatedBuildTime,
-    int TotalPieceCount,
-    string ThumbnailUrl,
-    List<string> PreviewAsset,
-    bool IsActive);
+Guid ProductId,
+string Code,
+string Name,
+string Slug,
+string? Description,
+string DifficultLevel,
+int EstimatedBuildTime,
+int TotalPieceCount,
+string ThumbnailUrl,
+List<string> PreviewAsset,
+bool IsActive);
 
 public sealed record VariantFullDetailsDto(
     string Color,

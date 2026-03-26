@@ -56,24 +56,31 @@ internal sealed class GetAllInstockOrdersQueryHandler
             .Distinct()
             .ToList();
 
-        // Load product thumbnails by variant IDs
-        var productThumbnails = variantIds.Any()
-            ? await _variantRepository.GetProductThumbnailsByVariantIdsAsync(variantIds, cancellationToken)
-            : new Dictionary<Guid, string>();
+        // Load product info by variant IDs
+        var productInfo = variantIds.Any()
+            ? await _variantRepository.GetProductInfoByVariantIdsAsync(variantIds, cancellationToken)
+            : new Dictionary<Guid, (Guid ProductId, string Slug, string ThumbnailUrl)>();
 
         var items = pagedOrders.Select(o =>
         {
             var totalQuantity = o.OrderDetails.Sum(od => od.Quantity);
             var previewDetails = o.OrderDetails
                 .Take(4)
-                .Select(od => new AllOrderDetailPreviewDto(
-                    od.ProductName,
-                    od.VariantName,
-                    od.Quantity,
-                    od.UnitPrice,
-                    productThumbnails.TryGetValue(od.InstockProductVariantId.Value, out var thumbnail) 
-                        ? _assetUrlService.BuildAssetUrl(thumbnail)
-                        : null))
+                .Select(od => 
+                {
+                    var (productId, slug, thumbnailUrl) = productInfo.TryGetValue(od.InstockProductVariantId.Value, out var info)
+                        ? info
+                        : (Guid.Empty, string.Empty, string.Empty);
+                    
+                    return new AllOrderDetailPreviewDto(
+                        productId,
+                        slug,
+                        od.ProductName,
+                        od.VariantName,
+                        od.Quantity,
+                        od.UnitPrice,
+                        !string.IsNullOrEmpty(thumbnailUrl) ? _assetUrlService.BuildAssetUrl(thumbnailUrl) : null);
+                })
                 .ToList();
 
             return new GetAllInstockOrdersResponseDto(

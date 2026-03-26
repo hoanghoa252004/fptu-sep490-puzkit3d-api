@@ -15,5 +15,9 @@ public interface IInstockProductVariantRepository : IRepositoryBase<InstockProdu
     Task<Dictionary<Guid, string>> GetProductThumbnailsByVariantIdsAsync(
         List<Guid> variantIds,
         CancellationToken cancellationToken = default);
+
+    Task<Dictionary<Guid, (Guid ProductId, string Slug, string ThumbnailUrl)>> GetProductInfoByVariantIdsAsync(
+        List<Guid> variantIds,
+        CancellationToken cancellationToken = default);
 }
 

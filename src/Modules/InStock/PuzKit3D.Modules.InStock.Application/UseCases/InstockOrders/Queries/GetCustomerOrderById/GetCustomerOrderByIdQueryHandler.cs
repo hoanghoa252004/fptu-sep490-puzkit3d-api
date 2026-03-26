@@ -102,6 +102,7 @@ internal sealed class GetCustomerOrderByIdQueryHandler
                         product.Id.Value,
                         product.Code,
                         product.Name,
+                        product.Slug,
                         product.Description,
                         product.DifficultLevel,
                         product.EstimatedBuildTime,
