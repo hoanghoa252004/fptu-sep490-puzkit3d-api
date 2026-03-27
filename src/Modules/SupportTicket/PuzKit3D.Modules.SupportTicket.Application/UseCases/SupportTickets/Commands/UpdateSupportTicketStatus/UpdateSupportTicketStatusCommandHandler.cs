@@ -58,7 +58,7 @@ internal sealed class UpdateSupportTicketStatusCommandHandler
                 return Result.Failure(updateResult.Error);
 
             await _repository.UpdateAsync(ticket, cancellationToken);
-            await _unitOfWork.SaveChangesAsync(cancellationToken);
+            //await _unitOfWork.SaveChangesAsync(cancellationToken);
 
             return Result.Success();
         });

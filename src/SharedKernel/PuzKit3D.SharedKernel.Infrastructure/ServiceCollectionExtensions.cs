@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using PuzKit3D.Modules.InStock.Infrastructure.Services;
 using PuzKit3D.SharedKernel.Application.Authentication;
 using PuzKit3D.SharedKernel.Application.Clock;
 using PuzKit3D.SharedKernel.Application.Data;

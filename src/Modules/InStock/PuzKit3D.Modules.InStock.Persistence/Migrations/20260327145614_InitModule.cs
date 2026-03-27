@@ -148,6 +148,27 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "support_ticket_replicas",
+                schema: "instock",
+                columns: table => new
+                {
+                    id = table.Column<Guid>(type: "uuid", nullable: false),
+                    code = table.Column<string>(type: "text", nullable: true),
+                    user_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    order_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    type = table.Column<string>(type: "text", nullable: false),
+                    status = table.Column<string>(type: "text", nullable: false),
+                    reason = table.Column<string>(type: "text", nullable: false),
+                    proof = table.Column<string>(type: "varchar(500)", nullable: false),
+                    created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_support_ticket_replicas", x => x.id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "topic_replicas",
                 schema: "instock",
                 columns: table => new
@@ -234,6 +255,30 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                         column: x => x.instock_product_id,
                         principalSchema: "instock",
                         principalTable: "instock_products",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "support_ticket_detail_replicas",
+                schema: "instock",
+                columns: table => new
+                {
+                    id = table.Column<Guid>(type: "uuid", nullable: false),
+                    support_ticket_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    order_item_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    part_id = table.Column<Guid>(type: "uuid", nullable: true),
+                    quantity = table.Column<int>(type: "integer", nullable: false),
+                    note = table.Column<string>(type: "varchar(500)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_support_ticket_detail_replicas", x => x.id);
+                    table.ForeignKey(
+                        name: "fk_support_ticket_detail_replicas_support_ticket_replicas_supp",
+                        column: x => x.support_ticket_id,
+                        principalSchema: "instock",
+                        principalTable: "support_ticket_replicas",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -733,6 +778,36 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                 column: "instock_product_id");
 
             migrationBuilder.CreateIndex(
+                name: "ix_support_ticket_detail_replicas_order_item_id",
+                schema: "instock",
+                table: "support_ticket_detail_replicas",
+                column: "order_item_id");
+
+            migrationBuilder.CreateIndex(
+                name: "ix_support_ticket_detail_replicas_support_ticket_id",
+                schema: "instock",
+                table: "support_ticket_detail_replicas",
+                column: "support_ticket_id");
+
+            migrationBuilder.CreateIndex(
+                name: "ix_support_ticket_replicas_order_id",
+                schema: "instock",
+                table: "support_ticket_replicas",
+                column: "order_id");
+
+            migrationBuilder.CreateIndex(
+                name: "ix_support_ticket_replicas_status",
+                schema: "instock",
+                table: "support_ticket_replicas",
+                column: "status");
+
+            migrationBuilder.CreateIndex(
+                name: "ix_support_ticket_replicas_user_id",
+                schema: "instock",
+                table: "support_ticket_replicas",
+                column: "user_id");
+
+            migrationBuilder.CreateIndex(
                 name: "UK__topic_replica__slug",
                 schema: "instock",
                 table: "topic_replicas",
@@ -772,6 +847,10 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                 schema: "instock");
 
             migrationBuilder.DropTable(
+                name: "support_ticket_detail_replicas",
+                schema: "instock");
+
+            migrationBuilder.DropTable(
                 name: "topic_replicas",
                 schema: "instock");
 
@@ -781,6 +860,10 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
 
             migrationBuilder.DropTable(
                 name: "instock_product_price_details",
+                schema: "instock");
+
+            migrationBuilder.DropTable(
+                name: "support_ticket_replicas",
                 schema: "instock");
 
             migrationBuilder.DropTable(

@@ -1,9 +1,8 @@
 using Microsoft.Extensions.Options;
 using PuzKit3D.SharedKernel.Application.Media;
-using PuzKit3D.SharedKernel.Infrastructure.Media;
 using System.Text.Json;
 
-namespace PuzKit3D.Modules.InStock.Infrastructure.Services;
+namespace PuzKit3D.SharedKernel.Infrastructure.Media;
 
 internal sealed class MediaAssetService : IMediaAssetService
 {

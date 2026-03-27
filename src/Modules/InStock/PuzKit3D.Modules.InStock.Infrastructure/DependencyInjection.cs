@@ -6,12 +6,14 @@ using PuzKit3D.Contract.Catalog.Materials;
 using PuzKit3D.Contract.Catalog.Topics;
 using PuzKit3D.Contract.Delivery;
 using PuzKit3D.Contract.InStock.InstockOrders;
+using PuzKit3D.Contract.SupportTicket.SupportTickets;
 using PuzKit3D.Modules.InStock.Infrastructure.IntegrationEventHandlers.Catalog.AssemblyMethods;
 using PuzKit3D.Modules.InStock.Infrastructure.IntegrationEventHandlers.Catalog.Capabilities;
 using PuzKit3D.Modules.InStock.Infrastructure.IntegrationEventHandlers.Catalog.Materials;
 using PuzKit3D.Modules.InStock.Infrastructure.IntegrationEventHandlers.Catalog.Topics;
 using PuzKit3D.Modules.InStock.Infrastructure.IntegrationEventHandlers.DeliveryTrackings;
 using PuzKit3D.Modules.InStock.Infrastructure.IntegrationEventHandlers.InstockOrders;
+using PuzKit3D.Modules.InStock.Infrastructure.IntegrationEventHandlers.SupportTickets;
 using PuzKit3D.SharedKernel.Application.Event;
 
 namespace PuzKit3D.Modules.InStock.Infrastructure;
@@ -62,6 +64,13 @@ public static class DependencyInjection
         services.AddScoped<IIntegrationEventHandler<CapabilityDeletedIntegrationEvent>,
             CapabilityDeletedIntegrationEventHandler>();
 
+        // Register Integration Event Handlers - Support Ticket Events
+        services.AddScoped<IIntegrationEventHandler<SupportTicketCreatedIntegrationEvent>,
+            SupportTicketCreatedIntegrationEventHandler>();
+        services.AddScoped<IIntegrationEventHandler<SupportTicketDeletedIntegrationEvent>,
+            SupportTicketDeletedIntegrationEventHandler>();
+        services.AddScoped<IIntegrationEventHandler<SupportTicketStatusChangedIntegrationEvent>,
+            SupportTicketStatusChangedIntegrationEventHandler>();
         return services;
     }
 }
