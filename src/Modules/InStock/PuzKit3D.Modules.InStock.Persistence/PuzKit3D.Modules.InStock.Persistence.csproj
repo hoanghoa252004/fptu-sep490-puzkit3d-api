@@ -22,6 +22,7 @@
     <Compile Include="Repositories\InstockProductRepository.cs" />
     <Compile Include="Repositories\InstockProductVariantRepository.cs" />
     <Compile Include="Repositories\MaterialReplicaRepository.cs" />
+    <Compile Include="Repositories\SupportTicketReplicaRepository.cs" />
     <Compile Include="Repositories\TopicReplicaRepository.cs" />
   </ItemGroup>
 
