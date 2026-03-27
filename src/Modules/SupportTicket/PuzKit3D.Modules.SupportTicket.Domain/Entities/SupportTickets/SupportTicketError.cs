@@ -61,4 +61,10 @@ public static class SupportTicketError
 
     public static Error OrderStatusNotEligibleForSupportTicket(Guid orderId, string currentStatus) =>
         Error.Validation("SupportTicket.OrderStatusNotEligible", $"Support ticket can only be created when order {orderId} status is 'HandedOverToDelivery', but current status is '{currentStatus}'");
+
+    public static Error SupportTicketNotFound(string message = "Support ticket not found") =>
+        Error.NotFound("SupportTicket.NotFound", message);
+
+    public static Error OrderAlreadyHasSupportTicket(Guid orderId) =>
+        Error.Validation("SupportTicket.OrderAlreadyHasSupportTicket", $"Order {orderId} already has an support ticket ( 1 order 1 support ticket ) ");
 }
