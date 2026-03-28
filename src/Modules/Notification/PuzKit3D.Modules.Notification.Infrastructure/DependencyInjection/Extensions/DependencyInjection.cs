@@ -1,4 +1,6 @@
-﻿using Amazon.SimpleEmail;
+﻿using Amazon.Runtime;
+using Amazon.Runtime.CredentialManagement;
+using Amazon.SimpleEmail;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -19,18 +21,36 @@ public static class DependencyInjection
     {
         // ==========  Setting DI for Aws Ses========== 
         var awsOptions = configuration.GetAWSOptions();
-        if (_env.IsDevelopment())
+
+        //if (_env.IsDevelopment())
+        //{
+        //    // Lấy config từ appsettings
+        //    awsOptions.Credentials = new Amazon.Runtime.BasicAWSCredentials(
+        //    configuration["AWS:AccessKey"],
+        //    configuration["AWS:SecretKey"]
+        //    );
+        //}
+
+        var chain = new CredentialProfileStoreChain();
+
+        if (!chain.TryGetAWSCredentials("default", out var awsCredentials))
         {
-            // Lấy config từ appsettings
-            awsOptions.Credentials = new Amazon.Runtime.BasicAWSCredentials(
-            configuration["AWS:AccessKey"],
-            configuration["AWS:SecretKey"]
-            );
+            throw new Exception("Cannot load AWS credentials");
         }
 
         services.AddDefaultAWSOptions(awsOptions);
 
-        services.AddAWSService<IAmazonSimpleEmailService>();
+        //var creds = FallbackCredentialsFactory.GetCredentials();
+        //Console.WriteLine($"Credential Type: {creds.GetType().Name}");
+
+        //var immutableCreds = creds.GetCredentials();
+        //Console.WriteLine($"AccessKey: {immutableCreds.AccessKey}");
+
+        services.AddSingleton<IAmazonSimpleEmailService>(sp =>
+            new AmazonSimpleEmailServiceClient(
+                awsCredentials,
+                Amazon.RegionEndpoint.APSoutheast1
+            ));
 
         services.Configure<EmailSettings>
             (configuration.GetSection(EmailSettings.ConfigurationSection));
