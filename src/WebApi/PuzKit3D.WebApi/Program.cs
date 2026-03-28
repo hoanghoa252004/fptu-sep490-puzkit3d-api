@@ -28,6 +28,7 @@ using PuzKit3D.Modules.Notification.Infrastructure.DependencyInjection.Extension
 using PuzKit3D.Modules.Notification.Infrastructure.Services;
 using PuzKit3D.Modules.Partner.Api;
 using PuzKit3D.Modules.Partner.Application;
+using PuzKit3D.Modules.Partner.Infrastructure;
 using PuzKit3D.Modules.Partner.Persistence;
 using PuzKit3D.Modules.Payment.Api;
 using PuzKit3D.Modules.Payment.Application;
@@ -118,7 +119,8 @@ builder.Services.AddNotificationInfrastructure(builder.Configuration, builder.En
 builder.Services.AddMediaInfrastructure(builder.Configuration, builder.Environment);
 builder.Services.AddDeliveryInfrastructure(builder.Configuration, builder.Environment);
 builder.Services.AddSupportTicketInfrastructure();
-builder.Services.AddWalletInfrastructure(builder.Configuration);
+builder.Services.AddWalletInfrastructure(builder.Configuration); 
+builder.Services.AddPartnerInfrastructure();
 
 var app = builder.Build();
 
