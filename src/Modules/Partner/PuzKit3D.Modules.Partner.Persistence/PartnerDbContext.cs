@@ -8,6 +8,7 @@ using PuzKit3D.Modules.Partner.Domain.Entities.PartnerProductQuotations;
 using PuzKit3D.Modules.Partner.Domain.Entities.PartnerProductRequestDetails;
 using PuzKit3D.Modules.Partner.Domain.Entities.PartnerProductRequests;
 using PuzKit3D.Modules.Partner.Domain.Entities.PartnerProducts;
+using PuzKit3D.Modules.Partner.Domain.Entities.Replicas;
 using PuzKit3D.SharedKernel.Domain;
 using PuzKit3D.SharedKernel.Domain.Results;
 using PuzKit3D.SharedKernel.Infrastructure.Data;
@@ -34,6 +35,7 @@ public sealed class PartnerDbContext : DbContext, IPartnerUnitOfWork
     public DbSet<PartnerProductQuotationDetail> PartnerProductQuotationDetails => Set<PartnerProductQuotationDetail>();
     public DbSet<PartnerProductOrder> PartnerProductOrders => Set<PartnerProductOrder>();
     public DbSet<PartnerProductOrderDetail> PartnerProductOrderDetails => Set<PartnerProductOrderDetail>();
+    public DbSet<UserReplica> UserReplicas => Set<UserReplica>();
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
