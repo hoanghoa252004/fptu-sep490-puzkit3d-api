@@ -42,6 +42,9 @@ internal sealed class GetInStockCartQueryHandler : IQueryHandler<GetInStockCartQ
         var productIds = variants.Values.Select(v => v.InStockProductId).Distinct().ToList();
         var products = await _queryRepository.GetInStockProductsByIdsAsync(productIds, cancellationToken);
         
+        // Get inventory for all variants
+        var inventoriesMap = await _queryRepository.GetInStockInventoriesByVariantIdsAsync(itemIds, cancellationToken);
+        
         var productDetailsMap = variants.ToDictionary(
             kvp => kvp.Key,
             kvp => 
@@ -78,32 +81,198 @@ internal sealed class GetInStockCartQueryHandler : IQueryHandler<GetInStockCartQ
             }
         }
 
+        // Build cart items with validation
+        var cartItems = new List<CartItemDto>();
+        foreach (var item in cart.Items)
+        {
+            decimal? unitPrice = null;
+            decimal? totalPrice = null;
+            bool isVariantActive = true;
+            bool isValidPrice = true;
+            decimal? newUnitPrice = null;
+            Guid? newPriceDetailId = null;
+            string? newPriceName = null;
+            bool isValidInventory = true;
+            int? availableInventory = null;
+
+            // Check if variant is still active
+            if (variants.TryGetValue(item.ItemId, out var variant))
+            {
+                isVariantActive = variant.IsActive;
+            }
+
+            // Check price validity
+            if (item.InStockProductPriceDetailId.HasValue)
+            {
+                var currentPriceDetail = await _queryRepository.GetInStockPriceDetailByIdAsync(
+                    item.InStockProductPriceDetailId.Value,
+                    cancellationToken);
+
+                // Try to get price from priceDetailsMap if currentPriceDetail is null
+                if (currentPriceDetail == null && priceDetailsMap.TryGetValue(item.InStockProductPriceDetailId.Value, out var priceFromMap))
+                {
+                    // Price detail was deleted but we have the cached price
+                    unitPrice = priceFromMap;
+                    totalPrice = priceFromMap * item.Quantity;
+                    isValidPrice = false;
+                    
+                    // Try to get the highest priority active price
+                    var activePriceDetails = await _queryRepository.GetAllActivePriceDetailsByVariantIdAsync(
+                        item.ItemId,
+                        cancellationToken);
+
+                    if (activePriceDetails.Any())
+                    {
+                        var highestPriorityDetail = activePriceDetails.First();
+                        newUnitPrice = highestPriorityDetail.UnitPrice;
+                        newPriceDetailId = highestPriorityDetail.Id;
+                        
+                        // Get price name
+                        var priceInfo = await _queryRepository.GetInStockPriceByIdAsync(
+                            highestPriorityDetail.InStockPriceId,
+                            cancellationToken);
+                        if (priceInfo != null)
+                        {
+                            newPriceName = priceInfo.Name;
+                        }
+                    }
+                }
+                else if (currentPriceDetail != null)
+                {
+                    // Always set unit price and total price from current price detail
+                    unitPrice = currentPriceDetail.UnitPrice;
+                    totalPrice = currentPriceDetail.UnitPrice * item.Quantity;
+
+                    if (currentPriceDetail.IsActive)
+                    {
+                        // Get all active price details for this variant to check if current price is highest priority
+                        var activePriceDetails = await _queryRepository.GetAllActivePriceDetailsByVariantIdAsync(
+                            item.ItemId,
+                            cancellationToken);
+
+                        if (activePriceDetails.Any())
+                        {
+                            var highestPriorityDetail = activePriceDetails.First(); // Already ordered by priority in query
+
+                            if (currentPriceDetail.Id != highestPriorityDetail.Id)
+                            {
+                                // Price has changed to a higher priority one
+                                isValidPrice = false;
+                                newUnitPrice = highestPriorityDetail.UnitPrice;
+                                newPriceDetailId = highestPriorityDetail.Id;
+                                
+                                // Get price name
+                                var priceInfo = await _queryRepository.GetInStockPriceByIdAsync(
+                                    highestPriorityDetail.InStockPriceId,
+                                    cancellationToken);
+                                if (priceInfo != null)
+                                {
+                                    newPriceName = priceInfo.Name;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            // No active prices available
+                            isValidPrice = false;
+                        }
+                    }
+                    else
+                    {
+                        // Current price detail is not active
+                        isValidPrice = false;
+                        
+                        // Try to get the highest priority active price
+                        var activePriceDetails = await _queryRepository.GetAllActivePriceDetailsByVariantIdAsync(
+                            item.ItemId,
+                            cancellationToken);
+
+                        if (activePriceDetails.Any())
+                        {
+                            var highestPriorityDetail = activePriceDetails.First();
+                            newUnitPrice = highestPriorityDetail.UnitPrice;
+                            newPriceDetailId = highestPriorityDetail.Id;
+                            
+                            // Get price name
+                            var priceInfo = await _queryRepository.GetInStockPriceByIdAsync(
+                                highestPriorityDetail.InStockPriceId,
+                                cancellationToken);
+                            if (priceInfo != null)
+                            {
+                                newPriceName = priceInfo.Name;
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    // Price detail not found anywhere
+                    isValidPrice = false;
+                    
+                    // Try to get the highest priority active price
+                    var activePriceDetails = await _queryRepository.GetAllActivePriceDetailsByVariantIdAsync(
+                        item.ItemId,
+                        cancellationToken);
+
+                    if (activePriceDetails.Any())
+                    {
+                        var highestPriorityDetail = activePriceDetails.First();
+                        newUnitPrice = highestPriorityDetail.UnitPrice;
+                        newPriceDetailId = highestPriorityDetail.Id;
+                        
+                        // Get price name
+                        var priceInfo = await _queryRepository.GetInStockPriceByIdAsync(
+                            highestPriorityDetail.InStockPriceId,
+                            cancellationToken);
+                        if (priceInfo != null)
+                        {
+                            newPriceName = priceInfo.Name;
+                        }
+                    }
+                }
+
+                // Check inventory validity
+                if (inventoriesMap.TryGetValue(item.ItemId, out var inventory))
+                {
+                    if (item.Quantity > inventory.TotalQuantity)
+                    {
+                        isValidInventory = false;
+                        availableInventory = inventory.TotalQuantity;
+                    }
+                }
+                else
+                {
+                    // No inventory found
+                    isValidInventory = false;
+                    availableInventory = 0;
+                }
+            }
+
+            var cartItemDto = new CartItemDto(
+                item.Id.Value,
+                item.ItemId,
+                unitPrice,
+                item.InStockProductPriceDetailId,
+                item.Quantity,
+                totalPrice,
+                productDetailsMap.TryGetValue(item.ItemId, out var details) ? details : null,
+                isVariantActive,
+                isValidPrice,
+                newUnitPrice,
+                newPriceDetailId,
+                newPriceName,
+                isValidInventory,
+                availableInventory);
+
+            cartItems.Add(cartItemDto);
+        }
+
         var cartDto = new CartDto(
             cart.Id.Value,
             cart.UserId,
             cart.CartType,
             cart.TotalItem,
-            cart.Items.Select(i =>
-            {
-                decimal? unitPrice = null;
-                decimal? totalPrice = null;
-
-                if (i.InStockProductPriceDetailId.HasValue &&
-                    priceDetailsMap.TryGetValue(i.InStockProductPriceDetailId.Value, out var price))
-                {
-                    unitPrice = price;
-                    totalPrice = price * i.Quantity;
-                }
-
-                return new CartItemDto(
-                    i.Id.Value,
-                    i.ItemId,
-                    unitPrice,
-                    i.InStockProductPriceDetailId,
-                    i.Quantity,
-                    totalPrice,
-                    productDetailsMap.TryGetValue(i.ItemId, out var details) ? details : null);
-            }).ToList());
+            cartItems);
 
         return Result.Success(cartDto);
     }

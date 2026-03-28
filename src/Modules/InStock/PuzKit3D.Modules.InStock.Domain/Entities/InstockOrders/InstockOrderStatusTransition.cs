@@ -22,7 +22,8 @@ public static class InstockOrderStatusTransition
         {
             InstockOrderStatus.Paid, new HashSet<InstockOrderStatus>
             {
-                InstockOrderStatus.Processing
+                InstockOrderStatus.Processing,
+                InstockOrderStatus.Cancelled
             }
         },
         {

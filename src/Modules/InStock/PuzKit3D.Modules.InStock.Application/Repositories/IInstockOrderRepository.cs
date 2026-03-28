@@ -9,4 +9,5 @@ public interface IInstockOrderRepository : IRepositoryBase<InstockOrder, Instock
     Task<InstockOrder?> GetByIdWithDetailsAsync(InstockOrderId id, CancellationToken cancellationToken = default);
     Task<IEnumerable<InstockOrder>> GetOrdersByCustomerIdAsync(Guid customerId, CancellationToken cancellationToken = default);
     Task<IEnumerable<InstockOrder>> GetAllOrdersAsync(CancellationToken cancellationToken = default);
+    Task<bool> HasOrderDetailWithPriceDetailIdAsync(Guid priceDetailId, CancellationToken cancellationToken = default);
 }

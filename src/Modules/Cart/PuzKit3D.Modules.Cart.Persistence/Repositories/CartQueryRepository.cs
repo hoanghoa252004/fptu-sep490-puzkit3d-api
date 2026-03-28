@@ -80,5 +80,39 @@ internal sealed class CartQueryRepository : ICartQueryRepository
 
         return products.ToDictionary(p => p.Id, p => p);
     }
+
+    public async Task<List<InStockProductPriceDetailReplica>> GetAllActivePriceDetailsByVariantIdAsync(Guid variantId, CancellationToken cancellationToken = default)
+    {
+        var now = DateTime.UtcNow;
+
+        var priceDetails = await (
+            from detail in _context.InStockProductPriceDetailReplicas
+            join price in _context.InStockPriceReplicas on detail.InStockPriceId equals price.Id
+            where detail.InStockProductVariantId == variantId
+                && detail.IsActive
+                && price.IsActive
+                && price.EffectiveFrom <= now
+                && price.EffectiveTo >= now
+            orderby price.Priority descending
+            select detail
+        ).ToListAsync(cancellationToken);
+
+        return priceDetails;
+    }
+
+    public async Task<Dictionary<Guid, InStockInventoryReplica>> GetInStockInventoriesByVariantIdsAsync(List<Guid> variantIds, CancellationToken cancellationToken = default)
+    {
+        var inventories = await _context.InStockInventoryReplicas
+            .Where(i => variantIds.Contains(i.InStockProductVariantId))
+            .ToListAsync(cancellationToken);
+
+        return inventories.ToDictionary(i => i.InStockProductVariantId, i => i);
+    }
+
+    public async Task<InStockPriceReplica?> GetInStockPriceByIdAsync(Guid priceId, CancellationToken cancellationToken = default)
+    {
+        return await _context.InStockPriceReplicas
+            .FirstOrDefaultAsync(p => p.Id == priceId, cancellationToken);
+    }
 }
 

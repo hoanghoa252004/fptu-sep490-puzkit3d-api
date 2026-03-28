@@ -37,6 +37,12 @@ internal sealed class UpdateInStockCartItemCommandHandler : ICommandHandler<Upda
                 return Result.Failure(CartError.InvalidUserId());
             }
 
+            // If both quantity and price detail are null, return error
+            if (!request.Quantity.HasValue && !request.InStockProductPriceDetailId.HasValue)
+            {
+                return Result.Failure(CartError.InvalidQuantity());
+            }
+
             // Validate item exists
             var instockVariant = await _queryRepository.GetInStockProductVariantByIdAsync(request.ItemId, cancellationToken);
 
@@ -45,12 +51,21 @@ internal sealed class UpdateInStockCartItemCommandHandler : ICommandHandler<Upda
                 return Result.Failure(CartError.ItemNotFound());
             }
 
-            // Check inventory
-            var inventory = await _queryRepository.GetInStockInventoryByVariantIdAsync(request.ItemId, cancellationToken);
-
-            if (inventory == null || inventory.TotalQuantity < request.Quantity)
+            // Check if variant is still active
+            if (!instockVariant.IsActive)
             {
-                return Result.Failure(CartError.InsufficientStock(inventory?.TotalQuantity ?? 0));
+                return Result.Failure(CartError.ItemNotActive());
+            }
+
+            // Check inventory if quantity is provided
+            if (request.Quantity.HasValue)
+            {
+                var inventory = await _queryRepository.GetInStockInventoryByVariantIdAsync(request.ItemId, cancellationToken);
+
+                if (inventory == null || inventory.TotalQuantity < request.Quantity.Value)
+                {
+                    return Result.Failure(CartError.InsufficientStock(inventory?.TotalQuantity ?? 0));
+                }
             }
 
             // Get cart
@@ -64,11 +79,72 @@ internal sealed class UpdateInStockCartItemCommandHandler : ICommandHandler<Upda
                 return Result.Failure(CartError.CartNotFound());
             }
 
-            // Update item quantity
-            var updateResult = cart.UpdateItemQuantity(request.ItemId, request.Quantity);
+            // Get existing cart item to check price detail
+            var existingCartItem = cart.Items.FirstOrDefault(i => i.ItemId == request.ItemId);
+            if (existingCartItem == null)
+            {
+                return Result.Failure(CartError.CartItemNotFound());
+            }
 
-            if (updateResult.IsFailure)
-                return Result.Failure(updateResult.Error);
+            // Determine which price detail to use
+            var priceDetailIdToUse = request.InStockProductPriceDetailId ?? existingCartItem.InStockProductPriceDetailId;
+
+            // If price detail is provided, validate it
+            if (priceDetailIdToUse.HasValue)
+            {
+                var priceDetail = await _queryRepository.GetInStockPriceDetailByIdAsync(
+                    priceDetailIdToUse.Value,
+                    cancellationToken);
+
+                if (priceDetail == null)
+                {
+                    return Result.Failure(CartError.PriceDetailNotFound());
+                }
+
+                if (!priceDetail.InStockProductVariantId.Equals(instockVariant.Id))
+                {
+                    return Result.Failure(CartError.InvalidPriceOfVariant());
+                }
+
+                if (!priceDetail.IsActive)
+                {
+                    return Result.Failure(CartError.PriceDetailNotActive());
+                }
+
+                // Check if price detail is the highest priority active price for this variant
+                var activePriceDetails = await _queryRepository.GetAllActivePriceDetailsByVariantIdAsync(
+                    request.ItemId,
+                    cancellationToken);
+
+                if (!activePriceDetails.Any())
+                {
+                    return Result.Failure(CartError.PriceDetailNotActive());
+                }
+
+                var highestPriorityDetail = activePriceDetails.First();
+                if (priceDetail.Id != highestPriorityDetail.Id)
+                {
+                    return Result.Failure(CartError.PriceNotHighestPriority());
+                }
+
+                // If price detail is different from existing, update it
+                if (request.InStockProductPriceDetailId.HasValue && 
+                    existingCartItem.InStockProductPriceDetailId != request.InStockProductPriceDetailId.Value)
+                {
+                    var updatePriceResult = cart.UpdateItemPrice(request.ItemId, request.InStockProductPriceDetailId.Value);
+                    if (updatePriceResult.IsFailure)
+                        return Result.Failure(updatePriceResult.Error);
+                }
+            }
+
+            // Update item quantity if provided
+            if (request.Quantity.HasValue)
+            {
+                var updateResult = cart.UpdateItemQuantity(request.ItemId, request.Quantity.Value);
+
+                if (updateResult.IsFailure)
+                    return Result.Failure(updateResult.Error);
+            }
 
             _cartRepository.Update(cart);
 

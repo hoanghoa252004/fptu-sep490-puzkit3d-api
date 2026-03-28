@@ -102,6 +102,22 @@ internal sealed class AddItemToInStockCartCommandHandler : ICommandHandler<AddIt
                 return Result.Failure(CartError.PriceDetailNotActive());
             }
 
+            // Check if price detail is the highest priority active price for this variant
+            var activePriceDetails = await _queryRepository.GetAllActivePriceDetailsByVariantIdAsync(
+                request.ItemId,
+                cancellationToken);
+
+            if (!activePriceDetails.Any())
+            {
+                return Result.Failure(CartError.PriceDetailNotActive());
+            }
+
+            var highestPriorityDetail = activePriceDetails.First();
+            if (priceDetail.Id != highestPriorityDetail.Id)
+            {
+                return Result.Failure(CartError.PriceNotHighestPriority());
+            }
+
             // Add item to cart
             var addItemResult = cart.AddItem(
                 request.ItemId,

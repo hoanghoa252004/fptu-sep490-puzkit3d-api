@@ -27,5 +27,9 @@ public static class InstockProductPriceDetailError
     public static Error IsActiveUnchanged(bool currentValue) => Error.Validation(
         "InstockProductPriceDetail.IsActiveUnchanged",
         $"Price detail is already {(currentValue ? "active" : "inactive")}. No change needed.");
+
+    public static Error CannotDeleteWithOrders(Guid id) => Error.Conflict(
+        "InstockProductPriceDetail.CannotDeleteWithOrders",
+        $"Cannot delete price detail with ID '{id}' because it has been used in existing orders. Please deactivate the price detail instead.");
 }
 

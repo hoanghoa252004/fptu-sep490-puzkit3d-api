@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using PuzKit3D.Modules.InStock.Application.Repositories;
 using PuzKit3D.Modules.InStock.Domain.Entities.InstockOrders;
+using PuzKit3D.Modules.InStock.Domain.Entities.InstockProductPriceDetails;
 using System.Linq.Expressions;
 
 namespace PuzKit3D.Modules.InStock.Persistence.Repositories;
@@ -97,5 +98,12 @@ internal sealed class InstockOrderRepository : IInstockOrderRepository
     public void DeleteMultiple(List<InstockOrder> entities)
     {
         _context.InstockOrders.RemoveRange(entities);
+    }
+
+    public async Task<bool> HasOrderDetailWithPriceDetailIdAsync(Guid priceDetailId, CancellationToken cancellationToken = default)
+    {
+        var priceDetailIdValueObject = InstockProductPriceDetailId.From(priceDetailId);
+        return await _context.InstockOrderDetails
+            .AnyAsync(od => od.InstockProductPriceDetailId == priceDetailIdValueObject, cancellationToken);
     }
 }
