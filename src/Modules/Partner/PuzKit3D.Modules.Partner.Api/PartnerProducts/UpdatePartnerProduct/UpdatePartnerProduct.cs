@@ -21,13 +21,18 @@ internal sealed class UpdatePartnerProduct : IEndpoint
                 ISender sender,
                 CancellationToken cancellationToken) =>
             {
+                var previewAssetDict = request.PreviewAsset?.Count > 0
+                    ? request.PreviewAsset.Select((asset, index) => (Key: index.ToString(), Value: asset))
+                        .ToDictionary(x => x.Key, x => x.Value)
+                    : new Dictionary<string, string>();
+
                 var command = new UpdatePartnerProductCommand(
                     id,
                     request.Name,
                     request.ReferencePrice,
                     request.Quantity,
                     request.ThumbnailUrl,
-                    request.PreviewAsset,
+                    previewAssetDict,
                     request.Slug,
                     request.Description);
 
@@ -54,6 +59,6 @@ internal sealed record UpdatePartnerProductRequestDto(
     decimal ReferencePrice,
     int Quantity,
     string ThumbnailUrl,
-    Dictionary<string, string> PreviewAsset,
+    List<string> PreviewAsset,
     string Slug,
     string? Description = null);

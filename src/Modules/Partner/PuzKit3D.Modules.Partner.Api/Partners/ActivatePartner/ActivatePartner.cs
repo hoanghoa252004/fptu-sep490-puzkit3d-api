@@ -26,9 +26,9 @@ internal sealed class ActivatePartner : IEndpoint
                 return result.MatchNoContent();
             })
             .WithName("ActivatePartner")
-            .WithSummary("Activate a partner (Staff/Manager only)")
-            .WithDescription("Activates a partner by setting IsActive to true. Returns 400 if partner is already active. Requires Staff or Manager role.")
-            .RequireAuthorization(policy => policy.RequireRole(Roles.Staff, Roles.BusinessManager))
+            .WithSummary("Activate a partner (Manager only)")
+            .WithDescription("Activates a partner by setting IsActive to true. Returns 400 if partner is already active. Requires Manager role.")
+            .RequireAuthorization(policy => policy.RequireRole(Roles.BusinessManager))
             .Produces(StatusCodes.Status204NoContent)
             .ProducesValidationProblem(StatusCodes.Status400BadRequest)
             .ProducesProblem(StatusCodes.Status401Unauthorized)

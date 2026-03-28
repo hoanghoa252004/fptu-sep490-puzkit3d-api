@@ -26,9 +26,9 @@ internal sealed class DeleteImportServiceConfig : IEndpoint
                 return result.MatchNoContent();
             })
             .WithName("DeleteImportServiceConfig")
-            .WithSummary("Delete an import service config (Staff/Manager only)")
-            .WithDescription("Soft deletes an existing import service config by setting IsActive to false. Requires Staff or Manager role.")
-            .RequireAuthorization(policy => policy.RequireRole(Roles.Staff, Roles.BusinessManager))
+            .WithSummary("Delete an import service config (Manager only)")
+            .WithDescription("Soft deletes an existing import service config by setting IsActive to false. Requires Manager role.")
+            .RequireAuthorization(policy => policy.RequireRole(Roles.BusinessManager))
             .Produces(StatusCodes.Status204NoContent)
             .ProducesProblem(StatusCodes.Status401Unauthorized)
             .ProducesProblem(StatusCodes.Status403Forbidden)

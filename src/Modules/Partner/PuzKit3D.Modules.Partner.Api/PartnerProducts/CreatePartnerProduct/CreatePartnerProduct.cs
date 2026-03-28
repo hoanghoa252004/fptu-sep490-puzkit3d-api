@@ -20,13 +20,18 @@ internal sealed class CreatePartnerProduct : IEndpoint
                 ISender sender,
                 CancellationToken cancellationToken) =>
             {
+                var previewAssetDict = request.PreviewAsset?.Count > 0
+                    ? request.PreviewAsset.Select((asset, index) => (Key: index.ToString(), Value: asset))
+                        .ToDictionary(x => x.Key, x => x.Value)
+                    : new Dictionary<string, string>();
+
                 var command = new CreatePartnerProductCommand(
                     request.PartnerId,
                     request.Name,
                     request.ReferencePrice,
                     request.Quantity,
                     request.ThumbnailUrl,
-                    request.PreviewAsset,
+                    previewAssetDict,
                     request.Slug,
                     request.Description,
                     request.IsActive);
@@ -54,7 +59,7 @@ internal sealed record CreatePartnerProductRequestDto(
     decimal ReferencePrice,
     int Quantity,
     string ThumbnailUrl,
-    Dictionary<string, string> PreviewAsset,
+    List<string> PreviewAsset,
     string Slug,
     string? Description,
     bool IsActive);

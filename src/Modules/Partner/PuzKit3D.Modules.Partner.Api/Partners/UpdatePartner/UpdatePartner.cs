@@ -36,9 +36,9 @@ internal sealed class UpdatePartner : IEndpoint
                 return result.MatchNoContent();
             })
             .WithName("UpdatePartner")
-            .WithSummary("Update a partner (Staff/Manager only)")
-            .WithDescription("Updates an existing partner with new details. IsActive cannot be updated via this endpoint. Requires Staff or Manager role.")
-            .RequireAuthorization(policy => policy.RequireRole(Roles.Staff, Roles.BusinessManager))
+            .WithSummary("Update a partner (Manager only)")
+            .WithDescription("Updates an existing partner with new details. IsActive cannot be updated via this endpoint. Requires Manager role.")
+            .RequireAuthorization(policy => policy.RequireRole(Roles.BusinessManager))
             .Produces(StatusCodes.Status204NoContent)
             .ProducesValidationProblem(StatusCodes.Status400BadRequest)
             .ProducesProblem(StatusCodes.Status401Unauthorized)

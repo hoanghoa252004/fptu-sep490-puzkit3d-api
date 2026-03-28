@@ -1,5 +1,7 @@
+using PuzKit3D.Modules.Partner.Domain.Entities.Partners;
 using PuzKit3D.SharedKernel.Domain;
 using PuzKit3D.SharedKernel.Domain.Results;
+using System.Xml.Linq;
 
 namespace PuzKit3D.Modules.Partner.Domain.Entities.ImportServiceConfigs;
 
@@ -42,9 +44,19 @@ public class ImportServiceConfig : AggregateRoot<ImportServiceConfigId>
         decimal importTaxPercentage,
         bool isActive = false)
     {
-        if (baseShippingFee < 0)
+        // Base Shipping Fee
+        if (baseShippingFee < 20000)
             return Result.Failure<ImportServiceConfig>(ImportServiceConfigError.InvalidBaseShippingFee());
 
+        // Country Code
+        if (string.IsNullOrWhiteSpace(countryCode))
+            return Result.Failure<ImportServiceConfig>(ImportServiceConfigError.EmptyCountryCode());
+        
+        // Country Name
+        if (string.IsNullOrWhiteSpace(countryName))
+            return Result.Failure<ImportServiceConfig>(ImportServiceConfigError.EmptyCountryName());
+
+        // Import Tax Percentage
         if (importTaxPercentage < 0 || importTaxPercentage > 100)
             return Result.Failure<ImportServiceConfig>(ImportServiceConfigError.InvalidImportTaxPercentage());
 
@@ -53,7 +65,7 @@ public class ImportServiceConfig : AggregateRoot<ImportServiceConfigId>
         var config = new ImportServiceConfig(
             configId,
             baseShippingFee,
-            countryCode,
+            countryCode.ToUpper(),
             countryName,
             importTaxPercentage,
             isActive,
@@ -68,14 +80,24 @@ public class ImportServiceConfig : AggregateRoot<ImportServiceConfigId>
         string countryName,
         decimal importTaxPercentage)
     {
+        // Base Shipping Fee
         if (baseShippingFee < 0)
             return Result.Failure(ImportServiceConfigError.InvalidBaseShippingFee());
 
+        // Country Code
+        if (string.IsNullOrWhiteSpace(countryCode))
+            return Result.Failure(ImportServiceConfigError.EmptyCountryCode());
+
+        // Country Name
+        if (string.IsNullOrWhiteSpace(countryName))
+            return Result.Failure(ImportServiceConfigError.EmptyCountryName());
+
+        // Import Tax Percentage
         if (importTaxPercentage < 0 || importTaxPercentage > 100)
             return Result.Failure(ImportServiceConfigError.InvalidImportTaxPercentage());
 
         BaseShippingFee = baseShippingFee;
-        CountryCode = countryCode;
+        CountryCode = countryCode.ToUpper();
         CountryName = countryName;
         ImportTaxPercentage = importTaxPercentage;
         UpdatedAt = DateTime.UtcNow;

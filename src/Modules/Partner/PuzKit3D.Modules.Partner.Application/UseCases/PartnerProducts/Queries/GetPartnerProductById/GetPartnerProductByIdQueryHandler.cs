@@ -1,6 +1,7 @@
 using PuzKit3D.Modules.Partner.Application.Repositories;
 using PuzKit3D.Modules.Partner.Domain.Entities.PartnerProducts;
 using PuzKit3D.SharedKernel.Application.Authorization;
+using PuzKit3D.SharedKernel.Application.Media;
 using PuzKit3D.SharedKernel.Application.Message.Query;
 using PuzKit3D.SharedKernel.Application.User;
 using PuzKit3D.SharedKernel.Domain.Errors;
@@ -12,13 +13,16 @@ internal sealed class GetPartnerProductByIdQueryHandler : IQueryHandler<GetPartn
 {
     private readonly IPartnerProductRepository _partnerProductRepository;
     private readonly ICurrentUser _currentUser;
+    private readonly IMediaAssetService _assetUrlService;
 
     public GetPartnerProductByIdQueryHandler(
         IPartnerProductRepository partnerProductRepository,
-        ICurrentUser currentUser)
+        ICurrentUser currentUser,
+        IMediaAssetService assetUrlService)
     {
         _partnerProductRepository = partnerProductRepository;
         _currentUser = currentUser;
+        _assetUrlService = assetUrlService;
     }
 
     public async Task<ResultT<object>> Handle(
@@ -56,8 +60,9 @@ internal sealed class GetPartnerProductByIdQueryHandler : IQueryHandler<GetPartn
                 product.PartnerId.Value,
                 product.Name,
                 product.ReferencePrice,
-                product.ThumbnailUrl,
-                product.PreviewAsset,
+                product.Quantity,
+                _assetUrlService.BuildAssetUrl(product.ThumbnailUrl),
+                _assetUrlService.BuildAssetUrls(product.PreviewAsset),
                 product.Slug,
                 product.Description,
                 product.IsActive,
@@ -70,8 +75,8 @@ internal sealed class GetPartnerProductByIdQueryHandler : IQueryHandler<GetPartn
                 product.PartnerId.Value,
                 product.Name,
                 product.ReferencePrice,
-                product.ThumbnailUrl,
-                product.PreviewAsset,
+                _assetUrlService.BuildAssetUrl(product.ThumbnailUrl),
+                _assetUrlService.BuildAssetUrls(product.PreviewAsset),
                 product.Slug,
                 product.Description
             );

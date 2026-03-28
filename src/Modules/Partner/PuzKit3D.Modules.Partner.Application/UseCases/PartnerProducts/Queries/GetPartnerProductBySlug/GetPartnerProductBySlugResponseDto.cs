@@ -5,8 +5,9 @@ public sealed record GetPartnerProductBySlugResponseDto(
     Guid PartnerId,
     string Name,
     decimal ReferencePrice,
+    int Quantity,
     string ThumbnailUrl,
-    string PreviewAsset,
+    List<string> PreviewAssets,
     string Slug,
     string? Description,
     bool IsActive,
@@ -20,7 +21,7 @@ public sealed record GetPartnerProductBySlugForCustomerResponseDto(
     string Name,
     decimal ReferencePrice,
     string ThumbnailUrl,
-    string PreviewAsset,
+    List<string> PreviewAssets,
     string Slug,
     string? Description
 );

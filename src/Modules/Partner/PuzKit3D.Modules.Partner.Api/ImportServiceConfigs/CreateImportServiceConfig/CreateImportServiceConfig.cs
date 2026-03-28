@@ -31,9 +31,9 @@ internal sealed class CreateImportServiceConfig : IEndpoint
                 return result.MatchCreated("GetImportServiceConfigById", id => new { id });
             })
             .WithName("CreateImportServiceConfig")
-            .WithSummary("Create a new import service config (Staff/Manager only)")
-            .WithDescription("Creates a new import service config. Requires Staff or Manager role.")
-            .RequireAuthorization(policy => policy.RequireRole(Roles.Staff, Roles.BusinessManager))
+            .WithSummary("Create a new import service config (Manager only)")
+            .WithDescription("Creates a new import service config. Requires Manager role.")
+            .RequireAuthorization(policy => policy.RequireRole(Roles.BusinessManager))
             .Produces<Guid>(StatusCodes.Status201Created)
             .ProducesValidationProblem(StatusCodes.Status400BadRequest)
             .ProducesProblem(StatusCodes.Status401Unauthorized)

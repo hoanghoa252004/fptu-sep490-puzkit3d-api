@@ -34,9 +34,9 @@ internal sealed class CreatePartner : IEndpoint
                 return result.MatchCreated("GetPartnerById", id => new { id });
             })
             .WithName("CreatePartner")
-            .WithSummary("Create a new partner (Staff/Manager only)")
-            .WithDescription("Creates a new partner. Requires Staff or Manager role.")
-            .RequireAuthorization(policy => policy.RequireRole(Roles.Staff, Roles.BusinessManager))
+            .WithSummary("Create a new partner (Manager only)")
+            .WithDescription("Creates a new partner. Requires Manager role.")
+            .RequireAuthorization(policy => policy.RequireRole(Roles.BusinessManager))
             .Produces<Guid>(StatusCodes.Status201Created)
             .ProducesValidationProblem(StatusCodes.Status400BadRequest)
             .ProducesProblem(StatusCodes.Status401Unauthorized)

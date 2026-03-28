@@ -17,6 +17,10 @@ public static class PartnerError
         "Partner.NameTooLong",
         $"Partner name is too long: {length} characters. Maximum is 30 characters.");
 
+    public static Error DuplicateName(string name) => Error.Conflict(
+        "Partner.DuplicateName",
+        $"Partner with name '{name}' already exists.");
+
     // Slug
     public static Error EmptySlug() => Error.Validation(
         "Partner.EmptySlug",
@@ -75,6 +79,10 @@ public static class PartnerError
         "Partner.InvalidEmail",
         "Invalid email.");
 
+    public static Error DuplicateEmail(string email) => Error.Conflict(
+        "Partner.DuplicateEmail",
+        $"Partner with email '{email}' already exists.");
+
     // Phone
     public static Error EmptyPhone() => Error.Validation(
         "Partner.EmptyPhone",
@@ -83,4 +91,8 @@ public static class PartnerError
     public static Error InvalidPhone() => Error.Validation(
         "Partner.InvalidPhone",
         "Invalid phone.");
+
+    public static Error DuplicatePhone(string phone) => Error.Conflict(
+        "Partner.DuplicatePhone",
+        $"Partner with phone '{phone}' already exists.");
 }

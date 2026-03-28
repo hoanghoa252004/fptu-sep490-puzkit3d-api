@@ -26,9 +26,9 @@ internal sealed class DeletePartner : IEndpoint
                 return result.MatchNoContent();
             })
             .WithName("DeletePartner")
-            .WithSummary("Delete a partner (Staff/Manager only)")
-            .WithDescription("Soft deletes an existing partner by setting IsActive to false. Requires Staff or Manager role.")
-            .RequireAuthorization(policy => policy.RequireRole(Roles.Staff, Roles.BusinessManager))
+            .WithSummary("Delete a partner (Manager only)")
+            .WithDescription("Soft deletes an existing partner by setting IsActive to false. Requires Manager role.")
+            .RequireAuthorization(policy => policy.RequireRole(Roles.BusinessManager))
             .Produces(StatusCodes.Status204NoContent)
             .ProducesProblem(StatusCodes.Status401Unauthorized)
             .ProducesProblem(StatusCodes.Status403Forbidden)

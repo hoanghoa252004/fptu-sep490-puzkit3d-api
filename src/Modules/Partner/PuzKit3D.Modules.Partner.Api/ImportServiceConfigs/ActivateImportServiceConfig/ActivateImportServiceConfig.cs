@@ -26,9 +26,9 @@ internal sealed class ActivateImportServiceConfig : IEndpoint
                 return result.MatchNoContent();
             })
             .WithName("ActivateImportServiceConfig")
-            .WithSummary("Activate an import service config (Staff/Manager only)")
-            .WithDescription("Activates an import service config by setting IsActive to true. Returns 400 if config is already active. Requires Staff or Manager role.")
-            .RequireAuthorization(policy => policy.RequireRole(Roles.Staff, Roles.BusinessManager))
+            .WithSummary("Activate an import service config (Manager only)")
+            .WithDescription("Activates an import service config by setting IsActive to true. Returns 400 if config is already active. Requires Manager role.")
+            .RequireAuthorization(policy => policy.RequireRole(Roles.BusinessManager))
             .Produces(StatusCodes.Status204NoContent)
             .ProducesValidationProblem(StatusCodes.Status400BadRequest)
             .ProducesProblem(StatusCodes.Status401Unauthorized)

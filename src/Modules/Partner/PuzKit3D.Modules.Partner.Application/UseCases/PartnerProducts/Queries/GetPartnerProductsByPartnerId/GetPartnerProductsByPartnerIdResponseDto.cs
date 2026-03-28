@@ -5,7 +5,9 @@ public sealed record GetPartnerProductsByPartnerIdResponseDto(
     Guid PartnerId,
     string Name,
     decimal ReferencePrice,
+    int Quantity,
     string ThumbnailUrl,
+    List<string> PreviewAssets,
     string Slug,
     string? Description,
     bool IsActive,
@@ -18,5 +20,6 @@ public sealed record GetPartnerProductsByPartnerIdPublicResponseDto(
     string Name,
     decimal ReferencePrice,
     string ThumbnailUrl,
+    List<string> PreviewAssets,
     string Slug,
     string? Description);

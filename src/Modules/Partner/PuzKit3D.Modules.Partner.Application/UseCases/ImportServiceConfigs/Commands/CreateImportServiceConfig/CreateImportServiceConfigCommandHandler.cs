@@ -23,6 +23,12 @@ internal sealed class CreateImportServiceConfigCommandHandler : ICommandTHandler
         CreateImportServiceConfigCommand request,
         CancellationToken cancellationToken)
     {
+        var existingCountryCode = await _repository.GetByCountryCodeAsync(request.CountryCode, cancellationToken);
+        if(existingCountryCode is not null)
+        {
+            return Result.Failure<Guid>(ImportServiceConfigError.DuplicateCountryCode(request.CountryCode));
+        }
+
         var configResult = Domain.Entities.ImportServiceConfigs.ImportServiceConfig.Create(
             request.BaseShippingFee,
             request.CountryCode,

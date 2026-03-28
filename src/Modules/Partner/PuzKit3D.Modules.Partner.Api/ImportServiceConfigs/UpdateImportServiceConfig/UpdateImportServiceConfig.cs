@@ -33,9 +33,9 @@ internal sealed class UpdateImportServiceConfig : IEndpoint
                 return result.MatchNoContent();
             })
             .WithName("UpdateImportServiceConfig")
-            .WithSummary("Update an import service config (Staff/Manager only)")
-            .WithDescription("Updates an existing import service config. IsActive cannot be updated via this endpoint. Requires Staff or Manager role.")
-            .RequireAuthorization(policy => policy.RequireRole(Roles.Staff, Roles.BusinessManager))
+            .WithSummary("Update an import service config (Manager only)")
+            .WithDescription("Updates an existing import service config. IsActive cannot be updated via this endpoint. Requires Manager role.")
+            .RequireAuthorization(policy => policy.RequireRole(Roles.BusinessManager))
             .Produces(StatusCodes.Status204NoContent)
             .ProducesValidationProblem(StatusCodes.Status400BadRequest)
             .ProducesProblem(StatusCodes.Status401Unauthorized)

@@ -59,4 +59,10 @@ internal sealed class ImportServiceConfigRepository : IImportServiceConfigReposi
     {
         _context.ImportServiceConfigs.RemoveRange(entities);
     }
+
+    public async Task<ImportServiceConfig?> GetByCountryCodeAsync(string countryCode, CancellationToken cancellationToken = default)
+    {
+        return await _context.ImportServiceConfigs
+            .FirstOrDefaultAsync(c => c.CountryCode == countryCode, cancellationToken);
+    }
 }

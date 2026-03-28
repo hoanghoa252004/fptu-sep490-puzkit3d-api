@@ -35,13 +35,34 @@ internal sealed class UpdatePartnerCommandHandler : ICommandHandler<UpdatePartne
         }
 
         // Check if new slug is already used by another partner
-        if (partner.Slug != request.Slug)
+        if (partner.Slug != request.Slug 
+            || partner.Name != request.Name 
+            || partner.ContactEmail != request.ContactEmail 
+            || partner.ContactPhone != request.ContactPhone)
         {
-            var existingPartnerWithSlug = await _partnerRepository.GetBySlugAsync(request.Slug, cancellationToken);
-            if (existingPartnerWithSlug is not null)
+            Domain.Entities.Partners.Partner? existingPartner;
+            existingPartner = await _partnerRepository.GetBySlugAsync(request.Slug, cancellationToken);
+            if (existingPartner is not null)
             {
-                return Result.Failure(
-                    Error.Conflict("partner.slug_already_exists", $"Partner with slug '{request.Slug}' already exists."));
+                return Result.Failure(PartnerError.DuplicateSlug(request.Slug));
+            }
+
+            existingPartner = await _partnerRepository.GetByNameAsync(request.Name, cancellationToken);
+            if (existingPartner is not null)
+            {
+                return Result.Failure(PartnerError.DuplicateName(request.Name));
+            }
+
+            existingPartner = await _partnerRepository.GetByEmailAsync(request.ContactEmail, cancellationToken);
+            if (existingPartner is not null)
+            {
+                return Result.Failure(PartnerError.DuplicateEmail(request.ContactEmail));
+            }
+
+            existingPartner = await _partnerRepository.GetByPhoneAsync(request.ContactPhone, cancellationToken);
+            if (existingPartner is not null)
+            {
+                return Result.Failure(PartnerError.DuplicatePhone(request.ContactPhone));
             }
         }
 

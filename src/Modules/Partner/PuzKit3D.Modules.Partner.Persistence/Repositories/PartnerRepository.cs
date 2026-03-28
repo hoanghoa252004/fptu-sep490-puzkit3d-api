@@ -67,4 +67,22 @@ internal sealed class PartnerRepository : IPartnerRepository
     {
         _context.Partners.RemoveRange(entities);
     }
+
+    public Task<Domain.Entities.Partners.Partner?> GetByNameAsync(string name, CancellationToken cancellationToken = default)
+    {
+        return _context.Partners
+            .FirstOrDefaultAsync(p => p.Name.ToLower() == name.ToLower(), cancellationToken);
+    }
+
+    public Task<Domain.Entities.Partners.Partner?> GetByEmailAsync(string email, CancellationToken cancellationToken = default)
+    {
+        return _context.Partners
+            .FirstOrDefaultAsync(p => p.ContactEmail == email, cancellationToken);
+    }
+
+    public Task<Domain.Entities.Partners.Partner?> GetByPhoneAsync(string phone, CancellationToken cancellationToken = default)
+    {
+        return _context.Partners
+            .FirstOrDefaultAsync(p => p.ContactPhone == phone, cancellationToken);
+    }
 }

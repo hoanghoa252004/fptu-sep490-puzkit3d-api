@@ -1,5 +1,6 @@
 using PuzKit3D.Modules.Partner.Application.Repositories;
 using PuzKit3D.SharedKernel.Application.Authorization;
+using PuzKit3D.SharedKernel.Application.Media;
 using PuzKit3D.SharedKernel.Application.Message.Query;
 using PuzKit3D.SharedKernel.Application.Pagination;
 using PuzKit3D.SharedKernel.Application.User;
@@ -12,13 +13,16 @@ internal sealed class GetPartnerProductsByPartnerIdQueryHandler
 {
     private readonly IPartnerProductRepository _partnerProductRepository;
     private readonly ICurrentUser _currentUser;
+    private readonly IMediaAssetService _assetUrlService;
 
     public GetPartnerProductsByPartnerIdQueryHandler(
         IPartnerProductRepository partnerProductRepository,
-        ICurrentUser currentUser)
+        ICurrentUser currentUser,
+        IMediaAssetService assetUrlService)
     {
         _partnerProductRepository = partnerProductRepository;
         _currentUser = currentUser;
+        _assetUrlService = assetUrlService;
     }
 
     public async Task<ResultT<PagedResult<object>>> Handle(
@@ -69,7 +73,9 @@ internal sealed class GetPartnerProductsByPartnerIdQueryHandler
                     p.PartnerId.Value,
                     p.Name,
                     p.ReferencePrice,
-                    p.ThumbnailUrl,
+                    p.Quantity,
+                    _assetUrlService.BuildAssetUrl(p.ThumbnailUrl),
+                    _assetUrlService.BuildAssetUrls(p.PreviewAsset),
                     p.Slug,
                     p.Description,
                     p.IsActive,
@@ -85,7 +91,8 @@ internal sealed class GetPartnerProductsByPartnerIdQueryHandler
                     p.PartnerId.Value,
                     p.Name,
                     p.ReferencePrice,
-                    p.ThumbnailUrl,
+                    _assetUrlService.BuildAssetUrl(p.ThumbnailUrl),
+                    _assetUrlService.BuildAssetUrls(p.PreviewAsset),
                     p.Slug,
                     p.Description))
                 .ToList();
