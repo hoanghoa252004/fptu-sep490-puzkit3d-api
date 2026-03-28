@@ -12,5 +12,8 @@ public interface ICartQueryRepository
     Task<Dictionary<Guid, InStockProductVariantReplica>> GetInStockProductVariantsByIdsAsync(List<Guid> variantIds, CancellationToken cancellationToken = default);
     Task<Dictionary<Guid, PartnerProductReplica>> GetPartnerProductsByIdsAsync(List<Guid> productIds, CancellationToken cancellationToken = default);
     Task<Dictionary<Guid, InStockProductReplica>> GetInStockProductsByIdsAsync(List<Guid> productIds, CancellationToken cancellationToken = default);
+    Task<List<InStockProductPriceDetailReplica>> GetAllActivePriceDetailsByVariantIdAsync(Guid variantId, CancellationToken cancellationToken = default);
+    Task<Dictionary<Guid, InStockInventoryReplica>> GetInStockInventoriesByVariantIdsAsync(List<Guid> variantIds, CancellationToken cancellationToken = default);
+    Task<InStockPriceReplica?> GetInStockPriceByIdAsync(Guid priceId, CancellationToken cancellationToken = default);
 }
 

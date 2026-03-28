@@ -22,35 +22,28 @@ public static class DependencyInjection
         // ==========  Setting DI for Aws Ses========== 
         var awsOptions = configuration.GetAWSOptions();
 
-        //if (_env.IsDevelopment())
-        //{
-        //    // Lấy config từ appsettings
-        //    awsOptions.Credentials = new Amazon.Runtime.BasicAWSCredentials(
-        //    configuration["AWS:AccessKey"],
-        //    configuration["AWS:SecretKey"]
-        //    );
-        //}
-
-        var chain = new CredentialProfileStoreChain();
-
-        if (!chain.TryGetAWSCredentials("default", out var awsCredentials))
+        if (_env.IsDevelopment())
         {
-            throw new Exception("Cannot load AWS credentials");
+            var chain = new CredentialProfileStoreChain();
+
+            if (!chain.TryGetAWSCredentials("default", out var awsCredentials))
+            {
+                throw new Exception("Cannot load AWS credentials");
+            }
+
+            services.AddDefaultAWSOptions(awsOptions);
+
+            services.AddSingleton<IAmazonSimpleEmailService>(sp =>
+                new AmazonSimpleEmailServiceClient(
+                    awsCredentials,
+                    Amazon.RegionEndpoint.APSoutheast1
+                ));
         }
-
-        services.AddDefaultAWSOptions(awsOptions);
-
-        //var creds = FallbackCredentialsFactory.GetCredentials();
-        //Console.WriteLine($"Credential Type: {creds.GetType().Name}");
-
-        //var immutableCreds = creds.GetCredentials();
-        //Console.WriteLine($"AccessKey: {immutableCreds.AccessKey}");
-
-        services.AddSingleton<IAmazonSimpleEmailService>(sp =>
-            new AmazonSimpleEmailServiceClient(
-                awsCredentials,
-                Amazon.RegionEndpoint.APSoutheast1
-            ));
+        else
+        {
+            services.AddDefaultAWSOptions(awsOptions);
+            services.AddAWSService<IAmazonSimpleEmailService>();
+        }
 
         services.Configure<EmailSettings>
             (configuration.GetSection(EmailSettings.ConfigurationSection));

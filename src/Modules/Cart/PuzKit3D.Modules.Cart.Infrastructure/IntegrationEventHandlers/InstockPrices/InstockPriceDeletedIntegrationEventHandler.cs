@@ -44,7 +44,7 @@ internal sealed class InstockPriceDeletedIntegrationEventHandler
 
             if (hasCartItems)
             {
-                throw new PuzKit3DException("This price has been applied and cannot be deleted");
+                throw new PuzKit3DException($"Price '{price.Name}' (ID: {@event.PriceId}) cannot be deleted because it is currently in customer carts. Please deactivate the price instead.");
             }
         }
 

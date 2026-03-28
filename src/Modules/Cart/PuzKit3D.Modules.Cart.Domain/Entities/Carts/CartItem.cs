@@ -76,4 +76,10 @@ public sealed class CartItem : Entity<CartItemId>
         Quantity -= amount;
         return Result.Success();
     }
+
+    public Result UpdatePrice(Guid? newPriceDetailId)
+    {
+        InStockProductPriceDetailId = newPriceDetailId;
+        return Result.Success();
+    }
 }

@@ -54,4 +54,13 @@ public static class CartError
 
     public static Error InvalidPriceOfVariant() =>
         Error.Validation("Cart.InvalidPriceOfVariant", "Price detail is not of variant");
+
+    public static Error PriceChanged(decimal newUnitPrice) =>
+        Error.Conflict("Cart.PriceChanged", $"The price for this item has changed. New price: {newUnitPrice}");
+
+    public static Error InsufficientInventory(int availableQuantity) =>
+        Error.Conflict("Cart.InsufficientInventory", $"Insufficient inventory. Available quantity: {availableQuantity}");
+
+    public static Error PriceNotHighestPriority() =>
+        Error.Validation("Cart.PriceNotHighestPriority", "The selected price detail is not the highest priority active price for this variant");
 }

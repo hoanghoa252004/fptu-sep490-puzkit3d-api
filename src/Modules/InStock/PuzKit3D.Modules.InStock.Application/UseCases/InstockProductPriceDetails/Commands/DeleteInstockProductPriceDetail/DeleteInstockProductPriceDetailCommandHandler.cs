@@ -9,13 +9,16 @@ namespace PuzKit3D.Modules.InStock.Application.UseCases.InstockProductPriceDetai
 internal sealed class DeleteInstockProductPriceDetailCommandHandler : ICommandHandler<DeleteInstockProductPriceDetailCommand>
 {
     private readonly IInstockProductPriceDetailRepository _priceDetailRepository;
+    private readonly IInstockOrderRepository _orderRepository;
     private readonly IInStockUnitOfWork _unitOfWork;
 
     public DeleteInstockProductPriceDetailCommandHandler(
         IInstockProductPriceDetailRepository priceDetailRepository,
+        IInstockOrderRepository orderRepository,
         IInStockUnitOfWork unitOfWork)
     {
         _priceDetailRepository = priceDetailRepository;
+        _orderRepository = orderRepository;
         _unitOfWork = unitOfWork;
     }
 
@@ -29,6 +32,16 @@ internal sealed class DeleteInstockProductPriceDetailCommandHandler : ICommandHa
             return Result.Failure(InstockProductPriceDetailError.NotFound(request.PriceDetailId));
         }
 
+        // Check if any order details use this price detail
+        var hasOrderDetails = await _orderRepository.HasOrderDetailWithPriceDetailIdAsync(
+            request.PriceDetailId,
+            cancellationToken);
+
+        if (hasOrderDetails)
+        {
+            return Result.Failure(InstockProductPriceDetailError.CannotDeleteWithOrders(request.PriceDetailId));
+        }
+
         return await _unitOfWork.ExecuteAsync<Result>(async () =>
         {
             priceDetail.Delete();
@@ -38,3 +51,4 @@ internal sealed class DeleteInstockProductPriceDetailCommandHandler : ICommandHa
         }, cancellationToken);
     }
 }
+

@@ -21,7 +21,7 @@ internal sealed class UpdateInStockCartItem : IEndpoint
                 ISender sender,
                 CancellationToken cancellationToken) =>
             {
-                var command = new UpdateInStockCartItemCommand(itemId, request.Quantity);
+                var command = new UpdateInStockCartItemCommand(itemId, request.Quantity, request.InStockProductPriceDetailId);
 
                 var result = await sender.Send(command, cancellationToken);
 
@@ -40,4 +40,6 @@ internal sealed class UpdateInStockCartItem : IEndpoint
     }
 }
 
-internal sealed record UpdateInStockCartItemRequest(int Quantity);
+internal sealed record UpdateInStockCartItemRequest(
+int? Quantity = null,
+Guid? InStockProductPriceDetailId = null);

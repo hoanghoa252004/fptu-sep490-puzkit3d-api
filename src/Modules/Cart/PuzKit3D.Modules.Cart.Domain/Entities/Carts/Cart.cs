@@ -102,6 +102,15 @@ public sealed class Cart : AggregateRoot<CartId>
         return Result.Success();
     }
 
+    public Result UpdateItemPrice(Guid itemId, Guid newPriceDetailId)
+    {
+        var item = _items.FirstOrDefault(i => i.ItemId == itemId);
+        if (item == null)
+            return Result.Failure(CartError.CartItemNotFound());
+
+        return item.UpdatePrice(newPriceDetailId);
+    }
+
     public Result ClearCart()
     {
         if (_items.Count == 0)
