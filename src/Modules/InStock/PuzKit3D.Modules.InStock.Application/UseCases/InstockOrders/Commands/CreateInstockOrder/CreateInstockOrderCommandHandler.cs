@@ -46,6 +46,12 @@ internal sealed class CreateInstockOrderCommandHandler : ICommandTHandler<Create
             return Result.Failure<Guid>(InstockOrderError.EmptyCart());
         }
 
+        // Validate used coin amount is not greater than grand total
+        //if (request.UsedCoinAmount > request.GrandTotalAmount)
+        //{
+        //    return Result.Failure<Guid>(InstockOrderError.InvalidAmount());
+        //}
+
         return await _unitOfWork.ExecuteAsync(async () =>
         {
             // Generate order code
@@ -201,6 +207,10 @@ internal sealed class CreateInstockOrderCommandHandler : ICommandTHandler<Create
 
             // Save order (order details will be saved via navigation property)
             _orderRepository.Add(order);
+
+            // Note: If grand total amount is 0 (paid entirely with coins), 
+            // the InstockOrderCreatedDomainEventHandler or Payment module will create a COIN payment record
+            // with Amount = 0, PaidAt = now, and ExpiredAt = now
 
             return Result.Success(order.Id.Value);
         }, cancellationToken);

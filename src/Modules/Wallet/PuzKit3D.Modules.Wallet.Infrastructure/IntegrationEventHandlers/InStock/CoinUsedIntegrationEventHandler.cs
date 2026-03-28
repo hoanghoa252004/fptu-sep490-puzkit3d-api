@@ -3,6 +3,7 @@ using PuzKit3D.Modules.Wallet.Domain.Entities.Wallets;
 using PuzKit3D.Modules.Wallet.Domain.Entities.WalletTransactions;
 using PuzKit3D.Modules.Wallet.Persistence;
 using PuzKit3D.SharedKernel.Application.Event;
+using PuzKit3D.SharedKernel.Application.Exceptions;
 
 namespace PuzKit3D.Modules.Wallet.Infrastructure.IntegrationEventHandlers.InStock;
 
@@ -28,6 +29,9 @@ internal sealed class CoinUsedIntegrationEventHandler
             // Wallet doesn't exist, skip (shouldn't happen)
             return;
         }
+
+        if (wallet.Balance < @event.UsedCoinAmount)
+            throw new PuzKit3DException("User coin amount exeed balance in wallet");
 
         // Deduct coins used for this order
         var deductCoinResult = wallet.DeductCoin(@event.UsedCoinAmount);

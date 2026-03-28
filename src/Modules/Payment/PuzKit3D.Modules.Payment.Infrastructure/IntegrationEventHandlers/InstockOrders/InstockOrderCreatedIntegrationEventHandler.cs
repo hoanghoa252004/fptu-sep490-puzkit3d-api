@@ -41,18 +41,46 @@ internal sealed class InstockOrderCreatedIntegrationEventHandler
 
         await _dbContext.OrderReplicas.AddAsync(orderReplica, cancellationToken);
 
-        var paymentResult = Domain.Entities.Payments.Payment.Create(
-            referenceOrderId: @event.OrderId,
-            referenceOrderType: OrderType.Instock,
-            amount: @event.GrandTotalAmount,
-            paymentMethod: @event.PaymentMethod);
-
-        if (paymentResult.IsFailure)
+        // If grand total amount is 0, create a COIN payment with Amount = 0, marked as Paid immediately
+        if (@event.GrandTotalAmount == 0)
         {
-            throw new PuzKit3DException($"Failed to create payment for order {orderReplica.Id}: {paymentResult.Error.Message}");
+            var coinPaymentResult = Domain.Entities.Payments.Payment.Create(
+                referenceOrderId: @event.OrderId,
+                referenceOrderType: OrderType.Instock,
+                amount: @event.UsedCoinAmount,
+                paymentMethod: "COIN");
+
+            if (coinPaymentResult.IsSuccess)
+            {
+                var coinPayment = coinPaymentResult.Value;
+                
+                // Mark payment as paid immediately with current timestamp
+                var now = DateTime.UtcNow;
+                var updateStatusResult = coinPayment.UpdateStatus(PaymentStatus.Paid, now);
+                
+                if (updateStatusResult.IsSuccess)
+                {
+                    await _dbContext.Payments.AddAsync(coinPayment, cancellationToken);
+                }
+            }
+        }
+        else
+        {
+            // Normal payment creation for non-zero amounts
+            var paymentResult = Domain.Entities.Payments.Payment.Create(
+                referenceOrderId: @event.OrderId,
+                referenceOrderType: OrderType.Instock,
+                amount: @event.GrandTotalAmount,
+                paymentMethod: @event.PaymentMethod);
+
+            if (paymentResult.IsFailure)
+            {
+                throw new PuzKit3DException($"Failed to create payment for order {orderReplica.Id}: {paymentResult.Error.Message}");
+            }
+
+            await _dbContext.Payments.AddAsync(paymentResult.Value, cancellationToken);
         }
 
-        await _dbContext.Payments.AddAsync(paymentResult.Value, cancellationToken);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
     }
 }

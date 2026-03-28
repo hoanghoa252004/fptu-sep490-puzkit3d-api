@@ -126,10 +126,32 @@ public sealed class InstockOrder : AggregateRoot<InstockOrderId>
         var orderId = InstockOrderId.Create();
         var timestamp = createdAt ?? DateTime.UtcNow;
         
-        // Determine initial status based on payment method
-        var initialStatus = paymentMethod.Equals("COD", StringComparison.OrdinalIgnoreCase)
-            ? InstockOrderStatus.Waiting
-            : InstockOrderStatus.Pending;
+        // Determine initial status and payment method based on grand total and payment method
+        // If grandTotalAmount = 0, payment is made entirely with coins, so mark as paid immediately with COIN method
+        string finalPaymentMethod;
+        InstockOrderStatus initialStatus;
+        bool finalIsPaid;
+        DateTime? finalPaidAt = null;
+
+        if (grandTotalAmount == 0)
+        {
+            // Payment made entirely with coins
+            finalPaymentMethod = "COIN";
+            initialStatus = InstockOrderStatus.Paid;
+            finalIsPaid = true;
+            finalPaidAt = timestamp;
+        }
+        else
+        {
+            finalPaymentMethod = paymentMethod;
+            finalIsPaid = isPaid;
+            finalPaidAt = null;
+            
+            // Determine initial status based on payment method
+            initialStatus = paymentMethod.Equals("COD", StringComparison.OrdinalIgnoreCase)
+                ? InstockOrderStatus.Waiting
+                : InstockOrderStatus.Pending;
+        }
         
         var order = new InstockOrder(
             orderId,
@@ -147,9 +169,14 @@ public sealed class InstockOrder : AggregateRoot<InstockOrderId>
             usedCoinAmount,
             grandTotalAmount,
             initialStatus,
-            paymentMethod,
-            isPaid,
+            finalPaymentMethod,
+            finalIsPaid,
             timestamp);
+
+        if (finalPaidAt.HasValue)
+        {
+            order.PaidAt = finalPaidAt.Value;
+        }
 
         // Raise domain event for coin usage if coins were used
         if (usedCoinAmount > 0)
@@ -289,6 +316,19 @@ public sealed class InstockOrder : AggregateRoot<InstockOrderId>
         return Result.Success();
     }
 
+    public Result MarkAsReturned()
+    {
+        if (Status == InstockOrderStatus.Returned || Status == InstockOrderStatus.Refunded)
+        {
+            return Result.Failure(InstockOrderError.InvalidStatusTransition(Status, InstockOrderStatus.Returned));
+        }
+
+        Status = InstockOrderStatus.Returned;
+        UpdatedAt = DateTime.UtcNow;
+
+        return Result.Success();
+    }
+
     public Result Cancel()
     {
         if (Status != InstockOrderStatus.Waiting && Status != InstockOrderStatus.Pending)
@@ -371,7 +411,8 @@ public sealed class InstockOrder : AggregateRoot<InstockOrderId>
             PaymentMethod,
             IsPaid,
             PaidAt,
-            orderDetails));
+            orderDetails,
+            UsedCoinAmount));
     }
 
     private void RaiseStatusChangedEvent()

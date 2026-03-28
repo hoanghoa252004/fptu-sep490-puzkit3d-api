@@ -70,10 +70,16 @@ internal sealed class GetDeliveryTrackingByIdQueryHandler : IQueryHandler<GetDel
 
             // Sync status from GHN
             await SyncDeliveryTrackingStatusFromGhnAsync(tracking, cancellationToken);
+            
             if(tracking.Status == DeliveryTrackingStatus.Delivered)
             {
-                await _eventBus.PublishAsync(new OrderDeliveredIntegrationEvent(Guid.NewGuid(), DateTime.Now, tracking.OrderId), cancellationToken);
+                await _eventBus.PublishAsync(new OrderDeliveredIntegrationEvent(Guid.NewGuid(), DateTime.UtcNow, tracking.OrderId), cancellationToken);
             }
+            else if(tracking.Status == DeliveryTrackingStatus.Returned)
+            {
+                await _eventBus.PublishAsync(new OrderReturnedIntegrationEvent(Guid.NewGuid(), DateTime.UtcNow, tracking.OrderId), cancellationToken);
+            }
+            
             var dto = MapToDto(tracking, _mediaAssetService);
             return Result.Success(dto);
     }

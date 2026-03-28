@@ -16,7 +16,8 @@ public sealed record InstockOrderCreatedIntegrationEvent(
     bool IsPaid,
     DateTime? PaidAt,
     DateTime CreatedAt,
-    List<OrderDetail> OrderDetails) : IIntegrationEvent;
+    List<OrderDetail> OrderDetails,
+    int UsedCoinAmount) : IIntegrationEvent;
 
 public sealed record OrderDetail(
     Guid OrderDetailId,

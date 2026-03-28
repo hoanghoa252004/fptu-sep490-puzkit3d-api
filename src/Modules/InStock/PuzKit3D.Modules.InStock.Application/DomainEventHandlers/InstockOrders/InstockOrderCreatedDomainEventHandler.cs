@@ -54,7 +54,8 @@ internal sealed class InstockOrderCreatedDomainEventHandler
             notification.IsPaid,
             notification.PaidAt,
             notification.CreatedAt,
-            orderDetails);
+            orderDetails,
+            notification.UsedCoinAmount);
 
         await _eventBus.PublishAsync(integrationEvent, cancellationToken);
     }
