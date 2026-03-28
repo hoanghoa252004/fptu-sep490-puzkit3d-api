@@ -45,7 +45,7 @@ internal sealed class GetWalletTransactionHistoryQueryHandler
                 t.Id.Value,
                 t.UserId,
                 t.Amount,
-                t.Type,
+                t.Type.ToString(),
                 t.OrderId,
                 t.CreatedAt))
             .ToList();

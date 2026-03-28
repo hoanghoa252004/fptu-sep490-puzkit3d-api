@@ -54,16 +54,12 @@ internal sealed class CreateSupportTicketCommandHandler
         }
 
         // Check if there are existing support tickets for this order
+        // Only 1 support ticket per order is allowed, regardless of status
         var existingTicketsResult = await _repository.GetByOrderIdAsync(request.OrderId, cancellationToken);
         if (existingTicketsResult.IsSuccess && existingTicketsResult.Value.Any())
         {
-            // Ensure all existing support tickets are Resolved
-            var unresolvedTickets = existingTicketsResult.Value.Where(t => t.Status != SupportTicketStatus.Resolved).ToList();
-            if (unresolvedTickets.Any())
-            {
-                return Result.Failure<Guid>(
-                    SupportTicketError.CannotCreateNewTicketWithUnresolvedTickets());
-            }
+            return Result.Failure<Guid>(
+                SupportTicketError.OrderAlreadyHasSupportTicket(request.OrderId));
         }
 
         // Validation: requires at least 1 detail

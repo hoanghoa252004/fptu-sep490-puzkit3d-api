@@ -1,4 +1,5 @@
-﻿using Amazon.S3;
+﻿using Amazon.Runtime.CredentialManagement;
+using Amazon.S3;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -20,16 +21,30 @@ public static class DependencyInjection
     {
         // ==========  Setting DI for Aws Ses========== 
         var awsOptions = configuration.GetAWSOptions();
-        if (_env.IsDevelopment())
+
+        //if (_env.IsDevelopment())
+        //{
+        //    // Lấy config từ appsettings
+        //    awsOptions.Credentials = new Amazon.Runtime.BasicAWSCredentials(
+        //    configuration["AWS:AccessKey"],
+        //    configuration["AWS:SecretKey"]
+        //    );
+        //}
+
+        var chain = new CredentialProfileStoreChain();
+
+        if (!chain.TryGetAWSCredentials("default", out var awsCredentials))
         {
-            // Lấy config từ appsettings
-            awsOptions.Credentials = new Amazon.Runtime.BasicAWSCredentials(
-            configuration["AWS:AccessKey"],
-            configuration["AWS:SecretKey"]
-            );
+            throw new Exception("Cannot load AWS credentials");
         }
 
         services.AddDefaultAWSOptions(awsOptions);
+
+        services.AddSingleton<IAmazonS3>(sp =>
+            new AmazonS3Client(
+                awsCredentials,
+                Amazon.RegionEndpoint.APSoutheast1
+            ));
 
         services.AddAWSService<IAmazonS3>();
 

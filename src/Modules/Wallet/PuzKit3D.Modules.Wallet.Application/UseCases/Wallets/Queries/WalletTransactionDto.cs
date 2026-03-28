@@ -6,6 +6,6 @@ public sealed record WalletTransactionDto(
     Guid Id,
     Guid UserId,
     decimal Amount,
-    WalletTransactionType Type,
+    string Type,
     Guid OrderId,
     DateTime CreatedAt);

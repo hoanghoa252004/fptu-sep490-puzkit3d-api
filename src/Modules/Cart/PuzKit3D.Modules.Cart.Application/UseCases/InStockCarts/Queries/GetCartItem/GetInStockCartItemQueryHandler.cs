@@ -42,7 +42,13 @@ internal sealed class GetInStockCartItemQueryHandler : IQueryHandler<GetInStockC
         var variant = await _queryRepository.GetInStockProductVariantByIdAsync(request.ItemId, cancellationToken);
         if (variant != null)
         {
+            var product = await _queryRepository.GetInStockProductsByIdsAsync(new List<Guid> { variant.InStockProductId }, cancellationToken);
+            var productData = product.TryGetValue(variant.InStockProductId, out var p) ? p : null;
+
             productDetails = new ProductDetailsDto(
+                variant.InStockProductId,
+                productData?.Name ?? string.Empty,
+                productData?.Slug ?? string.Empty,
                 $"{variant.Color} - {variant.AssembledLengthMm}x{variant.AssembledWidthMm}x{variant.AssembledHeightMm}mm",
                 variant.Sku,
                 variant.Color,

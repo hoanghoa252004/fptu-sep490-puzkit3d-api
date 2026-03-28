@@ -42,6 +42,9 @@ public sealed class InStockDbContext : DbContext, IInStockUnitOfWork
     public DbSet<MaterialReplica> MaterialReplicas => Set<MaterialReplica>();
     public DbSet<CapabilityReplica> CapabilityReplicas => Set<CapabilityReplica>();
 
+    public DbSet<SupportTicketReplica> SupportTicketReplicas => Set<SupportTicketReplica>();
+    public DbSet<SupportTicketDetailReplica> SupportTicketDetailReplicas => Set<SupportTicketDetailReplica>();
+
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);

@@ -15,9 +15,11 @@ DateTime CreatedAt,
 List<OrderDetailPreviewDto> OrderDetailsPreview);
 
 public sealed record OrderDetailPreviewDto(
-    string? ProductName,
-    string? VariantName,
-    int Quantity,
-    decimal UnitPrice,
-    string? ThumbnailUrl);
+Guid ProductId,
+string Slug,
+string? ProductName,
+string? VariantName,
+int Quantity,
+decimal UnitPrice,
+string? ThumbnailUrl);
 

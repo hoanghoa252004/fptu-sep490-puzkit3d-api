@@ -125,7 +125,7 @@ internal static class SwaggerExtensions
                     "delivery" => routePath.Contains("delivery"),
 
                     "after-sale" => routePath.Contains("feedback")
-                                || routePath.Contains("support"),
+                                || routePath.StartsWith("api/support-tickets"),
 
                     _ => false
                 };

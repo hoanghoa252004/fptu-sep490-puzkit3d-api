@@ -183,20 +183,32 @@ public sealed class InstockOrder : AggregateRoot<InstockOrderId>
         // Raise generic status changed event
         RaiseStatusChangedEvent();
 
-        // Raise specific completed event for Feedback module
-        //if (newStatus == InstockOrderStatus.Completed)
-        //{
-        //    RaiseOrderCompletedEvent();
-        //}
+        // Raise specific cancelled event for inventory reversal
+        if (Status == InstockOrderStatus.Cancelled)
+        {
+            var orderDetails = _orderDetails.Select(od => new OrderCancelledDetailInfo(
+                od.Id.Value,
+                od.InstockProductVariantId.Value,
+                od.Quantity))
+                .ToList();
+
+            RaiseDomainEvent(new InstockOrderCancelledDomainEvent(
+                Id.Value,
+                Code,
+                CustomerId,
+                orderDetails,
+                UpdatedAt));
+        }
+
         // Raise domain event for wallet refund
         if (Status == InstockOrderStatus.Cancelled && IsPaid == true)
         {
             RaiseDomainEvent(new OrderCancelledRefundCoinDomainEvent(
-            Id.Value,
-            Code,
-            CustomerId,
-            GrandTotalAmount,
-            UpdatedAt));
+                Id.Value,
+                Code,
+                CustomerId,
+                GrandTotalAmount,
+                UpdatedAt));
         }
 
         return Result.Success();

@@ -52,10 +52,34 @@ internal sealed class AddItemToInStockCartCommandHandler : ICommandHandler<AddIt
                 return Result.Failure(CartError.ItemNotActive());
             }
 
-            // Check inventory
+            // Get or create cart
+            var cart = await _cartRepository.GetByUserIdAndCartTypeAsync(
+                customerId,
+                "INSTOCK",
+                cancellationToken);
+
+            bool isNewCart = false;
+            if (cart == null)
+            {
+                var createResult = Domain.Entities.Carts.Cart.Create(customerId, "INSTOCK");
+                
+                if (createResult.IsFailure)
+                    return Result.Failure(createResult.Error);
+
+                cart = createResult.Value;
+                isNewCart = true;
+                _cartRepository.Add(cart);
+            }
+
+            // Get current quantity of the item in the cart
+            var existingItem = cart.Items.FirstOrDefault(i => i.ItemId == request.ItemId);
+            var currentQuantity = existingItem?.Quantity ?? 0;
+            var totalQuantity = currentQuantity + quantity;
+
+            // Check inventory with total quantity
             var inventory = await _queryRepository.GetInStockInventoryByVariantIdAsync(request.ItemId, cancellationToken);
 
-            if (inventory == null || inventory.TotalQuantity < quantity)
+            if (inventory == null || inventory.TotalQuantity < totalQuantity)
             {
                 return Result.Failure(CartError.InsufficientStock(inventory?.TotalQuantity ?? 0));
             }
@@ -76,25 +100,6 @@ internal sealed class AddItemToInStockCartCommandHandler : ICommandHandler<AddIt
             if (!priceDetail.IsActive)
             {
                 return Result.Failure(CartError.PriceDetailNotActive());
-            }
-
-            // Get or create cart
-            var cart = await _cartRepository.GetByUserIdAndCartTypeAsync(
-                customerId,
-                "INSTOCK",
-                cancellationToken);
-
-            bool isNewCart = false;
-            if (cart == null)
-            {
-                var createResult = Domain.Entities.Carts.Cart.Create(customerId, "INSTOCK");
-                
-                if (createResult.IsFailure)
-                    return Result.Failure(createResult.Error);
-
-                cart = createResult.Value;
-                isNewCart = true;
-                _cartRepository.Add(cart);
             }
 
             // Add item to cart
