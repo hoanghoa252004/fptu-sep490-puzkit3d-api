@@ -12,7 +12,7 @@ using PuzKit3D.Modules.Cart.Persistence;
 namespace PuzKit3D.Modules.Cart.Persistence.Migrations
 {
     [DbContext(typeof(CartDbContext))]
-    [Migration("20260324085556_InitModule")]
+    [Migration("20260328082010_InitModule")]
     partial class InitModule
     {
         /// <inheritdoc />
@@ -67,6 +67,10 @@ namespace PuzKit3D.Modules.Cart.Persistence.Migrations
                     b.Property<Guid>("CartId")
                         .HasColumnType("uuid")
                         .HasColumnName("cart_id");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at");
 
                     b.Property<Guid?>("InStockProductPriceDetailId")
                         .HasColumnType("uuid")

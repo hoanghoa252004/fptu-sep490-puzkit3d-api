@@ -9,18 +9,21 @@ public sealed class CartItem : Entity<CartItemId>
     public Guid ItemId { get; private set; }
     public Guid? InStockProductPriceDetailId { get; private set; }
     public int Quantity { get; private set; }
+    public DateTime CreatedAt { get; private set; }
 
     private CartItem(
         CartItemId id,
         CartId cartId,
         Guid itemId,
         Guid? inStockProductPriceDetailId,
-        int quantity) : base(id)
+        int quantity,
+        DateTime createdAt) : base(id)
     {
         CartId = cartId;
         ItemId = itemId;
         InStockProductPriceDetailId = inStockProductPriceDetailId;
         Quantity = quantity;
+        CreatedAt = createdAt;
     }
 
     private CartItem() : base()
@@ -49,7 +52,8 @@ public sealed class CartItem : Entity<CartItemId>
             cartId,
             itemId,
             inStockProductPriceDetailId,
-            quantity);
+            quantity,
+            DateTime.UtcNow);
 
         return Result.Success(cartItem);
     }

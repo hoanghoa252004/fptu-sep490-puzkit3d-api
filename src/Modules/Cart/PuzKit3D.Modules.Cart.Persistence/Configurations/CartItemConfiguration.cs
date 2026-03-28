@@ -30,6 +30,9 @@ internal sealed class CartItemConfiguration : IEntityTypeConfiguration<CartItem>
             .IsRequired()
             .HasDefaultValue(1);
 
+        builder.Property(i => i.CreatedAt)
+            .IsRequired();
+
         builder.HasOne<Domain.Entities.Carts.Cart>()
             .WithMany(c => c.Items)
             .HasForeignKey(ci => ci.CartId)

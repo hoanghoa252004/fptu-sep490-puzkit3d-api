@@ -183,7 +183,8 @@ namespace PuzKit3D.Modules.Cart.Persistence.Migrations
                     cart_id = table.Column<Guid>(type: "uuid", nullable: false),
                     item_id = table.Column<Guid>(type: "uuid", nullable: false),
                     in_stock_product_price_detail_id = table.Column<Guid>(type: "uuid", nullable: true),
-                    quantity = table.Column<int>(type: "integer", nullable: false, defaultValue: 1)
+                    quantity = table.Column<int>(type: "integer", nullable: false, defaultValue: 1),
+                    created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {

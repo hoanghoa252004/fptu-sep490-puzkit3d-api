@@ -81,9 +81,9 @@ internal sealed class GetInStockCartQueryHandler : IQueryHandler<GetInStockCartQ
             }
         }
 
-        // Build cart items with validation
+        // Build cart items with validation, sorted by CreatedAt (newest first)
         var cartItems = new List<CartItemDto>();
-        foreach (var item in cart.Items)
+        foreach (var item in cart.Items.OrderByDescending(i => i.CreatedAt))
         {
             decimal? unitPrice = null;
             decimal? totalPrice = null;

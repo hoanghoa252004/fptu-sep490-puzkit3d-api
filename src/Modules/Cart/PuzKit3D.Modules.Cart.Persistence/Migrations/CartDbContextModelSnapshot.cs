@@ -65,6 +65,10 @@ namespace PuzKit3D.Modules.Cart.Persistence.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("cart_id");
 
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at");
+
                     b.Property<Guid?>("InStockProductPriceDetailId")
                         .HasColumnType("uuid")
                         .HasColumnName("in_stock_product_price_detail_id");
