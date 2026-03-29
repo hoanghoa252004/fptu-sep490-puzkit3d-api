@@ -30,7 +30,7 @@ public static class InstockOrderError
 
     public static Error InvalidPaymentMethod() => Error.Validation(
         "InstockOrder.InvalidPaymentMethod",
-        "Payment method cannot be empty. Online or COD");
+        "Payment method cannot be empty. Online or COD or COIN");
 
     public static Error InvalidStatus() => Error.Validation(
         "InstockOrder.InvalidStatus",

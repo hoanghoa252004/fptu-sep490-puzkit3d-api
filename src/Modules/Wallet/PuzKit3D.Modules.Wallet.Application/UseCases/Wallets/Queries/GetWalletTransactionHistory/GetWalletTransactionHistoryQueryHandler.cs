@@ -48,7 +48,7 @@ internal sealed class GetWalletTransactionHistoryQueryHandler
                 t.Type.ToString(),
                 t.OrderId,
                 t.CreatedAt))
-            .ToList();
+            .OrderByDescending(t => t.CreatedAt).ToList();
 
         return Result.Success(transactionDtos);
     }

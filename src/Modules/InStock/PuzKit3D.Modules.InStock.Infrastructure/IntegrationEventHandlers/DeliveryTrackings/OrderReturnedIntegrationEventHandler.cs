@@ -39,7 +39,7 @@ public sealed class OrderReturnedIntegrationEventHandler : IIntegrationEventHand
         
         if (markAsReturnedResult.IsFailure)
             return;
-
+        // AHIHI
         // Calculate refund amount: 80% of grand total
         //var refundAmount = instockOrder.GrandTotalAmount * 0.8m;
 
@@ -49,7 +49,11 @@ public sealed class OrderReturnedIntegrationEventHandler : IIntegrationEventHand
                 Guid.NewGuid(),
                 DateTime.UtcNow,
                 @event.OrderId,
-                instockOrder.GrandTotalAmount),
+                instockOrder.GrandTotalAmount,
+                instockOrder.UsedCoinAmount,
+                instockOrder.PaymentMethod,
+                instockOrder.ShippingFee,
+                instockOrder.CustomerId),
             cancellationToken);
 
         await _unitOfWork.SaveChangesAsync(cancellationToken);

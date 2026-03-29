@@ -117,7 +117,8 @@ public sealed class InstockOrder : AggregateRoot<InstockOrderId>
         if (string.IsNullOrWhiteSpace(paymentMethod))
             return Result.Failure<InstockOrder>(InstockOrderError.InvalidPaymentMethod());
 
-        if (!paymentMethod.Equals("Online", StringComparison.OrdinalIgnoreCase) && !paymentMethod.Equals("COD", StringComparison.OrdinalIgnoreCase))
+        if (!paymentMethod.Equals("Online", StringComparison.OrdinalIgnoreCase) && !paymentMethod.Equals("COD", StringComparison.OrdinalIgnoreCase)
+             && !paymentMethod.Equals("COIN", StringComparison.OrdinalIgnoreCase))
             return Result.Failure<InstockOrder>(InstockOrderError.InvalidPaymentMethod());
 
         if (subTotalAmount < 0 || shippingFee < 0 || usedCoinAmount < 0 || grandTotalAmount < 0)
@@ -228,13 +229,15 @@ public sealed class InstockOrder : AggregateRoot<InstockOrderId>
         }
 
         // Raise domain event for wallet refund
-        if (Status == InstockOrderStatus.Cancelled && IsPaid == true)
+        if (Status == InstockOrderStatus.Cancelled && IsPaid == true || Status == InstockOrderStatus.Cancelled && UsedCoinAmount > 0)
         {
             RaiseDomainEvent(new OrderCancelledRefundCoinDomainEvent(
                 Id.Value,
                 Code,
                 CustomerId,
                 GrandTotalAmount,
+                UsedCoinAmount,
+                PaymentMethod,
                 UpdatedAt));
         }
 

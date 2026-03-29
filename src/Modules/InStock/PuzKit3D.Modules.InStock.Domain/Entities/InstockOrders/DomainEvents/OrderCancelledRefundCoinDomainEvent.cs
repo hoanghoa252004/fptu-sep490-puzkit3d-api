@@ -7,4 +7,6 @@ public sealed record OrderCancelledRefundCoinDomainEvent(
     string OrderCode,
     Guid CustomerId,
     decimal GrandTotalAmount,
+    int UsedCoinAmount,
+    string PaymentMethod,
     DateTime CancelledAt) : DomainEvent;

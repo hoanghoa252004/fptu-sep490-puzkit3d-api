@@ -26,6 +26,8 @@ internal sealed class OrderCancelledRefundCoinDomainEventHandler
             notification.OrderCode,
             notification.CustomerId,
             notification.GrandTotalAmount,
+            notification.UsedCoinAmount,
+            notification.PaymentMethod,
             notification.CancelledAt);
 
         await _eventBus.PublishAsync(integrationEvent, cancellationToken);

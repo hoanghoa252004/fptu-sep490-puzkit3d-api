@@ -6,4 +6,8 @@ public sealed record OrderReturnRefundCoinIntegrationEvent(
     Guid Id,
     DateTime OccurredOn,
     Guid OrderId,
-    decimal GrandTotalAmount) : IIntegrationEvent;
+    decimal GrandTotalAmount,
+    int UsedCoinAmount,
+    string PaymentMethod,
+    decimal ShippingFee,
+    Guid UserId) : IIntegrationEvent;
