@@ -50,7 +50,9 @@ internal sealed class GetPartnerCartItemQueryHandler : IQueryHandler<GetPartnerC
                 null,
                 null,
                 product.ThumbnailUrl,
-                product.IsActive);
+                product.IsActive,
+                product.PartnerId,
+                product.ReferencePrice);
         }
 
         var cartItemDto = new CartItemDto(

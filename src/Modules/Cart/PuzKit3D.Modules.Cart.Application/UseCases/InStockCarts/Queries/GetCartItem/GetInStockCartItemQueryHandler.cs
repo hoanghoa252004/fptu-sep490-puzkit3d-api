@@ -56,7 +56,9 @@ internal sealed class GetInStockCartItemQueryHandler : IQueryHandler<GetInStockC
                 variant.AssembledWidthMm,
                 variant.AssembledHeightMm,
                 null,
-                variant.IsActive);
+                variant.IsActive,
+                null,
+                null);
         }
 
         var cartItemDto = new CartItemDto(

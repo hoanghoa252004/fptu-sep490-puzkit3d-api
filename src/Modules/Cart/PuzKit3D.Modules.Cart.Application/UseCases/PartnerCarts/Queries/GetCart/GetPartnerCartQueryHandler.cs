@@ -29,8 +29,9 @@ internal sealed class GetPartnerCartQueryHandler : IQueryHandler<GetPartnerCartQ
         if (cart == null)
             return Result.Failure<CartDto>(CartError.CartNotFound());
 
-        var itemIds = cart.Items.Select(i => i.ItemId).ToList();
-        
+        var cartItems = cart.Items.ToList();
+        var itemIds = cartItems.Select(i => i.ItemId).ToList();
+
         // Get Partner product details
         var products = await _queryRepository.GetPartnerProductsByIdsAsync(itemIds, cancellationToken);
         var productDetailsMap = products.ToDictionary(
@@ -46,14 +47,18 @@ internal sealed class GetPartnerCartQueryHandler : IQueryHandler<GetPartnerCartQ
                 null,
                 null,
                 kvp.Value.ThumbnailUrl,
-                kvp.Value.IsActive));
+                kvp.Value.IsActive,
+                kvp.Value.PartnerId,
+                kvp.Value.ReferencePrice));
+
+        var sortedItems = SortCartItemsByPartnerAndRecent(cartItems, productDetailsMap);
 
         var cartDto = new CartDto(
             cart.Id.Value,
             cart.UserId,
             cart.CartType,
             cart.TotalItem,
-            cart.Items.Select(i => new CartItemDto(
+            sortedItems.Select(i => new CartItemDto(
                 i.Id.Value,
                 i.ItemId,
                 null,
@@ -63,5 +68,31 @@ internal sealed class GetPartnerCartQueryHandler : IQueryHandler<GetPartnerCartQ
                 productDetailsMap.TryGetValue(i.ItemId, out var details) ? details : null)).ToList());
 
         return Result.Success(cartDto);
+    }
+
+    private List<CartItem> SortCartItemsByPartnerAndRecent(
+        List<CartItem> cartItems,
+        Dictionary<Guid, ProductDetailsDto> productDetailsMap)
+    {
+        if (!cartItems.Any())
+            return new List<CartItem>();
+
+        var validItems = cartItems
+        .Where(item => productDetailsMap.ContainsKey(item.ItemId))
+        .ToList();
+
+        var groupedByPartner = validItems
+        .GroupBy(item => productDetailsMap[item.ItemId].PartnerId)
+        .Select(group => new
+        {
+            Items = group.OrderByDescending(item => item.CreatedAt).ToList(),
+            MaxAddedAt = group.Max(item => item.CreatedAt)
+        })
+        .OrderByDescending(g => g.MaxAddedAt)
+        .ToList();
+
+        return groupedByPartner
+        .SelectMany(g => g.Items)
+        .ToList();
     }
 }

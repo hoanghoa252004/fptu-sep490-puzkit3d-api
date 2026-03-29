@@ -11,13 +11,16 @@ namespace PuzKit3D.Modules.Partner.Application.UseCases.PartnerProducts.Commands
 internal sealed class CreatePartnerProductCommandHandler : ICommandTHandler<CreatePartnerProductCommand, Guid>
 {
     private readonly IPartnerProductRepository _partnerProductRepository;
+    private readonly IPartnerRepository _partnerRepository;
     private readonly IPartnerUnitOfWork _unitOfWork;
 
     public CreatePartnerProductCommandHandler(
         IPartnerProductRepository partnerProductRepository,
+        IPartnerRepository partnerRepository,
         IPartnerUnitOfWork unitOfWork)
     {
         _partnerProductRepository = partnerProductRepository;
+        _partnerRepository = partnerRepository;
         _unitOfWork = unitOfWork;
     }
 
@@ -25,11 +28,19 @@ internal sealed class CreatePartnerProductCommandHandler : ICommandTHandler<Crea
         CreatePartnerProductCommand request,
         CancellationToken cancellationToken)
     {
-        var existingBySlug = await _partnerProductRepository.GetBySlugAsync(request.Slug, cancellationToken);
-        if (existingBySlug is not null)
+        PartnerProduct? existingProduct = await _partnerProductRepository.GetBySlugAsync(request.Slug, cancellationToken);
+        if (existingProduct is not null)
         {
             return Result.Failure<Guid>(PartnerProductError.DuplicateSlug(request.Slug));
         }
+
+        var partner = await _partnerRepository.GetByIdAsync(PartnerId.From(request.PartnerId), cancellationToken);
+        if (partner is null)
+        {
+            return Result.Failure<Guid>(PartnerError.NotFound(request.PartnerId));
+        }
+
+
 
         return await _unitOfWork.ExecuteAsync(async () =>
         {

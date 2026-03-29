@@ -78,13 +78,4 @@ internal sealed class PartnerProductRepository : IPartnerProductRepository
         _context.PartnerProducts.RemoveRange(entities);
     }
 
-    public async Task DeactivateByPartnerIdAsync(Guid partnerId, CancellationToken cancellationToken = default)
-    {
-        var partnerIdVo = PartnerId.From(partnerId);
-        await _context.PartnerProducts
-            .Where(p => p.PartnerId == partnerIdVo)
-            .ExecuteUpdateAsync(u => u
-                .SetProperty(p => p.IsActive, false)
-                .SetProperty(p => p.UpdatedAt, DateTime.UtcNow), cancellationToken);
     }
-}

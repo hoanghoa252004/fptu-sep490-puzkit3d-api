@@ -5,13 +5,13 @@ namespace PuzKit3D.Modules.Cart.Domain.Entities.Replicas;
 public sealed class PartnerProductReplica : Entity<Guid>
 {
     public Guid PartnerId { get; private set; }
-    public string Name { get; private set; }
+    public string Name { get; private set; } = string.Empty;
     public decimal ReferencePrice { get; private set; }
     public int Quantity { get; private set; }
     public string? Description { get; private set; }
-    public string ThumbnailUrl { get; private set; }
-    public string PreviewAsset { get; private set; }
-    public string Slug { get; private set; }
+    public string ThumbnailUrl { get; private set; } = string.Empty;
+    public string PreviewAsset { get; private set; } = string.Empty;
+    public string Slug { get; private set; } = string.Empty;
     public bool IsActive { get; private set; }
     public DateTime CreatedAt { get; private set; }
     public DateTime UpdatedAt { get; private set; }

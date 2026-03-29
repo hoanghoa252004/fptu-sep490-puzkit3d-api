@@ -30,12 +30,6 @@ internal sealed class AddItemToPartnerCartCommandHandler : ICommandHandler<AddIt
     {
         return await _unitOfWork.ExecuteAsync(async () =>
         {
-            // Check if user is customer
-            if (!_currentUser.IsInRole("CUSTOMER"))
-            {
-                return Result.Failure(CartError.UnauthorizedAccess());
-            }
-
             // Get userId from JWT
             if (!Guid.TryParse(_currentUser.UserId, out Guid customerId))
             {

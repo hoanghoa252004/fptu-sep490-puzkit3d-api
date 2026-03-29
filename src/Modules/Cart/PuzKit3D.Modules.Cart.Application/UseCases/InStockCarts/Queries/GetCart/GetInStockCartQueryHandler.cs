@@ -61,7 +61,9 @@ internal sealed class GetInStockCartQueryHandler : IQueryHandler<GetInStockCartQ
                     kvp.Value.AssembledWidthMm,
                     kvp.Value.AssembledHeightMm,
                     product != null ? _assetUrlService.BuildAssetUrl(product.ThumbnailUrl) : null,
-                    kvp.Value.IsActive);
+                    kvp.Value.IsActive,
+                    null,
+                    null);
             });
 
         // Get price details for all cart items

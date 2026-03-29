@@ -9,17 +9,17 @@ namespace PuzKit3D.Modules.Partner.Application.UseCases.Partners.Commands.Delete
 internal sealed class DeletePartnerCommandHandler : ICommandHandler<DeletePartnerCommand>
 {
     private readonly IPartnerRepository _partnerRepository;
+    private readonly IPartnerProductRepository _partnerProductRepository;
     private readonly IPartnerUnitOfWork _unitOfWork;
-    private readonly IServiceProvider _serviceProvider;
 
     public DeletePartnerCommandHandler(
         IPartnerRepository partnerRepository,
-        IPartnerUnitOfWork unitOfWork,
-        IServiceProvider serviceProvider)
+        IPartnerProductRepository partnerProductRepository,
+        IPartnerUnitOfWork unitOfWork)
     {
         _partnerRepository = partnerRepository;
+        _partnerProductRepository = partnerProductRepository;
         _unitOfWork = unitOfWork;
-        _serviceProvider = serviceProvider;
     }
 
     public async Task<Result> Handle(
@@ -42,7 +42,13 @@ internal sealed class DeletePartnerCommandHandler : ICommandHandler<DeletePartne
 
         return await _unitOfWork.ExecuteAsync<Result>(async () =>
         {
-            // Soft delete the partner
+            var products = await _partnerProductRepository.FindByPartnerIdAsync(request.Id, cancellationToken);
+            foreach (var product in products.Where(p => p.IsActive))
+            {
+                product.Deactivate();
+                _partnerProductRepository.Update(product);
+            }
+
             partner.Deactivate();
             _partnerRepository.Update(partner);
 
