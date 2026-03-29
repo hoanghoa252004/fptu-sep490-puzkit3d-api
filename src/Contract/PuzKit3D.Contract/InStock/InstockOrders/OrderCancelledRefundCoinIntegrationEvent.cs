@@ -9,4 +9,6 @@ public sealed record OrderCancelledRefundCoinIntegrationEvent(
     string OrderCode,
     Guid CustomerId,
     decimal GrandTotalAmount,
+    int UsedCoinAmount,
+    string PaymentMethod,
     DateTime CancelledAt) : IIntegrationEvent;

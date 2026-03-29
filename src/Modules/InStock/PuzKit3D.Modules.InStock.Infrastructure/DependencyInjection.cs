@@ -31,6 +31,8 @@ public static class DependencyInjection
         // Register Integration Event Handlers - Delivery Events
         services.AddScoped<IIntegrationEventHandler<OrderDeliveredIntegrationEvent>,
             OrderDeliveredIntegrationEventHandler>();
+        services.AddScoped<IIntegrationEventHandler<OrderReturnedIntegrationEvent>,
+            OrderReturnedIntegrationEventHandler>();
 
         // Register Integration Event Handlers - Catalog AssemblyMethod Events
         services.AddScoped<IIntegrationEventHandler<AssemblyMethodCreatedIntegrationEvent>,

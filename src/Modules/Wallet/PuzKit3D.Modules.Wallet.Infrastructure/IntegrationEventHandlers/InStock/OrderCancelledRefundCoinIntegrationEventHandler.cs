@@ -29,8 +29,23 @@ internal sealed class OrderCancelledRefundCoinIntegrationEventHandler
             return;
         }
 
+        decimal refundCoin = 0;
+
+        if (@event.PaymentMethod.Equals("COD", StringComparison.OrdinalIgnoreCase) && @event.UsedCoinAmount > 0)
+        {
+            refundCoin = @event.UsedCoinAmount;
+        }
+        else // Online or COIN
+        {
+            refundCoin = @event.GrandTotalAmount + @event.UsedCoinAmount;
+        }
+        if(refundCoin <= 0)
+        {
+            // No coins to refund, skip
+            return;
+        }
         // Refund coins equal to the grand total amount
-        var refundCoinResult = wallet.RefundCoin(@event.GrandTotalAmount);
+        var refundCoinResult = wallet.RefundCoin(refundCoin);
         if (refundCoinResult.IsFailure)
         {
             throw new InvalidOperationException($"Failed to refund coins to wallet: {refundCoinResult.Error.Message}");
@@ -39,7 +54,7 @@ internal sealed class OrderCancelledRefundCoinIntegrationEventHandler
         // Create wallet transaction record for the refund
         var transactionResult = WalletTransaction.Create(
             userId: @event.CustomerId,
-            amount: @event.GrandTotalAmount,
+            amount: refundCoin,
             type: WalletTransactionType.Refund,
             orderId: @event.OrderId);
 

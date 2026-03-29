@@ -29,7 +29,7 @@ public sealed class OrderReturnRefundCoinIntegrationEventHandler : IIntegrationE
         CancellationToken cancellationToken)
     {
         // Find user's wallet by userId
-        var walletResult = await _walletRepository.GetByUserIdAsync(@event.OrderId, cancellationToken);
+        var walletResult = await _walletRepository.GetByUserIdAsync(@event.UserId, cancellationToken);
 
         Domain.Entities.Wallets.Wallet walletEntity;
         if (walletResult.IsFailure || walletResult.Value == null)
@@ -48,7 +48,19 @@ public sealed class OrderReturnRefundCoinIntegrationEventHandler : IIntegrationE
         }
 
         // Refund 80% of the order amount as coins
-        var refundAmount = @event.GrandTotalAmount * 0.8m;
+        decimal refundAmount = 0;
+
+        if (@event.PaymentMethod.Equals("Online", StringComparison.OrdinalIgnoreCase) || @event.PaymentMethod.Equals("COIN", StringComparison.OrdinalIgnoreCase))
+        {
+            refundAmount = @event.GrandTotalAmount + @event.UsedCoinAmount * 0.8m;
+        }
+        else if (@event.PaymentMethod.Equals("COD", StringComparison.OrdinalIgnoreCase))
+        {
+            refundAmount = @event.UsedCoinAmount - @event.ShippingFee;
+        }
+
+        if (refundAmount <= 0)
+            return;
 
         // Add coins to wallet (refund)
         var refundResult = walletEntity.RefundCoin(refundAmount);
