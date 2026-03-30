@@ -28,6 +28,7 @@ public sealed class InstockOrder : AggregateRoot<InstockOrderId>
     public string PaymentMethod { get; private set; } = null!;
     public bool IsPaid { get; private set; }
     public DateTime? PaidAt { get; private set; }
+    public DateTime? MustCompleteBefore { get; private set; }
     //public string? DeliveryOrderCode { get; private set; }
     //public DateTime? ExpectedDeliveryDate { get; private set; }
     //public string? HandoverProofImageUrl { get; private set; }
@@ -282,6 +283,13 @@ public sealed class InstockOrder : AggregateRoot<InstockOrderId>
         Status = InstockOrderStatus.Expired;
         UpdatedAt = DateTime.UtcNow;
 
+        return Result.Success();
+    }
+
+    public Result SetMustCompleteBefore(DateTime mustCompleteBefore)
+    {
+        MustCompleteBefore = mustCompleteBefore;
+        UpdatedAt = DateTime.UtcNow;
         return Result.Success();
     }
 

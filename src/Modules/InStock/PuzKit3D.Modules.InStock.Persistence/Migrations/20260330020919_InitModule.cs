@@ -53,6 +53,20 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "instock_order_configs",
+                schema: "instock",
+                columns: table => new
+                {
+                    id = table.Column<Guid>(type: "uuid", nullable: false),
+                    order_must_complete_in_days = table.Column<int>(type: "integer", nullable: false),
+                    updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_instock_order_configs", x => x.id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "instock_orders",
                 schema: "instock",
                 columns: table => new
@@ -76,7 +90,8 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                     updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     payment_method = table.Column<string>(type: "character varying(10)", maxLength: 10, nullable: false),
                     is_paid = table.Column<bool>(type: "boolean", nullable: false, defaultValue: false),
-                    paid_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
+                    paid_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    must_complete_before = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -406,6 +421,12 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                     { new Guid("e1e1e1e1-e1e1-e1e1-e1e1-e1e1e1e1e1e1"), new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "Static model for display only", true, "Static Display", "static-display", new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc) },
                     { new Guid("f2f2f2f2-f2f2-f2f2-f2f2-f2f2f2f2f2f2"), new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "Model with electric motor-powered movement", true, "Move with Motor", "move-with-motor", new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc) }
                 });
+
+            migrationBuilder.InsertData(
+                schema: "instock",
+                table: "instock_order_configs",
+                columns: new[] { "id", "order_must_complete_in_days", "updated_at" },
+                values: new object[] { new Guid("00000000-0000-0000-0000-000000000002"), 7, new DateTime(2026, 3, 30, 0, 0, 0, 0, DateTimeKind.Utc) });
 
             migrationBuilder.InsertData(
                 schema: "instock",
@@ -828,6 +849,10 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
 
             migrationBuilder.DropTable(
                 name: "instock_inventories",
+                schema: "instock");
+
+            migrationBuilder.DropTable(
+                name: "instock_order_configs",
                 schema: "instock");
 
             migrationBuilder.DropTable(
