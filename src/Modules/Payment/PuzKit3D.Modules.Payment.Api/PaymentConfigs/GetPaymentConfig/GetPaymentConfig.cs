@@ -13,7 +13,7 @@ internal sealed class GetPaymentConfig : IEndpoint
 {
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapGet("api/payments/config", async (
+        app.MapGet("api/configs/payment", async (
                 ISender sender,
                 CancellationToken cancellationToken) =>
             {
@@ -24,7 +24,7 @@ internal sealed class GetPaymentConfig : IEndpoint
             .WithTags("Payment Configs")
             .WithName("GetPaymentConfig")
             .WithSummary("Get payment configuration")
-            .RequireAuthorization(policy => policy.RequireRole(Roles.SystemAdministrator, Roles.BusinessManager))
+            .AllowAnonymous()
             .Produces<GetPaymentConfigResponse>(StatusCodes.Status200OK)
             .ProducesProblem(StatusCodes.Status404NotFound)
             .ProducesProblem(StatusCodes.Status500InternalServerError);

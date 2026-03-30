@@ -15,6 +15,22 @@ namespace PuzKit3D.Modules.Wallet.Persistence.Migrations
                 name: "wallet");
 
             migrationBuilder.CreateTable(
+                name: "wallet_configs",
+                schema: "wallet",
+                columns: table => new
+                {
+                    id = table.Column<Guid>(type: "uuid", nullable: false),
+                    online_order_return_percentage = table.Column<decimal>(type: "numeric(5,2)", nullable: false),
+                    online_order_completed_reward_percentage = table.Column<decimal>(type: "numeric(5,2)", nullable: false),
+                    cod_order_completed_reward_percentage = table.Column<decimal>(type: "numeric(5,2)", nullable: false),
+                    updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_wallet_configs", x => x.id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "wallet_transactions",
                 schema: "wallet",
                 columns: table => new
@@ -46,6 +62,12 @@ namespace PuzKit3D.Modules.Wallet.Persistence.Migrations
                 {
                     table.PrimaryKey("pk_wallets", x => x.id);
                 });
+
+            migrationBuilder.InsertData(
+                schema: "wallet",
+                table: "wallet_configs",
+                columns: new[] { "id", "cod_order_completed_reward_percentage", "online_order_completed_reward_percentage", "online_order_return_percentage", "updated_at" },
+                values: new object[] { new Guid("00000000-0000-0000-0000-000000000003"), 2m, 5m, 80m, new DateTime(2026, 3, 30, 0, 0, 0, 0, DateTimeKind.Utc) });
 
             migrationBuilder.CreateIndex(
                 name: "ix_wallet_transactions_order_id",
@@ -82,6 +104,10 @@ namespace PuzKit3D.Modules.Wallet.Persistence.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "wallet_configs",
+                schema: "wallet");
+
             migrationBuilder.DropTable(
                 name: "wallet_transactions",
                 schema: "wallet");

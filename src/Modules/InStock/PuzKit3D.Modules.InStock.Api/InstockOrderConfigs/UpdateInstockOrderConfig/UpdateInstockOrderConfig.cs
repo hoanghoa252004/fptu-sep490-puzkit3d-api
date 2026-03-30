@@ -14,7 +14,7 @@ internal sealed class UpdateInstockOrderConfig : IEndpoint
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
         app.MapOrdersGroup()
-            .MapPut("/config", async (
+            .MapPut("api/configs/order", async (
                 UpdateInstockOrderConfigRequest request,
                 ISender sender,
                 CancellationToken cancellationToken) =>

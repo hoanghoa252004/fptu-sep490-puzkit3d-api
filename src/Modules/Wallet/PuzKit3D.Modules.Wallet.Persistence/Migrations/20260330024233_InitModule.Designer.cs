@@ -12,7 +12,7 @@ using PuzKit3D.Modules.Wallet.Persistence;
 namespace PuzKit3D.Modules.Wallet.Persistence.Migrations
 {
     [DbContext(typeof(WalletDbContext))]
-    [Migration("20260324043556_InitModule")]
+    [Migration("20260330024233_InitModule")]
     partial class InitModule
     {
         /// <inheritdoc />
@@ -25,6 +25,45 @@ namespace PuzKit3D.Modules.Wallet.Persistence.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
+
+            modelBuilder.Entity("PuzKit3D.Modules.Wallet.Domain.Entities.WalletConfigs.WalletConfig", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<decimal>("CODOrderCompletedRewardPercentage")
+                        .HasColumnType("decimal(5,2)")
+                        .HasColumnName("cod_order_completed_reward_percentage");
+
+                    b.Property<decimal>("OnlineOrderCompletedRewardPercentage")
+                        .HasColumnType("decimal(5,2)")
+                        .HasColumnName("online_order_completed_reward_percentage");
+
+                    b.Property<decimal>("OnlineOrderReturnPercentage")
+                        .HasColumnType("decimal(5,2)")
+                        .HasColumnName("online_order_return_percentage");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("updated_at");
+
+                    b.HasKey("Id")
+                        .HasName("pk_wallet_configs");
+
+                    b.ToTable("wallet_configs", "wallet");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("00000000-0000-0000-0000-000000000003"),
+                            CODOrderCompletedRewardPercentage = 2m,
+                            OnlineOrderCompletedRewardPercentage = 5m,
+                            OnlineOrderReturnPercentage = 80m,
+                            UpdatedAt = new DateTime(2026, 3, 30, 0, 0, 0, 0, DateTimeKind.Utc)
+                        });
+                });
 
             modelBuilder.Entity("PuzKit3D.Modules.Wallet.Domain.Entities.WalletTransactions.WalletTransaction", b =>
                 {

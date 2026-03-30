@@ -147,6 +147,7 @@ app.UseSwaggerUI(options =>
     options.SwaggerEndpoint("/swagger/media/swagger.json", "Media Storage API");
     options.SwaggerEndpoint("/swagger/delivery/swagger.json", "Delivery Tracking API");
     options.SwaggerEndpoint("/swagger/after-sale/swagger.json", "After Sale API");
+    options.SwaggerEndpoint("/swagger/config/swagger.json", "Business Rule Config API");
     // Main API document
     options.SwaggerEndpoint("/swagger/v1/swagger.json", "All Modules");
 

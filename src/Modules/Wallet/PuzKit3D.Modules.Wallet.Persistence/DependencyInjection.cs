@@ -38,6 +38,7 @@ public static class DependencyInjection
         services.AddScoped<IWalletUnitOfWork>(sp => sp.GetRequiredService<WalletDbContext>());
         services.AddScoped<IWalletRepository, WalletRepository>();
         services.AddScoped<IWalletTransactionRepository, WalletTransactionRepository>();
+        services.AddScoped<IWalletConfigRepository, WalletConfigRepository>();
 
         return services;
     }

@@ -80,6 +80,13 @@ internal static class SwaggerExtensions
                 Description = "APIs for feedback, support ticket processing"
             });
 
+            options.SwaggerDoc("config", new OpenApiInfo
+            {
+                Title = "Business Rule Config API",
+                Version = "v1",
+                Description = "APIs for Business Rule Config"
+            });
+
 
 
             // Group endpoints by module based on route prefix
@@ -126,6 +133,8 @@ internal static class SwaggerExtensions
 
                     "after-sale" => routePath.Contains("feedback")
                                 || routePath.StartsWith("api/support-tickets"),
+
+                    "config" => routePath.Contains("config"),
 
                     _ => false
                 };

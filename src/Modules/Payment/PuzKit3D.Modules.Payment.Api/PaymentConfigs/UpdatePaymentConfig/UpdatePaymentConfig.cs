@@ -13,7 +13,7 @@ internal sealed class UpdatePaymentConfig : IEndpoint
 {
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapPut("api/payments/config", async (
+        app.MapPut("api/configs/payment", async (
                 UpdatePaymentConfigRequest request,
                 ISender sender,
                 CancellationToken cancellationToken) =>
