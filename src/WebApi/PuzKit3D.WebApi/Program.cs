@@ -126,6 +126,7 @@ builder.Services.AddPartnerInfrastructure();
 // Add Background Services (Cronjobs)
 builder.Services.AddHostedService<PaymentExpiryCheckService>();
 builder.Services.AddHostedService<OrderCompletionCheckService>();
+builder.Services.AddHostedService<DeliveryTrackingUpdateStatusService>();
 
 var app = builder.Build();
 
