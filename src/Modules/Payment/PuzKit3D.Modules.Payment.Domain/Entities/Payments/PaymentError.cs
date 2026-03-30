@@ -43,5 +43,13 @@ public static class PaymentError
 
     public static Error ActiveTransactionExists() =>
         Error.Validation("Payment.ActiveTransactionExists", "An active payment transaction already exists. Please wait for it to expire before creating a new one.");
-}
 
+    public static Error PaymentConfigNotFound() =>
+        Error.NotFound("Payment.PaymentConfigNotFound", "Payment configuration was not found.");
+
+    public static Error InvalidOnlinePaymentExpiredInDays() =>
+        Error.Validation("Payment.InvalidOnlinePaymentExpiredInDays", "Online payment expiration must be at least 1 day and not > 10 days.");
+
+    public static Error InvalidOnlineTransactionExpiredInMinutes() =>
+        Error.Validation("Payment.InvalidOnlineTransactionExpiredInMinutes", "Online transaction expiration must be at least 5 minutes and not > 60 minutes.");
+}

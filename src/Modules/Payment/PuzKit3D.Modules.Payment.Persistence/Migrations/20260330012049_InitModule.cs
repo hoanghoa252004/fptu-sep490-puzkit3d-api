@@ -37,6 +37,21 @@ namespace PuzKit3D.Modules.Payment.Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "payment_configs",
+                schema: "payment",
+                columns: table => new
+                {
+                    id = table.Column<Guid>(type: "uuid", nullable: false),
+                    online_payment_expired_in_days = table.Column<int>(type: "integer", nullable: false),
+                    online_transaction_expired_in_minutes = table.Column<int>(type: "integer", nullable: false),
+                    updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_payment_configs", x => x.id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "payments",
                 schema: "payment",
                 columns: table => new
@@ -86,6 +101,12 @@ namespace PuzKit3D.Modules.Payment.Persistence.Migrations
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.InsertData(
+                schema: "payment",
+                table: "payment_configs",
+                columns: new[] { "id", "online_payment_expired_in_days", "online_transaction_expired_in_minutes", "updated_at" },
+                values: new object[] { new Guid("00000000-0000-0000-0000-000000000001"), 2, 10, new DateTime(2025, 3, 30, 0, 0, 0, 0, DateTimeKind.Utc) });
 
             migrationBuilder.CreateIndex(
                 name: "ix_order_replicas_code",
@@ -142,6 +163,10 @@ namespace PuzKit3D.Modules.Payment.Persistence.Migrations
         {
             migrationBuilder.DropTable(
                 name: "order_replicas",
+                schema: "payment");
+
+            migrationBuilder.DropTable(
+                name: "payment_configs",
                 schema: "payment");
 
             migrationBuilder.DropTable(
