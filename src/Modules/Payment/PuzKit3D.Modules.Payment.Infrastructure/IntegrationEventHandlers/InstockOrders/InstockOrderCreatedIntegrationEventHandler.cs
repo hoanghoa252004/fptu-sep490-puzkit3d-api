@@ -5,6 +5,7 @@ using PuzKit3D.Modules.Payment.Domain.Entities.Payments;
 using PuzKit3D.Modules.Payment.Persistence;
 using PuzKit3D.SharedKernel.Application.Event;
 using PuzKit3D.SharedKernel.Application.Exceptions;
+using Microsoft.EntityFrameworkCore;
 
 namespace PuzKit3D.Modules.Payment.Infrastructure.IntegrationEventHandlers.InstockOrders;
 
@@ -26,6 +27,10 @@ internal sealed class InstockOrderCreatedIntegrationEventHandler
         InstockOrderCreatedIntegrationEvent @event,
         CancellationToken cancellationToken = default)
     {
+        // Get PaymentConfig from database, use default values if not found
+        var paymentConfig = await _dbContext.PaymentConfigs.FirstOrDefaultAsync(cancellationToken);
+        var onlinePaymentExpiredInDays = paymentConfig?.OnlinePaymentExpiredInDays ?? 1;
+
         var orderReplica = OrderReplica.Create(
             @event.OrderId,
             OrderType.Instock,
@@ -71,7 +76,8 @@ internal sealed class InstockOrderCreatedIntegrationEventHandler
                 referenceOrderId: @event.OrderId,
                 referenceOrderType: OrderType.Instock,
                 amount: @event.GrandTotalAmount,
-                paymentMethod: @event.PaymentMethod);
+                paymentMethod: @event.PaymentMethod,
+                expirationDays: onlinePaymentExpiredInDays);
 
             if (paymentResult.IsFailure)
             {

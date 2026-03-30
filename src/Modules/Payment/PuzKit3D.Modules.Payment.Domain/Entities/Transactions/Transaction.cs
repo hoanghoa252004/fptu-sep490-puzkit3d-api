@@ -46,7 +46,8 @@ public class Transaction : Entity<TransactionId>
         PaymentId paymentId,
         string provider,
         TransactionStatus status,
-        decimal amount)
+        decimal amount,
+        int expirationMinutes = 5)
     {
         if (paymentId is null)
             return Result.Failure<Transaction>(TransactionError.InvalidPaymentId());
@@ -66,7 +67,7 @@ public class Transaction : Entity<TransactionId>
             provider,
             status,
             amount,
-            DateTime.UtcNow.AddMinutes(5),
+            DateTime.UtcNow.AddMinutes(expirationMinutes),
             DateTime.UtcNow
         );
 

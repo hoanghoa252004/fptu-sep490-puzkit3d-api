@@ -12,7 +12,7 @@ using PuzKit3D.Modules.Payment.Persistence;
 namespace PuzKit3D.Modules.Payment.Persistence.Migrations
 {
     [DbContext(typeof(PaymentDbContext))]
-    [Migration("20260323142817_InitModule")]
+    [Migration("20260330012049_InitModule")]
     partial class InitModule
     {
         /// <inheritdoc />
@@ -93,6 +93,40 @@ namespace PuzKit3D.Modules.Payment.Persistence.Migrations
                         .HasDatabaseName("ix_order_replicas_type");
 
                     b.ToTable("order_replicas", "payment");
+                });
+
+            modelBuilder.Entity("PuzKit3D.Modules.Payment.Domain.Entities.PaymentConfigs.PaymentConfig", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<int>("OnlinePaymentExpiredInDays")
+                        .HasColumnType("integer")
+                        .HasColumnName("online_payment_expired_in_days");
+
+                    b.Property<int>("OnlineTransactionExpiredInMinutes")
+                        .HasColumnType("integer")
+                        .HasColumnName("online_transaction_expired_in_minutes");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("updated_at");
+
+                    b.HasKey("Id")
+                        .HasName("pk_payment_configs");
+
+                    b.ToTable("payment_configs", "payment");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("00000000-0000-0000-0000-000000000001"),
+                            OnlinePaymentExpiredInDays = 2,
+                            OnlineTransactionExpiredInMinutes = 10,
+                            UpdatedAt = new DateTime(2025, 3, 30, 0, 0, 0, 0, DateTimeKind.Utc)
+                        });
                 });
 
             modelBuilder.Entity("PuzKit3D.Modules.Payment.Domain.Entities.Payments.Payment", b =>

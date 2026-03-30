@@ -49,7 +49,8 @@ public class Payment : AggregateRoot<PaymentId>
         Guid referenceOrderId,
         string referenceOrderType,
         decimal amount,
-        string paymentMethod)
+        string paymentMethod,
+        int expirationDays = 1)
     {
         if (referenceOrderId == Guid.Empty)
             return Result.Failure<Payment>(PaymentError.InvalidReferenceOrderId());
@@ -65,7 +66,7 @@ public class Payment : AggregateRoot<PaymentId>
 
         var now = DateTime.UtcNow;
         var expiredAt = paymentMethod.Equals("Online", StringComparison.OrdinalIgnoreCase)
-            ? now.AddDays(1)
+            ? now.AddDays(expirationDays)
             : now.AddMonths(1);
 
         var payment = new Payment(
