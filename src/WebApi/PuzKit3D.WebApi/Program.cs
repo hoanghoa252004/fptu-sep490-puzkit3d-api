@@ -47,6 +47,7 @@ using PuzKit3D.Modules.Wallet.Persistence;
 using PuzKit3D.SharedKernel.Api.Endpoint;
 using PuzKit3D.SharedKernel.Application;
 using PuzKit3D.SharedKernel.Infrastructure;
+using PuzKit3D.WebApi.BackgroundJobs;
 using PuzKit3D.WebApi.DependencyInjection.Extensions;
 using PuzKit3D.WebApi.Middleware;
 
@@ -121,6 +122,10 @@ builder.Services.AddDeliveryInfrastructure(builder.Configuration, builder.Enviro
 builder.Services.AddSupportTicketInfrastructure();
 builder.Services.AddWalletInfrastructure(builder.Configuration); 
 builder.Services.AddPartnerInfrastructure();
+
+// Add Background Services (Cronjobs)
+builder.Services.AddHostedService<PaymentExpiryCheckService>();
+builder.Services.AddHostedService<OrderCompletionCheckService>();
 
 var app = builder.Build();
 

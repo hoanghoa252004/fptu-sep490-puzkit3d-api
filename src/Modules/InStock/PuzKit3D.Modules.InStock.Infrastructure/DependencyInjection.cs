@@ -13,6 +13,7 @@ using PuzKit3D.Modules.InStock.Infrastructure.IntegrationEventHandlers.Catalog.M
 using PuzKit3D.Modules.InStock.Infrastructure.IntegrationEventHandlers.Catalog.Topics;
 using PuzKit3D.Modules.InStock.Infrastructure.IntegrationEventHandlers.DeliveryTrackings;
 using PuzKit3D.Modules.InStock.Infrastructure.IntegrationEventHandlers.InstockOrders;
+using PuzKit3D.Modules.InStock.Infrastructure.IntegrationEventHandlers.Payments;
 using PuzKit3D.Modules.InStock.Infrastructure.IntegrationEventHandlers.SupportTickets;
 using PuzKit3D.SharedKernel.Application.Event;
 
@@ -33,6 +34,10 @@ public static class DependencyInjection
             OrderDeliveredIntegrationEventHandler>();
         services.AddScoped<IIntegrationEventHandler<OrderReturnedIntegrationEvent>,
             OrderReturnedIntegrationEventHandler>();
+
+        // Register Integration Event Handlers - Payment Events
+        services.AddScoped<IIntegrationEventHandler<OrderExpiredToDoPaymentIntegrationEvent>,
+            OrderExpiredToDoPaymentIntegrationEventHandler>();
 
         // Register Integration Event Handlers - Catalog AssemblyMethod Events
         services.AddScoped<IIntegrationEventHandler<AssemblyMethodCreatedIntegrationEvent>,
