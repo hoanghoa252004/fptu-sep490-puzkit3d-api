@@ -1,3 +1,5 @@
+using PuzKit3D.Modules.Partner.Domain.Entities.PartnerProductRequests;
+
 namespace PuzKit3D.Modules.Partner.Application.UseCases.PartnerProductRequests.Queries.GetManagerPartnerProductRequests;
 
 public sealed record GetManagerPartnerProductRequestsResponseDto(
@@ -8,5 +10,5 @@ public sealed record GetManagerPartnerProductRequestsResponseDto(
     DateTime DesiredDeliveryDate,
     int TotalRequestedQuantity,
     string? Note,
-    int Status,
+    PartnerProductRequestStatus Status,
     DateTime CreatedAt);

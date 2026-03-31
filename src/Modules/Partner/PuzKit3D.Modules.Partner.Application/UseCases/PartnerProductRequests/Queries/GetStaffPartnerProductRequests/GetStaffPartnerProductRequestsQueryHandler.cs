@@ -24,9 +24,9 @@ internal sealed class GetStaffPartnerProductRequestsQueryHandler
         var allRequests = await _repository.GetAllAsync(cancellationToken);
         // Staff can see: Pending, Approved, RejectedByStaff
         var allowedStatuses = new[] { 
-            (int)PartnerProductRequestStatus.Pending, 
-            (int)PartnerProductRequestStatus.Approved, 
-            (int)PartnerProductRequestStatus.RejectedByStaff 
+            PartnerProductRequestStatus.Pending, 
+            PartnerProductRequestStatus.Approved, 
+            PartnerProductRequestStatus.RejectedByStaff 
         };
         
         var query = allRequests

@@ -40,7 +40,9 @@ internal sealed class GetPartnerProductRequestDetailQueryHandler
             .Select(d => new RequestDetailItemDto(
                 d.Id.Value,
                 d.PartnerProductId.Value,
-                d.Quantity))
+                d.Quantity,
+                d.ReferenceUnitPrice,
+                d.ReferenceTotalAmount))
             .ToList();
 
         var dto = new GetPartnerProductRequestDetailResponseDto(

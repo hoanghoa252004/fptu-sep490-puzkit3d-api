@@ -30,4 +30,10 @@ public static class EndpointGroupExtension
         return app.MapGroup($"{ApiRoutes.ApiPrefix}/partner-product-requests")
             .WithTags("Partner Product Requests");
     }
+
+    public static RouteGroupBuilder MapPartnerProductQuotationsGroup(this IEndpointRouteBuilder app)
+    {
+        return app.MapGroup($"{ApiRoutes.ApiPrefix}/partner-quotations")
+            .WithTags("Partner Product Quotations");
+    }
 }

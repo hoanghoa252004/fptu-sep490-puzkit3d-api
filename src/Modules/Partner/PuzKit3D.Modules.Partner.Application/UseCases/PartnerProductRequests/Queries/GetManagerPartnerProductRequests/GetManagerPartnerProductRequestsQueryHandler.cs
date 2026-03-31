@@ -24,10 +24,10 @@ internal sealed class GetManagerPartnerProductRequestsQueryHandler
         var allRequests = await _repository.GetAllAsync(cancellationToken);
         // Manager can see: Approved, Quoted, Rejected, Cancelled
         var allowedStatuses = new[] { 
-            (int)PartnerProductRequestStatus.Approved, 
-            (int)PartnerProductRequestStatus.Quoted,
-            (int)PartnerProductRequestStatus.RejectedByStaff,
-            (int)PartnerProductRequestStatus.Cancelled
+            PartnerProductRequestStatus.Approved, 
+            PartnerProductRequestStatus.Quoted,
+            PartnerProductRequestStatus.RejectedByStaff,
+            PartnerProductRequestStatus.Cancelled
         };
         
         var query = allRequests

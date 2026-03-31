@@ -9,11 +9,14 @@ internal sealed class GetPartnerProductRequestByIdQueryHandler
     : IQueryHandler<GetPartnerProductRequestByIdQuery, object>
 {
     private readonly IPartnerProductRequestRepository _repository;
+    private readonly IPartnerProductRequestDetailRepository _detailRepository;
 
     public GetPartnerProductRequestByIdQueryHandler(
-        IPartnerProductRequestRepository repository)
+        IPartnerProductRequestRepository repository,
+        IPartnerProductRequestDetailRepository detailRepository)
     {
         _repository = repository;
+        _detailRepository = detailRepository;
     }
 
     public async Task<ResultT<object>> Handle(
@@ -29,6 +32,19 @@ internal sealed class GetPartnerProductRequestByIdQueryHandler
             return Result.Failure<object>(PartnerProductRequestError.NotFound(request.Id));
         }
 
+        var details = await _detailRepository.FindByRequestIdAsync(
+            PartnerProductRequestId.From(request.Id),
+            cancellationToken);
+
+        var detailDtos = details
+            .Select(d => new RequestDetailItemDto(
+                d.Id.Value,
+                d.PartnerProductId.Value,
+                d.Quantity,
+                d.ReferenceUnitPrice,
+                d.ReferenceTotalAmount))
+            .ToList();
+
         var dto = new GetPartnerProductRequestByIdResponseDto(
             req.Id.Value,
             req.Code,
@@ -39,7 +55,8 @@ internal sealed class GetPartnerProductRequestByIdQueryHandler
             req.Note,
             req.Status,
             req.CreatedAt,
-            req.UpdatedAt);
+            req.UpdatedAt,
+            detailDtos);
 
         return Result.Success((object)dto);
     }

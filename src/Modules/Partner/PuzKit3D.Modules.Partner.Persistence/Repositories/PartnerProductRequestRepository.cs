@@ -59,4 +59,11 @@ internal sealed class PartnerProductRequestRepository : IPartnerProductRequestRe
     {
         _context.PartnerProductRequests.RemoveRange(entities);
     }
+
+    public async Task<PartnerProductRequest?> GetDetailByIdAsync(PartnerProductRequestId id, CancellationToken cancellationToken)
+    {
+        return await _context.PartnerProductRequests
+            .Include(r => r.Details)
+            .FirstOrDefaultAsync(r => r.Id == id, cancellationToken);
+    }
 }

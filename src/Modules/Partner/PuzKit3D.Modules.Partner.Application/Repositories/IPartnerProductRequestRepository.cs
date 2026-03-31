@@ -5,4 +5,5 @@ namespace PuzKit3D.Modules.Partner.Application.Repositories;
 
 public interface IPartnerProductRequestRepository : IRepositoryBase<Domain.Entities.PartnerProductRequests.PartnerProductRequest, PartnerProductRequestId>
 {
+    Task<PartnerProductRequest?> GetDetailByIdAsync(PartnerProductRequestId id, CancellationToken cancellationToken);
 }

@@ -19,4 +19,8 @@ public static class PartnerProductQuotationError
     public static Error NotFoundByCode(string code) => Error.NotFound(
         "PartnerProductQuotation.NotFoundByCode",
         $"Partner product quotation with code '{code}' was not found.");
+
+    public static Error DuplicateRequestId(Guid partnerProductRequestId) => Error.Validation(
+        "PartnerProductQuotation.DuplicateRequestId",
+        $"Partner product quotation with request ID '{partnerProductRequestId}' already exists.");
 }

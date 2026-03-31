@@ -1,3 +1,4 @@
+using PuzKit3D.Modules.Partner.Domain.Entities.PartnerProductQuotationDetails;
 using PuzKit3D.Modules.Partner.Domain.Entities.PartnerProductRequests;
 using PuzKit3D.SharedKernel.Domain;
 using PuzKit3D.SharedKernel.Domain.Results;
@@ -15,9 +16,12 @@ public class PartnerProductQuotation : AggregateRoot<PartnerProductQuotationId>
     public decimal GrandTotalAmount { get; private set; }
     public DateTime ExpectedDeliveryDate { get; private set; }
     public string? Note { get; private set; }
-    public int Status { get; private set; }
+    public PartnerProductQuotationStatus Status { get; private set; }
     public DateTime CreatedAt { get; private set; }
     public DateTime UpdatedAt { get; private set; }
+
+    private readonly List<PartnerProductQuotationDetail> _details = new();
+    public IReadOnlyList<PartnerProductQuotationDetail> Details => _details;
 
     private PartnerProductQuotation(
         PartnerProductQuotationId id,
@@ -30,7 +34,7 @@ public class PartnerProductQuotation : AggregateRoot<PartnerProductQuotationId>
         decimal grandTotalAmount,
         DateTime expectedDeliveryDate,
         string? note,
-        int status,
+        PartnerProductQuotationStatus status,
         DateTime createdAt) : base(id)
     {
         Code = code;
@@ -59,8 +63,6 @@ public class PartnerProductQuotation : AggregateRoot<PartnerProductQuotationId>
         decimal shippingFee,
         decimal importTaxAmount,
         DateTime expectedDeliveryDate,
-        string? note = null,
-        int status = 0,
         DateTime? createdAt = null)
     {
         if (string.IsNullOrWhiteSpace(code))
@@ -84,17 +86,22 @@ public class PartnerProductQuotation : AggregateRoot<PartnerProductQuotationId>
             importTaxAmount,
             grandTotalAmount,
             expectedDeliveryDate,
-            note,
-            status,
+            null,
+            PartnerProductQuotationStatus.Pending,
             timestamp);
 
         return Result.Success(quotation);
     }
 
-    public Result UpdateStatus(int status)
+    //public Result UpdateStatus(int status)
+    //{
+    //    Status = status;
+    //    UpdatedAt = DateTime.UtcNow;
+    //    return Result.Success();
+    //}
+
+    public void AddDetail(PartnerProductQuotationDetail detail)
     {
-        Status = status;
-        UpdatedAt = DateTime.UtcNow;
-        return Result.Success();
+        _details.Add(detail);
     }
 }

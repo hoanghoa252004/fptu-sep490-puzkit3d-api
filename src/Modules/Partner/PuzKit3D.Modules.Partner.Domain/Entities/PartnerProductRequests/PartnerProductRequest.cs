@@ -15,7 +15,7 @@ public class PartnerProductRequest : AggregateRoot<PartnerProductRequestId>
     public DateTime DesiredDeliveryDate { get; private set; }
     public int TotalRequestedQuantity { get; private set; }
     public string? Note { get; private set; }
-    public int Status { get; private set; }
+    public PartnerProductRequestStatus Status { get; private set; }
     public DateTime CreatedAt { get; private set; }
     public DateTime UpdatedAt { get; private set; }
 
@@ -30,7 +30,7 @@ public class PartnerProductRequest : AggregateRoot<PartnerProductRequestId>
         DateTime desiredDeliveryDate,
         int totalRequestedQuantity,
         string? note,
-        int status,
+        PartnerProductRequestStatus status,
         DateTime createdAt) : base(id)
     {
         Code = code;
@@ -54,7 +54,7 @@ public class PartnerProductRequest : AggregateRoot<PartnerProductRequestId>
         PartnerId partnerId,
         DateTime desiredDeliveryDate,
         List<(PartnerProductId productId, int quantity, decimal price)> items,
-        int status = 0,
+        PartnerProductRequestStatus status = PartnerProductRequestStatus.Pending,
         DateTime? createdAt = null)
     {
         if (string.IsNullOrWhiteSpace(code))
@@ -76,7 +76,7 @@ public class PartnerProductRequest : AggregateRoot<PartnerProductRequestId>
             desiredDeliveryDate,
             totalQuantity,
             null,
-            status,
+            PartnerProductRequestStatus.Pending,
             timestamp);
 
         foreach (var item in items)
@@ -108,12 +108,12 @@ public class PartnerProductRequest : AggregateRoot<PartnerProductRequestId>
         return Result.Success(request);
     }
 
-    public Result UpdateStatus(int status)
-    {
-        Status = status;
-        UpdatedAt = DateTime.UtcNow;
-        return Result.Success();
-    }
+    //public Result UpdateStatus(int status)
+    //{
+    //    Status = status;
+    //    UpdatedAt = DateTime.UtcNow;
+    //    return Result.Success();
+    //}
 
     public Result UpdateQuantity(int totalRequestedQuantity)
     {

@@ -28,7 +28,7 @@ internal sealed class GetMyPartnerProductRequestsQueryHandler
         // Filter by status if provided
         if (request.Status.HasValue)
         {
-            query = query.Where(r => r.Status == request.Status.Value);
+            query = query.Where(r => r.Status.ToString() == request.Status.Value.ToString());
         }
 
         // Filter by created date range
