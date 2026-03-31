@@ -1,3 +1,6 @@
+using PuzKit3D.Modules.Partner.Domain.Entities.PartnerProductRequestDetails;
+using PuzKit3D.Modules.Partner.Domain.Entities.PartnerProductRequests.DomainEvents;
+using PuzKit3D.Modules.Partner.Domain.Entities.PartnerProducts;
 using PuzKit3D.Modules.Partner.Domain.Entities.Partners;
 using PuzKit3D.SharedKernel.Domain;
 using PuzKit3D.SharedKernel.Domain.Results;
@@ -15,6 +18,9 @@ public class PartnerProductRequest : AggregateRoot<PartnerProductRequestId>
     public int Status { get; private set; }
     public DateTime CreatedAt { get; private set; }
     public DateTime UpdatedAt { get; private set; }
+
+    private readonly List<PartnerProductRequestDetail> _details = new();
+    public IReadOnlyList<PartnerProductRequestDetail> Details => _details;
 
     private PartnerProductRequest(
         PartnerProductRequestId id,
@@ -47,7 +53,7 @@ public class PartnerProductRequest : AggregateRoot<PartnerProductRequestId>
         Guid customerId,
         PartnerId partnerId,
         DateTime desiredDeliveryDate,
-        int totalRequestedQuantity,
+        List<(PartnerProductId productId, int quantity, decimal price)> items,
         string? note = null,
         int status = 0,
         DateTime? createdAt = null)
@@ -55,11 +61,13 @@ public class PartnerProductRequest : AggregateRoot<PartnerProductRequestId>
         if (string.IsNullOrWhiteSpace(code))
             return Result.Failure<PartnerProductRequest>(PartnerProductRequestError.InvalidCode());
 
-        if (totalRequestedQuantity <= 0)
+        if (items == null || !items.Any())
             return Result.Failure<PartnerProductRequest>(PartnerProductRequestError.InvalidQuantity());
 
         var requestId = PartnerProductRequestId.Create();
         var timestamp = createdAt ?? DateTime.UtcNow;
+
+        var totalQuantity = items.Sum(x => x.quantity);
 
         var request = new PartnerProductRequest(
             requestId,
@@ -67,10 +75,36 @@ public class PartnerProductRequest : AggregateRoot<PartnerProductRequestId>
             customerId,
             partnerId,
             desiredDeliveryDate,
-            totalRequestedQuantity,
+            totalQuantity,
             note,
             status,
             timestamp);
+
+        foreach (var item in items)
+        {
+            var detailResult = PartnerProductRequestDetail.Create(
+                requestId,
+                item.productId,
+                item.price,
+                item.quantity);
+
+            if (detailResult.IsFailure)
+                return Result.Failure<PartnerProductRequest>(detailResult.Error);
+
+            request._details.Add(detailResult.Value);
+        }
+
+        request.RaiseDomainEvent(new PartnerProductRequestCreatedDomainEvent(
+            requestId.Value,
+            customerId,
+            partnerId.Value,
+            request.Details.Select(d => new PartnerProductRequestDetailDto
+            (
+                d.PartnerProductId.Value,
+                d.Quantity,
+                d.ReferenceUnitPrice
+            )).ToList(),
+            timestamp));
 
         return Result.Success(request);
     }
