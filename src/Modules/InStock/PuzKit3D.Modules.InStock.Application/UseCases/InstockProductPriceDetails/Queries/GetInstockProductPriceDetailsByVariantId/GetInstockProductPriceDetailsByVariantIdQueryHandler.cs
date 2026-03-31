@@ -64,25 +64,19 @@ internal sealed class GetInstockProductPriceDetailsByVariantIdQueryHandler
         }
         else
         {
-            // Anonymous: Return only the active price detail with highest priority (higher number = higher priority)
-            var activePriceDetail = priceDetails
+            // Anonymous: Return only active price details where both the price detail and price are active
+            var activePriceDetails = priceDetails
                 .Where(pd => pd.IsActive)
                 .Where(pd => priceDict.ContainsKey(pd.InstockPriceId.Value) && priceDict[pd.InstockPriceId.Value].IsActive)
                 .OrderByDescending(pd => priceDict[pd.InstockPriceId.Value].Priority)
-                .FirstOrDefault();
+                .Select(pd => new AnonymousPriceDetailDto(
+                    pd.Id.Value,
+                    pd.InstockPriceId.Value,
+                    priceDict[pd.InstockPriceId.Value].Name,
+                    pd.UnitPrice))
+                .ToList();
 
-            if (activePriceDetail is null)
-            {
-                return Result.Success<object>(null!);
-            }
-
-            var anonymousDto = new AnonymousPriceDetailDto(
-                activePriceDetail.Id.Value,
-                activePriceDetail.InstockPriceId.Value,
-                priceDict[activePriceDetail.InstockPriceId.Value].Name,
-                activePriceDetail.UnitPrice);
-
-            return Result.Success<object>(anonymousDto);
+            return Result.Success<object>(activePriceDetails);
         }
     }
 }
