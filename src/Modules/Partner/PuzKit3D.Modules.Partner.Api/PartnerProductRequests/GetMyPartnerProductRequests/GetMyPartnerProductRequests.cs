@@ -14,8 +14,7 @@ internal sealed class GetMyPartnerProductRequests : IEndpoint
 {
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapGroup($"{ApiRoutes.ApiPrefix}/partner-requests")
-            .WithTags("Partner Requests")
+        app.MapPartnerProductRequestsGroup()
             .MapGet("/my-requests", async (
                 int? status,
                 DateTime? createdAtFrom,
@@ -26,7 +25,10 @@ internal sealed class GetMyPartnerProductRequests : IEndpoint
                 IHttpContextAccessor httpContextAccessor,
                 CancellationToken cancellationToken) =>
             {
-                var customerId = httpContextAccessor.HttpContext?.User?.FindFirst("sub")?.Value;
+                var customerId = httpContextAccessor.HttpContext?
+                    .User?
+                    .FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?
+                    .Value;
                 if (string.IsNullOrEmpty(customerId) || !Guid.TryParse(customerId, out var customerGuid))
                 {
                     return Results.Unauthorized();

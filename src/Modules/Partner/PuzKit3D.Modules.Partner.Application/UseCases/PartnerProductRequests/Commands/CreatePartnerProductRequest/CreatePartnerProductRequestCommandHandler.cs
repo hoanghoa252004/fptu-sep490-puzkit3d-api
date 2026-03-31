@@ -1,14 +1,12 @@
-using PuzKit3D.Contract.Partner.PartnerProductRequests;
 using PuzKit3D.Modules.Partner.Application.Repositories;
 using PuzKit3D.Modules.Partner.Application.Services;
 using PuzKit3D.Modules.Partner.Application.UnitOfWork;
 using PuzKit3D.Modules.Partner.Domain.Entities.PartnerProductRequests;
-using PuzKit3D.Modules.Partner.Domain.Entities.PartnerProductRequests.DomainEvents;
 using PuzKit3D.Modules.Partner.Domain.Entities.PartnerProducts;
 using PuzKit3D.Modules.Partner.Domain.Entities.Partners;
-using PuzKit3D.SharedKernel.Application.Event;
 using PuzKit3D.SharedKernel.Application.Message.Command;
 using PuzKit3D.SharedKernel.Domain.Results;
+using System;
 
 namespace PuzKit3D.Modules.Partner.Application.UseCases.PartnerProductRequests.Commands.CreatePartnerProductRequest;
 
@@ -73,7 +71,6 @@ internal sealed class CreatePartnerProductRequestCommandHandler : ICommandTHandl
                     i.Quantity,
                     productsInRequest.First(p => p.Id.Value == i.PartnerProductId).ReferencePrice
                 )).ToList(),
-                request.Note,
                 (int)PartnerProductRequestStatus.Pending,
                 DateTime.UtcNow
             );

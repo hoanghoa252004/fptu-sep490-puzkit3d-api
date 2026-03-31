@@ -8,21 +8,25 @@ using PuzKit3D.SharedKernel.Api.Endpoint;
 using PuzKit3D.SharedKernel.Api.Results.Extensions;
 using PuzKit3D.SharedKernel.Application.Authorization;
 
+using AppItemDto = PuzKit3D.Modules.Partner.Application.UseCases.PartnerProductRequests.Commands.CreatePartnerProductRequest.CreatePartnerProductRequestItemRequestDto;
+
 namespace PuzKit3D.Modules.Partner.Api.PartnerProductRequests.CreatePartnerProductRequest;
 
 internal sealed class CreatePartnerProductRequest : IEndpoint
 {
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapGroup($"{ApiRoutes.ApiPrefix}/partner-request")
-            .WithTags("Partner Requests")
+        app.MapPartnerProductRequestsGroup()
             .MapPost("/", async (
                 [FromBody] CreatePartnerProductRequestRequestDto request,
                 ISender sender,
                 IHttpContextAccessor httpContextAccessor,
                 CancellationToken cancellationToken) =>
             {
-                var customerId = httpContextAccessor.HttpContext?.User?.FindFirst("sub")?.Value;
+                var customerId = httpContextAccessor.HttpContext?
+                    .User?
+                    .FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?
+                    .Value;
                 if (string.IsNullOrEmpty(customerId) || !Guid.TryParse(customerId, out var customerGuid))
                 {
                     return Results.Unauthorized();
@@ -33,10 +37,9 @@ internal sealed class CreatePartnerProductRequest : IEndpoint
                     request.PartnerId,
                     request.DesiredDeliveryDate,
                     request.Items
-                        .ConvertAll(i => new Application.UseCases.PartnerProductRequests.Commands.CreatePartnerProductRequest.CreatePartnerProductRequestItemDto(
+                        .ConvertAll(i => new AppItemDto(
                             i.PartnerProductId,
-                            i.Quantity)),
-                    request.Note);
+                            i.Quantity)));
 
                 var result = await sender.Send(command, cancellationToken);
 
@@ -57,9 +60,8 @@ internal sealed class CreatePartnerProductRequest : IEndpoint
 internal sealed record CreatePartnerProductRequestRequestDto(
     Guid PartnerId,
     DateTime DesiredDeliveryDate,
-    List<CreatePartnerProductRequestItemDto> Items,
-    string? Note = null);
+    List<CreatePartnerProductRequestItemRequestDto> Items);
 
-internal sealed record CreatePartnerProductRequestItemDto(
+internal sealed record CreatePartnerProductRequestItemRequestDto(
     Guid PartnerProductId,
     int Quantity);

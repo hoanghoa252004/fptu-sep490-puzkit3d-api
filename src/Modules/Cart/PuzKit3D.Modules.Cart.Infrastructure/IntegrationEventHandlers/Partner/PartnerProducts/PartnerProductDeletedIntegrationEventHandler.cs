@@ -8,9 +8,9 @@ namespace PuzKit3D.Modules.Cart.Infrastructure.IntegrationEventHandlers.Partner.
 internal sealed class PartnerProductDeletedIntegrationEventHandler
     : IIntegrationEventHandler<PartnerProductDeletedIntegrationEvent>
 {
-    private readonly CartDbContext _context;
+    private readonly ICartDbContext _context;
 
-    public PartnerProductDeletedIntegrationEventHandler(CartDbContext context)
+    public PartnerProductDeletedIntegrationEventHandler(ICartDbContext context)
     {
         _context = context;
     }

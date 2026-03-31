@@ -16,6 +16,11 @@ internal sealed class PartnerProductRequestConfiguration : IEntityTypeConfigurat
                 id => id.Value,
                 value => PartnerProductRequestId.From(value));
 
+        builder.HasMany(r => r.Details)
+            .WithOne()
+            .HasForeignKey(d => d.PartnerProductRequestId)
+            .OnDelete(DeleteBehavior.Restrict);
+
         builder.Property(r => r.Code)
             .IsRequired()
             .HasMaxLength(10);

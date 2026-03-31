@@ -13,8 +13,7 @@ internal sealed class GetPartnerProductRequestById : IEndpoint
 {
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapGroup($"{ApiRoutes.ApiPrefix}/partner-requests")
-            .WithTags("Partner Requests")
+        app.MapPartnerProductRequestsGroup()
             .MapGet("/{id:guid}", async (
                 Guid id,
                 ISender sender,

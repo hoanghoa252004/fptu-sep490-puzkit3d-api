@@ -9,12 +9,12 @@ using PuzKit3D.SharedKernel.Infrastructure.Data;
 
 namespace PuzKit3D.Modules.Cart.Persistence;
 
-public sealed class CartDbContext : DbContext, ICartUnitOfWork
+public sealed class ICartDbContext : DbContext, ICartUnitOfWork
 {
     private readonly IPublisher _publisher;
 
-    public CartDbContext(
-        DbContextOptions<CartDbContext> options,
+    public ICartDbContext(
+        DbContextOptions<ICartDbContext> options,
         IPublisher publisher) : base(options)
     {
         _publisher = publisher;
@@ -36,7 +36,7 @@ public sealed class CartDbContext : DbContext, ICartUnitOfWork
 
         builder.HasDefaultSchema(Schema.Cart);
 
-        builder.ApplyConfigurationsFromAssembly(typeof(CartDbContext).Assembly);
+        builder.ApplyConfigurationsFromAssembly(typeof(ICartDbContext).Assembly);
 
         // Apply seed data
         Configurations.SeedData.CartSeedDataConfiguration.SeedInStockPriceReplicas(builder);

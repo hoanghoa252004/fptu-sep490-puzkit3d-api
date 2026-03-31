@@ -6,9 +6,9 @@ namespace PuzKit3D.Modules.Cart.Persistence.Repositories;
 
 internal sealed class CartQueryRepository : ICartQueryRepository
 {
-    private readonly CartDbContext _context;
+    private readonly ICartDbContext _context;
 
-    public CartQueryRepository(CartDbContext context)
+    public CartQueryRepository(ICartDbContext context)
     {
         _context = context;
     }

@@ -12,7 +12,7 @@ using PuzKit3D.Modules.Partner.Persistence;
 namespace PuzKit3D.Modules.Partner.Persistence.Migrations
 {
     [DbContext(typeof(PartnerDbContext))]
-    [Migration("20260324084153_InitModule")]
+    [Migration("20260331063940_InitModule")]
     partial class InitModule
     {
         /// <inheritdoc />
@@ -618,6 +618,87 @@ namespace PuzKit3D.Modules.Partner.Persistence.Migrations
                     b.ToTable("partners", "partner");
                 });
 
+            modelBuilder.Entity("PuzKit3D.Modules.Partner.Domain.Entities.Replicas.UserReplica", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at");
+
+                    b.Property<DateTime?>("DateOfBirth")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("date_of_birth");
+
+                    b.Property<string>("District")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("district");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("character varying(30)")
+                        .HasColumnName("email");
+
+                    b.Property<string>("FullName")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("character varying(30)")
+                        .HasColumnName("full_name");
+
+                    b.Property<string>("PasswordHash")
+                        .IsRequired()
+                        .HasMaxLength(300)
+                        .HasColumnType("character varying(300)")
+                        .HasColumnName("password_hash");
+
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasMaxLength(15)
+                        .HasColumnType("character varying(15)")
+                        .HasColumnName("phone_number");
+
+                    b.Property<string>("Province")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("province");
+
+                    b.Property<Guid>("RoleId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("role_id");
+
+                    b.Property<string>("StreetAddress")
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)")
+                        .HasColumnName("street_address");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("updated_at");
+
+                    b.Property<string>("Ward")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("ward");
+
+                    b.HasKey("Id")
+                        .HasName("pk_user_replicas");
+
+                    b.HasIndex("Email")
+                        .IsUnique()
+                        .HasDatabaseName("UK__user_replica__email");
+
+                    b.HasIndex("PhoneNumber")
+                        .IsUnique()
+                        .HasDatabaseName("UK__user_replica__phone_number");
+
+                    b.ToTable("user_replicas", "partner");
+                });
+
             modelBuilder.Entity("PuzKit3D.Modules.Partner.Domain.Entities.PartnerProductOrders.PartnerProductOrder", b =>
                 {
                     b.HasOne("PuzKit3D.Modules.Partner.Domain.Entities.PartnerProductQuotations.PartnerProductQuotation", null)
@@ -682,7 +763,7 @@ namespace PuzKit3D.Modules.Partner.Persistence.Migrations
                         .HasConstraintName("fk_partner_product_request_item_partner_products_partner_produ");
 
                     b.HasOne("PuzKit3D.Modules.Partner.Domain.Entities.PartnerProductRequests.PartnerProductRequest", null)
-                        .WithMany()
+                        .WithMany("Details")
                         .HasForeignKey("PartnerProductRequestId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired()
@@ -717,6 +798,11 @@ namespace PuzKit3D.Modules.Partner.Persistence.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired()
                         .HasConstraintName("fk_partners_import_service_configs_import_service_config_id");
+                });
+
+            modelBuilder.Entity("PuzKit3D.Modules.Partner.Domain.Entities.PartnerProductRequests.PartnerProductRequest", b =>
+                {
+                    b.Navigation("Details");
                 });
 #pragma warning restore 612, 618
         }

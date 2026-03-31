@@ -6,9 +6,8 @@ public sealed record CreatePartnerProductRequestCommand(
     Guid CustomerId,
     Guid PartnerId,
     DateTime DesiredDeliveryDate,
-    List<CreatePartnerProductRequestItemDto> Items,
-    string? Note = null) : ICommandT<Guid>;
+    List<CreatePartnerProductRequestItemRequestDto> Items) : ICommandT<Guid>;
 
-public sealed record CreatePartnerProductRequestItemDto(
+public sealed record CreatePartnerProductRequestItemRequestDto(
     Guid PartnerProductId,
     int Quantity);

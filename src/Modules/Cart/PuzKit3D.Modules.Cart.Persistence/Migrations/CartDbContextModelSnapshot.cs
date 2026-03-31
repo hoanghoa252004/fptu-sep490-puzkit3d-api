@@ -10,7 +10,7 @@ using PuzKit3D.Modules.Cart.Persistence;
 
 namespace PuzKit3D.Modules.Cart.Persistence.Migrations
 {
-    [DbContext(typeof(CartDbContext))]
+    [DbContext(typeof(ICartDbContext))]
     partial class CartDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

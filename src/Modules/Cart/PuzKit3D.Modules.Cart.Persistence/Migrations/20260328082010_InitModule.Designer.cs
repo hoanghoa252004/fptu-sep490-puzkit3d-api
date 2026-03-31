@@ -11,7 +11,7 @@ using PuzKit3D.Modules.Cart.Persistence;
 
 namespace PuzKit3D.Modules.Cart.Persistence.Migrations
 {
-    [DbContext(typeof(CartDbContext))]
+    [DbContext(typeof(ICartDbContext))]
     [Migration("20260328082010_InitModule")]
     partial class InitModule
     {

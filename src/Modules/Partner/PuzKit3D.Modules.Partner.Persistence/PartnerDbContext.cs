@@ -68,6 +68,20 @@ public sealed class PartnerDbContext : DbContext, IPartnerUnitOfWork
                     }
                 } while (CheckDomainEventRemain());
 
+                // 👇 DEBUG TRƯỚC KHI SAVE
+                foreach (var entry in ChangeTracker.Entries())
+                {
+                    Console.WriteLine($"{entry.Entity.GetType().Name} - {entry.State}");
+                }
+
+                // 👇 DEBUG GIÁ TRỊ (optional nhưng rất hữu ích)
+                foreach (var entry in ChangeTracker.Entries())
+                {
+                    foreach (var prop in entry.Properties)
+                    {
+                        Console.WriteLine($"{entry.Entity.GetType().Name}.{prop.Metadata.Name} = {prop.CurrentValue}");
+                    }
+                }
 
                 await SaveChangesAsync(cancellationToken);
                 await transaction.CommitAsync(cancellationToken);

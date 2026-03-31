@@ -14,8 +14,7 @@ internal sealed class GetAllPartnerProductRequests : IEndpoint
 {
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapGroup($"{ApiRoutes.ApiPrefix}/partner-requests")
-            .WithTags("Partner Requests")
+        app.MapPartnerProductRequestsGroup()
             .MapGet("/", async (
                 int? status,
                 DateTime? createdAtFrom,

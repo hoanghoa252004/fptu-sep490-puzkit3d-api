@@ -14,7 +14,7 @@ public static class DependencyInjection
         this IServiceCollection services,
         IConfiguration configuration)
     {
-        services.AddDbContext<CartDbContext>(options =>
+        services.AddDbContext<ICartDbContext>(options =>
         {
             var connectionString = configuration.GetConnectionString("DefaultConnection")
                 ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found");
@@ -36,7 +36,7 @@ public static class DependencyInjection
             }
         });
 
-        services.AddScoped<ICartUnitOfWork>(sp => sp.GetRequiredService<CartDbContext>());
+        services.AddScoped<ICartUnitOfWork>(sp => sp.GetRequiredService<ICartDbContext>());
 
         services.AddScoped<ICartRepository, CartRepository>();
         services.AddScoped<ICartQueryRepository, CartQueryRepository>();

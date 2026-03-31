@@ -14,9 +14,8 @@ internal sealed class GetStaffPartnerProductRequests : IEndpoint
 {
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapGroup($"{ApiRoutes.ApiPrefix}/staff")
-            .WithTags("Partner Requests")
-            .MapGet("/requests", async (
+        app.MapPartnerProductRequestsGroup()
+            .MapGet("/staff/requests", async (
                 int pageNumber,
                 int pageSize,
                 ISender sender,

@@ -54,7 +54,6 @@ public class PartnerProductRequest : AggregateRoot<PartnerProductRequestId>
         PartnerId partnerId,
         DateTime desiredDeliveryDate,
         List<(PartnerProductId productId, int quantity, decimal price)> items,
-        string? note = null,
         int status = 0,
         DateTime? createdAt = null)
     {
@@ -76,7 +75,7 @@ public class PartnerProductRequest : AggregateRoot<PartnerProductRequestId>
             partnerId,
             desiredDeliveryDate,
             totalQuantity,
-            note,
+            null,
             status,
             timestamp);
 
