@@ -26,8 +26,10 @@ internal sealed class PartnerProductQuotationConfiguration : IEntityTypeConfigur
                 value => PartnerProductRequestId.From(value))
             .IsRequired();
 
-        builder.Property(q => q.Version)
-            .IsRequired();
+        builder.HasMany(r => r.Details)
+            .WithOne()
+            .HasForeignKey(d => d.PartnerProductQuotationId)
+            .OnDelete(DeleteBehavior.Restrict);
 
         builder.Property(q => q.SubTotalAmount)
             .IsRequired()
@@ -59,9 +61,6 @@ internal sealed class PartnerProductQuotationConfiguration : IEntityTypeConfigur
 
         builder.Property(q => q.UpdatedAt)
             .IsRequired();
-
-        builder.HasIndex(q => new { q.PartnerProductRequestId, q.Version })
-            .IsUnique();
 
         builder.HasOne<PartnerProductRequest>()
             .WithMany()

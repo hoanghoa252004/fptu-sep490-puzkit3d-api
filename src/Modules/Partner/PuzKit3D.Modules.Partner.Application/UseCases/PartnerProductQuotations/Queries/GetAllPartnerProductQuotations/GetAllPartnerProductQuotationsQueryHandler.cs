@@ -33,7 +33,6 @@ internal sealed class GetAllPartnerProductQuotationsQueryHandler
                 q.Id.Value,
                 q.Code,
                 q.PartnerProductRequestId.Value,
-                q.Version,
                 q.SubTotalAmount,
                 q.ShippingFee,
                 q.ImportTaxAmount,

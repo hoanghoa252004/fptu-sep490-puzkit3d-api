@@ -102,7 +102,7 @@ internal sealed class CreatePartnerProductQuotationCommandHandler : ICommandTHan
                 subTotalAmount += detail.Quantity * unitPrice;
             }
 
-            decimal importTaxAmount = subTotalAmount * importServiceConfig.ImportTaxPercentage;
+            decimal importTaxAmount = subTotalAmount * importServiceConfig.ImportTaxPercentage / 100;
 
             // tạo quotation
             var quotationResult = PartnerProductQuotation.Create(

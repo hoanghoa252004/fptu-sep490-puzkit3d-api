@@ -43,12 +43,6 @@ internal sealed class PartnerProductQuotationDetailConfiguration : IEntityTypeCo
         builder.HasIndex(d => new { d.PartnerProductQuotationId, d.PartnerProductId })
             .IsUnique();
 
-        builder.HasOne<PartnerProductQuotation>()
-            .WithMany()
-            .HasForeignKey(d => d.PartnerProductQuotationId)
-            .OnDelete(DeleteBehavior.Restrict)
-            .IsRequired();
-
         builder.HasOne<PartnerProduct>()
             .WithMany()
             .HasForeignKey(d => d.PartnerProductId)

@@ -152,7 +152,6 @@ namespace PuzKit3D.Modules.Partner.Persistence.Migrations
                     id = table.Column<Guid>(type: "uuid", nullable: false),
                     code = table.Column<string>(type: "character varying(10)", maxLength: 10, nullable: false),
                     partner_product_request_id = table.Column<Guid>(type: "uuid", nullable: false),
-                    version = table.Column<int>(type: "integer", nullable: false),
                     sub_total_amount = table.Column<decimal>(type: "numeric(10,2)", precision: 10, scale: 2, nullable: false),
                     shipping_fee = table.Column<decimal>(type: "numeric(10,2)", precision: 10, scale: 2, nullable: false),
                     import_tax_amount = table.Column<decimal>(type: "numeric(10,2)", precision: 10, scale: 2, nullable: false),
@@ -353,11 +352,10 @@ namespace PuzKit3D.Modules.Partner.Persistence.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "ix_partner_product_quotations_partner_product_request_id_versi",
+                name: "ix_partner_product_quotations_partner_product_request_id",
                 schema: "partner",
                 table: "partner_product_quotations",
-                columns: new[] { "partner_product_request_id", "version" },
-                unique: true);
+                column: "partner_product_request_id");
 
             migrationBuilder.CreateIndex(
                 name: "ix_partner_product_request_item_partner_product_id",

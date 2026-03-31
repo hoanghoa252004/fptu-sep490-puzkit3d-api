@@ -363,16 +363,11 @@ namespace PuzKit3D.Modules.Partner.Persistence.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("updated_at");
 
-                    b.Property<int>("Version")
-                        .HasColumnType("integer")
-                        .HasColumnName("version");
-
                     b.HasKey("Id")
                         .HasName("pk_partner_product_quotations");
 
-                    b.HasIndex("PartnerProductRequestId", "Version")
-                        .IsUnique()
-                        .HasDatabaseName("ix_partner_product_quotations_partner_product_request_id_versi");
+                    b.HasIndex("PartnerProductRequestId")
+                        .HasDatabaseName("ix_partner_product_quotations_partner_product_request_id");
 
                     b.ToTable("partner_product_quotations", "partner");
                 });
@@ -733,7 +728,7 @@ namespace PuzKit3D.Modules.Partner.Persistence.Migrations
                         .HasConstraintName("fk_partner_product_quotation_details_partner_products_partner_");
 
                     b.HasOne("PuzKit3D.Modules.Partner.Domain.Entities.PartnerProductQuotations.PartnerProductQuotation", null)
-                        .WithMany()
+                        .WithMany("Details")
                         .HasForeignKey("PartnerProductQuotationId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired()
@@ -795,6 +790,11 @@ namespace PuzKit3D.Modules.Partner.Persistence.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired()
                         .HasConstraintName("fk_partners_import_service_configs_import_service_config_id");
+                });
+
+            modelBuilder.Entity("PuzKit3D.Modules.Partner.Domain.Entities.PartnerProductQuotations.PartnerProductQuotation", b =>
+                {
+                    b.Navigation("Details");
                 });
 
             modelBuilder.Entity("PuzKit3D.Modules.Partner.Domain.Entities.PartnerProductRequests.PartnerProductRequest", b =>

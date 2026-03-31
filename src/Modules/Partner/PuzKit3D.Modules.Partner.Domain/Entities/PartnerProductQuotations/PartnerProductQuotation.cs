@@ -9,7 +9,6 @@ public class PartnerProductQuotation : AggregateRoot<PartnerProductQuotationId>
 {
     public string Code { get; private set; } = null!;
     public PartnerProductRequestId PartnerProductRequestId { get; private set; } = null!;
-    public int Version { get; private set; }
     public decimal SubTotalAmount { get; private set; }
     public decimal ShippingFee { get; private set; }
     public decimal ImportTaxAmount { get; private set; }
@@ -27,7 +26,6 @@ public class PartnerProductQuotation : AggregateRoot<PartnerProductQuotationId>
         PartnerProductQuotationId id,
         string code,
         PartnerProductRequestId partnerProductRequestId,
-        int version,
         decimal subTotalAmount,
         decimal shippingFee,
         decimal importTaxAmount,
@@ -39,7 +37,6 @@ public class PartnerProductQuotation : AggregateRoot<PartnerProductQuotationId>
     {
         Code = code;
         PartnerProductRequestId = partnerProductRequestId;
-        Version = version;
         SubTotalAmount = subTotalAmount;
         ShippingFee = shippingFee;
         ImportTaxAmount = importTaxAmount;
@@ -80,7 +77,6 @@ public class PartnerProductQuotation : AggregateRoot<PartnerProductQuotationId>
             quotationId,
             code,
             partnerProductRequestId,
-            version,
             subTotalAmount,
             shippingFee,
             importTaxAmount,

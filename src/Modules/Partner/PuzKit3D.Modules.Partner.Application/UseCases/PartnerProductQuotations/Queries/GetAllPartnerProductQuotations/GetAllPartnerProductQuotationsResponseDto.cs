@@ -6,7 +6,6 @@ public sealed record GetAllPartnerProductQuotationsResponseDto(
     Guid Id,
     string Code,
     Guid PartnerProductRequestId,
-    int Version,
     decimal SubTotalAmount,
     decimal ShippingFee,
     decimal ImportTaxAmount,
