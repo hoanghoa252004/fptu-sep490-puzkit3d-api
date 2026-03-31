@@ -47,4 +47,8 @@ public static class InstockProductVariantError
     public static Error IsActiveUnchanged(bool currentValue) => Error.Validation(
         "InstockProductVariant.IsActiveUnchanged",
         $"Variant is already {(currentValue ? "active" : "inactive")}. No change needed.");
+
+    public static Error CannotActivateVariantWithInactiveProduct() => Error.Validation(
+        "InstockProductVariant.CannotActivateVariantWithInactiveProduct",
+        "Cannot activate variant when its associated product is inactive. Please activate the product first.");
 }

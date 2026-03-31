@@ -55,7 +55,7 @@ internal sealed class InstockProductVariantRepository : IInstockProductVariantRe
     {
         return await _context.InstockProductVariants
             .Where(v => v.InstockProductId == productId)
-            .AsNoTracking()
+            //.AsNoTracking()
             .ToListAsync(cancellationToken);
     }
 

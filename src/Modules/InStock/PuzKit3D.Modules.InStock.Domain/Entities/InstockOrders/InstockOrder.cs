@@ -433,6 +433,9 @@ public sealed class InstockOrder : AggregateRoot<InstockOrderId>
             Code,
             CustomerId,
             Status,
-            UpdatedAt));
+            UpdatedAt,
+            PaymentMethod,
+            GrandTotalAmount,
+            UsedCoinAmount));
     }
 }

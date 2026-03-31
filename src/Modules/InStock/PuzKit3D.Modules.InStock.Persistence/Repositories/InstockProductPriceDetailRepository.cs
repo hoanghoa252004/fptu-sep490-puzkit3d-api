@@ -62,7 +62,7 @@ internal sealed class InstockProductPriceDetailRepository : IInstockProductPrice
     {
         return await _context.InstockProductPriceDetails
             .Where(pd => pd.InstockProductVariantId == variantId)
-            .AsNoTracking()
+            //.AsNoTracking()
             .ToListAsync(cancellationToken);
     }
 
@@ -72,7 +72,7 @@ internal sealed class InstockProductPriceDetailRepository : IInstockProductPrice
     {
         return await _context.InstockProductPriceDetails
             .Where(pd => pd.InstockPriceId == priceId)
-            .AsNoTracking()
+            //.AsNoTracking()
             .ToListAsync(cancellationToken);
     }
 

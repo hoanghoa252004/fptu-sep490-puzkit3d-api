@@ -9,13 +9,16 @@ namespace PuzKit3D.Modules.InStock.Application.UseCases.InstockProductPriceDetai
 internal sealed class UpdateInstockProductPriceDetailCommandHandler : ICommandHandler<UpdateInstockProductPriceDetailCommand>
 {
     private readonly IInstockProductPriceDetailRepository _priceDetailRepository;
+    private readonly IInstockPriceRepository _priceRepository;
     private readonly IInStockUnitOfWork _unitOfWork;
 
     public UpdateInstockProductPriceDetailCommandHandler(
         IInstockProductPriceDetailRepository priceDetailRepository,
+        IInstockPriceRepository priceRepository,
         IInStockUnitOfWork unitOfWork)
     {
         _priceDetailRepository = priceDetailRepository;
+        _priceRepository = priceRepository;
         _unitOfWork = unitOfWork;
     }
 
@@ -27,6 +30,16 @@ internal sealed class UpdateInstockProductPriceDetailCommandHandler : ICommandHa
         if (priceDetail is null)
         {
             return Result.Failure(InstockProductPriceDetailError.NotFound(request.PriceDetailId));
+        }
+
+        // If trying to activate the price detail, check if the associated price is also active
+        if (request.IsActive.HasValue && request.IsActive.Value == true)
+        {
+            var price = await _priceRepository.GetByIdAsync(priceDetail.InstockPriceId, cancellationToken);
+            if (price is null || !price.IsActive)
+            {
+                return Result.Failure(InstockProductPriceDetailError.CannotActivatePriceDetailWithInactivePrice());
+            }
         }
 
         return await _unitOfWork.ExecuteAsync<Result>(async () =>

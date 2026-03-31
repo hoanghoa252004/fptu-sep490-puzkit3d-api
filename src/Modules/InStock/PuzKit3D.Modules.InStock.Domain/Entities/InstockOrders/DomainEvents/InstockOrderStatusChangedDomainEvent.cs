@@ -7,4 +7,7 @@ public sealed record InstockOrderStatusChangedDomainEvent(
     string Code,
     Guid CustomerId,
     InstockOrderStatus NewStatus,
-    DateTime ChangedAt) : DomainEvent;
+    DateTime ChangedAt,
+    string PaymentMethod,
+    decimal GrandTotalAmount,
+    int UsedCoinAmount) : DomainEvent;

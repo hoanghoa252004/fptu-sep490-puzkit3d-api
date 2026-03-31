@@ -34,6 +34,9 @@ public static class DependencyInjection
         services.AddScoped<IIntegrationEventHandler<CoinUsedIntegrationEvent>,
             CoinUsedIntegrationEventHandler>();
 
+        services.AddScoped<IIntegrationEventHandler<InstockOrderCompletedCoinRewardIntegrationEvent>,
+            InstockOrderCompletedCoinRewardIntegrationEventHandler>();
+
         return services;
     }
 }

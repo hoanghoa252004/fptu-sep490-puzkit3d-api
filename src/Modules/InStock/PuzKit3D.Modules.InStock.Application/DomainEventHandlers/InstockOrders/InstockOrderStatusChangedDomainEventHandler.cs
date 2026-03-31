@@ -1,5 +1,6 @@
 using MediatR;
 using PuzKit3D.Contract.InStock.InstockOrders;
+using PuzKit3D.Modules.InStock.Domain.Entities.InstockOrders;
 using PuzKit3D.Modules.InStock.Domain.Entities.InstockOrders.DomainEvents;
 using PuzKit3D.SharedKernel.Application.Event;
 
@@ -27,5 +28,20 @@ internal sealed class InstockOrderStatusChangedDomainEventHandler
             notification.ChangedAt);
 
         await _eventBus.PublishAsync(integrationEvent, cancellationToken);
+
+        // If order status is completed, publish coin reward event
+        if (notification.NewStatus == InstockOrderStatus.Completed)
+        {
+            var coinRewardEvent = new InstockOrderCompletedCoinRewardIntegrationEvent(
+                Guid.NewGuid(),
+                notification.OccurredOn,
+                notification.OrderId,
+                notification.CustomerId,
+                notification.PaymentMethod,
+                notification.GrandTotalAmount,
+                notification.UsedCoinAmount);
+
+            await _eventBus.PublishAsync(coinRewardEvent, cancellationToken);
+        }
     }
 }
