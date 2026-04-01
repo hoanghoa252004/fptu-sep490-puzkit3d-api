@@ -85,4 +85,33 @@ internal sealed class PartnerRepository : IPartnerRepository
         return _context.Partners
             .FirstOrDefaultAsync(p => p.ContactPhone == phone, cancellationToken);
     }
+
+    public async Task<IEnumerable<Domain.Entities.Partners.Partner>> GetAllAsync(
+        bool isStaffOrManager,
+        string? searchTerm,
+        bool ascending,
+        CancellationToken cancellationToken = default)
+    {
+        var query = _context.Partners.AsQueryable();
+
+        if (!isStaffOrManager)
+        {
+            query = query.Where(p => p.IsActive);
+        }
+
+        if (!string.IsNullOrEmpty(searchTerm))
+        {
+            query = query.Where(p =>
+                p.Slug.Contains(searchTerm.ToLower()) ||
+                p.Name.Contains(searchTerm.ToLower()) ||
+                p.ContactEmail.Contains(searchTerm.ToLower()) ||
+                (p.Description != null && p.Description.ToLower().Contains(searchTerm.ToLower())));
+        }
+
+        query = ascending ? query.OrderBy(p => p.CreatedAt) : query.OrderByDescending(p => p.CreatedAt);
+
+        return await query
+            .AsNoTracking()
+            .ToListAsync(cancellationToken);
+    }
 }

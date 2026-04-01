@@ -21,28 +21,28 @@ internal sealed class GetManagerPartnerProductRequestsQueryHandler
         GetManagerPartnerProductRequestsQuery request,
         CancellationToken cancellationToken)
     {
-        var allRequests = await _repository.GetAllAsync(cancellationToken);
+        
+
         // Manager can see: Approved, Quoted, Rejected, Cancelled
-        var allowedStatuses = new[] { 
+        var allowedStatuses = new HashSet<PartnerProductRequestStatus> { 
             PartnerProductRequestStatus.Approved, 
             PartnerProductRequestStatus.Quoted,
-            PartnerProductRequestStatus.RejectedByStaff,
-            PartnerProductRequestStatus.Cancelled
+            PartnerProductRequestStatus.RejectedByCustomer,
+            PartnerProductRequestStatus.CancelledByStaff,
+            PartnerProductRequestStatus.CancelledByCustomer
         };
-        
-        var query = allRequests
-            .Where(r => allowedStatuses.Contains(r.Status))
-            .AsQueryable();
+
+        var allRequests = await _repository.GetAllAsync(
+            allowedStatuses, 
+            request.SearchTerm, 
+            cancellationToken);
 
         // Apply pagination
-        var totalCount = query.Count();
-        var requests = query
-            .OrderByDescending(r => r.CreatedAt)
+        var totalCount = allRequests.Count();
+
+        var dtos = allRequests
             .Skip((request.PageNumber - 1) * request.PageSize)
             .Take(request.PageSize)
-            .ToList();
-
-        var dtos = requests
             .Select(r => (object)new GetManagerPartnerProductRequestsResponseDto(
                 r.Id.Value,
                 r.Code,

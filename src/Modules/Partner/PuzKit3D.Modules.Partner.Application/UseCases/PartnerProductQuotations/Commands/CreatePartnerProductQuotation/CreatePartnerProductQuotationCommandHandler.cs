@@ -57,6 +57,15 @@ internal sealed class CreatePartnerProductQuotationCommandHandler : ICommandTHan
                 return Result.Failure<Guid>(PartnerProductRequestError.NotFound(request.PartnerProductRequestId));
             }
 
+            // Validate request status is Approved
+            if (existingRequest.Status != PartnerProductRequestStatus.Approved)
+            {
+                return Result.Failure<Guid>(
+                    PartnerProductRequestError.InvalidStatus(
+                        existingRequest.Status, 
+                        PartnerProductRequestStatus.Approved));
+            }
+
             // kiểm tra quotation
             var existingQuotation = await _quotationRepository.GetByRequestIdAsync(
                 PartnerProductRequestId.From(request.PartnerProductRequestId),
@@ -102,7 +111,7 @@ internal sealed class CreatePartnerProductQuotationCommandHandler : ICommandTHan
                 subTotalAmount += detail.Quantity * unitPrice;
             }
 
-            decimal importTaxAmount = subTotalAmount * importServiceConfig.ImportTaxPercentage / 100;
+            decimal importTaxAmount = subTotalAmount * importServiceConfig.ImportTaxPercentage;
 
             // tạo quotation
             var quotationResult = PartnerProductQuotation.Create(
@@ -163,6 +172,10 @@ internal sealed class CreatePartnerProductQuotationCommandHandler : ICommandTHan
                     _detailRepository.Add(detail);
                 }
             }
+
+            // Update request status to Quoted after successful quotation creation
+            existingRequest.UpdateStatus(PartnerProductRequestStatus.Quoted);
+            _requestRepository.Update(existingRequest);
 
             return Result.Success(quotation.Id.Value);
         }, cancellationToken);

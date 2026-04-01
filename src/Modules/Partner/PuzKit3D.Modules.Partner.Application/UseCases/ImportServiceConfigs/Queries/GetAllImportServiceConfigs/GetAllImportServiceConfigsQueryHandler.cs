@@ -21,28 +21,13 @@ internal sealed class GetAllImportServiceConfigsQueryHandler
         CancellationToken cancellationToken)
     {
         // Get all import service configs
-        var allConfigs = await _repository.GetAllAsync(cancellationToken);
-        var query = allConfigs.AsQueryable();
-
-        // Apply search filter
-        if (!string.IsNullOrWhiteSpace(request.SearchTerm))
-        {
-            var searchTerm = request.SearchTerm.ToLower();
-            query = query.Where(c =>
-                c.CountryName.ToLower().Contains(searchTerm) ||
-                c.CountryCode.ToLower().Contains(searchTerm));
-        }
+        var allConfigs = await _repository.GetAllAsync(request.SearchTerm, request.Ascending, cancellationToken);
 
         // Apply pagination
-        var totalCount = query.Count();
-        var configs = query
-            .OrderBy(c => c.CountryName)
+        var totalCount = allConfigs.Count();
+        var configDtos = allConfigs
             .Skip((request.PageNumber - 1) * request.PageSize)
             .Take(request.PageSize)
-            .ToList();
-
-        // Build response DTOs
-        var configDtos = configs
             .Select(c => (object)new GetAllImportServiceConfigsResponseDto(
                 c.Id.Value,
                 c.BaseShippingFee,

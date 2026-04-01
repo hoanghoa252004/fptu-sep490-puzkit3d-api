@@ -17,8 +17,8 @@ internal sealed class GetAllPartnerProductRequests : IEndpoint
         app.MapPartnerProductRequestsGroup()
             .MapGet("/", async (
                 int? status,
-                DateTime? createdAtFrom,
-                DateTime? createdAtTo,
+                string? searchTerm,
+                bool ascending,
                 int pageNumber,
                 int pageSize,
                 ISender sender,
@@ -26,8 +26,8 @@ internal sealed class GetAllPartnerProductRequests : IEndpoint
             {
                 var query = new GetAllPartnerProductRequestsQuery(
                     status,
-                    createdAtFrom,
-                    createdAtTo,
+                    searchTerm,
+                    ascending,
                     pageNumber,
                     pageSize);
 
@@ -35,7 +35,7 @@ internal sealed class GetAllPartnerProductRequests : IEndpoint
 
                 return result.MatchOk();
             })
-            .WithName("GetAllPartnerProductRequests")
+            .WithName("GetAllPartnerProductRequests.Sort By CreatedAt, Status. Search by Code.")
             .WithSummary("Get all partner product requests (Staff/Manager only)")
             .RequireAuthorization(policy => policy.RequireRole(Roles.Staff, Roles.BusinessManager))
             .Produces<PagedResult<object>>(StatusCodes.Status200OK)

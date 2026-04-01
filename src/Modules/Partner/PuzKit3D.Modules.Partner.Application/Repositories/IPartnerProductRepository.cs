@@ -7,4 +7,16 @@ public interface IPartnerProductRepository : IRepositoryBase<PartnerProduct, Par
 {
     Task<PartnerProduct?> GetBySlugAsync(string slug, CancellationToken cancellationToken = default);
     Task<IEnumerable<PartnerProduct>> FindByPartnerIdAsync(Guid partnerId, CancellationToken cancellationToken = default);
+    Task<IEnumerable<PartnerProduct>> GetAllAsync(
+        bool isStaffOrManager,
+        string? searchTerm,
+        bool ascending,
+        Guid? partnerId,
+        CancellationToken cancellationToken = default);
+    Task<IEnumerable<PartnerProduct>> GetAllByPartnerIdAsync(
+        Guid id,
+        bool isStaffOrManager,
+        string? searchTerm,
+        bool ascending,
+        CancellationToken cancellationToken = default);
 }

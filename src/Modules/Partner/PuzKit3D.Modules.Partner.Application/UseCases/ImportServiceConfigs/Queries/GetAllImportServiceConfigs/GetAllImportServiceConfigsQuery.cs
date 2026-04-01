@@ -6,4 +6,5 @@ namespace PuzKit3D.Modules.Partner.Application.UseCases.ImportServiceConfigs.Que
 public sealed record GetAllImportServiceConfigsQuery(
     int PageNumber = 1,
     int PageSize = 10,
-    string? SearchTerm = null) : IQuery<PagedResult<object>>;
+    string? SearchTerm = null,
+    bool Ascending = false) : IQuery<PagedResult<object>>;

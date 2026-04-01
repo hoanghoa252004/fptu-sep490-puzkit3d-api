@@ -17,8 +17,8 @@ internal sealed class GetMyPartnerProductRequests : IEndpoint
         app.MapPartnerProductRequestsGroup()
             .MapGet("/my-requests", async (
                 int? status,
-                DateTime? createdAtFrom,
-                DateTime? createdAtTo,
+                string? searchTerm,
+                bool ascending,
                 int pageNumber,
                 int pageSize,
                 ISender sender,
@@ -37,8 +37,8 @@ internal sealed class GetMyPartnerProductRequests : IEndpoint
                 var query = new GetMyPartnerProductRequestsQuery(
                     customerGuid,
                     status,
-                    createdAtFrom,
-                    createdAtTo,
+                    searchTerm,
+                    ascending,
                     pageNumber,
                     pageSize);
 
@@ -46,7 +46,7 @@ internal sealed class GetMyPartnerProductRequests : IEndpoint
 
                 return result.MatchOk();
             })
-            .WithName("GetMyPartnerProductRequests")
+            .WithName("GetMyPartnerProductRequests. Sort By CreatedAt, Status. Search by Code.")
             .WithSummary("Get my partner product requests (Customer only)")
             .RequireAuthorization(policy => policy.RequireRole(Roles.Customer))
             .Produces<PagedResult<object>>(StatusCodes.Status200OK)

@@ -21,27 +21,24 @@ internal sealed class GetStaffPartnerProductRequestsQueryHandler
         GetStaffPartnerProductRequestsQuery request,
         CancellationToken cancellationToken)
     {
-        var allRequests = await _repository.GetAllAsync(cancellationToken);
-        // Staff can see: Pending, Approved, RejectedByStaff
-        var allowedStatuses = new[] { 
+        // Staff can see: Pending, Approved, RejectedByCustomer, CancelledByStaff
+        var allowedStatuses = new HashSet<PartnerProductRequestStatus> { 
             PartnerProductRequestStatus.Pending, 
             PartnerProductRequestStatus.Approved, 
-            PartnerProductRequestStatus.RejectedByStaff 
+            PartnerProductRequestStatus.RejectedByCustomer,
+            PartnerProductRequestStatus.CancelledByStaff
         };
-        
-        var query = allRequests
-            .Where(r => allowedStatuses.Contains(r.Status))
-            .AsQueryable();
+
+        var allRequests = await _repository.GetAllAsync(
+            allowedStatuses, 
+            request.SearchTerm, 
+            cancellationToken);
 
         // Apply pagination
-        var totalCount = query.Count();
-        var requests = query
-            .OrderByDescending(r => r.CreatedAt)
+        var totalCount = allRequests.Count();
+        var dtos = allRequests
             .Skip((request.PageNumber - 1) * request.PageSize)
             .Take(request.PageSize)
-            .ToList();
-
-        var dtos = requests
             .Select(r => (object)new GetStaffPartnerProductRequestsResponseDto(
                 r.Id.Value,
                 r.Code,

@@ -16,18 +16,19 @@ internal sealed class GetManagerPartnerProductRequests : IEndpoint
     {
         app.MapPartnerProductRequestsGroup()
             .MapGet("/manager/requests", async (
+                string? searchTerm,
                 int pageNumber,
                 int pageSize,
                 ISender sender,
                 CancellationToken cancellationToken) =>
             {
-                var query = new GetManagerPartnerProductRequestsQuery(pageNumber, pageSize);
+                var query = new GetManagerPartnerProductRequestsQuery(searchTerm, pageNumber, pageSize);
 
                 var result = await sender.Send(query, cancellationToken);
 
                 return result.MatchOk();
             })
-            .WithName("GetManagerPartnerProductRequests")
+            .WithName("GetManagerPartnerProductRequests. Search by Code.")
             .WithSummary("Get partner product requests for manager (Approved, Quoted, Rejected, Cancelled)")
             .RequireAuthorization(policy => policy.RequireRole(Roles.BusinessManager))
             .Produces<PagedResult<object>>(StatusCodes.Status200OK)

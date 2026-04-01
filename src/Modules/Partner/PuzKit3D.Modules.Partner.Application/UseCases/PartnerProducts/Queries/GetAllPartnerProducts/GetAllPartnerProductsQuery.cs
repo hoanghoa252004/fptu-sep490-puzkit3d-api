@@ -7,4 +7,5 @@ public sealed record GetAllPartnerProductsQuery(
     int PageNumber = 1,
     int PageSize = 10,
     string? SearchTerm = null,
+    bool Ascending = false,
     Guid? PartnerId = null) : IQuery<PagedResult<object>>;

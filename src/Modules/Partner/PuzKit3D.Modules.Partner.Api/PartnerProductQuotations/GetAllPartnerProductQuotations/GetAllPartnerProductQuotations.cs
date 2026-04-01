@@ -16,26 +16,26 @@ internal sealed class GetAllPartnerProductQuotations : IEndpoint
     {
         app.MapPartnerProductQuotationsGroup()
             .MapGet("/", async (
-                DateTime? createdAtFrom,
-                DateTime? createdAtTo,
+                int? status,
                 bool ascending,
                 int pageNumber,
                 int pageSize,
+                string? searchTerm,
                 ISender sender,
                 CancellationToken cancellationToken) =>
             {
                 var query = new GetAllPartnerProductQuotationsQuery(
-                    createdAtFrom,
-                    createdAtTo,
+                    status,
                     ascending,
+                    searchTerm,
                     pageNumber,
                     pageSize);
 
                 var result = await sender.Send(query, cancellationToken);
 
                 return result.MatchOk();
-            })
-            .WithName("GetAllPartnerProductQuotations")
+            }) 
+            .WithName("GetAllPartnerProductQuotations.Sort By CreatedAt, Status. Search by Code.")
             .WithSummary("Get all partner product quotations (Manager only)")
             .RequireAuthorization(policy => policy.RequireRole(Roles.BusinessManager))
             .Produces<PagedResult<GetAllPartnerProductQuotationsResponseDto>>(StatusCodes.Status200OK)

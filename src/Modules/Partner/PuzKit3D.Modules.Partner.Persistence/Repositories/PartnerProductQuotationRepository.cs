@@ -62,26 +62,27 @@ internal sealed class PartnerProductQuotationRepository : IPartnerProductQuotati
     }
 
     public async Task<IEnumerable<PartnerProductQuotation>> GetAllAsync(
-        DateTime? createdAtFrom = null,
-        DateTime? createdAtTo = null,
+        int? status = null,
+        string ?searchTerm = null,
         bool ascending = false,
         CancellationToken cancellationToken = default)
     {
-        var query = _context.PartnerProductQuotations.AsQueryable();
+        var query = _context.PartnerProductQuotations
+            .AsQueryable();
 
-        if (createdAtFrom.HasValue)
+        if (!string.IsNullOrWhiteSpace(searchTerm))
         {
-            query = query.Where(x => x.CreatedAt >= createdAtFrom.Value);
+            query = query.Where(q => q.Code.ToLower().Contains(searchTerm.ToLower()));
         }
 
-        if (createdAtTo.HasValue)
+        if (status.HasValue)
         {
-            query = query.Where(x => x.CreatedAt <= createdAtTo.Value);
+            query = query.Where(r => r.Status.ToString() == status.Value.ToString());
         }
 
         query = ascending
-            ? query.OrderBy(x => x.CreatedAt)
-            : query.OrderByDescending(x => x.CreatedAt);
+        ? query.OrderBy(x => x.CreatedAt)
+        : query.OrderByDescending(x => x.CreatedAt);
 
         return await query.AsNoTracking().ToListAsync(cancellationToken);
     }

@@ -6,5 +6,12 @@ namespace PuzKit3D.Modules.Partner.Application.Repositories;
 
 public interface IImportServiceConfigRepository : IRepositoryBase<Domain.Entities.ImportServiceConfigs.ImportServiceConfig, ImportServiceConfigId>
 {
-    Task<ImportServiceConfig?> GetByCountryCodeAsync(string countryCode, CancellationToken cancellationToken = default);
+    Task<ImportServiceConfig?> GetByCountryCodeAsync(
+        string countryCode, 
+        CancellationToken cancellationToken = default);
+
+    Task<IEnumerable<Domain.Entities.ImportServiceConfigs.ImportServiceConfig>> GetAllAsync(
+        string? searchTerm,
+        bool ascending,
+        CancellationToken cancellationToken = default);
 }

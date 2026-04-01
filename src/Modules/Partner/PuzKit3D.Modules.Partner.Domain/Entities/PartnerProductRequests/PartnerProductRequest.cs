@@ -115,6 +115,17 @@ public class PartnerProductRequest : AggregateRoot<PartnerProductRequestId>
     //    return Result.Success();
     //}
 
+    public Result UpdateStatus(PartnerProductRequestStatus newStatus, string? note = null)
+    {
+        Status = newStatus;
+        if (note != null)
+        {
+            Note = note;
+        }
+        UpdatedAt = DateTime.UtcNow;
+        return Result.Success();
+    }
+
     public Result UpdateQuantity(int totalRequestedQuantity)
     {
         if (totalRequestedQuantity <= 0)

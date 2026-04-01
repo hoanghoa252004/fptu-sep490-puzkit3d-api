@@ -76,7 +76,7 @@ internal sealed class AddItemToPartnerCartCommandHandler : ICommandHandler<AddIt
             if (existingItem != null)
             {
                 var newQuantity = existingItem.Quantity + quantity;
-                existingItem.UpdateQuantity(newQuantity);
+                cart.UpdateItemQuantity(existingItem.ItemId, newQuantity);
             }
             else
             {

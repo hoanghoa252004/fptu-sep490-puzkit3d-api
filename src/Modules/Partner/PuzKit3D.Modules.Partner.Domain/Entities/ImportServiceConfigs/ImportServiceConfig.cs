@@ -57,7 +57,7 @@ public class ImportServiceConfig : AggregateRoot<ImportServiceConfigId>
             return Result.Failure<ImportServiceConfig>(ImportServiceConfigError.EmptyCountryName());
 
         // Import Tax Percentage
-        if (importTaxPercentage < 0 || importTaxPercentage > 100)
+        if (importTaxPercentage > 0 || importTaxPercentage <= 1)
             return Result.Failure<ImportServiceConfig>(ImportServiceConfigError.InvalidImportTaxPercentage());
 
         var configId = ImportServiceConfigId.Create();
@@ -93,8 +93,8 @@ public class ImportServiceConfig : AggregateRoot<ImportServiceConfigId>
             return Result.Failure(ImportServiceConfigError.EmptyCountryName());
 
         // Import Tax Percentage
-        if (importTaxPercentage < 0 || importTaxPercentage > 100)
-            return Result.Failure(ImportServiceConfigError.InvalidImportTaxPercentage());
+        if (importTaxPercentage > 0 || importTaxPercentage <= 1)
+            return Result.Failure<ImportServiceConfig>(ImportServiceConfigError.InvalidImportTaxPercentage());
 
         BaseShippingFee = baseShippingFee;
         CountryCode = countryCode.ToUpper();

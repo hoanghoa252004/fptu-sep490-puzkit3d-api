@@ -3,8 +3,9 @@
 public enum PartnerProductQuotationStatus
 {
     Pending = 0,
-    Cancelled = 1,
+    CancelledByStaff = 1,
     Quoted = 4,
     Accepted = 5,
-    RejectedByCustomer = 6
+    RejectedByCustomer = 6,
+    CancelledByCustomer = 7
 }

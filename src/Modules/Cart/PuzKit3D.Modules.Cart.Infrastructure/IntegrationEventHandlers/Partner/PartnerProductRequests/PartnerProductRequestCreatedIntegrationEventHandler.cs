@@ -1,10 +1,7 @@
-using Microsoft.EntityFrameworkCore;
 using PuzKit3D.Contract.Partner.PartnerProductRequests;
 using PuzKit3D.Modules.Cart.Application.Repositories;
 using PuzKit3D.Modules.Cart.Application.UnitOfWork;
-using PuzKit3D.Modules.Cart.Persistence;
 using PuzKit3D.SharedKernel.Application.Event;
-using PuzKit3D.SharedKernel.Domain.Results;
 
 namespace PuzKit3D.Modules.Cart.Infrastructure.IntegrationEventHandlers.Partner.PartnerProductRequests;
 

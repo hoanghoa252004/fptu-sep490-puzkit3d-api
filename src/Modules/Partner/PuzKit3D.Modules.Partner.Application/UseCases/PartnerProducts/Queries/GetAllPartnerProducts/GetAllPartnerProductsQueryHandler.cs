@@ -34,35 +34,16 @@ internal sealed class GetAllPartnerProductsQueryHandler
             (_currentUser.IsInRole(Roles.Staff) || _currentUser.IsInRole(Roles.BusinessManager));
 
         // Get all partner products
-        var allProducts = await _partnerProductRepository.GetAllAsync(cancellationToken);
-        var query = allProducts.AsQueryable();
-
-        // For non-staff/manager users (anonymous or customer), only show active items
-        if (!isStaffOrManager)
-        {
-            query = query.Where(p => p.IsActive);
-        }
-
-        // Apply partner filter if provided
-        if (request.PartnerId.HasValue && request.PartnerId.Value != Guid.Empty)
-        {
-            query = query.Where(p => p.PartnerId.Value == request.PartnerId.Value);
-        }
-
-        // Apply search filter
-        if (!string.IsNullOrWhiteSpace(request.SearchTerm))
-        {
-            var searchTerm = request.SearchTerm.ToLower();
-            query = query.Where(p =>
-                p.Name.ToLower().Contains(searchTerm) ||
-                p.Slug.ToLower().Contains(searchTerm) ||
-                (p.Description != null && p.Description.ToLower().Contains(searchTerm)));
-        }
+        var allProducts = await _partnerProductRepository.GetAllAsync(
+            isStaffOrManager,
+            request.SearchTerm,
+            request.Ascending,
+            request.PartnerId,
+            cancellationToken);
 
         // Apply pagination
-        var totalCount = query.Count();
-        var products = query
-            .OrderBy(p => p.Name)
+        var totalCount = allProducts.Count();
+        var products = allProducts
             .Skip((request.PageNumber - 1) * request.PageSize)
             .Take(request.PageSize)
             .ToList();

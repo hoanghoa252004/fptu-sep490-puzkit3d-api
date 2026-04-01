@@ -89,12 +89,14 @@ public class PartnerProductQuotation : AggregateRoot<PartnerProductQuotationId>
         return Result.Success(quotation);
     }
 
-    //public Result UpdateStatus(int status)
-    //{
-    //    Status = status;
-    //    UpdatedAt = DateTime.UtcNow;
-    //    return Result.Success();
-    //}
+    public Result UpdateStatus(PartnerProductQuotationStatus newStatus, string? note = null)
+    {
+        Status = newStatus;
+        if (note != null)
+            Note = note;
+        UpdatedAt = DateTime.UtcNow;
+        return Result.Success();
+    }
 
     public void AddDetail(PartnerProductQuotationDetail detail)
     {

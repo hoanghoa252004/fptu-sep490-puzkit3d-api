@@ -5,7 +5,7 @@ namespace PuzKit3D.Modules.Partner.Application.UseCases.PartnerProductRequests.Q
 
 public sealed record GetAllPartnerProductRequestsQuery(
     int? Status = null,
-    DateTime? CreatedAtFrom = null,
-    DateTime? CreatedAtTo = null,
+    string? SearchTerm = null,
+    bool Ascending = false,
     int PageNumber = 1,
     int PageSize = 10) : IQuery<PagedResult<object>>;

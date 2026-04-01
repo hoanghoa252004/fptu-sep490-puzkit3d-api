@@ -20,8 +20,8 @@ internal sealed class GetAllPartnerProductQuotationsQueryHandler
         CancellationToken cancellationToken)
     {
         var quotations = await _repository.GetAllAsync(
-            request.CreatedAtFrom,
-            request.CreatedAtTo,
+            request.Status,
+            request.SearchTerm,
             request.Ascending,
             cancellationToken);
 

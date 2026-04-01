@@ -20,35 +20,16 @@ internal sealed class GetAllPartnerProductRequestsQueryHandler
         GetAllPartnerProductRequestsQuery request,
         CancellationToken cancellationToken)
     {
-        var allRequests = await _repository.GetAllAsync(cancellationToken);
-        var query = allRequests.AsQueryable();
+        var allRequests = await _repository.GetAllAsync(
+            request.Status,
+            request.SearchTerm, 
+            request.Ascending, 
+            cancellationToken);
 
-        // Filter by status if provided
-        if (request.Status.HasValue)
-        {
-            query = query.Where(r => r.Status.ToString() == request.Status.ToString());
-        }
-
-        // Filter by created date range
-        if (request.CreatedAtFrom.HasValue)
-        {
-            query = query.Where(r => r.CreatedAt >= request.CreatedAtFrom.Value);
-        }
-
-        if (request.CreatedAtTo.HasValue)
-        {
-            query = query.Where(r => r.CreatedAt <= request.CreatedAtTo.Value.AddDays(1));
-        }
-
-        // Apply pagination
-        var totalCount = query.Count();
-        var requests = query
-            .OrderByDescending(r => r.CreatedAt)
+        var totalCount = allRequests.Count();
+        var dtos = allRequests
             .Skip((request.PageNumber - 1) * request.PageSize)
             .Take(request.PageSize)
-            .ToList();
-
-        var dtos = requests
             .Select(r => (object)new GetAllPartnerProductRequestsResponseDto(
                 r.Id.Value,
                 r.Code,

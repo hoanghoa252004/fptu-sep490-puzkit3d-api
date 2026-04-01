@@ -30,30 +30,11 @@ internal sealed class GetAllPartnersQueryHandler
             (_currentUser.IsInRole(Roles.Staff) || _currentUser.IsInRole(Roles.BusinessManager));
 
         // Get all partners
-        var allPartners = await _partnerRepository.GetAllAsync(cancellationToken);
-        var query = allPartners.AsQueryable();
-
-        // For non-staff/manager users (anonymous or customer), only show active partners
-        if (!isStaffOrManager)
-        {
-            query = query.Where(p => p.IsActive);
-        }
-
-        // Apply search filter
-        if (!string.IsNullOrWhiteSpace(request.SearchTerm))
-        {
-            var searchTerm = request.SearchTerm.ToLower();
-            query = query.Where(p =>
-                p.Name.ToLower().Contains(searchTerm) ||
-                p.Slug.ToLower().Contains(searchTerm) ||
-                p.ContactEmail.ToLower().Contains(searchTerm) ||
-                (p.Description != null && p.Description.ToLower().Contains(searchTerm)));
-        }
+        var allPartners = await _partnerRepository.GetAllAsync(isStaffOrManager, request.SearchTerm, request.Ascending, cancellationToken);
 
         // Apply pagination
-        var totalCount = query.Count();
-        var partners = query
-            .OrderBy(p => p.Name)
+        var totalCount = allPartners.Count();
+        var partners = allPartners
             .Skip((request.PageNumber - 1) * request.PageSize)
             .Take(request.PageSize)
             .ToList();
