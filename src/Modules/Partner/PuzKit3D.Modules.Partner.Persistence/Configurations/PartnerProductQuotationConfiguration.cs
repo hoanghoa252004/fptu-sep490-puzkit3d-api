@@ -50,7 +50,8 @@ internal sealed class PartnerProductQuotationConfiguration : IEntityTypeConfigur
         builder.Property(q => q.Note);
 
         builder.Property(q => q.Status)
-            .IsRequired();
+            .IsRequired()
+            .HasConversion<string>();
 
         builder.Property(q => q.CreatedAt)
             .IsRequired();

@@ -27,4 +27,8 @@ public static class PartnerProductQuotationError
     public static Error InvalidStatusTransition(PartnerProductQuotationStatus currentStatus, PartnerProductQuotationStatus newStatus) => Error.Validation(
         "PartnerProductQuotation.InvalidStatusTransition",
         $"Cannot transition from '{currentStatus}' to '{newStatus}'. This status transition is not allowed.");
+
+    public static Error PermissionDenied() => Error.Validation(
+        "PartnerProductQuotation.PermissionDenied",
+        "You do not have permission to perform this action.");
 }

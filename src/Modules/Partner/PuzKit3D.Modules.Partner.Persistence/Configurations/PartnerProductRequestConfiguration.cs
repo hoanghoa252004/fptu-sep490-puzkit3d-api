@@ -40,7 +40,8 @@ internal sealed class PartnerProductRequestConfiguration : IEntityTypeConfigurat
         builder.Property(r => r.Note);
 
         builder.Property(r => r.Status)
-            .IsRequired();
+            .IsRequired()
+            .HasConversion<string>();
 
         builder.Property(r => r.CreatedAt)
             .IsRequired();

@@ -346,8 +346,9 @@ namespace PuzKit3D.Modules.Partner.Persistence.Migrations
                         .HasColumnType("numeric(10,2)")
                         .HasColumnName("shipping_fee");
 
-                    b.Property<int>("Status")
-                        .HasColumnType("integer")
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("text")
                         .HasColumnName("status");
 
                     b.Property<decimal>("SubTotalAmount")
@@ -437,8 +438,9 @@ namespace PuzKit3D.Modules.Partner.Persistence.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("partner_id");
 
-                    b.Property<int>("Status")
-                        .HasColumnType("integer")
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("text")
                         .HasColumnName("status");
 
                     b.Property<int>("TotalRequestedQuantity")

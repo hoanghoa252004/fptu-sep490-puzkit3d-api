@@ -33,7 +33,10 @@ public static class PartnerProductRequestError
         $"Request status is '{currentStatus}' but must be '{expectedStatus}'.");
 
     public static Error CannotUpdateAfterQuotationCreated() => Error.Validation(
-            "PartnerProductRequest.CannotUpdateAfterQuotationCreated",
-            $"Cannot update request after quotation has been created."
-    );
+        "PartnerProductRequest.CannotUpdateAfterQuotationCreated",
+        $"Cannot update request after quotation has been created.");
+
+    public static Error PermissionDenied() => Error.Unauthorized(
+        "PartnerProductRequest.PermissionDenied",
+        "You do not have permission to perform this action on the partner product request.");
 }
