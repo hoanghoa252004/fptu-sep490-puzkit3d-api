@@ -17,7 +17,6 @@ public sealed record GetPartnerProductQuotationByIdResponseDto(
     decimal ShippingFee,
     decimal ImportTaxAmount,
     decimal GrandTotalAmount,
-    DateTime ExpectedDeliveryDate,
     string? Note,
     PartnerProductQuotationStatus Status,
     DateTime CreatedAt,

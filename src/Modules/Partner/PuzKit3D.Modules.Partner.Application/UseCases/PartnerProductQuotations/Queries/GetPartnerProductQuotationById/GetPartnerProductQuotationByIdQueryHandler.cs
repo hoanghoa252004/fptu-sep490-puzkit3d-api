@@ -53,7 +53,6 @@ internal sealed class GetPartnerProductQuotationByIdQueryHandler
             quotation.ShippingFee,
             quotation.ImportTaxAmount,
             quotation.GrandTotalAmount,
-            quotation.ExpectedDeliveryDate,
             quotation.Note,
             quotation.Status,
             quotation.CreatedAt,

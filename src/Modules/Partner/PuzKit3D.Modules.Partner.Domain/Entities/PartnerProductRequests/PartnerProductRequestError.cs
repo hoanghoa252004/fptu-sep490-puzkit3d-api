@@ -31,4 +31,9 @@ public static class PartnerProductRequestError
     public static Error InvalidStatus(PartnerProductRequestStatus currentStatus, PartnerProductRequestStatus expectedStatus) => Error.Validation(
         "PartnerProductRequest.InvalidStatus",
         $"Request status is '{currentStatus}' but must be '{expectedStatus}'.");
+
+    public static Error CannotUpdateAfterQuotationCreated() => Error.Validation(
+            "PartnerProductRequest.CannotUpdateAfterQuotationCreated",
+            $"Cannot update request after quotation has been created."
+    );
 }

@@ -35,7 +35,6 @@ internal sealed class GetAllPartnerProductRequestsQueryHandler
                 r.Code,
                 r.CustomerId,
                 r.PartnerId.Value,
-                r.DesiredDeliveryDate,
                 r.TotalRequestedQuantity,
                 r.Note,
                 r.Status,

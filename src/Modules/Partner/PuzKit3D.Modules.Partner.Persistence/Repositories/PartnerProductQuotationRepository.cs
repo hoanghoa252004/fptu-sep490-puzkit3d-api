@@ -92,4 +92,10 @@ internal sealed class PartnerProductQuotationRepository : IPartnerProductQuotati
         return await _context.PartnerProductQuotations
             .FirstOrDefaultAsync(q => q.PartnerProductRequestId == requestId, cancellationToken);
     }
+
+    public Task<bool> ExistsByRequestIdAsync(PartnerProductRequestId requestId, CancellationToken cancellationToken = default)
+    {
+        return _context.PartnerProductQuotations
+            .AnyAsync(q => q.PartnerProductRequestId == requestId, cancellationToken);
+    }
 }

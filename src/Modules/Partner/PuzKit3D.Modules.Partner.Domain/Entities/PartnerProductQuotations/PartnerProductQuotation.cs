@@ -13,7 +13,6 @@ public class PartnerProductQuotation : AggregateRoot<PartnerProductQuotationId>
     public decimal ShippingFee { get; private set; }
     public decimal ImportTaxAmount { get; private set; }
     public decimal GrandTotalAmount { get; private set; }
-    public DateTime ExpectedDeliveryDate { get; private set; }
     public string? Note { get; private set; }
     public PartnerProductQuotationStatus Status { get; private set; }
     public DateTime CreatedAt { get; private set; }
@@ -30,7 +29,6 @@ public class PartnerProductQuotation : AggregateRoot<PartnerProductQuotationId>
         decimal shippingFee,
         decimal importTaxAmount,
         decimal grandTotalAmount,
-        DateTime expectedDeliveryDate,
         string? note,
         PartnerProductQuotationStatus status,
         DateTime createdAt) : base(id)
@@ -41,7 +39,6 @@ public class PartnerProductQuotation : AggregateRoot<PartnerProductQuotationId>
         ShippingFee = shippingFee;
         ImportTaxAmount = importTaxAmount;
         GrandTotalAmount = grandTotalAmount;
-        ExpectedDeliveryDate = expectedDeliveryDate;
         Note = note;
         Status = status;
         CreatedAt = createdAt;
@@ -81,9 +78,8 @@ public class PartnerProductQuotation : AggregateRoot<PartnerProductQuotationId>
             shippingFee,
             importTaxAmount,
             grandTotalAmount,
-            expectedDeliveryDate,
             null,
-            PartnerProductQuotationStatus.Pending,
+            PartnerProductQuotationStatus.Quoted,
             timestamp);
 
         return Result.Success(quotation);
@@ -91,6 +87,11 @@ public class PartnerProductQuotation : AggregateRoot<PartnerProductQuotationId>
 
     public Result UpdateStatus(PartnerProductQuotationStatus newStatus, string? note = null)
     {
+        if (!PartnerProductQuotationStatusTransition.IsValidTransition(Status, newStatus))
+        {
+            return Result.Failure(
+                PartnerProductQuotationError.InvalidStatusTransition(Status, newStatus));
+        }
         Status = newStatus;
         if (note != null)
             Note = note;

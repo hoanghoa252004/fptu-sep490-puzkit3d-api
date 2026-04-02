@@ -174,7 +174,7 @@ internal sealed class CreatePartnerProductQuotationCommandHandler : ICommandTHan
             }
 
             // Update request status to Quoted after successful quotation creation
-            existingRequest.UpdateStatus(PartnerProductRequestStatus.Quoted);
+            existingRequest.UpdateStatus(false, PartnerProductRequestStatus.Quoted);
             _requestRepository.Update(existingRequest);
 
             return Result.Success(quotation.Id.Value);

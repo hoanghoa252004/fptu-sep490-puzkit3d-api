@@ -323,10 +323,6 @@ namespace PuzKit3D.Modules.Partner.Persistence.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("created_at");
 
-                    b.Property<DateTime>("ExpectedDeliveryDate")
-                        .HasColumnType("date")
-                        .HasColumnName("expected_delivery_date");
-
                     b.Property<decimal>("GrandTotalAmount")
                         .HasPrecision(10, 2)
                         .HasColumnType("numeric(10,2)")
@@ -432,10 +428,6 @@ namespace PuzKit3D.Modules.Partner.Persistence.Migrations
                     b.Property<Guid>("CustomerId")
                         .HasColumnType("uuid")
                         .HasColumnName("customer_id");
-
-                    b.Property<DateTime>("DesiredDeliveryDate")
-                        .HasColumnType("date")
-                        .HasColumnName("desired_delivery_date");
 
                     b.Property<string>("Note")
                         .HasColumnType("text")

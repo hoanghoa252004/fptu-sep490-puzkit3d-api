@@ -12,7 +12,6 @@ public class PartnerProductRequest : AggregateRoot<PartnerProductRequestId>
     public string Code { get; private set; } = null!;
     public Guid CustomerId { get; private set; }
     public PartnerId PartnerId { get; private set; } = null!;
-    public DateTime DesiredDeliveryDate { get; private set; }
     public int TotalRequestedQuantity { get; private set; }
     public string? Note { get; private set; }
     public PartnerProductRequestStatus Status { get; private set; }
@@ -27,7 +26,6 @@ public class PartnerProductRequest : AggregateRoot<PartnerProductRequestId>
         string code,
         Guid customerId,
         PartnerId partnerId,
-        DateTime desiredDeliveryDate,
         int totalRequestedQuantity,
         string? note,
         PartnerProductRequestStatus status,
@@ -36,7 +34,6 @@ public class PartnerProductRequest : AggregateRoot<PartnerProductRequestId>
         Code = code;
         CustomerId = customerId;
         PartnerId = partnerId;
-        DesiredDeliveryDate = desiredDeliveryDate;
         TotalRequestedQuantity = totalRequestedQuantity;
         Note = note;
         Status = status;
@@ -73,7 +70,6 @@ public class PartnerProductRequest : AggregateRoot<PartnerProductRequestId>
             code,
             customerId,
             partnerId,
-            desiredDeliveryDate,
             totalQuantity,
             null,
             PartnerProductRequestStatus.Pending,
@@ -108,15 +104,23 @@ public class PartnerProductRequest : AggregateRoot<PartnerProductRequestId>
         return Result.Success(request);
     }
 
-    //public Result UpdateStatus(int status)
-    //{
-    //    Status = status;
-    //    UpdatedAt = DateTime.UtcNow;
-    //    return Result.Success();
-    //}
-
-    public Result UpdateStatus(PartnerProductRequestStatus newStatus, string? note = null)
+    public Result UpdateStatus(
+        bool hasQuotation,
+        PartnerProductRequestStatus newStatus, 
+        string? note = null)
     {
+        if (hasQuotation)
+        {
+            return Result.Failure(
+                PartnerProductRequestError.CannotUpdateAfterQuotationCreated());
+        }
+
+        if (!PartnerProductRequestStatusTransition.IsValidTransition(Status, newStatus))
+        {
+            return Result.Failure(
+                PartnerProductRequestError.InvalidStatusTransition(Status, newStatus));
+        }
+
         Status = newStatus;
         if (note != null)
         {

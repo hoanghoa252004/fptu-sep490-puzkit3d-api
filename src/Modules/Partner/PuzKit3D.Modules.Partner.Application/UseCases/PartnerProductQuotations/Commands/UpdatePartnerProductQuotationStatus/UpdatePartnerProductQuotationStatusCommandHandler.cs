@@ -39,14 +39,6 @@ internal sealed class UpdatePartnerProductQuotationStatusCommandHandler : IComma
                 return Result.Failure<Guid>(PartnerProductQuotationError.NotFound(command.QuotationId));
             }
 
-            // Validate status transition
-            var currentStatus = existingQuotation.Status;
-            if (!PartnerProductQuotationStatusTransition.IsValidTransition(currentStatus, command.NewStatus))
-            {
-                return Result.Failure<Guid>(
-                    PartnerProductQuotationError.InvalidStatusTransition(currentStatus, command.NewStatus));
-            }
-
             // Update quotation status
             var updateResult = existingQuotation.UpdateStatus(command.NewStatus, command.Note);
             if (updateResult.IsFailure)
@@ -55,7 +47,7 @@ internal sealed class UpdatePartnerProductQuotationStatusCommandHandler : IComma
             }
 
             // Load associated request and sync status
-            var associatedRequest = await _requestRepository.GetDetailByIdAsync(
+            var associatedRequest = await _requestRepository.GetByIdAsync(
                 existingQuotation.PartnerProductRequestId,
                 cancellationToken);
 
@@ -63,7 +55,7 @@ internal sealed class UpdatePartnerProductQuotationStatusCommandHandler : IComma
             {
                 // Map quotation status to request status
                 var requestStatus = MapQuotationStatusToRequestStatus(command.NewStatus);
-                var requestUpdateResult = associatedRequest.UpdateStatus(requestStatus, command.Note);
+                var requestUpdateResult = associatedRequest.UpdateStatus(false, requestStatus, command.Note);
                 
                 if (requestUpdateResult.IsFailure)
                 {
@@ -89,7 +81,6 @@ internal sealed class UpdatePartnerProductQuotationStatusCommandHandler : IComma
     {
         return quotationStatus switch
         {
-            PartnerProductQuotationStatus.Pending => PartnerProductRequestStatus.Quoted,
             PartnerProductQuotationStatus.Quoted => PartnerProductRequestStatus.Quoted,
             PartnerProductQuotationStatus.Accepted => PartnerProductRequestStatus.Accepted,
             PartnerProductQuotationStatus.RejectedByCustomer => PartnerProductRequestStatus.RejectedByCustomer,

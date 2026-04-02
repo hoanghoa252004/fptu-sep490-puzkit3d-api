@@ -37,7 +37,6 @@ internal sealed class GetAllPartnerProductQuotationsQueryHandler
                 q.ShippingFee,
                 q.ImportTaxAmount,
                 q.GrandTotalAmount,
-                q.ExpectedDeliveryDate,
                 q.Note,
                 q.Status,
                 q.CreatedAt,

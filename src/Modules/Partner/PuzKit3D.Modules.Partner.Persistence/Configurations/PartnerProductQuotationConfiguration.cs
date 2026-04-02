@@ -47,10 +47,6 @@ internal sealed class PartnerProductQuotationConfiguration : IEntityTypeConfigur
             .IsRequired()
             .HasPrecision(10, 2);
 
-        builder.Property(q => q.ExpectedDeliveryDate)
-            .IsRequired()
-            .HasColumnType("date");
-
         builder.Property(q => q.Note);
 
         builder.Property(q => q.Status)

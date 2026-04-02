@@ -14,7 +14,6 @@ public sealed record GetPartnerProductRequestDetailResponseDto(
     string Code,
     Guid CustomerId,
     Guid PartnerId,
-    DateTime DesiredDeliveryDate,
     int TotalRequestedQuantity,
     string? Note,
     PartnerProductRequestStatus Status,

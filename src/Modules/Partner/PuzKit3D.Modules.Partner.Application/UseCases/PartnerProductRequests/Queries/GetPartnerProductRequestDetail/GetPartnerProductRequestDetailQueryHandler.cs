@@ -50,7 +50,6 @@ internal sealed class GetPartnerProductRequestDetailQueryHandler
             req.Code,
             req.CustomerId,
             req.PartnerId.Value,
-            req.DesiredDeliveryDate,
             req.TotalRequestedQuantity,
             req.Note,
             req.Status,

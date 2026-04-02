@@ -34,10 +34,6 @@ internal sealed class PartnerProductRequestConfiguration : IEntityTypeConfigurat
                 value => PartnerId.From(value))
             .IsRequired();
 
-        builder.Property(r => r.DesiredDeliveryDate)
-            .IsRequired()
-            .HasColumnType("date");
-
         builder.Property(r => r.TotalRequestedQuantity)
             .IsRequired();
 

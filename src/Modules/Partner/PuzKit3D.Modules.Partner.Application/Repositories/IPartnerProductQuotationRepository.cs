@@ -15,4 +15,8 @@ public interface IPartnerProductQuotationRepository : IRepositoryBase<PartnerPro
     Task<PartnerProductQuotation?> GetByRequestIdAsync(
         PartnerProductRequestId requestId, 
         CancellationToken cancellationToken = default);
+
+    Task<bool> ExistsByRequestIdAsync(
+        PartnerProductRequestId requestId,
+        CancellationToken cancellationToken = default);
 }

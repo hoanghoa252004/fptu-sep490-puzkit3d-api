@@ -4,14 +4,6 @@ public static class PartnerProductQuotationStatusTransition
 {
     private static readonly Dictionary<PartnerProductQuotationStatus, HashSet<PartnerProductQuotationStatus>> AllowedTransitions = new()
     {
-        // Pending: Quotation vừa được tạo
-        {
-            PartnerProductQuotationStatus.Pending, new HashSet<PartnerProductQuotationStatus>
-            {
-                PartnerProductQuotationStatus.Quoted,      // Manager đã tạo xong quotation
-                PartnerProductQuotationStatus.CancelledByStaff // Staff hủy quotation
-            }
-        },
         // Quoted: Quotation đã được tạo, chờ customer phản hồi
         {
             PartnerProductQuotationStatus.Quoted, new HashSet<PartnerProductQuotationStatus>

@@ -10,13 +10,16 @@ internal sealed class UpdatePartnerProductRequestStatusCommandHandler : ICommand
 {
     private readonly IPartnerProductRequestRepository _requestRepository;
     private readonly IPartnerUnitOfWork _unitOfWork;
+    private readonly IPartnerProductQuotationRepository _quotationRepository;
 
     public UpdatePartnerProductRequestStatusCommandHandler(
         IPartnerProductRequestRepository requestRepository,
-        IPartnerUnitOfWork unitOfWork)
+        IPartnerUnitOfWork unitOfWork,
+        IPartnerProductQuotationRepository quotationRepository)
     {
         _requestRepository = requestRepository;
         _unitOfWork = unitOfWork;
+        _quotationRepository = quotationRepository;
     }
 
     public async Task<ResultT<Guid>> Handle(
@@ -35,16 +38,13 @@ internal sealed class UpdatePartnerProductRequestStatusCommandHandler : ICommand
                 return Result.Failure<Guid>(PartnerProductRequestError.NotFound(request.RequestId));
             }
 
-            // Validate status transition
-            var currentStatus = existingRequest.Status;
-            if (!PartnerProductRequestStatusTransition.IsValidTransition(currentStatus, request.NewStatus))
-            {
-                return Result.Failure<Guid>(
-                    PartnerProductRequestError.InvalidStatusTransition(currentStatus, request.NewStatus));
-            }
+            // Check existing quotation
+            var hasQuotation = await _quotationRepository.ExistsByRequestIdAsync(
+                existingRequest.Id,
+                cancellationToken);
 
             // Update status
-            var updateResult = existingRequest.UpdateStatus(request.NewStatus, request.Note);
+            var updateResult = existingRequest.UpdateStatus(hasQuotation, request.NewStatus, request.Note);
             if (updateResult.IsFailure)
             {
                 return Result.Failure<Guid>(updateResult.Error);
