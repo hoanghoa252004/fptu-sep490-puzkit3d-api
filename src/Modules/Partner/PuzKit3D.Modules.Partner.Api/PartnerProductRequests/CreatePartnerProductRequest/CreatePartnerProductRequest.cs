@@ -35,7 +35,6 @@ internal sealed class CreatePartnerProductRequest : IEndpoint
                 var command = new CreatePartnerProductRequestCommand(
                     customerGuid,
                     request.PartnerId,
-                    request.DesiredDeliveryDate,
                     request.Items
                         .ConvertAll(i => new AppItemDto(
                             i.PartnerProductId,
@@ -59,7 +58,6 @@ internal sealed class CreatePartnerProductRequest : IEndpoint
 
 internal sealed record CreatePartnerProductRequestRequestDto(
     Guid PartnerId,
-    DateTime DesiredDeliveryDate,
     List<CreatePartnerProductRequestItemRequestDto> Items);
 
 internal sealed record CreatePartnerProductRequestItemRequestDto(

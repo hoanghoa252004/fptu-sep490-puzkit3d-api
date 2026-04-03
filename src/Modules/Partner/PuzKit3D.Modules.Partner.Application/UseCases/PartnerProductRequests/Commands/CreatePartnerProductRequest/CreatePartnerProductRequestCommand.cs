@@ -5,7 +5,6 @@ namespace PuzKit3D.Modules.Partner.Application.UseCases.PartnerProductRequests.C
 public sealed record CreatePartnerProductRequestCommand(
     Guid CustomerId,
     Guid PartnerId,
-    DateTime DesiredDeliveryDate,
     List<CreatePartnerProductRequestItemRequestDto> Items) : ICommandT<Guid>;
 
 public sealed record CreatePartnerProductRequestItemRequestDto(

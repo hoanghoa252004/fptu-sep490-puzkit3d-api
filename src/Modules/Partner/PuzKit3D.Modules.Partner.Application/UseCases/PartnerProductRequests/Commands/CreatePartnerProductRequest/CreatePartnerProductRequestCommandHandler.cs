@@ -65,7 +65,6 @@ internal sealed class CreatePartnerProductRequestCommandHandler : ICommandTHandl
                 orderCode,
                 request.CustomerId,
                 PartnerId.From(request.PartnerId),
-                request.DesiredDeliveryDate,
                 request.Items.Select(i => (
                     PartnerProductId.From(i.PartnerProductId),
                     i.Quantity,

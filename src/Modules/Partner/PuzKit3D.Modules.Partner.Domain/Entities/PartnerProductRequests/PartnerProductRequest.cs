@@ -49,7 +49,6 @@ public class PartnerProductRequest : AggregateRoot<PartnerProductRequestId>
         string code,
         Guid customerId,
         PartnerId partnerId,
-        DateTime desiredDeliveryDate,
         List<(PartnerProductId productId, int quantity, decimal price)> items,
         PartnerProductRequestStatus status = PartnerProductRequestStatus.Pending,
         DateTime? createdAt = null)
