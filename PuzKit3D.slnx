@@ -36,6 +36,13 @@
     <Project Path="src/Modules/Catalog/PuzKit3D.Modules.Catalog.Infrastructure/PuzKit3D.Modules.Catalog.Infrastructure.csproj" Id="2ddde251-346a-431f-9f06-08cd49db1f17" />
     <Project Path="src/Modules/Catalog/PuzKit3D.Modules.Catalog.Persistence/PuzKit3D.Modules.Catalog.Persistence.csproj" Id="91dd9580-1435-43a1-bd6d-e3718e827c35" />
   </Folder>
+  <Folder Name="/src/Modules/CustomDesign/">
+    <Project Path="src/Modules/CustomDesign/PuzKit3D.Modules.CustomDesign.Api/PuzKit3D.Modules.CustomDesign.Api.csproj" Id="00015fa1-583c-4b5f-bd5f-1ac6a95b8679" />
+    <Project Path="src/Modules/CustomDesign/PuzKit3D.Modules.CustomDesign.Application/PuzKit3D.Modules.CustomDesign.Application.csproj" Id="1fc9cb5f-08e0-48aa-a9a4-3ee762a081d8" />
+    <Project Path="src/Modules/CustomDesign/PuzKit3D.Modules.CustomDesign.Domain/PuzKit3D.Modules.CustomDesign.Domain.csproj" Id="17c35f3a-a5a0-47f7-a2fb-baf737890901" />
+    <Project Path="src/Modules/CustomDesign/PuzKit3D.Modules.CustomDesign.Infrastructure/PuzKit3D.Modules.CustomDesign.Infrastructure.csproj" Id="75868222-00af-429c-a9a6-0ce55e817f66" />
+    <Project Path="src/Modules/CustomDesign/PuzKit3D.Modules.CustomDesign.Persistence/PuzKit3D.Modules.CustomDesign.Persistence.csproj" Id="87dadaf0-dd9a-4c78-89cb-36fe9f3d26dc" />
+  </Folder>
   <Folder Name="/src/Modules/Delivery/">
     <Project Path="src/Modules/Delivery/PuzKit3D.Modules.Delivery.Api/PuzKit3D.Modules.Delivery.Api.csproj" Id="b8b010b8-6c03-4b4b-ad7b-42bca6a53780" />
     <Project Path="src/Modules/Delivery/PuzKit3D.Modules.Delivery.Application/PuzKit3D.Modules.Delivery.Application.csproj" Id="8217e14f-4629-4b7c-b65e-e9799d04ffa7" />
