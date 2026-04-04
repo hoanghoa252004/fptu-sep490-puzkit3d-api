@@ -5,6 +5,10 @@ using PuzKit3D.Modules.Cart.Persistence;
 using PuzKit3D.Modules.Catalog.Api;
 using PuzKit3D.Modules.Catalog.Application;
 using PuzKit3D.Modules.Catalog.Persistence;
+using PuzKit3D.Modules.CustomDesign.Api;
+using PuzKit3D.Modules.CustomDesign.Application;
+using PuzKit3D.Modules.CustomDesign.Infrastructure;
+using PuzKit3D.Modules.CustomDesign.Persistence;
 using PuzKit3D.Modules.Delivery.Api;
 using PuzKit3D.Modules.Delivery.Application;
 using PuzKit3D.Modules.Delivery.Infrastructure;
@@ -78,6 +82,7 @@ builder.Services.AddSharedKernelApplication(
         FeedbackApplicationAssembly.Assembly,
         SupportTicketApplicationAssembly.Assembly,
         WalletApplicationAssembly.Assembly,
+        CustomDesignApplicationAssembly.Assembly,
     } 
 );
 
@@ -97,6 +102,7 @@ builder.Services.AddEndpointsFromAssembly(
        FeedbackApiAssembly.Assembly,
        SupportTicketApiAssembly.Assembly,
        WalletApiAssembly.Assembly,
+       CustomDesignApiAssembly.Assembly,
     }
 );
 
@@ -110,6 +116,7 @@ builder.Services.AddFeedbackPersistence(builder.Configuration);
 builder.Services.AddSupportTicketPersistence(builder.Configuration);
 builder.Services.AddDeliveryPersistence(builder.Configuration);
 builder.Services.AddWalletPersistence(builder.Configuration);
+builder.Services.AddCustomDesignPersistence(builder.Configuration);
 
 // Add Infrastructure services (Domain Event Handlers, Integration Event Handlers):
 builder.Services.AddInStockInfrastructure(builder.Configuration);
@@ -122,6 +129,7 @@ builder.Services.AddDeliveryInfrastructure(builder.Configuration, builder.Enviro
 builder.Services.AddSupportTicketInfrastructure();
 builder.Services.AddWalletInfrastructure(builder.Configuration); 
 builder.Services.AddPartnerInfrastructure();
+builder.Services.AddCustomDesignInfrastructure(builder.Configuration);
 
 // Add Background Services (Cronjobs)
 builder.Services.AddHostedService<PaymentExpiryCheckService>();

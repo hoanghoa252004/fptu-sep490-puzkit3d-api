@@ -30,6 +30,11 @@
     <ProjectReference Include="..\..\Modules\Cart\PuzKit3D.Modules.Cart.Domain\PuzKit3D.Modules.Cart.Domain.csproj" />
     <ProjectReference Include="..\..\Modules\Cart\PuzKit3D.Modules.Cart.Infrastructure\PuzKit3D.Modules.Cart.Infrastructure.csproj" />
     <ProjectReference Include="..\..\Modules\Cart\PuzKit3D.Modules.Cart.Persistence\PuzKit3D.Modules.Cart.Persistence.csproj" />
+    <ProjectReference Include="..\..\Modules\CustomDesign\PuzKit3D.Modules.CustomDesign.Api\PuzKit3D.Modules.CustomDesign.Api.csproj" />
+    <ProjectReference Include="..\..\Modules\CustomDesign\PuzKit3D.Modules.CustomDesign.Application\PuzKit3D.Modules.CustomDesign.Application.csproj" />
+    <ProjectReference Include="..\..\Modules\CustomDesign\PuzKit3D.Modules.CustomDesign.Domain\PuzKit3D.Modules.CustomDesign.Domain.csproj" />
+    <ProjectReference Include="..\..\Modules\CustomDesign\PuzKit3D.Modules.CustomDesign.Infrastructure\PuzKit3D.Modules.CustomDesign.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\Modules\CustomDesign\PuzKit3D.Modules.CustomDesign.Persistence\PuzKit3D.Modules.CustomDesign.Persistence.csproj" />
     <ProjectReference Include="..\..\Modules\Delivery\PuzKit3D.Modules.Delivery.Api\PuzKit3D.Modules.Delivery.Api.csproj" />
     <ProjectReference Include="..\..\Modules\Delivery\PuzKit3D.Modules.Delivery.Application\PuzKit3D.Modules.Delivery.Application.csproj" />
     <ProjectReference Include="..\..\Modules\Delivery\PuzKit3D.Modules.Delivery.Domain\PuzKit3D.Modules.Delivery.Domain.csproj" />
