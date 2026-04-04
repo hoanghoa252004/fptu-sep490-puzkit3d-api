@@ -1,8 +1,11 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using PuzKit3D.Modules.CustomDesign.Application.UnitOfWork;
+using PuzKit3D.Modules.CustomDesign.Domain.Entities.CustomDesignAssets;
+using PuzKit3D.Modules.CustomDesign.Domain.Entities.CustomDesignRequests;
+using PuzKit3D.Modules.CustomDesign.Domain.Entities.CustomDesignRequirements;
 using PuzKit3D.Modules.CustomDesign.Domain.Entities.Replicas;
-using PuzKit3D.Modules.InStock.Domain.Entities.InstockOrderConfigs;
+using PuzKit3D.Modules.CustomDesign.Domain.Entities.RequirementCapabilityDetails;
 using PuzKit3D.SharedKernel.Domain;
 using PuzKit3D.SharedKernel.Domain.Results;
 using PuzKit3D.SharedKernel.Infrastructure.Data;
@@ -20,6 +23,10 @@ public sealed class CustomDesignDbContext : DbContext, ICustomDesignUnitOfWork
         _publisher = publisher;
     }
 
+    public DbSet<CustomDesignRequest> CustomDesignRequests => Set<CustomDesignRequest>();
+    public DbSet<CustomDesignRequirement> CustomDesignRequirements => Set<CustomDesignRequirement>();
+    public DbSet<RequirementCapabilityDetail> RequirementCapabilityDetails => Set<RequirementCapabilityDetail>();
+    public DbSet<CustomDesignAsset> CustomDesignAssets => Set<CustomDesignAsset>();
     public DbSet<TopicReplica> TopicReplicas => Set<TopicReplica>();
     public DbSet<AssemblyMethodReplica> AssemblyMethodReplicas => Set<AssemblyMethodReplica>();
     public DbSet<MaterialReplica> MaterialReplicas => Set<MaterialReplica>();

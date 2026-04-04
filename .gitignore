@@ -428,3 +428,4 @@ FodyWeavers.xsd
 *.msp
 appsettings.*.json
 !appsettings.json
+/src/Modules/CustomDesign/PuzKit3D.Modules.CustomDesign.Domain/Entities/CustomDesignAssets/SketchTaskId.cs

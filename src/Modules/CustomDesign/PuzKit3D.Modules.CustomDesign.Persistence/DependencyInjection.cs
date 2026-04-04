@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using PuzKit3D.Modules.CustomDesign.Application.Repositories;
+using PuzKit3D.Modules.CustomDesign.Application.UnitOfWork;
 using PuzKit3D.Modules.CustomDesign.Persistence.Repositories;
 using PuzKit3D.SharedKernel.Infrastructure.Data;
 
@@ -33,6 +34,13 @@ public static class DependencyInjection
                 options.EnableSensitiveDataLogging();
             }
         });
+
+        services.AddScoped<ICustomDesignUnitOfWork>(sp => sp.GetRequiredService<CustomDesignDbContext>());
+
+        services.AddScoped<ICustomDesignRequirementRepository, CustomDesignRequirementRepository>();
+        services.AddScoped<ICustomDesignRequestRepository, CustomDesignRequestRepository>();
+        services.AddScoped<ICustomDesignAssetRepository, CustomDesignAssetRepository>();
+        services.AddScoped<IRequirementCapabilityDetailRepository, RequirementCapabilityDetailRepository>();
 
         services.AddScoped<ITopicReplicaRepository, TopicReplicaRepository>();
         services.AddScoped<IAssemblyMethodReplicaRepository, AssemblyMethodReplicaRepository>();
