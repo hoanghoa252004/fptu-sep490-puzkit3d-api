@@ -1,4 +1,6 @@
+using MediatR;
 using PuzKit3D.SharedKernel.Domain;
+using PuzKit3D.SharedKernel.Domain.Results;
 
 namespace PuzKit3D.Modules.CustomDesign.Domain.Entities.CustomDesignRequirements;
 
@@ -44,7 +46,7 @@ public sealed class CustomDesignRequirement : Entity<CustomDesignRequirementId>
     {
     }
 
-    public static CustomDesignRequirement Create(
+    public static ResultT<CustomDesignRequirement> Create(
         Guid id,
         string code,
         Guid topicId,
@@ -57,7 +59,16 @@ public sealed class CustomDesignRequirement : Entity<CustomDesignRequirementId>
         DateTime createdAt,
         DateTime updatedAt)
     {
-        return new CustomDesignRequirement(
+        if (minPartQuantity <= 0)
+            return Result.Failure<CustomDesignRequirement>(CustomDesignRequirementError.InvalidMinPartQuantity());
+
+        if (maxPartQuantity <= 0)
+            return Result.Failure<CustomDesignRequirement>(CustomDesignRequirementError.InvalidMaxPartQuantity());
+
+        if (minPartQuantity > maxPartQuantity)
+            return Result.Failure<CustomDesignRequirement>(CustomDesignRequirementError.InvalidQuantityRange());
+
+        return Result.Success(new CustomDesignRequirement(
             CustomDesignRequirementId.From(id),
             code,
             topicId,
@@ -68,26 +79,86 @@ public sealed class CustomDesignRequirement : Entity<CustomDesignRequirementId>
             maxPartQuantity,
             isActive,
             createdAt,
-            updatedAt);
+            updatedAt));
     }
 
-    public void Update(
-        Guid topicId,
-        Guid materialId,
-        Guid assemblyMethodId,
-        DifficultyLevel difficulty,
-        int minPartQuantity,
-        int maxPartQuantity,
-        bool isActive,
+    public Result Update(
+        Guid? topicId,
+        Guid? materialId,
+        Guid? assemblyMethodId,
+        string? difficulty,
+        int? minPartQuantity,
+        int? maxPartQuantity,
+        bool? isActive,
         DateTime updatedAt)
     {
-        TopicId = topicId;
-        MaterialId = materialId;
-        AssemblyMethodId = assemblyMethodId;
-        Difficulty = difficulty;
-        MinPartQuantity = minPartQuantity;
-        MaxPartQuantity = maxPartQuantity;
-        IsActive = isActive;
+        // Validate difficulty if provided
+        DifficultyLevel? difficultyParsed = null;
+        if (difficulty is not null)
+        {
+            if(!Enum.TryParse<DifficultyLevel>(difficulty, true, out var parsed))
+                return Result.Failure(CustomDesignRequirementError.InvalidDifficulty(difficulty.ToString()));
+            difficultyParsed = parsed;
+        }
+
+        // Validate minPartQuantity if provided
+        if (minPartQuantity.HasValue)
+        {
+            if (minPartQuantity <= 0)
+                return Result.Failure(CustomDesignRequirementError.InvalidMinPartQuantity());
+
+            if (maxPartQuantity.HasValue == false && minPartQuantity >= MaxPartQuantity)
+                return Result.Failure(CustomDesignRequirementError.InvalidQuantityRange());
+        }
+
+
+        // Validate maxPartQuantity if provided
+        if (maxPartQuantity.HasValue)
+        {
+            if (maxPartQuantity <= 0)
+                return Result.Failure(CustomDesignRequirementError.InvalidMaxPartQuantity());
+
+            if (minPartQuantity.HasValue == false && MinPartQuantity >= maxPartQuantity)
+                return Result.Failure(CustomDesignRequirementError.InvalidQuantityRange());
+        }
+
+        // Validate quantity range if both provided
+        if (minPartQuantity.HasValue && maxPartQuantity.HasValue)
+        {
+            if (minPartQuantity > maxPartQuantity)
+                return Result.Failure(CustomDesignRequirementError.InvalidQuantityRange());
+        }
+
+        // Or validate range if only one is provided but comparing with current value
+        else if (minPartQuantity.HasValue && minPartQuantity > (maxPartQuantity ?? MaxPartQuantity))
+            return Result.Failure(CustomDesignRequirementError.InvalidQuantityRange());
+        else if (maxPartQuantity.HasValue && maxPartQuantity < (minPartQuantity ?? MinPartQuantity))
+            return Result.Failure(CustomDesignRequirementError.InvalidQuantityRange());
+
+        // Update only provided fields
+        if (topicId.HasValue)
+            TopicId = topicId.Value;
+
+        if (materialId.HasValue)
+            MaterialId = materialId.Value;
+
+        if (assemblyMethodId.HasValue)
+            AssemblyMethodId = assemblyMethodId.Value;
+
+        if (difficulty is not null)
+            Difficulty = difficultyParsed!.Value;
+
+        if (minPartQuantity.HasValue)
+            MinPartQuantity = minPartQuantity.Value;
+
+        if (maxPartQuantity.HasValue)
+            MaxPartQuantity = maxPartQuantity.Value;
+
+        if (isActive.HasValue)
+            IsActive = isActive.Value;
+
         UpdatedAt = updatedAt;
+
+        return Result.Success();
     }
 }

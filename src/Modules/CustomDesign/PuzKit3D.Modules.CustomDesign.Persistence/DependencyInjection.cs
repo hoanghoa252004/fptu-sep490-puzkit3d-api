@@ -2,8 +2,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using PuzKit3D.Modules.CustomDesign.Application.Repositories;
+using PuzKit3D.Modules.CustomDesign.Application.Services;
 using PuzKit3D.Modules.CustomDesign.Application.UnitOfWork;
 using PuzKit3D.Modules.CustomDesign.Persistence.Repositories;
+using PuzKit3D.Modules.CustomDesign.Persistence.Services;
 using PuzKit3D.SharedKernel.Infrastructure.Data;
 
 namespace PuzKit3D.Modules.CustomDesign.Persistence;
@@ -47,6 +49,8 @@ public static class DependencyInjection
         services.AddScoped<IMaterialReplicaRepository, MaterialReplicaRepository>();
         services.AddScoped<ICapabilityReplicaRepository, CapabilityReplicaRepository>();
 
+        // Services
+        services.AddScoped<ICustomDesignRequirementCodeGenerator, CustomDesignRequirementCodeGenerator>();
         return services;
     }
 }

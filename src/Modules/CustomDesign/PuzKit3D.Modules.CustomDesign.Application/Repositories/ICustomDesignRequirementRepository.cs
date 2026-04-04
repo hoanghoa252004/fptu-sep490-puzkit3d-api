@@ -1,11 +1,12 @@
 using PuzKit3D.Modules.CustomDesign.Domain.Entities.CustomDesignRequirements;
+using PuzKit3D.SharedKernel.Domain.Results;
 
 namespace PuzKit3D.Modules.CustomDesign.Application.Repositories;
 
 public interface ICustomDesignRequirementRepository
 {
-    Task<CustomDesignRequirement?> GetByIdAsync(CustomDesignRequirementId id, CancellationToken cancellationToken = default);
-    Task<CustomDesignRequirement?> GetByCodeAsync(string code, CancellationToken cancellationToken = default);
+    Task<ResultT<CustomDesignRequirement>> GetByIdAsync(CustomDesignRequirementId id, CancellationToken cancellationToken = default);
+    Task<ResultT<CustomDesignRequirement>> GetByCodeAsync(string code, CancellationToken cancellationToken = default);
     Task<IEnumerable<CustomDesignRequirement>> GetAllAsync(CancellationToken cancellationToken = default);
     Task<IEnumerable<CustomDesignRequirement>> GetActiveAsync(CancellationToken cancellationToken = default);
     Task AddAsync(CustomDesignRequirement requirement, CancellationToken cancellationToken = default);

@@ -1,32 +1,56 @@
 using Microsoft.EntityFrameworkCore;
 using PuzKit3D.Modules.CustomDesign.Application.Repositories;
+using PuzKit3D.Modules.CustomDesign.Domain.Entities;
 using PuzKit3D.Modules.CustomDesign.Domain.Entities.CustomDesignRequirements;
+using PuzKit3D.SharedKernel.Domain.Results;
 
 namespace PuzKit3D.Modules.CustomDesign.Persistence.Repositories;
 
 internal sealed class CustomDesignRequirementRepository : ICustomDesignRequirementRepository
 {
     private readonly CustomDesignDbContext _context;
+    private readonly ITopicReplicaRepository _topicReplicaRepository;
+    private readonly IMaterialReplicaRepository _materialReplicaRepository;
+    private readonly IAssemblyMethodReplicaRepository _assemblyMethodReplicaRepository;
+    private readonly ICapabilityReplicaRepository _capabilityReplicaRepository;
 
-    public CustomDesignRequirementRepository(CustomDesignDbContext context)
+    public CustomDesignRequirementRepository(
+        CustomDesignDbContext context,
+        ITopicReplicaRepository topicReplicaRepository,
+        IMaterialReplicaRepository materialReplicaRepository,
+        IAssemblyMethodReplicaRepository assemblyMethodReplicaRepository,
+        ICapabilityReplicaRepository capabilityReplicaRepository)
     {
         _context = context;
+        _topicReplicaRepository = topicReplicaRepository;
+        _materialReplicaRepository = materialReplicaRepository;
+        _assemblyMethodReplicaRepository = assemblyMethodReplicaRepository;
+        _capabilityReplicaRepository = capabilityReplicaRepository;
     }
 
-    public async Task<CustomDesignRequirement?> GetByIdAsync(
+
+    public async Task<ResultT<CustomDesignRequirement>> GetByIdAsync(
         CustomDesignRequirementId id,
         CancellationToken cancellationToken = default)
     {
-        return await _context.CustomDesignRequirements
+        var requirement = await _context.CustomDesignRequirements
             .FirstOrDefaultAsync(r => r.Id == id, cancellationToken);
+
+        if (requirement == null)
+            return Result.Failure<CustomDesignRequirement>(CustomDesignRequirementError.NotFound());
+        return Result.Success(requirement);
     }
 
-    public async Task<CustomDesignRequirement?> GetByCodeAsync(
+    public async Task<ResultT<CustomDesignRequirement>> GetByCodeAsync(
         string code,
         CancellationToken cancellationToken = default)
     {
-        return await _context.CustomDesignRequirements
+        var requirement = await _context.CustomDesignRequirements
             .FirstOrDefaultAsync(r => r.Code == code, cancellationToken);
+
+        if (requirement == null)
+            return Result.Failure<CustomDesignRequirement>(CustomDesignRequirementError.NotFound());
+        return Result.Success(requirement);
     }
 
     public async Task<IEnumerable<CustomDesignRequirement>> GetAllAsync(
