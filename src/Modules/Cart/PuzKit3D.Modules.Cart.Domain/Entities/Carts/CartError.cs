@@ -63,4 +63,7 @@ public static class CartError
 
     public static Error PriceNotHighestPriority() =>
         Error.Validation("Cart.PriceNotHighestPriority", "The selected price detail is not the highest priority active price for this variant");
+
+    public static Error ItemPriceMismatch() =>
+        Error.Conflict("Cart.ItemPriceMismatch", "The prices are different. Please update the cart item instead");
 }

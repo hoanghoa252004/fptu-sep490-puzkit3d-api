@@ -71,10 +71,16 @@ internal sealed class AddItemToInStockCartCommandHandler : ICommandHandler<AddIt
                 _cartRepository.Add(cart);
             }
 
-            // Get current quantity of the item in the cart
+            // Get current quantity and price of the item in the cart
             var existingItem = cart.Items.FirstOrDefault(i => i.ItemId == request.ItemId);
             var currentQuantity = existingItem?.Quantity ?? 0;
             var totalQuantity = currentQuantity + quantity;
+
+            // Check if item already exists with a different price detail
+            if (existingItem != null && existingItem.InStockProductPriceDetailId != request.InStockProductPriceDetailId)
+            {
+                return Result.Failure(CartError.ItemPriceMismatch());
+            }
 
             // Check inventory with total quantity
             var inventory = await _queryRepository.GetInStockInventoryByVariantIdAsync(request.ItemId, cancellationToken);

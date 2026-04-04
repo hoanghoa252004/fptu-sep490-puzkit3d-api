@@ -28,7 +28,7 @@ internal sealed class GetAssemblyMethodById : IEndpoint
             .WithName("GetAssemblyMethodById")
             .WithSummary("Get assembly method by ID")
             .WithDescription("Retrieves a single assembly method by its unique identifier. Requires Staff or Manager role.")
-            .RequireAuthorization(policy => policy.RequireRole(Roles.Staff, Roles.BusinessManager))
+            .AllowAnonymous()
             .Produces<GetAssemblyMethodByIdResponseDto>(StatusCodes.Status200OK)
             .ProducesProblem(StatusCodes.Status404NotFound)
             .ProducesProblem(StatusCodes.Status500InternalServerError);
