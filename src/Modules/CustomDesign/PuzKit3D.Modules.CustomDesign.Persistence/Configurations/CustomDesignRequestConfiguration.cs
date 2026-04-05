@@ -34,8 +34,9 @@ internal sealed class CustomDesignRequestConfiguration : IEntityTypeConfiguratio
                 value => CustomDesignRequirementId.From(value))
             .IsRequired();
 
-        builder.Property(r => r.DesiredPartQuantity)
-            .IsRequired();
+        builder.Property(r => r.CustomerPrompt)
+            .HasColumnType("text")
+            .IsRequired(false);
 
         builder.Property(r => r.DesiredLengthMm)
             .IsRequired()

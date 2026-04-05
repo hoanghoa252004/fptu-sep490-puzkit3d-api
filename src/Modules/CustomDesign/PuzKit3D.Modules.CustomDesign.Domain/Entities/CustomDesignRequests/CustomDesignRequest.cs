@@ -9,11 +9,11 @@ public sealed class CustomDesignRequest : Entity<CustomDesignRequestId>
     public string Title { get; private set; } = null!;
     public string? Description { get; private set; }
     public CustomDesignRequirementId CustomDesignRequirementId { get; private set; }
-    public int DesiredPartQuantity { get; private set; }
     public decimal DesiredLengthMm { get; private set; }
     public decimal DesiredWidthMm { get; private set; }
     public decimal DesiredHeightMm { get; private set; }
     public string? Sketches { get; private set; }
+    public string? CustomerPrompt { get; private set; }
     public DateTime DesiredDeliveryDate { get; private set; }
     public int DesiredQuantity { get; private set; }
     public decimal TargetBudget { get; private set; }
@@ -28,11 +28,11 @@ public sealed class CustomDesignRequest : Entity<CustomDesignRequestId>
         string title,
         string? description,
         CustomDesignRequirementId customDesignRequirementId,
-        int desiredPartQuantity,
         decimal desiredLengthMm,
         decimal desiredWidthMm,
         decimal desiredHeightMm,
         string? sketches,
+        string? customerPrompt,
         DateTime desiredDeliveryDate,
         int desiredQuantity,
         decimal targetBudget,
@@ -45,11 +45,11 @@ public sealed class CustomDesignRequest : Entity<CustomDesignRequestId>
         Title = title;
         Description = description;
         CustomDesignRequirementId = customDesignRequirementId;
-        DesiredPartQuantity = desiredPartQuantity;
         DesiredLengthMm = desiredLengthMm;
         DesiredWidthMm = desiredWidthMm;
         DesiredHeightMm = desiredHeightMm;
         Sketches = sketches;
+        CustomerPrompt = customerPrompt;
         DesiredDeliveryDate = desiredDeliveryDate;
         DesiredQuantity = desiredQuantity;
         TargetBudget = targetBudget;
@@ -69,11 +69,11 @@ public sealed class CustomDesignRequest : Entity<CustomDesignRequestId>
         string title,
         string? description,
         Guid customDesignRequirementId,
-        int desiredPartQuantity,
         decimal desiredLengthMm,
         decimal desiredWidthMm,
         decimal desiredHeightMm,
         string? sketches,
+        string? customerPrompt,
         DateTime desiredDeliveryDate,
         int desiredQuantity,
         decimal targetBudget,
@@ -88,11 +88,11 @@ public sealed class CustomDesignRequest : Entity<CustomDesignRequestId>
             title,
             description,
             CustomDesignRequirementId.From(customDesignRequirementId),
-            desiredPartQuantity,
             desiredLengthMm,
             desiredWidthMm,
             desiredHeightMm,
             sketches,
+            customerPrompt,
             desiredDeliveryDate,
             desiredQuantity,
             targetBudget,
@@ -105,11 +105,11 @@ public sealed class CustomDesignRequest : Entity<CustomDesignRequestId>
     public void Update(
         string title,
         string? description,
-        int desiredPartQuantity,
         decimal desiredLengthMm,
         decimal desiredWidthMm,
         decimal desiredHeightMm,
         string? sketches,
+        string? customerPrompt,
         DateTime desiredDeliveryDate,
         int desiredQuantity,
         decimal targetBudget,
@@ -119,11 +119,11 @@ public sealed class CustomDesignRequest : Entity<CustomDesignRequestId>
     {
         Title = title;
         Description = description;
-        DesiredPartQuantity = desiredPartQuantity;
         DesiredLengthMm = desiredLengthMm;
         DesiredWidthMm = desiredWidthMm;
         DesiredHeightMm = desiredHeightMm;
         Sketches = sketches;
+        CustomerPrompt = customerPrompt;
         DesiredDeliveryDate = desiredDeliveryDate;
         DesiredQuantity = desiredQuantity;
         TargetBudget = targetBudget;

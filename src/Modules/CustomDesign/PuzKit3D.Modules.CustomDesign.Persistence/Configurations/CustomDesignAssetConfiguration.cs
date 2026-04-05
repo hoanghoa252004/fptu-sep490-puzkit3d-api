@@ -45,9 +45,17 @@ internal sealed class CustomDesignAssetConfiguration : IEntityTypeConfiguration<
             .HasMaxLength(500)
             .IsRequired(false);
 
-        builder.Property(a => a.Note)
+        builder.Property(a => a.CustomerPrompt)
             .HasColumnType("text")
             .IsRequired(false);
+
+        builder.Property(a => a.NormalizePrompt)
+            .HasColumnType("text")
+            .IsRequired(false);
+
+        builder.Property(a => a.IsNeedSupport)
+            .IsRequired()
+            .HasDefaultValue(false);
 
         builder.Property(a => a.IsFinalDesign)
             .IsRequired()

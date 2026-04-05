@@ -12,7 +12,9 @@ public sealed class CustomDesignAsset : Entity<CustomDesignAssetId>
     public string? SketchTaskId { get; private set; }
     public string? Rough3DModel { get; private set; }
     public string? Rough3DModelTaskId { get; private set; }
-    public string? Note { get; private set; }
+    public string? CustomerPrompt { get; private set; }
+    public string? NormalizePrompt { get; private set; }
+    public bool IsNeedSupport { get; private set; }
     public bool IsFinalDesign { get; private set; }
     public DateTime CreatedAt { get; private set; }
     public DateTime UpdatedAt { get; private set; }
@@ -26,7 +28,9 @@ public sealed class CustomDesignAsset : Entity<CustomDesignAssetId>
         string? sketchTaskId,
         string? rough3DModel,
         string? rough3DModelTaskId,
-        string? note,
+        string? customerPrompt,
+        string? normalizePrompt,
+        bool isNeedSupport,
         bool isFinalDesign,
         DateTime createdAt,
         DateTime updatedAt) : base(id)
@@ -38,7 +42,9 @@ public sealed class CustomDesignAsset : Entity<CustomDesignAssetId>
         SketchTaskId = sketchTaskId;
         Rough3DModel = rough3DModel;
         Rough3DModelTaskId = rough3DModelTaskId;
-        Note = note;
+        CustomerPrompt = customerPrompt;
+        NormalizePrompt = normalizePrompt;
+        IsNeedSupport = isNeedSupport;
         IsFinalDesign = isFinalDesign;
         CreatedAt = createdAt;
         UpdatedAt = updatedAt;
@@ -57,7 +63,9 @@ public sealed class CustomDesignAsset : Entity<CustomDesignAssetId>
         string? sketchTaskId,
         string? rough3DModel,
         string? rough3DModelTaskId,
-        string? note,
+        string? customerPrompt,
+        string? normalizePrompt,
+        bool isNeedSupport,
         bool isFinalDesign,
         DateTime createdAt,
         DateTime updatedAt)
@@ -71,7 +79,9 @@ public sealed class CustomDesignAsset : Entity<CustomDesignAssetId>
             sketchTaskId,
             rough3DModel,
             rough3DModelTaskId,
-            note,
+            customerPrompt,
+            normalizePrompt,
+            isNeedSupport,
             isFinalDesign,
             createdAt,
             updatedAt);
@@ -82,7 +92,9 @@ public sealed class CustomDesignAsset : Entity<CustomDesignAssetId>
         string? sketchTaskId,
         string? rough3DModel,
         string? rough3DModelTaskId,
-        string? note,
+        string? customerPrompt,
+        string? normalizePrompt,
+        bool isNeedSupport,
         bool isFinalDesign,
         DateTime updatedAt)
     {
@@ -90,7 +102,9 @@ public sealed class CustomDesignAsset : Entity<CustomDesignAssetId>
         SketchTaskId = sketchTaskId;
         Rough3DModel = rough3DModel;
         Rough3DModelTaskId = rough3DModelTaskId;
-        Note = note;
+        CustomerPrompt = customerPrompt;
+        NormalizePrompt = normalizePrompt;
+        IsNeedSupport = isNeedSupport;
         IsFinalDesign = isFinalDesign;
         UpdatedAt = updatedAt;
     }
