@@ -87,6 +87,13 @@ internal static class SwaggerExtensions
                 Description = "APIs for Business Rule Config"
             });
 
+            options.SwaggerDoc("custom-design", new OpenApiInfo
+            {
+                Title = "Custom Design API",
+                Version = "v1",
+                Description = "APIs for Custom Design processing"
+            });
+
 
 
             // Group endpoints by module based on route prefix
@@ -135,6 +142,8 @@ internal static class SwaggerExtensions
                                 || routePath.StartsWith("api/support-tickets"),
 
                     "config" => routePath.Contains("config"),
+
+                    "custom-design" => routePath.Contains("custom-design"),
 
                     _ => false
                 };
