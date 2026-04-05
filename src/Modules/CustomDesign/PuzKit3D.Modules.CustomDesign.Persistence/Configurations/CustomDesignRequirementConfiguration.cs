@@ -53,6 +53,11 @@ internal sealed class CustomDesignRequirementConfiguration : IEntityTypeConfigur
             .IsUnique()
             .HasDatabaseName("UQ___custom_design_requirement___code");
 
+        builder.HasMany<PuzKit3D.Modules.CustomDesign.Domain.Entities.RequirementCapabilityDetails.RequirementCapabilityDetail>()
+            .WithOne()
+            .HasForeignKey(rc => rc.CustomDesignRequirementId)
+            .OnDelete(Microsoft.EntityFrameworkCore.DeleteBehavior.Cascade);
+
         builder.Ignore(r => r.DomainEvents);
     }
 }

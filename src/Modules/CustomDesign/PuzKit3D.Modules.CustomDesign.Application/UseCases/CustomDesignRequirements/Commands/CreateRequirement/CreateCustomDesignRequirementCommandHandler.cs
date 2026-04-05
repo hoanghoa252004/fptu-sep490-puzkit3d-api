@@ -60,9 +60,10 @@ internal sealed class CreateCustomDesignRequirementCommandHandler : ICommandTHan
             return Result.Failure<Guid>(CustomDesignRequirementError.AssemblyMethodNotFound(request.AssemblyMethodId));
 
         // Validate capabilities
-        var capabilityIdsList = request.CapabilityIds.ToList();
-        if (capabilityIdsList.Count == 0)
+        
+        if (request.CapabilityIds == null || request.CapabilityIds.ToList().Count == 0)
             return Result.Failure<Guid>(CustomDesignRequirementError.NoCapabilitiesSpecified());
+        var capabilityIdsList = request.CapabilityIds.ToList();
 
         foreach (var capabilityId in capabilityIdsList)
         {
@@ -74,6 +75,18 @@ internal sealed class CreateCustomDesignRequirementCommandHandler : ICommandTHan
         // Parse difficulty
         if (!Enum.TryParse<DifficultyLevel>(request.Difficulty, true, out var difficulty))
             return Result.Failure<Guid>(CustomDesignRequirementError.InvalidDifficulty(request.Difficulty));
+
+        // Check for duplicate requirement
+        var isDuplicate = await _repository.ExistsDuplicateAsync(
+            request.TopicId,
+            request.MaterialId,
+            request.AssemblyMethodId,
+            difficulty,
+            capabilityIdsList,
+            cancellationToken);
+
+        if (isDuplicate)
+            return Result.Failure<Guid>(CustomDesignRequirementError.DuplicateRequirement());
 
         // Generate code
         var code = await _codeGenerator.GenerateCodeAsync(cancellationToken);
@@ -100,8 +113,7 @@ internal sealed class CreateCustomDesignRequirementCommandHandler : ICommandTHan
             await _repository.AddAsync(requirementResult.Value, cancellationToken);
 
             // Add capability details
-            var capabilityIds = request.CapabilityIds.ToList();
-            foreach (var capabilityId in capabilityIds)
+            foreach (var capabilityId in capabilityIdsList)
             {
                 var detail = RequirementCapabilityDetail.Create(
                     Guid.NewGuid(),

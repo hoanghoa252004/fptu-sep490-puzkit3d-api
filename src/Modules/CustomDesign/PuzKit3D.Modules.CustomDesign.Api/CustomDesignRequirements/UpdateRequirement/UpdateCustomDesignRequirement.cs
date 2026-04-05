@@ -29,7 +29,8 @@ internal sealed class UpdateCustomDesignRequirement : IEndpoint
                     request.Difficulty,
                     request.MinPartQuantity,
                     request.MaxPartQuantity,
-                    request.IsActive);
+                    request.IsActive,
+                    request.CapabilityIds);
 
                 var result = await sender.Send(command, cancellationToken);
 
@@ -49,10 +50,11 @@ internal sealed class UpdateCustomDesignRequirement : IEndpoint
 }
 
 internal sealed record UpdateCustomDesignRequirementRequestDto(
-    Guid? TopicId = null,
-    Guid? MaterialId = null,
-    Guid? AssemblyMethodId = null,
-    string? Difficulty = null,
-    int? MinPartQuantity = null,
-    int? MaxPartQuantity = null,
-    bool? IsActive = null);
+Guid? TopicId = null,
+Guid? MaterialId = null,
+Guid? AssemblyMethodId = null,
+string? Difficulty = null,
+int? MinPartQuantity = null,
+int? MaxPartQuantity = null,
+bool? IsActive = null,
+IEnumerable<Guid>? CapabilityIds = null);

@@ -9,10 +9,14 @@ namespace PuzKit3D.Modules.CustomDesign.Application.UseCases.CustomDesignRequire
 internal sealed class GetCustomDesignRequirementByIdQueryHandler : IQueryHandler<GetCustomDesignRequirementByIdQuery, GetCustomDesignRequirementByIdResponseDto>
 {
     private readonly ICustomDesignRequirementRepository _repository;
+    private readonly IRequirementCapabilityDetailRepository _capabilityDetailRepository;
 
-    public GetCustomDesignRequirementByIdQueryHandler(ICustomDesignRequirementRepository repository)
+    public GetCustomDesignRequirementByIdQueryHandler(
+        ICustomDesignRequirementRepository repository,
+        IRequirementCapabilityDetailRepository capabilityDetailRepository)
     {
         _repository = repository;
+        _capabilityDetailRepository = capabilityDetailRepository;
     }
 
     public async Task<ResultT<GetCustomDesignRequirementByIdResponseDto>> Handle(
@@ -28,6 +32,10 @@ internal sealed class GetCustomDesignRequirementByIdQueryHandler : IQueryHandler
             return Result.Failure<GetCustomDesignRequirementByIdResponseDto>(requirementResult.Error);
         }
 
+        var capabilities = await _capabilityDetailRepository.GetByRequirementIdAsync(
+            requirementResult.Value.Id,
+            cancellationToken);
+
         var responseDto = new GetCustomDesignRequirementByIdResponseDto(
             requirementResult.Value.Id.Value,
             requirementResult.Value.Code,
@@ -39,7 +47,8 @@ internal sealed class GetCustomDesignRequirementByIdQueryHandler : IQueryHandler
             requirementResult.Value.MaxPartQuantity,
             requirementResult.Value.IsActive,
             requirementResult.Value.CreatedAt,
-            requirementResult.Value.UpdatedAt);
+            requirementResult.Value.UpdatedAt,
+            capabilities.Select(c => c.CapabilityId).ToList());
 
         return Result.Success(responseDto);
     }

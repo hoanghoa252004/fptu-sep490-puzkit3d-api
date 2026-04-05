@@ -33,4 +33,10 @@ public static class CustomDesignRequirementError
 
     public static Error CapabilityNotFound(Guid capabilityId) =>
         Error.NotFound("CustomDesignRequirement.CapabilityNotFound", $"Capability with id {capabilityId} not found");
+
+    public static Error DuplicateRequirement() =>
+        Error.Conflict("CustomDesignRequirement.Duplicate", "A requirement with the same Topic, Material, AssemblyMethod, Difficulty, and Capabilities already exists");
+
+    public static Error NothingToUpdate() =>
+        Error.Validation("CustomDesignRequirement.NothingToUpdate", "No fields to update. At least one field must be provided");
 }

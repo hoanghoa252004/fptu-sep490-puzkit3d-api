@@ -98,4 +98,45 @@ internal sealed class CustomDesignRequirementRepository : ICustomDesignRequireme
         return await _context.CustomDesignRequirements
             .AnyAsync(r => r.Code == code, cancellationToken);
     }
+
+    public async Task<bool> ExistsDuplicateAsync(
+        Guid topicId,
+        Guid materialId,
+        Guid assemblyMethodId,
+        DifficultyLevel difficulty,
+        IEnumerable<Guid> capabilityIds,
+        CancellationToken cancellationToken = default)
+    {
+        var capabilityIdsList = capabilityIds.ToList();
+        var capabilityCount = capabilityIdsList.Count;
+
+        // Find requirements with matching Topic, Material, AssemblyMethod, and Difficulty
+        var matchingRequirements = await _context.CustomDesignRequirements
+            .Where(r => r.TopicId == topicId
+                && r.MaterialId == materialId
+                && r.AssemblyMethodId == assemblyMethodId
+                && r.Difficulty == difficulty)
+            .Select(r => r.Id)
+            .ToListAsync(cancellationToken);
+
+        if (!matchingRequirements.Any())
+            return false;
+
+        // Check if any matching requirement has the exact same set of capabilities
+        foreach (var requirementId in matchingRequirements)
+        {
+            var requirementCapabilities = await _context.RequirementCapabilityDetails
+                .Where(d => d.CustomDesignRequirementId == CustomDesignRequirementId.From(requirementId.Value))
+                .Select(d => d.CapabilityId)
+                .ToListAsync(cancellationToken);
+
+            if (requirementCapabilities.Count == capabilityCount
+                && requirementCapabilities.All(c => capabilityIdsList.Contains(c)))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }

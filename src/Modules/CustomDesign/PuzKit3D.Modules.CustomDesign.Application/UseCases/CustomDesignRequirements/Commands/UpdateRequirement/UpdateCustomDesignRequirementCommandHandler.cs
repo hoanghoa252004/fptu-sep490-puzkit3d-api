@@ -3,6 +3,7 @@ using PuzKit3D.Modules.CustomDesign.Application.UnitOfWork;
 using PuzKit3D.Modules.CustomDesign.Application.UseCases.CustomDesignRequirements.Queries.GetRequirementById;
 using PuzKit3D.Modules.CustomDesign.Domain.Entities;
 using PuzKit3D.Modules.CustomDesign.Domain.Entities.CustomDesignRequirements;
+using PuzKit3D.Modules.CustomDesign.Domain.Entities.RequirementCapabilityDetails;
 using PuzKit3D.SharedKernel.Application.Message.Command;
 using PuzKit3D.SharedKernel.Domain.Results;
 
@@ -11,23 +12,29 @@ namespace PuzKit3D.Modules.CustomDesign.Application.UseCases.CustomDesignRequire
 internal sealed class UpdateCustomDesignRequirementCommandHandler : ICommandHandler<UpdateCustomDesignRequirementCommand>
 {
     private readonly ICustomDesignRequirementRepository _repository;
+    private readonly IRequirementCapabilityDetailRepository _capabilityDetailRepository;
     private readonly ICustomDesignUnitOfWork _unitOfWork;
     private readonly ITopicReplicaRepository _topicReplicaRepository;
     private readonly IMaterialReplicaRepository _materialReplicaRepository;
     private readonly IAssemblyMethodReplicaRepository _assemblyMethodReplicaRepository;
+    private readonly ICapabilityReplicaRepository _capabilityReplicaRepository;
 
     public UpdateCustomDesignRequirementCommandHandler(
         ICustomDesignRequirementRepository repository,
+        IRequirementCapabilityDetailRepository capabilityDetailRepository,
         ICustomDesignUnitOfWork unitOfWork,
         ITopicReplicaRepository topicReplicaRepository,
         IMaterialReplicaRepository materialReplicaRepository,
-        IAssemblyMethodReplicaRepository assemblyMethodReplicaRepository)
+        IAssemblyMethodReplicaRepository assemblyMethodReplicaRepository,
+        ICapabilityReplicaRepository capabilityReplicaRepository)
     {
         _repository = repository;
+        _capabilityDetailRepository = capabilityDetailRepository;
         _unitOfWork = unitOfWork;
         _topicReplicaRepository = topicReplicaRepository;
         _materialReplicaRepository = materialReplicaRepository;
         _assemblyMethodReplicaRepository = assemblyMethodReplicaRepository;
+        _capabilityReplicaRepository = capabilityReplicaRepository;
     }
 
     public async Task<Result> Handle(
@@ -67,8 +74,48 @@ internal sealed class UpdateCustomDesignRequirementCommandHandler : ICommandHand
                 return Result.Failure(CustomDesignRequirementError.AssemblyMethodNotFound(request.AssemblyMethodId.Value));
         }
 
+        // Validate capabilities if provided
+        IEnumerable<Guid>? capabilityIdsList = null;
+        if (request.CapabilityIds != null)
+        {
+            capabilityIdsList = request.CapabilityIds.ToList();
+            if (capabilityIdsList.Any())
+            {
+                foreach (var capabilityId in capabilityIdsList)
+                {
+                    var capability = await _capabilityReplicaRepository.GetByIdAsync(capabilityId, cancellationToken);
+                    if (capability is null)
+                        return Result.Failure(CustomDesignRequirementError.CapabilityNotFound(capabilityId));
+                }
+            }
+        }
+
         return await _unitOfWork.ExecuteAsync(async () =>
         {
+            // Check if capabilities are being updated
+            bool capabilitiesChanged = false;
+            if (capabilityIdsList != null && capabilityIdsList.Any())
+            {
+                var existingCapabilities = await _capabilityDetailRepository
+                    .GetByRequirementIdAsync(requirementResult.Value.Id, cancellationToken);
+
+                var existingCapabilityIds = existingCapabilities
+                    .Select(c => c.CapabilityId)
+                    .OrderBy(c => c)
+                    .ToList();
+
+                var newCapabilityIds = capabilityIdsList
+                    .OrderBy(c => c)
+                    .ToList();
+
+                // Check if capabilities have actually changed
+                if (existingCapabilityIds.Count != newCapabilityIds.Count ||
+                    !existingCapabilityIds.SequenceEqual(newCapabilityIds))
+                {
+                    capabilitiesChanged = true;
+                }
+            }
+
             // Update only provided fields
             var updateResult = requirementResult.Value.Update(
                 request.TopicId,
@@ -80,12 +127,46 @@ internal sealed class UpdateCustomDesignRequirementCommandHandler : ICommandHand
                 request.IsActive,
                 DateTime.UtcNow);
 
-            if (updateResult.IsFailure)
+            // Check if there were any changes (either requirement properties or capabilities)
+            bool hasRequirementChanges = updateResult.IsSuccess;
+            if (!hasRequirementChanges && !capabilitiesChanged)
+                return Result.Failure(CustomDesignRequirementError.NothingToUpdate());
+
+            // If requirement properties changed, check for errors
+            if (updateResult.IsFailure && capabilitiesChanged == false)
                 return Result.Failure(updateResult.Error);
 
-            _repository.Update(requirementResult.Value);
+            // Only update repository if requirement properties changed
+            if (hasRequirementChanges)
+                _repository.Update(requirementResult.Value);
+
+            // Update capabilities if they changed
+            if (capabilitiesChanged)
+            {
+                var existingCapabilities = await _capabilityDetailRepository
+                    .GetByRequirementIdAsync(requirementResult.Value.Id, cancellationToken);
+
+                // Delete all existing capabilities
+                foreach (var capability in existingCapabilities)
+                {
+                    _capabilityDetailRepository.Delete(capability);
+                }
+
+                // Add new capabilities
+                foreach (var capabilityId in capabilityIdsList!)
+                {
+                    var detail = RequirementCapabilityDetail.Create(
+                        Guid.NewGuid(),
+                        requirementResult.Value.Id.Value,
+                        capabilityId);
+                    await _capabilityDetailRepository.AddAsync(detail, cancellationToken);
+                }
+            }
+
+            await _unitOfWork.SaveChangesAsync(cancellationToken);
 
             return Result.Success();
         }, cancellationToken);
     }
 }
+

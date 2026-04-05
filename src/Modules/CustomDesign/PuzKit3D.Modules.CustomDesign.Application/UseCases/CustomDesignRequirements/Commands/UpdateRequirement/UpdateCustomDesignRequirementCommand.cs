@@ -10,4 +10,5 @@ public sealed record UpdateCustomDesignRequirementCommand(
     string? Difficulty = null,
     int? MinPartQuantity = null,
     int? MaxPartQuantity = null,
-    bool? IsActive = null) : ICommand;
+    bool? IsActive = null,
+    IEnumerable<Guid>? CapabilityIds = null) : ICommand;

@@ -65,7 +65,7 @@ public sealed class CustomDesignRequirement : Entity<CustomDesignRequirementId>
         if (maxPartQuantity <= 0)
             return Result.Failure<CustomDesignRequirement>(CustomDesignRequirementError.InvalidMaxPartQuantity());
 
-        if (minPartQuantity > maxPartQuantity)
+        if(maxPartQuantity <= minPartQuantity)
             return Result.Failure<CustomDesignRequirement>(CustomDesignRequirementError.InvalidQuantityRange());
 
         return Result.Success(new CustomDesignRequirement(
@@ -92,6 +92,8 @@ public sealed class CustomDesignRequirement : Entity<CustomDesignRequirementId>
         bool? isActive,
         DateTime updatedAt)
     {
+        bool hasChanges = false;
+
         // Validate difficulty if provided
         DifficultyLevel? difficultyParsed = null;
         if (difficulty is not null)
@@ -135,27 +137,51 @@ public sealed class CustomDesignRequirement : Entity<CustomDesignRequirementId>
         else if (maxPartQuantity.HasValue && maxPartQuantity < (minPartQuantity ?? MinPartQuantity))
             return Result.Failure(CustomDesignRequirementError.InvalidQuantityRange());
 
-        // Update only provided fields
-        if (topicId.HasValue)
+        // Update only provided fields and track changes
+        if (topicId.HasValue && topicId.Value != TopicId)
+        {
             TopicId = topicId.Value;
+            hasChanges = true;
+        }
 
-        if (materialId.HasValue)
+        if (materialId.HasValue && materialId.Value != MaterialId)
+        {
             MaterialId = materialId.Value;
+            hasChanges = true;
+        }
 
-        if (assemblyMethodId.HasValue)
+        if (assemblyMethodId.HasValue && assemblyMethodId.Value != AssemblyMethodId)
+        {
             AssemblyMethodId = assemblyMethodId.Value;
+            hasChanges = true;
+        }
 
-        if (difficulty is not null)
+        if (difficulty is not null && difficultyParsed != Difficulty)
+        {
             Difficulty = difficultyParsed!.Value;
+            hasChanges = true;
+        }
 
-        if (minPartQuantity.HasValue)
+        if (minPartQuantity.HasValue && minPartQuantity.Value != MinPartQuantity)
+        {
             MinPartQuantity = minPartQuantity.Value;
+            hasChanges = true;
+        }
 
-        if (maxPartQuantity.HasValue)
+        if (maxPartQuantity.HasValue && maxPartQuantity.Value != MaxPartQuantity)
+        {
             MaxPartQuantity = maxPartQuantity.Value;
+            hasChanges = true;
+        }
 
-        if (isActive.HasValue)
+        if (isActive.HasValue && isActive.Value != IsActive)
+        {
             IsActive = isActive.Value;
+            hasChanges = true;
+        }
+
+        if (!hasChanges)
+            return Result.Failure(CustomDesignRequirementError.NothingToUpdate());
 
         UpdatedAt = updatedAt;
 

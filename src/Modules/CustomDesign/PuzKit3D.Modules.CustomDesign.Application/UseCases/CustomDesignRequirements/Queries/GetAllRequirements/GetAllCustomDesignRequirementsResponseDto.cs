@@ -11,4 +11,5 @@ public sealed record GetAllCustomDesignRequirementsResponseDto(
     int MaxPartQuantity,
     bool IsActive,
     DateTime CreatedAt,
-    DateTime UpdatedAt);
+    DateTime UpdatedAt,
+    IEnumerable<Guid> CapabilityIds);

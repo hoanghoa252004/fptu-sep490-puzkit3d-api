@@ -39,6 +39,8 @@ public sealed class CustomDesignDbContext : DbContext, ICustomDesignUnitOfWork
         builder.HasDefaultSchema(Schema.CustomDesign);
 
         builder.ApplyConfigurationsFromAssembly(typeof(CustomDesignDbContext).Assembly);
+
+        Configurations.SeedData.CustomDesignSeedDataConfiguration.SeedReplicas(builder);
     }
 
     public async Task<T> ExecuteAsync<T>(Func<Task<T>> action, CancellationToken cancellationToken = default)
