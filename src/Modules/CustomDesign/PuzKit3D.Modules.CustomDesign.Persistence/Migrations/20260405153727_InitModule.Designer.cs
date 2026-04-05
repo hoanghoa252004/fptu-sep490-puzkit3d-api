@@ -12,7 +12,7 @@ using PuzKit3D.Modules.CustomDesign.Persistence;
 namespace PuzKit3D.Modules.CustomDesign.Persistence.Migrations
 {
     [DbContext(typeof(CustomDesignDbContext))]
-    [Migration("20260405020833_InitModule")]
+    [Migration("20260405153727_InitModule")]
     partial class InitModule
     {
         /// <inheritdoc />
@@ -46,15 +46,25 @@ namespace PuzKit3D.Modules.CustomDesign.Persistence.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("custom_design_requirement_id");
 
+                    b.Property<string>("CustomerPrompt")
+                        .HasColumnType("text")
+                        .HasColumnName("customer_prompt");
+
                     b.Property<bool>("IsFinalDesign")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("boolean")
                         .HasDefaultValue(false)
                         .HasColumnName("is_final_design");
 
-                    b.Property<string>("Note")
+                    b.Property<bool>("IsNeedSupport")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(false)
+                        .HasColumnName("is_need_support");
+
+                    b.Property<string>("NormalizePrompt")
                         .HasColumnType("text")
-                        .HasColumnName("note");
+                        .HasColumnName("normalize_prompt");
 
                     b.Property<string>("Rough3DModel")
                         .HasMaxLength(500)
@@ -113,9 +123,13 @@ namespace PuzKit3D.Modules.CustomDesign.Persistence.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("custom_design_requirement_id");
 
-                    b.Property<string>("Description")
+                    b.Property<Guid>("CustomerId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("customer_id");
+
+                    b.Property<string>("CustomerPrompt")
                         .HasColumnType("text")
-                        .HasColumnName("description");
+                        .HasColumnName("customer_prompt");
 
                     b.Property<DateTime>("DesiredDeliveryDate")
                         .HasColumnType("timestamp with time zone")
@@ -131,10 +145,6 @@ namespace PuzKit3D.Modules.CustomDesign.Persistence.Migrations
                         .HasColumnType("numeric(10,2)")
                         .HasColumnName("desired_length_mm");
 
-                    b.Property<int>("DesiredPartQuantity")
-                        .HasColumnType("integer")
-                        .HasColumnName("desired_part_quantity");
-
                     b.Property<int>("DesiredQuantity")
                         .HasColumnType("integer")
                         .HasColumnName("desired_quantity");
@@ -143,6 +153,10 @@ namespace PuzKit3D.Modules.CustomDesign.Persistence.Migrations
                         .HasPrecision(10, 2)
                         .HasColumnType("numeric(10,2)")
                         .HasColumnName("desired_width_mm");
+
+                    b.Property<string>("Note")
+                        .HasColumnType("text")
+                        .HasColumnName("note");
 
                     b.Property<string>("Sketches")
                         .HasColumnType("text")
@@ -159,11 +173,9 @@ namespace PuzKit3D.Modules.CustomDesign.Persistence.Migrations
                         .HasColumnType("numeric(18,2)")
                         .HasColumnName("target_budget");
 
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("character varying(500)")
-                        .HasColumnName("title");
+                    b.Property<int>("Type")
+                        .HasColumnType("integer")
+                        .HasColumnName("type");
 
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("timestamp with time zone")
@@ -245,6 +257,78 @@ namespace PuzKit3D.Modules.CustomDesign.Persistence.Migrations
                         .HasDatabaseName("UQ___custom_design_requirement___code");
 
                     b.ToTable("custom_design_requirements", "custome_design");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("c1c1c1c1-c1c1-c1c1-c1c1-c1c1c1c1c1c1"),
+                            AssemblyMethodId = new Guid("d1d1d1d1-d1d1-d1d1-d1d1-d1d1d1d1d1d1"),
+                            Code = "CDR-001",
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Difficulty = "Basic",
+                            IsActive = true,
+                            MaterialId = new Guid("f1f1f1f1-f1f1-f1f1-f1f1-f1f1f1f1f1f1"),
+                            MaxPartQuantity = 50,
+                            MinPartQuantity = 10,
+                            TopicId = new Guid("a1a1a1a1-a1a1-a1a1-a1a1-a1a1a1a1a1a1"),
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("d2d2d2d2-d2d2-d2d2-d2d2-d2d2d2d2d2d2"),
+                            AssemblyMethodId = new Guid("e2e2e2e2-e2e2-e2e2-e2e2-e2e2e2e2e2e2"),
+                            Code = "CDR-002",
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Difficulty = "Intermediate",
+                            IsActive = true,
+                            MaterialId = new Guid("a2a2a2a2-a2a2-a2a2-a2a2-a2a2a2a2a2a2"),
+                            MaxPartQuantity = 100,
+                            MinPartQuantity = 20,
+                            TopicId = new Guid("b2b2b2b2-b2b2-b2b2-b2b2-b2b2b2b2b2b2"),
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("e3e3e3e3-e3e3-e3e3-e3e3-e3e3e3e3e3e3"),
+                            AssemblyMethodId = new Guid("f3f3f3f3-f3f3-f3f3-f3f3-f3f3f3f3f3f3"),
+                            Code = "CDR-003",
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Difficulty = "Advanced",
+                            IsActive = true,
+                            MaterialId = new Guid("b3b3b3b3-b3b3-b3b3-b3b3-b3b3b3b3b3b3"),
+                            MaxPartQuantity = 200,
+                            MinPartQuantity = 50,
+                            TopicId = new Guid("c3c3c3c3-c3c3-c3c3-c3c3-c3c3c3c3c3c3"),
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("f4f4f4f4-f4f4-f4f4-f4f4-f4f4f4f4f4f4"),
+                            AssemblyMethodId = new Guid("a4a4a4a4-a4a4-a4a4-a4a4-a4a4a4a4a4a4"),
+                            Code = "CDR-004",
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Difficulty = "Basic",
+                            IsActive = true,
+                            MaterialId = new Guid("c4c4c4c4-c4c4-c4c4-c4c4-c4c4c4c4c4c4"),
+                            MaxPartQuantity = 60,
+                            MinPartQuantity = 15,
+                            TopicId = new Guid("d4d4d4d4-d4d4-d4d4-d4d4-d4d4d4d4d4d4"),
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("a5a5a5a5-a5a5-a5a5-a5a5-a5a5a5a5a5a5"),
+                            AssemblyMethodId = new Guid("b5b5b5b5-b5b5-b5b5-b5b5-b5b5b5b5b5b5"),
+                            Code = "CDR-005",
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Difficulty = "Intermediate",
+                            IsActive = true,
+                            MaterialId = new Guid("d5d5d5d5-d5d5-d5d5-d5d5-d5d5d5d5d5d5"),
+                            MaxPartQuantity = 150,
+                            MinPartQuantity = 30,
+                            TopicId = new Guid("e5e5e5e5-e5e5-e5e5-e5e5-e5e5e5e5e5e5"),
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        });
                 });
 
             modelBuilder.Entity("PuzKit3D.Modules.CustomDesign.Domain.Entities.Replicas.AssemblyMethodReplica", b =>

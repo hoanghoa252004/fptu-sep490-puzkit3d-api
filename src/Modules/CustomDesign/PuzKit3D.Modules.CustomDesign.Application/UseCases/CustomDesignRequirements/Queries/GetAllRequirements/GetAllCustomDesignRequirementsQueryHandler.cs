@@ -26,12 +26,12 @@ internal sealed class GetAllCustomDesignRequirementsQueryHandler : IQueryHandler
         if (request.OnlyActive)
         {
             var activeRequirements = await _repository.GetActiveAsync(cancellationToken);
-            requirements = await MapToDto(activeRequirements, cancellationToken);
+            requirements = await MapToDto(activeRequirements.OrderByDescending(r => r.CreatedAt), cancellationToken);
         }
         else
         {
             var allRequirements = await _repository.GetAllAsync(cancellationToken);
-            requirements = await MapToDto(allRequirements, cancellationToken);
+            requirements = await MapToDto(allRequirements.OrderByDescending(r => r.CreatedAt), cancellationToken);
         }
 
         return Result.Success(requirements);

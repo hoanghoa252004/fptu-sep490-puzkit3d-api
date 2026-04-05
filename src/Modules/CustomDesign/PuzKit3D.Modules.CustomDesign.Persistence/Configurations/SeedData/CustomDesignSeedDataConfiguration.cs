@@ -1,4 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using PuzKit3D.Modules.CustomDesign.Domain.Entities;
+using PuzKit3D.Modules.CustomDesign.Domain.Entities.CustomDesignRequirements;
 using PuzKit3D.Modules.CustomDesign.Domain.Entities.Replicas;
 using System;
 using System.Collections.Generic;
@@ -38,6 +40,13 @@ internal static class CustomDesignSeedDataConfiguration
     private static readonly Guid AssemblyMethodId3 = Guid.Parse("f3f3f3f3-f3f3-f3f3-f3f3-f3f3f3f3f3f3");
     private static readonly Guid AssemblyMethodId4 = Guid.Parse("a4a4a4a4-a4a4-a4a4-a4a4-a4a4a4a4a4a4");
     private static readonly Guid AssemblyMethodId5 = Guid.Parse("b5b5b5b5-b5b5-b5b5-b5b5-b5b5b5b5b5b5");
+
+    // CustomDesignRequirement IDs
+    private static readonly Guid RequirementId1 = Guid.Parse("c1c1c1c1-c1c1-c1c1-c1c1-c1c1c1c1c1c1");
+    private static readonly Guid RequirementId2 = Guid.Parse("d2d2d2d2-d2d2-d2d2-d2d2-d2d2d2d2d2d2");
+    private static readonly Guid RequirementId3 = Guid.Parse("e3e3e3e3-e3e3-e3e3-e3e3-e3e3e3e3e3e3");
+    private static readonly Guid RequirementId4 = Guid.Parse("f4f4f4f4-f4f4-f4f4-f4f4-f4f4f4f4f4f4");
+    private static readonly Guid RequirementId5 = Guid.Parse("a5a5a5a5-a5a5-a5a5-a5a5-a5a5a5a5a5a5");
 
     private static readonly DateTime SeedDate = new DateTime(2026, 1, 1, 0, 0, 0, DateTimeKind.Utc);
 
@@ -258,6 +267,82 @@ internal static class CustomDesignSeedDataConfiguration
                 Name = "Musical Gear",
                 Slug = "musical-gear",
                 Description = "Model with musical features via rotating mechanism",
+                IsActive = true,
+                CreatedAt = SeedDate,
+                UpdatedAt = SeedDate
+            }
+        );
+    }
+
+    public static void SeedCustomDesignRequirements(this ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<CustomDesignRequirement>().HasData(
+            new
+            {
+                Id = CustomDesignRequirementId.From(RequirementId1),
+                Code = "CDR-001",
+                TopicId = TopicId1,
+                MaterialId = MaterialId1,
+                AssemblyMethodId = AssemblyMethodId1,
+                Difficulty = DifficultyLevel.Basic,
+                MinPartQuantity = 10,
+                MaxPartQuantity = 50,
+                IsActive = true,
+                CreatedAt = SeedDate,
+                UpdatedAt = SeedDate
+            },
+            new
+            {
+                Id = CustomDesignRequirementId.From(RequirementId2),
+                Code = "CDR-002",
+                TopicId = TopicId2,
+                MaterialId = MaterialId2,
+                AssemblyMethodId = AssemblyMethodId2,
+                Difficulty = DifficultyLevel.Intermediate,
+                MinPartQuantity = 20,
+                MaxPartQuantity = 100,
+                IsActive = true,
+                CreatedAt = SeedDate,
+                UpdatedAt = SeedDate
+            },
+            new
+            {
+                Id = CustomDesignRequirementId.From(RequirementId3),
+                Code = "CDR-003",
+                TopicId = TopicId3,
+                MaterialId = MaterialId3,
+                AssemblyMethodId = AssemblyMethodId3,
+                Difficulty = DifficultyLevel.Advanced,
+                MinPartQuantity = 50,
+                MaxPartQuantity = 200,
+                IsActive = true,
+                CreatedAt = SeedDate,
+                UpdatedAt = SeedDate
+            },
+            new
+            {
+                Id = CustomDesignRequirementId.From(RequirementId4),
+                Code = "CDR-004",
+                TopicId = TopicId4,
+                MaterialId = MaterialId4,
+                AssemblyMethodId = AssemblyMethodId4,
+                Difficulty = DifficultyLevel.Basic,
+                MinPartQuantity = 15,
+                MaxPartQuantity = 60,
+                IsActive = true,
+                CreatedAt = SeedDate,
+                UpdatedAt = SeedDate
+            },
+            new
+            {
+                Id = CustomDesignRequirementId.From(RequirementId5),
+                Code = "CDR-005",
+                TopicId = TopicId5,
+                MaterialId = MaterialId5,
+                AssemblyMethodId = AssemblyMethodId5,
+                Difficulty = DifficultyLevel.Intermediate,
+                MinPartQuantity = 30,
+                MaxPartQuantity = 150,
                 IsActive = true,
                 CreatedAt = SeedDate,
                 UpdatedAt = SeedDate

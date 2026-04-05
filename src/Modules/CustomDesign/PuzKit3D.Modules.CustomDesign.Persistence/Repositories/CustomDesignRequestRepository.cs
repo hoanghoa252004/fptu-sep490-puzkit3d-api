@@ -1,8 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using PuzKit3D.Modules.CustomDesign.Application.Repositories;
-using PuzKit3D.Modules.CustomDesign.Domain.Entities;
 using PuzKit3D.Modules.CustomDesign.Domain.Entities.CustomDesignRequests;
 using PuzKit3D.Modules.CustomDesign.Domain.Entities.CustomDesignRequirements;
+using PuzKit3D.SharedKernel.Domain.Results;
 
 namespace PuzKit3D.Modules.CustomDesign.Persistence.Repositories;
 
@@ -15,20 +15,30 @@ internal sealed class CustomDesignRequestRepository : ICustomDesignRequestReposi
         _context = context;
     }
 
-    public async Task<CustomDesignRequest?> GetByIdAsync(
+    public async Task<ResultT<CustomDesignRequest>> GetByIdAsync(
         CustomDesignRequestId id,
         CancellationToken cancellationToken = default)
     {
-        return await _context.CustomDesignRequests
+        var request = await _context.CustomDesignRequests
             .FirstOrDefaultAsync(r => r.Id == id, cancellationToken);
+
+        if (request is null)
+            return Result.Failure<CustomDesignRequest>(CustomDesignRequestError.NotFound());
+
+        return Result.Success(request);
     }
 
-    public async Task<CustomDesignRequest?> GetByCodeAsync(
+    public async Task<ResultT<CustomDesignRequest>> GetByCodeAsync(
         string code,
         CancellationToken cancellationToken = default)
     {
-        return await _context.CustomDesignRequests
+        var request = await _context.CustomDesignRequests
             .FirstOrDefaultAsync(r => r.Code == code, cancellationToken);
+
+        if (request is null)
+            return Result.Failure<CustomDesignRequest>(CustomDesignRequestError.NotFound());
+
+        return Result.Success(request);
     }
 
     public async Task<IEnumerable<CustomDesignRequest>> GetAllAsync(
@@ -88,3 +98,5 @@ internal sealed class CustomDesignRequestRepository : ICustomDesignRequestReposi
             .AnyAsync(r => r.Code == code, cancellationToken);
     }
 }
+
+

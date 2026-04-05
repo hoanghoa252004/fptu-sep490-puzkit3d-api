@@ -65,7 +65,9 @@ namespace PuzKit3D.Modules.CustomDesign.Persistence.Migrations
                     sketch_task_id = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: true),
                     rough3d_model = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: true),
                     rough3d_model_task_id = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: true),
-                    note = table.Column<string>(type: "text", nullable: true),
+                    customer_prompt = table.Column<string>(type: "text", nullable: true),
+                    normalize_prompt = table.Column<string>(type: "text", nullable: true),
+                    is_need_support = table.Column<bool>(type: "boolean", nullable: false, defaultValue: false),
                     is_final_design = table.Column<bool>(type: "boolean", nullable: false, defaultValue: false),
                     created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
@@ -82,19 +84,20 @@ namespace PuzKit3D.Modules.CustomDesign.Persistence.Migrations
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
                     code = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: false),
-                    title = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: false),
-                    description = table.Column<string>(type: "text", nullable: true),
+                    customer_id = table.Column<Guid>(type: "uuid", nullable: false),
                     custom_design_requirement_id = table.Column<Guid>(type: "uuid", nullable: false),
-                    desired_part_quantity = table.Column<int>(type: "integer", nullable: false),
                     desired_length_mm = table.Column<decimal>(type: "numeric(10,2)", precision: 10, scale: 2, nullable: false),
                     desired_width_mm = table.Column<decimal>(type: "numeric(10,2)", precision: 10, scale: 2, nullable: false),
                     desired_height_mm = table.Column<decimal>(type: "numeric(10,2)", precision: 10, scale: 2, nullable: false),
                     sketches = table.Column<string>(type: "text", nullable: true),
+                    customer_prompt = table.Column<string>(type: "text", nullable: true),
                     desired_delivery_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     desired_quantity = table.Column<int>(type: "integer", nullable: false),
                     target_budget = table.Column<decimal>(type: "numeric(18,2)", precision: 18, scale: 2, nullable: false),
                     used_support_concept_design_time = table.Column<int>(type: "integer", nullable: false, defaultValue: 0),
                     status = table.Column<string>(type: "character varying(30)", maxLength: 30, nullable: false),
+                    type = table.Column<int>(type: "integer", nullable: false),
+                    note = table.Column<string>(type: "text", nullable: true),
                     created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
@@ -207,6 +210,19 @@ namespace PuzKit3D.Modules.CustomDesign.Persistence.Migrations
                     { new Guid("c5c5c5c5-c5c5-c5c5-c5c5-c5c5c5c5c5c5"), new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "Model with musical features via rotating mechanism", true, "Musical Gear", "musical-gear", new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc) },
                     { new Guid("e1e1e1e1-e1e1-e1e1-e1e1-e1e1e1e1e1e1"), new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "Static model for display only", true, "Static Display", "static-display", new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc) },
                     { new Guid("f2f2f2f2-f2f2-f2f2-f2f2-f2f2f2f2f2f2"), new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "Model with electric motor-powered movement", true, "Move with Motor", "move-with-motor", new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc) }
+                });
+
+            migrationBuilder.InsertData(
+                schema: "custome_design",
+                table: "custom_design_requirements",
+                columns: new[] { "id", "assembly_method_id", "code", "created_at", "difficulty", "is_active", "material_id", "max_part_quantity", "min_part_quantity", "topic_id", "updated_at" },
+                values: new object[,]
+                {
+                    { new Guid("a5a5a5a5-a5a5-a5a5-a5a5-a5a5a5a5a5a5"), new Guid("b5b5b5b5-b5b5-b5b5-b5b5-b5b5b5b5b5b5"), "CDR-005", new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "Intermediate", true, new Guid("d5d5d5d5-d5d5-d5d5-d5d5-d5d5d5d5d5d5"), 150, 30, new Guid("e5e5e5e5-e5e5-e5e5-e5e5-e5e5e5e5e5e5"), new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc) },
+                    { new Guid("c1c1c1c1-c1c1-c1c1-c1c1-c1c1c1c1c1c1"), new Guid("d1d1d1d1-d1d1-d1d1-d1d1-d1d1d1d1d1d1"), "CDR-001", new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "Basic", true, new Guid("f1f1f1f1-f1f1-f1f1-f1f1-f1f1f1f1f1f1"), 50, 10, new Guid("a1a1a1a1-a1a1-a1a1-a1a1-a1a1a1a1a1a1"), new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc) },
+                    { new Guid("d2d2d2d2-d2d2-d2d2-d2d2-d2d2d2d2d2d2"), new Guid("e2e2e2e2-e2e2-e2e2-e2e2-e2e2e2e2e2e2"), "CDR-002", new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "Intermediate", true, new Guid("a2a2a2a2-a2a2-a2a2-a2a2-a2a2a2a2a2a2"), 100, 20, new Guid("b2b2b2b2-b2b2-b2b2-b2b2-b2b2b2b2b2b2"), new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc) },
+                    { new Guid("e3e3e3e3-e3e3-e3e3-e3e3-e3e3e3e3e3e3"), new Guid("f3f3f3f3-f3f3-f3f3-f3f3-f3f3f3f3f3f3"), "CDR-003", new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "Advanced", true, new Guid("b3b3b3b3-b3b3-b3b3-b3b3-b3b3b3b3b3b3"), 200, 50, new Guid("c3c3c3c3-c3c3-c3c3-c3c3-c3c3c3c3c3c3"), new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc) },
+                    { new Guid("f4f4f4f4-f4f4-f4f4-f4f4-f4f4f4f4f4f4"), new Guid("a4a4a4a4-a4a4-a4a4-a4a4-a4a4a4a4a4a4"), "CDR-004", new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "Basic", true, new Guid("c4c4c4c4-c4c4-c4c4-c4c4-c4c4c4c4c4c4"), 60, 15, new Guid("d4d4d4d4-d4d4-d4d4-d4d4-d4d4d4d4d4d4"), new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc) }
                 });
 
             migrationBuilder.InsertData(

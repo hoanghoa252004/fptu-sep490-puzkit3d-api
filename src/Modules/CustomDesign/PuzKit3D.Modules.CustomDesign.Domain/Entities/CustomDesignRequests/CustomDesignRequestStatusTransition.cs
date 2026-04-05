@@ -43,6 +43,11 @@ public static class CustomDesignRequestStatusTransition
         },
         {
             CustomDesignRequestStatus.Rejected, new HashSet<CustomDesignRequestStatus>()
+        },
+        {
+            CustomDesignRequestStatus.MissingInformation, new HashSet<CustomDesignRequestStatus>{
+                CustomDesignRequestStatus.Submitted,
+            }
         }
     };
 

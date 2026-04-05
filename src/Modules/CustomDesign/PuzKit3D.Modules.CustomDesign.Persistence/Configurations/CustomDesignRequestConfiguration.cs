@@ -20,13 +20,8 @@ internal sealed class CustomDesignRequestConfiguration : IEntityTypeConfiguratio
             .IsRequired()
             .HasMaxLength(20);
 
-        builder.Property(r => r.Title)
-            .IsRequired()
-            .HasMaxLength(500);
-
-        builder.Property(r => r.Description)
-            .HasColumnType("text")
-            .IsRequired(false);
+        builder.Property(r => r.CustomerId)
+            .IsRequired();
 
         builder.Property(r => r.CustomDesignRequirementId)
             .HasConversion(
