@@ -4,19 +4,25 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using PuzKit3D.SharedKernel.Application._3DModel;
 using PuzKit3D.SharedKernel.Application.Authentication;
 using PuzKit3D.SharedKernel.Application.Clock;
 using PuzKit3D.SharedKernel.Application.Data;
 using PuzKit3D.SharedKernel.Application.Event;
 using PuzKit3D.SharedKernel.Application.Identity;
+using PuzKit3D.SharedKernel.Application.Image;
 using PuzKit3D.SharedKernel.Application.Media;
+using PuzKit3D.SharedKernel.Application.Queue;
 using PuzKit3D.SharedKernel.Application.User;
+using PuzKit3D.SharedKernel.Infrastructure._3DModel;
 using PuzKit3D.SharedKernel.Infrastructure.Authentication;
 using PuzKit3D.SharedKernel.Infrastructure.Clock;
 using PuzKit3D.SharedKernel.Infrastructure.Data;
 using PuzKit3D.SharedKernel.Infrastructure.Event;
 using PuzKit3D.SharedKernel.Infrastructure.Identity;
+using PuzKit3D.SharedKernel.Infrastructure.Image;
 using PuzKit3D.SharedKernel.Infrastructure.Media;
+using PuzKit3D.SharedKernel.Infrastructure.Queue;
 using PuzKit3D.SharedKernel.Infrastructure.User;
 using System;
 using System.Collections.Generic;
@@ -71,6 +77,10 @@ public static class ServiceCollectionExtensions
 
         // Integration Events (In-Memory)
         services.AddScoped<IEventBus, InMemoryEventBus>();
+
+        services.AddSingleton<IJobQueue, JobQueue>();
+        services.AddScoped<IImageGenerationService, ImageGenerationService>();
+        services.AddScoped<I3DModelGenerationService, _3DModelGenerationService>();
 
         return services;
     }

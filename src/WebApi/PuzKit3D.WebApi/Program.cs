@@ -135,6 +135,8 @@ builder.Services.AddCustomDesignInfrastructure(builder.Configuration);
 builder.Services.AddHostedService<PaymentExpiryCheckService>();
 builder.Services.AddHostedService<OrderCompletionCheckService>();
 builder.Services.AddHostedService<DeliveryTrackingUpdateStatusService>();
+builder.Services.AddHostedService<ImageGenerationService>();
+builder.Services.AddHostedService<_3DModelGenerationService>();
 
 var app = builder.Build();
 
