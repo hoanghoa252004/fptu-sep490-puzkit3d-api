@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using PuzKit3D.Modules.CustomDesign.Application.Repositories;
 using PuzKit3D.Modules.CustomDesign.Domain.Entities.CustomDesignAssets;
-using PuzKit3D.Modules.CustomDesign.Domain.Entities.CustomDesignRequirements;
+using PuzKit3D.Modules.CustomDesign.Domain.Entities.CustomDesignRequests;
 
 namespace PuzKit3D.Modules.CustomDesign.Persistence.Repositories;
 
@@ -38,22 +38,22 @@ internal sealed class CustomDesignAssetRepository : ICustomDesignAssetRepository
             .ToListAsync(cancellationToken);
     }
 
-    public async Task<IEnumerable<CustomDesignAsset>> GetByRequirementIdAsync(
-        CustomDesignRequirementId requirementId,
+    public async Task<IEnumerable<CustomDesignAsset>> GetByRequestIdAsync(
+        CustomDesignRequestId requestId,
         CancellationToken cancellationToken = default)
     {
         return await _context.CustomDesignAssets
-            .Where(a => a.CustomDesignRequirementId == requirementId)
+            .Where(a => a.CustomDesignRequestId == requestId)
             .AsNoTracking()
             .ToListAsync(cancellationToken);
     }
 
-    public async Task<IEnumerable<CustomDesignAsset>> GetFinalDesignsByRequirementIdAsync(
-        CustomDesignRequirementId requirementId,
+    public async Task<IEnumerable<CustomDesignAsset>> GetFinalDesignsByRequestIdAsync(
+        CustomDesignRequestId requestId,
         CancellationToken cancellationToken = default)
     {
         return await _context.CustomDesignAssets
-            .Where(a => a.CustomDesignRequirementId == requirementId && a.IsFinalDesign)
+            .Where(a => a.CustomDesignRequestId == requestId && a.IsFinalDesign)
             .AsNoTracking()
             .ToListAsync(cancellationToken);
     }

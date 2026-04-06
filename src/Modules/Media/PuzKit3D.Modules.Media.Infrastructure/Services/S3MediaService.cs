@@ -3,6 +3,7 @@ using Amazon.S3.Model;
 using Microsoft.Extensions.Options;
 using PuzKit3D.Modules.Media.Application.Services;
 using PuzKit3D.Modules.Media.Infrastructure.DependencyInjection.Options;
+using PuzKit3D.SharedKernel.Domain.Errors;
 using PuzKit3D.SharedKernel.Domain.Results;
 using System;
 using System.Collections.Generic;
@@ -35,5 +36,38 @@ public sealed class S3MediaService : IMediaService
             };
 
         return await _s3.GetPreSignedURLAsync(request);
+    }
+
+    public async Task<ResultT<string>> UploadFileAsync(
+        byte[] fileData,
+        string key,
+        string contentType,
+        CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            var putRequest = new PutObjectRequest
+            {
+                BucketName = _s3Settings.BucketName,
+                Key = key,
+                InputStream = new MemoryStream(fileData),
+                ContentType = contentType
+            };
+
+            var response = await _s3.PutObjectAsync(putRequest, cancellationToken);
+
+            if (response.HttpStatusCode != System.Net.HttpStatusCode.OK)
+            {
+                return Result.Failure<string>(
+                    Error.Failure("S3_UPLOAD_FAILED", $"Failed to upload file to S3. Status: {response.HttpStatusCode}"));
+            }
+
+            return Result.Success(key);
+        }
+        catch (Exception ex)
+        {
+            return Result.Failure<string>(
+                Error.Failure("S3_UPLOAD_ERROR", $"Error uploading file to S3: {ex.Message}"));
+        }
     }
 }

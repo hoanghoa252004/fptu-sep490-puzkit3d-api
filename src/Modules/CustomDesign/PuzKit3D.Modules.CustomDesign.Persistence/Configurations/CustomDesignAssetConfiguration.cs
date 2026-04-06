@@ -30,7 +30,16 @@ internal sealed class CustomDesignAssetConfiguration : IEntityTypeConfiguration<
         builder.Property(a => a.Version)
             .IsRequired();
 
+        builder.Property(a => a.Status)
+            .IsRequired()
+            .HasConversion<string>()
+            .HasMaxLength(30);
+
         builder.Property(a => a.MultiviewImages)
+            .HasColumnType("text")
+            .IsRequired(false);
+
+        builder.Property(a => a.CompositeMultiviewImage)
             .HasColumnType("text")
             .IsRequired(false);
 

@@ -9,7 +9,9 @@ public sealed class CustomDesignAsset : Entity<CustomDesignAssetId>
     public string Code { get; private set; } = null!;
     public CustomDesignRequestId CustomDesignRequestId { get; private set; }
     public int Version { get; private set; }
+    public CustomDesignAssetStatus Status { get; private set; }
     public string? MultiviewImages { get; private set; }
+    public string? CompositeMultiviewImage { get; private set; }
     public string? Rough3DModel { get; private set; }
     public string? Rough3DModelTaskId { get; private set; }
     public string? CustomerPrompt { get; private set; }
@@ -24,7 +26,9 @@ public sealed class CustomDesignAsset : Entity<CustomDesignAssetId>
         string code,
         CustomDesignRequestId customDesignRequestId,
         int version,
+        CustomDesignAssetStatus status,
         string? multiviewImages,
+        string? compositeMultiviewImage,
         string? rough3DModel,
         string? rough3DModelTaskId,
         string? customerPrompt,
@@ -37,7 +41,9 @@ public sealed class CustomDesignAsset : Entity<CustomDesignAssetId>
         Code = code;
         CustomDesignRequestId = customDesignRequestId;
         Version = version;
+        Status = status;
         MultiviewImages = multiviewImages;
+        CompositeMultiviewImage = compositeMultiviewImage;
         Rough3DModel = rough3DModel;
         Rough3DModelTaskId = rough3DModelTaskId;
         CustomerPrompt = customerPrompt;
@@ -58,6 +64,7 @@ public sealed class CustomDesignAsset : Entity<CustomDesignAssetId>
         Guid customDesignRequestId,
         int version,
         string? multiviewImages,
+        string? compositeMultiviewImage,
         string? rough3DModel,
         string? rough3DModelTaskId,
         string? customerPrompt,
@@ -72,7 +79,9 @@ public sealed class CustomDesignAsset : Entity<CustomDesignAssetId>
             code,
             CustomDesignRequestId.From(customDesignRequestId),
             version,
+            CustomDesignAssetStatus.ImageProcessing,
             multiviewImages,
+            compositeMultiviewImage,
             rough3DModel,
             rough3DModelTaskId,
             customerPrompt,
@@ -85,6 +94,7 @@ public sealed class CustomDesignAsset : Entity<CustomDesignAssetId>
 
     public void Update(
         string? multiviewImages,
+        string? compositeMultiviewImage,
         string? rough3DModel,
         string? rough3DModelTaskId,
         string? customerPrompt,
@@ -94,12 +104,19 @@ public sealed class CustomDesignAsset : Entity<CustomDesignAssetId>
         DateTime updatedAt)
     {
         MultiviewImages = multiviewImages;
+        CompositeMultiviewImage = compositeMultiviewImage;
         Rough3DModel = rough3DModel;
         Rough3DModelTaskId = rough3DModelTaskId;
         CustomerPrompt = customerPrompt;
         NormalizePrompt = normalizePrompt;
         IsNeedSupport = isNeedSupport;
         IsFinalDesign = isFinalDesign;
+        UpdatedAt = updatedAt;
+    }
+
+    public void UpdateStatus(CustomDesignAssetStatus status, DateTime updatedAt)
+    {
+        Status = status;
         UpdatedAt = updatedAt;
     }
 }

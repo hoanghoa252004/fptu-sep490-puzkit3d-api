@@ -429,3 +429,4 @@ FodyWeavers.xsd
 appsettings.*.json
 !appsettings.json
 /src/Modules/CustomDesign/PuzKit3D.Modules.CustomDesign.Domain/Entities/CustomDesignAssets/SketchTaskId.cs
+/friendly-aurora-492502-b4-ff9dbdc00312.json
