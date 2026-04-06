@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using PuzKit3D.Modules.CustomDesign.Application.Repositories;
 using PuzKit3D.Modules.CustomDesign.Domain.Entities.CustomDesignAssets;
 using PuzKit3D.Modules.CustomDesign.Domain.Entities.CustomDesignRequests;
+using PuzKit3D.SharedKernel.Domain.Results;
 
 namespace PuzKit3D.Modules.CustomDesign.Persistence.Repositories;
 
@@ -14,21 +15,19 @@ internal sealed class CustomDesignAssetRepository : ICustomDesignAssetRepository
         _context = context;
     }
 
-    public async Task<CustomDesignAsset?> GetByIdAsync(
+    public async Task<ResultT<CustomDesignAsset>> GetByIdAsync(
         CustomDesignAssetId id,
         CancellationToken cancellationToken = default)
     {
-        return await _context.CustomDesignAssets
-            .FirstOrDefaultAsync(a => a.Id == id, cancellationToken);
+        var request = await _context.CustomDesignAssets
+            .FirstOrDefaultAsync(r => r.Id == id, cancellationToken);
+
+        if (request is null)
+            return Result.Failure<CustomDesignAsset>(CustomDesignRequestError.NotFound());
+
+        return Result.Success(request);
     }
 
-    public async Task<CustomDesignAsset?> GetByCodeAsync(
-        string code,
-        CancellationToken cancellationToken = default)
-    {
-        return await _context.CustomDesignAssets
-            .FirstOrDefaultAsync(a => a.Code == code, cancellationToken);
-    }
 
     public async Task<IEnumerable<CustomDesignAsset>> GetAllAsync(
         CancellationToken cancellationToken = default)

@@ -8,6 +8,8 @@ using PuzKit3D.Modules.CustomDesign.Domain.Entities.CustomDesignRequests;
 using PuzKit3D.Modules.CustomDesign.Persistence;
 using PuzKit3D.Modules.Media.Application.Services;
 using PuzKit3D.SharedKernel.Application.Media;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Processing;
 using static Google.Rpc.Context.AttributeContext.Types;
 
 namespace PuzKit3D.WebApi.BackgroundJobs;
@@ -17,6 +19,7 @@ public sealed class CustomDesignGenerationService : BackgroundService
     private readonly IServiceProvider _serviceProvider;
     private readonly ILogger<CustomDesignGenerationService> _logger;
     private readonly IMediaService _mediaService;
+    private readonly IMediaAssetService _mediaAssetService;
     private readonly TimeSpan _interval = TimeSpan.FromSeconds(30);
     private readonly string _projectId = "friendly-aurora-492502-b4";
     private readonly string _location = "us-central1";
@@ -26,12 +29,14 @@ public sealed class CustomDesignGenerationService : BackgroundService
         IServiceProvider serviceProvider,
         ILogger<CustomDesignGenerationService> logger,
         IMediaService mediaService,
-        IConfiguration configuration)
+        IConfiguration configuration,
+        IMediaAssetService mediaAssetService)
     {
         _serviceProvider = serviceProvider;
         _logger = logger;
         _mediaService = mediaService;        
         _predictionClient = PredictionServiceClient.Create();
+        _mediaAssetService = mediaAssetService;
     }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -100,14 +105,14 @@ public sealed class CustomDesignGenerationService : BackgroundService
                         if (request.Type == CustomDesignRequestType.Idea)
                         {
                             // For Idea type: use and normalize CustomerPrompt from request
-                            if (string.IsNullOrWhiteSpace(request.CustomerPrompt))
+                            if (string.IsNullOrWhiteSpace(asset.CustomerPrompt))
                             {
                                 _logger.LogWarning("CustomerPrompt is empty for asset {AssetId}", asset.Id.Value);
                                 continue;
                             }
 
                             // Normalize the prompt
-                            prompt = NormalizePrompt(request.CustomerPrompt);
+                            prompt = NormalizePrompt(asset.CustomerPrompt!);
                             imageBase64Data = null;
                         }
                         else if (request.Type == CustomDesignRequestType.Sketch)
@@ -150,9 +155,9 @@ public sealed class CustomDesignGenerationService : BackgroundService
                             imageBase64Data = sketchBase64List[0];
 
                             // Build prompt with customer customization if provided
-                            if (!string.IsNullOrWhiteSpace(request.CustomerPrompt))
+                            if (!string.IsNullOrWhiteSpace(asset.CustomerPrompt))
                             {
-                                prompt = NormalizePrompt(request.CustomerPrompt);
+                                prompt = NormalizePrompt(asset.CustomerPrompt);
                             }
                             else
                             {
@@ -185,9 +190,9 @@ public sealed class CustomDesignGenerationService : BackgroundService
                         }
 
                         // Use request customer prompt or default refinement prompt
-                        if (!string.IsNullOrWhiteSpace(request.CustomerPrompt))
+                        if (!string.IsNullOrWhiteSpace(asset.CustomerPrompt))
                         {
-                            prompt = NormalizePrompt(request.CustomerPrompt);
+                            prompt = NormalizePrompt(asset.CustomerPrompt);
                         }
                         else
                         {
@@ -705,6 +710,7 @@ public sealed class CustomDesignGenerationService : BackgroundService
 
             var dbContext = scope.ServiceProvider.GetRequiredService<CustomDesignDbContext>();
             var assetRepository = scope.ServiceProvider.GetRequiredService<ICustomDesignAssetRepository>();
+            var httpClient = scope.ServiceProvider.GetRequiredService<HttpClient>();
 
             var asset = await dbContext.CustomDesignAssets
                 .FirstOrDefaultAsync(a => a.Id == CustomDesignAssetId.From(assetId), cancellationToken);
@@ -715,9 +721,27 @@ public sealed class CustomDesignGenerationService : BackgroundService
                 return;
             }
 
+            // Download composite image from S3 and split into 4 views
+            var compositeImageUrl = _mediaAssetService.BuildAssetUrl(s3Path);
+            var multiviewImagesPaths = await SplitAndUploadCompositeImageAsync(
+                compositeImageUrl,
+                assetId,
+                httpClient,
+                cancellationToken);
+
+            if (multiviewImagesPaths == null || multiviewImagesPaths.Count == 0)
+            {
+                _logger.LogWarning("Failed to split composite image for asset {AssetId}", assetId);
+                // Still update with composite image even if split fails
+                multiviewImagesPaths = new List<string>();
+            }
+
+            // Join paths with comma separator
+            var multiviewImagesString = multiviewImagesPaths.Any() ? string.Join(",", multiviewImagesPaths) : null;
+
             // Update asset with generated image path and normalized prompt
             asset.Update(
-                multiviewImages: asset.MultiviewImages,
+                multiviewImages: multiviewImagesString,
                 compositeMultiviewImage: s3Path,
                 rough3DModel: asset.Rough3DModel,
                 rough3DModelTaskId: asset.Rough3DModelTaskId,
@@ -733,11 +757,135 @@ public sealed class CustomDesignGenerationService : BackgroundService
             assetRepository.Update(asset);
             await dbContext.SaveChangesAsync(cancellationToken);
 
-            _logger.LogInformation("Asset {AssetId} updated with composite image path: {S3Path} and status changed to RoughModelGenerating", assetId, s3Path);
+            _logger.LogInformation("Asset {AssetId} updated with composite image: {S3Path}, multiview images: {MultiviewImages}, status: RoughModelGenerating", 
+                assetId, s3Path, multiviewImagesString);
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error updating asset {AssetId} with generated image", assetId);
+        }
+    }
+
+    private async Task<List<string>> SplitAndUploadCompositeImageAsync(
+        string compositeImageUrl,
+        Guid assetId,
+        HttpClient httpClient,
+        CancellationToken cancellationToken)
+    {
+        try
+        {
+            // Download composite image from S3
+            var compositeImageBytes = await DownloadImageBytesAsync(compositeImageUrl, httpClient, cancellationToken);
+            if (compositeImageBytes == null || compositeImageBytes.Length == 0)
+            {
+                _logger.LogWarning("Failed to download composite image from {Url}", compositeImageUrl);
+                return new List<string>();
+            }
+
+            // Split image into 4 parts (2x2 grid)
+            var imageParts = SplitImage2x2Grid(compositeImageBytes);
+            if (imageParts == null || imageParts.Count != 4)
+            {
+                _logger.LogWarning("Failed to split composite image into 4 parts for asset {AssetId}", assetId);
+                return new List<string>();
+            }
+
+            // Upload each part to S3
+            var uploadedPaths = new List<string>();
+            var viewNames = new[] { "front", "right", "back", "left" };
+
+            for (int i = 0; i < imageParts.Count; i++)
+            {
+                var fileName = $"custom-design/multiview/{assetId:N}/{viewNames[i]}-{DateTime.UtcNow:yyyyMMdd-HHmmss}.jpg";
+                
+                var uploadResult = await _mediaService.UploadFileAsync(
+                    imageParts[i],
+                    fileName,
+                    "image/jpeg",
+                    cancellationToken);
+
+                if (uploadResult.IsSuccess)
+                {
+                    uploadedPaths.Add(fileName);
+                    _logger.LogInformation("Uploaded {ViewName} image for asset {AssetId}: {Path}", viewNames[i], assetId, fileName);
+                }
+                else
+                {
+                    _logger.LogWarning("Failed to upload {ViewName} image for asset {AssetId}: {Error}", viewNames[i], assetId, uploadResult.Error.Message);
+                }
+            }
+
+            return uploadedPaths;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error splitting and uploading composite image for asset {AssetId}", assetId);
+            return new List<string>();
+        }
+    }
+
+    private async Task<byte[]?> DownloadImageBytesAsync(
+        string imageUrl,
+        HttpClient httpClient,
+        CancellationToken cancellationToken)
+    {
+        try
+        {
+            var response = await httpClient.GetAsync(imageUrl, cancellationToken);
+            if (!response.IsSuccessStatusCode)
+            {
+                _logger.LogWarning("Failed to download image from {Url}. Status: {StatusCode}", imageUrl, response.StatusCode);
+                return null;
+            }
+
+            return await response.Content.ReadAsByteArrayAsync(cancellationToken);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error downloading image from {Url}", imageUrl);
+            return null;
+        }
+    }
+
+    private List<byte[]> SplitImage2x2Grid(byte[] compositeImageBytes)
+    {
+        try
+        {
+            using var image = Image.Load(compositeImageBytes);
+
+            int width = image.Width;
+            int height = image.Height;
+
+            // Each cell is half width and half height
+            int cellWidth = width / 2;
+            int cellHeight = height / 2;
+
+            var parts = new List<byte[]>();
+
+            // Define rectangles for 2x2 grid: top-left (front), top-right (right), bottom-left (back), bottom-right (left)
+            var rectangles = new[]
+            {
+                new Rectangle(0, 0, cellWidth, cellHeight),                          // top-left: front
+                new Rectangle(cellWidth, 0, cellWidth, cellHeight),                  // top-right: right
+                new Rectangle(0, cellHeight, cellWidth, cellHeight),                 // bottom-left: back
+                new Rectangle(cellWidth, cellHeight, cellWidth, cellHeight)          // bottom-right: left
+            };
+
+            foreach (var rect in rectangles)
+            {
+                using var croppedImage = image.Clone(x => x.Crop(rect));
+                
+                using var outputStream = new System.IO.MemoryStream();
+                croppedImage.SaveAsJpeg(outputStream);
+                parts.Add(outputStream.ToArray());
+            }
+
+            return parts;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error splitting 2x2 grid image");
+            return new List<byte[]>();
         }
     }
 
@@ -747,29 +895,19 @@ public sealed class CustomDesignGenerationService : BackgroundService
         {
             if (string.IsNullOrWhiteSpace(originalPrompt))
             {
-                return "Generate a high-quality composite product image";
+                return "Generate a high-quality composite product image using 2x2 grid layout";
             }
 
             // Trim and clean the prompt
-            var normalized = originalPrompt.Trim();
+            var cleanPrompt = originalPrompt.Trim();
 
-            // Add specific instruction for multiview generation
-            if (!normalized.ToLower().Contains("front") && 
-                !normalized.ToLower().Contains("back") && 
-                !normalized.ToLower().Contains("side"))
-            {
-                normalized += ". Please generate multiple views showing front, back, left, and right angles.";
-            }
+            // Use the standard grid template with the customer prompt
+            var normalizedPrompt = $@"A clean 2x2 grid layout showing the same object from four different views. Canvas: - Aspect ratio: 16:9 - Resolution: 1920x1080 Grid: - 2 rows and 2 columns (2x2 grid) - Each cell has equal size (960x540) - No spacing, no padding, no margins between cells - Perfectly aligned grid, sharp boundaries between cells Object placement: - Each cell contains exactly one view of the same object: top-left: front view top-right: right view bottom-left: back view bottom-right: left view Consistency: - The object must have identical scale and size in all four cells - The object must be centered in each cell - Camera distance, angle, and lighting must be consistent across all views - No perspective distortion differences between views Background: - Plain solid background (white or neutral color) - No shadows crossing cell boundaries Constraints: - No overlapping between cells - No extra objects - No text, no watermark - No misalignment, no uneven spacing
 
-            // Add quality directives if not present
-            if (!normalized.ToLower().Contains("high quality") && 
-                !normalized.ToLower().Contains("professional"))
-            {
-                normalized += " Create a professional, high-quality render.";
-            }
+The object is: {cleanPrompt}";
 
-            _logger.LogDebug("Normalized prompt from '{Original}' to '{Normalized}'", originalPrompt, normalized);
-            return normalized;
+            _logger.LogDebug("Normalized prompt for 2x2 grid layout. Original: '{Original}'", originalPrompt);
+            return normalizedPrompt;
         }
         catch (Exception ex)
         {

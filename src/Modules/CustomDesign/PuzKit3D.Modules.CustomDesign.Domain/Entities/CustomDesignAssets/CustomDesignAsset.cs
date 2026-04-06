@@ -1,6 +1,8 @@
-using PuzKit3D.SharedKernel.Domain;
-using PuzKit3D.Modules.CustomDesign.Domain.Entities.CustomDesignRequirements;
+using MediatR;
+using PuzKit3D.Modules.CustomDesign.Domain.Entities.CustomDesignAssets.DomainEvents;
 using PuzKit3D.Modules.CustomDesign.Domain.Entities.CustomDesignRequests;
+using PuzKit3D.Modules.CustomDesign.Domain.Entities.CustomDesignRequirements;
+using PuzKit3D.SharedKernel.Domain;
 
 namespace PuzKit3D.Modules.CustomDesign.Domain.Entities.CustomDesignAssets;
 
@@ -74,7 +76,7 @@ public sealed class CustomDesignAsset : Entity<CustomDesignAssetId>
         DateTime createdAt,
         DateTime updatedAt)
     {
-        return new CustomDesignAsset(
+        var asset =  new CustomDesignAsset(
             CustomDesignAssetId.From(id),
             code,
             CustomDesignRequestId.From(customDesignRequestId),
@@ -90,6 +92,13 @@ public sealed class CustomDesignAsset : Entity<CustomDesignAssetId>
             isFinalDesign,
             createdAt,
             updatedAt);
+        
+        asset.RaiseDomainEvent(new CustomDesignAssetCreatedDomainEvent(
+            id,
+            customDesignRequestId,
+            version));
+
+        return asset;
     }
 
     public void Update(

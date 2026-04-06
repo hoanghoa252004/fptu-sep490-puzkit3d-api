@@ -296,4 +296,9 @@ public sealed class CustomDesignRequest : Entity<CustomDesignRequestId>
 
         return Result.Success();
     }
+
+    public void IncrementUsedSupportConceptDesignTime()
+    {
+        UsedSupportConceptDesignTime++;
+    }
 }
