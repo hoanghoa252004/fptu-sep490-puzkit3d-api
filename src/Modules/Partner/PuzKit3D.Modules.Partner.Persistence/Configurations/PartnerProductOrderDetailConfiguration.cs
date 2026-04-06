@@ -28,10 +28,6 @@ internal sealed class PartnerProductOrderDetailConfiguration : IEntityTypeConfig
                 value => PartnerProductId.From(value))
             .IsRequired();
 
-        builder.Property(d => d.PartnerProductSku)
-            .IsRequired()
-            .HasMaxLength(10);
-
         builder.Property(d => d.PartnerProductName)
             .HasMaxLength(30);
 
@@ -49,11 +45,11 @@ internal sealed class PartnerProductOrderDetailConfiguration : IEntityTypeConfig
         builder.HasIndex(d => new { d.PartnerProductOrderId, d.PartnerProductId })
             .IsUnique();
 
-        builder.HasOne<PartnerProductOrder>()
-            .WithMany()
-            .HasForeignKey(d => d.PartnerProductOrderId)
-            .OnDelete(DeleteBehavior.Restrict)
-            .IsRequired();
+        //builder.HasOne<PartnerProductOrder>()
+        //    .WithMany()
+        //    .HasForeignKey(d => d.PartnerProductOrderId)
+        //    .OnDelete(DeleteBehavior.Restrict)
+        //    .IsRequired();
 
         builder.HasOne<PartnerProduct>()
             .WithMany()

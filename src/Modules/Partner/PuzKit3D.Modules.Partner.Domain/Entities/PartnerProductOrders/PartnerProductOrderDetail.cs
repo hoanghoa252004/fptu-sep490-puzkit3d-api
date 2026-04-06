@@ -8,7 +8,6 @@ public class PartnerProductOrderDetail : Entity<PartnerProductOrderDetailId>
 {
     public PartnerProductOrderId PartnerProductOrderId { get; private set; } = null!;
     public PartnerProductId PartnerProductId { get; private set; } = null!;
-    public string PartnerProductSku { get; private set; } = null!;
     public string? PartnerProductName { get; private set; }
     public decimal UnitPrice { get; private set; }
     public int Quantity { get; private set; }
@@ -18,7 +17,6 @@ public class PartnerProductOrderDetail : Entity<PartnerProductOrderDetailId>
         PartnerProductOrderDetailId id,
         PartnerProductOrderId partnerProductOrderId,
         PartnerProductId partnerProductId,
-        string partnerProductSku,
         string? partnerProductName,
         decimal unitPrice,
         int quantity,
@@ -26,7 +24,6 @@ public class PartnerProductOrderDetail : Entity<PartnerProductOrderDetailId>
     {
         PartnerProductOrderId = partnerProductOrderId;
         PartnerProductId = partnerProductId;
-        PartnerProductSku = partnerProductSku;
         PartnerProductName = partnerProductName;
         UnitPrice = unitPrice;
         Quantity = quantity;
@@ -40,7 +37,6 @@ public class PartnerProductOrderDetail : Entity<PartnerProductOrderDetailId>
     public static ResultT<PartnerProductOrderDetail> Create(
         PartnerProductOrderId partnerProductOrderId,
         PartnerProductId partnerProductId,
-        string partnerProductSku,
         string? partnerProductName,
         decimal unitPrice,
         int quantity)
@@ -51,9 +47,6 @@ public class PartnerProductOrderDetail : Entity<PartnerProductOrderDetailId>
         if (unitPrice < 0)
             return Result.Failure<PartnerProductOrderDetail>(PartnerProductOrderDetailError.InvalidPrice());
 
-        if (string.IsNullOrWhiteSpace(partnerProductSku))
-            return Result.Failure<PartnerProductOrderDetail>(PartnerProductOrderDetailError.InvalidSku());
-
         var detailId = PartnerProductOrderDetailId.Create();
         var totalAmount = unitPrice * quantity;
 
@@ -61,7 +54,6 @@ public class PartnerProductOrderDetail : Entity<PartnerProductOrderDetailId>
             detailId,
             partnerProductOrderId,
             partnerProductId,
-            partnerProductSku,
             partnerProductName,
             unitPrice,
             quantity,

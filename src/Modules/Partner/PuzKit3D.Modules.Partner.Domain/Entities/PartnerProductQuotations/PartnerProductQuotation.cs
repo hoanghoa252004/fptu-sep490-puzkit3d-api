@@ -56,7 +56,6 @@ public class PartnerProductQuotation : AggregateRoot<PartnerProductQuotationId>
         decimal subTotalAmount,
         decimal shippingFee,
         decimal importTaxAmount,
-        DateTime expectedDeliveryDate,
         DateTime? createdAt = null)
     {
         if (string.IsNullOrWhiteSpace(code))

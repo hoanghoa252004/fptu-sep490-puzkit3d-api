@@ -28,7 +28,6 @@ internal sealed class CreatePartnerProductQuotation : IEndpoint
                 var command = new CreatePartnerProductQuotationCommand(
                     request.PartnerProductRequestId,
                     request.PartnerId,
-                    request.ExpectedDeliveryDate,
                     items);
 
                 var result = await sender.Send(command, cancellationToken);
@@ -48,7 +47,6 @@ internal sealed class CreatePartnerProductQuotation : IEndpoint
     public sealed record CreatePartnerProductQuotationRequestDto(
         Guid PartnerProductRequestId,
         Guid PartnerId,
-        DateTime ExpectedDeliveryDate,
         List<CreatePartnerProductQuotationItemRequestDto>? Items = null);
 
     public sealed record CreatePartnerProductQuotationItemRequestDto(

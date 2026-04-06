@@ -29,7 +29,11 @@ internal sealed class ImportServiceConfigConfiguration : IEntityTypeConfiguratio
 
         builder.Property(c => c.ImportTaxPercentage)
             .IsRequired()
-            .HasPrecision(5, 2);
+            .HasPrecision(3, 2);
+
+        builder.Property(c => c.EstimatedDeliveryDays)
+            .IsRequired()
+            .HasDefaultValue(7);
 
         builder.Property(c => c.IsActive)
             .IsRequired()

@@ -40,4 +40,8 @@ public static class ImportServiceConfigError
     public static Error AlreadyActive(Guid id) => Error.Conflict(
         "ImportServiceConfig.AlreadyActive",
         $"Import service config with ID '{id}' is already active.");
+
+    internal static Error InvalidEstimatedDeliveryDays() => Error.Validation(
+        "ImportServiceConfig.InvalidEstimatedDeliveryDays",
+        "Estimated delivery days must be greater than 0 and less than or equal to 15.");
 }

@@ -5,7 +5,6 @@ namespace PuzKit3D.Modules.Partner.Application.UseCases.PartnerProductQuotations
 public sealed record CreatePartnerProductQuotationCommand(
     Guid PartnerProductRequestId,
     Guid PartnerId,
-    DateTime ExpectedDeliveryDate,
     List<CreatePartnerProductQuotationItemDto>? Items = null) : ICommandT<Guid>;
 
 public sealed record CreatePartnerProductQuotationItemDto(

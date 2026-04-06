@@ -3,11 +3,13 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using PuzKit3D.Contract.InStock.InstockOrders;
 using PuzKit3D.Contract.InStock.Part;
+using PuzKit3D.Contract.Partner.PartnerProductOrders;
 using PuzKit3D.Contract.SupportTicket.SupportTickets;
 using PuzKit3D.Contract.User;
 using PuzKit3D.Modules.Delivery.Application.Services;
 using PuzKit3D.Modules.Delivery.Infrastructure.DependencyInjection.Options;
 using PuzKit3D.Modules.Delivery.Infrastructure.IntegrationEventHandlers.InstockOrders;
+using PuzKit3D.Modules.Delivery.Infrastructure.IntegrationEventHandlers.PartnerProductOrders;
 using PuzKit3D.Modules.Delivery.Infrastructure.IntegrationEventHandlers.Parts;
 using PuzKit3D.Modules.Delivery.Infrastructure.IntegrationEventHandlers.SupportTickets;
 using PuzKit3D.Modules.Delivery.Infrastructure.IntegrationEventHandlers.Users;
@@ -36,6 +38,13 @@ public static class DependencyInjection
 
         services.AddScoped<IIntegrationEventHandler<InstockOrderStatusChangedIntegrationEvent>,
             InstockOrderStatusChangedIntegrationEventHandler>();
+
+        //// PartnerProductOrder events
+        services.AddScoped<IIntegrationEventHandler<PartnerProductOrderCreatedIntegrationEvent>,
+            PartnerProductOrderCreatedIntegrationEventHandler>();
+        
+        services.AddScoped<IIntegrationEventHandler<PartnerProductOrderStatusUpdatedIntegrationEvent>,
+            PartnerProductOrderStatusUpdatedIntegrationEventHandler>();
 
         //// Support Ticket events
         services.AddScoped<IIntegrationEventHandler<SupportTicketCreatedIntegrationEvent>,

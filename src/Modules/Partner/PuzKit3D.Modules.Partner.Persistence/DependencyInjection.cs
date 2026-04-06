@@ -45,6 +45,8 @@ public static class DependencyInjection
         services.AddScoped<IPartnerProductRequestDetailRepository, PartnerProductRequestDetailRepository>();
         services.AddScoped<IPartnerProductQuotationRepository, PartnerProductQuotationRepository>();
         services.AddScoped<IPartnerProductQuotationDetailRepository, PartnerProductQuotationDetailRepository>();
+        services.AddScoped<IPartnerProductOrderRepository, PartnerProductOrderRepository>();
+        services.AddScoped<IPartnerProductOrderDetailRepository, PartnerProductOrderDetailRepository>();
 
         // Register CodeGenerator services
         services.AddScoped<IPartnerProductRequestCodeGenerator, PartnerProductRequestCodeGenerator>();

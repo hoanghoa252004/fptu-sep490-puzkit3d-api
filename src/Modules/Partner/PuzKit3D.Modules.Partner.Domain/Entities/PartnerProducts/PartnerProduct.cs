@@ -207,4 +207,24 @@ public class PartnerProduct : AggregateRoot<PartnerProductId>
 
         RaiseDomainEvent(new PartnerProductDeletedDomainEvent(Id.Value, UpdatedAt));
     }
+
+    public Result IncreaseQuantity(int amount)
+    {
+        if (amount < 0)
+            return Result.Failure(PartnerProductError.InvalidQuantity());
+
+        Quantity += amount;
+        UpdatedAt = DateTime.UtcNow;
+        return Result.Success();
+    }
+
+    public Result DecreaseQuantity(int amount)
+    {
+        if (amount < 0)
+            return Result.Failure(PartnerProductError.InvalidQuantity());
+
+        Quantity -= amount;
+        UpdatedAt = DateTime.UtcNow;
+        return Result.Success();
+    }
 }

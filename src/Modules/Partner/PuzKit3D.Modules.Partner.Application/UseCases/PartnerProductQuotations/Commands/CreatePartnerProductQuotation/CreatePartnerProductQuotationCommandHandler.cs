@@ -121,7 +121,6 @@ internal sealed class CreatePartnerProductQuotationCommandHandler : ICommandTHan
                 subTotalAmount,
                 importServiceConfig.BaseShippingFee,
                 importTaxAmount,
-                request.ExpectedDeliveryDate,
                 createdAt: DateTime.UtcNow);
 
             if (quotationResult.IsFailure)

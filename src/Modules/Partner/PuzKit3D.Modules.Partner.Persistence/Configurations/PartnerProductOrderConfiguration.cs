@@ -26,6 +26,11 @@ internal sealed class PartnerProductOrderConfiguration : IEntityTypeConfiguratio
                 value => PartnerProductQuotationId.From(value))
             .IsRequired();
 
+        builder.HasMany(r => r.Details)
+            .WithOne()
+            .HasForeignKey(d => d.PartnerProductOrderId)
+            .OnDelete(DeleteBehavior.Restrict);
+
         builder.Property(o => o.CustomerId)
             .IsRequired();
 
@@ -41,25 +46,13 @@ internal sealed class PartnerProductOrderConfiguration : IEntityTypeConfiguratio
             .IsRequired()
             .HasMaxLength(30);
 
-        builder.Property(o => o.CustomerProvinceCode)
-            .IsRequired()
-            .HasMaxLength(10);
-
         builder.Property(o => o.CustomerProvinceName)
             .IsRequired()
             .HasMaxLength(30);
 
-        builder.Property(o => o.CustomerDistrictCode)
-            .IsRequired()
-            .HasMaxLength(10);
-
         builder.Property(o => o.CustomerDistrictName)
             .IsRequired()
             .HasMaxLength(30);
-
-        builder.Property(o => o.CustomerWardCode)
-            .IsRequired()
-            .HasMaxLength(10);
 
         builder.Property(o => o.CustomerWardName)
             .IsRequired()
@@ -72,12 +65,16 @@ internal sealed class PartnerProductOrderConfiguration : IEntityTypeConfiguratio
         builder.Property(o => o.ShippingFee)
             .IsRequired()
             .HasPrecision(10, 2);
+        
+        builder.Property(o => o.BaseShippingFee)
+            .IsRequired()
+            .HasPrecision(10, 2);
 
         builder.Property(o => o.ImportTaxAmount)
             .IsRequired()
             .HasPrecision(10, 2);
 
-        builder.Property(o => o.UsedCoinAmountAsMoney)
+        builder.Property(o => o.UsedCoinAmount)
             .IsRequired()
             .HasPrecision(10, 2);
 
@@ -86,7 +83,8 @@ internal sealed class PartnerProductOrderConfiguration : IEntityTypeConfiguratio
             .HasPrecision(10, 2);
 
         builder.Property(o => o.Status)
-            .IsRequired();
+            .IsRequired()
+            .HasConversion<string>();
 
         builder.Property(o => o.CreatedAt)
             .IsRequired();
@@ -96,8 +94,7 @@ internal sealed class PartnerProductOrderConfiguration : IEntityTypeConfiguratio
 
         builder.Property(o => o.PaymentMethod)
             .IsRequired()
-            .HasMaxLength(10)
-            .HasDefaultValue("ONLINE");
+            .HasMaxLength(10);
 
         builder.Property(o => o.IsPaid)
             .IsRequired()

@@ -11,6 +11,7 @@ public class ImportServiceConfig : AggregateRoot<ImportServiceConfigId>
     public string CountryCode { get; private set; } = null!;
     public string CountryName { get; private set; } = null!;
     public decimal ImportTaxPercentage { get; private set; }
+    public int EstimatedDeliveryDays { get; private set; }
     public bool IsActive { get; private set; }
     public DateTime CreatedAt { get; private set; }
     public DateTime UpdatedAt { get; private set; }
@@ -21,6 +22,7 @@ public class ImportServiceConfig : AggregateRoot<ImportServiceConfigId>
         string countryCode,
         string countryName,
         decimal importTaxPercentage,
+        int estimatedDeliveryDays,
         bool isActive,
         DateTime createdAt) : base(id)
     {
@@ -28,6 +30,7 @@ public class ImportServiceConfig : AggregateRoot<ImportServiceConfigId>
         CountryCode = countryCode;
         CountryName = countryName;
         ImportTaxPercentage = importTaxPercentage;
+        EstimatedDeliveryDays = estimatedDeliveryDays;
         IsActive = isActive;
         CreatedAt = createdAt;
         UpdatedAt = createdAt;
@@ -42,6 +45,7 @@ public class ImportServiceConfig : AggregateRoot<ImportServiceConfigId>
         string countryCode,
         string countryName,
         decimal importTaxPercentage,
+        int estimatedDeliveryDays,
         bool isActive = false)
     {
         // Base Shipping Fee
@@ -60,6 +64,10 @@ public class ImportServiceConfig : AggregateRoot<ImportServiceConfigId>
         if (importTaxPercentage <= 0 && importTaxPercentage > 1)
             return Result.Failure<ImportServiceConfig>(ImportServiceConfigError.InvalidImportTaxPercentage());
 
+        // Estimated Delivery Days
+        if (estimatedDeliveryDays <= 0 || estimatedDeliveryDays > 15)
+            return Result.Failure<ImportServiceConfig>(ImportServiceConfigError.InvalidEstimatedDeliveryDays());
+
         var configId = ImportServiceConfigId.Create();
 
         var config = new ImportServiceConfig(
@@ -68,6 +76,7 @@ public class ImportServiceConfig : AggregateRoot<ImportServiceConfigId>
             countryCode.ToUpper(),
             countryName,
             importTaxPercentage,
+            estimatedDeliveryDays,
             isActive,
             DateTime.UtcNow);
 
@@ -78,7 +87,8 @@ public class ImportServiceConfig : AggregateRoot<ImportServiceConfigId>
         decimal baseShippingFee,
         string countryCode,
         string countryName,
-        decimal importTaxPercentage)
+        decimal importTaxPercentage,
+        int estimatedDeliveryDays)
     {
         // Base Shipping Fee
         if (baseShippingFee < 0)
@@ -96,10 +106,15 @@ public class ImportServiceConfig : AggregateRoot<ImportServiceConfigId>
         if (importTaxPercentage > 0 || importTaxPercentage <= 1)
             return Result.Failure<ImportServiceConfig>(ImportServiceConfigError.InvalidImportTaxPercentage());
 
+        // Estimated Delivery Days
+        if (estimatedDeliveryDays <= 0 || estimatedDeliveryDays > 15)
+            return Result.Failure<ImportServiceConfig>(ImportServiceConfigError.InvalidEstimatedDeliveryDays());
+
         BaseShippingFee = baseShippingFee;
         CountryCode = countryCode.ToUpper();
         CountryName = countryName;
         ImportTaxPercentage = importTaxPercentage;
+        EstimatedDeliveryDays = estimatedDeliveryDays;
         UpdatedAt = DateTime.UtcNow;
 
         return Result.Success();
