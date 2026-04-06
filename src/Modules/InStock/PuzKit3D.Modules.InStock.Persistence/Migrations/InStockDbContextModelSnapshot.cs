@@ -184,6 +184,35 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                         });
                 });
 
+            modelBuilder.Entity("PuzKit3D.Modules.InStock.Domain.Entities.InstockOrderConfigs.InstockOrderConfig", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<int>("OrderMustCompleteInDays")
+                        .HasColumnType("integer")
+                        .HasColumnName("order_must_complete_in_days");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("updated_at");
+
+                    b.HasKey("Id")
+                        .HasName("pk_instock_order_configs");
+
+                    b.ToTable("instock_order_configs", "instock");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("00000000-0000-0000-0000-000000000002"),
+                            OrderMustCompleteInDays = 7,
+                            UpdatedAt = new DateTime(2026, 3, 30, 0, 0, 0, 0, DateTimeKind.Utc)
+                        });
+                });
+
             modelBuilder.Entity("PuzKit3D.Modules.InStock.Domain.Entities.InstockOrderDetails.InstockOrderDetail", b =>
                 {
                     b.Property<Guid>("Id")
@@ -323,6 +352,10 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                         .HasColumnType("boolean")
                         .HasDefaultValue(false)
                         .HasColumnName("is_paid");
+
+                    b.Property<DateTime?>("MustCompleteBefore")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("must_complete_before");
 
                     b.Property<DateTime?>("PaidAt")
                         .HasColumnType("timestamp with time zone")

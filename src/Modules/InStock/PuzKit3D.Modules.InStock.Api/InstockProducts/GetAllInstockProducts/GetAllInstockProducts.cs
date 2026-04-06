@@ -19,22 +19,39 @@ internal sealed class GetAllInstockProducts : IEndpoint
                 int pageSize,
                 string? searchTerm,
                 bool? isActive,
+                string? difficultyLevel,
+                string? materialSlug,
+                string? topicSlug,
+                string? assemblyMethodSlug,
+                string? capabilitySlugs,
                 ISender sender,
                 CancellationToken cancellationToken) =>
             {
+                // Parse comma-separated capability slugs into a list
+                var capabilitySlugsList = string.IsNullOrWhiteSpace(capabilitySlugs)
+                    ? null
+                    : capabilitySlugs.Split(',', System.StringSplitOptions.RemoveEmptyEntries)
+                        .Select(s => s.Trim())
+                        .ToList();
+
                 var query = new GetAllInstockProductsQuery(
                     pageNumber,
                     pageSize,
                     searchTerm,
-                    isActive);
+                    isActive,
+                    difficultyLevel,
+                    materialSlug,
+                    topicSlug,
+                    assemblyMethodSlug,
+                    capabilitySlugsList);
 
                 var result = await sender.Send(query, cancellationToken);
 
                 return result.MatchOk();
             })
             .WithName("GetAllInstockProducts")
-            .WithSummary("Get all instock products with pagination")
-            .WithDescription("Retrieves a paginated list of instock products. Anonymous/Customer users: only active products with limited fields. Staff/Manager: all products with full details including timestamps and IsActive flag.")
+            .WithSummary("Get all instock products with pagination and filters")
+            .WithDescription("Retrieves a paginated list of instock products with optional filters. Anonymous/Customer users: only active products with limited fields. Staff/Manager: all products with full details including timestamps and IsActive flag. Filters: difficultyLevel, materialSlug, topicSlug, assemblyMethodSlug, capabilitySlugs (comma-separated).")
             .AllowAnonymous()
             .Produces<PagedResult<object>>(StatusCodes.Status200OK)
             .ProducesValidationProblem(StatusCodes.Status400BadRequest)

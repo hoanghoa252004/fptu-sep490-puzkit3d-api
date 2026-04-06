@@ -9,13 +9,19 @@ namespace PuzKit3D.Modules.InStock.Application.UseCases.InstockProducts.Commands
 internal sealed class UpdateInstockProductCommandHandler : ICommandHandler<UpdateInstockProductCommand>
 {
     private readonly IInstockProductRepository _productRepository;
+    private readonly IInstockProductVariantRepository _variantRepository;
+    private readonly IInstockProductPriceDetailRepository _priceDetailRepository;
     private readonly IInStockUnitOfWork _unitOfWork;
 
     public UpdateInstockProductCommandHandler(
         IInstockProductRepository productRepository,
+        IInstockProductVariantRepository variantRepository,
+        IInstockProductPriceDetailRepository priceDetailRepository,
         IInStockUnitOfWork unitOfWork)
     {
         _productRepository = productRepository;
+        _variantRepository = variantRepository;
+        _priceDetailRepository = priceDetailRepository;
         _unitOfWork = unitOfWork;
     }
 
@@ -64,6 +70,41 @@ internal sealed class UpdateInstockProductCommandHandler : ICommandHandler<Updat
             if (request.CapabilityIds != null)
             {
                 product.SetCapabilities(request.CapabilityIds);
+            }
+
+            // If IsActive is set to false, deactivate all variants of this product
+            if (request.IsActive.HasValue && request.IsActive.Value == false)
+            {
+                var variants = await _variantRepository.GetAllByProductIdAsync(productId, cancellationToken);
+                foreach (var variant in variants)
+                {
+                    if (variant.IsActive)
+                    {
+                        var variantUpdateResult = variant.PartialUpdate(isActive: false);
+                        if (variantUpdateResult.IsFailure)
+                        {
+                            return variantUpdateResult;
+                        }
+
+                        // Also deactivate all price details for this variant
+                        var priceDetails = await _priceDetailRepository.GetAllByProductVariantIdAsync(variant.Id, cancellationToken);
+                        foreach (var priceDetail in priceDetails)
+                        {
+                            if (priceDetail.IsActive)
+                            {
+                                var priceDetailUpdateResult = priceDetail.PartialUpdate(isActive: false);
+                                if (priceDetailUpdateResult.IsFailure)
+                                {
+                                    return priceDetailUpdateResult;
+                                }
+
+                                _priceDetailRepository.Update(priceDetail);
+                            }
+                        }
+
+                        _variantRepository.Update(variant);
+                    }
+                }
             }
 
             _productRepository.Update(product);

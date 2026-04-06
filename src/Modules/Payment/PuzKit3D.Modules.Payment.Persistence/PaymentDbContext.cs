@@ -2,6 +2,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using PuzKit3D.Modules.Payment.Application.UnitOfWork;
 using PuzKit3D.Modules.Payment.Domain.Entities.OrderReplicas;
+using PuzKit3D.Modules.Payment.Domain.Entities.PaymentConfigs;
 using PuzKit3D.Modules.Payment.Domain.Entities.Transactions;
 using PuzKit3D.SharedKernel.Domain;
 using PuzKit3D.SharedKernel.Domain.Results;
@@ -23,6 +24,7 @@ public sealed class PaymentDbContext : DbContext, IPaymentUnitOfWork
     public DbSet<Domain.Entities.Payments.Payment> Payments => Set<Domain.Entities.Payments.Payment>();
     public DbSet<Transaction> Transactions => Set<Transaction>();
     public DbSet<OrderReplica> OrderReplicas => Set<OrderReplica>();
+    public DbSet<PaymentConfig> PaymentConfigs => Set<PaymentConfig>();
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -31,6 +33,20 @@ public sealed class PaymentDbContext : DbContext, IPaymentUnitOfWork
         builder.HasDefaultSchema(Schema.Payment);
 
         builder.ApplyConfigurationsFromAssembly(typeof(PaymentDbContext).Assembly);
+
+        SeedPaymentConfigs(builder);
+    }
+
+    private static void SeedPaymentConfigs(ModelBuilder builder)
+    {
+        builder.Entity<PaymentConfig>().HasData(
+            new
+            {
+                Id = new Guid("00000000-0000-0000-0000-000000000001"),
+                OnlinePaymentExpiredInDays = 2,
+                OnlineTransactionExpiredInMinutes = 10,
+                UpdatedAt = new DateTime(2025, 3, 30, 0, 0, 0, DateTimeKind.Utc)
+            });
     }
 
     public async Task<T> ExecuteAsync<T>(Func<Task<T>> action, CancellationToken cancellationToken = default)

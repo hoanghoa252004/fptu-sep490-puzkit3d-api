@@ -20,6 +20,7 @@ internal sealed class CreateTransactionCommandHandler : ICommandTHandler<CreateT
     private readonly ITransactionRepository _transactionRepository;
     private readonly IPaymentGatewayFactory _paymentGatewayFactory;
     private readonly IPaymentUnitOfWork _unitOfWork;
+    private readonly IPaymentConfigRepository _paymentConfigRepository;
 
     public CreateTransactionCommandHandler(
         ICurrentUser currentUser,
@@ -27,7 +28,8 @@ internal sealed class CreateTransactionCommandHandler : ICommandTHandler<CreateT
         IPaymentRepository paymentRepository,
         ITransactionRepository transactionRepository,
         IPaymentGatewayFactory paymentGatewayFactory,
-        IPaymentUnitOfWork unitOfWork)
+        IPaymentUnitOfWork unitOfWork,
+        IPaymentConfigRepository paymentConfigRepository)
     {
         _currentUser = currentUser;
         _orderReplicaRepository = orderReplicaRepository;
@@ -35,6 +37,7 @@ internal sealed class CreateTransactionCommandHandler : ICommandTHandler<CreateT
         _transactionRepository = transactionRepository;
         _paymentGatewayFactory = paymentGatewayFactory;
         _unitOfWork = unitOfWork;
+        _paymentConfigRepository = paymentConfigRepository;
     }
 
     public async Task<ResultT<string>> Handle(CreateTransactionCommand request, CancellationToken cancellationToken)
@@ -98,6 +101,10 @@ internal sealed class CreateTransactionCommandHandler : ICommandTHandler<CreateT
             return Result.Failure<string>(PaymentError.ActiveTransactionExists());
         }
 
+        // Get PaymentConfig from repository, use default if not found
+        var paymentConfig = await _paymentConfigRepository.GetFirstAsync(cancellationToken);
+        var onlineTransactionExpiredInMinutes = paymentConfig?.OnlineTransactionExpiredInMinutes ?? 5;
+
         return await _unitOfWork.ExecuteAsync(async () =>
         {
             var gatewayResult = _paymentGatewayFactory.GetGateway(request.provider);
@@ -112,7 +119,8 @@ internal sealed class CreateTransactionCommandHandler : ICommandTHandler<CreateT
                 paymentId: payment.Id,
                 provider: paymentGateway.ProviderName,
                 status: TransactionStatus.Pending,
-                amount: payment.Amount);
+                amount: payment.Amount,
+                expirationMinutes: onlineTransactionExpiredInMinutes);
 
             if (transactionResult.IsFailure)
             {

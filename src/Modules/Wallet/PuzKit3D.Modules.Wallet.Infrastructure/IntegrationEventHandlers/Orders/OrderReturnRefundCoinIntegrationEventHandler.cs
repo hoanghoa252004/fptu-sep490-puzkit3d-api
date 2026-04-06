@@ -11,15 +11,18 @@ namespace PuzKit3D.Modules.Wallet.Infrastructure.IntegrationEventHandlers.Orders
 public sealed class OrderReturnRefundCoinIntegrationEventHandler : IIntegrationEventHandler<OrderReturnRefundCoinIntegrationEvent>
 {
     private readonly IWalletRepository _walletRepository;
+    private readonly IWalletConfigRepository _walletConfigRepository;
     private readonly IWalletTransactionRepository _walletTransactionRepository;
     private readonly IWalletUnitOfWork _unitOfWork;
 
     public OrderReturnRefundCoinIntegrationEventHandler(
         IWalletRepository walletRepository,
+        IWalletConfigRepository walletConfigRepository,
         IWalletTransactionRepository walletTransactionRepository,
         IWalletUnitOfWork unitOfWork)
     {
         _walletRepository = walletRepository;
+        _walletConfigRepository = walletConfigRepository;
         _walletTransactionRepository = walletTransactionRepository;
         _unitOfWork = unitOfWork;
     }
@@ -28,6 +31,10 @@ public sealed class OrderReturnRefundCoinIntegrationEventHandler : IIntegrationE
         OrderReturnRefundCoinIntegrationEvent @event,
         CancellationToken cancellationToken)
     {
+        // Get WalletConfig from repository, use default 80% if not found
+        var walletConfig = await _walletConfigRepository.GetFirstAsync(cancellationToken);
+        var onlineOrderReturnPercentage = walletConfig?.OnlineOrderReturnPercentage ?? 80m;
+
         // Find user's wallet by userId
         var walletResult = await _walletRepository.GetByUserIdAsync(@event.UserId, cancellationToken);
 
@@ -47,12 +54,13 @@ public sealed class OrderReturnRefundCoinIntegrationEventHandler : IIntegrationE
             walletEntity = walletResult.Value;
         }
 
-        // Refund 80% of the order amount as coins
+        // Refund based on payment method and config
         decimal refundAmount = 0;
 
         if (@event.PaymentMethod.Equals("Online", StringComparison.OrdinalIgnoreCase) || @event.PaymentMethod.Equals("COIN", StringComparison.OrdinalIgnoreCase))
         {
-            refundAmount = @event.GrandTotalAmount + @event.UsedCoinAmount * 0.8m;
+            // Refund with percentage from config
+            refundAmount = (@event.GrandTotalAmount + @event.UsedCoinAmount) * (onlineOrderReturnPercentage / 100m);
         }
         else if (@event.PaymentMethod.Equals("COD", StringComparison.OrdinalIgnoreCase))
         {

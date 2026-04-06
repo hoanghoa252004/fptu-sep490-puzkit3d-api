@@ -11,15 +11,18 @@ namespace PuzKit3D.Modules.InStock.Infrastructure.IntegrationEventHandlers.Deliv
 public sealed class OrderDeliveredIntegrationEventHandler : IIntegrationEventHandler<OrderDeliveredIntegrationEvent>
 {
     private readonly IInstockOrderRepository _instockOrderRepository;
+    private readonly IInstockOrderConfigRepository _instockOrderConfigRepository;
     private readonly IInStockUnitOfWork _unitOfWork;
     private readonly IEventBus _eventBus;
 
     public OrderDeliveredIntegrationEventHandler(
         IInstockOrderRepository instockOrderRepository,
+        IInstockOrderConfigRepository instockOrderConfigRepository,
         IInStockUnitOfWork unitOfWork,
         IEventBus eventBus)
     {
         _instockOrderRepository = instockOrderRepository;
+        _instockOrderConfigRepository = instockOrderConfigRepository;
         _unitOfWork = unitOfWork;
         _eventBus = eventBus;
     }
@@ -35,7 +38,17 @@ public sealed class OrderDeliveredIntegrationEventHandler : IIntegrationEventHan
         if (instockOrder == null)
             return;
 
-        // If status is Delivered, set IsPaid = true and PaidAt = now
+        // Get InstockOrderConfig from repository, use default 7 days if not found
+        var instockOrderConfig = await _instockOrderConfigRepository.GetFirstAsync(cancellationToken);
+        var orderMustCompleteInDays = instockOrderConfig?.OrderMustCompleteInDays ?? 7;
+
+        // Set mustCompleteBefore based on config
+        var mustCompleteBefore = DateTime.UtcNow.AddDays(orderMustCompleteInDays);
+        var setMustCompleteResult = instockOrder.SetMustCompleteBefore(mustCompleteBefore);
+        if (setMustCompleteResult.IsFailure)
+            return;
+
+        // Set IsPaid = true and PaidAt = now
         if (instockOrder.Status == InstockOrderStatus.HandedOverToDelivery)
         {
             var markAsPaidResult = instockOrder.MarkAsPaid(DateTime.UtcNow);

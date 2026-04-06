@@ -5,6 +5,10 @@ using PuzKit3D.Modules.Cart.Persistence;
 using PuzKit3D.Modules.Catalog.Api;
 using PuzKit3D.Modules.Catalog.Application;
 using PuzKit3D.Modules.Catalog.Persistence;
+using PuzKit3D.Modules.CustomDesign.Api;
+using PuzKit3D.Modules.CustomDesign.Application;
+using PuzKit3D.Modules.CustomDesign.Infrastructure;
+using PuzKit3D.Modules.CustomDesign.Persistence;
 using PuzKit3D.Modules.Delivery.Api;
 using PuzKit3D.Modules.Delivery.Application;
 using PuzKit3D.Modules.Delivery.Infrastructure;
@@ -47,6 +51,7 @@ using PuzKit3D.Modules.Wallet.Persistence;
 using PuzKit3D.SharedKernel.Api.Endpoint;
 using PuzKit3D.SharedKernel.Application;
 using PuzKit3D.SharedKernel.Infrastructure;
+using PuzKit3D.WebApi.BackgroundJobs;
 using PuzKit3D.WebApi.DependencyInjection.Extensions;
 using PuzKit3D.WebApi.Middleware;
 
@@ -54,6 +59,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 Console.WriteLine($"Environment: {builder.Environment.EnvironmentName}");
 Console.WriteLine(builder.Configuration["ConnectionStrings:DefaultConnection"]);
+Console.WriteLine("CurrentDir: " + Directory.GetCurrentDirectory());
 // Service:
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 builder.Services.AddProblemDetails();
@@ -77,6 +83,7 @@ builder.Services.AddSharedKernelApplication(
         FeedbackApplicationAssembly.Assembly,
         SupportTicketApplicationAssembly.Assembly,
         WalletApplicationAssembly.Assembly,
+        CustomDesignApplicationAssembly.Assembly,
     } 
 );
 
@@ -96,6 +103,7 @@ builder.Services.AddEndpointsFromAssembly(
        FeedbackApiAssembly.Assembly,
        SupportTicketApiAssembly.Assembly,
        WalletApiAssembly.Assembly,
+       CustomDesignApiAssembly.Assembly,
     }
 );
 
@@ -109,6 +117,7 @@ builder.Services.AddFeedbackPersistence(builder.Configuration);
 builder.Services.AddSupportTicketPersistence(builder.Configuration);
 builder.Services.AddDeliveryPersistence(builder.Configuration);
 builder.Services.AddWalletPersistence(builder.Configuration);
+builder.Services.AddCustomDesignPersistence(builder.Configuration);
 
 // Add Infrastructure services (Domain Event Handlers, Integration Event Handlers):
 builder.Services.AddInStockInfrastructure(builder.Configuration);
@@ -121,6 +130,14 @@ builder.Services.AddDeliveryInfrastructure(builder.Configuration, builder.Enviro
 builder.Services.AddSupportTicketInfrastructure();
 builder.Services.AddWalletInfrastructure(builder.Configuration); 
 builder.Services.AddPartnerInfrastructure();
+builder.Services.AddCustomDesignInfrastructure(builder.Configuration);
+
+// Add Background Services (Cronjobs)
+builder.Services.AddHostedService<PaymentExpiryCheckService>();
+builder.Services.AddHostedService<OrderCompletionCheckService>();
+builder.Services.AddHostedService<DeliveryTrackingUpdateStatusService>();
+builder.Services.AddHostedService<CustomDesignGenerationService>();
+builder.Services.AddHostedService<RoughModelGenerationService>();
 
 var app = builder.Build();
 
@@ -147,6 +164,8 @@ app.UseSwaggerUI(options =>
     options.SwaggerEndpoint("/swagger/media/swagger.json", "Media Storage API");
     options.SwaggerEndpoint("/swagger/delivery/swagger.json", "Delivery Tracking API");
     options.SwaggerEndpoint("/swagger/after-sale/swagger.json", "After Sale API");
+    options.SwaggerEndpoint("/swagger/custom-design/swagger.json", "Custom Design API");
+    options.SwaggerEndpoint("/swagger/config/swagger.json", "Business Rule Config API");
     // Main API document
     options.SwaggerEndpoint("/swagger/v1/swagger.json", "All Modules");
 

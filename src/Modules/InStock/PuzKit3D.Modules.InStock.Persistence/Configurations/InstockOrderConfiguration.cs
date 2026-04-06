@@ -85,6 +85,8 @@ internal sealed class InstockOrderConfiguration : IEntityTypeConfiguration<Insto
 
         builder.Property(o => o.PaidAt);
 
+        builder.Property(o => o.MustCompleteBefore);
+
         builder.HasIndex(o => o.Code)
             .IsUnique()
             .HasDatabaseName("UK__instock_order__code");

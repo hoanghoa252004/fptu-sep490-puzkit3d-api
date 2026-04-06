@@ -31,5 +31,9 @@ public static class InstockProductPriceDetailError
     public static Error CannotDeleteWithOrders(Guid id) => Error.Conflict(
         "InstockProductPriceDetail.CannotDeleteWithOrders",
         $"Cannot delete price detail with ID '{id}' because it has been used in existing orders. Please deactivate the price detail instead.");
+
+    public static Error CannotActivatePriceDetailWithInactivePrice() => Error.Validation(
+        "InstockProductPriceDetail.CannotActivatePriceDetailWithInactivePrice",
+        "Cannot activate price detail when its associated price is inactive. Please activate the price first.");
 }
 

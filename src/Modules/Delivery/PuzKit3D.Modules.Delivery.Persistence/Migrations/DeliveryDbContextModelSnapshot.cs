@@ -274,6 +274,1108 @@ namespace PuzKit3D.Modules.Delivery.Persistence.Migrations
                         .HasName("pk_part_replicas");
 
                     b.ToTable("part_replicas", "delivery");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("50000000-0001-0000-0000-000000000000"),
+                            Code = "PAR0001",
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000001"),
+                            Name = "Lion Part 1",
+                            PartType = "Structural",
+                            Quantity = 10,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0001-0001-0000-000000000000"),
+                            Code = "PAR0002",
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000001"),
+                            Name = "Lion Part 2",
+                            PartType = "Mechanical",
+                            Quantity = 15,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0001-0002-0000-000000000000"),
+                            Code = "PAR0003",
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000001"),
+                            Name = "Lion Part 3",
+                            PartType = "Decorative",
+                            Quantity = 20,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0001-0003-0000-000000000000"),
+                            Code = "PAR0004",
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000001"),
+                            Name = "Lion Part 4",
+                            PartType = "Structural",
+                            Quantity = 25,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0001-0004-0000-000000000000"),
+                            Code = "PAR0005",
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000001"),
+                            Name = "Lion Part 5",
+                            PartType = "Mechanical",
+                            Quantity = 30,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0001-0005-0000-000000000000"),
+                            Code = "PAR0006",
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000001"),
+                            Name = "Lion Part 6",
+                            PartType = "Decorative",
+                            Quantity = 35,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0001-0006-0000-000000000000"),
+                            Code = "PAR0007",
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000001"),
+                            Name = "Lion Part 7",
+                            PartType = "Structural",
+                            Quantity = 40,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0001-0007-0000-000000000000"),
+                            Code = "PAR0008",
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000001"),
+                            Name = "Lion Part 8",
+                            PartType = "Mechanical",
+                            Quantity = 45,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0001-0008-0000-000000000000"),
+                            Code = "PAR0009",
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000001"),
+                            Name = "Lion Part 9",
+                            PartType = "Decorative",
+                            Quantity = 50,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0001-0009-0000-000000000000"),
+                            Code = "PAR0010",
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000001"),
+                            Name = "Lion Part 10",
+                            PartType = "Structural",
+                            Quantity = 55,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0002-0000-0000-000000000000"),
+                            Code = "PAR0011",
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000002"),
+                            Name = "Elephant Part 1",
+                            PartType = "Structural",
+                            Quantity = 10,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0002-0001-0000-000000000000"),
+                            Code = "PAR0012",
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000002"),
+                            Name = "Elephant Part 2",
+                            PartType = "Mechanical",
+                            Quantity = 15,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0002-0002-0000-000000000000"),
+                            Code = "PAR0013",
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000002"),
+                            Name = "Elephant Part 3",
+                            PartType = "Decorative",
+                            Quantity = 20,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0002-0003-0000-000000000000"),
+                            Code = "PAR0014",
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000002"),
+                            Name = "Elephant Part 4",
+                            PartType = "Structural",
+                            Quantity = 25,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0002-0004-0000-000000000000"),
+                            Code = "PAR0015",
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000002"),
+                            Name = "Elephant Part 5",
+                            PartType = "Mechanical",
+                            Quantity = 30,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0002-0005-0000-000000000000"),
+                            Code = "PAR0016",
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000002"),
+                            Name = "Elephant Part 6",
+                            PartType = "Decorative",
+                            Quantity = 35,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0002-0006-0000-000000000000"),
+                            Code = "PAR0017",
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000002"),
+                            Name = "Elephant Part 7",
+                            PartType = "Structural",
+                            Quantity = 40,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0002-0007-0000-000000000000"),
+                            Code = "PAR0018",
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000002"),
+                            Name = "Elephant Part 8",
+                            PartType = "Mechanical",
+                            Quantity = 45,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0002-0008-0000-000000000000"),
+                            Code = "PAR0019",
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000002"),
+                            Name = "Elephant Part 9",
+                            PartType = "Decorative",
+                            Quantity = 50,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0002-0009-0000-000000000000"),
+                            Code = "PAR0020",
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000002"),
+                            Name = "Elephant Part 10",
+                            PartType = "Structural",
+                            Quantity = 55,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0003-0000-0000-000000000000"),
+                            Code = "PAR0021",
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000003"),
+                            Name = "Eagle Part 1",
+                            PartType = "Structural",
+                            Quantity = 10,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0003-0001-0000-000000000000"),
+                            Code = "PAR0022",
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000003"),
+                            Name = "Eagle Part 2",
+                            PartType = "Mechanical",
+                            Quantity = 15,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0003-0002-0000-000000000000"),
+                            Code = "PAR0023",
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000003"),
+                            Name = "Eagle Part 3",
+                            PartType = "Decorative",
+                            Quantity = 20,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0003-0003-0000-000000000000"),
+                            Code = "PAR0024",
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000003"),
+                            Name = "Eagle Part 4",
+                            PartType = "Structural",
+                            Quantity = 25,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0003-0004-0000-000000000000"),
+                            Code = "PAR0025",
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000003"),
+                            Name = "Eagle Part 5",
+                            PartType = "Mechanical",
+                            Quantity = 30,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0003-0005-0000-000000000000"),
+                            Code = "PAR0026",
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000003"),
+                            Name = "Eagle Part 6",
+                            PartType = "Decorative",
+                            Quantity = 35,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0003-0006-0000-000000000000"),
+                            Code = "PAR0027",
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000003"),
+                            Name = "Eagle Part 7",
+                            PartType = "Structural",
+                            Quantity = 40,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0003-0007-0000-000000000000"),
+                            Code = "PAR0028",
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000003"),
+                            Name = "Eagle Part 8",
+                            PartType = "Mechanical",
+                            Quantity = 45,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0003-0008-0000-000000000000"),
+                            Code = "PAR0029",
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000003"),
+                            Name = "Eagle Part 9",
+                            PartType = "Decorative",
+                            Quantity = 50,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0003-0009-0000-000000000000"),
+                            Code = "PAR0030",
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000003"),
+                            Name = "Eagle Part 10",
+                            PartType = "Structural",
+                            Quantity = 55,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0004-0000-0000-000000000000"),
+                            Code = "PAR0031",
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000004"),
+                            Name = "Sports Car Part 1",
+                            PartType = "Structural",
+                            Quantity = 10,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0004-0001-0000-000000000000"),
+                            Code = "PAR0032",
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000004"),
+                            Name = "Sports Car Part 2",
+                            PartType = "Mechanical",
+                            Quantity = 15,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0004-0002-0000-000000000000"),
+                            Code = "PAR0033",
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000004"),
+                            Name = "Sports Car Part 3",
+                            PartType = "Decorative",
+                            Quantity = 20,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0004-0003-0000-000000000000"),
+                            Code = "PAR0034",
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000004"),
+                            Name = "Sports Car Part 4",
+                            PartType = "Structural",
+                            Quantity = 25,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0004-0004-0000-000000000000"),
+                            Code = "PAR0035",
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000004"),
+                            Name = "Sports Car Part 5",
+                            PartType = "Mechanical",
+                            Quantity = 30,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0004-0005-0000-000000000000"),
+                            Code = "PAR0036",
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000004"),
+                            Name = "Sports Car Part 6",
+                            PartType = "Decorative",
+                            Quantity = 35,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0004-0006-0000-000000000000"),
+                            Code = "PAR0037",
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000004"),
+                            Name = "Sports Car Part 7",
+                            PartType = "Structural",
+                            Quantity = 40,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0004-0007-0000-000000000000"),
+                            Code = "PAR0038",
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000004"),
+                            Name = "Sports Car Part 8",
+                            PartType = "Mechanical",
+                            Quantity = 45,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0004-0008-0000-000000000000"),
+                            Code = "PAR0039",
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000004"),
+                            Name = "Sports Car Part 9",
+                            PartType = "Decorative",
+                            Quantity = 50,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0004-0009-0000-000000000000"),
+                            Code = "PAR0040",
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000004"),
+                            Name = "Sports Car Part 10",
+                            PartType = "Structural",
+                            Quantity = 55,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0005-0000-0000-000000000000"),
+                            Code = "PAR0041",
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000005"),
+                            Name = "Airplane Part 1",
+                            PartType = "Structural",
+                            Quantity = 10,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0005-0001-0000-000000000000"),
+                            Code = "PAR0042",
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000005"),
+                            Name = "Airplane Part 2",
+                            PartType = "Mechanical",
+                            Quantity = 15,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0005-0002-0000-000000000000"),
+                            Code = "PAR0043",
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000005"),
+                            Name = "Airplane Part 3",
+                            PartType = "Decorative",
+                            Quantity = 20,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0005-0003-0000-000000000000"),
+                            Code = "PAR0044",
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000005"),
+                            Name = "Airplane Part 4",
+                            PartType = "Structural",
+                            Quantity = 25,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0005-0004-0000-000000000000"),
+                            Code = "PAR0045",
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000005"),
+                            Name = "Airplane Part 5",
+                            PartType = "Mechanical",
+                            Quantity = 30,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0005-0005-0000-000000000000"),
+                            Code = "PAR0046",
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000005"),
+                            Name = "Airplane Part 6",
+                            PartType = "Decorative",
+                            Quantity = 35,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0005-0006-0000-000000000000"),
+                            Code = "PAR0047",
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000005"),
+                            Name = "Airplane Part 7",
+                            PartType = "Structural",
+                            Quantity = 40,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0005-0007-0000-000000000000"),
+                            Code = "PAR0048",
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000005"),
+                            Name = "Airplane Part 8",
+                            PartType = "Mechanical",
+                            Quantity = 45,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0005-0008-0000-000000000000"),
+                            Code = "PAR0049",
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000005"),
+                            Name = "Airplane Part 9",
+                            PartType = "Decorative",
+                            Quantity = 50,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0005-0009-0000-000000000000"),
+                            Code = "PAR0050",
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000005"),
+                            Name = "Airplane Part 10",
+                            PartType = "Structural",
+                            Quantity = 55,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0006-0000-0000-000000000000"),
+                            Code = "PAR0051",
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000006"),
+                            Name = "Motorcycle Part 1",
+                            PartType = "Structural",
+                            Quantity = 10,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0006-0001-0000-000000000000"),
+                            Code = "PAR0052",
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000006"),
+                            Name = "Motorcycle Part 2",
+                            PartType = "Mechanical",
+                            Quantity = 15,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0006-0002-0000-000000000000"),
+                            Code = "PAR0053",
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000006"),
+                            Name = "Motorcycle Part 3",
+                            PartType = "Decorative",
+                            Quantity = 20,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0006-0003-0000-000000000000"),
+                            Code = "PAR0054",
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000006"),
+                            Name = "Motorcycle Part 4",
+                            PartType = "Structural",
+                            Quantity = 25,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0006-0004-0000-000000000000"),
+                            Code = "PAR0055",
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000006"),
+                            Name = "Motorcycle Part 5",
+                            PartType = "Mechanical",
+                            Quantity = 30,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0006-0005-0000-000000000000"),
+                            Code = "PAR0056",
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000006"),
+                            Name = "Motorcycle Part 6",
+                            PartType = "Decorative",
+                            Quantity = 35,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0006-0006-0000-000000000000"),
+                            Code = "PAR0057",
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000006"),
+                            Name = "Motorcycle Part 7",
+                            PartType = "Structural",
+                            Quantity = 40,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0006-0007-0000-000000000000"),
+                            Code = "PAR0058",
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000006"),
+                            Name = "Motorcycle Part 8",
+                            PartType = "Mechanical",
+                            Quantity = 45,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0006-0008-0000-000000000000"),
+                            Code = "PAR0059",
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000006"),
+                            Name = "Motorcycle Part 9",
+                            PartType = "Decorative",
+                            Quantity = 50,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0006-0009-0000-000000000000"),
+                            Code = "PAR0060",
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000006"),
+                            Name = "Motorcycle Part 10",
+                            PartType = "Structural",
+                            Quantity = 55,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0007-0000-0000-000000000000"),
+                            Code = "PAR0061",
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000007"),
+                            Name = "Tiger Part 1",
+                            PartType = "Structural",
+                            Quantity = 10,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0007-0001-0000-000000000000"),
+                            Code = "PAR0062",
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000007"),
+                            Name = "Tiger Part 2",
+                            PartType = "Mechanical",
+                            Quantity = 15,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0007-0002-0000-000000000000"),
+                            Code = "PAR0063",
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000007"),
+                            Name = "Tiger Part 3",
+                            PartType = "Decorative",
+                            Quantity = 20,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0007-0003-0000-000000000000"),
+                            Code = "PAR0064",
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000007"),
+                            Name = "Tiger Part 4",
+                            PartType = "Structural",
+                            Quantity = 25,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0007-0004-0000-000000000000"),
+                            Code = "PAR0065",
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000007"),
+                            Name = "Tiger Part 5",
+                            PartType = "Mechanical",
+                            Quantity = 30,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0007-0005-0000-000000000000"),
+                            Code = "PAR0066",
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000007"),
+                            Name = "Tiger Part 6",
+                            PartType = "Decorative",
+                            Quantity = 35,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0007-0006-0000-000000000000"),
+                            Code = "PAR0067",
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000007"),
+                            Name = "Tiger Part 7",
+                            PartType = "Structural",
+                            Quantity = 40,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0007-0007-0000-000000000000"),
+                            Code = "PAR0068",
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000007"),
+                            Name = "Tiger Part 8",
+                            PartType = "Mechanical",
+                            Quantity = 45,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0007-0008-0000-000000000000"),
+                            Code = "PAR0069",
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000007"),
+                            Name = "Tiger Part 9",
+                            PartType = "Decorative",
+                            Quantity = 50,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0007-0009-0000-000000000000"),
+                            Code = "PAR0070",
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000007"),
+                            Name = "Tiger Part 10",
+                            PartType = "Structural",
+                            Quantity = 55,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0008-0000-0000-000000000000"),
+                            Code = "PAR0071",
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000008"),
+                            Name = "Dolphin Part 1",
+                            PartType = "Structural",
+                            Quantity = 10,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0008-0001-0000-000000000000"),
+                            Code = "PAR0072",
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000008"),
+                            Name = "Dolphin Part 2",
+                            PartType = "Mechanical",
+                            Quantity = 15,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0008-0002-0000-000000000000"),
+                            Code = "PAR0073",
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000008"),
+                            Name = "Dolphin Part 3",
+                            PartType = "Decorative",
+                            Quantity = 20,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0008-0003-0000-000000000000"),
+                            Code = "PAR0074",
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000008"),
+                            Name = "Dolphin Part 4",
+                            PartType = "Structural",
+                            Quantity = 25,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0008-0004-0000-000000000000"),
+                            Code = "PAR0075",
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000008"),
+                            Name = "Dolphin Part 5",
+                            PartType = "Mechanical",
+                            Quantity = 30,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0008-0005-0000-000000000000"),
+                            Code = "PAR0076",
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000008"),
+                            Name = "Dolphin Part 6",
+                            PartType = "Decorative",
+                            Quantity = 35,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0008-0006-0000-000000000000"),
+                            Code = "PAR0077",
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000008"),
+                            Name = "Dolphin Part 7",
+                            PartType = "Structural",
+                            Quantity = 40,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0008-0007-0000-000000000000"),
+                            Code = "PAR0078",
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000008"),
+                            Name = "Dolphin Part 8",
+                            PartType = "Mechanical",
+                            Quantity = 45,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0008-0008-0000-000000000000"),
+                            Code = "PAR0079",
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000008"),
+                            Name = "Dolphin Part 9",
+                            PartType = "Decorative",
+                            Quantity = 50,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0008-0009-0000-000000000000"),
+                            Code = "PAR0080",
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000008"),
+                            Name = "Dolphin Part 10",
+                            PartType = "Structural",
+                            Quantity = 55,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0009-0000-0000-000000000000"),
+                            Code = "PAR0081",
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000009"),
+                            Name = "Helicopter Part 1",
+                            PartType = "Structural",
+                            Quantity = 10,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0009-0001-0000-000000000000"),
+                            Code = "PAR0082",
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000009"),
+                            Name = "Helicopter Part 2",
+                            PartType = "Mechanical",
+                            Quantity = 15,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0009-0002-0000-000000000000"),
+                            Code = "PAR0083",
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000009"),
+                            Name = "Helicopter Part 3",
+                            PartType = "Decorative",
+                            Quantity = 20,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0009-0003-0000-000000000000"),
+                            Code = "PAR0084",
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000009"),
+                            Name = "Helicopter Part 4",
+                            PartType = "Structural",
+                            Quantity = 25,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0009-0004-0000-000000000000"),
+                            Code = "PAR0085",
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000009"),
+                            Name = "Helicopter Part 5",
+                            PartType = "Mechanical",
+                            Quantity = 30,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0009-0005-0000-000000000000"),
+                            Code = "PAR0086",
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000009"),
+                            Name = "Helicopter Part 6",
+                            PartType = "Decorative",
+                            Quantity = 35,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0009-0006-0000-000000000000"),
+                            Code = "PAR0087",
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000009"),
+                            Name = "Helicopter Part 7",
+                            PartType = "Structural",
+                            Quantity = 40,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0009-0007-0000-000000000000"),
+                            Code = "PAR0088",
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000009"),
+                            Name = "Helicopter Part 8",
+                            PartType = "Mechanical",
+                            Quantity = 45,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0009-0008-0000-000000000000"),
+                            Code = "PAR0089",
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000009"),
+                            Name = "Helicopter Part 9",
+                            PartType = "Decorative",
+                            Quantity = 50,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0009-0009-0000-000000000000"),
+                            Code = "PAR0090",
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000009"),
+                            Name = "Helicopter Part 10",
+                            PartType = "Structural",
+                            Quantity = 55,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0010-0000-0000-000000000000"),
+                            Code = "PAR0091",
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000010"),
+                            Name = "Dragon Part 1",
+                            PartType = "Structural",
+                            Quantity = 10,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0010-0001-0000-000000000000"),
+                            Code = "PAR0092",
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000010"),
+                            Name = "Dragon Part 2",
+                            PartType = "Mechanical",
+                            Quantity = 15,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0010-0002-0000-000000000000"),
+                            Code = "PAR0093",
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000010"),
+                            Name = "Dragon Part 3",
+                            PartType = "Decorative",
+                            Quantity = 20,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0010-0003-0000-000000000000"),
+                            Code = "PAR0094",
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000010"),
+                            Name = "Dragon Part 4",
+                            PartType = "Structural",
+                            Quantity = 25,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0010-0004-0000-000000000000"),
+                            Code = "PAR0095",
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000010"),
+                            Name = "Dragon Part 5",
+                            PartType = "Mechanical",
+                            Quantity = 30,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0010-0005-0000-000000000000"),
+                            Code = "PAR0096",
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000010"),
+                            Name = "Dragon Part 6",
+                            PartType = "Decorative",
+                            Quantity = 35,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0010-0006-0000-000000000000"),
+                            Code = "PAR0097",
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000010"),
+                            Name = "Dragon Part 7",
+                            PartType = "Structural",
+                            Quantity = 40,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0010-0007-0000-000000000000"),
+                            Code = "PAR0098",
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000010"),
+                            Name = "Dragon Part 8",
+                            PartType = "Mechanical",
+                            Quantity = 45,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0010-0008-0000-000000000000"),
+                            Code = "PAR0099",
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000010"),
+                            Name = "Dragon Part 9",
+                            PartType = "Decorative",
+                            Quantity = 50,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0010-0009-0000-000000000000"),
+                            Code = "PAR0100",
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000010"),
+                            Name = "Dragon Part 10",
+                            PartType = "Structural",
+                            Quantity = 55,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        });
                 });
 
             modelBuilder.Entity("PuzKit3D.Modules.Delivery.Domain.Entities.Replicas.SupportTicketDetailReplica", b =>

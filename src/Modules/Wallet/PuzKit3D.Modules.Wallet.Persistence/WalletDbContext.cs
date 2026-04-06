@@ -1,6 +1,7 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using PuzKit3D.Modules.Wallet.Application.UnitOfWork;
+using PuzKit3D.Modules.Wallet.Domain.Entities.WalletConfigs;
 using PuzKit3D.Modules.Wallet.Domain.Entities.Wallets;
 using PuzKit3D.Modules.Wallet.Domain.Entities.WalletTransactions;
 using PuzKit3D.SharedKernel.Domain;
@@ -24,6 +25,7 @@ public sealed class WalletDbContext : DbContext, IWalletUnitOfWork
 
     public DbSet<WalletEntity> Wallets => Set<WalletEntity>();
     public DbSet<WalletTransactionEntity> WalletTransactions => Set<WalletTransactionEntity>();
+    public DbSet<WalletConfig> WalletConfigs => Set<WalletConfig>();
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -32,6 +34,21 @@ public sealed class WalletDbContext : DbContext, IWalletUnitOfWork
         builder.HasDefaultSchema(Schema.Wallet);
 
         builder.ApplyConfigurationsFromAssembly(typeof(WalletDbContext).Assembly);
+
+        SeedWalletConfigs(builder);
+    }
+
+    private static void SeedWalletConfigs(ModelBuilder builder)
+    {
+        builder.Entity<WalletConfig>().HasData(
+            new
+            {
+                Id = new Guid("00000000-0000-0000-0000-000000000003"),
+                OnlineOrderReturnPercentage = 80m,
+                OnlineOrderCompletedRewardPercentage = 5m,
+                CODOrderCompletedRewardPercentage = 2m,
+                UpdatedAt = new DateTime(2026, 3, 30, 0, 0, 0, DateTimeKind.Utc)
+            });
     }
 
     public async Task<T> ExecuteAsync<T>(Func<Task<T>> action, CancellationToken cancellationToken = default)

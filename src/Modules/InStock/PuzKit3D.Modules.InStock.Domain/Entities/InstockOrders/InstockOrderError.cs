@@ -115,5 +115,17 @@ public static class InstockOrderError
     public static Error DeliveryInfoAlreadySet() => Error.Validation(
         "InstockOrder.DeliveryInfoAlreadySet",
         "Delivery information has already been set for this order.");
+
+    public static Error InstockOrderConfigNotFound() => Error.NotFound(
+        "InstockOrder.InstockOrderConfigNotFound",
+        "Instock order configuration was not found.");
+
+    public static Error InvalidOrderMustCompleteInDays() => Error.Validation(
+        "InstockOrder.InvalidOrderMustCompleteInDays",
+        "Order must complete in days must be at least 1 day.");
+
+    public static Error OrderMustCompleteInDaysExceedsMaximum() => Error.Validation(
+        "InstockOrder.OrderMustCompleteInDaysExceedsMaximum",
+        "Order must complete in days cannot exceed 30 days.");
 }
 

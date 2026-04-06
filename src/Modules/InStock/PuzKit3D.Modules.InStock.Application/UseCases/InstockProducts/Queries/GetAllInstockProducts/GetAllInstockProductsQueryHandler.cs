@@ -109,6 +109,107 @@ internal sealed class GetAllInstockProductsQueryHandler
             query = query.Where(p => p.IsActive == request.IsActive.Value);
         }
 
+        // Apply DifficultyLevel filter
+        if (!string.IsNullOrWhiteSpace(request.DifficultyLevel))
+        {
+            var difficultyLevel = request.DifficultyLevel.ToLower();
+            query = query.Where(p => p.DifficultLevel.ToLower() == difficultyLevel);
+        }
+
+        // Apply Material filter by slug
+        if (!string.IsNullOrWhiteSpace(request.MaterialSlug))
+        {
+            var materials = await _materialReplicaRepository.GetAllAsync(cancellationToken);
+            var materialId = materials
+                .FirstOrDefault(m => m.Slug.ToLower() == request.MaterialSlug.ToLower())
+                ?.Id;
+
+            if (materialId.HasValue)
+            {
+                query = query.Where(p => p.MaterialId == materialId.Value);
+            }
+            else
+            {
+                // No matching material found, return empty results
+                return Result.Success(PagedResult<object>.Create(
+                    new List<object>(),
+                    request.PageNumber,
+                    request.PageSize,
+                    0));
+            }
+        }
+
+        // Apply Topic filter by slug
+        if (!string.IsNullOrWhiteSpace(request.TopicSlug))
+        {
+            var topics = await _topicReplicaRepository.GetAllAsync(cancellationToken);
+            var topicId = topics
+                .FirstOrDefault(t => t.Slug.ToLower() == request.TopicSlug.ToLower())
+                ?.Id;
+
+            if (topicId.HasValue)
+            {
+                query = query.Where(p => p.TopicId == topicId.Value);
+            }
+            else
+            {
+                // No matching topic found, return empty results
+                return Result.Success(PagedResult<object>.Create(
+                    new List<object>(),
+                    request.PageNumber,
+                    request.PageSize,
+                    0));
+            }
+        }
+
+        // Apply AssemblyMethod filter by slug
+        if (!string.IsNullOrWhiteSpace(request.AssemblyMethodSlug))
+        {
+            var assemblyMethods = await _assemblyMethodReplicaRepository.GetAllAsync(cancellationToken);
+            var assemblyMethodId = assemblyMethods
+                .FirstOrDefault(a => a.Slug.ToLower() == request.AssemblyMethodSlug.ToLower())
+                ?.Id;
+
+            if (assemblyMethodId.HasValue)
+            {
+                query = query.Where(p => p.AssemblyMethodId == assemblyMethodId.Value);
+            }
+            else
+            {
+                // No matching assembly method found, return empty results
+                return Result.Success(PagedResult<object>.Create(
+                    new List<object>(),
+                    request.PageNumber,
+                    request.PageSize,
+                    0));
+            }
+        }
+
+        // Apply Capability filter by slugs (product must have all specified capabilities)
+        if (request.CapabilitySlugs != null && request.CapabilitySlugs.Count > 0)
+        {
+            var capabilities = await _capabilityReplicaRepository.GetAllAsync(cancellationToken);
+            var capabilityIds = capabilities
+                .Where(c => request.CapabilitySlugs.Any(slug => slug.ToLower() == c.Slug.ToLower()))
+                .Select(c => c.Id)
+                .ToList();
+
+            if (capabilityIds.Count > 0)
+            {
+                // Filter products that have all specified capabilities
+                query = query.Where(p => capabilityIds.All(capId => p.CapabilityDetails.Any(cd => cd.CapabilityId == capId)));
+            }
+            else
+            {
+                // No matching capabilities found, return empty results
+                return Result.Success(PagedResult<object>.Create(
+                    new List<object>(),
+                    request.PageNumber,
+                    request.PageSize,
+                    0));
+            }
+        }
+
         var totalCount = query.Count();
         query = query.OrderBy(p => p.Code);
 

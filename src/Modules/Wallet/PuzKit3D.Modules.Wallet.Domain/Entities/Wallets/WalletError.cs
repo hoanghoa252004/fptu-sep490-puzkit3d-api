@@ -21,4 +21,16 @@ public static class WalletError
 
     public static Error WalletNotFoundForUser(Guid userId) =>
         Error.NotFound("Wallet.WalletNotFoundForUser", $"No wallet found for user '{userId}'.");
+
+    public static Error WalletConfigNotFound() =>
+        Error.NotFound("Wallet.WalletConfigNotFound", "Wallet configuration was not found.");
+
+    public static Error InvalidOnlineOrderReturnPercentage() =>
+        Error.Validation("Wallet.InvalidOnlineOrderReturnPercentage", "Online order return percentage must be between 0 and 100.");
+
+    public static Error InvalidOnlineOrderCompletedRewardPercentage() =>
+        Error.Validation("Wallet.InvalidOnlineOrderCompletedRewardPercentage", "Online order completed reward percentage must be between 0 and 100.");
+
+    public static Error InvalidCODOrderCompletedRewardPercentage() =>
+        Error.Validation("Wallet.InvalidCODOrderCompletedRewardPercentage", "COD order completed reward percentage must be between 0 and 100.");
 }

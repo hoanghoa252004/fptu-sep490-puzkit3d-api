@@ -9,13 +9,16 @@ namespace PuzKit3D.Modules.InStock.Application.UseCases.InstockPrices.Commands.U
 internal sealed class UpdateInstockPriceCommandHandler : ICommandHandler<UpdateInstockPriceCommand>
 {
     private readonly IInstockPriceRepository _priceRepository;
+    private readonly IInstockProductPriceDetailRepository _priceDetailRepository;
     private readonly IInStockUnitOfWork _unitOfWork;
 
     public UpdateInstockPriceCommandHandler(
         IInstockPriceRepository priceRepository,
+        IInstockProductPriceDetailRepository priceDetailRepository,
         IInStockUnitOfWork unitOfWork)
     {
         _priceRepository = priceRepository;
+        _priceDetailRepository = priceDetailRepository;
         _unitOfWork = unitOfWork;
     }
 
@@ -50,6 +53,25 @@ internal sealed class UpdateInstockPriceCommandHandler : ICommandHandler<UpdateI
             if (updateResult.IsFailure)
             {
                 return Result.Failure(updateResult.Error);
+            }
+
+            // If IsActive is set to false, deactivate all price details for this price
+            if (request.IsActive.HasValue && request.IsActive.Value == false)
+            {
+                var priceDetails = await _priceDetailRepository.GetAllByPriceIdAsync(priceId, cancellationToken);
+                foreach (var priceDetail in priceDetails)
+                {
+                    if (priceDetail.IsActive)
+                    {
+                        var priceDetailUpdateResult = priceDetail.PartialUpdate(isActive: false);
+                        if (priceDetailUpdateResult.IsFailure)
+                        {
+                            return priceDetailUpdateResult;
+                        }
+
+                        _priceDetailRepository.Update(priceDetail);
+                    }
+                }
             }
 
             _priceRepository.Update(price);

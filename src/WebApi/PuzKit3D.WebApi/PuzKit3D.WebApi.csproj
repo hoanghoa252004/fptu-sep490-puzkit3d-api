@@ -10,12 +10,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Google.Cloud.AIPlatform.V1" Version="3.69.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.16">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.23.0" />
+    <PackageReference Include="SixLabors.ImageSharp" Version="3.1.12" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
+    <PackageReference Include="System.Drawing.Common" Version="10.0.5" />
   </ItemGroup>
 
   <ItemGroup>
@@ -30,6 +33,11 @@
     <ProjectReference Include="..\..\Modules\Cart\PuzKit3D.Modules.Cart.Domain\PuzKit3D.Modules.Cart.Domain.csproj" />
     <ProjectReference Include="..\..\Modules\Cart\PuzKit3D.Modules.Cart.Infrastructure\PuzKit3D.Modules.Cart.Infrastructure.csproj" />
     <ProjectReference Include="..\..\Modules\Cart\PuzKit3D.Modules.Cart.Persistence\PuzKit3D.Modules.Cart.Persistence.csproj" />
+    <ProjectReference Include="..\..\Modules\CustomDesign\PuzKit3D.Modules.CustomDesign.Api\PuzKit3D.Modules.CustomDesign.Api.csproj" />
+    <ProjectReference Include="..\..\Modules\CustomDesign\PuzKit3D.Modules.CustomDesign.Application\PuzKit3D.Modules.CustomDesign.Application.csproj" />
+    <ProjectReference Include="..\..\Modules\CustomDesign\PuzKit3D.Modules.CustomDesign.Domain\PuzKit3D.Modules.CustomDesign.Domain.csproj" />
+    <ProjectReference Include="..\..\Modules\CustomDesign\PuzKit3D.Modules.CustomDesign.Infrastructure\PuzKit3D.Modules.CustomDesign.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\Modules\CustomDesign\PuzKit3D.Modules.CustomDesign.Persistence\PuzKit3D.Modules.CustomDesign.Persistence.csproj" />
     <ProjectReference Include="..\..\Modules\Delivery\PuzKit3D.Modules.Delivery.Api\PuzKit3D.Modules.Delivery.Api.csproj" />
     <ProjectReference Include="..\..\Modules\Delivery\PuzKit3D.Modules.Delivery.Application\PuzKit3D.Modules.Delivery.Application.csproj" />
     <ProjectReference Include="..\..\Modules\Delivery\PuzKit3D.Modules.Delivery.Domain\PuzKit3D.Modules.Delivery.Domain.csproj" />
