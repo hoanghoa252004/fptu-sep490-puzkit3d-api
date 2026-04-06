@@ -119,4 +119,9 @@ public sealed class CustomDesignAsset : Entity<CustomDesignAssetId>
         Status = status;
         UpdatedAt = updatedAt;
     }
+
+    public void SetRough3DModelTaskId(string taskId)
+    {
+        Rough3DModelTaskId = taskId;
+    }
 }

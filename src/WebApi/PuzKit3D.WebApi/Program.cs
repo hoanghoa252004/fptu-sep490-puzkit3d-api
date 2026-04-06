@@ -136,6 +136,7 @@ builder.Services.AddHostedService<PaymentExpiryCheckService>();
 builder.Services.AddHostedService<OrderCompletionCheckService>();
 builder.Services.AddHostedService<DeliveryTrackingUpdateStatusService>();
 builder.Services.AddHostedService<CustomDesignGenerationService>();
+builder.Services.AddHostedService<RoughModelGenerationService>();
 
 var app = builder.Build();
 

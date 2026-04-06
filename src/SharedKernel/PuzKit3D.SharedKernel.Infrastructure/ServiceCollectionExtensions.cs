@@ -47,7 +47,7 @@ public static class ServiceCollectionExtensions
         services.Configure<S3Settings>(configuration.GetSection(S3Settings.ConfigurationSection));
 
         // Register Services
-        services.AddScoped<IMediaAssetService, MediaAssetService>();
+        services.AddTransient<IMediaAssetService, MediaAssetService>();
 
         // CORS Configuration
         services.AddCors(options =>
