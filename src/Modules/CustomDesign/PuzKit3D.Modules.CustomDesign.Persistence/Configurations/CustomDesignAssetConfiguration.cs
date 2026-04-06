@@ -30,12 +30,8 @@ internal sealed class CustomDesignAssetConfiguration : IEntityTypeConfiguration<
         builder.Property(a => a.Version)
             .IsRequired();
 
-        builder.Property(a => a.Sketches)
+        builder.Property(a => a.MultiviewImages)
             .HasColumnType("text")
-            .IsRequired(false);
-
-        builder.Property(a => a.SketchTaskId)
-            .HasMaxLength(500)
             .IsRequired(false);
 
         builder.Property(a => a.Rough3DModel)

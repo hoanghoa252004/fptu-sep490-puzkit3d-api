@@ -9,8 +9,7 @@ public sealed class CustomDesignAsset : Entity<CustomDesignAssetId>
     public string Code { get; private set; } = null!;
     public CustomDesignRequestId CustomDesignRequestId { get; private set; }
     public int Version { get; private set; }
-    public string? Sketches { get; private set; }
-    public string? SketchTaskId { get; private set; }
+    public string? MultiviewImages { get; private set; }
     public string? Rough3DModel { get; private set; }
     public string? Rough3DModelTaskId { get; private set; }
     public string? CustomerPrompt { get; private set; }
@@ -25,8 +24,7 @@ public sealed class CustomDesignAsset : Entity<CustomDesignAssetId>
         string code,
         CustomDesignRequestId customDesignRequestId,
         int version,
-        string? sketches,
-        string? sketchTaskId,
+        string? multiviewImages,
         string? rough3DModel,
         string? rough3DModelTaskId,
         string? customerPrompt,
@@ -39,8 +37,7 @@ public sealed class CustomDesignAsset : Entity<CustomDesignAssetId>
         Code = code;
         CustomDesignRequestId = customDesignRequestId;
         Version = version;
-        Sketches = sketches;
-        SketchTaskId = sketchTaskId;
+        MultiviewImages = multiviewImages;
         Rough3DModel = rough3DModel;
         Rough3DModelTaskId = rough3DModelTaskId;
         CustomerPrompt = customerPrompt;
@@ -60,8 +57,7 @@ public sealed class CustomDesignAsset : Entity<CustomDesignAssetId>
         string code,
         Guid customDesignRequestId,
         int version,
-        string? sketches,
-        string? sketchTaskId,
+        string? multiviewImages,
         string? rough3DModel,
         string? rough3DModelTaskId,
         string? customerPrompt,
@@ -76,8 +72,7 @@ public sealed class CustomDesignAsset : Entity<CustomDesignAssetId>
             code,
             CustomDesignRequestId.From(customDesignRequestId),
             version,
-            sketches,
-            sketchTaskId,
+            multiviewImages,
             rough3DModel,
             rough3DModelTaskId,
             customerPrompt,
@@ -89,8 +84,7 @@ public sealed class CustomDesignAsset : Entity<CustomDesignAssetId>
     }
 
     public void Update(
-        string? sketches,
-        string? sketchTaskId,
+        string? multiviewImages,
         string? rough3DModel,
         string? rough3DModelTaskId,
         string? customerPrompt,
@@ -99,8 +93,7 @@ public sealed class CustomDesignAsset : Entity<CustomDesignAssetId>
         bool isFinalDesign,
         DateTime updatedAt)
     {
-        Sketches = sketches;
-        SketchTaskId = sketchTaskId;
+        MultiviewImages = multiviewImages;
         Rough3DModel = rough3DModel;
         Rough3DModelTaskId = rough3DModelTaskId;
         CustomerPrompt = customerPrompt;
