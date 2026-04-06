@@ -49,7 +49,7 @@ public static class DependencyInjection
 (configuration.GetSection(S3Settings.ConfigurationSection));
 
         // Đăng kí service:
-        services.AddScoped<IMediaService, S3MediaService>();
+        services.AddTransient<IMediaService, S3MediaService>();
 
         return services;
     }

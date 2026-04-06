@@ -45,6 +45,9 @@ public static class CustomDesignRequestError
 
     public static Error NoteRequiredForStatusChange() =>
         Error.Validation("CustomDesignRequest.NoteRequiredForStatusChange", "Note is required when changing status to Rejected or MissingInformation");
+
+    public static Error InvalidCustomDesignRequestStatus() =>
+        Error.Validation("CustomDesignRequest.InvalidCustomDesignRequestStatus", "Invalid status, status mus be: "+ CustomDesignRequestStatusTransition.GetAllValidStatus());
 }
 
 

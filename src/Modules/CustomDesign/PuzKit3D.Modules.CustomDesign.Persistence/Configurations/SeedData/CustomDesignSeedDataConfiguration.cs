@@ -280,7 +280,7 @@ internal static class CustomDesignSeedDataConfiguration
             new
             {
                 Id = CustomDesignRequirementId.From(RequirementId1),
-                Code = "CDR-001",
+                Code = "CDR001",
                 TopicId = TopicId1,
                 MaterialId = MaterialId1,
                 AssemblyMethodId = AssemblyMethodId1,
@@ -294,7 +294,7 @@ internal static class CustomDesignSeedDataConfiguration
             new
             {
                 Id = CustomDesignRequirementId.From(RequirementId2),
-                Code = "CDR-002",
+                Code = "CDR002",
                 TopicId = TopicId2,
                 MaterialId = MaterialId2,
                 AssemblyMethodId = AssemblyMethodId2,
@@ -308,7 +308,7 @@ internal static class CustomDesignSeedDataConfiguration
             new
             {
                 Id = CustomDesignRequirementId.From(RequirementId3),
-                Code = "CDR-003",
+                Code = "CDR003",
                 TopicId = TopicId3,
                 MaterialId = MaterialId3,
                 AssemblyMethodId = AssemblyMethodId3,
@@ -322,7 +322,7 @@ internal static class CustomDesignSeedDataConfiguration
             new
             {
                 Id = CustomDesignRequirementId.From(RequirementId4),
-                Code = "CDR-004",
+                Code = "CDR004",
                 TopicId = TopicId4,
                 MaterialId = MaterialId4,
                 AssemblyMethodId = AssemblyMethodId4,
@@ -336,7 +336,7 @@ internal static class CustomDesignSeedDataConfiguration
             new
             {
                 Id = CustomDesignRequirementId.From(RequirementId5),
-                Code = "CDR-005",
+                Code = "CDR005",
                 TopicId = TopicId5,
                 MaterialId = MaterialId5,
                 AssemblyMethodId = AssemblyMethodId5,

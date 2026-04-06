@@ -5,7 +5,7 @@ namespace PuzKit3D.Modules.CustomDesign.Persistence.Services;
 
 internal sealed class CustomDesignRequestCodeGenerator : ICustomDesignRequestCodeGenerator
 {
-    private const string Prefix = "CDR";
+    private const string Prefix = "CDT";
 
     private readonly CustomDesignDbContext _context;
 

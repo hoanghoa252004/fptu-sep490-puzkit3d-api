@@ -52,6 +52,7 @@ public static class DependencyInjection
         // Services
         services.AddScoped<ICustomDesignRequirementCodeGenerator, CustomDesignRequirementCodeGenerator>();
         services.AddScoped<ICustomDesignRequestCodeGenerator, CustomDesignRequestCodeGenerator>();
+        services.AddScoped<ICustomDesignAssetCodeGenerator, CustomDesignAssetCodeGenerator>();
         return services;
     }
 }

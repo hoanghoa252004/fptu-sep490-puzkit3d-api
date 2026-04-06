@@ -1,6 +1,7 @@
 using PuzKit3D.SharedKernel.Domain;
 using PuzKit3D.SharedKernel.Domain.Results;
 using PuzKit3D.Modules.CustomDesign.Domain.Entities.CustomDesignRequirements;
+using PuzKit3D.Modules.CustomDesign.Domain.Entities.CustomDesignRequests.DomainEvents;
 
 namespace PuzKit3D.Modules.CustomDesign.Domain.Entities.CustomDesignRequests;
 
@@ -260,6 +261,18 @@ public sealed class CustomDesignRequest : Entity<CustomDesignRequestId>
             }
             
             Status = status.Value;
+            
+            // Raise event when status changes to Approved
+            if (status.Value == CustomDesignRequestStatus.Approved)
+            {
+                RaiseDomainEvent(new CustomDesignRequestApprovedDomainEvent(
+                    Id.Value,
+                    CustomerId,
+                    Type,
+                    Sketches,
+                    CustomerPrompt));
+            }
+            
             hasChanges = true;
         }
 
@@ -282,5 +295,10 @@ public sealed class CustomDesignRequest : Entity<CustomDesignRequestId>
         UpdatedAt = DateTime.UtcNow;
 
         return Result.Success();
+    }
+
+    public void IncrementUsedSupportConceptDesignTime()
+    {
+        UsedSupportConceptDesignTime++;
     }
 }
