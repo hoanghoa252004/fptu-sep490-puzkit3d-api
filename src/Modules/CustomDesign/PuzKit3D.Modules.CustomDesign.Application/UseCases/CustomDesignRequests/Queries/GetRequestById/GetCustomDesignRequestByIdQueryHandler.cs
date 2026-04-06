@@ -70,6 +70,7 @@ internal sealed class GetCustomDesignRequestByIdQueryHandler : IQueryHandler<Get
             customDesignRequest.UsedSupportConceptDesignTime,
             customDesignRequest.Status.ToString(),
             customDesignRequest.Type.ToString(),
+            customDesignRequest.Note,
             customDesignRequest.CreatedAt,
             customDesignRequest.UpdatedAt);
 

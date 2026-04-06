@@ -27,16 +27,11 @@ internal sealed class OrderReplicaPaidSuccessDomainEventHandler
     {
         try
         {
+            InstockOrderPaidSuccessIntegrationEvent integrationEvent = null;
             // Only publish event if it's an InStock order
-            if (@event.OrderType != OrderType.Instock)
+            if (@event.OrderType == OrderType.Instock)
             {
-                _logger.LogInformation("Order replica is not Instock type. OrderId: {OrderId}, OrderType: {OrderType}",
-                    @event.OrderReplicaId, @event.OrderType);
-                return;
-            }
-
-            // Convert domain event to integration event
-            var integrationEvent = new InstockOrderPaidSuccessIntegrationEvent(
+                integrationEvent = new InstockOrderPaidSuccessIntegrationEvent(
                 Id: Guid.NewGuid(),
                 OccurredOn: DateTime.UtcNow,
                 OrderId: @event.OrderReplicaId,
@@ -44,8 +39,22 @@ internal sealed class OrderReplicaPaidSuccessDomainEventHandler
                 CustomerId: @event.CustomerId,
                 GrandTotalAmount: @event.Amount,
                 PaidAt: @event.PaidAt);
+            }
+            else if(@event.OrderType == OrderType.Partner)
+            {
+                integrationEvent = new InstockOrderPaidSuccessIntegrationEvent(
+                Id: Guid.NewGuid(),
+                OccurredOn: DateTime.UtcNow,
+                OrderId: @event.OrderReplicaId,
+                Code: @event.Code,
+                CustomerId: @event.CustomerId,
+                GrandTotalAmount: @event.Amount,
+                PaidAt: @event.PaidAt);
+            }
+                // Convert domain event to integration event
 
-            await _eventBus.PublishAsync(integrationEvent, cancellationToken);
+
+                await _eventBus.PublishAsync(integrationEvent, cancellationToken);
 
             _logger.LogInformation(
                 "Published InstockOrderPaidIntegrationEvent for OrderReplica. OrderId: {OrderId}, PaidAt: {PaidAt}",

@@ -74,6 +74,11 @@ internal sealed class CustomDesignRequestConfiguration : IEntityTypeConfiguratio
         builder.Property(r => r.UpdatedAt)
             .IsRequired();
 
+        builder.Property(a => a.Type)
+            .IsRequired()
+            .HasConversion<string>()
+            .HasMaxLength(30);
+
         builder.HasIndex(r => r.Code)
             .IsUnique()
             .HasDatabaseName("UQ___custom_design_request___code");

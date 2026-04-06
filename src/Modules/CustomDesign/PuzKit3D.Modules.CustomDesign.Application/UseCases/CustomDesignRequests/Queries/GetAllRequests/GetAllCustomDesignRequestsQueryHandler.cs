@@ -83,6 +83,7 @@ internal sealed class GetAllCustomDesignRequestsQueryHandler : IQueryHandler<Get
                 r.UsedSupportConceptDesignTime,
                 r.Status.ToString(),
                 r.Type.ToString(),
+                r.Note,
                 r.CreatedAt,
                 r.UpdatedAt))
             .ToList();

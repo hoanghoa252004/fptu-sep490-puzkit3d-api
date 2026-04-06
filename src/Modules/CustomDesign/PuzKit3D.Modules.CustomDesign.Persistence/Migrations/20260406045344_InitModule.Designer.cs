@@ -12,7 +12,7 @@ using PuzKit3D.Modules.CustomDesign.Persistence;
 namespace PuzKit3D.Modules.CustomDesign.Persistence.Migrations
 {
     [DbContext(typeof(CustomDesignDbContext))]
-    [Migration("20260405153727_InitModule")]
+    [Migration("20260406045344_InitModule")]
     partial class InitModule
     {
         /// <inheritdoc />
@@ -38,13 +38,17 @@ namespace PuzKit3D.Modules.CustomDesign.Persistence.Migrations
                         .HasColumnType("character varying(20)")
                         .HasColumnName("code");
 
+                    b.Property<string>("CompositeMultiviewImage")
+                        .HasColumnType("text")
+                        .HasColumnName("composite_multiview_image");
+
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("created_at");
 
-                    b.Property<Guid>("CustomDesignRequirementId")
+                    b.Property<Guid>("CustomDesignRequestId")
                         .HasColumnType("uuid")
-                        .HasColumnName("custom_design_requirement_id");
+                        .HasColumnName("custom_design_request_id");
 
                     b.Property<string>("CustomerPrompt")
                         .HasColumnType("text")
@@ -62,6 +66,10 @@ namespace PuzKit3D.Modules.CustomDesign.Persistence.Migrations
                         .HasDefaultValue(false)
                         .HasColumnName("is_need_support");
 
+                    b.Property<string>("MultiviewImages")
+                        .HasColumnType("text")
+                        .HasColumnName("multiview_images");
+
                     b.Property<string>("NormalizePrompt")
                         .HasColumnType("text")
                         .HasColumnName("normalize_prompt");
@@ -76,14 +84,11 @@ namespace PuzKit3D.Modules.CustomDesign.Persistence.Migrations
                         .HasColumnType("character varying(500)")
                         .HasColumnName("rough3d_model_task_id");
 
-                    b.Property<string>("SketchTaskId")
-                        .HasMaxLength(500)
-                        .HasColumnType("character varying(500)")
-                        .HasColumnName("sketch_task_id");
-
-                    b.Property<string>("Sketches")
-                        .HasColumnType("text")
-                        .HasColumnName("sketches");
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("character varying(30)")
+                        .HasColumnName("status");
 
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("timestamp with time zone")
@@ -173,8 +178,10 @@ namespace PuzKit3D.Modules.CustomDesign.Persistence.Migrations
                         .HasColumnType("numeric(18,2)")
                         .HasColumnName("target_budget");
 
-                    b.Property<int>("Type")
-                        .HasColumnType("integer")
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("character varying(30)")
                         .HasColumnName("type");
 
                     b.Property<DateTime>("UpdatedAt")
@@ -263,7 +270,7 @@ namespace PuzKit3D.Modules.CustomDesign.Persistence.Migrations
                         {
                             Id = new Guid("c1c1c1c1-c1c1-c1c1-c1c1-c1c1c1c1c1c1"),
                             AssemblyMethodId = new Guid("d1d1d1d1-d1d1-d1d1-d1d1-d1d1d1d1d1d1"),
-                            Code = "CDR-001",
+                            Code = "CDR001",
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Difficulty = "Basic",
                             IsActive = true,
@@ -277,7 +284,7 @@ namespace PuzKit3D.Modules.CustomDesign.Persistence.Migrations
                         {
                             Id = new Guid("d2d2d2d2-d2d2-d2d2-d2d2-d2d2d2d2d2d2"),
                             AssemblyMethodId = new Guid("e2e2e2e2-e2e2-e2e2-e2e2-e2e2e2e2e2e2"),
-                            Code = "CDR-002",
+                            Code = "CDR002",
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Difficulty = "Intermediate",
                             IsActive = true,
@@ -291,7 +298,7 @@ namespace PuzKit3D.Modules.CustomDesign.Persistence.Migrations
                         {
                             Id = new Guid("e3e3e3e3-e3e3-e3e3-e3e3-e3e3e3e3e3e3"),
                             AssemblyMethodId = new Guid("f3f3f3f3-f3f3-f3f3-f3f3-f3f3f3f3f3f3"),
-                            Code = "CDR-003",
+                            Code = "CDR003",
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Difficulty = "Advanced",
                             IsActive = true,
@@ -305,7 +312,7 @@ namespace PuzKit3D.Modules.CustomDesign.Persistence.Migrations
                         {
                             Id = new Guid("f4f4f4f4-f4f4-f4f4-f4f4-f4f4f4f4f4f4"),
                             AssemblyMethodId = new Guid("a4a4a4a4-a4a4-a4a4-a4a4-a4a4a4a4a4a4"),
-                            Code = "CDR-004",
+                            Code = "CDR004",
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Difficulty = "Basic",
                             IsActive = true,
@@ -319,7 +326,7 @@ namespace PuzKit3D.Modules.CustomDesign.Persistence.Migrations
                         {
                             Id = new Guid("a5a5a5a5-a5a5-a5a5-a5a5-a5a5a5a5a5a5"),
                             AssemblyMethodId = new Guid("b5b5b5b5-b5b5-b5b5-b5b5-b5b5b5b5b5b5"),
-                            Code = "CDR-005",
+                            Code = "CDR005",
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Difficulty = "Intermediate",
                             IsActive = true,

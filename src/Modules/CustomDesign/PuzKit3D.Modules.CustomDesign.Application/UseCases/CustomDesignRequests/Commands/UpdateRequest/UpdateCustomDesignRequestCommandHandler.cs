@@ -43,7 +43,7 @@ internal sealed class UpdateCustomDesignRequestCommandHandler : ICommandHandler<
         if (!string.IsNullOrWhiteSpace(request.Status))
         {
             if (!Enum.TryParse<CustomDesignRequestStatus>(request.Status, true, out var parsed))
-                return Result.Failure(CustomDesignRequestError.InvalidType());
+                return Result.Failure(CustomDesignRequestError.InvalidCustomDesignRequestStatus());
             statusEnum = parsed;
         }
 

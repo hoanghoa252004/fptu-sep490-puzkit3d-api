@@ -5,7 +5,8 @@
       "launchUrl": "swagger",
       "launchBrowser": true,
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "GOOGLE_APPLICATION_CREDENTIALS": "D:\\FPT_University\\Semester_9\\SEP490\\BE\\PuzKit3D\\friendly-aurora-492502-b4-ff9dbdc00312.json"
       },
       "dotnetRunMessages": true,
       "applicationUrl": "http://localhost:5212"

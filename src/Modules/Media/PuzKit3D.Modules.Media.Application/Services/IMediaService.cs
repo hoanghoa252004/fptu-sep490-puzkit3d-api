@@ -10,4 +10,5 @@ namespace PuzKit3D.Modules.Media.Application.Services;
 public interface IMediaService
 {
     Task<string> CreatePresignedUrlAsync(string contentType, string key);
+    Task<ResultT<string>> UploadFileAsync(byte[] fileData, string key, string contentType, CancellationToken cancellationToken = default);
 }

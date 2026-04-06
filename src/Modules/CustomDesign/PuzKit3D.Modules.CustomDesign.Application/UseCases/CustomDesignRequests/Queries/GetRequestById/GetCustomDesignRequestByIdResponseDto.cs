@@ -16,6 +16,7 @@ public sealed record GetCustomDesignRequestByIdResponseDto(
     int UsedSupportConceptDesignTime,
     string Status,
     string Type,
+    string? Note,
     DateTime CreatedAt,
     DateTime UpdatedAt);
 
