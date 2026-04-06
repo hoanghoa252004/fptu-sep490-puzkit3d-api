@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using PuzKit3D.Modules.CustomDesign.Domain.Entities.CustomDesignAssets;
+using PuzKit3D.Modules.CustomDesign.Domain.Entities.CustomDesignRequests;
 using PuzKit3D.Modules.CustomDesign.Domain.Entities.CustomDesignRequirements;
 
 namespace PuzKit3D.Modules.CustomDesign.Persistence.Configurations;
@@ -20,10 +21,10 @@ internal sealed class CustomDesignAssetConfiguration : IEntityTypeConfiguration<
             .IsRequired()
             .HasMaxLength(20);
 
-        builder.Property(a => a.CustomDesignRequirementId)
+        builder.Property(a => a.CustomDesignRequestId)
             .HasConversion(
                 id => id.Value,
-                value => CustomDesignRequirementId.From(value))
+                value => CustomDesignRequestId.From(value))
             .IsRequired();
 
         builder.Property(a => a.Version)

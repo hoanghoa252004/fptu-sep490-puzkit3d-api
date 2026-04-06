@@ -1,12 +1,13 @@
 using PuzKit3D.SharedKernel.Domain;
 using PuzKit3D.Modules.CustomDesign.Domain.Entities.CustomDesignRequirements;
+using PuzKit3D.Modules.CustomDesign.Domain.Entities.CustomDesignRequests;
 
 namespace PuzKit3D.Modules.CustomDesign.Domain.Entities.CustomDesignAssets;
 
 public sealed class CustomDesignAsset : Entity<CustomDesignAssetId>
 {
     public string Code { get; private set; } = null!;
-    public CustomDesignRequirementId CustomDesignRequirementId { get; private set; }
+    public CustomDesignRequestId CustomDesignRequestId { get; private set; }
     public int Version { get; private set; }
     public string? Sketches { get; private set; }
     public string? SketchTaskId { get; private set; }
@@ -22,7 +23,7 @@ public sealed class CustomDesignAsset : Entity<CustomDesignAssetId>
     private CustomDesignAsset(
         CustomDesignAssetId id,
         string code,
-        CustomDesignRequirementId customDesignRequirementId,
+        CustomDesignRequestId customDesignRequestId,
         int version,
         string? sketches,
         string? sketchTaskId,
@@ -36,7 +37,7 @@ public sealed class CustomDesignAsset : Entity<CustomDesignAssetId>
         DateTime updatedAt) : base(id)
     {
         Code = code;
-        CustomDesignRequirementId = customDesignRequirementId;
+        CustomDesignRequestId = customDesignRequestId;
         Version = version;
         Sketches = sketches;
         SketchTaskId = sketchTaskId;
@@ -57,7 +58,7 @@ public sealed class CustomDesignAsset : Entity<CustomDesignAssetId>
     public static CustomDesignAsset Create(
         Guid id,
         string code,
-        Guid customDesignRequirementId,
+        Guid customDesignRequestId,
         int version,
         string? sketches,
         string? sketchTaskId,
@@ -73,7 +74,7 @@ public sealed class CustomDesignAsset : Entity<CustomDesignAssetId>
         return new CustomDesignAsset(
             CustomDesignAssetId.From(id),
             code,
-            CustomDesignRequirementId.From(customDesignRequirementId),
+            CustomDesignRequestId.From(customDesignRequestId),
             version,
             sketches,
             sketchTaskId,
