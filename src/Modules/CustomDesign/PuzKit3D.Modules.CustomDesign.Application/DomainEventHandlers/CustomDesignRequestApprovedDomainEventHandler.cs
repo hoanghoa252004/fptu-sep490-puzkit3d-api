@@ -34,7 +34,7 @@ internal sealed class CustomDesignRequestApprovedDomainEventHandler
             customDesignRequestId: notification.CustomDesignRequestId,
             version: 0,
             multiviewImages: null,
-            compositeMultiviewImage: null,
+            compositeMultiviewImage: notification.Sketches,
             rough3DModel: null,
             rough3DModelTaskId: null,
             customerPrompt: notification.CustomerPrompt,
