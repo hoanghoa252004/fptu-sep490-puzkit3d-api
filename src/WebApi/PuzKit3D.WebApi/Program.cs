@@ -59,6 +59,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 Console.WriteLine($"Environment: {builder.Environment.EnvironmentName}");
 Console.WriteLine(builder.Configuration["ConnectionStrings:DefaultConnection"]);
+Console.WriteLine("CurrentDir: " + Directory.GetCurrentDirectory());
 // Service:
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 builder.Services.AddProblemDetails();
