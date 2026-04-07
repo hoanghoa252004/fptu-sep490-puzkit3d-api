@@ -65,4 +65,26 @@ internal sealed class ImportServiceConfigRepository : IImportServiceConfigReposi
         return await _context.ImportServiceConfigs
             .FirstOrDefaultAsync(c => c.CountryCode == countryCode, cancellationToken);
     }
+
+    public async Task<IEnumerable<Domain.Entities.ImportServiceConfigs.ImportServiceConfig>> GetAllAsync(
+        string? searchTerm,
+        bool ascending,
+        CancellationToken cancellationToken = default)
+    {
+        var query = _context.ImportServiceConfigs.AsQueryable();
+
+        if (!string.IsNullOrWhiteSpace(searchTerm))
+        {
+            var lowerSearchTerm = searchTerm.ToLower();
+            query = query.Where(c =>
+                c.CountryName.ToLower().Contains(lowerSearchTerm) ||
+                c.CountryCode.ToLower().Contains(lowerSearchTerm));
+        }
+
+        query = ascending ? query.OrderBy(c => c.CreatedAt) : query.OrderByDescending(c => c.CreatedAt);
+
+        return await query
+            .AsNoTracking()
+            .ToListAsync(cancellationToken);
+    }
 }

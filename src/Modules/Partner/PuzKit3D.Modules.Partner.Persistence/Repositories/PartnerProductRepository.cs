@@ -1,7 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using PuzKit3D.Modules.Partner.Application.Repositories;
 using PuzKit3D.Modules.Partner.Domain.Entities.PartnerProducts;
-using PuzKit3D.Modules.Partner.Domain.Entities.Partners;
 using System.Linq.Expressions;
 
 namespace PuzKit3D.Modules.Partner.Persistence.Repositories;
@@ -78,4 +77,67 @@ internal sealed class PartnerProductRepository : IPartnerProductRepository
         _context.PartnerProducts.RemoveRange(entities);
     }
 
+    public async Task<IEnumerable<PartnerProduct>> GetAllAsync(
+        bool isStaffOrManager,
+        string? searchTerm,
+        bool ascending,
+        Guid? partnerId,
+        CancellationToken cancellationToken = default)
+    {
+        var query = _context.PartnerProducts.AsQueryable();
+
+        if (!isStaffOrManager)
+        {
+            query = query.Where(p => p.IsActive);
+        }
+
+        if (partnerId.HasValue && partnerId.Value != Guid.Empty)
+        {
+            query = query.Where(p => p.PartnerId.Value == partnerId.Value);
+        }
+
+        if (!string.IsNullOrEmpty(searchTerm))
+        {
+            query = query.Where(p => p.Name.ToLower().Contains(searchTerm.ToLower())
+            || p.Slug.ToLower().Contains(searchTerm.ToLower())
+            || (p.Description != null && p.Description.ToLower().Contains(searchTerm.ToLower())));
+        }
+
+        query = ascending ? query.OrderBy(p => p.CreatedAt) : query.OrderByDescending(p => p.CreatedAt);
+
+        return await query
+            .AsNoTracking()
+            .ToListAsync(cancellationToken);
     }
+
+    public async Task<IEnumerable<PartnerProduct>> GetAllByPartnerIdAsync(
+        Guid id,
+        bool isStaffOrManager,
+        string? searchTerm,
+        bool ascending,
+        CancellationToken cancellationToken = default)
+    {
+        var query = _context.PartnerProducts
+            .Where(p => p.PartnerId.Value == id)
+            .AsQueryable();
+
+        if (!isStaffOrManager)
+        {
+            query = query.Where(p => p.IsActive);
+        }
+
+        if (!string.IsNullOrEmpty(searchTerm))
+        {
+            query = query.Where(p => p.Name.ToLower().Contains(searchTerm.ToLower())
+            || p.Slug.ToLower().Contains(searchTerm.ToLower())
+            || (p.Description != null && p.Description.ToLower().Contains(searchTerm.ToLower())));
+        }
+
+        query = ascending ? query.OrderBy(p => p.CreatedAt) : query.OrderByDescending(p => p.CreatedAt);
+
+        return await query
+            .AsNoTracking()
+            .ToListAsync(cancellationToken);
+    }
+
+}

@@ -9,4 +9,9 @@ public interface IPartnerRepository : IRepositoryBase<Domain.Entities.Partners.P
     Task<Domain.Entities.Partners.Partner?> GetByNameAsync(string name, CancellationToken cancellationToken = default);
     Task<Domain.Entities.Partners.Partner?> GetByEmailAsync(string email, CancellationToken cancellationToken = default);
     Task<Domain.Entities.Partners.Partner?> GetByPhoneAsync(string phone, CancellationToken cancellationToken = default);
+    Task<IEnumerable<Domain.Entities.Partners.Partner>> GetAllAsync(
+        bool isStaffOrManager,
+        string? searchTerm,
+        bool ascending,
+        CancellationToken cancellationToken = default);
 }

@@ -1,0 +1,22 @@
+using PuzKit3D.Modules.Partner.Domain.Entities.PartnerProductRequests;
+
+namespace PuzKit3D.Modules.Partner.Application.UseCases.PartnerProductRequests.Queries.GetPartnerProductRequestById;
+
+public sealed record RequestDetailItemDto(
+    Guid Id,
+    Guid PartnerProductId,
+    int Quantity,
+    decimal ReferencePrice,
+    decimal ReferenceTotalAmount);
+
+public sealed record GetPartnerProductRequestByIdResponseDto(
+    Guid Id,
+    string Code,
+    Guid CustomerId,
+    Guid PartnerId,
+    int TotalRequestedQuantity,
+    string? Note,
+    PartnerProductRequestStatus Status,
+    DateTime CreatedAt,
+    DateTime UpdatedAt,
+    IEnumerable<RequestDetailItemDto> Details);

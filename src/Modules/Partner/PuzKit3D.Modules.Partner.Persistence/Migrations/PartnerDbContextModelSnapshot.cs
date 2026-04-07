@@ -50,9 +50,15 @@ namespace PuzKit3D.Modules.Partner.Persistence.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("created_at");
 
+                    b.Property<int>("EstimatedDeliveryDays")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasDefaultValue(7)
+                        .HasColumnName("estimated_delivery_days");
+
                     b.Property<decimal>("ImportTaxPercentage")
-                        .HasPrecision(5, 2)
-                        .HasColumnType("numeric(5,2)")
+                        .HasPrecision(3, 2)
+                        .HasColumnType("numeric(3,2)")
                         .HasColumnName("import_tax_percentage");
 
                     b.Property<bool>("IsActive")
@@ -77,6 +83,11 @@ namespace PuzKit3D.Modules.Partner.Persistence.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("id");
 
+                    b.Property<decimal>("BaseShippingFee")
+                        .HasPrecision(10, 2)
+                        .HasColumnType("numeric(10,2)")
+                        .HasColumnName("base_shipping_fee");
+
                     b.Property<string>("Code")
                         .IsRequired()
                         .HasMaxLength(10)
@@ -86,12 +97,6 @@ namespace PuzKit3D.Modules.Partner.Persistence.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("created_at");
-
-                    b.Property<string>("CustomerDistrictCode")
-                        .IsRequired()
-                        .HasMaxLength(10)
-                        .HasColumnType("character varying(10)")
-                        .HasColumnName("customer_district_code");
 
                     b.Property<string>("CustomerDistrictName")
                         .IsRequired()
@@ -121,29 +126,22 @@ namespace PuzKit3D.Modules.Partner.Persistence.Migrations
                         .HasColumnType("character varying(30)")
                         .HasColumnName("customer_phone");
 
-                    b.Property<string>("CustomerProvinceCode")
-                        .IsRequired()
-                        .HasMaxLength(10)
-                        .HasColumnType("character varying(10)")
-                        .HasColumnName("customer_province_code");
-
                     b.Property<string>("CustomerProvinceName")
                         .IsRequired()
                         .HasMaxLength(30)
                         .HasColumnType("character varying(30)")
                         .HasColumnName("customer_province_name");
 
-                    b.Property<string>("CustomerWardCode")
-                        .IsRequired()
-                        .HasMaxLength(10)
-                        .HasColumnType("character varying(10)")
-                        .HasColumnName("customer_ward_code");
-
                     b.Property<string>("CustomerWardName")
                         .IsRequired()
                         .HasMaxLength(30)
                         .HasColumnType("character varying(30)")
                         .HasColumnName("customer_ward_name");
+
+                    b.Property<string>("DetailAddress")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("detail_address");
 
                     b.Property<decimal>("GrandTotalAmount")
                         .HasPrecision(10, 2)
@@ -171,10 +169,8 @@ namespace PuzKit3D.Modules.Partner.Persistence.Migrations
 
                     b.Property<string>("PaymentMethod")
                         .IsRequired()
-                        .ValueGeneratedOnAdd()
                         .HasMaxLength(10)
                         .HasColumnType("character varying(10)")
-                        .HasDefaultValue("ONLINE")
                         .HasColumnName("payment_method");
 
                     b.Property<decimal>("ShippingFee")
@@ -182,8 +178,9 @@ namespace PuzKit3D.Modules.Partner.Persistence.Migrations
                         .HasColumnType("numeric(10,2)")
                         .HasColumnName("shipping_fee");
 
-                    b.Property<int>("Status")
-                        .HasColumnType("integer")
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("text")
                         .HasColumnName("status");
 
                     b.Property<decimal>("SubTotalAmount")
@@ -195,10 +192,10 @@ namespace PuzKit3D.Modules.Partner.Persistence.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("updated_at");
 
-                    b.Property<decimal>("UsedCoinAmountAsMoney")
+                    b.Property<int>("UsedCoinAmount")
                         .HasPrecision(10, 2)
-                        .HasColumnType("numeric(10,2)")
-                        .HasColumnName("used_coin_amount_as_money");
+                        .HasColumnType("integer")
+                        .HasColumnName("used_coin_amount");
 
                     b.HasKey("Id")
                         .HasName("pk_partner_product_orders");
@@ -232,12 +229,6 @@ namespace PuzKit3D.Modules.Partner.Persistence.Migrations
                     b.Property<Guid>("PartnerProductOrderId")
                         .HasColumnType("uuid")
                         .HasColumnName("partner_product_order_id");
-
-                    b.Property<string>("PartnerProductSku")
-                        .IsRequired()
-                        .HasMaxLength(10)
-                        .HasColumnType("character varying(10)")
-                        .HasColumnName("partner_product_sku");
 
                     b.Property<int>("Quantity")
                         .HasColumnType("integer")
@@ -323,10 +314,6 @@ namespace PuzKit3D.Modules.Partner.Persistence.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("created_at");
 
-                    b.Property<DateTime>("ExpectedDeliveryDate")
-                        .HasColumnType("date")
-                        .HasColumnName("expected_delivery_date");
-
                     b.Property<decimal>("GrandTotalAmount")
                         .HasPrecision(10, 2)
                         .HasColumnType("numeric(10,2)")
@@ -350,8 +337,9 @@ namespace PuzKit3D.Modules.Partner.Persistence.Migrations
                         .HasColumnType("numeric(10,2)")
                         .HasColumnName("shipping_fee");
 
-                    b.Property<int>("Status")
-                        .HasColumnType("integer")
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("text")
                         .HasColumnName("status");
 
                     b.Property<decimal>("SubTotalAmount")
@@ -363,16 +351,11 @@ namespace PuzKit3D.Modules.Partner.Persistence.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("updated_at");
 
-                    b.Property<int>("Version")
-                        .HasColumnType("integer")
-                        .HasColumnName("version");
-
                     b.HasKey("Id")
                         .HasName("pk_partner_product_quotations");
 
-                    b.HasIndex("PartnerProductRequestId", "Version")
-                        .IsUnique()
-                        .HasDatabaseName("ix_partner_product_quotations_partner_product_request_id_versi");
+                    b.HasIndex("PartnerProductRequestId")
+                        .HasDatabaseName("ix_partner_product_quotations_partner_product_request_id");
 
                     b.ToTable("partner_product_quotations", "partner");
                 });
@@ -438,10 +421,6 @@ namespace PuzKit3D.Modules.Partner.Persistence.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("customer_id");
 
-                    b.Property<DateTime>("DesiredDeliveryDate")
-                        .HasColumnType("date")
-                        .HasColumnName("desired_delivery_date");
-
                     b.Property<string>("Note")
                         .HasColumnType("text")
                         .HasColumnName("note");
@@ -450,8 +429,9 @@ namespace PuzKit3D.Modules.Partner.Persistence.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("partner_id");
 
-                    b.Property<int>("Status")
-                        .HasColumnType("integer")
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("text")
                         .HasColumnName("status");
 
                     b.Property<int>("TotalRequestedQuantity")
@@ -615,6 +595,87 @@ namespace PuzKit3D.Modules.Partner.Persistence.Migrations
                     b.ToTable("partners", "partner");
                 });
 
+            modelBuilder.Entity("PuzKit3D.Modules.Partner.Domain.Entities.Replicas.UserReplica", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at");
+
+                    b.Property<DateTime?>("DateOfBirth")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("date_of_birth");
+
+                    b.Property<string>("District")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("district");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("character varying(30)")
+                        .HasColumnName("email");
+
+                    b.Property<string>("FullName")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("character varying(30)")
+                        .HasColumnName("full_name");
+
+                    b.Property<string>("PasswordHash")
+                        .IsRequired()
+                        .HasMaxLength(300)
+                        .HasColumnType("character varying(300)")
+                        .HasColumnName("password_hash");
+
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasMaxLength(15)
+                        .HasColumnType("character varying(15)")
+                        .HasColumnName("phone_number");
+
+                    b.Property<string>("Province")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("province");
+
+                    b.Property<Guid>("RoleId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("role_id");
+
+                    b.Property<string>("StreetAddress")
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)")
+                        .HasColumnName("street_address");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("updated_at");
+
+                    b.Property<string>("Ward")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("ward");
+
+                    b.HasKey("Id")
+                        .HasName("pk_user_replicas");
+
+                    b.HasIndex("Email")
+                        .IsUnique()
+                        .HasDatabaseName("UK__user_replica__email");
+
+                    b.HasIndex("PhoneNumber")
+                        .IsUnique()
+                        .HasDatabaseName("UK__user_replica__phone_number");
+
+                    b.ToTable("user_replicas", "partner");
+                });
+
             modelBuilder.Entity("PuzKit3D.Modules.Partner.Domain.Entities.PartnerProductOrders.PartnerProductOrder", b =>
                 {
                     b.HasOne("PuzKit3D.Modules.Partner.Domain.Entities.PartnerProductQuotations.PartnerProductQuotation", null)
@@ -635,7 +696,7 @@ namespace PuzKit3D.Modules.Partner.Persistence.Migrations
                         .HasConstraintName("fk_partner_product_order_details_partner_products_partner_prod");
 
                     b.HasOne("PuzKit3D.Modules.Partner.Domain.Entities.PartnerProductOrders.PartnerProductOrder", null)
-                        .WithMany()
+                        .WithMany("Details")
                         .HasForeignKey("PartnerProductOrderId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired()
@@ -652,7 +713,7 @@ namespace PuzKit3D.Modules.Partner.Persistence.Migrations
                         .HasConstraintName("fk_partner_product_quotation_details_partner_products_partner_");
 
                     b.HasOne("PuzKit3D.Modules.Partner.Domain.Entities.PartnerProductQuotations.PartnerProductQuotation", null)
-                        .WithMany()
+                        .WithMany("Details")
                         .HasForeignKey("PartnerProductQuotationId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired()
@@ -679,7 +740,7 @@ namespace PuzKit3D.Modules.Partner.Persistence.Migrations
                         .HasConstraintName("fk_partner_product_request_item_partner_products_partner_produ");
 
                     b.HasOne("PuzKit3D.Modules.Partner.Domain.Entities.PartnerProductRequests.PartnerProductRequest", null)
-                        .WithMany()
+                        .WithMany("Details")
                         .HasForeignKey("PartnerProductRequestId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired()
@@ -714,6 +775,21 @@ namespace PuzKit3D.Modules.Partner.Persistence.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired()
                         .HasConstraintName("fk_partners_import_service_configs_import_service_config_id");
+                });
+
+            modelBuilder.Entity("PuzKit3D.Modules.Partner.Domain.Entities.PartnerProductOrders.PartnerProductOrder", b =>
+                {
+                    b.Navigation("Details");
+                });
+
+            modelBuilder.Entity("PuzKit3D.Modules.Partner.Domain.Entities.PartnerProductQuotations.PartnerProductQuotation", b =>
+                {
+                    b.Navigation("Details");
+                });
+
+            modelBuilder.Entity("PuzKit3D.Modules.Partner.Domain.Entities.PartnerProductRequests.PartnerProductRequest", b =>
+                {
+                    b.Navigation("Details");
                 });
 #pragma warning restore 612, 618
         }

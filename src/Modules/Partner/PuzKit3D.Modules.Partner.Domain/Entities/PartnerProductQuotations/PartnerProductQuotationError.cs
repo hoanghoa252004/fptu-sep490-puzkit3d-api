@@ -19,4 +19,16 @@ public static class PartnerProductQuotationError
     public static Error NotFoundByCode(string code) => Error.NotFound(
         "PartnerProductQuotation.NotFoundByCode",
         $"Partner product quotation with code '{code}' was not found.");
+
+    public static Error DuplicateRequestId(Guid partnerProductRequestId) => Error.Validation(
+        "PartnerProductQuotation.DuplicateRequestId",
+        $"Partner product quotation with request ID '{partnerProductRequestId}' already exists.");
+
+    public static Error InvalidStatusTransition(PartnerProductQuotationStatus currentStatus, PartnerProductQuotationStatus newStatus) => Error.Validation(
+        "PartnerProductQuotation.InvalidStatusTransition",
+        $"Cannot transition from '{currentStatus}' to '{newStatus}'. This status transition is not allowed.");
+
+    public static Error PermissionDenied() => Error.Validation(
+        "PartnerProductQuotation.PermissionDenied",
+        "You do not have permission to perform this action.");
 }

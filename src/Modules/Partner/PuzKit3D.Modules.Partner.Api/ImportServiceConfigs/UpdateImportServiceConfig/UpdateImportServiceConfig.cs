@@ -26,7 +26,8 @@ internal sealed class UpdateImportServiceConfig : IEndpoint
                     request.BaseShippingFee,
                     request.CountryCode,
                     request.CountryName,
-                    request.ImportTaxPercentage);
+                    request.ImportTaxPercentage,
+                    request.EstimatedDeliveryDays);
 
                 var result = await sender.Send(command, cancellationToken);
 
@@ -50,4 +51,5 @@ internal sealed record UpdateImportServiceConfigRequestDto(
     decimal BaseShippingFee,
     string CountryCode,
     string CountryName,
-    decimal ImportTaxPercentage);
+    decimal ImportTaxPercentage,
+    int EstimatedDeliveryDays);

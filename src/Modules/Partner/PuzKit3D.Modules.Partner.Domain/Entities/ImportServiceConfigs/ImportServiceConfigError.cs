@@ -26,7 +26,7 @@ public static class ImportServiceConfigError
     // Import Tax Percentage
     public static Error InvalidImportTaxPercentage() => Error.Validation(
         "ImportServiceConfig.InvalidImportTaxPercentage",
-        "Import tax percentage must be between 0 and 100.");
+        "Import tax percentage must be greater than 0 and less than or equal to 1.");
 
     // Import Service Config
     public static Error NotFound(Guid id) => Error.NotFound(
@@ -40,4 +40,8 @@ public static class ImportServiceConfigError
     public static Error AlreadyActive(Guid id) => Error.Conflict(
         "ImportServiceConfig.AlreadyActive",
         $"Import service config with ID '{id}' is already active.");
+
+    internal static Error InvalidEstimatedDeliveryDays() => Error.Validation(
+        "ImportServiceConfig.InvalidEstimatedDeliveryDays",
+        "Estimated delivery days must be greater than 0 and less than or equal to 15.");
 }

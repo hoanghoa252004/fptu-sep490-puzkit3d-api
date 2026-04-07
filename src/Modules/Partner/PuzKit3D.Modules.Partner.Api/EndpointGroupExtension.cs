@@ -24,4 +24,22 @@ public static class EndpointGroupExtension
         return app.MapGroup($"{ApiRoutes.ApiPrefix}/import-service-configs")
             .WithTags("Import Service Configs");
     }
+
+    public static RouteGroupBuilder MapPartnerProductRequestsGroup(this IEndpointRouteBuilder app)
+    {
+        return app.MapGroup($"{ApiRoutes.ApiPrefix}/partner-product-requests")
+            .WithTags("Partner Product Requests");
+    }
+
+    public static RouteGroupBuilder MapPartnerProductQuotationsGroup(this IEndpointRouteBuilder app)
+    {
+        return app.MapGroup($"{ApiRoutes.ApiPrefix}/partner-quotations")
+            .WithTags("Partner Product Quotations");
+    }
+
+    public static RouteGroupBuilder MapPartnerProductOrdersGroup(this IEndpointRouteBuilder app)
+    {
+        return app.MapGroup($"{ApiRoutes.ApiPrefix}/partner-orders")
+            .WithTags("Partner Product Orders");
+    }
 }

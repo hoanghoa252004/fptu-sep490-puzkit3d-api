@@ -16,6 +16,11 @@ internal sealed class PartnerProductRequestConfiguration : IEntityTypeConfigurat
                 id => id.Value,
                 value => PartnerProductRequestId.From(value));
 
+        builder.HasMany(r => r.Details)
+            .WithOne()
+            .HasForeignKey(d => d.PartnerProductRequestId)
+            .OnDelete(DeleteBehavior.Restrict);
+
         builder.Property(r => r.Code)
             .IsRequired()
             .HasMaxLength(10);
@@ -29,17 +34,14 @@ internal sealed class PartnerProductRequestConfiguration : IEntityTypeConfigurat
                 value => PartnerId.From(value))
             .IsRequired();
 
-        builder.Property(r => r.DesiredDeliveryDate)
-            .IsRequired()
-            .HasColumnType("date");
-
         builder.Property(r => r.TotalRequestedQuantity)
             .IsRequired();
 
         builder.Property(r => r.Note);
 
         builder.Property(r => r.Status)
-            .IsRequired();
+            .IsRequired()
+            .HasConversion<string>();
 
         builder.Property(r => r.CreatedAt)
             .IsRequired();

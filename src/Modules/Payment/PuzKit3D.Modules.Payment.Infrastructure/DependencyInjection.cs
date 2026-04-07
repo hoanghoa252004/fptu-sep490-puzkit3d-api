@@ -1,10 +1,11 @@
-﻿using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using PuzKit3D.Contract.Delivery;
 using PuzKit3D.Contract.InStock.InstockOrders;
+using PuzKit3D.Contract.Partner.PartnerProductOrders;
 using PuzKit3D.Modules.Payment.Application.Abstractions;
 using PuzKit3D.Modules.Payment.Infrastructure.IntegrationEventHandlers.DeliveryTrackings;
 using PuzKit3D.Modules.Payment.Infrastructure.IntegrationEventHandlers.InstockOrders;
+using PuzKit3D.Modules.Payment.Infrastructure.IntegrationEventHandlers.PartnerProductOrders;
 using PuzKit3D.Modules.Payment.Infrastructure.PaymentGateways;
 using PuzKit3D.Modules.Payment.Infrastructure.PaymentGateways.VNPAY;
 using PuzKit3D.SharedKernel.Application.Event;
@@ -30,6 +31,12 @@ public static class DependencyInjection
 
         services.AddScoped<IIntegrationEventHandler<OrderDeliveredIntegrationEvent>,
             OrderDeliveredIntegrationEventHandler>();
+
+        services.AddScoped<IIntegrationEventHandler<PartnerProductOrderCreatedIntegrationEvent>,
+            PartnerProductOrderCreatedIntegrationEventHandler>();
+        
+        services.AddScoped<IIntegrationEventHandler<PartnerProductOrderStatusUpdatedIntegrationEvent>,
+            PartnerProductOrderStatusUpdatedIntegrationEventHandler>();
 
         return services;
     }

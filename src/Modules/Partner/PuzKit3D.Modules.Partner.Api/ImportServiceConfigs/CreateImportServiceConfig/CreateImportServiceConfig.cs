@@ -24,8 +24,8 @@ internal sealed class CreateImportServiceConfig : IEndpoint
                     request.BaseShippingFee,
                     request.CountryCode,
                     request.CountryName,
-                    request.ImportTaxPercentage);
-
+                    request.ImportTaxPercentage,
+                    request.EstimatedDeliveryDays);
                 var result = await sender.Send(command, cancellationToken);
 
                 return result.MatchCreated("GetImportServiceConfigById", id => new { id });
@@ -47,4 +47,5 @@ internal sealed record CreateImportServiceConfigRequestDto(
     decimal BaseShippingFee,
     string CountryCode,
     string CountryName,
-    decimal ImportTaxPercentage);
+    decimal ImportTaxPercentage,
+    int EstimatedDeliveryDays);

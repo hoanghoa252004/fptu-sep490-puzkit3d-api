@@ -34,6 +34,7 @@ internal sealed class CreateImportServiceConfigCommandHandler : ICommandTHandler
             request.CountryCode,
             request.CountryName,
             request.ImportTaxPercentage,
+            request.EstimatedDeliveryDays,
             isActive: true);
 
         if (configResult.IsFailure)

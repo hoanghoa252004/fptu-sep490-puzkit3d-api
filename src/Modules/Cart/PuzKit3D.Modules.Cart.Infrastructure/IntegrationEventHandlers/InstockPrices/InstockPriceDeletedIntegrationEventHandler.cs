@@ -38,8 +38,8 @@ internal sealed class InstockPriceDeletedIntegrationEventHandler
         if (priceDetailsOfPrice.Any())
         {
             var hasCartItems = await _context.CartItems
-                .AnyAsync(ci => ci.InStockProductPriceDetailId.HasValue && 
-                           priceDetailsOfPrice.Contains(ci.InStockProductPriceDetailId.Value), 
+                .AnyAsync(ci => ci.InStockProductPriceDetailId.HasValue &&
+                           priceDetailsOfPrice.Contains(ci.InStockProductPriceDetailId.Value),
                            cancellationToken);
 
             if (hasCartItems)

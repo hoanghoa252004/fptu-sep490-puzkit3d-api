@@ -45,12 +45,6 @@ internal sealed class PartnerProductRequestDetailConfiguration : IEntityTypeConf
         builder.HasIndex(d => new { d.PartnerProductRequestId, d.PartnerProductId })
             .IsUnique();
 
-        builder.HasOne<PartnerProductRequest>()
-            .WithMany()
-            .HasForeignKey(d => d.PartnerProductRequestId)
-            .OnDelete(DeleteBehavior.Restrict)
-            .IsRequired();
-
         builder.HasOne<PartnerProduct>()
             .WithMany()
             .HasForeignKey(d => d.PartnerProductId)

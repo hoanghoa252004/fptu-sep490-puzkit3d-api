@@ -7,4 +7,5 @@ public sealed record GetPartnerProductsByPartnerIdQuery(
     Guid PartnerId,
     int PageNumber = 1,
     int PageSize = 10,
-    string? SearchTerm = null) : IQuery<PagedResult<object>>;
+    string? SearchTerm = null,
+    bool Ascending = false) : IQuery<PagedResult<object>>;

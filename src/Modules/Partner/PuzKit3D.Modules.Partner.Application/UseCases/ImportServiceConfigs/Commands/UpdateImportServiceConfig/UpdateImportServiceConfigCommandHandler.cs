@@ -36,7 +36,8 @@ internal sealed class UpdateImportServiceConfigCommandHandler : ICommandHandler<
             request.BaseShippingFee,
             request.CountryCode,
             request.CountryName,
-            request.ImportTaxPercentage);
+            request.ImportTaxPercentage,
+            request.EstimatedDeliveryDays);
 
         if (updateResult.IsFailure)
         {

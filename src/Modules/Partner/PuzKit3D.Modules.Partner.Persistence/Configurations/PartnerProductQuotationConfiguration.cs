@@ -26,8 +26,10 @@ internal sealed class PartnerProductQuotationConfiguration : IEntityTypeConfigur
                 value => PartnerProductRequestId.From(value))
             .IsRequired();
 
-        builder.Property(q => q.Version)
-            .IsRequired();
+        builder.HasMany(r => r.Details)
+            .WithOne()
+            .HasForeignKey(d => d.PartnerProductQuotationId)
+            .OnDelete(DeleteBehavior.Restrict);
 
         builder.Property(q => q.SubTotalAmount)
             .IsRequired()
@@ -45,23 +47,17 @@ internal sealed class PartnerProductQuotationConfiguration : IEntityTypeConfigur
             .IsRequired()
             .HasPrecision(10, 2);
 
-        builder.Property(q => q.ExpectedDeliveryDate)
-            .IsRequired()
-            .HasColumnType("date");
-
         builder.Property(q => q.Note);
 
         builder.Property(q => q.Status)
-            .IsRequired();
+            .IsRequired()
+            .HasConversion<string>();
 
         builder.Property(q => q.CreatedAt)
             .IsRequired();
 
         builder.Property(q => q.UpdatedAt)
             .IsRequired();
-
-        builder.HasIndex(q => new { q.PartnerProductRequestId, q.Version })
-            .IsUnique();
 
         builder.HasOne<PartnerProductRequest>()
             .WithMany()

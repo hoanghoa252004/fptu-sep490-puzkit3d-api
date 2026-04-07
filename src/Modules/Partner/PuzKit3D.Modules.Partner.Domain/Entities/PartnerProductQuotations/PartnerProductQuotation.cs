@@ -1,3 +1,4 @@
+using PuzKit3D.Modules.Partner.Domain.Entities.PartnerProductQuotationDetails;
 using PuzKit3D.Modules.Partner.Domain.Entities.PartnerProductRequests;
 using PuzKit3D.SharedKernel.Domain;
 using PuzKit3D.SharedKernel.Domain.Results;
@@ -8,39 +9,36 @@ public class PartnerProductQuotation : AggregateRoot<PartnerProductQuotationId>
 {
     public string Code { get; private set; } = null!;
     public PartnerProductRequestId PartnerProductRequestId { get; private set; } = null!;
-    public int Version { get; private set; }
     public decimal SubTotalAmount { get; private set; }
     public decimal ShippingFee { get; private set; }
     public decimal ImportTaxAmount { get; private set; }
     public decimal GrandTotalAmount { get; private set; }
-    public DateTime ExpectedDeliveryDate { get; private set; }
     public string? Note { get; private set; }
-    public int Status { get; private set; }
+    public PartnerProductQuotationStatus Status { get; private set; }
     public DateTime CreatedAt { get; private set; }
     public DateTime UpdatedAt { get; private set; }
+
+    private readonly List<PartnerProductQuotationDetail> _details = new();
+    public IReadOnlyList<PartnerProductQuotationDetail> Details => _details;
 
     private PartnerProductQuotation(
         PartnerProductQuotationId id,
         string code,
         PartnerProductRequestId partnerProductRequestId,
-        int version,
         decimal subTotalAmount,
         decimal shippingFee,
         decimal importTaxAmount,
         decimal grandTotalAmount,
-        DateTime expectedDeliveryDate,
         string? note,
-        int status,
+        PartnerProductQuotationStatus status,
         DateTime createdAt) : base(id)
     {
         Code = code;
         PartnerProductRequestId = partnerProductRequestId;
-        Version = version;
         SubTotalAmount = subTotalAmount;
         ShippingFee = shippingFee;
         ImportTaxAmount = importTaxAmount;
         GrandTotalAmount = grandTotalAmount;
-        ExpectedDeliveryDate = expectedDeliveryDate;
         Note = note;
         Status = status;
         CreatedAt = createdAt;
@@ -58,9 +56,6 @@ public class PartnerProductQuotation : AggregateRoot<PartnerProductQuotationId>
         decimal subTotalAmount,
         decimal shippingFee,
         decimal importTaxAmount,
-        DateTime expectedDeliveryDate,
-        string? note = null,
-        int status = 0,
         DateTime? createdAt = null)
     {
         if (string.IsNullOrWhiteSpace(code))
@@ -78,23 +73,33 @@ public class PartnerProductQuotation : AggregateRoot<PartnerProductQuotationId>
             quotationId,
             code,
             partnerProductRequestId,
-            version,
             subTotalAmount,
             shippingFee,
             importTaxAmount,
             grandTotalAmount,
-            expectedDeliveryDate,
-            note,
-            status,
+            null,
+            PartnerProductQuotationStatus.Quoted,
             timestamp);
 
         return Result.Success(quotation);
     }
 
-    public Result UpdateStatus(int status)
+    public Result UpdateStatus(PartnerProductQuotationStatus newStatus, string? note = null)
     {
-        Status = status;
+        if (!PartnerProductQuotationStatusTransition.IsValidTransition(Status, newStatus))
+        {
+            return Result.Failure(
+                PartnerProductQuotationError.InvalidStatusTransition(Status, newStatus));
+        }
+        Status = newStatus;
+        if (note != null)
+            Note = note;
         UpdatedAt = DateTime.UtcNow;
         return Result.Success();
+    }
+
+    public void AddDetail(PartnerProductQuotationDetail detail)
+    {
+        _details.Add(detail);
     }
 }

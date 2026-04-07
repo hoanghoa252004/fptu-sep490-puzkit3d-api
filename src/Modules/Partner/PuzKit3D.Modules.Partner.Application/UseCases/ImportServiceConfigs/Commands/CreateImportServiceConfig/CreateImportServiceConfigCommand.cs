@@ -6,4 +6,5 @@ public sealed record CreateImportServiceConfigCommand(
     decimal BaseShippingFee,
     string CountryCode,
     string CountryName,
-    decimal ImportTaxPercentage) : ICommandT<Guid>;
+    decimal ImportTaxPercentage, 
+    int EstimatedDeliveryDays) : ICommandT<Guid>;

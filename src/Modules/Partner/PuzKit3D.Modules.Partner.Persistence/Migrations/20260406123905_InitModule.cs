@@ -23,7 +23,8 @@ namespace PuzKit3D.Modules.Partner.Persistence.Migrations
                     base_shipping_fee = table.Column<decimal>(type: "numeric(10,2)", precision: 10, scale: 2, nullable: false),
                     country_code = table.Column<string>(type: "character varying(10)", maxLength: 10, nullable: false),
                     country_name = table.Column<string>(type: "character varying(15)", maxLength: 15, nullable: false),
-                    import_tax_percentage = table.Column<decimal>(type: "numeric(5,2)", precision: 5, scale: 2, nullable: false),
+                    import_tax_percentage = table.Column<decimal>(type: "numeric(3,2)", precision: 3, scale: 2, nullable: false),
+                    estimated_delivery_days = table.Column<int>(type: "integer", nullable: false, defaultValue: 7),
                     is_active = table.Column<bool>(type: "boolean", nullable: false, defaultValue: false),
                     created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
@@ -31,6 +32,30 @@ namespace PuzKit3D.Modules.Partner.Persistence.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("pk_import_service_configs", x => x.id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "user_replicas",
+                schema: "partner",
+                columns: table => new
+                {
+                    id = table.Column<Guid>(type: "uuid", nullable: false),
+                    email = table.Column<string>(type: "character varying(30)", maxLength: 30, nullable: false),
+                    password_hash = table.Column<string>(type: "character varying(300)", maxLength: 300, nullable: false),
+                    role_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    full_name = table.Column<string>(type: "character varying(30)", maxLength: 30, nullable: false),
+                    date_of_birth = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    phone_number = table.Column<string>(type: "character varying(15)", maxLength: 15, nullable: false),
+                    province = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    district = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    ward = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    street_address = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: true),
+                    created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_user_replicas", x => x.id);
                 });
 
             migrationBuilder.CreateTable(
@@ -71,10 +96,9 @@ namespace PuzKit3D.Modules.Partner.Persistence.Migrations
                     code = table.Column<string>(type: "character varying(10)", maxLength: 10, nullable: false),
                     customer_id = table.Column<Guid>(type: "uuid", nullable: false),
                     partner_id = table.Column<Guid>(type: "uuid", nullable: false),
-                    desired_delivery_date = table.Column<DateTime>(type: "date", nullable: false),
                     total_requested_quantity = table.Column<int>(type: "integer", nullable: false),
                     note = table.Column<string>(type: "text", nullable: true),
-                    status = table.Column<int>(type: "integer", nullable: false),
+                    status = table.Column<string>(type: "text", nullable: false),
                     created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
@@ -128,14 +152,12 @@ namespace PuzKit3D.Modules.Partner.Persistence.Migrations
                     id = table.Column<Guid>(type: "uuid", nullable: false),
                     code = table.Column<string>(type: "character varying(10)", maxLength: 10, nullable: false),
                     partner_product_request_id = table.Column<Guid>(type: "uuid", nullable: false),
-                    version = table.Column<int>(type: "integer", nullable: false),
                     sub_total_amount = table.Column<decimal>(type: "numeric(10,2)", precision: 10, scale: 2, nullable: false),
                     shipping_fee = table.Column<decimal>(type: "numeric(10,2)", precision: 10, scale: 2, nullable: false),
                     import_tax_amount = table.Column<decimal>(type: "numeric(10,2)", precision: 10, scale: 2, nullable: false),
                     grand_total_amount = table.Column<decimal>(type: "numeric(10,2)", precision: 10, scale: 2, nullable: false),
-                    expected_delivery_date = table.Column<DateTime>(type: "date", nullable: false),
                     note = table.Column<string>(type: "text", nullable: true),
-                    status = table.Column<int>(type: "integer", nullable: false),
+                    status = table.Column<string>(type: "text", nullable: false),
                     created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
@@ -194,22 +216,21 @@ namespace PuzKit3D.Modules.Partner.Persistence.Migrations
                     customer_name = table.Column<string>(type: "character varying(30)", maxLength: 30, nullable: false),
                     customer_phone = table.Column<string>(type: "character varying(30)", maxLength: 30, nullable: false),
                     customer_email = table.Column<string>(type: "character varying(30)", maxLength: 30, nullable: false),
-                    customer_province_code = table.Column<string>(type: "character varying(10)", maxLength: 10, nullable: false),
                     customer_province_name = table.Column<string>(type: "character varying(30)", maxLength: 30, nullable: false),
-                    customer_district_code = table.Column<string>(type: "character varying(10)", maxLength: 10, nullable: false),
                     customer_district_name = table.Column<string>(type: "character varying(30)", maxLength: 30, nullable: false),
-                    customer_ward_code = table.Column<string>(type: "character varying(10)", maxLength: 10, nullable: false),
                     customer_ward_name = table.Column<string>(type: "character varying(30)", maxLength: 30, nullable: false),
+                    detail_address = table.Column<string>(type: "text", nullable: false),
                     sub_total_amount = table.Column<decimal>(type: "numeric(10,2)", precision: 10, scale: 2, nullable: false),
                     shipping_fee = table.Column<decimal>(type: "numeric(10,2)", precision: 10, scale: 2, nullable: false),
+                    base_shipping_fee = table.Column<decimal>(type: "numeric(10,2)", precision: 10, scale: 2, nullable: false),
+                    used_coin_amount = table.Column<int>(type: "integer", precision: 10, scale: 2, nullable: false),
                     import_tax_amount = table.Column<decimal>(type: "numeric(10,2)", precision: 10, scale: 2, nullable: false),
-                    used_coin_amount_as_money = table.Column<decimal>(type: "numeric(10,2)", precision: 10, scale: 2, nullable: false),
                     grand_total_amount = table.Column<decimal>(type: "numeric(10,2)", precision: 10, scale: 2, nullable: false),
-                    status = table.Column<int>(type: "integer", nullable: false),
+                    status = table.Column<string>(type: "text", nullable: false),
+                    payment_method = table.Column<string>(type: "character varying(10)", maxLength: 10, nullable: false),
+                    is_paid = table.Column<bool>(type: "boolean", nullable: false, defaultValue: false),
                     created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    payment_method = table.Column<string>(type: "character varying(10)", maxLength: 10, nullable: false, defaultValue: "ONLINE"),
-                    is_paid = table.Column<bool>(type: "boolean", nullable: false, defaultValue: false),
                     paid_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
                 },
                 constraints: table =>
@@ -263,7 +284,6 @@ namespace PuzKit3D.Modules.Partner.Persistence.Migrations
                     id = table.Column<Guid>(type: "uuid", nullable: false),
                     partner_product_order_id = table.Column<Guid>(type: "uuid", nullable: false),
                     partner_product_id = table.Column<Guid>(type: "uuid", nullable: false),
-                    partner_product_sku = table.Column<string>(type: "character varying(10)", maxLength: 10, nullable: false),
                     partner_product_name = table.Column<string>(type: "character varying(30)", maxLength: 30, nullable: true),
                     unit_price = table.Column<decimal>(type: "numeric(10,2)", precision: 10, scale: 2, nullable: false),
                     quantity = table.Column<int>(type: "integer", nullable: false),
@@ -329,11 +349,10 @@ namespace PuzKit3D.Modules.Partner.Persistence.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "ix_partner_product_quotations_partner_product_request_id_versi",
+                name: "ix_partner_product_quotations_partner_product_request_id",
                 schema: "partner",
                 table: "partner_product_quotations",
-                columns: new[] { "partner_product_request_id", "version" },
-                unique: true);
+                column: "partner_product_request_id");
 
             migrationBuilder.CreateIndex(
                 name: "ix_partner_product_request_item_partner_product_id",
@@ -380,6 +399,20 @@ namespace PuzKit3D.Modules.Partner.Persistence.Migrations
                 table: "partners",
                 column: "slug",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "UK__user_replica__email",
+                schema: "partner",
+                table: "user_replicas",
+                column: "email",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "UK__user_replica__phone_number",
+                schema: "partner",
+                table: "user_replicas",
+                column: "phone_number",
+                unique: true);
         }
 
         /// <inheritdoc />
@@ -395,6 +428,10 @@ namespace PuzKit3D.Modules.Partner.Persistence.Migrations
 
             migrationBuilder.DropTable(
                 name: "partner_product_request_item",
+                schema: "partner");
+
+            migrationBuilder.DropTable(
+                name: "user_replicas",
                 schema: "partner");
 
             migrationBuilder.DropTable(

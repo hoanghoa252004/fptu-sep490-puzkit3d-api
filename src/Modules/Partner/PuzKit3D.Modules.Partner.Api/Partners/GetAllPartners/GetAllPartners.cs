@@ -18,13 +18,15 @@ internal sealed class GetAllPartners : IEndpoint
                 int pageNumber,
                 int pageSize,
                 string? searchTerm,
+                bool ascending,
                 ISender sender,
                 CancellationToken cancellationToken) =>
             {
                 var query = new GetAllPartnersQuery(
                     pageNumber,
                     pageSize,
-                    searchTerm);
+                    searchTerm,
+                    ascending);
 
                 var result = await sender.Send(query, cancellationToken);
 
@@ -32,7 +34,7 @@ internal sealed class GetAllPartners : IEndpoint
             })
             .WithName("GetAllPartners")
             .WithSummary("Get all partners with pagination")
-            .WithDescription("Retrieves a paginated list of partners. Anonymous users and customers see only active partners. Staff/Manager see all partners with full details including IsActive, CreatedAt, and UpdatedAt.")
+            .WithDescription("Anonymous users and customers see only active partners. Staff/Manager see all partners. Sort By CreatedAt. Search by Slug, Name, Email, or Description.")
             .AllowAnonymous()
             .Produces<PagedResult<object>>(StatusCodes.Status200OK)
             .ProducesValidationProblem(StatusCodes.Status400BadRequest)

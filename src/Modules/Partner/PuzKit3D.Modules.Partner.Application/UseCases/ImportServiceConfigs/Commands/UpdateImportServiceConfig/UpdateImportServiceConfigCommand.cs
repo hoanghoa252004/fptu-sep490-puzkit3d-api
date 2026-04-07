@@ -7,4 +7,5 @@ public sealed record UpdateImportServiceConfigCommand(
     decimal BaseShippingFee,
     string CountryCode,
     string CountryName,
-    decimal ImportTaxPercentage) : ICommand;
+    decimal ImportTaxPercentage,
+    int EstimatedDeliveryDays) : ICommand;

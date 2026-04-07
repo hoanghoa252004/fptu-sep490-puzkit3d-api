@@ -23,4 +23,20 @@ public static class PartnerProductRequestError
     public static Error DuplicateCode(string code) => Error.Conflict(
         "PartnerProductRequest.DuplicateCode",
         $"Partner product request with code '{code}' already exists.");
+
+    public static Error InvalidStatusTransition(PartnerProductRequestStatus currentStatus, PartnerProductRequestStatus newStatus) => Error.Validation(
+        "PartnerProductRequest.InvalidStatusTransition",
+        $"Cannot transition from '{currentStatus}' to '{newStatus}'. This status transition is not allowed.");
+
+    public static Error InvalidStatus(PartnerProductRequestStatus currentStatus, PartnerProductRequestStatus expectedStatus) => Error.Validation(
+        "PartnerProductRequest.InvalidStatus",
+        $"Request status is '{currentStatus}' but must be '{expectedStatus}'.");
+
+    public static Error CannotUpdateAfterQuotationCreated() => Error.Validation(
+        "PartnerProductRequest.CannotUpdateAfterQuotationCreated",
+        $"Cannot update request after quotation has been created.");
+
+    public static Error PermissionDenied() => Error.Unauthorized(
+        "PartnerProductRequest.PermissionDenied",
+        "You do not have permission to perform this action on the partner product request.");
 }

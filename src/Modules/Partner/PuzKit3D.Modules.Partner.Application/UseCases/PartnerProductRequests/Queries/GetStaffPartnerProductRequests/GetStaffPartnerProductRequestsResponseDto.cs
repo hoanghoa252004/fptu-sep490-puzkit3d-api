@@ -1,0 +1,13 @@
+using PuzKit3D.Modules.Partner.Domain.Entities.PartnerProductRequests;
+
+namespace PuzKit3D.Modules.Partner.Application.UseCases.PartnerProductRequests.Queries.GetStaffPartnerProductRequests;
+
+public sealed record GetStaffPartnerProductRequestsResponseDto(
+    Guid Id,
+    string Code,
+    Guid CustomerId,
+    Guid PartnerId,
+    int TotalRequestedQuantity,
+    string? Note,
+    PartnerProductRequestStatus Status,
+    DateTime CreatedAt);

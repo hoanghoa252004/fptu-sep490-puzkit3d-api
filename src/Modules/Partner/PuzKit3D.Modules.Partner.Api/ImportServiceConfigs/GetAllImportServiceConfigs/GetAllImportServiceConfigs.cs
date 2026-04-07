@@ -19,19 +19,21 @@ internal sealed class GetAllImportServiceConfigs : IEndpoint
                 int pageNumber,
                 int pageSize,
                 string? searchTerm,
+                bool ascending,
                 ISender sender,
                 CancellationToken cancellationToken) =>
             {
                 var query = new GetAllImportServiceConfigsQuery(
                     pageNumber,
                     pageSize,
-                    searchTerm);
+                    searchTerm,
+                    ascending);
 
                 var result = await sender.Send(query, cancellationToken);
 
                 return result.MatchOk();
             })
-            .WithName("GetAllImportServiceConfigs")
+            .WithName("GetAllImportServiceConfigs. Sort By CreatedAt. Search by Country Name, Country Code.")
             .WithSummary("Get all import service configs with pagination (Staff/Manager only)")
             .WithDescription("Retrieves a paginated list of import service configs. Requires Staff or Manager role.")
             .RequireAuthorization(policy => policy.RequireRole(Roles.Staff, Roles.BusinessManager))
