@@ -1,4 +1,5 @@
 using PuzKit3D.Modules.Partner.Application.Repositories;
+using PuzKit3D.Modules.Partner.Domain.Entities.Partners;
 using PuzKit3D.SharedKernel.Application.Authorization;
 using PuzKit3D.SharedKernel.Application.Media;
 using PuzKit3D.SharedKernel.Application.Message.Query;
@@ -35,7 +36,7 @@ internal sealed class GetPartnerProductsByPartnerIdQueryHandler
 
         // Get all partner products filtered by partner ID
         var allProducts = await _partnerProductRepository.GetAllByPartnerIdAsync(
-            request.PartnerId,
+            PartnerId.From(request.PartnerId),
             isStaffOrManager,
             request.SearchTerm,
             request.Ascending,

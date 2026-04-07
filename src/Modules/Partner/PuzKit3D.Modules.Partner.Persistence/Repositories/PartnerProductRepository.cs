@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using PuzKit3D.Modules.Partner.Application.Repositories;
 using PuzKit3D.Modules.Partner.Domain.Entities.PartnerProducts;
+using PuzKit3D.Modules.Partner.Domain.Entities.Partners;
 using System.Linq.Expressions;
 
 namespace PuzKit3D.Modules.Partner.Persistence.Repositories;
@@ -111,14 +112,14 @@ internal sealed class PartnerProductRepository : IPartnerProductRepository
     }
 
     public async Task<IEnumerable<PartnerProduct>> GetAllByPartnerIdAsync(
-        Guid id,
+        PartnerId id,
         bool isStaffOrManager,
         string? searchTerm,
         bool ascending,
         CancellationToken cancellationToken = default)
     {
         var query = _context.PartnerProducts
-            .Where(p => p.PartnerId.Value == id)
+            .Where(p => p.PartnerId == id)
             .AsQueryable();
 
         if (!isStaffOrManager)

@@ -1,4 +1,5 @@
 using PuzKit3D.Modules.Partner.Domain.Entities.PartnerProducts;
+using PuzKit3D.Modules.Partner.Domain.Entities.Partners;
 using PuzKit3D.SharedKernel.Domain;
 
 namespace PuzKit3D.Modules.Partner.Application.Repositories;
@@ -14,7 +15,7 @@ public interface IPartnerProductRepository : IRepositoryBase<PartnerProduct, Par
         Guid? partnerId,
         CancellationToken cancellationToken = default);
     Task<IEnumerable<PartnerProduct>> GetAllByPartnerIdAsync(
-        Guid id,
+        PartnerId id,
         bool isStaffOrManager,
         string? searchTerm,
         bool ascending,
