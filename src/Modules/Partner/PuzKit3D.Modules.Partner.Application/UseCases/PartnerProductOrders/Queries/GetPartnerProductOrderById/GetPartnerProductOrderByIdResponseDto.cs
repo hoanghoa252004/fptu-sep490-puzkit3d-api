@@ -20,4 +20,13 @@ public sealed record GetPartnerProductOrderByIdResponseDto(
     bool IsPaid,
     DateTime CreatedAt,
     DateTime UpdatedAt,
-    DateTime? PaidAt);
+    DateTime? PaidAt,
+    IReadOnlyList<PartnerProductOrderDetailDto> Details);
+
+public sealed record PartnerProductOrderDetailDto(
+    Guid Id,
+    Guid PartnerProductId,
+    string? PartnerProductName,
+    decimal UnitPrice,
+    int Quantity,
+    decimal TotalAmount);
