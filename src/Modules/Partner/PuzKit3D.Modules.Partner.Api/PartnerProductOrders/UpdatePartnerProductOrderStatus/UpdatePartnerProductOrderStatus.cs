@@ -28,8 +28,8 @@ internal sealed class UpdatePartnerProductOrderStatus : IEndpoint
                 return result.MatchOk(success => Results.Ok(new { orderId = success }));
             })
             .WithName("UpdatePartnerProductOrderStatus")
-            .WithSummary("Update status of a partner product order (Staff and Manager only)")
-            .RequireAuthorization(policy => policy.RequireRole(Roles.Staff, Roles.BusinessManager))
+            .WithSummary("Update status of a partner product order")
+            .RequireAuthorization()
             .Produces<object>(StatusCodes.Status200OK)
             .ProducesProblem(StatusCodes.Status401Unauthorized)
             .ProducesProblem(StatusCodes.Status403Forbidden)
