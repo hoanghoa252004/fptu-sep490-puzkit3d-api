@@ -1,11 +1,12 @@
 using PuzKit3D.SharedKernel.Domain;
 using PuzKit3D.SharedKernel.Domain.Results;
+using PuzKit3D.Modules.CustomDesign.Domain.Entities.CustomDesignAssets;
 using PuzKit3D.Modules.CustomDesign.Domain.Entities.CustomDesignRequirements;
 using PuzKit3D.Modules.CustomDesign.Domain.Entities.CustomDesignRequests.DomainEvents;
 
 namespace PuzKit3D.Modules.CustomDesign.Domain.Entities.CustomDesignRequests;
 
-public sealed class CustomDesignRequest : Entity<CustomDesignRequestId>
+public sealed class CustomDesignRequest : AggregateRoot<CustomDesignRequestId>
 {
     public string Code { get; private set; } = null!;
     public Guid CustomerId { get; private set; }
@@ -24,6 +25,10 @@ public sealed class CustomDesignRequest : Entity<CustomDesignRequestId>
     public string? Note { get; private set; }
     public DateTime CreatedAt { get; private set; }
     public DateTime UpdatedAt { get; private set; }
+
+    // Navigation properties
+    public CustomDesignRequirement? CustomDesignRequirement { get; private set; }
+    public ICollection<CustomDesignAsset> CustomDesignAssets { get; private set; } = new List<CustomDesignAsset>();
 
     private CustomDesignRequest(
         CustomDesignRequestId id,

@@ -49,7 +49,7 @@ public sealed class OrderDeliveredIntegrationEventHandler : IIntegrationEventHan
             return;
 
         // Set IsPaid = true and PaidAt = now
-        if (instockOrder.Status == InstockOrderStatus.HandedOverToDelivery)
+        if (instockOrder.IsPaid == false && instockOrder.Status == InstockOrderStatus.HandedOverToDelivery)
         {
             var markAsPaidResult = instockOrder.MarkAsPaid(DateTime.UtcNow);
             

@@ -5,7 +5,7 @@ using PuzKit3D.Modules.CustomDesign.Domain.Entities.CustomDesignAssets.DomainEve
 using PuzKit3D.Modules.CustomDesign.Domain.Entities.CustomDesignRequests;
 using PuzKit3D.SharedKernel.Application.Exceptions;
 
-namespace PuzKit3D.Modules.CustomDesign.Infrastructure.DomainEventHandlers.CustomDesignAssets;
+namespace PuzKit3D.Modules.CustomDesign.Application.DomainEventHandlers.CustomDesignAssets;
 
 internal sealed class CustomDesignAssetCreatedDomainEventHandler : INotificationHandler<CustomDesignAssetCreatedDomainEvent>
 {

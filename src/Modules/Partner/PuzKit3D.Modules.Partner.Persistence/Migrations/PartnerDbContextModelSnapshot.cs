@@ -159,6 +159,10 @@ namespace PuzKit3D.Modules.Partner.Persistence.Migrations
                         .HasDefaultValue(false)
                         .HasColumnName("is_paid");
 
+                    b.Property<DateTime?>("MustCompleteBefore")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("must_complete_before");
+
                     b.Property<DateTime?>("PaidAt")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("paid_at");

@@ -6,7 +6,7 @@ using PuzKit3D.SharedKernel.Domain;
 
 namespace PuzKit3D.Modules.CustomDesign.Domain.Entities.CustomDesignAssets;
 
-public sealed class CustomDesignAsset : Entity<CustomDesignAssetId>
+public sealed class CustomDesignAsset : AggregateRoot<CustomDesignAssetId>
 {
     public string Code { get; private set; } = null!;
     public CustomDesignRequestId CustomDesignRequestId { get; private set; }
@@ -22,6 +22,9 @@ public sealed class CustomDesignAsset : Entity<CustomDesignAssetId>
     public bool IsFinalDesign { get; private set; }
     public DateTime CreatedAt { get; private set; }
     public DateTime UpdatedAt { get; private set; }
+
+    // Navigation property
+    public CustomDesignRequest? CustomDesignRequest { get; private set; }
 
     private CustomDesignAsset(
         CustomDesignAssetId id,

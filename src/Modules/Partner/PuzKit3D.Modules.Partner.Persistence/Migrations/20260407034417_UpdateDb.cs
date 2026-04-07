@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace PuzKit3D.Modules.Partner.Persistence.Migrations
 {
     /// <inheritdoc />
-    public partial class InitModule : Migration
+    public partial class UpdateDb : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -231,7 +231,8 @@ namespace PuzKit3D.Modules.Partner.Persistence.Migrations
                     is_paid = table.Column<bool>(type: "boolean", nullable: false, defaultValue: false),
                     created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    paid_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
+                    paid_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    must_complete_before = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
                 },
                 constraints: table =>
                 {

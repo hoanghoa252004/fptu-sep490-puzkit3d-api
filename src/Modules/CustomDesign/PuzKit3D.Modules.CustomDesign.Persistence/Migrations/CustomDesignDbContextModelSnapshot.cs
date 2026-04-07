@@ -102,6 +102,9 @@ namespace PuzKit3D.Modules.CustomDesign.Persistence.Migrations
                         .IsUnique()
                         .HasDatabaseName("UQ___custom_design_asset___code");
 
+                    b.HasIndex("CustomDesignRequestId")
+                        .HasDatabaseName("ix_custom_design_assets_custom_design_request_id");
+
                     b.ToTable("custom_design_assets", "custome_design");
                 });
 
@@ -197,6 +200,9 @@ namespace PuzKit3D.Modules.CustomDesign.Persistence.Migrations
                     b.HasIndex("Code")
                         .IsUnique()
                         .HasDatabaseName("UQ___custom_design_request___code");
+
+                    b.HasIndex("CustomDesignRequirementId")
+                        .HasDatabaseName("ix_custom_design_requests_custom_design_requirement_id");
 
                     b.ToTable("custom_design_requests", "custome_design");
                 });
@@ -759,6 +765,30 @@ namespace PuzKit3D.Modules.CustomDesign.Persistence.Migrations
                     b.ToTable("requirement_capability_details", "custome_design");
                 });
 
+            modelBuilder.Entity("PuzKit3D.Modules.CustomDesign.Domain.Entities.CustomDesignAssets.CustomDesignAsset", b =>
+                {
+                    b.HasOne("PuzKit3D.Modules.CustomDesign.Domain.Entities.CustomDesignRequests.CustomDesignRequest", "CustomDesignRequest")
+                        .WithMany("CustomDesignAssets")
+                        .HasForeignKey("CustomDesignRequestId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_custom_design_assets_custom_design_requests_custom_design_r");
+
+                    b.Navigation("CustomDesignRequest");
+                });
+
+            modelBuilder.Entity("PuzKit3D.Modules.CustomDesign.Domain.Entities.CustomDesignRequests.CustomDesignRequest", b =>
+                {
+                    b.HasOne("PuzKit3D.Modules.CustomDesign.Domain.Entities.CustomDesignRequirements.CustomDesignRequirement", "CustomDesignRequirement")
+                        .WithMany("CustomDesignRequests")
+                        .HasForeignKey("CustomDesignRequirementId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("fk_custom_design_requests_custom_design_requirements_custom_de");
+
+                    b.Navigation("CustomDesignRequirement");
+                });
+
             modelBuilder.Entity("PuzKit3D.Modules.CustomDesign.Domain.Entities.RequirementCapabilityDetails.RequirementCapabilityDetail", b =>
                 {
                     b.HasOne("PuzKit3D.Modules.CustomDesign.Domain.Entities.CustomDesignRequirements.CustomDesignRequirement", null)
@@ -767,6 +797,16 @@ namespace PuzKit3D.Modules.CustomDesign.Persistence.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("fk_requirement_capability_details_custom_design_requirements_c");
+                });
+
+            modelBuilder.Entity("PuzKit3D.Modules.CustomDesign.Domain.Entities.CustomDesignRequests.CustomDesignRequest", b =>
+                {
+                    b.Navigation("CustomDesignAssets");
+                });
+
+            modelBuilder.Entity("PuzKit3D.Modules.CustomDesign.Domain.Entities.CustomDesignRequirements.CustomDesignRequirement", b =>
+                {
+                    b.Navigation("CustomDesignRequests");
                 });
 #pragma warning restore 612, 618
         }

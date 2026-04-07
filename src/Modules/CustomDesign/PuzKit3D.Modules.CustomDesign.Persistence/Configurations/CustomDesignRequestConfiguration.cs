@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using PuzKit3D.Modules.CustomDesign.Domain.Entities.CustomDesignAssets;
 using PuzKit3D.Modules.CustomDesign.Domain.Entities.CustomDesignRequests;
 using PuzKit3D.Modules.CustomDesign.Domain.Entities.CustomDesignRequirements;
 
@@ -82,6 +83,16 @@ internal sealed class CustomDesignRequestConfiguration : IEntityTypeConfiguratio
         builder.HasIndex(r => r.Code)
             .IsUnique()
             .HasDatabaseName("UQ___custom_design_request___code");
+
+        builder.HasOne(r => r.CustomDesignRequirement)
+            .WithMany(req => req.CustomDesignRequests)
+            .HasForeignKey(r => r.CustomDesignRequirementId)
+            .OnDelete(Microsoft.EntityFrameworkCore.DeleteBehavior.Restrict);
+
+        builder.HasMany(r => r.CustomDesignAssets)
+            .WithOne(a => a.CustomDesignRequest)
+            .HasForeignKey(a => a.CustomDesignRequestId)
+            .OnDelete(Microsoft.EntityFrameworkCore.DeleteBehavior.Cascade);
 
         builder.Ignore(r => r.DomainEvents);
     }
