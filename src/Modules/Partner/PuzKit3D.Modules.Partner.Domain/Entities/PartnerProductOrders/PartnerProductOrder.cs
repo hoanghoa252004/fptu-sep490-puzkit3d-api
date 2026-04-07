@@ -324,4 +324,13 @@ public class PartnerProductOrder : AggregateRoot<PartnerProductOrderId>
         UpdatedAt = DateTime.UtcNow;
         return Result.Success();
     }
+
+    public Result MarkAsReturned()
+    {
+
+        Status = PartnerProductOrderStatus.Returned;
+        UpdatedAt = DateTime.UtcNow;
+
+        return Result.Success();
+    }
 }
