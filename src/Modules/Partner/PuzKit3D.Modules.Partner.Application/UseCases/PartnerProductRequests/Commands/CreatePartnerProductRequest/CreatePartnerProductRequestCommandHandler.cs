@@ -6,27 +6,23 @@ using PuzKit3D.Modules.Partner.Domain.Entities.PartnerProducts;
 using PuzKit3D.Modules.Partner.Domain.Entities.Partners;
 using PuzKit3D.SharedKernel.Application.Message.Command;
 using PuzKit3D.SharedKernel.Domain.Results;
-using System;
 
 namespace PuzKit3D.Modules.Partner.Application.UseCases.PartnerProductRequests.Commands.CreatePartnerProductRequest;
 
 internal sealed class CreatePartnerProductRequestCommandHandler : ICommandTHandler<CreatePartnerProductRequestCommand, Guid>
 {
     private readonly IPartnerProductRequestRepository _requestRepository;
-    private readonly IPartnerProductRequestDetailRepository _detailRepository;
     private readonly IPartnerProductRepository _productRepository;
     private readonly IPartnerUnitOfWork _unitOfWork;
     private readonly IPartnerProductRequestCodeGenerator _codeGenerator;
 
     public CreatePartnerProductRequestCommandHandler(
         IPartnerProductRequestRepository requestRepository,
-        IPartnerProductRequestDetailRepository detailRepository,
         IPartnerProductRepository productRepository,
         IPartnerUnitOfWork unitOfWork,
         IPartnerProductRequestCodeGenerator codeGenerator)
     {
         _requestRepository = requestRepository;
-        _detailRepository = detailRepository;
         _productRepository = productRepository;
         _unitOfWork = unitOfWork;
         _codeGenerator = codeGenerator;

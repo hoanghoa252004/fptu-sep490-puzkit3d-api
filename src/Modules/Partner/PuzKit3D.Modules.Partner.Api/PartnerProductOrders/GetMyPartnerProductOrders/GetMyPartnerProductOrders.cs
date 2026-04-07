@@ -19,11 +19,14 @@ internal sealed class GetMyPartnerProductOrders : IEndpoint
                 [FromQuery] int pageNumber,
                 [FromQuery] int pageSize,
                 [FromQuery] int? status,
-                HttpContext context,
+                IHttpContextAccessor httpContextAccessor,
                 ISender sender,
                 CancellationToken cancellationToken) =>
             {
-                var customerId = context.User.FindFirst("sub")?.Value;
+                var customerId = httpContextAccessor.HttpContext?
+                    .User?
+                    .FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?
+                    .Value;
                 if (string.IsNullOrEmpty(customerId) || !Guid.TryParse(customerId, out var customerGuid))
                 {
                     return Results.Unauthorized();

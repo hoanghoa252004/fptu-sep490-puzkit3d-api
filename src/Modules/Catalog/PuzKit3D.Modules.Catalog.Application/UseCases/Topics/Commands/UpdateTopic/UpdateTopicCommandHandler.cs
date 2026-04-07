@@ -39,6 +39,34 @@ internal sealed class UpdateTopicCommandHandler : ICommandHandler<UpdateTopicCom
             }
         }
 
+        var topicsToUpdate = new List<Topic>();
+        if ((request.IsActive != topic.IsActive) && request.IsActive == false)
+        {
+            // Get all topics
+            var allTopics = await _topicRepository.GetAllAsync(cancellationToken);
+
+            // Build a lookup dictionary for parent-child relationships
+            var lookup = allTopics
+                .Where(t => t.ParentId != null)
+                .GroupBy(t => t.ParentId!)
+                .ToDictionary(g => g.Key, g => g.ToList());
+
+            var stack = new Stack<Topic>();
+            stack.Push(topic);
+            while (stack.Count > 0)
+            {
+                var current = stack.Pop();
+                topicsToUpdate.Add(current);
+                if (lookup.TryGetValue(current.Id, out var children))
+                {
+                    foreach (var child in children)
+                    {
+                        stack.Push(child);
+                    }
+                }
+            }
+        }
+
         // Execute in transaction
         return await _unitOfWork.ExecuteAsync(async () =>
         {
@@ -49,6 +77,17 @@ internal sealed class UpdateTopicCommandHandler : ICommandHandler<UpdateTopicCom
                 request.ParentId.HasValue ? TopicId.From(request.ParentId.Value) : null,
                 request.Description,
                 request.IsActive);
+
+            foreach (var item in topicsToUpdate.Where(t => t.Id != topic.Id))
+            {
+                item.Update(
+                    item.Name, 
+                    item.Slug, 
+                    item.ParentId, 
+                    item.Description, 
+                    false);
+                _topicRepository.Update(item);
+            }
 
             if (updateResult.IsFailure)
             {

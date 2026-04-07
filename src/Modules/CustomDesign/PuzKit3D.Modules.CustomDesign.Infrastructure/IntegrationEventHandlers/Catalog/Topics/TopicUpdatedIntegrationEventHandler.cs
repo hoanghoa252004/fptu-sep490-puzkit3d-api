@@ -33,7 +33,7 @@ internal sealed class TopicUpdatedIntegrationEventHandler
             @event.Slug,
             @event.Description,
             @event.ParentId,
-            replica.IsActive, // Keep existing IsActive value
+            @event.IsActive,
             @event.UpdatedAt);
 
         _context.TopicReplicas.Update(replica);

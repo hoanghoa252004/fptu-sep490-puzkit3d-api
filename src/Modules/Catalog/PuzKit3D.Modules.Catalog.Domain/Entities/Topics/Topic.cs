@@ -127,7 +127,8 @@ public class Topic : AggregateRoot<TopicId>
             Slug,
             ParentId?.Value,
             Description,
-            UpdatedAt));
+            UpdatedAt,
+            IsActive));
 
         return Result.Success();
     }

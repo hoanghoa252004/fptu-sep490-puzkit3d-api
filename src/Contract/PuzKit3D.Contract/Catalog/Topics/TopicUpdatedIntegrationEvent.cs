@@ -10,4 +10,5 @@ public sealed record TopicUpdatedIntegrationEvent(
     string Slug,
     Guid? ParentId,
     string? Description,
-    DateTime UpdatedAt) : IntegrationEvent(EventId, OccurredOn);
+    DateTime UpdatedAt,
+    bool IsActive) : IntegrationEvent(EventId, OccurredOn);

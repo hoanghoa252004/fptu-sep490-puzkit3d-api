@@ -28,12 +28,40 @@ internal sealed class DeleteTopicCommandHandler : ICommandHandler<DeleteTopicCom
         {
             return Result.Failure(TopicError.NotFound(request.Id));
         }
+        // Get all topics
+        var allTopics = await _topicRepository.GetAllAsync(cancellationToken);
+
+        // Build a lookup dictionary for parent-child relationships
+        var lookup = allTopics
+            .Where(t => t.ParentId != null)
+            .GroupBy(t => t.ParentId!)
+            .ToDictionary(g => g.Key, g => g.ToList());
+
+        var stack = new Stack<Topic>();
+        stack.Push(topic);
+        var topicsToDelete = new List<Topic>();
+        while (stack.Count > 0)
+        {
+            var current = stack.Pop();
+            topicsToDelete.Add(current);
+            if (lookup.TryGetValue(current.Id, out var children))
+            {
+                foreach (var child in children)
+                {
+                    stack.Push(child);
+                }
+            }
+        }
 
         // Execute in transaction
         return await _unitOfWork.ExecuteAsync(async () =>
         {
-            topic.Delete();
-            _topicRepository.Delete(topic);
+            foreach (var topic in topicsToDelete)
+            {
+                topic.Delete();
+            }
+            _topicRepository.DeleteMultiple(topicsToDelete);
+
             return Result.Success();
         }, cancellationToken);
     }
