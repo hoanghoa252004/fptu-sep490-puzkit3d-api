@@ -49,6 +49,14 @@ public static class DependencyInjection
         services.AddScoped<IMaterialReplicaRepository, MaterialReplicaRepository>();
         services.AddScoped<ICapabilityReplicaRepository, CapabilityReplicaRepository>();
 
+        services.AddScoped<IProposalRepository, ProposalRepository>();
+        services.AddScoped<IMilestoneRepository, MilestoneRepository>();
+        services.AddScoped<IPhaseRepository, PhaseRepository>();
+        services.AddScoped<IMilestoneQuotationRepository, MilestoneQuotationRepository>();
+        services.AddScoped<IMilestoneQuotationDetailRepository, MilestoneQuotationDetailRepository>();
+        services.AddScoped<IWorkflowRepository, WorkflowRepository>();
+        services.AddScoped<IProductQuotationRepository, ProductQuotationRepository>();
+
         // Services
         services.AddScoped<ICustomDesignRequirementCodeGenerator, CustomDesignRequirementCodeGenerator>();
         services.AddScoped<ICustomDesignRequestCodeGenerator, CustomDesignRequestCodeGenerator>();

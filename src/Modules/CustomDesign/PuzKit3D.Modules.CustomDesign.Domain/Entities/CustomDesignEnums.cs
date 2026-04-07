@@ -18,3 +18,24 @@ public enum CustomDesignRequestStatus
     Rejected = 6,
     Cancelled = 7
 }
+
+public enum ProposalStatus
+{
+    Draft = 0,
+    SubmittedToManager = 1,
+    ManagerApproved = 2,
+    SentToCustomer = 3,
+    CustomerApproved = 4,
+    Rejected = 5,
+    Cancelled = 6
+}
+
+public enum WorkflowStatus
+{
+    NotStarted = 0,
+    InProgress = 1,
+    Completed = 2,
+    OnHold = 3,
+    Cancelled = 4,
+    Failed = 5
+}

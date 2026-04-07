@@ -6,6 +6,13 @@ using PuzKit3D.Modules.CustomDesign.Domain.Entities.CustomDesignRequests;
 using PuzKit3D.Modules.CustomDesign.Domain.Entities.CustomDesignRequirements;
 using PuzKit3D.Modules.CustomDesign.Domain.Entities.Replicas;
 using PuzKit3D.Modules.CustomDesign.Domain.Entities.RequirementCapabilityDetails;
+using PuzKit3D.Modules.CustomDesign.Domain.Entities.Proposals;
+using PuzKit3D.Modules.CustomDesign.Domain.Entities.Milestones;
+using PuzKit3D.Modules.CustomDesign.Domain.Entities.Phases;
+using PuzKit3D.Modules.CustomDesign.Domain.Entities.MilestoneQuotations;
+using PuzKit3D.Modules.CustomDesign.Domain.Entities.MilestoneQuotationDetails;
+using PuzKit3D.Modules.CustomDesign.Domain.Entities.Workflows;
+using PuzKit3D.Modules.CustomDesign.Domain.Entities.ProductQuotations;
 using PuzKit3D.SharedKernel.Domain;
 using PuzKit3D.SharedKernel.Domain.Results;
 using PuzKit3D.SharedKernel.Infrastructure.Data;
@@ -31,6 +38,13 @@ public sealed class CustomDesignDbContext : DbContext, ICustomDesignUnitOfWork
     public DbSet<AssemblyMethodReplica> AssemblyMethodReplicas => Set<AssemblyMethodReplica>();
     public DbSet<MaterialReplica> MaterialReplicas => Set<MaterialReplica>();
     public DbSet<CapabilityReplica> CapabilityReplicas => Set<CapabilityReplica>();
+    public DbSet<Proposal> Proposals => Set<Proposal>();
+    public DbSet<Milestone> Milestones => Set<Milestone>();
+    public DbSet<Phase> Phases => Set<Phase>();
+    public DbSet<MilestoneQuotation> MilestoneQuotations => Set<MilestoneQuotation>();
+    public DbSet<MilestoneQuotationDetail> MilestoneQuotationDetails => Set<MilestoneQuotationDetail>();
+    public DbSet<Workflow> Workflows => Set<Workflow>();
+    public DbSet<ProductQuotation> ProductQuotations => Set<ProductQuotation>();
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
