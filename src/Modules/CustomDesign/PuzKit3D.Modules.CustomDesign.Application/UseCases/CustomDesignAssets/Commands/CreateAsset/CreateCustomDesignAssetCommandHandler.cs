@@ -106,7 +106,7 @@ internal sealed class CreateCustomDesignAssetCommandHandler : ICommandTHandler<C
             await _assetRepository.AddAsync(asset, cancellationToken);
 
             return Result.Success(assetId);
-        });
+        },cancellationToken);
     }
 }
 

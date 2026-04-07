@@ -5,7 +5,7 @@ using PuzKit3D.Modules.CustomDesign.Domain.Entities.CustomDesignAssets;
 using PuzKit3D.Modules.CustomDesign.Domain.Entities.CustomDesignRequests.DomainEvents;
 using PuzKit3D.SharedKernel.Application.Queue;
 
-namespace PuzKit3D.Modules.CustomDesign.Application.DomainEventHandlers;
+namespace PuzKit3D.Modules.CustomDesign.Application.DomainEventHandlers.CustomDesignRequests;
 
 internal sealed class CustomDesignRequestApprovedDomainEventHandler
     : INotificationHandler<CustomDesignRequestApprovedDomainEvent>

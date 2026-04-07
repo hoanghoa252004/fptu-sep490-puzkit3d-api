@@ -6,7 +6,7 @@ using PuzKit3D.SharedKernel.Domain;
 
 namespace PuzKit3D.Modules.CustomDesign.Domain.Entities.CustomDesignAssets;
 
-public sealed class CustomDesignAsset : Entity<CustomDesignAssetId>
+public sealed class CustomDesignAsset : AggregateRoot<CustomDesignAssetId>
 {
     public string Code { get; private set; } = null!;
     public CustomDesignRequestId CustomDesignRequestId { get; private set; }

@@ -5,7 +5,7 @@ using PuzKit3D.Modules.CustomDesign.Domain.Entities.CustomDesignRequests;
 
 namespace PuzKit3D.Modules.CustomDesign.Domain.Entities.CustomDesignRequirements;
 
-public sealed class CustomDesignRequirement : Entity<CustomDesignRequirementId>
+public sealed class CustomDesignRequirement : AggregateRoot<CustomDesignRequirementId>
 {
     public string Code { get; private set; } = null!;
     public Guid TopicId { get; private set; }

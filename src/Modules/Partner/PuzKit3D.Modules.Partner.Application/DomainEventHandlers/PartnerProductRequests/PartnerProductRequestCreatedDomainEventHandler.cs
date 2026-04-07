@@ -3,7 +3,7 @@ using PuzKit3D.Contract.Partner.PartnerProductRequests;
 using PuzKit3D.Modules.Partner.Domain.Entities.PartnerProductRequests.DomainEvents;
 using PuzKit3D.SharedKernel.Application.Event;
 
-namespace PuzKit3D.Modules.Partner.Application.DomainEventHandlers.PartnerProductRequest;
+namespace PuzKit3D.Modules.Partner.Application.DomainEventHandlers.PartnerProductRequests;
 
 internal sealed class PartnerProductRequestCreatedDomainEventHandler
     : INotificationHandler<PartnerProductRequestCreatedDomainEvent>

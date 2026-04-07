@@ -6,7 +6,7 @@ using PuzKit3D.Modules.CustomDesign.Domain.Entities.CustomDesignRequests.DomainE
 
 namespace PuzKit3D.Modules.CustomDesign.Domain.Entities.CustomDesignRequests;
 
-public sealed class CustomDesignRequest : Entity<CustomDesignRequestId>
+public sealed class CustomDesignRequest : AggregateRoot<CustomDesignRequestId>
 {
     public string Code { get; private set; } = null!;
     public Guid CustomerId { get; private set; }
