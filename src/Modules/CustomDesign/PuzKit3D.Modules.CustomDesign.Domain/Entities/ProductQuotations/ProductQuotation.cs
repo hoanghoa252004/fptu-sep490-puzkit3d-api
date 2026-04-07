@@ -1,12 +1,12 @@
+using PuzKit3D.Modules.CustomDesign.Domain.Entities.Proposals;
 using PuzKit3D.SharedKernel.Domain;
 using PuzKit3D.SharedKernel.Domain.Results;
-using PuzKit3D.Modules.CustomDesign.Domain.Entities.Proposals;
 
 namespace PuzKit3D.Modules.CustomDesign.Domain.Entities.ProductQuotations;
 
 public sealed class ProductQuotation : AggregateRoot<ProductQuotationId>
 {
-    public ProposalId ProposalId { get; private set; }
+    public ProposalId ProposalId { get; private set; } = null!;
     public string Code { get; private set; } = null!;
     public decimal Volume { get; private set; }
     public Guid MaterialId { get; private set; }
@@ -17,8 +17,6 @@ public sealed class ProductQuotation : AggregateRoot<ProductQuotationId>
     public decimal TotalAmount { get; private set; }
     public DateTime CreatedAt { get; private set; }
     public DateTime UpdatedAt { get; private set; }
-
-    // Navigation properties
     public Proposal? Proposal { get; private set; }
 
     private ProductQuotation(
@@ -105,7 +103,13 @@ public sealed class ProductQuotation : AggregateRoot<ProductQuotationId>
         return Result.Success(productQuotation);
     }
 
-    public Result Update(decimal? volume = null, decimal? materialBasePrice = null, decimal? baseAmount = null, decimal? weightPercent = null, decimal? weightAmount = null, decimal? totalAmount = null)
+    public Result Update(
+        decimal? volume = null,
+        decimal? materialBasePrice = null,
+        decimal? baseAmount = null,
+        decimal? weightPercent = null,
+        decimal? weightAmount = null,
+        decimal? totalAmount = null)
     {
         if (volume.HasValue)
         {

@@ -1,4 +1,5 @@
 using PuzKit3D.SharedKernel.Domain.Errors;
+using System;
 
 namespace PuzKit3D.Modules.CustomDesign.Domain.Entities.Workflows;
 
@@ -31,6 +32,10 @@ public static class WorkflowError
     public static Error CannotCancelWorkflow() => Error.Conflict(
         "Workflow.CannotCancelWorkflow",
         "Workflow cannot be cancelled in its current state.");
+
+    public static Error InvalidStatusTransition() => Error.Conflict(
+        "Workflow.InvalidStatusTransition",
+        "The status transition is not allowed.");
 
     public static Error NotFound(Guid id) => Error.NotFound(
         "Workflow.NotFound",

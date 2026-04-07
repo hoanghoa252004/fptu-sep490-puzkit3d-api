@@ -1,5 +1,5 @@
-using PuzKit3D.Modules.CustomDesign.Domain.Entities.Proposals;
 using PuzKit3D.Modules.CustomDesign.Domain.Entities.Phases;
+using PuzKit3D.Modules.CustomDesign.Domain.Entities.Proposals;
 using PuzKit3D.SharedKernel.Domain;
 using PuzKit3D.SharedKernel.Domain.Results;
 
@@ -63,79 +63,80 @@ public sealed class Workflow : AggregateRoot<WorkflowId>
             null,
             description,
             null,
-            WorkflowStatus.NotStarted,
+            WorkflowStatus.Draft,
             timestamp);
 
         return Result.Success(workflow);
     }
 
+    public Result UpdateStatus(WorkflowStatus newStatus)
+    {
+        if (Status == newStatus)
+            return Result.Failure(WorkflowError.InvalidStatusTransition());
+
+        if (!WorkflowStatusTransition.IsValidTransition(Status, newStatus))
+            return Result.Failure(WorkflowError.InvalidStatusTransition());
+
+        Status = newStatus;
+        UpdatedAt = DateTime.UtcNow;
+
+        // Set EndDate when workflow is completed or cancelled
+        if (newStatus == WorkflowStatus.Completed ||
+            newStatus == WorkflowStatus.CancelledByCustomer ||
+            newStatus == WorkflowStatus.CancelledByStaff ||
+            newStatus == WorkflowStatus.RejectedByCustomer)
+        {
+            EndDate = DateTime.UtcNow;
+        }
+
+        return Result.Success();
+    }
+
     public Result Start()
     {
-        if (Status != WorkflowStatus.NotStarted)
-            return Result.Failure(WorkflowError.CannotStartWorkflow());
-
-        Status = WorkflowStatus.InProgress;
-        UpdatedAt = DateTime.UtcNow;
-        return Result.Success();
+        return UpdateStatus(WorkflowStatus.InProgress);
     }
 
     public Result Complete(string? outcome = null)
     {
-        if (Status != WorkflowStatus.InProgress && Status != WorkflowStatus.OnHold)
-            return Result.Failure(WorkflowError.CannotCompleteWorkflow());
-
-        Status = WorkflowStatus.Completed;
-        EndDate = DateTime.UtcNow;
-        Outcome = outcome;
-        UpdatedAt = DateTime.UtcNow;
-        return Result.Success();
+        if (outcome != null)
+        {
+            Outcome = outcome;
+        }
+        return UpdateStatus(WorkflowStatus.Completed);
     }
 
-    public Result PutOnHold()
+    public Result Ready()
     {
-        if (Status != WorkflowStatus.InProgress)
-            return Result.Failure(WorkflowError.CannotPutOnHold());
-
-        Status = WorkflowStatus.OnHold;
-        UpdatedAt = DateTime.UtcNow;
-        return Result.Success();
+        return UpdateStatus(WorkflowStatus.ReadyToStart);
     }
 
-    public Result Resume()
+    public Result MarkAsDone(string? outcome = null)
     {
-        if (Status != WorkflowStatus.OnHold)
-            return Result.Failure(WorkflowError.CannotResumeWorkflow());
-
-        Status = WorkflowStatus.InProgress;
-        UpdatedAt = DateTime.UtcNow;
-        return Result.Success();
+        if (outcome != null)
+        {
+            Outcome = outcome;
+        }
+        return UpdateStatus(WorkflowStatus.Done);
     }
 
-    public Result Fail(string? outcome = null)
+    public Result RejectByCustomer()
     {
-        if (Status == WorkflowStatus.Completed || Status == WorkflowStatus.Cancelled || Status == WorkflowStatus.Failed)
-            return Result.Failure(WorkflowError.CannotFailWorkflow());
-
-        Status = WorkflowStatus.Failed;
-        EndDate = DateTime.UtcNow;
-        Outcome = outcome;
-        UpdatedAt = DateTime.UtcNow;
-        return Result.Success();
+        return UpdateStatus(WorkflowStatus.RejectedByCustomer);
     }
 
-    public Result Cancel()
+    public Result CancelByStaff()
     {
-        if (Status == WorkflowStatus.Completed || Status == WorkflowStatus.Cancelled)
-            return Result.Failure(WorkflowError.CannotCancelWorkflow());
+        return UpdateStatus(WorkflowStatus.CancelledByStaff);
+    }
 
-        Status = WorkflowStatus.Cancelled;
-        EndDate = DateTime.UtcNow;
-        UpdatedAt = DateTime.UtcNow;
-        return Result.Success();
+    public Result CancelByCustomer()
+    {
+        return UpdateStatus(WorkflowStatus.CancelledByCustomer);
     }
 
     public Result Update(
-        string? description = null, 
+        string? description = null,
         string? outcome = null)
     {
         if (description != null)

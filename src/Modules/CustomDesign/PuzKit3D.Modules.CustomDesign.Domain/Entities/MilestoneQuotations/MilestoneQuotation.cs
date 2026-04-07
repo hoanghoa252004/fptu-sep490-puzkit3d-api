@@ -1,21 +1,20 @@
+using PuzKit3D.Modules.CustomDesign.Domain.Entities.MilestoneQuotationDetails;
+using PuzKit3D.Modules.CustomDesign.Domain.Entities.Proposals;
 using PuzKit3D.SharedKernel.Domain;
 using PuzKit3D.SharedKernel.Domain.Results;
-using PuzKit3D.Modules.CustomDesign.Domain.Entities;
-using PuzKit3D.Modules.CustomDesign.Domain.Entities.Proposals;
 
 namespace PuzKit3D.Modules.CustomDesign.Domain.Entities.MilestoneQuotations;
 
 public sealed class MilestoneQuotation : AggregateRoot<MilestoneQuotationId>
 {
-    public ProposalId ProposalId { get; private set; }
+    public ProposalId ProposalId { get; private set; } = null!;
     public string Code { get; private set; } = null!;
     public decimal TotalAmount { get; private set; }
     public DateTime CreatedAt { get; private set; }
     public DateTime UpdatedAt { get; private set; }
 
-    // Navigation property (private backing field with read-only collection)
-    private readonly List<MilestoneQuotationDetails.MilestoneQuotationDetail> _details = new();
-    public IReadOnlyList<MilestoneQuotationDetails.MilestoneQuotationDetail> Details => _details;
+    private readonly List<MilestoneQuotationDetail> _details = new();
+    public IReadOnlyList<MilestoneQuotationDetail> Details => _details;
 
     private MilestoneQuotation(
         MilestoneQuotationId id,

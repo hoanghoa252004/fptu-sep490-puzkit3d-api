@@ -1,15 +1,14 @@
-using PuzKit3D.SharedKernel.Domain;
-using PuzKit3D.SharedKernel.Domain.Results;
-using PuzKit3D.Modules.CustomDesign.Domain.Entities.Proposals;
 using PuzKit3D.Modules.CustomDesign.Domain.Entities.MilestoneQuotations;
 using PuzKit3D.Modules.CustomDesign.Domain.Entities.Milestones;
+using PuzKit3D.SharedKernel.Domain;
+using PuzKit3D.SharedKernel.Domain.Results;
 
 namespace PuzKit3D.Modules.CustomDesign.Domain.Entities.MilestoneQuotationDetails;
 
 public sealed class MilestoneQuotationDetail : AggregateRoot<MilestoneQuotationDetailId>
 {
-    public MilestoneQuotationId MilestoneQuotationId { get; private set; }
-    public MilestoneId MilestoneId { get; private set; }
+    public MilestoneQuotationId MilestoneQuotationId { get; private set; } = null!;
+    public MilestoneId MilestoneId { get; private set; } = null!;
     public decimal LaborCost { get; private set; }
     public decimal WeightPercent { get; private set; }
     public decimal WeightAmount { get; private set; }

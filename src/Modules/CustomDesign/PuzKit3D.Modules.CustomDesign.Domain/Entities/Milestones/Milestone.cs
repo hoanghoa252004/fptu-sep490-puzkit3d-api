@@ -1,7 +1,6 @@
 using PuzKit3D.Modules.CustomDesign.Domain.Entities.Phases;
 using PuzKit3D.SharedKernel.Domain;
 using PuzKit3D.SharedKernel.Domain.Results;
-
 namespace PuzKit3D.Modules.CustomDesign.Domain.Entities.Milestones;
 
 public sealed class Milestone : AggregateRoot<MilestoneId>
@@ -13,7 +12,6 @@ public sealed class Milestone : AggregateRoot<MilestoneId>
     public DateTime CreatedAt { get; private set; }
     public DateTime UpdatedAt { get; private set; }
 
-    // Navigation property (private backing field with read-only collection)
     private readonly List<Phase> _phases = new();
     public IReadOnlyList<Phase> Phases => _phases;
 

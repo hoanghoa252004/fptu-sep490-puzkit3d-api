@@ -1,16 +1,15 @@
-using PuzKit3D.SharedKernel.Domain;
-using PuzKit3D.SharedKernel.Domain.Results;
-using PuzKit3D.Modules.CustomDesign.Domain.Entities;
 using PuzKit3D.Modules.CustomDesign.Domain.Entities.CustomDesignRequests;
 using PuzKit3D.Modules.CustomDesign.Domain.Entities.MilestoneQuotations;
 using PuzKit3D.Modules.CustomDesign.Domain.Entities.ProductQuotations;
 using PuzKit3D.Modules.CustomDesign.Domain.Entities.Workflows;
+using PuzKit3D.SharedKernel.Domain;
+using PuzKit3D.SharedKernel.Domain.Results;
 
 namespace PuzKit3D.Modules.CustomDesign.Domain.Entities.Proposals;
 
 public sealed class Proposal : AggregateRoot<ProposalId>
 {
-    public CustomDesignRequestId RequestId { get; private set; }
+    public CustomDesignRequestId RequestId { get; private set; } = null!;
     public string Code { get; private set; } = null!;
     public decimal LaborCost { get; private set; }
     public decimal ProductCost { get; private set; }
@@ -23,7 +22,6 @@ public sealed class Proposal : AggregateRoot<ProposalId>
     public DateTime CreatedAt { get; private set; }
     public DateTime UpdatedAt { get; private set; }
 
-    // Navigation properties (private backing fields with read-only collections)
     private readonly List<MilestoneQuotation> _milestoneQuotations = new();
     public IReadOnlyList<MilestoneQuotation> MilestoneQuotations => _milestoneQuotations;
 
@@ -103,56 +101,60 @@ public sealed class Proposal : AggregateRoot<ProposalId>
         return Result.Success(proposal);
     }
 
+    public Result UpdateStatus(ProposalStatus newStatus)
+    {
+        if (Status == newStatus)
+            return Result.Failure(ProposalError.InvalidStatusTransition());
+
+        if (!ProposalStatusTransition.IsValidTransition(Status, newStatus))
+            return Result.Failure(ProposalError.InvalidStatusTransition());
+
+        var oldStatus = Status;
+        Status = newStatus;
+        UpdatedAt = DateTime.UtcNow;
+
+        // Handle approval timestamps
+        if (newStatus == ProposalStatus.ApprovedByManager)
+        {
+            ManagerApprovedAt = DateTime.UtcNow;
+        }
+
+        if (newStatus == ProposalStatus.ApprovedByCustomer)
+        {
+            CustomerApprovedAt = DateTime.UtcNow;
+        }
+
+        return Result.Success();
+    }
+
     public Result ApproveByManager()
     {
-        if (Status != ProposalStatus.SubmittedToManager)
-            return Result.Failure(ProposalError.CannotApproveProposal());
-
-        Status = ProposalStatus.ManagerApproved;
-        ManagerApprovedAt = DateTime.UtcNow;
-        UpdatedAt = DateTime.UtcNow;
-        return Result.Success();
+        return UpdateStatus(ProposalStatus.ApprovedByManager);
     }
 
     public Result ApproveByCustomer()
     {
-        if (Status != ProposalStatus.SentToCustomer)
-            return Result.Failure(ProposalError.CannotApproveProposal());
-
-        Status = ProposalStatus.CustomerApproved;
-        CustomerApprovedAt = DateTime.UtcNow;
-        UpdatedAt = DateTime.UtcNow;
-        return Result.Success();
+        return UpdateStatus(ProposalStatus.ApprovedByCustomer);
     }
 
-    public Result RejectProposal()
+    public Result RejectByManager()
     {
-        if (Status == ProposalStatus.Rejected || Status == ProposalStatus.Cancelled)
-            return Result.Failure(ProposalError.CannotRejectProposal());
-
-        Status = ProposalStatus.Rejected;
-        UpdatedAt = DateTime.UtcNow;
-        return Result.Success();
+        return UpdateStatus(ProposalStatus.RejectedByManager);
     }
 
-    public Result SendToManager()
+    public Result RejectByCustomer()
     {
-        if (Status != ProposalStatus.Draft)
-            return Result.Failure(ProposalError.CannotSendProposal());
-
-        Status = ProposalStatus.SubmittedToManager;
-        UpdatedAt = DateTime.UtcNow;
-        return Result.Success();
+        return UpdateStatus(ProposalStatus.RejectedByCustomer);
     }
 
-    public Result SendToCustomer()
+    public Result Cancel()
     {
-        if (Status != ProposalStatus.ManagerApproved)
-            return Result.Failure(ProposalError.CannotSendProposal());
+        return UpdateStatus(ProposalStatus.Cancelled);
+    }
 
-        Status = ProposalStatus.SentToCustomer;
-        UpdatedAt = DateTime.UtcNow;
-        return Result.Success();
+    public Result Expire()
+    {
+        return UpdateStatus(ProposalStatus.Expired);
     }
 
     public Result Update(decimal? laborCost = null, decimal? productCost = null, decimal? totalWeightPercent = null, decimal? totalAmount = null, string? note = null)

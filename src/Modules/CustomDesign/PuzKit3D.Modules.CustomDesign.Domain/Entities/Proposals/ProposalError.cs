@@ -1,4 +1,5 @@
 using PuzKit3D.SharedKernel.Domain.Errors;
+using System;
 
 namespace PuzKit3D.Modules.CustomDesign.Domain.Entities.Proposals;
 
@@ -39,6 +40,10 @@ public static class ProposalError
     public static Error CannotUpdateProposal() => Error.Conflict(
         "Proposal.CannotUpdateProposal",
         "Proposal can only be updated when in Draft status.");
+
+    public static Error InvalidStatusTransition() => Error.Conflict(
+        "Proposal.InvalidStatusTransition",
+        "The status transition is not allowed.");
 
     public static Error NotFound(Guid id) => Error.NotFound(
         "Proposal.NotFound",
