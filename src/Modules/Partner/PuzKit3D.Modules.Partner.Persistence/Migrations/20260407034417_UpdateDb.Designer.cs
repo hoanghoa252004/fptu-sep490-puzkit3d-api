@@ -12,8 +12,8 @@ using PuzKit3D.Modules.Partner.Persistence;
 namespace PuzKit3D.Modules.Partner.Persistence.Migrations
 {
     [DbContext(typeof(PartnerDbContext))]
-    [Migration("20260406123905_InitModule")]
-    partial class InitModule
+    [Migration("20260407034417_UpdateDb")]
+    partial class UpdateDb
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -161,6 +161,10 @@ namespace PuzKit3D.Modules.Partner.Persistence.Migrations
                         .HasColumnType("boolean")
                         .HasDefaultValue(false)
                         .HasColumnName("is_paid");
+
+                    b.Property<DateTime?>("MustCompleteBefore")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("must_complete_before");
 
                     b.Property<DateTime?>("PaidAt")
                         .HasColumnType("timestamp with time zone")

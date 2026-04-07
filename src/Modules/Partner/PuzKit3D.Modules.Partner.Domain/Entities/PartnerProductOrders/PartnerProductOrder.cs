@@ -31,6 +31,7 @@ public class PartnerProductOrder : AggregateRoot<PartnerProductOrderId>
     public DateTime? PaidAt { get; private set; }
     private readonly List<PartnerProductOrderDetail> _details = new();
     public IReadOnlyList<PartnerProductOrderDetail> Details => _details;
+    public DateTime? MustCompleteBefore { get; private set; }
 
     private PartnerProductOrder(
         PartnerProductOrderId id,
@@ -315,5 +316,12 @@ public class PartnerProductOrder : AggregateRoot<PartnerProductOrderId>
             CustomerId,
             Status,
             UpdatedAt));
+    }
+
+    public Result SetMustCompleteBefore(DateTime mustCompleteBefore)
+    {
+        MustCompleteBefore = mustCompleteBefore;
+        UpdatedAt = DateTime.UtcNow;
+        return Result.Success();
     }
 }

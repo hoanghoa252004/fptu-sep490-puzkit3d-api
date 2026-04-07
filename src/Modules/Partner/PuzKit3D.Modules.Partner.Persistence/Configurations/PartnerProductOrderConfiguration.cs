@@ -108,6 +108,8 @@ internal sealed class PartnerProductOrderConfiguration : IEntityTypeConfiguratio
         builder.HasIndex(o => o.PartnerProductQuotationId)
             .IsUnique();
 
+        builder.Property(o => o.MustCompleteBefore);
+
         builder.HasOne<PartnerProductQuotation>()
             .WithMany()
             .HasForeignKey(o => o.PartnerProductQuotationId)

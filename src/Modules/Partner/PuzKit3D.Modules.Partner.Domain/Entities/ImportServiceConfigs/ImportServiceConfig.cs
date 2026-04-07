@@ -103,7 +103,7 @@ public class ImportServiceConfig : AggregateRoot<ImportServiceConfigId>
             return Result.Failure(ImportServiceConfigError.EmptyCountryName());
 
         // Import Tax Percentage
-        if (importTaxPercentage > 0 || importTaxPercentage <= 1)
+        if (importTaxPercentage <= 0 && importTaxPercentage > 1)
             return Result.Failure<ImportServiceConfig>(ImportServiceConfigError.InvalidImportTaxPercentage());
 
         // Estimated Delivery Days
