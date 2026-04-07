@@ -39,6 +39,7 @@ internal sealed class GetAllPartnerProductOrdersQueryHandler
         var dtos = paginatedOrders
             .Select(o => (object)new GetAllPartnerProductOrdersResponseDto(
                 o.Id.Value,
+                o.PartnerProductQuotationId.Value,
                 o.Code,
                 o.CustomerId,
                 o.CustomerName,

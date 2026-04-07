@@ -30,6 +30,7 @@ internal sealed class GetPartnerProductOrderByIdQueryHandler
 
         var dto = new GetPartnerProductOrderByIdResponseDto(
             order.Id.Value,
+            order.PartnerProductQuotationId.Value,
             order.Code,
             order.CustomerId,
             order.CustomerName,

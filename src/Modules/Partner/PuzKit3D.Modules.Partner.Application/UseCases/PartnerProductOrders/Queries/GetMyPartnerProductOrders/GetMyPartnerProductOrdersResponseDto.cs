@@ -2,6 +2,7 @@ namespace PuzKit3D.Modules.Partner.Application.UseCases.PartnerProductOrders.Que
 
 public sealed record GetMyPartnerProductOrdersResponseDto(
     Guid Id,
+    Guid PartnerProductQuotationId,
     string Code,
     decimal SubTotalAmount,
     decimal ShippingFee,
