@@ -77,6 +77,11 @@ internal sealed class CustomDesignAssetConfiguration : IEntityTypeConfiguration<
             .IsUnique()
             .HasDatabaseName("UQ___custom_design_asset___code");
 
+        builder.HasOne(a => a.CustomDesignRequest)
+            .WithMany(r => r.CustomDesignAssets)
+            .HasForeignKey(a => a.CustomDesignRequestId)
+            .OnDelete(Microsoft.EntityFrameworkCore.DeleteBehavior.Cascade);
+
         builder.Ignore(a => a.DomainEvents);
     }
 }

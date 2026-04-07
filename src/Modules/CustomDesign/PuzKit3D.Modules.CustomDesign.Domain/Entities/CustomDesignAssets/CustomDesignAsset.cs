@@ -23,6 +23,9 @@ public sealed class CustomDesignAsset : Entity<CustomDesignAssetId>
     public DateTime CreatedAt { get; private set; }
     public DateTime UpdatedAt { get; private set; }
 
+    // Navigation property
+    public CustomDesignRequest? CustomDesignRequest { get; private set; }
+
     private CustomDesignAsset(
         CustomDesignAssetId id,
         string code,

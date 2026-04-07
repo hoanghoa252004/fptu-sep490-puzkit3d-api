@@ -1,6 +1,7 @@
 using MediatR;
 using PuzKit3D.SharedKernel.Domain;
 using PuzKit3D.SharedKernel.Domain.Results;
+using PuzKit3D.Modules.CustomDesign.Domain.Entities.CustomDesignRequests;
 
 namespace PuzKit3D.Modules.CustomDesign.Domain.Entities.CustomDesignRequirements;
 
@@ -16,6 +17,9 @@ public sealed class CustomDesignRequirement : Entity<CustomDesignRequirementId>
     public bool IsActive { get; private set; }
     public DateTime CreatedAt { get; private set; }
     public DateTime UpdatedAt { get; private set; }
+
+    // Navigation property
+    public ICollection<CustomDesignRequest> CustomDesignRequests { get; private set; } = new List<CustomDesignRequest>();
 
     private CustomDesignRequirement(
         CustomDesignRequirementId id,
