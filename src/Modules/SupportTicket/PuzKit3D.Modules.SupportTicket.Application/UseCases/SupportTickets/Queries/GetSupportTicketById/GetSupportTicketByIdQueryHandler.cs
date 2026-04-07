@@ -1,6 +1,7 @@
 using MediatR;
 using PuzKit3D.Modules.SupportTicket.Application.Repositories;
 using PuzKit3D.Modules.SupportTicket.Domain.Entities.SupportTickets;
+using PuzKit3D.SharedKernel.Application.Media;
 using PuzKit3D.SharedKernel.Application.Message.Query;
 using PuzKit3D.SharedKernel.Domain.Results;
 
@@ -10,10 +11,12 @@ internal sealed class GetSupportTicketByIdQueryHandler
     : IQueryHandler<GetSupportTicketByIdQuery, SupportTicketDto>
 {
     private readonly ISupportTicketRepository _repository;
+    private readonly IMediaAssetService _mediaAssetService;
 
-    public GetSupportTicketByIdQueryHandler(ISupportTicketRepository repository)
+    public GetSupportTicketByIdQueryHandler(ISupportTicketRepository repository, IMediaAssetService mediaAssetService)
     {
         _repository = repository;
+        _mediaAssetService = mediaAssetService;
     }
 
     public async Task<ResultT<SupportTicketDto>> Handle(
@@ -46,7 +49,7 @@ internal sealed class GetSupportTicketByIdQueryHandler
             ticket.Type.ToString(),
             ticket.Status.ToString(),
             ticket.Reason,
-            ticket.Proof,
+            _mediaAssetService.BuildAssetUrl(ticket.Proof),
             ticket.CreatedAt,
             ticket.UpdatedAt,
             details);
