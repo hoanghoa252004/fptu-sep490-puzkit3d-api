@@ -48,6 +48,7 @@ internal sealed class PartnerProductOrderRepository : IPartnerProductOrderReposi
         CancellationToken cancellationToken = default)
     {
         return await _context.PartnerProductOrders
+            .Include(o => o.Details)
             .FirstOrDefaultAsync(o => o.Id == id, cancellationToken);
     }
 

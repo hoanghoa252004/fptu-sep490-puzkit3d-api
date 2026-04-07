@@ -28,6 +28,16 @@ internal sealed class GetPartnerProductOrderByIdQueryHandler
             return Result.Failure<object>(PartnerProductOrderError.NotFound(request.Id));
         }
 
+        var details = order.Details
+            .Select(d => new PartnerProductOrderDetailDto(
+                d.Id.Value,
+                d.PartnerProductId.Value,
+                d.PartnerProductName,
+                d.UnitPrice,
+                d.Quantity,
+                d.TotalAmount))
+            .ToList();
+
         var dto = new GetPartnerProductOrderByIdResponseDto(
             order.Id.Value,
             order.PartnerProductQuotationId.Value,
@@ -48,7 +58,8 @@ internal sealed class GetPartnerProductOrderByIdQueryHandler
             order.IsPaid,
             order.CreatedAt,
             order.UpdatedAt,
-            order.PaidAt);
+            order.PaidAt,
+            details);
 
         return Result.Success<object>(dto);
     }
