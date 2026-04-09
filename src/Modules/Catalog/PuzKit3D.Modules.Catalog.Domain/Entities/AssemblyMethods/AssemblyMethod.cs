@@ -129,6 +129,7 @@ public class AssemblyMethod : AggregateRoot<AssemblyMethodId>
             Id.Value,
             Name,
             Slug,
+            FactorPercentage,
             Description,
             UpdatedAt));
 

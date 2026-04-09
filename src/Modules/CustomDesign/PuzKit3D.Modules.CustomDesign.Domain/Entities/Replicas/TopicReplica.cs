@@ -8,6 +8,7 @@ public sealed class TopicReplica : Entity<Guid>
     public string? Description { get; private set; }
     public string Slug { get; private set; } = null!;
     public Guid? ParentId { get; private set; }
+    public decimal FactorPercentage { get; private set; }
     public bool IsActive { get; private set; }
     public DateTime CreatedAt { get; private set; }
     public DateTime UpdatedAt { get; private set; }
@@ -16,8 +17,9 @@ public sealed class TopicReplica : Entity<Guid>
         Guid id,
         string name,
         string slug,
-        string? description,
         Guid? parentId,
+        decimal factorPercentage,
+        string? description,
         bool isActive,
         DateTime createdAt,
         DateTime updatedAt) : base(id)
@@ -26,6 +28,7 @@ public sealed class TopicReplica : Entity<Guid>
         Slug = slug;
         Description = description;
         ParentId = parentId;
+        FactorPercentage = factorPercentage;
         IsActive = isActive;
         CreatedAt = createdAt;
         UpdatedAt = updatedAt;
@@ -39,8 +42,9 @@ public sealed class TopicReplica : Entity<Guid>
         Guid id,
         string name,
         string slug,
-        string? description,
         Guid? parentId,
+        decimal factorPercentage,
+        string? description,
         bool isActive,
         DateTime createdAt,
         DateTime updatedAt)
@@ -49,8 +53,9 @@ public sealed class TopicReplica : Entity<Guid>
             id,
             name,
             slug,
-            description,
             parentId,
+            factorPercentage,
+            description,
             isActive,
             createdAt,
             updatedAt);
@@ -59,8 +64,9 @@ public sealed class TopicReplica : Entity<Guid>
     public void Update(
         string name,
         string slug,
-        string? description,
         Guid? parentId,
+        decimal factorPercentage,
+        string? description,
         bool isActive,
         DateTime updatedAt)
     {
@@ -68,6 +74,7 @@ public sealed class TopicReplica : Entity<Guid>
         Slug = slug;
         Description = description;
         ParentId = parentId;
+        FactorPercentage = factorPercentage;
         IsActive = isActive;
         UpdatedAt = updatedAt;
     }

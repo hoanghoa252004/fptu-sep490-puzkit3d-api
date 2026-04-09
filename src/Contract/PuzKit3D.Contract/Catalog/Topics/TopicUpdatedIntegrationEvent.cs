@@ -9,6 +9,7 @@ public sealed record TopicUpdatedIntegrationEvent(
     string Name,
     string Slug,
     Guid? ParentId,
+    decimal FactorPercentage,
     string? Description,
     DateTime UpdatedAt,
     bool IsActive) : IntegrationEvent(EventId, OccurredOn);

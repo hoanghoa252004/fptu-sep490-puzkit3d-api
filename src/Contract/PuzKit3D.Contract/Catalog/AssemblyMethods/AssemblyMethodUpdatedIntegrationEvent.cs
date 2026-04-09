@@ -8,5 +8,6 @@ public sealed record AssemblyMethodUpdatedIntegrationEvent(
     Guid AssemblyMethodId,
     string Name,
     string Slug,
+    decimal FactorPercentage,
     string? Description,
     DateTime UpdatedAt) : IntegrationEvent(EventId, OccurredOn);

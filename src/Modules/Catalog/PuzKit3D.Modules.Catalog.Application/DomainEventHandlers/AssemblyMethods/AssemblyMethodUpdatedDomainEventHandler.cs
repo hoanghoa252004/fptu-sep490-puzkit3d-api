@@ -23,6 +23,7 @@ internal sealed class AssemblyMethodUpdatedDomainEventHandler
             notification.AssemblyMethodId,
             notification.Name,
             notification.Slug,
+            notification.FactorPercentage,
             notification.Description,
             notification.UpdatedAt);
 

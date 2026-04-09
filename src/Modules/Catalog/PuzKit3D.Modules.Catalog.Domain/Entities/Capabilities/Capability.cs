@@ -133,6 +133,7 @@ public class Capability : AggregateRoot<CapabilityId>
             Id.Value,
             Name,
             Slug,
+            FactorPercentage,
             Description,
             UpdatedAt));
 

@@ -8,5 +8,6 @@ public sealed record CapabilityUpdatedIntegrationEvent(
     Guid CapabilityId,
     string Name,
     string Slug,
+    decimal FactorPercentage,
     string? Description,
     DateTime UpdatedAt) : IntegrationEvent(EventId, OccurredOn);

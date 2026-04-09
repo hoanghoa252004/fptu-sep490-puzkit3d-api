@@ -31,6 +31,7 @@ public sealed class CustomDesignDbContext : DbContext, ICustomDesignUnitOfWork
     public DbSet<AssemblyMethodReplica> AssemblyMethodReplicas => Set<AssemblyMethodReplica>();
     public DbSet<MaterialReplica> MaterialReplicas => Set<MaterialReplica>();
     public DbSet<CapabilityReplica> CapabilityReplicas => Set<CapabilityReplica>();
+    public DbSet<DriveReplica> DriveReplicas => Set<DriveReplica>();
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -40,7 +41,7 @@ public sealed class CustomDesignDbContext : DbContext, ICustomDesignUnitOfWork
 
         builder.ApplyConfigurationsFromAssembly(typeof(CustomDesignDbContext).Assembly);
 
-        Configurations.SeedData.CustomDesignSeedDataConfiguration.SeedReplicas(builder);
+        //Configurations.SeedData.CustomDesignSeedDataConfiguration.SeedReplicas(builder);
         Configurations.SeedData.CustomDesignSeedDataConfiguration.SeedCustomDesignRequirements(builder);
     }
 

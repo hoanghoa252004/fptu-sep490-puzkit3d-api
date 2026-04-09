@@ -6,5 +6,7 @@ public sealed record MaterialUpdatedDomainEvent(
     Guid MaterialId,
     string Name,
     string Slug,
+    decimal FactorPercentage,
+    decimal BasePrice,
     string? Description,
     DateTime UpdatedAt) : DomainEvent;

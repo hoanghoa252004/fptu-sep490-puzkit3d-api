@@ -43,6 +43,7 @@ public sealed class InStockDbContext : DbContext, IInStockUnitOfWork
     public DbSet<TopicReplica> TopicReplicas => Set<TopicReplica>();
     public DbSet<MaterialReplica> MaterialReplicas => Set<MaterialReplica>();
     public DbSet<CapabilityReplica> CapabilityReplicas => Set<CapabilityReplica>();
+    public DbSet<DriveReplica> DriveReplicas => Set<DriveReplica>();
 
     public DbSet<SupportTicketReplica> SupportTicketReplicas => Set<SupportTicketReplica>();
     public DbSet<SupportTicketDetailReplica> SupportTicketDetailReplicas => Set<SupportTicketDetailReplica>();
@@ -56,7 +57,7 @@ public sealed class InStockDbContext : DbContext, IInStockUnitOfWork
         builder.ApplyConfigurationsFromAssembly(typeof(InStockDbContext).Assembly);
 
         // Apply seed data
-        Configurations.SeedData.InstockSeedDataConfiguration.SeedReplicas(builder);
+        //Configurations.SeedData.InstockSeedDataConfiguration.SeedReplicas(builder);
         Configurations.SeedData.InstockSeedDataConfiguration.SeedPrices(builder);
         SeedInstockOrderConfigs(builder);
         Configurations.SeedData.InstockSeedDataConfiguration.SeedProducts(builder);

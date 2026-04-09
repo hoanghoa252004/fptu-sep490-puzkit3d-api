@@ -6,5 +6,6 @@ public sealed record CapabilityUpdatedDomainEvent(
     Guid CapabilityId,
     string Name,
     string Slug,
+    decimal FactorPercentage,
     string? Description,
     DateTime UpdatedAt) : DomainEvent;

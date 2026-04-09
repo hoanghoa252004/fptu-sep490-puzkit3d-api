@@ -142,6 +142,8 @@ public class Material : AggregateRoot<MaterialId>
             Id.Value,
             Name,
             Slug,
+            FactorPercentage,
+            BasePrice,
             Description,
             UpdatedAt));
 

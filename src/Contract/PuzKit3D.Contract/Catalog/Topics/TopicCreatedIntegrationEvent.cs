@@ -9,6 +9,7 @@ public sealed record TopicCreatedIntegrationEvent(
     string Name,
     string Slug,
     Guid? ParentId,
+    decimal FactorPercentage,
     string? Description,
     bool IsActive,
     DateTime CreatedAt) : IntegrationEvent(EventId, OccurredOn);

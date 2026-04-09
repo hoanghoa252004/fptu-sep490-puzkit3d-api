@@ -31,8 +31,9 @@ internal sealed class TopicUpdatedIntegrationEventHandler
         replica.Update(
             @event.Name,
             @event.Slug,
-            @event.Description,
             @event.ParentId,
+            @event.FactorPercentage,
+            @event.Description,
             @event.IsActive, // Keep existing IsActive value
             @event.UpdatedAt);
 

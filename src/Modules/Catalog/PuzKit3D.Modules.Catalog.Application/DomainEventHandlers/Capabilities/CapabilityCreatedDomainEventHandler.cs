@@ -23,6 +23,7 @@ internal sealed class CapabilityCreatedDomainEventHandler
             notification.CapabilityId,
             notification.Name,
             notification.Slug,
+            notification.FactorPercentage,
             notification.Description,
             notification.IsActive,
             notification.CreatedAt);

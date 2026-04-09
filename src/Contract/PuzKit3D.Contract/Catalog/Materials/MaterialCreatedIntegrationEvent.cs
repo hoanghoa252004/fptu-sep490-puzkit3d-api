@@ -8,6 +8,8 @@ public sealed record MaterialCreatedIntegrationEvent(
     Guid MaterialId,
     string Name,
     string Slug,
+    decimal FactorPercentage,
+    decimal BasePrice,
     string? Description,
     bool IsActive,
     DateTime CreatedAt) : IntegrationEvent(EventId, OccurredOn);

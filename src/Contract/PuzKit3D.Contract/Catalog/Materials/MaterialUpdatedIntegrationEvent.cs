@@ -8,5 +8,7 @@ public sealed record MaterialUpdatedIntegrationEvent(
     Guid MaterialId,
     string Name,
     string Slug,
+    decimal FactorPercentage,
+    decimal BasePrice,
     string? Description,
     DateTime UpdatedAt) : IntegrationEvent(EventId, OccurredOn);

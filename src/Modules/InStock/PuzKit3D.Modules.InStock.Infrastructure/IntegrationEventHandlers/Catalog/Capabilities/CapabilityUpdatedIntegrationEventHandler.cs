@@ -31,6 +31,7 @@ internal sealed class CapabilityUpdatedIntegrationEventHandler
         replica.Update(
             @event.Name,
             @event.Slug,
+            @event.FactorPercentage,
             @event.Description,
             replica.IsActive, // Keep existing IsActive value
             @event.UpdatedAt);

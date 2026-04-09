@@ -33,6 +33,7 @@ internal sealed class AssemblyMethodCreatedIntegrationEventHandler
             @event.AssemblyMethodId,
             @event.Name,
             @event.Slug,
+            @event.FactorPercentage,
             @event.Description,
             @event.IsActive,
             @event.CreatedAt,

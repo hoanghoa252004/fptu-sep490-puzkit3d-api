@@ -33,6 +33,8 @@ internal sealed class MaterialCreatedIntegrationEventHandler
             @event.MaterialId,
             @event.Name,
             @event.Slug,
+            @event.FactorPercentage,
+            @event.BasePrice,
             @event.Description,
             @event.IsActive,
             @event.CreatedAt,
