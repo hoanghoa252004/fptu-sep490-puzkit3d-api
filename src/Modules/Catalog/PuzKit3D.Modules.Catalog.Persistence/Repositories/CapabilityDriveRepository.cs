@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using PuzKit3D.Modules.Catalog.Application.Repositories;
 using PuzKit3D.Modules.Catalog.Domain.Entities.CapabilityDrives;
+using PuzKit3D.Modules.Catalog.Domain.Entities.Capabilities;
+using PuzKit3D.Modules.Catalog.Domain.Entities.Drives;
 using System.Linq.Expressions;
 
 namespace PuzKit3D.Modules.Catalog.Persistence.Repositories;
@@ -15,11 +17,12 @@ internal sealed class CapabilityDriveRepository : ICapabilityDriveRepository
     }
 
     public async Task<CapabilityDrive?> GetByIdAsync(
-        CapabilityDriveId id,
+        CapabilityId capabilityId,
+        DriveId driveId,
         CancellationToken cancellationToken = default)
     {
         return await _context.CapabilityDrives
-            .FirstOrDefaultAsync(cd => cd.Id == id, cancellationToken);
+            .FirstOrDefaultAsync(cd => cd.CapabilityId == capabilityId && cd.DriveId == driveId, cancellationToken);
     }
 
     public async Task<IEnumerable<CapabilityDrive>> GetAllAsync(

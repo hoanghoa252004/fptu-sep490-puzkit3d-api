@@ -4,38 +4,24 @@ using PuzKit3D.Modules.Catalog.Domain.Entities.Drives;
 
 namespace PuzKit3D.Modules.Catalog.Domain.Entities.CapabilityDrives;
 
-public class CapabilityDrive : AggregateRoot<CapabilityDriveId>
+public class CapabilityDrive
 {
     public CapabilityId CapabilityId { get; private set; } = null!;
     public DriveId DriveId { get; private set; } = null!;
-    public int Quantity { get; private set; }
 
-    private CapabilityDrive(
-        CapabilityDriveId id,
-        CapabilityId capabilityId,
-        DriveId driveId,
-        int quantity) : base(id)
+    private CapabilityDrive(CapabilityId capabilityId, DriveId driveId)
     {
         CapabilityId = capabilityId;
         DriveId = driveId;
-        Quantity = quantity;
     }
 
-    private CapabilityDrive() : base()
+    private CapabilityDrive()
     {
     }
 
-    public static CapabilityDrive Create(
-        CapabilityId capabilityId,
-        DriveId driveId,
-        int quantity)
+    public static CapabilityDrive Create(CapabilityId capabilityId, DriveId driveId)
     {
-        var id = CapabilityDriveId.Create();
-        return new CapabilityDrive(id, capabilityId, driveId, quantity);
+        return new CapabilityDrive(capabilityId, driveId);
     }
 
-    public void UpdateQuantity(int quantity)
-    {
-        Quantity = quantity;
-    }
 }

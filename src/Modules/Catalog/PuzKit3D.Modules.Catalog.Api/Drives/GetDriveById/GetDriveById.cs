@@ -22,9 +22,7 @@ internal sealed class GetDriveById : IEndpoint
 
                 var result = await sender.Send(query, cancellationToken);
 
-                return result.Match(
-                    ok => Results.Ok(ok),
-                    err => Results.BadRequest(err));
+                return result.MatchOk();
             })
             .WithName("GetDriveById")
             .WithSummary("Get a drive by ID")

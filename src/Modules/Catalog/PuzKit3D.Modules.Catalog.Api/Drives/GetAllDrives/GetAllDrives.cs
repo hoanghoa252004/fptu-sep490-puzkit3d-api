@@ -21,9 +21,7 @@ internal sealed class GetAllDrives : IEndpoint
 
                 var result = await sender.Send(query, cancellationToken);
 
-                return result.Match(
-                    ok => Results.Ok(ok),
-                    err => Results.BadRequest(err));
+                return result.MatchOk();
             })
             .WithName("GetAllDrives")
             .WithSummary("Get all drives")

@@ -10,12 +10,7 @@ internal sealed class CapabilityDriveConfiguration : IEntityTypeConfiguration<Ca
 {
     public void Configure(EntityTypeBuilder<CapabilityDrive> builder)
     {
-        builder.HasKey(cd => cd.Id);
-
-        builder.Property(cd => cd.Id)
-            .HasConversion(
-                id => id.Value,
-                value => CapabilityDriveId.From(value));
+        builder.HasKey(cd => new { cd.CapabilityId, cd.DriveId });
 
         builder.Property(cd => cd.CapabilityId)
             .IsRequired()
@@ -28,8 +23,5 @@ internal sealed class CapabilityDriveConfiguration : IEntityTypeConfiguration<Ca
             .HasConversion(
                 id => id.Value,
                 value => DriveId.From(value));
-
-        builder.Property(cd => cd.Quantity)
-            .IsRequired();
     }
 }

@@ -48,10 +48,9 @@ CREATE TABLE "catalog"."capability" (
 );
 
 CREATE TABLE "catalog"."capability_drive" (
-  "id" uuid PRIMARY KEY,
   "capability_id" uuid NOT NULL,
   "drive_id" uuid NOT NULL,
-  "quantity" int NOT NULL
+  PRIMARY KEY ("capability_id", "drive_id")
 );
 
 CREATE TABLE "catalog"."drive" (
