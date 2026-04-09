@@ -33,11 +33,11 @@ internal sealed class CreateTopicCommandHandler : ICommandTHandler<CreateTopicCo
         return await _unitOfWork.ExecuteAsync(async () =>
         {
             // Create topic using factory method
-            // If ParentId is null, it's a root topic
             var topicResult = Topic.Create(
                 request.Name,
                 request.Slug,
                 request.ParentId.HasValue ? TopicId.From(request.ParentId.Value) : null,
+                request.FactorPercentage,
                 request.Description,
                 request.IsActive);
 

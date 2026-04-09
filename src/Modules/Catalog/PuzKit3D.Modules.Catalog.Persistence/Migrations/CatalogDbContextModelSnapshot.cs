@@ -37,6 +37,11 @@ namespace PuzKit3D.Modules.Catalog.Persistence.Migrations
                         .HasColumnType("text")
                         .HasColumnName("description");
 
+                    b.Property<decimal>("FactorPercentage")
+                        .HasPrecision(5, 4)
+                        .HasColumnType("numeric(5,4)")
+                        .HasColumnName("factor_percentage");
+
                     b.Property<bool>("IsActive")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("boolean")
@@ -67,58 +72,6 @@ namespace PuzKit3D.Modules.Catalog.Persistence.Migrations
                         .HasDatabaseName("ix_assembly_methods_slug");
 
                     b.ToTable("assembly_methods", "catalog");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("d1d1d1d1-d1d1-d1d1-d1d1-d1d1d1d1d1d1"),
-                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "Easy snap assembly without tools",
-                            IsActive = true,
-                            Name = "Snap-Fit",
-                            Slug = "snap-fit",
-                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
-                        },
-                        new
-                        {
-                            Id = new Guid("e2e2e2e2-e2e2-e2e2-e2e2-e2e2e2e2e2e2"),
-                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "Assembly using adhesive bonding",
-                            IsActive = true,
-                            Name = "Glue Assembly",
-                            Slug = "glue-assembly",
-                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
-                        },
-                        new
-                        {
-                            Id = new Guid("f3f3f3f3-f3f3-f3f3-f3f3-f3f3f3f3f3f3"),
-                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "Assembly using screws and bolts",
-                            IsActive = true,
-                            Name = "Screw Assembly",
-                            Slug = "screw-assembly",
-                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
-                        },
-                        new
-                        {
-                            Id = new Guid("a4a4a4a4-a4a4-a4a4-a4a4-a4a4a4a4a4a4"),
-                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "Assembly using tight fitting pieces",
-                            IsActive = true,
-                            Name = "Friction Fit",
-                            Slug = "friction-fit",
-                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
-                        },
-                        new
-                        {
-                            Id = new Guid("b5b5b5b5-b5b5-b5b5-b5b5-b5b5b5b5b5b5"),
-                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "Assembly using magnetic connections",
-                            IsActive = true,
-                            Name = "Magnetic Assembly",
-                            Slug = "magnetic-assembly",
-                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
-                        });
                 });
 
             modelBuilder.Entity("PuzKit3D.Modules.Catalog.Domain.Entities.Capabilities.Capability", b =>
@@ -134,6 +87,11 @@ namespace PuzKit3D.Modules.Catalog.Persistence.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("text")
                         .HasColumnName("description");
+
+                    b.Property<decimal>("FactorPercentage")
+                        .HasPrecision(5, 4)
+                        .HasColumnType("numeric(5,4)")
+                        .HasColumnName("factor_percentage");
 
                     b.Property<bool>("IsActive")
                         .ValueGeneratedOnAdd()
@@ -165,61 +123,82 @@ namespace PuzKit3D.Modules.Catalog.Persistence.Migrations
                         .HasDatabaseName("ix_capabilities_slug");
 
                     b.ToTable("capabilities", "catalog");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("e1e1e1e1-e1e1-e1e1-e1e1-e1e1e1e1e1e1"),
-                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "Static model for display only",
-                            IsActive = true,
-                            Name = "Static Display",
-                            Slug = "static-display",
-                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
-                        },
-                        new
-                        {
-                            Id = new Guid("f2f2f2f2-f2f2-f2f2-f2f2-f2f2f2f2f2f2"),
-                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "Model with electric motor-powered movement",
-                            IsActive = true,
-                            Name = "Move with Motor",
-                            Slug = "move-with-motor",
-                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
-                        },
-                        new
-                        {
-                            Id = new Guid("a3a3a3a3-a3a3-a3a3-a3a3-a3a3a3a3a3a3"),
-                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "Model operated by manual movement",
-                            IsActive = true,
-                            Name = "Manual Movement",
-                            Slug = "manual-movement",
-                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
-                        },
-                        new
-                        {
-                            Id = new Guid("b4b4b4b4-b4b4-b4b4-b4b4-b4b4b4b4b4b4"),
-                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "Model with LED lighting effects",
-                            IsActive = true,
-                            Name = "LED Light Feature",
-                            Slug = "led-light-feature",
-                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
-                        },
-                        new
-                        {
-                            Id = new Guid("c5c5c5c5-c5c5-c5c5-c5c5-c5c5c5c5c5c5"),
-                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "Model with musical features via rotating mechanism",
-                            IsActive = true,
-                            Name = "Musical Gear",
-                            Slug = "musical-gear",
-                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
-                        });
                 });
 
-            modelBuilder.Entity("PuzKit3D.Modules.Catalog.Domain.Entities.Materials.Material", b =>
+            modelBuilder.Entity("PuzKit3D.Modules.Catalog.Domain.Entities.CapabilityDrives.CapabilityDrive", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<Guid>("CapabilityId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("capability_id");
+
+                    b.Property<Guid>("DriveId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("drive_id");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("integer")
+                        .HasColumnName("quantity");
+
+                    b.HasKey("Id")
+                        .HasName("pk_capability_drives");
+
+                    b.HasIndex("CapabilityId")
+                        .HasDatabaseName("ix_capability_drives_capability_id");
+
+                    b.HasIndex("DriveId")
+                        .HasDatabaseName("ix_capability_drives_drive_id");
+
+                    b.ToTable("capability_drives", "catalog");
+                });
+
+            modelBuilder.Entity("PuzKit3D.Modules.Catalog.Domain.Entities.CapabilityMaterialAssemblies.CapabilityMaterialAssembly", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<Guid>("AssemblyId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("assembly_id");
+
+                    b.Property<Guid?>("AssemblyMethodId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("assembly_method_id");
+
+                    b.Property<Guid>("CapabilityId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("capability_id");
+
+                    b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(false)
+                        .HasColumnName("is_active");
+
+                    b.Property<Guid>("MaterialId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("material_id");
+
+                    b.HasKey("Id")
+                        .HasName("pk_capability_material_assemblies");
+
+                    b.HasIndex("AssemblyMethodId")
+                        .HasDatabaseName("ix_capability_material_assemblies_assembly_method_id");
+
+                    b.HasIndex("CapabilityId")
+                        .HasDatabaseName("ix_capability_material_assemblies_capability_id");
+
+                    b.HasIndex("MaterialId")
+                        .HasDatabaseName("ix_capability_material_assemblies_material_id");
+
+                    b.ToTable("capability_material_assemblies", "catalog");
+                });
+
+            modelBuilder.Entity("PuzKit3D.Modules.Catalog.Domain.Entities.Drives.Drive", b =>
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("uuid")
@@ -232,6 +211,130 @@ namespace PuzKit3D.Modules.Catalog.Persistence.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("text")
                         .HasColumnName("description");
+
+                    b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(false)
+                        .HasColumnName("is_active");
+
+                    b.Property<int?>("MinVolume")
+                        .HasColumnType("integer")
+                        .HasColumnName("min_volume");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("character varying(30)")
+                        .HasColumnName("name");
+
+                    b.Property<int?>("QuantityInStock")
+                        .HasColumnType("integer")
+                        .HasColumnName("quantity_in_stock");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("updated_at");
+
+                    b.HasKey("Id")
+                        .HasName("pk_drives");
+
+                    b.ToTable("drives", "catalog");
+                });
+
+            modelBuilder.Entity("PuzKit3D.Modules.Catalog.Domain.Entities.Formulas.Formula", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("character varying(30)")
+                        .HasColumnName("code");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("text")
+                        .HasColumnName("description");
+
+                    b.Property<string>("Expression")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("expression");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("updated_at");
+
+                    b.HasKey("Id")
+                        .HasName("pk_formulas");
+
+                    b.ToTable("formulas", "catalog");
+                });
+
+            modelBuilder.Entity("PuzKit3D.Modules.Catalog.Domain.Entities.Formulas.FormulaValueValidation", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<Guid>("FormulaId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("formula_id");
+
+                    b.Property<decimal>("MaxValue")
+                        .HasPrecision(5, 4)
+                        .HasColumnType("numeric(5,4)")
+                        .HasColumnName("max_value");
+
+                    b.Property<decimal>("MinValue")
+                        .HasPrecision(5, 4)
+                        .HasColumnType("numeric(5,4)")
+                        .HasColumnName("min_value");
+
+                    b.Property<string>("Output")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("character varying(30)")
+                        .HasColumnName("output");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("updated_at");
+
+                    b.HasKey("Id")
+                        .HasName("pk_formula_value_validations");
+
+                    b.HasIndex("FormulaId")
+                        .HasDatabaseName("ix_formula_value_validations_formula_id");
+
+                    b.ToTable("formula_value_validations", "catalog");
+                });
+
+            modelBuilder.Entity("PuzKit3D.Modules.Catalog.Domain.Entities.Materials.Material", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<decimal>("BasePrice")
+                        .HasPrecision(10, 2)
+                        .HasColumnType("numeric(10,2)")
+                        .HasColumnName("base_price");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("text")
+                        .HasColumnName("description");
+
+                    b.Property<decimal>("FactorPercentage")
+                        .HasPrecision(5, 4)
+                        .HasColumnType("numeric(5,4)")
+                        .HasColumnName("factor_percentage");
 
                     b.Property<bool>("IsActive")
                         .ValueGeneratedOnAdd()
@@ -263,58 +366,45 @@ namespace PuzKit3D.Modules.Catalog.Persistence.Migrations
                         .HasDatabaseName("ix_materials_slug");
 
                     b.ToTable("materials", "catalog");
+                });
 
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("f1f1f1f1-f1f1-f1f1-f1f1-f1f1f1f1f1f1"),
-                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "Natural wood material",
-                            IsActive = true,
-                            Name = "Wood",
-                            Slug = "wood",
-                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
-                        },
-                        new
-                        {
-                            Id = new Guid("a2a2a2a2-a2a2-a2a2-a2a2-a2a2a2a2a2a2"),
-                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "Durable plastic material",
-                            IsActive = true,
-                            Name = "Plastic",
-                            Slug = "plastic",
-                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
-                        },
-                        new
-                        {
-                            Id = new Guid("b3b3b3b3-b3b3-b3b3-b3b3-b3b3b3b3b3b3"),
-                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "Premium metal components",
-                            IsActive = true,
-                            Name = "Metal",
-                            Slug = "metal",
-                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
-                        },
-                        new
-                        {
-                            Id = new Guid("c4c4c4c4-c4c4-c4c4-c4c4-c4c4c4c4c4c4"),
-                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "Eco-friendly cardboard material",
-                            IsActive = true,
-                            Name = "Cardboard",
-                            Slug = "cardboard",
-                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
-                        },
-                        new
-                        {
-                            Id = new Guid("d5d5d5d5-d5d5-d5d5-d5d5-d5d5d5d5d5d5"),
-                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "Advanced composite materials",
-                            IsActive = true,
-                            Name = "Composite",
-                            Slug = "composite",
-                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
-                        });
+            modelBuilder.Entity("PuzKit3D.Modules.Catalog.Domain.Entities.TopicMaterialCapabilities.TopicMaterialCapability", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<Guid>("CapabilityId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("capability_id");
+
+                    b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(false)
+                        .HasColumnName("is_active");
+
+                    b.Property<Guid>("MaterialId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("material_id");
+
+                    b.Property<Guid>("TopicId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("topic_id");
+
+                    b.HasKey("Id")
+                        .HasName("pk_topic_material_capabilities");
+
+                    b.HasIndex("CapabilityId")
+                        .HasDatabaseName("ix_topic_material_capabilities_capability_id");
+
+                    b.HasIndex("MaterialId")
+                        .HasDatabaseName("ix_topic_material_capabilities_material_id");
+
+                    b.HasIndex("TopicId")
+                        .HasDatabaseName("ix_topic_material_capabilities_topic_id");
+
+                    b.ToTable("topic_material_capabilities", "catalog");
                 });
 
             modelBuilder.Entity("PuzKit3D.Modules.Catalog.Domain.Entities.Topics.Topic", b =>
@@ -330,6 +420,11 @@ namespace PuzKit3D.Modules.Catalog.Persistence.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("text")
                         .HasColumnName("description");
+
+                    b.Property<decimal>("FactorPercentage")
+                        .HasPrecision(5, 4)
+                        .HasColumnType("numeric(5,4)")
+                        .HasColumnName("factor_percentage");
 
                     b.Property<bool>("IsActive")
                         .ValueGeneratedOnAdd()
@@ -368,58 +463,115 @@ namespace PuzKit3D.Modules.Catalog.Persistence.Migrations
                         .HasDatabaseName("ix_topics_slug");
 
                     b.ToTable("topics", "catalog");
+                });
 
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("a1a1a1a1-a1a1-a1a1-a1a1-a1a1a1a1a1a1"),
-                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "Animal themed 3D puzzles",
-                            IsActive = true,
-                            Name = "Animals",
-                            Slug = "animals",
-                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
-                        },
-                        new
-                        {
-                            Id = new Guid("b2b2b2b2-b2b2-b2b2-b2b2-b2b2b2b2b2b2"),
-                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "Vehicle and transportation themed puzzles",
-                            IsActive = true,
-                            Name = "Vehicles",
-                            Slug = "vehicles",
-                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
-                        },
-                        new
-                        {
-                            Id = new Guid("c3c3c3c3-c3c3-c3c3-c3c3-c3c3c3c3c3c3"),
-                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "Famous buildings and landmarks",
-                            IsActive = true,
-                            Name = "Architecture",
-                            Slug = "architecture",
-                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
-                        },
-                        new
-                        {
-                            Id = new Guid("d4d4d4d4-d4d4-d4d4-d4d4-d4d4d4d4d4d4"),
-                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "Natural landscapes and scenery",
-                            IsActive = true,
-                            Name = "Nature",
-                            Slug = "nature",
-                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
-                        },
-                        new
-                        {
-                            Id = new Guid("e5e5e5e5-e5e5-e5e5-e5e5-e5e5e5e5e5e5"),
-                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "Fantasy creatures and magical worlds",
-                            IsActive = true,
-                            Name = "Fantasy",
-                            Slug = "fantasy",
-                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
-                        });
+            modelBuilder.Entity("PuzKit3D.Modules.Catalog.Domain.Entities.CapabilityDrives.CapabilityDrive", b =>
+                {
+                    b.HasOne("PuzKit3D.Modules.Catalog.Domain.Entities.Capabilities.Capability", null)
+                        .WithMany("CapabilityDrives")
+                        .HasForeignKey("CapabilityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_capability_drives_capabilities_capability_id");
+
+                    b.HasOne("PuzKit3D.Modules.Catalog.Domain.Entities.Drives.Drive", null)
+                        .WithMany("CapabilityDrives")
+                        .HasForeignKey("DriveId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_capability_drives_drives_drive_id");
+                });
+
+            modelBuilder.Entity("PuzKit3D.Modules.Catalog.Domain.Entities.CapabilityMaterialAssemblies.CapabilityMaterialAssembly", b =>
+                {
+                    b.HasOne("PuzKit3D.Modules.Catalog.Domain.Entities.AssemblyMethods.AssemblyMethod", null)
+                        .WithMany("CapabilityMaterialAssemblies")
+                        .HasForeignKey("AssemblyMethodId")
+                        .HasConstraintName("fk_capability_material_assemblies_assembly_methods_assembly_me");
+
+                    b.HasOne("PuzKit3D.Modules.Catalog.Domain.Entities.Capabilities.Capability", null)
+                        .WithMany("CapabilityMaterialAssemblies")
+                        .HasForeignKey("CapabilityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_capability_material_assemblies_capabilities_capability_id");
+
+                    b.HasOne("PuzKit3D.Modules.Catalog.Domain.Entities.Materials.Material", null)
+                        .WithMany("CapabilityMaterialAssemblies")
+                        .HasForeignKey("MaterialId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_capability_material_assemblies_materials_material_id");
+                });
+
+            modelBuilder.Entity("PuzKit3D.Modules.Catalog.Domain.Entities.Formulas.FormulaValueValidation", b =>
+                {
+                    b.HasOne("PuzKit3D.Modules.Catalog.Domain.Entities.Formulas.Formula", null)
+                        .WithMany("FormulaValueValidations")
+                        .HasForeignKey("FormulaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_formula_value_validations_formulas_formula_id");
+                });
+
+            modelBuilder.Entity("PuzKit3D.Modules.Catalog.Domain.Entities.TopicMaterialCapabilities.TopicMaterialCapability", b =>
+                {
+                    b.HasOne("PuzKit3D.Modules.Catalog.Domain.Entities.Capabilities.Capability", null)
+                        .WithMany("TopicMaterialCapabilities")
+                        .HasForeignKey("CapabilityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_topic_material_capabilities_capabilities_capability_id");
+
+                    b.HasOne("PuzKit3D.Modules.Catalog.Domain.Entities.Materials.Material", null)
+                        .WithMany("TopicMaterialCapabilities")
+                        .HasForeignKey("MaterialId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_topic_material_capabilities_materials_material_id");
+
+                    b.HasOne("PuzKit3D.Modules.Catalog.Domain.Entities.Topics.Topic", null)
+                        .WithMany("TopicMaterialCapabilities")
+                        .HasForeignKey("TopicId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_topic_material_capabilities_topics_topic_id");
+                });
+
+            modelBuilder.Entity("PuzKit3D.Modules.Catalog.Domain.Entities.AssemblyMethods.AssemblyMethod", b =>
+                {
+                    b.Navigation("CapabilityMaterialAssemblies");
+                });
+
+            modelBuilder.Entity("PuzKit3D.Modules.Catalog.Domain.Entities.Capabilities.Capability", b =>
+                {
+                    b.Navigation("CapabilityDrives");
+
+                    b.Navigation("CapabilityMaterialAssemblies");
+
+                    b.Navigation("TopicMaterialCapabilities");
+                });
+
+            modelBuilder.Entity("PuzKit3D.Modules.Catalog.Domain.Entities.Drives.Drive", b =>
+                {
+                    b.Navigation("CapabilityDrives");
+                });
+
+            modelBuilder.Entity("PuzKit3D.Modules.Catalog.Domain.Entities.Formulas.Formula", b =>
+                {
+                    b.Navigation("FormulaValueValidations");
+                });
+
+            modelBuilder.Entity("PuzKit3D.Modules.Catalog.Domain.Entities.Materials.Material", b =>
+                {
+                    b.Navigation("CapabilityMaterialAssemblies");
+
+                    b.Navigation("TopicMaterialCapabilities");
+                });
+
+            modelBuilder.Entity("PuzKit3D.Modules.Catalog.Domain.Entities.Topics.Topic", b =>
+                {
+                    b.Navigation("TopicMaterialCapabilities");
                 });
 #pragma warning restore 612, 618
         }

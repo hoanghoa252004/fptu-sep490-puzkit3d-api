@@ -32,6 +32,10 @@ internal sealed class TopicConfiguration : IEntityTypeConfiguration<Topic>
                 id => id == null ? (Guid?)null : id.Value,
                 value => value == null ? null : TopicId.From(value.Value));
 
+        builder.Property(t => t.FactorPercentage)
+            .IsRequired()
+            .HasPrecision(5, 4);
+
         builder.Property(t => t.IsActive)
             .IsRequired()
             .HasDefaultValue(false);

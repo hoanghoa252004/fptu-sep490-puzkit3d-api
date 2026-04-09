@@ -30,4 +30,16 @@ public static class EndpointGroupExtension
         return app.MapGroup($"{ApiRoutes.ApiPrefix}/capabilities")
             .WithTags("Capabilities");
     }
+
+    public static RouteGroupBuilder MapDrivesGroup(this IEndpointRouteBuilder app)
+    {
+        return app.MapGroup($"{ApiRoutes.ApiPrefix}/drives")
+            .WithTags("Drives");
+    }
+
+    public static RouteGroupBuilder MapCapabilityDrivesGroup(this IEndpointRouteBuilder app)
+    {
+        return app.MapGroup($"{ApiRoutes.ApiPrefix}/capability-drives")
+            .WithTags("Capability Drives");
+    }
 }

@@ -47,6 +47,8 @@ internal sealed class UpdateMaterialCommandHandler : ICommandHandler<UpdateMater
             var updateResult = material.Update(
                 request.Name,
                 request.Slug,
+                request.FactorPercentage,
+                request.BasePrice,
                 request.Description,
                 request.IsActive);
 

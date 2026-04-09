@@ -1,0 +1,128 @@
+CREATE SCHEMA "catalog";
+
+
+CREATE TABLE "catalog"."assembly_method" (
+  "id" uuid PRIMARY KEY,
+  "name" varchar(30) NOT NULL,
+  "description" text,
+  "slug" varchar(30) NOT NULL,
+  "factor_percentage" decimal(5,4) NOT NULL,
+  "is_active" boolean NOT NULL DEFAULT false,
+  "created_at" timestamp with time zone NOT NULL,
+  "updated_at" timestamp with time zone NOT NULL
+);
+
+CREATE TABLE "catalog"."topic" (
+  "id" uuid PRIMARY KEY,
+  "name" varchar(30) NOT NULL,
+  "description" text,
+  "slug" varchar(30) NOT NULL,
+  "parent_id" uuid NOT NULL,
+  "factor_percentage" decimal(5,4) NOT NULL,
+  "is_active" boolean NOT NULL DEFAULT false,
+  "created_at" timestamp with time zone NOT NULL,
+  "updated_at" timestamp with time zone NOT NULL
+);
+
+CREATE TABLE "catalog"."material" (
+  "id" uuid PRIMARY KEY,
+  "name" varchar(30) NOT NULL,
+  "description" text,
+  "slug" varchar(30) NOT NULL,
+  "factor_percentage" decimal(5,4) NOT NULL,
+  "base_price" decimal(10,2) NOT NULL,
+  "is_active" boolean NOT NULL DEFAULT false,
+  "created_at" timestamp with time zone NOT NULL,
+  "updated_at" timestamp with time zone NOT NULL
+);
+
+CREATE TABLE "catalog"."capability" (
+  "id" uuid PRIMARY KEY,
+  "name" varchar(30) NOT NULL,
+  "description" text,
+  "slug" varchar(30) NOT NULL,
+  "factor_percentage" decimal(5,4) NOT NULL,
+  "is_active" boolean NOT NULL DEFAULT false,
+  "created_at" timestamp with time zone NOT NULL,
+  "updated_at" timestamp with time zone NOT NULL
+);
+
+CREATE TABLE "catalog"."capability_drive" (
+  "id" uuid PRIMARY KEY,
+  "capability_id" uuid NOT NULL,
+  "drive_id" uuid NOT NULL,
+  "quantity" int NOT NULL
+);
+
+CREATE TABLE "catalog"."drive" (
+  "id" uuid PRIMARY KEY,
+  "name" varchar(30) NOT NULL,
+  "description" text,
+  "min_volume" int,
+  "quantity_instock" int NOT NULL,
+  "is_active" boolean NOT NULL DEFAULT false,
+  "created_at" timestamp with time zone NOT NULL,
+  "updated_at" timestamp with time zone NOT NULL
+);
+
+CREATE TABLE "catalog"."formula" (
+  "id" uuid PRIMARY KEY,
+  "code" varchar(30) NOT NULL,
+  "expression" text NOT NULL,
+  "description" text,
+  "updated_at" timestamp with time zone NOT NULL
+);
+
+CREATE TABLE "catalog"."formula_value_validation" (
+  "id" uuid PRIMARY KEY,
+  "formula_id" uuid NOT NULL,
+  "min_value" decimal(5,4) NOT NULL,
+  "max_value" decimal(5,4) NOT NULL,
+  "output" varchar(30) NOT NULL,
+  "updated_at" timestamp with time zone NOT NULL
+);
+
+CREATE TABLE "catalog"."topic_material_capability" (
+  "id" uuid PRIMARY KEY,
+  "topic_id" uuid NOT NULL,
+  "material_id" uuid NOT NULL,
+  "capability_id" uuid NOT NULL,
+  "is_active" boolean NOT NULL DEFAULT false
+);
+
+CREATE TABLE "catalog"."capability_material_assembly" (
+  "id" uuid PRIMARY KEY,
+  "capability_id" uuid NOT NULL,
+  "material_id" uuid NOT NULL,
+  "assembly_id" uuid NOT NULL,
+  "is_active" boolean NOT NULL DEFAULT false
+);
+
+
+CREATE UNIQUE INDEX "UK__assembly_method__slug" ON "catalog"."assembly_method" ("slug");
+
+CREATE UNIQUE INDEX "UK__topic__slug" ON "catalog"."topic" ("slug");
+
+CREATE UNIQUE INDEX "UK__material__slug" ON "catalog"."material" ("slug");
+
+CREATE UNIQUE INDEX "UK__capability__slug" ON "catalog"."capability" ("slug");
+
+
+
+ALTER TABLE "catalog"."capability_drive" ADD CONSTRAINT "FK__capability__capability_drive" FOREIGN KEY ("capability_id") REFERENCES "catalog"."capability" ("id") DEFERRABLE INITIALLY IMMEDIATE;
+
+ALTER TABLE "catalog"."capability_drive" ADD CONSTRAINT "FK__drive__capability_drive" FOREIGN KEY ("drive_id") REFERENCES "catalog"."drive" ("id") DEFERRABLE INITIALLY IMMEDIATE;
+
+ALTER TABLE "catalog"."formula_value_validation" ADD CONSTRAINT "FK__formula__formula_value_validation" FOREIGN KEY ("formula_id") REFERENCES "catalog"."formula" ("id") DEFERRABLE INITIALLY IMMEDIATE;
+
+ALTER TABLE "catalog"."topic_material_capability" ADD CONSTRAINT "FK__topic__topic_material_capability" FOREIGN KEY ("topic_id") REFERENCES "catalog"."topic" ("id") DEFERRABLE INITIALLY IMMEDIATE;
+
+ALTER TABLE "catalog"."topic_material_capability" ADD CONSTRAINT "FK__material__topic_material_capability" FOREIGN KEY ("material_id") REFERENCES "catalog"."material" ("id") DEFERRABLE INITIALLY IMMEDIATE;
+
+ALTER TABLE "catalog"."topic_material_capability" ADD CONSTRAINT "FK__capability__topic_material_capability" FOREIGN KEY ("capability_id") REFERENCES "catalog"."capability" ("id") DEFERRABLE INITIALLY IMMEDIATE;
+
+ALTER TABLE "catalog"."capability_material_assembly" ADD CONSTRAINT "FK__material__capability_material_assembly" FOREIGN KEY ("material_id") REFERENCES "catalog"."material" ("id") DEFERRABLE INITIALLY IMMEDIATE;
+
+ALTER TABLE "catalog"."capability_material_assembly" ADD CONSTRAINT "FK__capability__capability_material_assembly" FOREIGN KEY ("capability_id") REFERENCES "catalog"."capability" ("id") DEFERRABLE INITIALLY IMMEDIATE;
+
+ALTER TABLE "catalog"."capability_material_assembly" ADD CONSTRAINT "FK__assembly__capability_material_assembly" FOREIGN KEY ("assembly_id") REFERENCES "catalog"."assembly_method" ("id") DEFERRABLE INITIALLY IMMEDIATE;

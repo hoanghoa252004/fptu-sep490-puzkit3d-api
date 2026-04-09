@@ -75,6 +75,7 @@ internal sealed class UpdateTopicCommandHandler : ICommandHandler<UpdateTopicCom
                 request.Name,
                 request.Slug,
                 request.ParentId.HasValue ? TopicId.From(request.ParentId.Value) : null,
+                request.FactorPercentage,
                 request.Description,
                 request.IsActive);
 
@@ -84,6 +85,7 @@ internal sealed class UpdateTopicCommandHandler : ICommandHandler<UpdateTopicCom
                     item.Name, 
                     item.Slug, 
                     item.ParentId, 
+                    null,
                     item.Description, 
                     false);
                 _topicRepository.Update(item);

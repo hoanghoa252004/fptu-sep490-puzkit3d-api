@@ -7,6 +7,7 @@ public sealed record UpdateTopicCommand(
     string? Name,
     string? Slug,
     Guid? ParentId,
+    decimal? FactorPercentage,
     string? Description,
     bool? IsActive) : ICommand;
 

@@ -6,6 +6,7 @@ public sealed record UpdateAssemblyMethodCommand(
     Guid Id,
     string? Name,
     string? Slug,
+    decimal? FactorPercentage,
     string? Description,
     bool? IsActive) : ICommand;
 

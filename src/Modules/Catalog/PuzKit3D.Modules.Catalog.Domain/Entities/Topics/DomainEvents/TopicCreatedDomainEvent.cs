@@ -7,6 +7,7 @@ public sealed record TopicCreatedDomainEvent(
     string Name,
     string Slug,
     Guid? ParentId,
+    decimal FactorPercentage,
     string? Description,
     bool IsActive,
     DateTime CreatedAt) : DomainEvent;

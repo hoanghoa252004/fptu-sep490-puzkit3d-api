@@ -5,6 +5,11 @@ using PuzKit3D.Modules.Catalog.Domain.Entities.AssemblyMethods;
 using PuzKit3D.Modules.Catalog.Domain.Entities.Capabilities;
 using PuzKit3D.Modules.Catalog.Domain.Entities.Materials;
 using PuzKit3D.Modules.Catalog.Domain.Entities.Topics;
+using PuzKit3D.Modules.Catalog.Domain.Entities.Drives;
+using PuzKit3D.Modules.Catalog.Domain.Entities.Formulas;
+using PuzKit3D.Modules.Catalog.Domain.Entities.CapabilityDrives;
+using PuzKit3D.Modules.Catalog.Domain.Entities.TopicMaterialCapabilities;
+using PuzKit3D.Modules.Catalog.Domain.Entities.CapabilityMaterialAssemblies;
 using PuzKit3D.Modules.Catalog.Persistence.Configurations.SeedData;
 using PuzKit3D.SharedKernel.Domain;
 using PuzKit3D.SharedKernel.Domain.Results;
@@ -27,6 +32,12 @@ public sealed class CatalogDbContext : DbContext, ICatalogUnitOfWork
     public DbSet<Topic> Topics => Set<Topic>();
     public DbSet<Material> Materials => Set<Material>();
     public DbSet<Capability> Capabilities => Set<Capability>();
+    public DbSet<Drive> Drives => Set<Drive>();
+    public DbSet<Formula> Formulas => Set<Formula>();
+    public DbSet<FormulaValueValidation> FormulaValueValidations => Set<FormulaValueValidation>();
+    public DbSet<CapabilityDrive> CapabilityDrives => Set<CapabilityDrive>();
+    public DbSet<TopicMaterialCapability> TopicMaterialCapabilities => Set<TopicMaterialCapability>();
+    public DbSet<CapabilityMaterialAssembly> CapabilityMaterialAssemblies => Set<CapabilityMaterialAssembly>();
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -36,7 +47,7 @@ public sealed class CatalogDbContext : DbContext, ICatalogUnitOfWork
 
         builder.ApplyConfigurationsFromAssembly(typeof(CatalogDbContext).Assembly);
         
-        builder.SeedCatalogMasterData();
+        //builder.SeedCatalogMasterData();
     }
 
     public async Task<T> ExecuteAsync<T>(Func<Task<T>> action, CancellationToken cancellationToken = default)

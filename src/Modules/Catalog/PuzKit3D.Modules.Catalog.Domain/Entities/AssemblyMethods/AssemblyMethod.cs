@@ -1,4 +1,5 @@
 using PuzKit3D.Modules.Catalog.Domain.Entities.AssemblyMethods.DomainEvents;
+using PuzKit3D.Modules.Catalog.Domain.Entities.CapabilityMaterialAssemblies;
 using PuzKit3D.SharedKernel.Domain;
 using PuzKit3D.SharedKernel.Domain.Results;
 
@@ -9,20 +10,26 @@ public class AssemblyMethod : AggregateRoot<AssemblyMethodId>
     public string Name { get; private set; } = null!;
     public string? Description { get; private set; }
     public string Slug { get; private set; } = null!;
+    public decimal FactorPercentage { get; private set; }
     public bool IsActive { get; private set; }
     public DateTime CreatedAt { get; private set; }
     public DateTime UpdatedAt { get; private set; }
+
+    // Navigation properties
+    public ICollection<CapabilityMaterialAssembly> CapabilityMaterialAssemblies { get; private set; } = new List<CapabilityMaterialAssembly>();
 
     private AssemblyMethod(
         AssemblyMethodId id,
         string name,
         string slug,
+        decimal factorPercentage,
         string? description,
         bool isActive,
         DateTime createdAt) : base(id)
     {
         Name = name;
         Slug = slug;
+        FactorPercentage = factorPercentage;
         Description = description;
         IsActive = isActive;
         CreatedAt = createdAt;
@@ -36,6 +43,7 @@ public class AssemblyMethod : AggregateRoot<AssemblyMethodId>
     public static ResultT<AssemblyMethod> Create(
         string name,
         string slug,
+        decimal factorPercentage,
         string? description = null,
         bool isActive = false,
         DateTime? createdAt = null)
@@ -58,6 +66,7 @@ public class AssemblyMethod : AggregateRoot<AssemblyMethodId>
             assemblyMethodId,
             name,
             slug,
+            factorPercentage,
             description,
             isActive,
             timestamp);
@@ -66,6 +75,7 @@ public class AssemblyMethod : AggregateRoot<AssemblyMethodId>
             assemblyMethod.Id.Value,
             assemblyMethod.Name,
             assemblyMethod.Slug,
+            assemblyMethod.FactorPercentage,
             assemblyMethod.Description,
             assemblyMethod.IsActive,
             assemblyMethod.CreatedAt));
@@ -73,7 +83,7 @@ public class AssemblyMethod : AggregateRoot<AssemblyMethodId>
         return Result.Success(assemblyMethod);
     }
 
-    public Result Update(string? name = null, string? slug = null, string? description = null, bool? isActive = null)
+    public Result Update(string? name = null, string? slug = null, decimal? factorPercentage = null, string? description = null, bool? isActive = null)
     {
         // Validate only provided fields
         if (name != null)
@@ -96,6 +106,11 @@ public class AssemblyMethod : AggregateRoot<AssemblyMethodId>
                 return Result.Failure(AssemblyMethodError.SlugTooLong(slug.Length));
 
             Slug = slug;
+        }
+
+        if (factorPercentage.HasValue)
+        {
+            FactorPercentage = factorPercentage.Value;
         }
 
         if (description != null)

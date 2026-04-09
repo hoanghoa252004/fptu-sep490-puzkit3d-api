@@ -14,8 +14,7 @@
     <File Path="README.md" />
   </Folder>
   <Folder Name="/scripts/">
-    <File Path="scripts/init-db.sql" />
-    <File Path="scripts/seed-data.sql" />
+    <File Path="catalog.psql" />
   </Folder>
   <Folder Name="/src/" />
   <Folder Name="/src/Contract/">

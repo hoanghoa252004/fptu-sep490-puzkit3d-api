@@ -6,6 +6,8 @@ public sealed record UpdateMaterialCommand(
     Guid Id,
     string? Name,
     string? Slug,
+    decimal? FactorPercentage,
+    decimal? BasePrice,
     string? Description,
     bool? IsActive) : ICommand;
 

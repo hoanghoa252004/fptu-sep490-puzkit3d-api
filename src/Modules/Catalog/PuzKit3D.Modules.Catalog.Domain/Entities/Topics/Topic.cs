@@ -1,4 +1,5 @@
 using PuzKit3D.Modules.Catalog.Domain.Entities.Topics.DomainEvents;
+using PuzKit3D.Modules.Catalog.Domain.Entities.TopicMaterialCapabilities;
 using PuzKit3D.SharedKernel.Domain;
 using PuzKit3D.SharedKernel.Domain.Results;
 
@@ -10,15 +11,20 @@ public class Topic : AggregateRoot<TopicId>
     public string? Description { get; private set; }
     public string Slug { get; private set; } = null!;
     public TopicId? ParentId { get; private set; }
+    public decimal FactorPercentage { get; private set; }
     public bool IsActive { get; private set; }
     public DateTime CreatedAt { get; private set; }
     public DateTime UpdatedAt { get; private set; }
+
+    // Navigation properties
+    public ICollection<TopicMaterialCapability> TopicMaterialCapabilities { get; private set; } = new List<TopicMaterialCapability>();
 
     private Topic(
         TopicId id,
         string name,
         string slug,
         TopicId? parentId,
+        decimal factorPercentage,
         string? description,
         bool isActive,
         DateTime createdAt) : base(id)
@@ -26,6 +32,7 @@ public class Topic : AggregateRoot<TopicId>
         Name = name;
         Slug = slug;
         ParentId = parentId;
+        FactorPercentage = factorPercentage;
         Description = description;
         IsActive = isActive;
         CreatedAt = createdAt;
@@ -39,7 +46,8 @@ public class Topic : AggregateRoot<TopicId>
     public static ResultT<Topic> Create(
         string name,
         string slug,
-        TopicId? parentId = null,
+        TopicId? parentId,
+        decimal factorPercentage,
         string? description = null,
         bool isActive = false,
         DateTime? createdAt = null)
@@ -63,6 +71,7 @@ public class Topic : AggregateRoot<TopicId>
             name,
             slug,
             parentId,
+            factorPercentage,
             description,
             isActive,
             timestamp);
@@ -71,7 +80,8 @@ public class Topic : AggregateRoot<TopicId>
             topic.Id.Value,
             topic.Name,
             topic.Slug,
-            topic.ParentId?.Value,
+            topic.ParentId.Value,
+            topic.FactorPercentage,
             topic.Description,
             topic.IsActive,
             topic.CreatedAt));
@@ -79,7 +89,7 @@ public class Topic : AggregateRoot<TopicId>
         return Result.Success(topic);
     }
 
-    public Result Update(string? name = null, string? slug = null, TopicId? parentId = null, string? description = null, bool? isActive = null)
+    public Result Update(string? name = null, string? slug = null, TopicId? parentId = null, decimal? factorPercentage = null, string? description = null, bool? isActive = null)
     {
         // Validate only provided fields
         if (name != null)
@@ -109,6 +119,11 @@ public class Topic : AggregateRoot<TopicId>
             ParentId = parentId;
         }
 
+        if (factorPercentage.HasValue)
+        {
+            FactorPercentage = factorPercentage.Value;
+        }
+
         if (description != null)
         {
             Description = description;
@@ -125,7 +140,8 @@ public class Topic : AggregateRoot<TopicId>
             Id.Value,
             Name,
             Slug,
-            ParentId?.Value,
+            ParentId.Value,
+            FactorPercentage,
             Description,
             UpdatedAt,
             IsActive));

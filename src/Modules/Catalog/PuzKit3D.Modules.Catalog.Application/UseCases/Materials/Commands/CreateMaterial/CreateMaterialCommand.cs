@@ -5,5 +5,7 @@ namespace PuzKit3D.Modules.Catalog.Application.UseCases.Materials.Commands.Creat
 public sealed record CreateMaterialCommand(
     string Name,
     string Slug,
+    decimal FactorPercentage,
+    decimal BasePrice,
     string? Description,
     bool IsActive) : ICommandT<Guid>;

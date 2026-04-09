@@ -6,6 +6,7 @@ public sealed record UpdateCapabilityCommand(
     Guid Id,
     string? Name,
     string? Slug,
+    decimal? FactorPercentage,
     string? Description,
     bool? IsActive) : ICommand;
 
