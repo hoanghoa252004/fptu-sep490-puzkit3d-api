@@ -16,7 +16,7 @@ public sealed class RoughModelGenerationService : BackgroundService
     private readonly ILogger<RoughModelGenerationService> _logger;
     private readonly IMediaAssetService _mediaAssetService;
     private readonly TimeSpan _interval = TimeSpan.FromSeconds(30);
-    private readonly string _tripoApiKey = "tsk_qExBZgNUSOl7qxtt91yT7Fv3kSBR8HM6L09N0jA2Wh4";
+    private readonly string _tripoApiKey = "tsk_LQHBYXXwgvAVbllZbSzYQ_TxMQtfBcxD70oDuplfNiR";
     private readonly string _tripoApiEndpoint = "https://api.tripo3d.ai/v2/openapi/task";
 
     public RoughModelGenerationService(
