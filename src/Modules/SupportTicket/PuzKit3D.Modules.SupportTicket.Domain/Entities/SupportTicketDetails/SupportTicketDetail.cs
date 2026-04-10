@@ -6,7 +6,7 @@ namespace PuzKit3D.Modules.SupportTicket.Domain.Entities.SupportTicketDetails;
 
 public sealed class SupportTicketDetail : Entity<SupportTicketDetailId>
 {
-    public SupportTicketId SupportTicketId { get; private set; }
+    public SupportTicketId SupportTicketId { get; private set; } = null!;
     public Guid OrderItemId { get; private set; }
     public Guid? PartId { get; private set; }
     public int Quantity { get; private set; }

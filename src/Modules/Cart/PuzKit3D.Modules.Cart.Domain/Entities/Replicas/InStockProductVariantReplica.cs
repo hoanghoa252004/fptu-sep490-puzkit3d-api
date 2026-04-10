@@ -5,8 +5,8 @@ namespace PuzKit3D.Modules.Cart.Domain.Entities.Replicas;
 public sealed class InStockProductVariantReplica : Entity<Guid>
 {
     public Guid InStockProductId { get; private set; }
-    public string Sku { get; private set; }
-    public string Color { get; private set; }
+    public string Sku { get; private set; } = null!;
+    public string Color { get; private set; } = null!;
     public int AssembledLengthMm { get; private set; }
     public int AssembledWidthMm { get; private set; }
     public int AssembledHeightMm { get; private set; }

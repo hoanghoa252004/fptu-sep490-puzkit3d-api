@@ -10,7 +10,7 @@ public sealed class OrderReplica : Entity<Guid>
     public Guid CustomerId { get; private set; }
     public DateTime CreatedAt { get; private set; }
     public DateTime UpdatedAt { get; private set; }
-    public string Status { get; private set; }
+    public string Status { get; private set; } = null!;
 
     private OrderReplica(
         Guid id,
