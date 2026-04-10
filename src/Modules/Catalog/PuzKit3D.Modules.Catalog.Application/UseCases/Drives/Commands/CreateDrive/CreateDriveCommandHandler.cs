@@ -30,9 +30,14 @@ internal sealed class CreateDriveCommandHandler : ICommandTHandler<CreateDriveCo
                 request.QuantityInStock,
                 request.IsActive);
 
-            _driveRepository.Add(drive);
+            if (drive.IsFailure)
+            {
+                return Result.Failure<Guid>(drive.Error);
+            }
 
-            return Result.Success(drive.Id.Value);
+            _driveRepository.Add(drive.Value);
+
+            return Result.Success(drive.Value.Id.Value);
         }, cancellationToken);
     }
 }

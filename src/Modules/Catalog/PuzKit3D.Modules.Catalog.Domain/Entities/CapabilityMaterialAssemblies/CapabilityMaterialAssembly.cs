@@ -2,6 +2,7 @@ using PuzKit3D.SharedKernel.Domain;
 using PuzKit3D.Modules.Catalog.Domain.Entities.Capabilities;
 using PuzKit3D.Modules.Catalog.Domain.Entities.Materials;
 using PuzKit3D.Modules.Catalog.Domain.Entities.AssemblyMethods;
+using PuzKit3D.SharedKernel.Domain.Results;
 
 namespace PuzKit3D.Modules.Catalog.Domain.Entities.CapabilityMaterialAssemblies;
 
@@ -29,14 +30,20 @@ public class CapabilityMaterialAssembly : AggregateRoot<CapabilityMaterialAssemb
     {
     }
 
-    public static CapabilityMaterialAssembly Create(
+    public static ResultT<CapabilityMaterialAssembly> Create(
         CapabilityId capabilityId,
         MaterialId materialId,
         AssemblyMethodId assemblyId,
         bool isActive = false)
     {
         var id = CapabilityMaterialAssemblyId.Create();
-        return new CapabilityMaterialAssembly(id, capabilityId, materialId, assemblyId, isActive);
+        var result = new CapabilityMaterialAssembly(
+            id, 
+            capabilityId, 
+            materialId, 
+            assemblyId, 
+            isActive);
+        return Result.Success(result);
     }
 
     public void SetActive(bool isActive)

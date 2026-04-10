@@ -127,16 +127,4 @@ public class AssemblyMethod : AggregateRoot<AssemblyMethodId>
             Id.Value,
             DateTime.UtcNow));
     }
-
-    public void Activate()
-    {
-        IsActive = true;
-        UpdatedAt = DateTime.UtcNow;
-    }
-
-    public void Deactivate()
-    {
-        IsActive = false;
-        UpdatedAt = DateTime.UtcNow;
-    }
 }

@@ -1,6 +1,6 @@
-using PuzKit3D.SharedKernel.Domain;
 using PuzKit3D.Modules.Catalog.Domain.Entities.Capabilities;
 using PuzKit3D.Modules.Catalog.Domain.Entities.Drives;
+using PuzKit3D.SharedKernel.Domain.Results;
 
 namespace PuzKit3D.Modules.Catalog.Domain.Entities.CapabilityDrives;
 
@@ -19,9 +19,14 @@ public class CapabilityDrive
     {
     }
 
-    public static CapabilityDrive Create(CapabilityId capabilityId, DriveId driveId)
+    public static ResultT<CapabilityDrive> Create(
+        CapabilityId capabilityId, 
+        DriveId driveId)
     {
-        return new CapabilityDrive(capabilityId, driveId);
+        var capabilityDrive = new CapabilityDrive(
+            capabilityId, 
+            driveId);
+        return Result.Success(capabilityDrive);
     }
 
 }

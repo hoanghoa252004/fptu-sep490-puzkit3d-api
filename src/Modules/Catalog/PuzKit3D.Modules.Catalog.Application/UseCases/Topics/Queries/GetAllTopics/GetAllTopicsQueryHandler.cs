@@ -1,6 +1,7 @@
 using PuzKit3D.Modules.Catalog.Application.Repositories;
 using PuzKit3D.Modules.Catalog.Application.UseCases.Topics.Queries.Shared;
 using PuzKit3D.Modules.Catalog.Domain.Entities.Topics;
+using PuzKit3D.SharedKernel.Application.Authorization;
 using PuzKit3D.SharedKernel.Application.Message.Query;
 using PuzKit3D.SharedKernel.Application.Pagination;
 using PuzKit3D.SharedKernel.Application.User;
@@ -28,7 +29,7 @@ internal sealed class GetAllTopicsQueryHandler
     {
         // Check if user is Staff or Manager
         var isStaffOrManager = _currentUser.IsAuthenticated &&
-            (_currentUser.IsInRole("Staff") || _currentUser.IsInRole("Business Manager"));
+            (_currentUser.IsInRole(Roles.Staff) || _currentUser.IsInRole(Roles.BusinessManager));
 
         // Get all topics
         var allTopics = await _topicRepository.GetAllAsync(
@@ -62,7 +63,6 @@ internal sealed class GetAllTopicsQueryHandler
                  t.Slug,
                  t.ParentId?.Value,
                  t.Description)).ToList();
-
         var pagedResult = new PagedResult<object>(
             topicDtos,
             request.PageNumber,

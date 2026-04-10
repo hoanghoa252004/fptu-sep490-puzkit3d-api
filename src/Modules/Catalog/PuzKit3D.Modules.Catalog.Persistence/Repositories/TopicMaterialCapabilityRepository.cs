@@ -1,6 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using PuzKit3D.Modules.Catalog.Application.Repositories;
+using PuzKit3D.Modules.Catalog.Domain.Entities.Capabilities;
+using PuzKit3D.Modules.Catalog.Domain.Entities.Materials;
 using PuzKit3D.Modules.Catalog.Domain.Entities.TopicMaterialCapabilities;
+using PuzKit3D.Modules.Catalog.Domain.Entities.Topics;
 using System.Linq.Expressions;
 
 namespace PuzKit3D.Modules.Catalog.Persistence.Repositories;
@@ -58,5 +61,17 @@ internal sealed class TopicMaterialCapabilityRepository : ITopicMaterialCapabili
     public void DeleteMultiple(List<TopicMaterialCapability> entities)
     {
         _context.TopicMaterialCapabilities.RemoveRange(entities);
+    }
+
+    public async Task<bool> ExistsAsync(
+        TopicId topicId, 
+        MaterialId materialId, 
+        CapabilityId capabilityId, 
+        CancellationToken cancellationToken = default)
+    {
+        return await _context.TopicMaterialCapabilities
+            .AnyAsync(tmc => tmc.TopicId == topicId 
+                && tmc.MaterialId == materialId 
+                && tmc.CapabilityId == capabilityId, cancellationToken);
     }
 }

@@ -1,6 +1,7 @@
 using PuzKit3D.Modules.Catalog.Domain.Entities.CapabilityDrives;
 using PuzKit3D.Modules.Catalog.Domain.Entities.Drives.DomainEvents;
 using PuzKit3D.SharedKernel.Domain;
+using PuzKit3D.SharedKernel.Domain.Results;
 
 namespace PuzKit3D.Modules.Catalog.Domain.Entities.Drives;
 
@@ -39,7 +40,7 @@ public class Drive : AggregateRoot<DriveId>
     {
     }
 
-    public static Drive Create(
+    public static ResultT<Drive> Create(
         string name,
         string? description = null,
         int? minVolume = null,
@@ -68,26 +69,23 @@ public class Drive : AggregateRoot<DriveId>
             drive.IsActive,
             drive.CreatedAt));
 
-        return drive;
+        return Result.Success(drive);
     }
 
-    public void Update(string? name = null, string? description = null, int? minVolume = null, int? quantityInStock = null, bool? isActive = null)
+    public Result Update(
+        string name,
+        string? description = null,
+        int? minVolume = null,
+        int quantityInStock = 0,
+        bool isActive = false)
     {
-        if (name != null)
-            Name = name;
-
-        if (description != null)
-            Description = description;
-
-        if (minVolume.HasValue)
-            MinVolume = minVolume.Value;
-
-        if (quantityInStock.HasValue)
-            QuantityInStock = quantityInStock.Value;
-
-        if (isActive.HasValue && isActive.Value != IsActive)
-            IsActive = isActive.Value;
-
+        if (string.IsNullOrWhiteSpace(name))
+            return Result.Failure<Drive>(DriveError.InvalidName());
+        Name = name;
+        Description = description;
+        MinVolume = minVolume;
+        QuantityInStock = quantityInStock;
+        IsActive = isActive;
         UpdatedAt = DateTime.UtcNow;
 
         RaiseDomainEvent(new DriveUpdatedDomainEvent(
@@ -98,6 +96,8 @@ public class Drive : AggregateRoot<DriveId>
             QuantityInStock,
             UpdatedAt,
             IsActive));
+
+        return Result.Success();
     }
 
     public void Delete()

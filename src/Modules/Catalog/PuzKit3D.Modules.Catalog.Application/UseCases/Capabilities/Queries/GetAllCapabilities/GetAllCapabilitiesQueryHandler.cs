@@ -1,5 +1,6 @@
 using PuzKit3D.Modules.Catalog.Application.Repositories;
 using PuzKit3D.Modules.Catalog.Application.UseCases.Capabilities.Queries.Shared;
+using PuzKit3D.SharedKernel.Application.Authorization;
 using PuzKit3D.SharedKernel.Application.Message.Query;
 using PuzKit3D.SharedKernel.Application.Pagination;
 using PuzKit3D.SharedKernel.Application.User;
@@ -26,8 +27,8 @@ internal sealed class GetAllCapabilitiesQueryHandler
         CancellationToken cancellationToken)
     {
         // Check if user is Staff or Manager
-        var isStaffOrManager = _currentUser.IsAuthenticated && 
-            (_currentUser.IsInRole("Staff") || _currentUser.IsInRole("Business Manager"));
+        var isStaffOrManager = _currentUser.IsAuthenticated &&
+            (_currentUser.IsInRole(Roles.Staff) || _currentUser.IsInRole(Roles.BusinessManager));
 
         // Get all capabilities with filtering and sorting from repository
         var allCapabilities = await _capabilityRepository.GetAllAsync(

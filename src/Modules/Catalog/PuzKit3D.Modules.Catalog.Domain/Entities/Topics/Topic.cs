@@ -1,5 +1,5 @@
-using PuzKit3D.Modules.Catalog.Domain.Entities.Topics.DomainEvents;
 using PuzKit3D.Modules.Catalog.Domain.Entities.TopicMaterialCapabilities;
+using PuzKit3D.Modules.Catalog.Domain.Entities.Topics.DomainEvents;
 using PuzKit3D.SharedKernel.Domain;
 using PuzKit3D.SharedKernel.Domain.Results;
 
@@ -89,51 +89,32 @@ public class Topic : AggregateRoot<TopicId>
         return Result.Success(topic);
     }
 
-    public Result Update(string? name = null, string? slug = null, TopicId? parentId = null, decimal? factorPercentage = null, string? description = null, bool? isActive = null)
+    public Result Update(
+        string name,
+        string slug,
+        decimal factorPercentage,
+        TopicId? parentId = null,
+        string? description = null,
+        bool isActive = false)
     {
-        // Validate only provided fields
-        if (name != null)
-        {
-            if (string.IsNullOrWhiteSpace(name))
-                return Result.Failure(TopicError.InvalidName());
+        if (string.IsNullOrWhiteSpace(name))
+            return Result.Failure(TopicError.InvalidName());
 
-            if (name.Length > 30)
-                return Result.Failure(TopicError.NameTooLong(name.Length));
+        if (name.Length > 30)
+            return Result.Failure(TopicError.NameTooLong(name.Length));
 
-            Name = name;
-        }
+        Name = name;
+        if (string.IsNullOrWhiteSpace(slug))
+            return Result.Failure(TopicError.InvalidSlug());
 
-        if (slug != null)
-        {
-            if (string.IsNullOrWhiteSpace(slug))
-                return Result.Failure(TopicError.InvalidSlug());
+        if (slug.Length > 30)
+            return Result.Failure(TopicError.SlugTooLong(slug.Length));
 
-            if (slug.Length > 30)
-                return Result.Failure(TopicError.SlugTooLong(slug.Length));
-
-            Slug = slug;
-        }
-
-        if (parentId != null)
-        {
-            ParentId = parentId;
-        }
-
-        if (factorPercentage.HasValue)
-        {
-            FactorPercentage = factorPercentage.Value;
-        }
-
-        if (description != null)
-        {
-            Description = description;
-        }
-
-        if (isActive.HasValue && isActive.Value != IsActive)
-        {
-            IsActive = isActive.Value;
-        }
-
+        Slug = slug;
+        ParentId = parentId;
+        FactorPercentage = factorPercentage;
+        Description = description;
+        IsActive = isActive;
         UpdatedAt = DateTime.UtcNow;
 
         RaiseDomainEvent(new TopicUpdatedDomainEvent(

@@ -46,12 +46,10 @@ internal sealed class CreateTopicCommandHandler : ICommandTHandler<CreateTopicCo
                 return Result.Failure<Guid>(topicResult.Error);
             }
 
-            var topic = topicResult.Value;
-
             // Add to repository
-            _topicRepository.Add(topic);
+            _topicRepository.Add(topicResult.Value);
 
-            return Result.Success(topic.Id.Value);
+            return Result.Success(topicResult.Value.Id.Value);
         }, cancellationToken);
     }
 }

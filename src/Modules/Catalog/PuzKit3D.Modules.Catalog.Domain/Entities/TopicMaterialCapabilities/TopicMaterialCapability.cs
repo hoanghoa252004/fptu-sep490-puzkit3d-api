@@ -2,6 +2,7 @@ using PuzKit3D.SharedKernel.Domain;
 using PuzKit3D.Modules.Catalog.Domain.Entities.Topics;
 using PuzKit3D.Modules.Catalog.Domain.Entities.Materials;
 using PuzKit3D.Modules.Catalog.Domain.Entities.Capabilities;
+using PuzKit3D.SharedKernel.Domain.Results;
 
 namespace PuzKit3D.Modules.Catalog.Domain.Entities.TopicMaterialCapabilities;
 
@@ -29,14 +30,21 @@ public class TopicMaterialCapability : AggregateRoot<TopicMaterialCapabilityId>
     {
     }
 
-    public static TopicMaterialCapability Create(
+    public static ResultT<TopicMaterialCapability> Create(
         TopicId topicId,
         MaterialId materialId,
         CapabilityId capabilityId,
         bool isActive = false)
     {
         var id = TopicMaterialCapabilityId.Create();
-        return new TopicMaterialCapability(id, topicId, materialId, capabilityId, isActive);
+
+        var topicMaterialCapability = new TopicMaterialCapability(
+            id, 
+            topicId, 
+            materialId, 
+            capabilityId,
+            isActive);
+        return Result.Success(topicMaterialCapability);
     }
 
     public void SetActive(bool isActive)

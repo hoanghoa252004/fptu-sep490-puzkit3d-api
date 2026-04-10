@@ -1,6 +1,7 @@
 using PuzKit3D.Modules.Catalog.Application.Repositories;
 using PuzKit3D.Modules.Catalog.Application.UseCases.Materials.Queries.Shared;
 using PuzKit3D.Modules.Catalog.Domain.Entities.Materials;
+using PuzKit3D.SharedKernel.Application.Authorization;
 using PuzKit3D.SharedKernel.Application.Message.Query;
 using PuzKit3D.SharedKernel.Application.User;
 using PuzKit3D.SharedKernel.Domain.Results;
@@ -25,8 +26,8 @@ internal sealed class GetMaterialByIdQueryHandler : IQueryHandler<GetMaterialByI
         CancellationToken cancellationToken)
     {
         // Check if user is Staff or Manager
-        var isStaffOrManager = _currentUser.IsAuthenticated && 
-            (_currentUser.IsInRole("Staff") || _currentUser.IsInRole("Business Manager"));
+        var isStaffOrManager = _currentUser.IsAuthenticated &&
+            (_currentUser.IsInRole(Roles.Staff) || _currentUser.IsInRole(Roles.BusinessManager));
 
         // Get material by ID
         var materialId = MaterialId.From(request.Id);
@@ -60,7 +61,6 @@ internal sealed class GetMaterialByIdQueryHandler : IQueryHandler<GetMaterialByI
                 material.Name,
                 material.Slug,
                 material.Description);
-
         return Result.Success(response);
     }
 }

@@ -35,4 +35,8 @@ public static class CapabilityError
     public static Error InvalidActiveStatus() => Error.Conflict(
         "Capability.InvalidActiveStatus",
         "The active status is already set to this value.");
+
+    public static Error NoPermissionGranted() => Error.Unauthorized(
+        "Capability.NoPermissionGranted",
+        "You do not have permission to view this capability.");
 }
