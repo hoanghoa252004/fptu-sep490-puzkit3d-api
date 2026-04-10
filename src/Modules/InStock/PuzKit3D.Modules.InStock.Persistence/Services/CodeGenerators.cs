@@ -33,37 +33,6 @@ internal sealed class InstockProductCodeGenerator : IInstockProductCodeGenerator
     }
 }
 
-internal sealed class PartCodeGenerator : IPartCodeGenerator
-{
-    private readonly InStockDbContext _context;
-
-    public PartCodeGenerator(InStockDbContext context)
-    {
-        _context = context;
-    }
-
-    public async Task<string> GenerateNextCodeAsync(CancellationToken cancellationToken = default)
-    {
-        var allCodes = await _context.InstockProducts
-            .SelectMany(p => p.Parts)
-            .Where(part => part.Code.StartsWith("PAR") && part.Code.Length == 7)
-            .Select(part => part.Code)
-            .ToListAsync(cancellationToken);
-
-        if (!allCodes.Any())
-        {
-            return "PAR0001";
-        }
-
-        var maxCode = allCodes
-            .Select(code => int.TryParse(code.Substring(3), out var num) ? num : 0)
-            .Max();
-
-        var nextNumber = maxCode + 1;
-        return $"PAR{nextNumber:D4}";
-    }
-}
-
 internal sealed class InstockProductVariantSkuGenerator : IInstockProductVariantSkuGenerator
 {
     private readonly InStockDbContext _context;

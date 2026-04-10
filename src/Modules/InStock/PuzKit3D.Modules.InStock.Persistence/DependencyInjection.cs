@@ -46,6 +46,7 @@ public static class DependencyInjection
         services.AddScoped<IInstockProductPriceDetailRepository, InstockProductPriceDetailRepository>();
         services.AddScoped<IInstockOrderRepository, InstockOrderRepository>();
         services.AddScoped<IInstockOrderConfigRepository, InstockOrderConfigRepository>();
+        services.AddScoped<IInstockProductDriveRepository, InstockProductDriveRepository>();
 
         services.AddScoped<ITopicReplicaRepository, TopicReplicaRepository>();
         services.AddScoped<IAssemblyMethodReplicaRepository, AssemblyMethodReplicaRepository>();
@@ -53,7 +54,6 @@ public static class DependencyInjection
         services.AddScoped<IMaterialReplicaRepository, MaterialReplicaRepository>();
 
         services.AddScoped<IInstockProductCodeGenerator, InstockProductCodeGenerator>();
-        services.AddScoped<IPartCodeGenerator, PartCodeGenerator>();
         services.AddScoped<IInstockProductVariantSkuGenerator, InstockProductVariantSkuGenerator>();
         services.AddScoped<IInstockOrderCodeGenerator, InstockOrderCodeGenerator>();
         services.AddScoped<ISupportTicketReplicaRepository, SupportTicketReplicaRepository>();

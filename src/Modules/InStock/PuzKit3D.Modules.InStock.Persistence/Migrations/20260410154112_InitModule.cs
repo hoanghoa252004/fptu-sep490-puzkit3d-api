@@ -247,6 +247,28 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "instock_product_drives",
+                schema: "instock",
+                columns: table => new
+                {
+                    id = table.Column<Guid>(type: "uuid", nullable: false),
+                    instock_product_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    drive_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    quantity = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_instock_product_drives", x => x.id);
+                    table.ForeignKey(
+                        name: "fk_instock_product_drives_instock_products_instock_product_id",
+                        column: x => x.instock_product_id,
+                        principalSchema: "instock",
+                        principalTable: "instock_products",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "instock_product_variants",
                 schema: "instock",
                 columns: table => new
@@ -267,30 +289,6 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                     table.PrimaryKey("pk_instock_product_variants", x => x.id);
                     table.ForeignKey(
                         name: "FK__instock_product__instock_product_variant",
-                        column: x => x.instock_product_id,
-                        principalSchema: "instock",
-                        principalTable: "instock_products",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "parts",
-                schema: "instock",
-                columns: table => new
-                {
-                    id = table.Column<Guid>(type: "uuid", nullable: false),
-                    name = table.Column<string>(type: "character varying(30)", maxLength: 30, nullable: false),
-                    part_type = table.Column<string>(type: "text", nullable: false),
-                    code = table.Column<string>(type: "character varying(10)", maxLength: 10, nullable: false),
-                    quantity = table.Column<int>(type: "integer", nullable: false),
-                    instock_product_id = table.Column<Guid>(type: "uuid", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("pk_parts", x => x.id);
-                    table.ForeignKey(
-                        name: "FK__instock_product__part",
                         column: x => x.instock_product_id,
                         principalSchema: "instock",
                         principalTable: "instock_products",
@@ -508,114 +506,6 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
 
             migrationBuilder.InsertData(
                 schema: "instock",
-                table: "parts",
-                columns: new[] { "id", "code", "instock_product_id", "name", "part_type", "quantity" },
-                values: new object[,]
-                {
-                    { new Guid("50000000-0001-0000-0000-000000000000"), "PAR0001", new Guid("10000000-0000-0000-0000-000000000001"), "Lion Part 1", "Structural", 10 },
-                    { new Guid("50000000-0001-0001-0000-000000000000"), "PAR0002", new Guid("10000000-0000-0000-0000-000000000001"), "Lion Part 2", "Mechanical", 15 },
-                    { new Guid("50000000-0001-0002-0000-000000000000"), "PAR0003", new Guid("10000000-0000-0000-0000-000000000001"), "Lion Part 3", "Decorative", 20 },
-                    { new Guid("50000000-0001-0003-0000-000000000000"), "PAR0004", new Guid("10000000-0000-0000-0000-000000000001"), "Lion Part 4", "Structural", 25 },
-                    { new Guid("50000000-0001-0004-0000-000000000000"), "PAR0005", new Guid("10000000-0000-0000-0000-000000000001"), "Lion Part 5", "Mechanical", 30 },
-                    { new Guid("50000000-0001-0005-0000-000000000000"), "PAR0006", new Guid("10000000-0000-0000-0000-000000000001"), "Lion Part 6", "Decorative", 35 },
-                    { new Guid("50000000-0001-0006-0000-000000000000"), "PAR0007", new Guid("10000000-0000-0000-0000-000000000001"), "Lion Part 7", "Structural", 40 },
-                    { new Guid("50000000-0001-0007-0000-000000000000"), "PAR0008", new Guid("10000000-0000-0000-0000-000000000001"), "Lion Part 8", "Mechanical", 45 },
-                    { new Guid("50000000-0001-0008-0000-000000000000"), "PAR0009", new Guid("10000000-0000-0000-0000-000000000001"), "Lion Part 9", "Decorative", 50 },
-                    { new Guid("50000000-0001-0009-0000-000000000000"), "PAR0010", new Guid("10000000-0000-0000-0000-000000000001"), "Lion Part 10", "Structural", 55 },
-                    { new Guid("50000000-0002-0000-0000-000000000000"), "PAR0011", new Guid("10000000-0000-0000-0000-000000000002"), "Elephant Part 1", "Structural", 10 },
-                    { new Guid("50000000-0002-0001-0000-000000000000"), "PAR0012", new Guid("10000000-0000-0000-0000-000000000002"), "Elephant Part 2", "Mechanical", 15 },
-                    { new Guid("50000000-0002-0002-0000-000000000000"), "PAR0013", new Guid("10000000-0000-0000-0000-000000000002"), "Elephant Part 3", "Decorative", 20 },
-                    { new Guid("50000000-0002-0003-0000-000000000000"), "PAR0014", new Guid("10000000-0000-0000-0000-000000000002"), "Elephant Part 4", "Structural", 25 },
-                    { new Guid("50000000-0002-0004-0000-000000000000"), "PAR0015", new Guid("10000000-0000-0000-0000-000000000002"), "Elephant Part 5", "Mechanical", 30 },
-                    { new Guid("50000000-0002-0005-0000-000000000000"), "PAR0016", new Guid("10000000-0000-0000-0000-000000000002"), "Elephant Part 6", "Decorative", 35 },
-                    { new Guid("50000000-0002-0006-0000-000000000000"), "PAR0017", new Guid("10000000-0000-0000-0000-000000000002"), "Elephant Part 7", "Structural", 40 },
-                    { new Guid("50000000-0002-0007-0000-000000000000"), "PAR0018", new Guid("10000000-0000-0000-0000-000000000002"), "Elephant Part 8", "Mechanical", 45 },
-                    { new Guid("50000000-0002-0008-0000-000000000000"), "PAR0019", new Guid("10000000-0000-0000-0000-000000000002"), "Elephant Part 9", "Decorative", 50 },
-                    { new Guid("50000000-0002-0009-0000-000000000000"), "PAR0020", new Guid("10000000-0000-0000-0000-000000000002"), "Elephant Part 10", "Structural", 55 },
-                    { new Guid("50000000-0003-0000-0000-000000000000"), "PAR0021", new Guid("10000000-0000-0000-0000-000000000003"), "Eagle Part 1", "Structural", 10 },
-                    { new Guid("50000000-0003-0001-0000-000000000000"), "PAR0022", new Guid("10000000-0000-0000-0000-000000000003"), "Eagle Part 2", "Mechanical", 15 },
-                    { new Guid("50000000-0003-0002-0000-000000000000"), "PAR0023", new Guid("10000000-0000-0000-0000-000000000003"), "Eagle Part 3", "Decorative", 20 },
-                    { new Guid("50000000-0003-0003-0000-000000000000"), "PAR0024", new Guid("10000000-0000-0000-0000-000000000003"), "Eagle Part 4", "Structural", 25 },
-                    { new Guid("50000000-0003-0004-0000-000000000000"), "PAR0025", new Guid("10000000-0000-0000-0000-000000000003"), "Eagle Part 5", "Mechanical", 30 },
-                    { new Guid("50000000-0003-0005-0000-000000000000"), "PAR0026", new Guid("10000000-0000-0000-0000-000000000003"), "Eagle Part 6", "Decorative", 35 },
-                    { new Guid("50000000-0003-0006-0000-000000000000"), "PAR0027", new Guid("10000000-0000-0000-0000-000000000003"), "Eagle Part 7", "Structural", 40 },
-                    { new Guid("50000000-0003-0007-0000-000000000000"), "PAR0028", new Guid("10000000-0000-0000-0000-000000000003"), "Eagle Part 8", "Mechanical", 45 },
-                    { new Guid("50000000-0003-0008-0000-000000000000"), "PAR0029", new Guid("10000000-0000-0000-0000-000000000003"), "Eagle Part 9", "Decorative", 50 },
-                    { new Guid("50000000-0003-0009-0000-000000000000"), "PAR0030", new Guid("10000000-0000-0000-0000-000000000003"), "Eagle Part 10", "Structural", 55 },
-                    { new Guid("50000000-0004-0000-0000-000000000000"), "PAR0031", new Guid("10000000-0000-0000-0000-000000000004"), "Sports Car Part 1", "Structural", 10 },
-                    { new Guid("50000000-0004-0001-0000-000000000000"), "PAR0032", new Guid("10000000-0000-0000-0000-000000000004"), "Sports Car Part 2", "Mechanical", 15 },
-                    { new Guid("50000000-0004-0002-0000-000000000000"), "PAR0033", new Guid("10000000-0000-0000-0000-000000000004"), "Sports Car Part 3", "Decorative", 20 },
-                    { new Guid("50000000-0004-0003-0000-000000000000"), "PAR0034", new Guid("10000000-0000-0000-0000-000000000004"), "Sports Car Part 4", "Structural", 25 },
-                    { new Guid("50000000-0004-0004-0000-000000000000"), "PAR0035", new Guid("10000000-0000-0000-0000-000000000004"), "Sports Car Part 5", "Mechanical", 30 },
-                    { new Guid("50000000-0004-0005-0000-000000000000"), "PAR0036", new Guid("10000000-0000-0000-0000-000000000004"), "Sports Car Part 6", "Decorative", 35 },
-                    { new Guid("50000000-0004-0006-0000-000000000000"), "PAR0037", new Guid("10000000-0000-0000-0000-000000000004"), "Sports Car Part 7", "Structural", 40 },
-                    { new Guid("50000000-0004-0007-0000-000000000000"), "PAR0038", new Guid("10000000-0000-0000-0000-000000000004"), "Sports Car Part 8", "Mechanical", 45 },
-                    { new Guid("50000000-0004-0008-0000-000000000000"), "PAR0039", new Guid("10000000-0000-0000-0000-000000000004"), "Sports Car Part 9", "Decorative", 50 },
-                    { new Guid("50000000-0004-0009-0000-000000000000"), "PAR0040", new Guid("10000000-0000-0000-0000-000000000004"), "Sports Car Part 10", "Structural", 55 },
-                    { new Guid("50000000-0005-0000-0000-000000000000"), "PAR0041", new Guid("10000000-0000-0000-0000-000000000005"), "Airplane Part 1", "Structural", 10 },
-                    { new Guid("50000000-0005-0001-0000-000000000000"), "PAR0042", new Guid("10000000-0000-0000-0000-000000000005"), "Airplane Part 2", "Mechanical", 15 },
-                    { new Guid("50000000-0005-0002-0000-000000000000"), "PAR0043", new Guid("10000000-0000-0000-0000-000000000005"), "Airplane Part 3", "Decorative", 20 },
-                    { new Guid("50000000-0005-0003-0000-000000000000"), "PAR0044", new Guid("10000000-0000-0000-0000-000000000005"), "Airplane Part 4", "Structural", 25 },
-                    { new Guid("50000000-0005-0004-0000-000000000000"), "PAR0045", new Guid("10000000-0000-0000-0000-000000000005"), "Airplane Part 5", "Mechanical", 30 },
-                    { new Guid("50000000-0005-0005-0000-000000000000"), "PAR0046", new Guid("10000000-0000-0000-0000-000000000005"), "Airplane Part 6", "Decorative", 35 },
-                    { new Guid("50000000-0005-0006-0000-000000000000"), "PAR0047", new Guid("10000000-0000-0000-0000-000000000005"), "Airplane Part 7", "Structural", 40 },
-                    { new Guid("50000000-0005-0007-0000-000000000000"), "PAR0048", new Guid("10000000-0000-0000-0000-000000000005"), "Airplane Part 8", "Mechanical", 45 },
-                    { new Guid("50000000-0005-0008-0000-000000000000"), "PAR0049", new Guid("10000000-0000-0000-0000-000000000005"), "Airplane Part 9", "Decorative", 50 },
-                    { new Guid("50000000-0005-0009-0000-000000000000"), "PAR0050", new Guid("10000000-0000-0000-0000-000000000005"), "Airplane Part 10", "Structural", 55 },
-                    { new Guid("50000000-0006-0000-0000-000000000000"), "PAR0051", new Guid("10000000-0000-0000-0000-000000000006"), "Motorcycle Part 1", "Structural", 10 },
-                    { new Guid("50000000-0006-0001-0000-000000000000"), "PAR0052", new Guid("10000000-0000-0000-0000-000000000006"), "Motorcycle Part 2", "Mechanical", 15 },
-                    { new Guid("50000000-0006-0002-0000-000000000000"), "PAR0053", new Guid("10000000-0000-0000-0000-000000000006"), "Motorcycle Part 3", "Decorative", 20 },
-                    { new Guid("50000000-0006-0003-0000-000000000000"), "PAR0054", new Guid("10000000-0000-0000-0000-000000000006"), "Motorcycle Part 4", "Structural", 25 },
-                    { new Guid("50000000-0006-0004-0000-000000000000"), "PAR0055", new Guid("10000000-0000-0000-0000-000000000006"), "Motorcycle Part 5", "Mechanical", 30 },
-                    { new Guid("50000000-0006-0005-0000-000000000000"), "PAR0056", new Guid("10000000-0000-0000-0000-000000000006"), "Motorcycle Part 6", "Decorative", 35 },
-                    { new Guid("50000000-0006-0006-0000-000000000000"), "PAR0057", new Guid("10000000-0000-0000-0000-000000000006"), "Motorcycle Part 7", "Structural", 40 },
-                    { new Guid("50000000-0006-0007-0000-000000000000"), "PAR0058", new Guid("10000000-0000-0000-0000-000000000006"), "Motorcycle Part 8", "Mechanical", 45 },
-                    { new Guid("50000000-0006-0008-0000-000000000000"), "PAR0059", new Guid("10000000-0000-0000-0000-000000000006"), "Motorcycle Part 9", "Decorative", 50 },
-                    { new Guid("50000000-0006-0009-0000-000000000000"), "PAR0060", new Guid("10000000-0000-0000-0000-000000000006"), "Motorcycle Part 10", "Structural", 55 },
-                    { new Guid("50000000-0007-0000-0000-000000000000"), "PAR0061", new Guid("10000000-0000-0000-0000-000000000007"), "Tiger Part 1", "Structural", 10 },
-                    { new Guid("50000000-0007-0001-0000-000000000000"), "PAR0062", new Guid("10000000-0000-0000-0000-000000000007"), "Tiger Part 2", "Mechanical", 15 },
-                    { new Guid("50000000-0007-0002-0000-000000000000"), "PAR0063", new Guid("10000000-0000-0000-0000-000000000007"), "Tiger Part 3", "Decorative", 20 },
-                    { new Guid("50000000-0007-0003-0000-000000000000"), "PAR0064", new Guid("10000000-0000-0000-0000-000000000007"), "Tiger Part 4", "Structural", 25 },
-                    { new Guid("50000000-0007-0004-0000-000000000000"), "PAR0065", new Guid("10000000-0000-0000-0000-000000000007"), "Tiger Part 5", "Mechanical", 30 },
-                    { new Guid("50000000-0007-0005-0000-000000000000"), "PAR0066", new Guid("10000000-0000-0000-0000-000000000007"), "Tiger Part 6", "Decorative", 35 },
-                    { new Guid("50000000-0007-0006-0000-000000000000"), "PAR0067", new Guid("10000000-0000-0000-0000-000000000007"), "Tiger Part 7", "Structural", 40 },
-                    { new Guid("50000000-0007-0007-0000-000000000000"), "PAR0068", new Guid("10000000-0000-0000-0000-000000000007"), "Tiger Part 8", "Mechanical", 45 },
-                    { new Guid("50000000-0007-0008-0000-000000000000"), "PAR0069", new Guid("10000000-0000-0000-0000-000000000007"), "Tiger Part 9", "Decorative", 50 },
-                    { new Guid("50000000-0007-0009-0000-000000000000"), "PAR0070", new Guid("10000000-0000-0000-0000-000000000007"), "Tiger Part 10", "Structural", 55 },
-                    { new Guid("50000000-0008-0000-0000-000000000000"), "PAR0071", new Guid("10000000-0000-0000-0000-000000000008"), "Dolphin Part 1", "Structural", 10 },
-                    { new Guid("50000000-0008-0001-0000-000000000000"), "PAR0072", new Guid("10000000-0000-0000-0000-000000000008"), "Dolphin Part 2", "Mechanical", 15 },
-                    { new Guid("50000000-0008-0002-0000-000000000000"), "PAR0073", new Guid("10000000-0000-0000-0000-000000000008"), "Dolphin Part 3", "Decorative", 20 },
-                    { new Guid("50000000-0008-0003-0000-000000000000"), "PAR0074", new Guid("10000000-0000-0000-0000-000000000008"), "Dolphin Part 4", "Structural", 25 },
-                    { new Guid("50000000-0008-0004-0000-000000000000"), "PAR0075", new Guid("10000000-0000-0000-0000-000000000008"), "Dolphin Part 5", "Mechanical", 30 },
-                    { new Guid("50000000-0008-0005-0000-000000000000"), "PAR0076", new Guid("10000000-0000-0000-0000-000000000008"), "Dolphin Part 6", "Decorative", 35 },
-                    { new Guid("50000000-0008-0006-0000-000000000000"), "PAR0077", new Guid("10000000-0000-0000-0000-000000000008"), "Dolphin Part 7", "Structural", 40 },
-                    { new Guid("50000000-0008-0007-0000-000000000000"), "PAR0078", new Guid("10000000-0000-0000-0000-000000000008"), "Dolphin Part 8", "Mechanical", 45 },
-                    { new Guid("50000000-0008-0008-0000-000000000000"), "PAR0079", new Guid("10000000-0000-0000-0000-000000000008"), "Dolphin Part 9", "Decorative", 50 },
-                    { new Guid("50000000-0008-0009-0000-000000000000"), "PAR0080", new Guid("10000000-0000-0000-0000-000000000008"), "Dolphin Part 10", "Structural", 55 },
-                    { new Guid("50000000-0009-0000-0000-000000000000"), "PAR0081", new Guid("10000000-0000-0000-0000-000000000009"), "Helicopter Part 1", "Structural", 10 },
-                    { new Guid("50000000-0009-0001-0000-000000000000"), "PAR0082", new Guid("10000000-0000-0000-0000-000000000009"), "Helicopter Part 2", "Mechanical", 15 },
-                    { new Guid("50000000-0009-0002-0000-000000000000"), "PAR0083", new Guid("10000000-0000-0000-0000-000000000009"), "Helicopter Part 3", "Decorative", 20 },
-                    { new Guid("50000000-0009-0003-0000-000000000000"), "PAR0084", new Guid("10000000-0000-0000-0000-000000000009"), "Helicopter Part 4", "Structural", 25 },
-                    { new Guid("50000000-0009-0004-0000-000000000000"), "PAR0085", new Guid("10000000-0000-0000-0000-000000000009"), "Helicopter Part 5", "Mechanical", 30 },
-                    { new Guid("50000000-0009-0005-0000-000000000000"), "PAR0086", new Guid("10000000-0000-0000-0000-000000000009"), "Helicopter Part 6", "Decorative", 35 },
-                    { new Guid("50000000-0009-0006-0000-000000000000"), "PAR0087", new Guid("10000000-0000-0000-0000-000000000009"), "Helicopter Part 7", "Structural", 40 },
-                    { new Guid("50000000-0009-0007-0000-000000000000"), "PAR0088", new Guid("10000000-0000-0000-0000-000000000009"), "Helicopter Part 8", "Mechanical", 45 },
-                    { new Guid("50000000-0009-0008-0000-000000000000"), "PAR0089", new Guid("10000000-0000-0000-0000-000000000009"), "Helicopter Part 9", "Decorative", 50 },
-                    { new Guid("50000000-0009-0009-0000-000000000000"), "PAR0090", new Guid("10000000-0000-0000-0000-000000000009"), "Helicopter Part 10", "Structural", 55 },
-                    { new Guid("50000000-0010-0000-0000-000000000000"), "PAR0091", new Guid("10000000-0000-0000-0000-000000000010"), "Dragon Part 1", "Structural", 10 },
-                    { new Guid("50000000-0010-0001-0000-000000000000"), "PAR0092", new Guid("10000000-0000-0000-0000-000000000010"), "Dragon Part 2", "Mechanical", 15 },
-                    { new Guid("50000000-0010-0002-0000-000000000000"), "PAR0093", new Guid("10000000-0000-0000-0000-000000000010"), "Dragon Part 3", "Decorative", 20 },
-                    { new Guid("50000000-0010-0003-0000-000000000000"), "PAR0094", new Guid("10000000-0000-0000-0000-000000000010"), "Dragon Part 4", "Structural", 25 },
-                    { new Guid("50000000-0010-0004-0000-000000000000"), "PAR0095", new Guid("10000000-0000-0000-0000-000000000010"), "Dragon Part 5", "Mechanical", 30 },
-                    { new Guid("50000000-0010-0005-0000-000000000000"), "PAR0096", new Guid("10000000-0000-0000-0000-000000000010"), "Dragon Part 6", "Decorative", 35 },
-                    { new Guid("50000000-0010-0006-0000-000000000000"), "PAR0097", new Guid("10000000-0000-0000-0000-000000000010"), "Dragon Part 7", "Structural", 40 },
-                    { new Guid("50000000-0010-0007-0000-000000000000"), "PAR0098", new Guid("10000000-0000-0000-0000-000000000010"), "Dragon Part 8", "Mechanical", 45 },
-                    { new Guid("50000000-0010-0008-0000-000000000000"), "PAR0099", new Guid("10000000-0000-0000-0000-000000000010"), "Dragon Part 9", "Decorative", 50 },
-                    { new Guid("50000000-0010-0009-0000-000000000000"), "PAR0100", new Guid("10000000-0000-0000-0000-000000000010"), "Dragon Part 10", "Structural", 55 }
-                });
-
-            migrationBuilder.InsertData(
-                schema: "instock",
                 table: "instock_inventories",
                 columns: new[] { "id", "created_at", "instock_product_variant_id", "total_quantity", "updated_at" },
                 values: new object[,]
@@ -725,6 +615,13 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "UK__instock_product_drive__product_drive",
+                schema: "instock",
+                table: "instock_product_drives",
+                columns: new[] { "instock_product_id", "drive_id" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "CUK___instock_product_price_detail___instock_price_id__instock_product_variant_id",
                 schema: "instock",
                 table: "instock_product_price_details",
@@ -763,12 +660,6 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                 table: "material_replicas",
                 column: "slug",
                 unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "ix_parts_instock_product_id",
-                schema: "instock",
-                table: "parts",
-                column: "instock_product_id");
 
             migrationBuilder.CreateIndex(
                 name: "ix_support_ticket_detail_replicas_order_item_id",
@@ -840,11 +731,11 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                 schema: "instock");
 
             migrationBuilder.DropTable(
-                name: "material_replicas",
+                name: "instock_product_drives",
                 schema: "instock");
 
             migrationBuilder.DropTable(
-                name: "parts",
+                name: "material_replicas",
                 schema: "instock");
 
             migrationBuilder.DropTable(

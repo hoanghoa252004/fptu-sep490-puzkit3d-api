@@ -1,6 +1,6 @@
 using PuzKit3D.Modules.InStock.Domain.Entities.InstockProducts.DomainEvents;
 using PuzKit3D.Modules.InStock.Domain.Entities.InstockProductCapabilityDetails;
-using PuzKit3D.Modules.InStock.Domain.Entities.Parts;
+using PuzKit3D.Modules.InStock.Domain.Entities.InstockProductDrives;
 using PuzKit3D.SharedKernel.Domain;
 using PuzKit3D.SharedKernel.Domain.Results;
 using System.Text.RegularExpressions;
@@ -10,7 +10,7 @@ namespace PuzKit3D.Modules.InStock.Domain.Entities.InstockProducts;
 public sealed partial class InstockProduct : AggregateRoot<InstockProductId>
 {
     private static readonly Regex CodeRegex = CodeRegexPattern();
-    private readonly List<Part> _parts = new();
+    private readonly List<InstockProductDrive> _drives = new();
     private readonly List<InstockProductCapabilityDetail> _capabilityDetails = new();
 
     public static readonly HashSet<string> ValidDifficultLevels = new()
@@ -36,7 +36,7 @@ public sealed partial class InstockProduct : AggregateRoot<InstockProductId>
     public DateTime CreatedAt { get; private set; }
     public DateTime UpdatedAt { get; private set; }
 
-    public IReadOnlyCollection<Part> Parts => _parts.AsReadOnly();
+    public IReadOnlyCollection<InstockProductDrive> Drives => _drives.AsReadOnly();
     public IReadOnlyCollection<InstockProductCapabilityDetail> CapabilityDetails => _capabilityDetails.AsReadOnly();
 
     [GeneratedRegex(@"^INP\d{3}$", RegexOptions.Compiled)]
@@ -300,17 +300,45 @@ public sealed partial class InstockProduct : AggregateRoot<InstockProductId>
         RaiseDomainEvent(new InstockProductDeletedDomainEvent(Id.Value));
     }
 
-    public void AddPart(Part part)
+    public void AddDrive(Guid driveId, int quantity)
     {
-        _parts.Add(part);
+        var existingDrive = _drives.FirstOrDefault(d => d.DriveId == driveId);
+        if (existingDrive != null)
+        {
+            existingDrive.UpdateQuantity(quantity);
+        }
+        else
+        {
+            _drives.Add(InstockProductDrive.Create(Id, driveId, quantity));
+        }
         UpdatedAt = DateTime.UtcNow;
     }
 
-    public void RemovePart(Part part)
+    public void RemoveDrive(Guid driveId)
     {
-        _parts.Remove(part);
+        var drive = _drives.FirstOrDefault(d => d.DriveId == driveId);
+        if (drive is not null)
+        {
+            _drives.Remove(drive);
+            UpdatedAt = DateTime.UtcNow;
+        }
+    }
+
+    public void SetDrives(List<(Guid driveId, int quantity)> driveList)
+    {
+        _drives.Clear();
+        if (driveList != null && driveList.Count > 0)
+        {
+            foreach (var (driveId, quantity) in driveList)
+            {
+                _drives.Add(InstockProductDrive.Create(Id, driveId, quantity));
+            }
+        }
         UpdatedAt = DateTime.UtcNow;
     }
+
+    public List<(Guid driveId, int quantity)> GetDrives() => 
+        _drives.Select(d => (d.DriveId, d.Quantity)).ToList();
 
     public void SetCapabilities(List<Guid> capabilityIds)
     {

@@ -6,7 +6,6 @@ using PuzKit3D.Modules.InStock.Domain.Entities.InstockProductCapabilityDetails;
 using PuzKit3D.Modules.InStock.Domain.Entities.InstockProductPriceDetails;
 using PuzKit3D.Modules.InStock.Domain.Entities.InstockProducts;
 using PuzKit3D.Modules.InStock.Domain.Entities.InstockProductVariants;
-using PuzKit3D.Modules.InStock.Domain.Entities.Parts;
 using PuzKit3D.Modules.InStock.Domain.Entities.Replicas;
 
 namespace PuzKit3D.Modules.InStock.Persistence.Configurations.SeedData;
@@ -663,40 +662,6 @@ internal static class InstockSeedDataConfiguration
         modelBuilder.Entity<InstockProductCapabilityDetail>().HasData(details);
     }
 
-    public static void SeedParts(this ModelBuilder modelBuilder)
-    {
-        var parts = new List<dynamic>();
-        var partTypes = new[] { PartType.Structural, PartType.Mechanical, PartType.Decorative };
-
-        int partCounter = 1;
-        
-        // Create 10 products with 10 parts each
-        for (int productIndex = 1; productIndex <= 10; productIndex++)
-        {
-            var productId = Guid.Parse($"10000000-0000-0000-0000-{productIndex:D12}");
-            
-            for (int partIndex = 0; partIndex < 10; partIndex++)
-            {
-                var partType = partTypes[partIndex % 3];
-                var partId = Guid.Parse($"50000000-{productIndex:D4}-{partIndex:D4}-0000-000000000000");
-                var partCode = $"PAR{partCounter:D4}";
-                
-                parts.Add(new
-                {
-                    Id = PartId.From(partId),
-                    Name = $"{GetProductName(productIndex)} Part {partIndex + 1}",
-                    PartType = partType,
-                    Code = partCode,
-                    Quantity = 10 + (partIndex * 5), // Varying quantities
-                    InstockProductId = InstockProductId.From(productId)
-                });
-                
-                partCounter++;
-            }
-        }
-
-        modelBuilder.Entity<Part>().HasData(parts);
-    }
 
     private static string GetProductName(int productIndex) => productIndex switch
     {
