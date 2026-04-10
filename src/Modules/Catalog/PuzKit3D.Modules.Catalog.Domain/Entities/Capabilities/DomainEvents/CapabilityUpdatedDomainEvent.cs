@@ -8,4 +8,5 @@ public sealed record CapabilityUpdatedDomainEvent(
     string Slug,
     decimal FactorPercentage,
     string? Description,
-    DateTime UpdatedAt) : DomainEvent;
+    DateTime UpdatedAt,
+    bool IsActive) : DomainEvent;

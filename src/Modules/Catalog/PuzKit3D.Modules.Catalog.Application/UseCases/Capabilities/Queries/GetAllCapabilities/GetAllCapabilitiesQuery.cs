@@ -7,4 +7,5 @@ public sealed record GetAllCapabilitiesQuery(
     int PageNumber = 1,
     int PageSize = 10,
     string? SearchTerm = null,
-    bool? IsActive = null) : IQuery<PagedResult<object>>;
+    bool? IsActive = null,
+    bool Ascending = true) : IQuery<PagedResult<object>>;

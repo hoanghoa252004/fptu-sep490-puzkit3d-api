@@ -4,9 +4,9 @@ namespace PuzKit3D.Modules.Catalog.Application.UseCases.Capabilities.Commands.Up
 
 public sealed record UpdateCapabilityCommand(
     Guid Id,
-    string? Name,
-    string? Slug,
-    decimal? FactorPercentage,
+    string Name,
+    string Slug,
+    decimal FactorPercentage,
     string? Description,
-    bool? IsActive) : ICommand;
+    bool IsActive) : ICommand;
 

@@ -3,7 +3,7 @@ using PuzKit3D.SharedKernel.Application.Event;
 namespace PuzKit3D.Contract.Catalog.Drives;
 
 public sealed record DriveCreatedIntegrationEvent(
-    Guid EventId,
+    Guid Id,
     DateTime OccurredOn,
     Guid DriveId,
     string Name,
@@ -11,4 +11,4 @@ public sealed record DriveCreatedIntegrationEvent(
     int? MinVolume,
     int QuantityInStock,
     bool IsActive,
-    DateTime CreatedAt) : IntegrationEvent(EventId, OccurredOn);
+    DateTime CreatedAt) : IIntegrationEvent;

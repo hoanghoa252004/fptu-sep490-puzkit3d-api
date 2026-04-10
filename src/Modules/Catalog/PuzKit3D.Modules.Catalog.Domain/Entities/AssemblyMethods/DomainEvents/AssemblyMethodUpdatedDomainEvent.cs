@@ -8,4 +8,5 @@ public sealed record AssemblyMethodUpdatedDomainEvent(
     string Slug,
     decimal FactorPercentage,
     string? Description,
-    DateTime UpdatedAt) : DomainEvent;
+    DateTime UpdatedAt,
+    bool IsActive) : DomainEvent;

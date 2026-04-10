@@ -1,6 +1,7 @@
 using PuzKit3D.Modules.Catalog.Application.Repositories;
 using PuzKit3D.Modules.Catalog.Application.UnitOfWork;
 using PuzKit3D.Modules.Catalog.Domain.Entities.Drives;
+using PuzKit3D.Modules.Catalog.Domain.Entities.Topics;
 using PuzKit3D.SharedKernel.Application.Message.Command;
 using PuzKit3D.SharedKernel.Domain.Errors;
 using PuzKit3D.SharedKernel.Domain.Results;
@@ -27,7 +28,7 @@ internal sealed class UpdateDriveCommandHandler : ICommandHandler<UpdateDriveCom
 
         if (drive is null)
         {
-            return Result.Failure(Error.NotFound("Drive.NotFound", $"Drive with ID {request.Id} not found"));
+            return Result.Failure(DriveError.NotFound(request.Id));
         }
 
         return await _unitOfWork.ExecuteAsync(async () =>

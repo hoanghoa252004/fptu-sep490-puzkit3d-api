@@ -1,4 +1,5 @@
 using PuzKit3D.Modules.Catalog.Application.Repositories;
+using PuzKit3D.Modules.Catalog.Application.UseCases.Capabilities.Queries.Shared;
 using PuzKit3D.Modules.Catalog.Domain.Entities.Capabilities;
 using PuzKit3D.SharedKernel.Application.Message.Query;
 using PuzKit3D.SharedKernel.Application.User;
@@ -6,7 +7,7 @@ using PuzKit3D.SharedKernel.Domain.Results;
 
 namespace PuzKit3D.Modules.Catalog.Application.UseCases.Capabilities.Queries.GetCapabilityById;
 
-internal sealed class GetCapabilityByIdQueryHandler : IQueryHandler<GetCapabilityByIdQuery, GetCapabilityByIdResponseDto>
+internal sealed class GetCapabilityByIdQueryHandler : IQueryHandler<GetCapabilityByIdQuery, object>
 {
     private readonly ICapabilityRepository _capabilityRepository;
     private readonly ICurrentUser _currentUser;
@@ -19,7 +20,7 @@ internal sealed class GetCapabilityByIdQueryHandler : IQueryHandler<GetCapabilit
         _currentUser = currentUser;
     }
 
-    public async Task<ResultT<GetCapabilityByIdResponseDto>> Handle(
+    public async Task<ResultT<object>> Handle(
         GetCapabilityByIdQuery request,
         CancellationToken cancellationToken)
     {
@@ -33,25 +34,32 @@ internal sealed class GetCapabilityByIdQueryHandler : IQueryHandler<GetCapabilit
 
         if (capability is null)
         {
-            return Result.Failure<GetCapabilityByIdResponseDto>(
+            return Result.Failure<object>(
                 CapabilityError.NotFound(request.Id));
         }
 
         // For non-staff/manager users, only return active capabilities
         if (!isStaffOrManager && !capability.IsActive)
         {
-            return Result.Failure<GetCapabilityByIdResponseDto>(
+            return Result.Failure<object>(
                 CapabilityError.NotFound(request.Id));
         }
 
-        var response = new GetCapabilityByIdResponseDto(
-            Id: capability.Id.Value,
-            Name: capability.Name,
-            Slug: capability.Slug,
-            Description: capability.Description,
-            IsActive: capability.IsActive,
-            CreatedAt: capability.CreatedAt,
-            UpdatedAt: capability.UpdatedAt);
+        // Build response DTO based on user role
+        object response = isStaffOrManager
+            ? new GetCapabilityDetailedResponseDto(
+                capability.Id.Value,
+                capability.Name,
+                capability.Slug,
+                capability.Description,
+                capability.IsActive,
+                capability.CreatedAt,
+                capability.UpdatedAt)
+            : new GetCapabilityResponseDto(
+                capability.Id.Value,
+                capability.Name,
+                capability.Slug,
+                capability.Description);
 
         return Result.Success(response);
     }

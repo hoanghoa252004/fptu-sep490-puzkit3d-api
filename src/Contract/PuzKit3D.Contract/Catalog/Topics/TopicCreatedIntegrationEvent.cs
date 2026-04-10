@@ -3,7 +3,7 @@ using PuzKit3D.SharedKernel.Application.Event;
 namespace PuzKit3D.Contract.Catalog.Topics;
 
 public sealed record TopicCreatedIntegrationEvent(
-    Guid EventId,
+    Guid Id,
     DateTime OccurredOn,
     Guid TopicId,
     string Name,
@@ -12,4 +12,4 @@ public sealed record TopicCreatedIntegrationEvent(
     decimal FactorPercentage,
     string? Description,
     bool IsActive,
-    DateTime CreatedAt) : IntegrationEvent(EventId, OccurredOn);
+    DateTime CreatedAt) : IIntegrationEvent;

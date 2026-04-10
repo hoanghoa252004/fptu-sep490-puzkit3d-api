@@ -47,8 +47,8 @@ internal sealed class UpdateDrive : IEndpoint
 }
 
 internal sealed record UpdateDriveRequestDto(
-    string? Name,
+    string Name,
     string? Description,
     int? MinVolume,
-    int? QuantityInStock,
-    bool? IsActive);
+    int QuantityInStock,
+    bool IsActive);

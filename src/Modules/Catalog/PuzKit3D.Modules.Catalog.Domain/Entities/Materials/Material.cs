@@ -1,6 +1,6 @@
+using PuzKit3D.Modules.Catalog.Domain.Entities.CapabilityMaterialAssemblies;
 using PuzKit3D.Modules.Catalog.Domain.Entities.Materials.DomainEvents;
 using PuzKit3D.Modules.Catalog.Domain.Entities.TopicMaterialCapabilities;
-using PuzKit3D.Modules.Catalog.Domain.Entities.CapabilityMaterialAssemblies;
 using PuzKit3D.SharedKernel.Domain;
 using PuzKit3D.SharedKernel.Domain.Results;
 
@@ -91,51 +91,32 @@ public class Material : AggregateRoot<MaterialId>
         return Result.Success(material);
     }
 
-    public Result Update(string? name = null, string? slug = null, decimal? factorPercentage = null, decimal? basePrice = null, string? description = null, bool? isActive = null)
+    public Result Update(
+        string name,
+        string slug,
+        decimal factorPercentage,
+        decimal basePrice,
+        string? description = null,
+        bool isActive = false)
     {
-        // Validate only provided fields
-        if (name != null)
-        {
-            if (string.IsNullOrWhiteSpace(name))
-                return Result.Failure(MaterialError.InvalidName());
+        if (string.IsNullOrWhiteSpace(name))
+            return Result.Failure(MaterialError.InvalidName());
 
-            if (name.Length > 30)
-                return Result.Failure(MaterialError.NameTooLong(name.Length));
+        if (name.Length > 30)
+            return Result.Failure(MaterialError.NameTooLong(name.Length));
 
-            Name = name;
-        }
+        if (string.IsNullOrWhiteSpace(slug))
+            return Result.Failure(MaterialError.InvalidSlug());
 
-        if (slug != null)
-        {
-            if (string.IsNullOrWhiteSpace(slug))
-                return Result.Failure(MaterialError.InvalidSlug());
+        if (slug.Length > 30)
+            return Result.Failure(MaterialError.SlugTooLong(slug.Length));
 
-            if (slug.Length > 30)
-                return Result.Failure(MaterialError.SlugTooLong(slug.Length));
-
-            Slug = slug;
-        }
-
-        if (factorPercentage.HasValue)
-        {
-            FactorPercentage = factorPercentage.Value;
-        }
-
-        if (basePrice.HasValue)
-        {
-            BasePrice = basePrice.Value;
-        }
-
-        if (description != null)
-        {
-            Description = description;
-        }
-
-        if (isActive.HasValue && isActive.Value != IsActive)
-        {
-            IsActive = isActive.Value;
-        }
-
+        Name = name;
+        Slug = slug;
+        FactorPercentage = factorPercentage;
+        BasePrice = basePrice;
+        Description = description;
+        IsActive = isActive;
         UpdatedAt = DateTime.UtcNow;
 
         RaiseDomainEvent(new MaterialUpdatedDomainEvent(
@@ -145,7 +126,8 @@ public class Material : AggregateRoot<MaterialId>
             FactorPercentage,
             BasePrice,
             Description,
-            UpdatedAt));
+            UpdatedAt,
+            IsActive));
 
         return Result.Success();
     }

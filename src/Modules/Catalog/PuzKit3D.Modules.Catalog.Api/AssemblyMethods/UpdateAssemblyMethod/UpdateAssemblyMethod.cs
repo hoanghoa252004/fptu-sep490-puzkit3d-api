@@ -46,8 +46,8 @@ internal sealed class UpdateAssemblyMethod : IEndpoint
 }
 
 internal sealed record UpdateAssemblyMethodRequestDto(
-string? Name,
-string? Slug,
-decimal? FactorPercentage,
+string Name,
+string Slug,
+decimal FactorPercentage,
 string? Description,
-bool? IsActive);
+bool IsActive);

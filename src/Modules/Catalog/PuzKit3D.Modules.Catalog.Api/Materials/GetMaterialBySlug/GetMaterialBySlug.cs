@@ -28,7 +28,7 @@ internal sealed class GetMaterialBySlug : IEndpoint
             .WithSummary("Get material by slug")
             .WithDescription("Retrieves a single material by its slug. Anonymous users can only view active materials.")
             .AllowAnonymous()
-            .Produces<GetMaterialBySlugPublicResponseDto>(StatusCodes.Status200OK)
+            .Produces<object>(StatusCodes.Status200OK)
             .ProducesProblem(StatusCodes.Status404NotFound)
             .ProducesProblem(StatusCodes.Status500InternalServerError);
     }

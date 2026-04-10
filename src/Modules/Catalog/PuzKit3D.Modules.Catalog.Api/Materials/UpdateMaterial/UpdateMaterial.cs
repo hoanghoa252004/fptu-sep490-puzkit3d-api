@@ -49,9 +49,9 @@ internal sealed class UpdateMaterial : IEndpoint
 }
 
 internal sealed record UpdateMaterialRequestDto(
-string? Name,
-string? Slug,
-decimal? FactorPercentage,
-decimal? BasePrice,
+string Name,
+string Slug,
+decimal FactorPercentage,
+decimal BasePrice,
 string? Description,
-bool? IsActive);
+bool IsActive);

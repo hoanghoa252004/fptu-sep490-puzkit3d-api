@@ -6,4 +6,10 @@ namespace PuzKit3D.Modules.Catalog.Application.Repositories;
 public interface IMaterialRepository : IRepositoryBase<Material, MaterialId>
 {
     Task<Material?> GetBySlugAsync(string slug, CancellationToken cancellationToken = default);
+
+    Task<IEnumerable<Material>> GetAllAsync(
+        bool isStaffOrManager,
+        string? searchTerm,
+        bool ascending,
+        CancellationToken cancellationToken = default);
 }

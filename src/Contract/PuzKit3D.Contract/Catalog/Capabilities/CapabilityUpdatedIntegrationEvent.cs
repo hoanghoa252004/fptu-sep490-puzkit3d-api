@@ -3,11 +3,12 @@ using PuzKit3D.SharedKernel.Application.Event;
 namespace PuzKit3D.Contract.Catalog.Capabilities;
 
 public sealed record CapabilityUpdatedIntegrationEvent(
-    Guid EventId,
+    Guid Id,
     DateTime OccurredOn,
     Guid CapabilityId,
     string Name,
     string Slug,
     decimal FactorPercentage,
     string? Description,
-    DateTime UpdatedAt) : IntegrationEvent(EventId, OccurredOn);
+    DateTime UpdatedAt,
+    bool IsActive) : IIntegrationEvent;

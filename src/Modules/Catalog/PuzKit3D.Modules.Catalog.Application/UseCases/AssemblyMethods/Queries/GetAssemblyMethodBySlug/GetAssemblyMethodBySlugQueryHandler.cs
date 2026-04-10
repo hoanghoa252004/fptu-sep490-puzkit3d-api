@@ -1,11 +1,12 @@
+using PuzKit3D.Modules.Catalog.Application.Repositories;
+using PuzKit3D.Modules.Catalog.Application.UseCases.AssemblyMethods.Queries.Shared;
 using PuzKit3D.Modules.Catalog.Domain.Entities.AssemblyMethods;
 using PuzKit3D.SharedKernel.Application.Message.Query;
 using PuzKit3D.SharedKernel.Domain.Results;
-using PuzKit3D.Modules.Catalog.Application.Repositories;
 
 namespace PuzKit3D.Modules.Catalog.Application.UseCases.AssemblyMethods.Queries.GetAssemblyMethodBySlug;
 
-internal sealed class GetAssemblyMethodBySlugQueryHandler : IQueryHandler<GetAssemblyMethodBySlugQuery, GetAssemblyMethodBySlugPublicResponseDto>
+internal sealed class GetAssemblyMethodBySlugQueryHandler : IQueryHandler<GetAssemblyMethodBySlugQuery, object>
 {
     private readonly IAssemblyMethodRepository _assemblyMethodRepository;
 
@@ -14,7 +15,7 @@ internal sealed class GetAssemblyMethodBySlugQueryHandler : IQueryHandler<GetAss
         _assemblyMethodRepository = assemblyMethodRepository;
     }
 
-    public async Task<ResultT<GetAssemblyMethodBySlugPublicResponseDto>> Handle(
+    public async Task<ResultT<object>> Handle(
         GetAssemblyMethodBySlugQuery request, 
         CancellationToken cancellationToken)
     {
@@ -23,12 +24,12 @@ internal sealed class GetAssemblyMethodBySlugQueryHandler : IQueryHandler<GetAss
 
         if (assemblyMethod is null || !assemblyMethod.IsActive)
         {
-            return Result.Failure<GetAssemblyMethodBySlugPublicResponseDto>(
+            return Result.Failure<object>(
                 AssemblyMethodError.NotFoundBySlug(request.Slug));
         }
 
         // Map to public DTO (without timestamps and isActive)
-        var response = new GetAssemblyMethodBySlugPublicResponseDto(
+        object response = new GetAssemblyMethodResponseDto(
             Id: assemblyMethod.Id.Value,
             Name: assemblyMethod.Name,
             Slug: assemblyMethod.Slug,

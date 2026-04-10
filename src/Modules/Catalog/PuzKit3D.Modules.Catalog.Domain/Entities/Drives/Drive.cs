@@ -1,4 +1,5 @@
 using PuzKit3D.Modules.Catalog.Domain.Entities.CapabilityDrives;
+using PuzKit3D.Modules.Catalog.Domain.Entities.Drives.DomainEvents;
 using PuzKit3D.SharedKernel.Domain;
 
 namespace PuzKit3D.Modules.Catalog.Domain.Entities.Drives;
@@ -48,8 +49,8 @@ public class Drive : AggregateRoot<DriveId>
     {
         var driveId = DriveId.Create();
         var timestamp = createdAt ?? DateTime.UtcNow;
-        
-        return new Drive(
+
+        var drive = new Drive(
             driveId,
             name,
             description,
@@ -57,6 +58,17 @@ public class Drive : AggregateRoot<DriveId>
             quantityInStock,
             isActive,
             timestamp);
+
+        drive.RaiseDomainEvent(new DriveCreatedDomainEvent(
+            drive.Id.Value,
+            drive.Name,
+            drive.Description,
+            drive.MinVolume,
+            drive.QuantityInStock,
+            drive.IsActive,
+            drive.CreatedAt));
+
+        return drive;
     }
 
     public void Update(string? name = null, string? description = null, int? minVolume = null, int? quantityInStock = null, bool? isActive = null)
@@ -77,5 +89,21 @@ public class Drive : AggregateRoot<DriveId>
             IsActive = isActive.Value;
 
         UpdatedAt = DateTime.UtcNow;
+
+        RaiseDomainEvent(new DriveUpdatedDomainEvent(
+            Id.Value,
+            Name,
+            Description,
+            MinVolume,
+            QuantityInStock,
+            UpdatedAt,
+            IsActive));
+    }
+
+    public void Delete()
+    {
+        RaiseDomainEvent(new DriveDeletedDomainEvent(
+            Id.Value,
+            DateTime.UtcNow));
     }
 }

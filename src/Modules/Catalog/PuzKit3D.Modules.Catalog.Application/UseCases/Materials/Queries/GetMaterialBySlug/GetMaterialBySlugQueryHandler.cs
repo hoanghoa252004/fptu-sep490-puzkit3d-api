@@ -1,4 +1,5 @@
 using PuzKit3D.Modules.Catalog.Application.Repositories;
+using PuzKit3D.Modules.Catalog.Application.UseCases.Materials.Queries.Shared;
 using PuzKit3D.Modules.Catalog.Domain.Entities.Materials;
 using PuzKit3D.SharedKernel.Application.Message.Query;
 using PuzKit3D.SharedKernel.Application.User;
@@ -6,7 +7,7 @@ using PuzKit3D.SharedKernel.Domain.Results;
 
 namespace PuzKit3D.Modules.Catalog.Application.UseCases.Materials.Queries.GetMaterialBySlug;
 
-internal sealed class GetMaterialBySlugQueryHandler : IQueryHandler<GetMaterialBySlugQuery, GetMaterialBySlugPublicResponseDto>
+internal sealed class GetMaterialBySlugQueryHandler : IQueryHandler<GetMaterialBySlugQuery, object>
 {
     private readonly IMaterialRepository _materialRepository;
     private readonly ICurrentUser _currentUser;
@@ -19,7 +20,7 @@ internal sealed class GetMaterialBySlugQueryHandler : IQueryHandler<GetMaterialB
         _currentUser = currentUser;
     }
 
-    public async Task<ResultT<GetMaterialBySlugPublicResponseDto>> Handle(
+    public async Task<ResultT<object>> Handle(
         GetMaterialBySlugQuery request,
         CancellationToken cancellationToken)
     {
@@ -32,22 +33,32 @@ internal sealed class GetMaterialBySlugQueryHandler : IQueryHandler<GetMaterialB
 
         if (material is null)
         {
-            return Result.Failure<GetMaterialBySlugPublicResponseDto>(
+            return Result.Failure<object>(
                 MaterialError.NotFoundBySlug(request.Slug));
         }
 
         // For non-staff/manager users, only return active materials
         if (!isStaffOrManager && !material.IsActive)
         {
-            return Result.Failure<GetMaterialBySlugPublicResponseDto>(
+            return Result.Failure<object>(
                 MaterialError.NotFoundBySlug(request.Slug));
         }
 
-        var response = new GetMaterialBySlugPublicResponseDto(
-            Id: material.Id.Value,
-            Name: material.Name,
-            Slug: material.Slug,
-            Description: material.Description);
+        // Build response DTO based on user role
+        object response = isStaffOrManager
+            ? new GetMaterialDetailedResponseDto(
+                material.Id.Value,
+                material.Name,
+                material.Slug,
+                material.Description,
+                material.IsActive,
+                material.CreatedAt,
+                material.UpdatedAt)
+            : new GetMaterialResponseDto(
+                material.Id.Value,
+                material.Name,
+                material.Slug,
+                material.Description);
 
         return Result.Success(response);
     }

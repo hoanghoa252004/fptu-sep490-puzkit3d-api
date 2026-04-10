@@ -48,6 +48,35 @@ internal sealed class AssemblyMethodRepository : IAssemblyMethodRepository
             .FirstOrDefaultAsync(a => a.Slug == slug, cancellationToken);
     }
 
+    public async Task<IEnumerable<AssemblyMethod>> GetAllAsync(
+        bool isStaffOrManager,
+        string? searchTerm,
+        bool ascending,
+        CancellationToken cancellationToken = default)
+    {
+        var query = _context.AssemblyMethods.AsQueryable();
+
+        if (!isStaffOrManager)
+        {
+            query = query.Where(a => a.IsActive);
+        }
+
+        if (!string.IsNullOrEmpty(searchTerm))
+        {
+            query = query.Where(a => a.Name.ToLower().Contains(searchTerm.ToLower())
+                || a.Slug.ToLower().Contains(searchTerm.ToLower())
+                || (a.Description != null && a.Description.ToLower().Contains(searchTerm.ToLower())));
+        }
+
+        query = ascending
+            ? query.OrderBy(a => a.CreatedAt)
+            : query.OrderByDescending(a => a.CreatedAt);
+
+        return await query
+            .AsNoTracking()
+            .ToListAsync(cancellationToken);
+    }
+
     public void Add(AssemblyMethod entity)
     {
         _context.AssemblyMethods.Add(entity);

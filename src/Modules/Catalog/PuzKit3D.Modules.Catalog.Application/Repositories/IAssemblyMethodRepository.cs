@@ -6,4 +6,10 @@ namespace PuzKit3D.Modules.Catalog.Application.Repositories;
 public interface IAssemblyMethodRepository : IRepositoryBase<AssemblyMethod, AssemblyMethodId>
 {
     Task<AssemblyMethod?> GetBySlugAsync(string slug, CancellationToken cancellationToken = default);
+
+    Task<IEnumerable<AssemblyMethod>> GetAllAsync(
+        bool isStaffOrManager,
+        string? searchTerm,
+        bool ascending,
+        CancellationToken cancellationToken = default);
 }

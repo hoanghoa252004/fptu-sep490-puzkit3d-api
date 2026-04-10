@@ -8,4 +8,5 @@ public sealed record GetAllTopicsQuery(
     int PageSize = 10,
     string? SearchTerm = null,
     bool? IsActive = null,
-    Guid? ParentId = null) : IQuery<PagedResult<object>>;
+    Guid? ParentId = null,
+    bool Ascending = true) : IQuery<PagedResult<object>>;

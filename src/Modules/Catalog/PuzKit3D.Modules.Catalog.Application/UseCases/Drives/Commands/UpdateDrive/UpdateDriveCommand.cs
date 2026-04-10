@@ -4,8 +4,8 @@ namespace PuzKit3D.Modules.Catalog.Application.UseCases.Drives.Commands.UpdateDr
 
 public sealed record UpdateDriveCommand(
     Guid Id,
-    string? Name,
+    string Name,
     string? Description,
     int? MinVolume,
-    int? QuantityInStock,
-    bool? IsActive) : ICommand;
+    int QuantityInStock,
+    bool IsActive) : ICommand;

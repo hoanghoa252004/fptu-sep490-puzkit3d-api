@@ -40,6 +40,34 @@ internal sealed class DriveRepository : IDriveRepository
             .ToListAsync(cancellationToken);
     }
 
+    public async Task<IEnumerable<Drive>> GetAllAsync(
+        bool isStaffOrManager,
+        string? searchTerm,
+        bool ascending,
+        CancellationToken cancellationToken = default)
+    {
+        var query = _context.Drives.AsQueryable();
+
+        if (!isStaffOrManager)
+        {
+            query = query.Where(d => d.IsActive);
+        }
+
+        if (!string.IsNullOrEmpty(searchTerm))
+        {
+            query = query.Where(d => d.Name.ToLower().Contains(searchTerm.ToLower())
+                || (d.Description != null && d.Description.ToLower().Contains(searchTerm.ToLower())));
+        }
+
+        query = ascending
+            ? query.OrderBy(d => d.CreatedAt)
+            : query.OrderByDescending(d => d.CreatedAt);
+
+        return await query
+            .AsNoTracking()
+            .ToListAsync(cancellationToken);
+    }
+
     public void Add(Drive entity)
     {
         _context.Drives.Add(entity);

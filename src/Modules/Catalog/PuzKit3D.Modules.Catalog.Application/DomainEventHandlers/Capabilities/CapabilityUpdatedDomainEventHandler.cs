@@ -25,7 +25,8 @@ internal sealed class CapabilityUpdatedDomainEventHandler
             notification.Slug,
             notification.FactorPercentage,
             notification.Description,
-            notification.UpdatedAt);
+            notification.UpdatedAt,
+            notification.IsActive);
 
         await _eventBus.PublishAsync(integrationEvent, cancellationToken);
     }

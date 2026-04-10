@@ -4,11 +4,11 @@ namespace PuzKit3D.Modules.Catalog.Application.UseCases.AssemblyMethods.Commands
 
 public sealed record UpdateAssemblyMethodCommand(
     Guid Id,
-    string? Name,
-    string? Slug,
-    decimal? FactorPercentage,
+    string Name,
+    string Slug,
+    decimal FactorPercentage,
     string? Description,
-    bool? IsActive) : ICommand;
+    bool IsActive) : ICommand;
 
 
 

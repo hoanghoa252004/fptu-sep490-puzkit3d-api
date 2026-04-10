@@ -3,7 +3,7 @@ using PuzKit3D.SharedKernel.Application.Event;
 namespace PuzKit3D.Contract.Catalog.Materials;
 
 public sealed record MaterialCreatedIntegrationEvent(
-    Guid EventId,
+    Guid Id,
     DateTime OccurredOn,
     Guid MaterialId,
     string Name,
@@ -12,4 +12,4 @@ public sealed record MaterialCreatedIntegrationEvent(
     decimal BasePrice,
     string? Description,
     bool IsActive,
-    DateTime CreatedAt) : IntegrationEvent(EventId, OccurredOn);
+    DateTime CreatedAt) : IIntegrationEvent;

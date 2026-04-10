@@ -1,5 +1,6 @@
 using PuzKit3D.Modules.Catalog.Application.Repositories;
 using PuzKit3D.Modules.Catalog.Application.UseCases.Topics.Queries.Shared;
+using PuzKit3D.Modules.Catalog.Domain.Entities.Topics;
 using PuzKit3D.SharedKernel.Application.Message.Query;
 using PuzKit3D.SharedKernel.Application.Pagination;
 using PuzKit3D.SharedKernel.Application.User;
@@ -30,44 +31,19 @@ internal sealed class GetAllTopicsQueryHandler
             (_currentUser.IsInRole("Staff") || _currentUser.IsInRole("Business Manager"));
 
         // Get all topics
-        var allTopics = await _topicRepository.GetAllAsync(cancellationToken);
-        var query = allTopics.AsQueryable();
-
-        // For non-staff/manager users (anonymous or customer), only show active items
-        if (!isStaffOrManager)
-        {
-            query = query.Where(t => t.IsActive);
-        }
-
-        // Apply search filter
-        if (!string.IsNullOrWhiteSpace(request.SearchTerm))
-        {
-            var searchTerm = request.SearchTerm.ToLower();
-            query = query.Where(t =>
-                t.Name.ToLower().Contains(searchTerm) ||
-                t.Slug.ToLower().Contains(searchTerm) ||
-                (t.Description != null && t.Description.ToLower().Contains(searchTerm)));
-        }
-
-        // Apply parent id filter if provided
-        if (request.ParentId.HasValue && request.ParentId.Value != Guid.Empty)
-        {
-            query = query.Where(t => t.ParentId.Value == request.ParentId.Value);
-        }
-
-        // Apply status filter if explicitly set
-        if (request.IsActive.HasValue)
-        {
-            query = query.Where(t => t.IsActive == request.IsActive.Value);
-        }
+        var allTopics = await _topicRepository.GetAllAsync(
+            isStaffOrManager, 
+            request.SearchTerm, 
+            request.Ascending,
+            TopicId.From(request.ParentId ?? Guid.Empty),
+            cancellationToken);
 
         // Apply pagination
-        var totalCount = query.Count();
-        var topics = query
-            .OrderBy(t => t.Name)
-            .Skip((request.PageNumber - 1) * request.PageSize)
-            .Take(request.PageSize)
-            .ToList();
+        var totalCount = allTopics.Count();
+        var topics = allTopics
+                .Skip((request.PageNumber - 1) * request.PageSize)
+                .Take(request.PageSize)
+                .ToList();
 
          // Build response DTOs
          var topicDtos = isStaffOrManager

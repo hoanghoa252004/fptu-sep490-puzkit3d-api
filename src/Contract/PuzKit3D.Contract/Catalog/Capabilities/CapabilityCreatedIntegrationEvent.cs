@@ -3,7 +3,7 @@ using PuzKit3D.SharedKernel.Application.Event;
 namespace PuzKit3D.Contract.Catalog.Capabilities;
 
 public sealed record CapabilityCreatedIntegrationEvent(
-    Guid EventId,
+    Guid Id,
     DateTime OccurredOn,
     Guid CapabilityId,
     string Name,
@@ -11,4 +11,4 @@ public sealed record CapabilityCreatedIntegrationEvent(
     decimal FactorPercentage,
     string? Description,
     bool IsActive,
-    DateTime CreatedAt) : IntegrationEvent(EventId, OccurredOn);
+    DateTime CreatedAt) : IIntegrationEvent;

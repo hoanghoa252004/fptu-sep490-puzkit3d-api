@@ -83,46 +83,30 @@ public class AssemblyMethod : AggregateRoot<AssemblyMethodId>
         return Result.Success(assemblyMethod);
     }
 
-    public Result Update(string? name = null, string? slug = null, decimal? factorPercentage = null, string? description = null, bool? isActive = null)
+    public Result Update(
+        string name,
+        string slug,
+        decimal factorPercentage,
+        string? description = null,
+        bool isActive = false)
     {
-        // Validate only provided fields
-        if (name != null)
-        {
-            if (string.IsNullOrWhiteSpace(name))
-                return Result.Failure(AssemblyMethodError.InvalidName());
+        if (string.IsNullOrWhiteSpace(name))
+            return Result.Failure(AssemblyMethodError.InvalidName());
 
-            if (name.Length > 30)
-                return Result.Failure(AssemblyMethodError.NameTooLong(name.Length));
+        if (name.Length > 30)
+            return Result.Failure(AssemblyMethodError.NameTooLong(name.Length));
 
-            Name = name;
-        }
+        if (string.IsNullOrWhiteSpace(slug))
+            return Result.Failure(AssemblyMethodError.InvalidSlug());
 
-        if (slug != null)
-        {
-            if (string.IsNullOrWhiteSpace(slug))
-                return Result.Failure(AssemblyMethodError.InvalidSlug());
+        if (slug.Length > 30)
+            return Result.Failure(AssemblyMethodError.SlugTooLong(slug.Length));
 
-            if (slug.Length > 30)
-                return Result.Failure(AssemblyMethodError.SlugTooLong(slug.Length));
-
-            Slug = slug;
-        }
-
-        if (factorPercentage.HasValue)
-        {
-            FactorPercentage = factorPercentage.Value;
-        }
-
-        if (description != null)
-        {
-            Description = description;
-        }
-
-        if (isActive.HasValue && isActive.Value != IsActive)
-        {
-            IsActive = isActive.Value;
-        }
-
+        Name = name;
+        Slug = slug;
+        FactorPercentage = factorPercentage;
+        Description = description;
+        IsActive = isActive;
         UpdatedAt = DateTime.UtcNow;
 
         RaiseDomainEvent(new AssemblyMethodUpdatedDomainEvent(
@@ -131,7 +115,8 @@ public class AssemblyMethod : AggregateRoot<AssemblyMethodId>
             Slug,
             FactorPercentage,
             Description,
-            UpdatedAt));
+            UpdatedAt,
+            IsActive));
 
         return Result.Success();
     }
