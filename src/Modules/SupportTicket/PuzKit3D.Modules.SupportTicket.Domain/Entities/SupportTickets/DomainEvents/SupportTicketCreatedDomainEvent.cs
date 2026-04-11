@@ -18,6 +18,6 @@ public sealed record SupportTicketCreatedDomainEvent(
 public sealed record SupportTicketDetailInfo(
     Guid SupportTicketDetailId,
     Guid OrderItemId,
-    Guid? PartId,
+    Guid? DriveId,
     int Quantity,
     string? Note);

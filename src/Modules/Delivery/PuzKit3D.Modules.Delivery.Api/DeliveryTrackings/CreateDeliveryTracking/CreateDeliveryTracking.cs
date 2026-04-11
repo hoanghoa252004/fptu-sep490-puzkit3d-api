@@ -36,7 +36,7 @@ public sealed class CreateDeliveryTracking : IEndpoint
             })
             .WithName("CreateDeliveryTracking")
             .WithDescription("Create GHN shipping order and get delivery order code by InstockOrder ID")
-            .Produces(StatusCodes.Status200OK)
+            .Produces<Guid>(StatusCodes.Status200OK)
             .ProducesProblem(StatusCodes.Status400BadRequest)
             .ProducesProblem(StatusCodes.Status404NotFound)
             .ProducesProblem(StatusCodes.Status500InternalServerError);

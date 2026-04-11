@@ -3,6 +3,6 @@ namespace PuzKit3D.Modules.SupportTicket.Application.UseCases.SupportTickets.Que
 public sealed record SupportTicketDetailDto(
     Guid Id,
     Guid OrderDetailId,
-    Guid? PartId,
+    Guid? DriveId,
     int Quantity,
     string? Note);

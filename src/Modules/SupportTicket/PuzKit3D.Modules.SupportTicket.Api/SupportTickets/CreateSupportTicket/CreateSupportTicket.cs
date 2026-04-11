@@ -43,7 +43,7 @@ internal sealed class CreateSupportTicket : IEndpoint
                 }
 
                 var details = request.Details
-                    .Select(d => new CreateSupportTicketDetailDto(d.OrderDetailId, d.PartId, d.Quantity, d.Note))
+                    .Select(d => new CreateSupportTicketDetailDto(d.OrderDetailId, d.DriveId, d.Quantity, d.Note))
                     .ToList();
 
                 var command = new CreateSupportTicketCommand(
@@ -62,7 +62,7 @@ internal sealed class CreateSupportTicket : IEndpoint
             .WithSummary("Create a new support ticket")
             .WithDescription("Creates a new support ticket. Type should be one of: ReplacePart, Exchange, Return")
             .RequireAuthorization(policy => policy.RequireRole(Roles.Customer))
-            .Produces(200)
+            .Produces<Guid>(StatusCodes.Status200OK)
             .ProducesValidationProblem(StatusCodes.Status400BadRequest)
             .ProducesProblem(StatusCodes.Status401Unauthorized)
             .ProducesProblem(StatusCodes.Status500InternalServerError);
@@ -78,7 +78,7 @@ public sealed record CreateSupportTicketRequestDto(
 
 public sealed record CreateSupportTicketDetailRequestDto(
 Guid OrderDetailId,
-Guid? PartId,
+Guid? DriveId,
 int Quantity,
 string? Note);
 

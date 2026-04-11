@@ -40,7 +40,7 @@ internal sealed class SupportTicketCreatedIntegrationEventHandler
                 detail.SupportTicketDetailId,
                 @event.SupportTicketId,
                 detail.OrderItemId,
-                detail.PartId,
+                detail.DriveId,
                 detail.Quantity,
                 detail.Note);
 

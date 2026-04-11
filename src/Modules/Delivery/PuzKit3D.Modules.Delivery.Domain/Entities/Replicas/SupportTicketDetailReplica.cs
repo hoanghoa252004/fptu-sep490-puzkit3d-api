@@ -6,7 +6,7 @@ public sealed class SupportTicketDetailReplica : Entity<Guid>
 {
     public Guid SupportTicketId { get; private set; }
     public Guid OrderItemId { get; private set; }
-    public Guid? PartId { get; private set; }
+    public Guid? DriveId { get; private set; }
     public int Quantity { get; private set; }
     public string? Note { get; private set; }
 
@@ -14,13 +14,13 @@ public sealed class SupportTicketDetailReplica : Entity<Guid>
         Guid id,
         Guid supportTicketId,
         Guid orderItemId,
-        Guid? partId,
+        Guid? driveId,
         int quantity,
         string? note) : base(id)
     {
         SupportTicketId = supportTicketId;
         OrderItemId = orderItemId;
-        PartId = partId;
+        DriveId = driveId;
         Quantity = quantity;
         Note = note;
     }
@@ -33,7 +33,7 @@ public sealed class SupportTicketDetailReplica : Entity<Guid>
         Guid id,
         Guid supportTicketId,
         Guid orderItemId,
-        Guid? partId,
+        Guid? driveId,
         int quantity,
         string? note = null)
     {
@@ -41,7 +41,7 @@ public sealed class SupportTicketDetailReplica : Entity<Guid>
             id,
             supportTicketId,
             orderItemId,
-            partId,
+            driveId,
             quantity,
             note);
     }
