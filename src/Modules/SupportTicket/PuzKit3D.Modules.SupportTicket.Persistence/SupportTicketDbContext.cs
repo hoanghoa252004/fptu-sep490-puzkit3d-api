@@ -10,6 +10,7 @@ using OrderDetailReplicaEntity = PuzKit3D.Modules.SupportTicket.Domain.Entities.
 using PuzKit3D.SharedKernel.Domain;
 using PuzKit3D.SharedKernel.Domain.Results;
 using PuzKit3D.SharedKernel.Infrastructure.Data;
+using PuzKit3D.Modules.SupportTicket.Domain.Entities;
 
 namespace PuzKit3D.Modules.SupportTicket.Persistence;
 
@@ -29,6 +30,8 @@ public sealed class SupportTicketDbContext : DbContext, ISupportTicketUnitOfWork
     public DbSet<OrderReplicaEntity> OrderReplicas => Set<OrderReplicaEntity>();
     public DbSet<OrderDetailReplicaEntity> OrderDetailReplicas => Set<OrderDetailReplicaEntity>();
     public DbSet<PartReplica> PartReplicas => Set<PartReplica>();
+    public DbSet<DriveReplica> DriveReplicas => Set<DriveReplica>();
+
 
     protected override void OnModelCreating(ModelBuilder builder)
     {

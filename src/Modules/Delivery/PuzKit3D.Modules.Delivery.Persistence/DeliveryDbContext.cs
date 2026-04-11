@@ -36,6 +36,7 @@ public sealed class DeliveryDbContext : DbContext, IDeliveryUnitOfWork
     public DbSet<PartReplica> PartReplicas => Set<PartReplica>();
 
     public DbSet<UserReplica> UserReplicas => Set<UserReplica>();
+    public DbSet<DriveReplica> DriveReplicas => Set<DriveReplica>();
 
     protected override void OnModelCreating(ModelBuilder builder)
     {

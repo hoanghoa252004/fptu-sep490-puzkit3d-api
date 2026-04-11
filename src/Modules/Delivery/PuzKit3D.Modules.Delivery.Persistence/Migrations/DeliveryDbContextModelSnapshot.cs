@@ -139,6 +139,51 @@ namespace PuzKit3D.Modules.Delivery.Persistence.Migrations
                     b.ToTable("delivery_tracking_details", "delivery");
                 });
 
+            modelBuilder.Entity("PuzKit3D.Modules.Delivery.Domain.Entities.Replicas.DriveReplica", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("text")
+                        .HasColumnName("description");
+
+                    b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(false)
+                        .HasColumnName("is_active");
+
+                    b.Property<int?>("MinVolume")
+                        .HasColumnType("integer")
+                        .HasColumnName("min_volume");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("character varying(30)")
+                        .HasColumnName("name");
+
+                    b.Property<int>("QuantityInStock")
+                        .HasColumnType("integer")
+                        .HasColumnName("quantity_in_stock");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("updated_at");
+
+                    b.HasKey("Id")
+                        .HasName("pk_drive_replicas");
+
+                    b.ToTable("drive_replicas", "delivery");
+                });
+
             modelBuilder.Entity("PuzKit3D.Modules.Delivery.Domain.Entities.Replicas.OrderDetailReplica", b =>
                 {
                     b.Property<Guid>("Id")
