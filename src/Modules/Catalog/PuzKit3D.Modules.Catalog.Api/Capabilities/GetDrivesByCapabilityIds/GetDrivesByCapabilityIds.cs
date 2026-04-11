@@ -27,7 +27,7 @@ internal sealed class GetDrivesByCapabilityIds : IEndpoint
             .WithName("GetDrivesByCapabilityIds")
             .WithSummary("Get active drives for a list of capabilities")
             .WithDescription("Retrieves a list of active drives associated with the provided capability IDs. Results are distinct and de-duplicated. Returns id and name for filtering purposes.")
-            .Produces<List<GetDriveBasicResponseDto>>(StatusCodes.Status200OK)
+            .Produces<List<GetDrivesByCapabilityIdsResponseDtos>>(StatusCodes.Status200OK)
             .ProducesValidationProblem(StatusCodes.Status400BadRequest)
             .ProducesProblem(StatusCodes.Status500InternalServerError);
     }

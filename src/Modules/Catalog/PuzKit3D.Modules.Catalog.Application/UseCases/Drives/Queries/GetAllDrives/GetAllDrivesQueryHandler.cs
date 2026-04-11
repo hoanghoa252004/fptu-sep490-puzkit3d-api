@@ -40,13 +40,22 @@ internal sealed class GetAllDrivesQueryHandler : IQueryHandler<GetAllDrivesQuery
             .ToList();
 
         // Build response DTOs
-        var driveDtos = drives.Select(d => (object)new GetDriveDetailedResponseDto(
-            d.Id.Value,
-            d.Name,
-            d.Description,
-            d.MinVolume,
-            d.QuantityInStock,
-            d.IsActive)).ToList();
+        var driveDtos = isStaffOrManager
+            ? drives.Select(d => (object)new GetDriveByIdDetailsResponseDto(
+                d.Id.Value,
+                d.Name,
+                d.Description,
+                d.MinVolume,
+                d.QuantityInStock,
+                d.IsActive,
+                d.CreatedAt,
+                d.UpdatedAt)).ToList()
+        // Build response DTOs
+            : drives.Select(d => (object)new GetDriveByIdResponseDto(
+                d.Id.Value,
+                d.Name,
+                d.Description,
+                d.MinVolume)).ToList();
 
         var pagedResult = new PagedResult<object>(
             driveDtos,

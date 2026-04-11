@@ -1,5 +1,6 @@
 using PuzKit3D.Modules.Catalog.Application.Repositories;
 using PuzKit3D.Modules.Catalog.Application.UseCases.CapabilityDrives.Queries.Shared;
+using PuzKit3D.Modules.Catalog.Application.UseCases.Drives.Queries.Shared;
 using PuzKit3D.Modules.Catalog.Domain.Entities.Capabilities;
 using PuzKit3D.SharedKernel.Application.Authorization;
 using PuzKit3D.SharedKernel.Application.Message.Query;
@@ -57,7 +58,7 @@ internal sealed class GetCapabilityDrivesByCapabilityIdQueryHandler : IQueryHand
             cd => cd.CapabilityId == capabilityId,
             cancellationToken);
 
-        var responses = new List<GetCapabilityDriveResponseDto>();
+        var responses = new List<object>();
 
         foreach (var cd in items)
         {
@@ -66,16 +67,35 @@ internal sealed class GetCapabilityDrivesByCapabilityIdQueryHandler : IQueryHand
             if (drive is null)
                 continue;
 
-            responses.Add(new GetCapabilityDriveResponseDto(
+            if (isStaffOrManager)
+            {
+                responses.Add(new GetCapabilityDriveDetailResponseDto(
                 cd.CapabilityId.Value,
                 cd.DriveId.Value,
-                new(
+                new GetDriveByIdDetailsResponseDto(
                     drive.Id.Value,
                     drive.Name,
                     drive.Description,
                     drive.MinVolume,
                     drive.QuantityInStock,
-                    drive.IsActive)));
+                    drive.IsActive,
+                    drive.CreatedAt,
+                    drive.UpdatedAt)));
+            }
+            else
+            {
+                // For non-staff/manager users, only include active drives
+                if (!drive.IsActive)
+                    continue;
+                responses.Add(new GetCapabilityDriveResponseDto(
+                    cd.CapabilityId.Value,
+                    cd.DriveId.Value,
+                    new GetDriveByIdResponseDto(
+                        drive.Id.Value,
+                        drive.Name,
+                        drive.Description,
+                        drive.MinVolume)));
+            }
         }
 
         return Result.Success((object)responses);

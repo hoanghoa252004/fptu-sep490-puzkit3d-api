@@ -5,4 +5,4 @@ namespace PuzKit3D.Modules.Catalog.Application.UseCases.CapabilityDrives.Queries
 public sealed record GetCapabilityDriveResponseDto(
     Guid CapabilityId,
     Guid DriveId,
-    GetDriveDetailedResponseDto Drive);
+    GetDriveByIdResponseDto Drive);

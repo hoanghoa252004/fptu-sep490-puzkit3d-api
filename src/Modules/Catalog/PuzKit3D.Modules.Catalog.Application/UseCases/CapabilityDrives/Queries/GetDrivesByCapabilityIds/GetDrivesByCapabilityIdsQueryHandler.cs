@@ -7,7 +7,7 @@ using PuzKit3D.SharedKernel.Domain.Results;
 namespace PuzKit3D.Modules.Catalog.Application.UseCases.CapabilityDrives.Queries.GetDrivesByCapabilityIds;
 
 internal sealed class GetDrivesByCapabilityIdsQueryHandler
-    : IQueryHandler<GetDrivesByCapabilityIdsQuery, List<GetDriveBasicResponseDto>>
+    : IQueryHandler<GetDrivesByCapabilityIdsQuery, List<GetDrivesByCapabilityIdsResponseDtos>>
 {
     private readonly ICapabilityDriveRepository _repository;
     private readonly IDriveRepository _driveRepository;
@@ -20,12 +20,12 @@ internal sealed class GetDrivesByCapabilityIdsQueryHandler
         _driveRepository = driveRepository;
     }
 
-    public async Task<ResultT<List<GetDriveBasicResponseDto>>> Handle(
+    public async Task<ResultT<List<GetDrivesByCapabilityIdsResponseDtos>>> Handle(
         GetDrivesByCapabilityIdsQuery request,
         CancellationToken cancellationToken)
     {
         if (!request.CapabilityIds.Any())
-            return Result.Success(new List<GetDriveBasicResponseDto>());
+            return Result.Success(new List<GetDrivesByCapabilityIdsResponseDtos>());
 
         // Get all CapabilityDrives for these capabilities
         var capabilityIds = request.CapabilityIds
@@ -37,7 +37,7 @@ internal sealed class GetDrivesByCapabilityIdsQueryHandler
             cancellationToken);
 
         if (!capabilityDrives.Any())
-            return Result.Success(new List<GetDriveBasicResponseDto>());
+            return Result.Success(new List<GetDrivesByCapabilityIdsResponseDtos>());
 
         // Get all unique drive IDs
         var driveIds = capabilityDrives
@@ -52,7 +52,7 @@ internal sealed class GetDrivesByCapabilityIdsQueryHandler
 
         // Map to DTOs and ensure distinct results
         var driveDtos = drives
-            .Select(d => new GetDriveBasicResponseDto(
+            .Select(d => new GetDrivesByCapabilityIdsResponseDtos(
                 d.Id.Value,
                 d.Name))
             .Distinct()

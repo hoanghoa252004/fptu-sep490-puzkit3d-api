@@ -81,7 +81,6 @@ internal sealed class TopicRepository : ITopicRepository
         bool isStaffOrManager,
         string? searchTerm,
         bool ascending,
-        TopicId? parentId = null,
         CancellationToken cancellationToken = default)
     {
         var query = _context.Topics.AsQueryable();
@@ -89,11 +88,6 @@ internal sealed class TopicRepository : ITopicRepository
         if (!isStaffOrManager)
         {
             query = query.Where(p => p.IsActive);
-        }
-
-        if (parentId is not null)
-        {
-            query = query.Where(t => t.ParentId == parentId);
         }
 
         if (!string.IsNullOrEmpty(searchTerm))

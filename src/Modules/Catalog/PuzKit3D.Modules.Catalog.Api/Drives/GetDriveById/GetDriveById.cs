@@ -28,7 +28,7 @@ internal sealed class GetDriveById : IEndpoint
             .WithName("GetDriveById")
             .WithSummary("Get a drive by ID")
             .WithDescription("Retrieves a drive by its ID.")
-            .Produces<GetDriveByIdResponseDto>(StatusCodes.Status200OK)
+            .Produces<GetDriveByIdDetailsResponseDto>(StatusCodes.Status200OK)
             .ProducesProblem(StatusCodes.Status404NotFound)
             .ProducesProblem(StatusCodes.Status500InternalServerError);
     }

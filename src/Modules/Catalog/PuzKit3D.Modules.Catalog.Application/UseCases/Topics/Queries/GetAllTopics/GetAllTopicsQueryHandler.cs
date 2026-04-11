@@ -1,6 +1,5 @@
 using PuzKit3D.Modules.Catalog.Application.Repositories;
 using PuzKit3D.Modules.Catalog.Application.UseCases.Topics.Queries.Shared;
-using PuzKit3D.Modules.Catalog.Domain.Entities.Topics;
 using PuzKit3D.SharedKernel.Application.Authorization;
 using PuzKit3D.SharedKernel.Application.Message.Query;
 using PuzKit3D.SharedKernel.Application.Pagination;
@@ -33,10 +32,9 @@ internal sealed class GetAllTopicsQueryHandler
 
         // Get all topics
         var allTopics = await _topicRepository.GetAllAsync(
-            isStaffOrManager, 
-            request.SearchTerm, 
+            isStaffOrManager,
+            request.SearchTerm,
             request.Ascending,
-            TopicId.From(request.ParentId ?? Guid.Empty),
             cancellationToken);
 
         // Apply pagination
@@ -46,23 +44,23 @@ internal sealed class GetAllTopicsQueryHandler
                 .Take(request.PageSize)
                 .ToList();
 
-         // Build response DTOs
-         var topicDtos = isStaffOrManager
-             ? topics.Select(t => (object)new GetTopicDetailedResponseDto(
-                 t.Id.Value,
-                 t.Name,
-                 t.Slug,
-                 t.ParentId?.Value,
-                 t.Description,
-                 t.IsActive,
-                 t.CreatedAt,
-                 t.UpdatedAt)).ToList()
-             : topics.Select(t => (object)new GetTopicResponseDto(
-                 t.Id.Value,
-                 t.Name,
-                 t.Slug,
-                 t.ParentId?.Value,
-                 t.Description)).ToList();
+        // Build response DTOs
+        var topicDtos = isStaffOrManager
+            ? topics.Select(t => (object)new GetTopicDetailedResponseDto(
+                t.Id.Value,
+                t.Name,
+                t.Slug,
+                t.ParentId?.Value,
+                t.Description,
+                t.IsActive,
+                t.CreatedAt,
+                t.UpdatedAt)).ToList()
+            : topics.Select(t => (object)new GetTopicResponseDto(
+                t.Id.Value,
+                t.Name,
+                t.Slug,
+                t.ParentId?.Value,
+                t.Description)).ToList();
         var pagedResult = new PagedResult<object>(
             topicDtos,
             request.PageNumber,

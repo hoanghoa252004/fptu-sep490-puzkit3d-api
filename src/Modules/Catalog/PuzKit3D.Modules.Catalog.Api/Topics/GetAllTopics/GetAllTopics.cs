@@ -19,7 +19,6 @@ internal sealed class GetAllTopics : IEndpoint
                 int pageSize,
                 string? searchTerm,
                 bool? isActive,
-                Guid? parentId,
                 bool ascending,
                 ISender sender,
                 CancellationToken cancellationToken) =>
@@ -29,7 +28,6 @@ internal sealed class GetAllTopics : IEndpoint
                     pageSize,
                     searchTerm,
                     isActive,
-                    parentId,
                     ascending);
 
                 var result = await sender.Send(query, cancellationToken);

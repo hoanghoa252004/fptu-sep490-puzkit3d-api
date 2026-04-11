@@ -12,6 +12,5 @@ public interface ITopicRepository : IRepositoryBase<Topic, TopicId>
         bool isStaffOrManager,
         string? searchTerm,
         bool ascending,
-        TopicId? parentId = null,
         CancellationToken cancellationToken = default);
 }
