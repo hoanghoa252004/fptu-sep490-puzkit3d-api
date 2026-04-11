@@ -124,8 +124,8 @@ public sealed partial class InstockProduct : AggregateRoot<InstockProductId>
         if (string.IsNullOrWhiteSpace(difficultLevel))
             return Result.Failure<InstockProduct>(InstockProductError.InvalidDifficultLevel());
 
-        if (!ValidDifficultLevels.Contains(difficultLevel))
-            return Result.Failure<InstockProduct>(InstockProductError.InvalidDifficultLevelValue(difficultLevel));
+        //if (!ValidDifficultLevels.Contains(difficultLevel))
+        //    return Result.Failure<InstockProduct>(InstockProductError.InvalidDifficultLevelValue(difficultLevel));
 
         if (estimatedBuildTime <= 0)
             return Result.Failure<InstockProduct>(InstockProductError.InvalidEstimatedBuildTime());
@@ -225,8 +225,8 @@ public sealed partial class InstockProduct : AggregateRoot<InstockProductId>
             if (string.IsNullOrWhiteSpace(difficultLevel))
                 return Result.Failure(InstockProductError.InvalidDifficultLevel());
 
-            if (!ValidDifficultLevels.Contains(difficultLevel))
-                return Result.Failure(InstockProductError.InvalidDifficultLevelValue(difficultLevel));
+            //if (!ValidDifficultLevels.Contains(difficultLevel))
+            //    return Result.Failure(InstockProductError.InvalidDifficultLevelValue(difficultLevel));
 
             DifficultLevel = difficultLevel;
         }
