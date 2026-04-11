@@ -47,7 +47,7 @@ public sealed class CatalogDbContext : DbContext, ICatalogUnitOfWork
 
         builder.ApplyConfigurationsFromAssembly(typeof(CatalogDbContext).Assembly);
         
-        //builder.SeedCatalogMasterData();
+        builder.SeedCatalogMasterData();
     }
 
     public async Task<T> ExecuteAsync<T>(Func<Task<T>> action, CancellationToken cancellationToken = default)
