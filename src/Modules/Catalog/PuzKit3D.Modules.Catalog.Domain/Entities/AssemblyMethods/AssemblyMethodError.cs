@@ -32,7 +32,7 @@ public static class AssemblyMethodError
         "AssemblyMethod.DuplicateSlug",
         $"Assembly method with slug '{slug}' already exists.");
 
-    public static Error InvalidActiveStatus() => Error.Conflict(
-        "AssemblyMethod.InvalidActiveStatus",
-        "The active status is already set to this value.");
+    public static Error InUse(Guid id) => Error.Conflict(
+        "AssemblyMethod.InUse",
+        $"Cannot delete assembly method with ID '{id}' because it is associated with existing capability material assemblies.");
 }

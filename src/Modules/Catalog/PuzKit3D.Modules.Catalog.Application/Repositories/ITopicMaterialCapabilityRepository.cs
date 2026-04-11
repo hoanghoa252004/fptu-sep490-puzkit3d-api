@@ -13,4 +13,15 @@ public interface ITopicMaterialCapabilityRepository : IRepositoryBase<TopicMater
         MaterialId materialId,
         CapabilityId capabilityId,
         CancellationToken cancellationToken = default);
+
+    Task<IEnumerable<TopicMaterialCapability>> GetTopicMaterialCapabilitiesByTopicIdAsync(
+        TopicId topicId,
+        CancellationToken cancellationToken = default);
+
+    Task<IEnumerable<TopicMaterialCapability>> GetTopicMaterialCapabilitiesByMaterialIdAsync(
+        MaterialId materialId,
+        CancellationToken cancellationToken = default);
+    Task<IEnumerable<TopicMaterialCapability>> GetTopicMaterialCapabilitiesByCapabilityIdAsync(
+        CapabilityId capabilityId,
+        CancellationToken cancellationToken = default);
 }

@@ -74,4 +74,34 @@ internal sealed class TopicMaterialCapabilityRepository : ITopicMaterialCapabili
                 && tmc.MaterialId == materialId 
                 && tmc.CapabilityId == capabilityId, cancellationToken);
     }
+
+    public async Task<IEnumerable<TopicMaterialCapability>> GetTopicMaterialCapabilitiesByTopicIdAsync(
+        TopicId topicId, 
+        CancellationToken cancellationToken = default)
+    {
+        return await _context.TopicMaterialCapabilities
+            .Where(tmc => tmc.TopicId == topicId)
+            .AsNoTracking()
+            .ToListAsync(cancellationToken);
+    }
+
+    public async Task<IEnumerable<TopicMaterialCapability>> GetTopicMaterialCapabilitiesByMaterialIdAsync(
+        MaterialId materialId, 
+        CancellationToken cancellationToken = default)
+    {
+        return await _context.TopicMaterialCapabilities
+            .Where(tmc => tmc.MaterialId == materialId)
+            .AsNoTracking()
+            .ToListAsync(cancellationToken);
+    }
+
+    public async Task<IEnumerable<TopicMaterialCapability>> GetTopicMaterialCapabilitiesByCapabilityIdAsync(
+        CapabilityId capabilityId, 
+        CancellationToken cancellationToken = default)
+    {
+        return await _context.TopicMaterialCapabilities
+            .Where(tmc => tmc.CapabilityId == capabilityId)
+            .AsNoTracking()
+            .ToListAsync(cancellationToken);
+    }
 }

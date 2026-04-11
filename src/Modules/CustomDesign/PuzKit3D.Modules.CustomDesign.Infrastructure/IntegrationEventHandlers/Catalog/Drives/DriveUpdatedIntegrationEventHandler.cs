@@ -33,7 +33,7 @@ internal sealed class DriveUpdatedIntegrationEventHandler
             @event.Description,
             @event.MinVolume,
             @event.QuantityInStock,
-            replica.IsActive,
+            @event.IsActive,
             @event.UpdatedAt);
 
         _context.DriveReplicas.Update(replica);

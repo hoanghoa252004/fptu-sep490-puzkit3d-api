@@ -34,7 +34,7 @@ internal sealed class TopicUpdatedIntegrationEventHandler
             @event.ParentId,
             @event.FactorPercentage,
             @event.Description,
-            @event.IsActive, // Keep existing IsActive value
+            @event.IsActive,
             @event.UpdatedAt);
 
         _context.TopicReplicas.Update(replica);

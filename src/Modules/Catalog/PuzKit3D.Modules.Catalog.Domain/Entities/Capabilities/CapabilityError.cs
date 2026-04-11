@@ -39,4 +39,8 @@ public static class CapabilityError
     public static Error NoPermissionGranted() => Error.Unauthorized(
         "Capability.NoPermissionGranted",
         "You do not have permission to view this capability.");
+
+    public static Error InUse(Guid id) => Error.Conflict(
+        "Capability.InUse",
+        $"Capability with ID '{id}' cannot be deleted because it is currently in use.");
 }

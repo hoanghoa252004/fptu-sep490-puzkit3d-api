@@ -10,13 +10,19 @@ internal sealed class DeleteCapabilityCommandHandler : ICommandHandler<DeleteCap
 {
     private readonly ICapabilityRepository _capabilityRepository;
     private readonly ICatalogUnitOfWork _unitOfWork;
+    private readonly ICapabilityMaterialAssemblyRepository _capabilityMaterialAssemblyRepository;
+    private readonly ITopicMaterialCapabilityRepository _topicMaterialCapabilityRepository;
 
     public DeleteCapabilityCommandHandler(
         ICapabilityRepository capabilityRepository,
-        ICatalogUnitOfWork unitOfWork)
+        ICatalogUnitOfWork unitOfWork,
+        ICapabilityMaterialAssemblyRepository capabilityMaterialAssemblyRepository,
+        ITopicMaterialCapabilityRepository topicMaterialCapabilityRepository)
     {
         _capabilityRepository = capabilityRepository;
         _unitOfWork = unitOfWork;
+        _capabilityMaterialAssemblyRepository = capabilityMaterialAssemblyRepository;
+        _topicMaterialCapabilityRepository = topicMaterialCapabilityRepository;
     }
 
     public async Task<Result> Handle(DeleteCapabilityCommand request, CancellationToken cancellationToken)
@@ -28,6 +34,22 @@ internal sealed class DeleteCapabilityCommandHandler : ICommandHandler<DeleteCap
         if (capability is null)
         {
             return Result.Failure(CapabilityError.NotFound(request.Id));
+        }
+
+        var existingCapabilityMaterialAssemblies = await _capabilityMaterialAssemblyRepository
+            .GetCapabilityMaterialAssembliesByCapabilityIdAsync(capabilityId, cancellationToken);
+
+        if (existingCapabilityMaterialAssemblies is not null && existingCapabilityMaterialAssemblies.Any())
+        {
+            return Result.Failure(CapabilityError.InUse(request.Id));
+        }
+
+        var existingTopicMaterialCapabilities = await _topicMaterialCapabilityRepository
+            .GetTopicMaterialCapabilitiesByCapabilityIdAsync(capabilityId, cancellationToken);
+
+        if (existingTopicMaterialCapabilities is not null && existingTopicMaterialCapabilities.Any())
+        {
+            return Result.Failure(CapabilityError.InUse(request.Id));
         }
 
         // Execute in transaction

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using PuzKit3D.Modules.Catalog.Application.UseCases.Drives.Queries.GetDriveById;
+using PuzKit3D.Modules.Catalog.Application.UseCases.Drives.Queries.Shared;
 using PuzKit3D.SharedKernel.Api.Endpoint;
 using PuzKit3D.SharedKernel.Api.Results.Extensions;
 

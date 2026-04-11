@@ -1,6 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using PuzKit3D.Modules.Catalog.Application.Repositories;
+using PuzKit3D.Modules.Catalog.Domain.Entities.AssemblyMethods;
+using PuzKit3D.Modules.Catalog.Domain.Entities.Capabilities;
 using PuzKit3D.Modules.Catalog.Domain.Entities.CapabilityMaterialAssemblies;
+using PuzKit3D.Modules.Catalog.Domain.Entities.Materials;
 using System.Linq.Expressions;
 
 namespace PuzKit3D.Modules.Catalog.Persistence.Repositories;
@@ -58,5 +61,35 @@ internal sealed class CapabilityMaterialAssemblyRepository : ICapabilityMaterial
     public void DeleteMultiple(List<CapabilityMaterialAssembly> entities)
     {
         _context.CapabilityMaterialAssemblies.RemoveRange(entities);
+    }
+
+    public async Task<IEnumerable<CapabilityMaterialAssembly>> GetCapabilityMaterialAssembliesByAssemblyMethodIdAsync(
+        AssemblyMethodId assemblyMethodId,
+        CancellationToken cancellationToken = default)
+    {
+        return await _context.CapabilityMaterialAssemblies
+            .Where(cma => cma.AssemblyId == assemblyMethodId)
+            .AsNoTracking()
+            .ToListAsync(cancellationToken);
+    }
+
+    public async Task<IEnumerable<CapabilityMaterialAssembly>> GetCapabilityMaterialAssembliesByCapabilityIdAsync(
+        CapabilityId capabilityId,
+        CancellationToken cancellationToken = default)
+    {
+        return await _context.CapabilityMaterialAssemblies
+            .Where(cma => cma.CapabilityId == capabilityId)
+            .AsNoTracking()
+            .ToListAsync(cancellationToken);
+    }
+
+    public async Task<IEnumerable<CapabilityMaterialAssembly>> GetCapabilityMaterialAssembliesByMaterialIdAsync(
+        MaterialId materialId,
+        CancellationToken cancellationToken = default)
+    {
+        return await _context.CapabilityMaterialAssemblies
+            .Where(cma => cma.MaterialId == materialId)
+            .AsNoTracking()
+            .ToListAsync(cancellationToken);
     }
 }
