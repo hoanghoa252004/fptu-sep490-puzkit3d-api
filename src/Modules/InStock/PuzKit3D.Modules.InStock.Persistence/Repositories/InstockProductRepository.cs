@@ -30,6 +30,7 @@ internal sealed class InstockProductRepository : IInstockProductRepository
     {
         return await _context.InstockProducts
             .Include(p => p.Drives)
+            .Include(p => p.CapabilityDetails)
             .FirstOrDefaultAsync(p => p.Id == id, cancellationToken);
     }
 

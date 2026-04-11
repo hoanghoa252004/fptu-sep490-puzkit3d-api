@@ -15,6 +15,7 @@ Guid TopicId,
 Guid AssemblyMethodId,
 List<Guid> CapabilityIds,
 Guid MaterialId,
+List<GetInstockProductBySlugDriveDetailDto> Drives,
 bool IsActive,
 DateTime CreatedAt,
 DateTime UpdatedAt);

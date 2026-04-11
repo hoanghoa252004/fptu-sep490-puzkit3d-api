@@ -13,12 +13,18 @@ internal sealed class GetInstockProductByIdQueryHandler
     : IQueryHandler<GetInstockProductByIdQuery, GetInstockProductByIdResponseDto>
 {
     private readonly IInstockProductRepository _productRepository;
+    private readonly IDriveReplicaRepository _driveReplicaRepository;
     private readonly ICurrentUser _currentUser;
     private readonly IMediaAssetService _assetUrlService;
 
-    public GetInstockProductByIdQueryHandler(IInstockProductRepository productRepository, ICurrentUser currentUser, IMediaAssetService assetUrlService)
+    public GetInstockProductByIdQueryHandler(
+        IInstockProductRepository productRepository,
+        IDriveReplicaRepository driveReplicaRepository,
+        ICurrentUser currentUser,
+        IMediaAssetService assetUrlService)
     {
         _productRepository = productRepository;
+        _driveReplicaRepository = driveReplicaRepository;
         _currentUser = currentUser;
         _assetUrlService = assetUrlService;
     }
@@ -49,6 +55,18 @@ internal sealed class GetInstockProductByIdQueryHandler
                     $"Instock product with Id '{request.Id}' is not available."));
         }
 
+        // Get drive replicas to map names
+        var driveIds = product.Drives.Select(d => d.DriveId).ToList();
+        var driveReplicas = (await _driveReplicaRepository.GetByIdsAsync(driveIds, cancellationToken))
+            .ToDictionary(d => d.Id);
+
+        var driveDetails = product.Drives
+            .Select(d => new GetInstockProductByIdDriveDetailDto(
+                d.DriveId,
+                driveReplicas.TryGetValue(d.DriveId, out var replica) ? replica.Name : "Unknown",
+                d.Quantity))
+            .ToList();
+
         var response = new GetInstockProductByIdResponseDto(
             product.Id.Value,
             product.Code,
@@ -64,6 +82,7 @@ internal sealed class GetInstockProductByIdQueryHandler
             product.AssemblyMethodId,
             product.GetCapabilityIds(),
             product.MaterialId,
+            driveDetails,
             product.IsActive,
             product.CreatedAt,
             product.UpdatedAt);

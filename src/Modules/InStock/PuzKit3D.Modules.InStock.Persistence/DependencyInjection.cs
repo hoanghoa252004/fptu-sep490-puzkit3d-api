@@ -52,6 +52,7 @@ public static class DependencyInjection
         services.AddScoped<IAssemblyMethodReplicaRepository, AssemblyMethodReplicaRepository>();
         services.AddScoped<ICapabilityReplicaRepository, CapabilityReplicaRepository>();
         services.AddScoped<IMaterialReplicaRepository, MaterialReplicaRepository>();
+        services.AddScoped<IDriveReplicaRepository, DriveReplicaRepository>();
 
         services.AddScoped<IInstockProductCodeGenerator, InstockProductCodeGenerator>();
         services.AddScoped<IInstockProductVariantSkuGenerator, InstockProductVariantSkuGenerator>();

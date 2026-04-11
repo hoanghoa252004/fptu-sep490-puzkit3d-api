@@ -15,6 +15,7 @@
   <ItemGroup>
     <Compile Include="Repositories\AssemblyMethodReplicaRepository.cs" />
     <Compile Include="Repositories\CapabilityReplicaRepository.cs" />
+    <Compile Include="Repositories\DriveReplicaRepository.cs" />
     <Compile Include="Repositories\InstockInventoryRepository.cs" />
     <Compile Include="Repositories\InstockOrderConfigRepository.cs" />
     <Compile Include="Repositories\InstockOrderRepository.cs" />

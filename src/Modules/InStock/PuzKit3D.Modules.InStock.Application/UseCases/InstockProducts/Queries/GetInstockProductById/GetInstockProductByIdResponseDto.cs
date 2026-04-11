@@ -15,6 +15,7 @@ public sealed record GetInstockProductByIdResponseDto(
     Guid AssemblyMethodId,
     List<Guid> CapabilityIds,
     Guid MaterialId,
+    List<GetInstockProductByIdDriveDetailDto> Drives,
     bool IsActive,
     DateTime CreatedAt,
     DateTime UpdatedAt);
