@@ -14,7 +14,8 @@ internal sealed class GetDrivesByCapabilityIds : IEndpoint
 {
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapPost("/drives", async (
+        app.MapCapabilitiesGroup()
+            .MapPost("/drives", async (
                 [FromBody] GetDrivesByCapabilityIdsRequestDto request,
                 ISender sender,
                 CancellationToken cancellationToken) =>
