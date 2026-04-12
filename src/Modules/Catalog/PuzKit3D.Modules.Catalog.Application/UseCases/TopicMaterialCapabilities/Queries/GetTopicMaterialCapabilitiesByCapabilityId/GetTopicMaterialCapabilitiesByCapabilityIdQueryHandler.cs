@@ -101,6 +101,7 @@ internal sealed class GetTopicMaterialCapabilitiesByCapabilityIdQueryHandler : I
                         topic.Slug,
                         topic.ParentId?.Value,
                         topic.Description,
+                        topic.FactorPercentage,
                         topic.IsActive,
                         topic.CreatedAt,
                         topic.UpdatedAt),
@@ -109,6 +110,8 @@ internal sealed class GetTopicMaterialCapabilitiesByCapabilityIdQueryHandler : I
                         material.Name,
                         material.Slug,
                         material.Description,
+                        material.FactorPercentage,
+                        material.BasePrice,
                         material.IsActive,
                         material.CreatedAt,
                         material.UpdatedAt),
@@ -117,6 +120,7 @@ internal sealed class GetTopicMaterialCapabilitiesByCapabilityIdQueryHandler : I
                         capability.Name,
                         capability.Slug,
                         capability.Description,
+                        capability.FactorPercentage,
                         capability.IsActive,
                         capability.CreatedAt,
                         capability.UpdatedAt),
@@ -131,17 +135,21 @@ internal sealed class GetTopicMaterialCapabilitiesByCapabilityIdQueryHandler : I
                         topic.Name,
                         topic.Slug,
                         null,
-                        null),
+                        null,
+                        topic.FactorPercentage),
                     new(
                         material.Id.Value,
                         material.Name,
                         material.Slug,
-                        null),
+                        null,
+                        material.FactorPercentage,
+                        material.BasePrice),
                     new(
                         capability.Id.Value,
                         capability.Name,
                         capability.Slug,
-                        null)));
+                        null,
+                        capability.FactorPercentage)));
             }
         }
 

@@ -4,4 +4,6 @@ public sealed record GetMaterialResponseDto(
     Guid Id,
     string Name,
     string Slug,
-    string? Description);
+    string? Description,
+    decimal FactorPercentage,
+    decimal BasePrice);

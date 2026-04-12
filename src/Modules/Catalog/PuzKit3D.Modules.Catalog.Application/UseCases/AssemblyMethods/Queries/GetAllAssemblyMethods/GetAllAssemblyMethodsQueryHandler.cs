@@ -51,6 +51,7 @@ internal sealed class GetAllAssemblyMethodsQueryHandler
                 a.Name,
                 a.Slug,
                 a.Description,
+                a.FactorPercentage,
                 a.IsActive,
                 a.CreatedAt,
                 a.UpdatedAt)).ToList()
@@ -58,7 +59,8 @@ internal sealed class GetAllAssemblyMethodsQueryHandler
                 a.Id.Value,
                 a.Name,
                 a.Slug,
-                a.Description)).ToList();
+                a.Description,
+                a.FactorPercentage)).ToList();
 
         var pagedResult = new PagedResult<object>(
             methodDtos,

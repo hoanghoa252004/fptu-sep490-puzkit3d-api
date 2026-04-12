@@ -55,6 +55,7 @@ internal sealed class GetAssemblyMethodByIdQueryHandler
                 assemblyMethod.Name,
                 assemblyMethod.Slug,
                 assemblyMethod.Description,
+                assemblyMethod.FactorPercentage,
                 assemblyMethod.IsActive,
                 assemblyMethod.CreatedAt,
                 assemblyMethod.UpdatedAt)
@@ -62,7 +63,8 @@ internal sealed class GetAssemblyMethodByIdQueryHandler
                 assemblyMethod.Id.Value,
                 assemblyMethod.Name,
                 assemblyMethod.Slug,
-                assemblyMethod.Description);
+                assemblyMethod.Description,
+                assemblyMethod.FactorPercentage);
 
         return Result.Success(response);
     }

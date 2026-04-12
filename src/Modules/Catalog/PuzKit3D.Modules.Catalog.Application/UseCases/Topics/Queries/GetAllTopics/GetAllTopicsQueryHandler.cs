@@ -52,6 +52,7 @@ internal sealed class GetAllTopicsQueryHandler
                 t.Slug,
                 t.ParentId?.Value,
                 t.Description,
+                t.FactorPercentage,
                 t.IsActive,
                 t.CreatedAt,
                 t.UpdatedAt)).ToList()
@@ -60,7 +61,8 @@ internal sealed class GetAllTopicsQueryHandler
                 t.Name,
                 t.Slug,
                 t.ParentId?.Value,
-                t.Description)).ToList();
+                t.Description,
+                t.FactorPercentage)).ToList();
         var pagedResult = new PagedResult<object>(
             topicDtos,
             request.PageNumber,

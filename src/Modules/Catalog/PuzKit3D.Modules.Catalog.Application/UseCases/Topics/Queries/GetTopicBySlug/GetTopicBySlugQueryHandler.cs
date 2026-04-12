@@ -50,6 +50,7 @@ internal sealed class GetTopicBySlugQueryHandler : IQueryHandler<GetTopicBySlugQ
                  topic.Slug,
                  topic.ParentId?.Value,
                  topic.Description,
+                 topic.FactorPercentage,
                  topic.IsActive,
                  topic.CreatedAt,
                  topic.UpdatedAt)
@@ -58,7 +59,8 @@ internal sealed class GetTopicBySlugQueryHandler : IQueryHandler<GetTopicBySlugQ
                  topic.Name,
                  topic.Slug,
                  topic.ParentId?.Value,
-                 topic.Description);
+                 topic.Description,
+                 topic.FactorPercentage);
         return Result.Success(topicDto);
     }
 }

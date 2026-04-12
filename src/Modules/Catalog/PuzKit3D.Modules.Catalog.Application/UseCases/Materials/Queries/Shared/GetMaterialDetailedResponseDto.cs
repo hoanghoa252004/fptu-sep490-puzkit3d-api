@@ -5,6 +5,8 @@ public sealed record GetMaterialDetailedResponseDto(
     string Name,
     string Slug,
     string? Description,
+    decimal FactorPercentage,
+    decimal BasePrice,
     bool IsActive,
     DateTime CreatedAt,
     DateTime UpdatedAt);

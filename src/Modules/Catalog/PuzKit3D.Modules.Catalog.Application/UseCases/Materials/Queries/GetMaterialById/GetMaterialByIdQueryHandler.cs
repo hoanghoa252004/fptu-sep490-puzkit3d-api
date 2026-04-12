@@ -53,6 +53,8 @@ internal sealed class GetMaterialByIdQueryHandler : IQueryHandler<GetMaterialByI
                 material.Name,
                 material.Slug,
                 material.Description,
+                material.FactorPercentage,
+                material.BasePrice,
                 material.IsActive,
                 material.CreatedAt,
                 material.UpdatedAt)
@@ -60,7 +62,9 @@ internal sealed class GetMaterialByIdQueryHandler : IQueryHandler<GetMaterialByI
                 material.Id.Value,
                 material.Name,
                 material.Slug,
-                material.Description);
+                material.Description,
+                material.FactorPercentage,
+                material.BasePrice);
         return Result.Success(response);
     }
 }

@@ -4,4 +4,5 @@ public sealed record GetAssemblyMethodResponseDto(
     Guid Id,
     string Name,
     string Slug,
-    string? Description);
+    string? Description,
+    decimal FactorPercentage);

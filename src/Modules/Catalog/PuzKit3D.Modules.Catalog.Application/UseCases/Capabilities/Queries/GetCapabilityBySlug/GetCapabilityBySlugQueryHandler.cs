@@ -52,6 +52,7 @@ internal sealed class GetCapabilityBySlugQueryHandler : IQueryHandler<GetCapabil
                 capability.Name,
                 capability.Slug,
                 capability.Description,
+                capability.FactorPercentage,
                 capability.IsActive,
                 capability.CreatedAt,
                 capability.UpdatedAt)
@@ -59,7 +60,8 @@ internal sealed class GetCapabilityBySlugQueryHandler : IQueryHandler<GetCapabil
                 capability.Id.Value,
                 capability.Name,
                 capability.Slug,
-                capability.Description);
+                capability.Description,
+                capability.FactorPercentage);
 
         return Result.Success(response);
     }

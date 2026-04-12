@@ -5,6 +5,7 @@ public sealed record GetCapabilityDetailedResponseDto(
     string Name,
     string Slug,
     string? Description,
+    decimal FactorPercentage,
     bool IsActive,
     DateTime CreatedAt,
     DateTime UpdatedAt);

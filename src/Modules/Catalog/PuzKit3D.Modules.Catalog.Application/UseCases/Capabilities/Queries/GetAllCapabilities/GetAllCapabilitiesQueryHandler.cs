@@ -51,6 +51,7 @@ internal sealed class GetAllCapabilitiesQueryHandler
                 c.Name,
                 c.Slug,
                 c.Description,
+                c.FactorPercentage,
                 c.IsActive,
                 c.CreatedAt,
                 c.UpdatedAt)).ToList()
@@ -58,7 +59,8 @@ internal sealed class GetAllCapabilitiesQueryHandler
                 c.Id.Value,
                 c.Name,
                 c.Slug,
-                c.Description)).ToList();
+                c.Description,
+                c.FactorPercentage)).ToList();
 
         var pagedResult = new PagedResult<object>(
             capabilityDtos,

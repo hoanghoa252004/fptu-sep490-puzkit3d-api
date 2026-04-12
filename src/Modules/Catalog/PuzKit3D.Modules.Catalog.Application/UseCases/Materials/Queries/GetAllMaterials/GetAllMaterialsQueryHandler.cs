@@ -51,6 +51,8 @@ internal sealed class GetAllMaterialsQueryHandler
                 m.Name,
                 m.Slug,
                 m.Description,
+                m.FactorPercentage,
+                m.BasePrice,
                 m.IsActive,
                 m.CreatedAt,
                 m.UpdatedAt)).ToList()
@@ -58,7 +60,9 @@ internal sealed class GetAllMaterialsQueryHandler
                 m.Id.Value,
                 m.Name,
                 m.Slug,
-                m.Description)).ToList();
+                m.Description,
+                m.FactorPercentage,
+                m.BasePrice)).ToList();
         var pagedResult = new PagedResult<object>(
             materialDtos,
             request.PageNumber,
