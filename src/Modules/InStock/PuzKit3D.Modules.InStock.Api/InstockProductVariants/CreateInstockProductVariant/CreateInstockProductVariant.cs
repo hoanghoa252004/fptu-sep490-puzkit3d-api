@@ -21,12 +21,15 @@ internal sealed class CreateInstockProductVariant : IEndpoint
                 ISender sender,
                 CancellationToken cancellationToken) =>
             {
+                var previewImagesString = string.Join(",", request.PreviewImages ?? new List<string>());
+
                 var command = new CreateInstockProductVariantCommand(
                     productId,
                     request.Color,
                     request.AssembledLengthMm,
                     request.AssembledWidthMm,
                     request.AssembledHeightMm,
+                    previewImagesString,
                     request.IsActive);
 
                 var result = await sender.Send(command, cancellationToken);
@@ -48,9 +51,11 @@ internal sealed class CreateInstockProductVariant : IEndpoint
 }
 
 internal sealed record CreateInstockProductVariantRequestDto(
-    string Color,
-    int AssembledLengthMm,
-    int AssembledWidthMm,
-    int AssembledHeightMm,
-    bool IsActive);
+string Color,
+int AssembledLengthMm,
+int AssembledWidthMm,
+int AssembledHeightMm,
+List<string> PreviewImages,
+bool IsActive = false);
+
 

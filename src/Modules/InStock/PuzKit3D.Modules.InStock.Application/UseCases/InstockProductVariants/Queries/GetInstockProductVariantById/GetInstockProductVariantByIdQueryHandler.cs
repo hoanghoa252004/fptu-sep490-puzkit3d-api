@@ -1,5 +1,6 @@
 using PuzKit3D.Modules.InStock.Application.Repositories;
 using PuzKit3D.Modules.InStock.Domain.Entities.InstockProductVariants;
+using PuzKit3D.SharedKernel.Application.Media;
 using PuzKit3D.SharedKernel.Application.Message.Query;
 using PuzKit3D.SharedKernel.Domain.Results;
 
@@ -9,10 +10,14 @@ internal sealed class GetInstockProductVariantByIdQueryHandler
 : IQueryHandler<GetInstockProductVariantByIdQuery, GetInstockProductVariantByIdResponseDto>
 {
     private readonly IInstockProductVariantRepository _variantRepository;
+    private readonly IMediaAssetService _mediaAssetService;
 
-    public GetInstockProductVariantByIdQueryHandler(IInstockProductVariantRepository variantRepository)
+    public GetInstockProductVariantByIdQueryHandler(
+        IInstockProductVariantRepository variantRepository,
+        IMediaAssetService mediaAssetService)
     {
         _variantRepository = variantRepository;
+        _mediaAssetService = mediaAssetService;
     }
 
     public async Task<ResultT<GetInstockProductVariantByIdResponseDto>> Handle(
@@ -36,6 +41,7 @@ internal sealed class GetInstockProductVariantByIdQueryHandler
             variant.AssembledLengthMm,
             variant.AssembledWidthMm,
             variant.AssembledHeightMm,
+            _mediaAssetService.BuildAssetUrls(variant.PreviewImages),
             variant.IsActive,
             variant.CreatedAt,
             variant.UpdatedAt);

@@ -50,6 +50,7 @@ internal sealed class GetInStockCartQueryHandler : IQueryHandler<GetInStockCartQ
             kvp => 
             {
                 var product = products.TryGetValue(kvp.Value.InStockProductId, out var p) ? p : null;
+                var previewImages = _assetUrlService.BuildAssetUrls(kvp.Value.PreviewImages);
                 return new ProductDetailsDto(
                     kvp.Value.InStockProductId,
                     product?.Name ?? string.Empty,
@@ -63,7 +64,8 @@ internal sealed class GetInStockCartQueryHandler : IQueryHandler<GetInStockCartQ
                     product != null ? _assetUrlService.BuildAssetUrl(product.ThumbnailUrl) : null,
                     kvp.Value.IsActive,
                     null,
-                    null);
+                    null,
+                    previewImages);
             });
 
         // Get price details for all cart items

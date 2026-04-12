@@ -12,7 +12,7 @@ using PuzKit3D.Modules.InStock.Persistence;
 namespace PuzKit3D.Modules.InStock.Persistence.Migrations
 {
     [DbContext(typeof(InStockDbContext))]
-    [Migration("20260412075519_InitModule")]
+    [Migration("20260412095912_InitModule")]
     partial class InitModule
     {
         /// <inheritdoc />
@@ -740,182 +740,182 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("e896d096-e2a7-4814-89c3-1ff52f12845d"),
+                            Id = new Guid("08578f30-2677-4a23-a0c8-cf3664f2cfc4"),
                             DriveId = new Guid("11111111-1111-1111-1111-111111111111"),
                             InstockProductId = new Guid("10000000-0000-0000-0000-000000000001"),
                             Quantity = 1
                         },
                         new
                         {
-                            Id = new Guid("c24683f0-b5ff-417b-92c6-914e8de59ad8"),
+                            Id = new Guid("5110d43a-7a4b-420d-b5d8-e61d4400df42"),
                             DriveId = new Guid("22222222-2222-2222-2222-222222222222"),
                             InstockProductId = new Guid("10000000-0000-0000-0000-000000000001"),
                             Quantity = 1
                         },
                         new
                         {
-                            Id = new Guid("0e71dff3-9e59-412f-8006-b106313d0bc1"),
+                            Id = new Guid("2e4b60f2-b9f6-4950-9a22-bcfcd723b5f7"),
                             DriveId = new Guid("33333333-3333-3333-3333-333333333333"),
                             InstockProductId = new Guid("10000000-0000-0000-0000-000000000001"),
                             Quantity = 2
                         },
                         new
                         {
-                            Id = new Guid("d9ead817-ab3f-4b24-95ea-a5f147b3dc49"),
+                            Id = new Guid("7b923bb9-2633-48ac-957b-c925d5daeaf1"),
                             DriveId = new Guid("22222222-2222-2222-2222-222222222222"),
                             InstockProductId = new Guid("10000000-0000-0000-0000-000000000002"),
                             Quantity = 1
                         },
                         new
                         {
-                            Id = new Guid("e047b25a-2018-4821-8119-bcb7b78a4262"),
+                            Id = new Guid("d6dbbfe5-6976-44aa-8d52-b6a2b5270927"),
                             DriveId = new Guid("33333333-3333-3333-3333-333333333333"),
                             InstockProductId = new Guid("10000000-0000-0000-0000-000000000002"),
                             Quantity = 3
                         },
                         new
                         {
-                            Id = new Guid("d5d63695-bf7b-4b5e-8fef-315f6dd93ae8"),
+                            Id = new Guid("8ab14c71-c665-4726-8bea-8c4309487b8e"),
                             DriveId = new Guid("33333333-3333-3333-3333-333333333333"),
                             InstockProductId = new Guid("10000000-0000-0000-0000-000000000003"),
                             Quantity = 2
                         },
                         new
                         {
-                            Id = new Guid("8051ce98-0d8f-42b2-bb42-78e32bcb162e"),
+                            Id = new Guid("cc5da756-dc21-4710-a8c3-3f0864e766ca"),
                             DriveId = new Guid("44444444-4444-4444-4444-444444444444"),
                             InstockProductId = new Guid("10000000-0000-0000-0000-000000000003"),
                             Quantity = 1
                         },
                         new
                         {
-                            Id = new Guid("715e2901-7a2d-47de-9c52-0fbdb13d27ff"),
+                            Id = new Guid("38305bf6-5272-44da-8d75-fe0dc2dfd431"),
                             DriveId = new Guid("44444444-4444-4444-4444-444444444444"),
                             InstockProductId = new Guid("10000000-0000-0000-0000-000000000004"),
                             Quantity = 2
                         },
                         new
                         {
-                            Id = new Guid("896e585b-0a2c-4e9c-9466-df3ebd1d34c9"),
+                            Id = new Guid("e255aafb-1ade-4797-a7be-b81e94032a76"),
                             DriveId = new Guid("55555555-5555-5555-5555-555555555555"),
                             InstockProductId = new Guid("10000000-0000-0000-0000-000000000004"),
                             Quantity = 1
                         },
                         new
                         {
-                            Id = new Guid("27266059-8d4c-4862-9fe0-a61f12789958"),
+                            Id = new Guid("8dd31e6b-67e0-498a-9f15-fd47382903f5"),
                             DriveId = new Guid("33333333-3333-3333-3333-333333333333"),
                             InstockProductId = new Guid("10000000-0000-0000-0000-000000000004"),
                             Quantity = 2
                         },
                         new
                         {
-                            Id = new Guid("70bb3c8f-007d-4ead-a085-769bc5ff58a8"),
+                            Id = new Guid("aa4042f3-a7c5-476f-a475-04af6cdcdcaa"),
                             DriveId = new Guid("55555555-5555-5555-5555-555555555555"),
                             InstockProductId = new Guid("10000000-0000-0000-0000-000000000005"),
                             Quantity = 1
                         },
                         new
                         {
-                            Id = new Guid("19fe5f7e-cffc-471e-8b71-1bb669361dee"),
+                            Id = new Guid("e6f7eb45-80df-4617-9e49-a5305547b0ba"),
                             DriveId = new Guid("33333333-3333-3333-3333-333333333333"),
                             InstockProductId = new Guid("10000000-0000-0000-0000-000000000005"),
                             Quantity = 3
                         },
                         new
                         {
-                            Id = new Guid("0fbbfa7a-5f55-46eb-8a42-53f3cc2e3912"),
+                            Id = new Guid("d0d57205-4b2f-4611-8aa0-d1adb9c15742"),
                             DriveId = new Guid("11111111-1111-1111-1111-111111111111"),
                             InstockProductId = new Guid("10000000-0000-0000-0000-000000000005"),
                             Quantity = 1
                         },
                         new
                         {
-                            Id = new Guid("db462703-3d5c-44b1-bd14-4185db7842de"),
+                            Id = new Guid("10311e4a-dbe4-44f1-88af-a3ec0fe084c0"),
                             DriveId = new Guid("11111111-1111-1111-1111-111111111111"),
                             InstockProductId = new Guid("10000000-0000-0000-0000-000000000006"),
                             Quantity = 1
                         },
                         new
                         {
-                            Id = new Guid("9cb09c36-31a9-4934-9314-f952dbca6415"),
+                            Id = new Guid("fc70f9ef-025e-44fb-8e40-6d8115b48243"),
                             DriveId = new Guid("22222222-2222-2222-2222-222222222222"),
                             InstockProductId = new Guid("10000000-0000-0000-0000-000000000006"),
                             Quantity = 1
                         },
                         new
                         {
-                            Id = new Guid("7ef17fae-1e5e-47ec-86f6-f0f742ca764b"),
+                            Id = new Guid("7eaccc13-46ad-43b1-9af8-b5d3e40a03de"),
                             DriveId = new Guid("33333333-3333-3333-3333-333333333333"),
                             InstockProductId = new Guid("10000000-0000-0000-0000-000000000006"),
                             Quantity = 2
                         },
                         new
                         {
-                            Id = new Guid("78fecc21-1a40-4055-ada6-2ea5d79abf28"),
+                            Id = new Guid("3bfaaafb-9e71-4519-bdb2-2338268d7cfe"),
                             DriveId = new Guid("22222222-2222-2222-2222-222222222222"),
                             InstockProductId = new Guid("10000000-0000-0000-0000-000000000007"),
                             Quantity = 1
                         },
                         new
                         {
-                            Id = new Guid("09eb2322-95f3-45e1-a758-340208a9f933"),
+                            Id = new Guid("4b364cf8-f7bb-4fcc-9b1d-a5c0d8f42421"),
                             DriveId = new Guid("33333333-3333-3333-3333-333333333333"),
                             InstockProductId = new Guid("10000000-0000-0000-0000-000000000007"),
                             Quantity = 2
                         },
                         new
                         {
-                            Id = new Guid("05e1a1d8-8f06-4d23-8332-a8684fdd287e"),
+                            Id = new Guid("80028215-9ce3-4a1f-9e78-c81f9ea128eb"),
                             DriveId = new Guid("33333333-3333-3333-3333-333333333333"),
                             InstockProductId = new Guid("10000000-0000-0000-0000-000000000008"),
                             Quantity = 2
                         },
                         new
                         {
-                            Id = new Guid("aa751e14-1a5a-4096-9f3c-eaaf7afb3ff0"),
+                            Id = new Guid("e2eb63e6-c0d6-4373-9eaf-bf24c662a0bb"),
                             DriveId = new Guid("44444444-4444-4444-4444-444444444444"),
                             InstockProductId = new Guid("10000000-0000-0000-0000-000000000008"),
                             Quantity = 1
                         },
                         new
                         {
-                            Id = new Guid("cc1a28ef-2f5e-4c60-94dd-e40d3ebfdba1"),
+                            Id = new Guid("bb5c23c3-64bb-450c-87dc-e16bcd595047"),
                             DriveId = new Guid("44444444-4444-4444-4444-444444444444"),
                             InstockProductId = new Guid("10000000-0000-0000-0000-000000000009"),
                             Quantity = 1
                         },
                         new
                         {
-                            Id = new Guid("ec38f898-8ecc-46ee-8643-29a0e63a4fb1"),
+                            Id = new Guid("a5b472f7-9e78-404a-aad5-628309847697"),
                             DriveId = new Guid("55555555-5555-5555-5555-555555555555"),
                             InstockProductId = new Guid("10000000-0000-0000-0000-000000000009"),
                             Quantity = 1
                         },
                         new
                         {
-                            Id = new Guid("2c098502-0bb6-4a30-b6db-c9b73ea32a04"),
+                            Id = new Guid("895aa47f-d8fb-4b9c-9d1e-8c1ff388a75a"),
                             DriveId = new Guid("33333333-3333-3333-3333-333333333333"),
                             InstockProductId = new Guid("10000000-0000-0000-0000-000000000009"),
                             Quantity = 2
                         },
                         new
                         {
-                            Id = new Guid("f54f4339-5de0-464f-8d3a-7ad6f81a7918"),
+                            Id = new Guid("b8277c83-2bf3-4665-bff2-2f6d4153f198"),
                             DriveId = new Guid("55555555-5555-5555-5555-555555555555"),
                             InstockProductId = new Guid("10000000-0000-0000-0000-000000000010"),
                             Quantity = 1
                         },
                         new
                         {
-                            Id = new Guid("d09ab488-31d0-4830-9d50-b060a5cd6098"),
+                            Id = new Guid("65adb27e-863e-4ce4-8e0a-8668bb285265"),
                             DriveId = new Guid("33333333-3333-3333-3333-333333333333"),
                             InstockProductId = new Guid("10000000-0000-0000-0000-000000000010"),
                             Quantity = 2
                         },
                         new
                         {
-                            Id = new Guid("cefe1c8d-fc69-4882-a10b-d252a808fc0f"),
+                            Id = new Guid("90f5d472-9af0-430a-928a-5cc1285081a3"),
                             DriveId = new Guid("11111111-1111-1111-1111-111111111111"),
                             InstockProductId = new Guid("10000000-0000-0000-0000-000000000010"),
                             Quantity = 1
@@ -1327,6 +1327,11 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                         .HasDefaultValue(false)
                         .HasColumnName("is_active");
 
+                    b.Property<string>("PreviewImages")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("preview_images");
+
                     b.Property<string>("Sku")
                         .IsRequired()
                         .HasMaxLength(10)
@@ -1360,6 +1365,7 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             InstockProductId = new Guid("10000000-0000-0000-0000-000000000001"),
                             IsActive = true,
+                            PreviewImages = "instock-products/ugt-24-endurance-racer/image-01.png,instock-products/ugt-24-endurance-racer/image-02.png",
                             Sku = "SKU001",
                             UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
                         },
@@ -1373,6 +1379,7 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             InstockProductId = new Guid("10000000-0000-0000-0000-000000000001"),
                             IsActive = true,
+                            PreviewImages = "instock-products/ugt-24-endurance-racer/image-01.png,instock-products/ugt-24-endurance-racer/image-02.png",
                             Sku = "SKU002",
                             UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
                         },
@@ -1386,6 +1393,7 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             InstockProductId = new Guid("10000000-0000-0000-0000-000000000002"),
                             IsActive = true,
+                            PreviewImages = "instock-products/mad-hornet-airplane/image-01.png,instock-products/mad-hornet-airplane/image-02.png",
                             Sku = "SKU003",
                             UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
                         },
@@ -1399,6 +1407,7 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             InstockProductId = new Guid("10000000-0000-0000-0000-000000000003"),
                             IsActive = true,
+                            PreviewImages = "instock-products/ugt-24-endurance-racer/image-01.png,instock-products/ugt-24-endurance-racer/image-02.png",
                             Sku = "SKU004",
                             UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
                         },
@@ -1412,6 +1421,7 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             InstockProductId = new Guid("10000000-0000-0000-0000-000000000003"),
                             IsActive = true,
+                            PreviewImages = "instock-products/ugt-24-endurance-racer/image-01.png,instock-products/ugt-24-endurance-racer/image-02.png",
                             Sku = "SKU005",
                             UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
                         },
@@ -1425,6 +1435,7 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             InstockProductId = new Guid("10000000-0000-0000-0000-000000000004"),
                             IsActive = true,
+                            PreviewImages = "instock-products/mad-hornet-airplane/image-01.png,instock-products/mad-hornet-airplane/image-02.png",
                             Sku = "SKU006",
                             UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
                         },
@@ -1438,6 +1449,7 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             InstockProductId = new Guid("10000000-0000-0000-0000-000000000004"),
                             IsActive = true,
+                            PreviewImages = "instock-products/mad-hornet-airplane/image-01.png,instock-products/mad-hornet-airplane/image-02.png",
                             Sku = "SKU007",
                             UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
                         },
@@ -1451,6 +1463,7 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             InstockProductId = new Guid("10000000-0000-0000-0000-000000000005"),
                             IsActive = true,
+                            PreviewImages = "instock-products/ugt-24-endurance-racer/image-01.png,instock-products/ugt-24-endurance-racer/image-02.png",
                             Sku = "SKU008",
                             UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
                         },
@@ -1464,6 +1477,7 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             InstockProductId = new Guid("10000000-0000-0000-0000-000000000006"),
                             IsActive = true,
+                            PreviewImages = "instock-products/ugt-24-endurance-racer/image-01.png,instock-products/ugt-24-endurance-racer/image-02.png",
                             Sku = "SKU009",
                             UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
                         },
@@ -1477,6 +1491,7 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             InstockProductId = new Guid("10000000-0000-0000-0000-000000000006"),
                             IsActive = true,
+                            PreviewImages = "instock-products/ugt-24-endurance-racer/image-01.png,instock-products/ugt-24-endurance-racer/image-02.png",
                             Sku = "SKU010",
                             UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
                         },
@@ -1490,6 +1505,7 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             InstockProductId = new Guid("10000000-0000-0000-0000-000000000007"),
                             IsActive = true,
+                            PreviewImages = "instock-products/mad-hornet-airplane/image-01.png,instock-products/mad-hornet-airplane/image-02.png",
                             Sku = "SKU011",
                             UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
                         },
@@ -1503,6 +1519,7 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             InstockProductId = new Guid("10000000-0000-0000-0000-000000000008"),
                             IsActive = true,
+                            PreviewImages = "instock-products/mad-hornet-airplane/image-01.png,instock-products/mad-hornet-airplane/image-02.png",
                             Sku = "SKU012",
                             UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
                         },
@@ -1516,6 +1533,7 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             InstockProductId = new Guid("10000000-0000-0000-0000-000000000008"),
                             IsActive = true,
+                            PreviewImages = "instock-products/mad-hornet-airplane/image-01.png,instock-products/mad-hornet-airplane/image-02.png",
                             Sku = "SKU013",
                             UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
                         },
@@ -1529,6 +1547,7 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             InstockProductId = new Guid("10000000-0000-0000-0000-000000000009"),
                             IsActive = true,
+                            PreviewImages = "instock-products/ugt-24-endurance-racer/image-01.png,instock-products/ugt-24-endurance-racer/image-02.png",
                             Sku = "SKU014",
                             UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
                         },
@@ -1542,6 +1561,7 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             InstockProductId = new Guid("10000000-0000-0000-0000-000000000010"),
                             IsActive = true,
+                            PreviewImages = "instock-products/mad-hornet-airplane/image-01.png,instock-products/mad-hornet-airplane/image-02.png",
                             Sku = "SKU015",
                             UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
                         },
@@ -1555,6 +1575,7 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             InstockProductId = new Guid("10000000-0000-0000-0000-000000000010"),
                             IsActive = true,
+                            PreviewImages = "instock-products/mad-hornet-airplane/image-01.png,instock-products/mad-hornet-airplane/image-02.png",
                             Sku = "SKU016",
                             UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
                         });

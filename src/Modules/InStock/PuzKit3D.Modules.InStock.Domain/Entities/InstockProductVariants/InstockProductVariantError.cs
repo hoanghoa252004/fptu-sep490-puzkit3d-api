@@ -24,6 +24,10 @@ public static class InstockProductVariantError
         "InstockProductVariant.InvalidDimension",
         "All dimensions must be greater than zero.");
 
+    public static Error InvalidPreviewImages() => Error.Validation(
+        "InstockProductVariant.InvalidPreviewImages",
+        "Preview images cannot be empty.");
+
     public static Error NotFound(Guid id) => Error.NotFound(
         "InstockProductVariant.NotFound",
         $"Instock product variant with ID '{id}' was not found.");

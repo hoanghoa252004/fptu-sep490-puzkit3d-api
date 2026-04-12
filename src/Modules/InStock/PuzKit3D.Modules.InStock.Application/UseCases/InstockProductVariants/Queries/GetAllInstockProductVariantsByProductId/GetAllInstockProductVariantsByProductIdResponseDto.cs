@@ -10,6 +10,7 @@ public sealed record VariantDto(
     int AssembledLengthMm,
     int AssembledWidthMm,
     int AssembledHeightMm,
+    List<string> PreviewImages,
     bool IsActive,
     DateTime CreatedAt,
     DateTime UpdatedAt);
@@ -20,4 +21,7 @@ public sealed record AnonymousVariantDto(
     string Color,
     int AssembledLengthMm,
     int AssembledWidthMm,
-    int AssembledHeightMm);
+    int AssembledHeightMm,
+    List<string> PreviewImages);
+
+

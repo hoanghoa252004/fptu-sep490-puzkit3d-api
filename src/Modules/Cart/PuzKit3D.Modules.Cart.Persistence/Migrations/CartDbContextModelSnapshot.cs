@@ -990,6 +990,11 @@ namespace PuzKit3D.Modules.Cart.Persistence.Migrations
                         .HasDefaultValue(false)
                         .HasColumnName("is_active");
 
+                    b.Property<string>("PreviewImages")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("preview_images");
+
                     b.Property<string>("Sku")
                         .IsRequired()
                         .HasMaxLength(10)
@@ -1020,6 +1025,7 @@ namespace PuzKit3D.Modules.Cart.Persistence.Migrations
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             InStockProductId = new Guid("10000000-0000-0000-0000-000000000001"),
                             IsActive = true,
+                            PreviewImages = "instock-products/ugt-24-endurance-racer/image-01.png,instock-products/ugt-24-endurance-racer/image-02.png",
                             Sku = "SKU001",
                             UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
                         },
@@ -1033,6 +1039,7 @@ namespace PuzKit3D.Modules.Cart.Persistence.Migrations
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             InStockProductId = new Guid("10000000-0000-0000-0000-000000000001"),
                             IsActive = true,
+                            PreviewImages = "instock-products/ugt-24-endurance-racer/image-01.png,instock-products/ugt-24-endurance-racer/image-02.png",
                             Sku = "SKU002",
                             UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
                         },
@@ -1046,6 +1053,7 @@ namespace PuzKit3D.Modules.Cart.Persistence.Migrations
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             InStockProductId = new Guid("10000000-0000-0000-0000-000000000002"),
                             IsActive = true,
+                            PreviewImages = "instock-products/mad-hornet-airplane/image-01.png,instock-products/mad-hornet-airplane/image-02.png",
                             Sku = "SKU003",
                             UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
                         },
@@ -1059,6 +1067,7 @@ namespace PuzKit3D.Modules.Cart.Persistence.Migrations
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             InStockProductId = new Guid("10000000-0000-0000-0000-000000000003"),
                             IsActive = true,
+                            PreviewImages = "instock-products/ugt-24-endurance-racer/image-01.png,instock-products/ugt-24-endurance-racer/image-02.png",
                             Sku = "SKU004",
                             UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
                         },
@@ -1072,6 +1081,7 @@ namespace PuzKit3D.Modules.Cart.Persistence.Migrations
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             InStockProductId = new Guid("10000000-0000-0000-0000-000000000003"),
                             IsActive = true,
+                            PreviewImages = "instock-products/ugt-24-endurance-racer/image-01.png,instock-products/ugt-24-endurance-racer/image-02.png",
                             Sku = "SKU005",
                             UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
                         },
@@ -1085,6 +1095,7 @@ namespace PuzKit3D.Modules.Cart.Persistence.Migrations
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             InStockProductId = new Guid("10000000-0000-0000-0000-000000000004"),
                             IsActive = true,
+                            PreviewImages = "instock-products/mad-hornet-airplane/image-01.png,instock-products/mad-hornet-airplane/image-02.png",
                             Sku = "SKU006",
                             UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
                         },
@@ -1098,6 +1109,7 @@ namespace PuzKit3D.Modules.Cart.Persistence.Migrations
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             InStockProductId = new Guid("10000000-0000-0000-0000-000000000004"),
                             IsActive = true,
+                            PreviewImages = "instock-products/mad-hornet-airplane/image-01.png,instock-products/mad-hornet-airplane/image-02.png",
                             Sku = "SKU007",
                             UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
                         },
@@ -1111,6 +1123,7 @@ namespace PuzKit3D.Modules.Cart.Persistence.Migrations
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             InStockProductId = new Guid("10000000-0000-0000-0000-000000000005"),
                             IsActive = true,
+                            PreviewImages = "instock-products/ugt-24-endurance-racer/image-01.png,instock-products/ugt-24-endurance-racer/image-02.png",
                             Sku = "SKU008",
                             UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
                         },
@@ -1124,6 +1137,7 @@ namespace PuzKit3D.Modules.Cart.Persistence.Migrations
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             InStockProductId = new Guid("10000000-0000-0000-0000-000000000006"),
                             IsActive = true,
+                            PreviewImages = "instock-products/ugt-24-endurance-racer/image-01.png,instock-products/ugt-24-endurance-racer/image-02.png",
                             Sku = "SKU009",
                             UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
                         },
@@ -1137,6 +1151,7 @@ namespace PuzKit3D.Modules.Cart.Persistence.Migrations
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             InStockProductId = new Guid("10000000-0000-0000-0000-000000000006"),
                             IsActive = true,
+                            PreviewImages = "instock-products/ugt-24-endurance-racer/image-01.png,instock-products/ugt-24-endurance-racer/image-02.png",
                             Sku = "SKU010",
                             UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
                         },
@@ -1150,6 +1165,7 @@ namespace PuzKit3D.Modules.Cart.Persistence.Migrations
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             InStockProductId = new Guid("10000000-0000-0000-0000-000000000007"),
                             IsActive = true,
+                            PreviewImages = "instock-products/mad-hornet-airplane/image-01.png,instock-products/mad-hornet-airplane/image-02.png",
                             Sku = "SKU011",
                             UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
                         },
@@ -1163,6 +1179,7 @@ namespace PuzKit3D.Modules.Cart.Persistence.Migrations
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             InStockProductId = new Guid("10000000-0000-0000-0000-000000000008"),
                             IsActive = true,
+                            PreviewImages = "instock-products/mad-hornet-airplane/image-01.png,instock-products/mad-hornet-airplane/image-02.png",
                             Sku = "SKU012",
                             UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
                         },
@@ -1176,6 +1193,7 @@ namespace PuzKit3D.Modules.Cart.Persistence.Migrations
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             InStockProductId = new Guid("10000000-0000-0000-0000-000000000008"),
                             IsActive = true,
+                            PreviewImages = "instock-products/mad-hornet-airplane/image-01.png,instock-products/mad-hornet-airplane/image-02.png",
                             Sku = "SKU013",
                             UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
                         },
@@ -1189,6 +1207,7 @@ namespace PuzKit3D.Modules.Cart.Persistence.Migrations
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             InStockProductId = new Guid("10000000-0000-0000-0000-000000000009"),
                             IsActive = true,
+                            PreviewImages = "instock-products/ugt-24-endurance-racer/image-01.png,instock-products/ugt-24-endurance-racer/image-02.png",
                             Sku = "SKU014",
                             UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
                         },
@@ -1202,6 +1221,7 @@ namespace PuzKit3D.Modules.Cart.Persistence.Migrations
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             InStockProductId = new Guid("10000000-0000-0000-0000-000000000010"),
                             IsActive = true,
+                            PreviewImages = "instock-products/mad-hornet-airplane/image-01.png,instock-products/mad-hornet-airplane/image-02.png",
                             Sku = "SKU015",
                             UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
                         },
@@ -1215,6 +1235,7 @@ namespace PuzKit3D.Modules.Cart.Persistence.Migrations
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             InStockProductId = new Guid("10000000-0000-0000-0000-000000000010"),
                             IsActive = true,
+                            PreviewImages = "instock-products/mad-hornet-airplane/image-01.png,instock-products/mad-hornet-airplane/image-02.png",
                             Sku = "SKU016",
                             UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
                         });

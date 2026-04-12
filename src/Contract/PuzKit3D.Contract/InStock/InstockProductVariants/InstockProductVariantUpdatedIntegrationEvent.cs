@@ -12,4 +12,5 @@ public sealed record InstockProductVariantUpdatedIntegrationEvent(
     int AssembledLengthMm,
     int AssembledWidthMm,
     int AssembledHeightMm,
+    string PreviewImages,
     bool IsActive) : IIntegrationEvent;

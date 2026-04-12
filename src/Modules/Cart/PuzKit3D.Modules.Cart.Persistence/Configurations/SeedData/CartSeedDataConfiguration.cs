@@ -230,6 +230,21 @@ internal static class CartSeedDataConfiguration
 
     public static void SeedInStockVariantsAndRelatedReplicas(this ModelBuilder modelBuilder)
     {
+        // Product Preview Assets mapping - must match InStock module
+        var productPreviewAssets = new Dictionary<Guid, string>
+        {
+            { Guid.Parse("10000000-0000-0000-0000-000000000001"), "instock-products/ugt-24-endurance-racer/image-01.png,instock-products/ugt-24-endurance-racer/image-02.png" },
+            { Guid.Parse("10000000-0000-0000-0000-000000000002"), "instock-products/mad-hornet-airplane/image-01.png,instock-products/mad-hornet-airplane/image-02.png" },
+            { Guid.Parse("10000000-0000-0000-0000-000000000003"), "instock-products/ugt-24-endurance-racer/image-01.png,instock-products/ugt-24-endurance-racer/image-02.png" },
+            { Guid.Parse("10000000-0000-0000-0000-000000000004"), "instock-products/mad-hornet-airplane/image-01.png,instock-products/mad-hornet-airplane/image-02.png" },
+            { Guid.Parse("10000000-0000-0000-0000-000000000005"), "instock-products/ugt-24-endurance-racer/image-01.png,instock-products/ugt-24-endurance-racer/image-02.png" },
+            { Guid.Parse("10000000-0000-0000-0000-000000000006"), "instock-products/ugt-24-endurance-racer/image-01.png,instock-products/ugt-24-endurance-racer/image-02.png" },
+            { Guid.Parse("10000000-0000-0000-0000-000000000007"), "instock-products/mad-hornet-airplane/image-01.png,instock-products/mad-hornet-airplane/image-02.png" },
+            { Guid.Parse("10000000-0000-0000-0000-000000000008"), "instock-products/mad-hornet-airplane/image-01.png,instock-products/mad-hornet-airplane/image-02.png" },
+            { Guid.Parse("10000000-0000-0000-0000-000000000009"), "instock-products/ugt-24-endurance-racer/image-01.png,instock-products/ugt-24-endurance-racer/image-02.png" },
+            { Guid.Parse("10000000-0000-0000-0000-000000000010"), "instock-products/mad-hornet-airplane/image-01.png,instock-products/mad-hornet-airplane/image-02.png" }
+        };
+
         // Hardcoded Variant IDs - must match InStock module
         var variantIds = new[]
         {
@@ -285,6 +300,9 @@ internal static class CartSeedDataConfiguration
             var standardPrice = prices[i];
             var salePrice = standardPrice * 0.8m;
             var quantity = quantities[i];
+            var previewImages = productPreviewAssets.ContainsKey(data.ProductId) 
+                ? productPreviewAssets[data.ProductId] 
+                : "";
 
             // Variant Replica
             variants.Add(new
@@ -296,6 +314,7 @@ internal static class CartSeedDataConfiguration
                 AssembledLengthMm = data.Length,
                 AssembledWidthMm = data.Width,
                 AssembledHeightMm = data.Height,
+                PreviewImages = previewImages,
                 IsActive = true,
                 CreatedAt = SeedDate,
                 UpdatedAt = SeedDate

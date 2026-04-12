@@ -8,6 +8,9 @@ public sealed record GetInstockProductVariantByIdResponseDto(
     int AssembledLengthMm,
     int AssembledWidthMm,
     int AssembledHeightMm,
+    List<string> PreviewImages,
     bool IsActive,
     DateTime CreatedAt,
     DateTime UpdatedAt);
+
+

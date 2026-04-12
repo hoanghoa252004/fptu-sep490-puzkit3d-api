@@ -48,6 +48,7 @@ internal sealed class CreateInstockProductVariantCommandHandler : ICommandTHandl
                 request.AssembledLengthMm,
                 request.AssembledWidthMm,
                 request.AssembledHeightMm,
+                request.PreviewImages,
                 request.IsActive);
 
             if (variantResult.IsFailure)

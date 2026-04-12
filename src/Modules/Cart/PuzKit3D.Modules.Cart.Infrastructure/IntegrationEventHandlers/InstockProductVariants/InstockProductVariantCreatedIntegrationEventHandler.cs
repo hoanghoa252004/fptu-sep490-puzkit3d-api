@@ -35,6 +35,7 @@ internal sealed class InstockProductVariantCreatedIntegrationEventHandler
                 @event.AssembledLengthMm,
                 @event.AssembledWidthMm,
                 @event.AssembledHeightMm,
+                @event.PreviewImages,
                 @event.IsActive,
                 existingReplica.CreatedAt,
                 @event.OccurredOn);
@@ -52,6 +53,7 @@ internal sealed class InstockProductVariantCreatedIntegrationEventHandler
                 @event.AssembledLengthMm,
                 @event.AssembledWidthMm,
                 @event.AssembledHeightMm,
+                @event.PreviewImages,
                 @event.IsActive,
                 @event.OccurredOn,
                 @event.OccurredOn);
