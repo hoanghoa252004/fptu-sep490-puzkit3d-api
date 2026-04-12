@@ -14,6 +14,7 @@ public sealed record CreateInstockProductCommand(
     Guid AssemblyMethodId,
     List<Guid> CapabilityIds,
     Guid MaterialId,
+    List<DriveDetailDto>? DriveDetails = null,
     string? Description = null,
     bool IsActive = false) : ICommandT<Guid>;
 

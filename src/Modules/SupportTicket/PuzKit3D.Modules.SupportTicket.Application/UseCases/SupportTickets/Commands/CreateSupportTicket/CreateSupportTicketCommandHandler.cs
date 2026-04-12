@@ -17,7 +17,7 @@ internal sealed class CreateSupportTicketCommandHandler
     private readonly ISupportTicketRepository _repository;
     private readonly IOrderReplicaRepository _orderReplicaRepository;
     private readonly IOrderDetailReplicaRepository _orderDetailReplicaRepository;
-    private readonly IPartReplicaRepository _partReplicaRepository;
+    private readonly IDriveReplicaRepository _partReplicaRepository;
     private readonly ISupportTicketUnitOfWork _unitOfWork;
     private readonly ISupportTicketCodeGenerator _supportTicketCodeGenerator;
 
@@ -25,7 +25,7 @@ internal sealed class CreateSupportTicketCommandHandler
         ISupportTicketRepository repository,
         IOrderReplicaRepository orderReplicaRepository,
         IOrderDetailReplicaRepository orderDetailReplicaRepository,
-        IPartReplicaRepository partReplicaRepository,
+        IDriveReplicaRepository partReplicaRepository,
         ISupportTicketUnitOfWork unitOfWork,
         ISupportTicketCodeGenerator supportTicketCodeGenerator)
     {
@@ -76,26 +76,26 @@ internal sealed class CreateSupportTicketCommandHandler
                 return Result.Failure<Guid>(OrderReplicaError.OrderDetailNotFound(item.OrderDetailId));
             }
 
-            // Validation: if type is ReplacePart, PartId is required
-            if (request.Type == SupportTicketType.ReplacePart && item.PartId == null)
+            // Validation: if type is ReplaceDrive, DriveId is required
+            if (request.Type == SupportTicketType.ReplaceDrive && item.DriveId == null)
             {
                 return Result.Failure<Guid>(SupportTicketError.PartIdRequiredForReplacePart());
             }
 
-            // Validation: if type is ReplacePart, check if part exists and has sufficient quantity
-            if (request.Type == SupportTicketType.ReplacePart && item.PartId.HasValue)
+            // Validation: if type is ReplaceDrive, check if part exists and has sufficient quantity
+            if (request.Type == SupportTicketType.ReplaceDrive && item.DriveId.HasValue)
             {
-                var part = await _partReplicaRepository.GetByIdAsync(item.PartId.Value, cancellationToken);
+                var drive = await _partReplicaRepository.GetByIdAsync(item.DriveId.Value, cancellationToken);
                 
-                if (part is null)
+                if (drive is null)
                 {
-                    return Result.Failure<Guid>(SupportTicketError.PartNotFound(item.PartId.Value));
+                    return Result.Failure<Guid>(SupportTicketError.PartNotFound(item.DriveId.Value));
                 }
 
-                if (item.Quantity > part.Quantity)
-                {
-                    return Result.Failure<Guid>(SupportTicketError.ReplacePartQuantityExceedsAvailable(item.PartId.Value, part.Quantity, item.Quantity));
-                }
+                //if (item.Quantity > part.Quantity)
+                //{
+                //    return Result.Failure<Guid>(SupportTicketError.ReplacePartQuantityExceedsAvailable(item.PartId.Value, part.Quantity, item.Quantity));
+                //}
             }
 
             // Validation: if type is Exchange, quantity must be <= orderDetail quantity
@@ -127,7 +127,7 @@ internal sealed class CreateSupportTicketCommandHandler
                 var detailResult = SupportTicketDetail.Create(
                     ticket.Id,
                     detail.OrderDetailId,
-                    detail.PartId,
+                    detail.DriveId,
                     detail.Quantity,
                     detail.Note);
 

@@ -2,11 +2,13 @@ using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
+using PuzKit3D.Modules.SupportTicket.Application.UseCases.SupportTickets.Queries;
 using PuzKit3D.Modules.SupportTicket.Application.UseCases.SupportTickets.Queries.GetSupportTickets;
 using PuzKit3D.Modules.SupportTicket.Domain.Entities.SupportTickets;
 using PuzKit3D.SharedKernel.Api.Endpoint;
 using PuzKit3D.SharedKernel.Api.Results.Extensions;
 using PuzKit3D.SharedKernel.Application.Authorization;
+using PuzKit3D.SharedKernel.Application.Pagination;
 using System.Security.Claims;
 
 namespace PuzKit3D.Modules.SupportTicket.Api.SupportTickets.GetSupportTickets;
@@ -48,7 +50,7 @@ internal sealed class GetSupportTickets : IEndpoint
             .WithSummary("Get support tickets with pagination and filtering")
             .WithDescription("Retrieves paginated support tickets. Customers see only their own tickets, Staff see all tickets. Can filter by status.")
             .RequireAuthorization(policy => policy.RequireRole(Roles.Customer, Roles.Staff, Roles.BusinessManager))
-            .Produces(200)
+            .Produces<PagedResult<SupportTicketDto>>(StatusCodes.Status200OK)
             .ProducesValidationProblem(StatusCodes.Status400BadRequest)
             .ProducesProblem(StatusCodes.Status401Unauthorized)
             .ProducesProblem(StatusCodes.Status500InternalServerError);

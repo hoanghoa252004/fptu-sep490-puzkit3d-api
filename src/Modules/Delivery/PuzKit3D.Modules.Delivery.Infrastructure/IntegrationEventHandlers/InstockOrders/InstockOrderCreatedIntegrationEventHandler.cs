@@ -25,7 +25,8 @@ internal sealed class InstockOrderCreatedIntegrationEventHandler
             "Instock",
             @event.CustomerId,
             @event.Code,
-            @event.Status);
+            @event.Status,
+            @event.GrandTotalAmount);
 
         await _dbContext.OrderReplicas.AddAsync(replica, cancellationToken);
 

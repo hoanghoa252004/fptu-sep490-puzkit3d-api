@@ -8,7 +8,7 @@ public sealed class SupportTicketDetail : Entity<SupportTicketDetailId>
 {
     public SupportTicketId SupportTicketId { get; private set; } = null!;
     public Guid OrderItemId { get; private set; }
-    public Guid? PartId { get; private set; }
+    public Guid? DriveId { get; private set; }
     public int Quantity { get; private set; }
     public string? Note { get; private set; }
 
@@ -16,13 +16,13 @@ public sealed class SupportTicketDetail : Entity<SupportTicketDetailId>
         SupportTicketDetailId id,
         SupportTicketId supportTicketId,
         Guid orderItemId,
-        Guid? partId,
+        Guid? driveId,
         int quantity,
         string? note) : base(id)
     {
         SupportTicketId = supportTicketId;
         OrderItemId = orderItemId;
-        PartId = partId;
+        DriveId = driveId;
         Quantity = quantity;
         Note = note;
     }
@@ -34,7 +34,7 @@ public sealed class SupportTicketDetail : Entity<SupportTicketDetailId>
     public static ResultT<SupportTicketDetail> Create(
         SupportTicketId supportTicketId,
         Guid orderItemId,
-        Guid? partId,
+        Guid? driveId,
         int quantity,
         string? note = null)
     {
@@ -54,7 +54,7 @@ public sealed class SupportTicketDetail : Entity<SupportTicketDetailId>
             SupportTicketDetailId.Create(),
             supportTicketId,
             orderItemId,
-            partId,
+            driveId,
             quantity,
             note);
 

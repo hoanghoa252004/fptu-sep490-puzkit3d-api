@@ -19,7 +19,7 @@ public sealed class CreateDeliveryTrackingCommandHandler : ICommandTHandler<Crea
     private readonly IDeliveryService _deliveryService;
     private readonly IOrderDetailReplicaRepository _orderDetailReplicaRepository;
     private readonly ISupportTicketReplicaRepository _supportTicketReplicaRepository;
-    private readonly IPartReplicaRepository _partReplicaRepository;
+    private readonly IDriveReplicaRepository _driveReplicaRepository;
     private readonly IUserReplicaRepository _userReplicaRepository;
     private readonly IDeliveryUnitOfWork _unitOfWork;
 
@@ -29,7 +29,7 @@ public sealed class CreateDeliveryTrackingCommandHandler : ICommandTHandler<Crea
         IDeliveryService deliveryService,
         IOrderDetailReplicaRepository orderDetailReplicaRepository,
         ISupportTicketReplicaRepository supportTicketReplicaRepository,
-        IPartReplicaRepository partReplicaRepository,
+        IDriveReplicaRepository driveReplicaRepository,
         IUserReplicaRepository userReplicaRepository,
         IDeliveryUnitOfWork unitOfWork)
     {
@@ -38,7 +38,7 @@ public sealed class CreateDeliveryTrackingCommandHandler : ICommandTHandler<Crea
         _orderReplicaRepository = orderReplicaRepository;
         _orderDetailReplicaRepository = orderDetailReplicaRepository;
         _supportTicketReplicaRepository = supportTicketReplicaRepository;
-        _partReplicaRepository = partReplicaRepository;
+        _driveReplicaRepository = driveReplicaRepository;
         _userReplicaRepository = userReplicaRepository;
         _unitOfWork = unitOfWork;
     }
@@ -163,22 +163,20 @@ public sealed class CreateDeliveryTrackingCommandHandler : ICommandTHandler<Crea
                 {
                     foreach (var detail in ticketDetails)
                     {
-                        if (detail.PartId.HasValue)
+                        if (detail.DriveId.HasValue)
                         {
-                            // Get part information
-                            var partResult = await _partReplicaRepository.GetByIdAsync(detail.PartId.Value, cancellationToken);
-                            if (partResult.IsFailure)
-                            {
-                                return Result.Failure<Guid>(partResult.Error);
-                            }
+                            // Get drive information
+                            var drive = await _driveReplicaRepository.GetByIdAsync(detail.DriveId.Value, cancellationToken);
 
-                            var part = partResult.Value;
-                            var partDisplayName = $"{part.Name} - {part.PartType}";
+                            if (drive is null)
+                            {
+                                return Result.Failure<Guid>(DeliveryTrackingError.DriveNotFound(detail.DriveId.Value));
+                            }
 
                             items.Add(new ShippingOrderItem
                             {
-                                Name = partDisplayName,
-                                Code = part.Code,
+                                Name = drive.Name,
+                                Code = "[DRIVE]",
                                 Quantity = detail.Quantity,
                                 Price = 0
                             });
@@ -218,11 +216,11 @@ public sealed class CreateDeliveryTrackingCommandHandler : ICommandTHandler<Crea
                     ToProvinceName = user.Province!,
                     OrderCode = Guid.NewGuid().ToString(),
                     RequiredNote = "CHOXEMHANGKHONGTHU",
-                    Note = "Welcome to Puzkit3D",
+                    Note = "PuzKit3D Shop",
                     Items = items,
                     Content = "Puzzle 3D Product",
-                    CodAmount = 0
-                };
+                    CodAmount = supportTicket != null ? 0 : (int)order.GrandTotalAmount
+            };
 
             // 7. Create shipping order with delivery service
             var ghnResult = await _deliveryService.CreateShippingOrderAsync(shippingRequest, cancellationToken);
@@ -263,20 +261,20 @@ public sealed class CreateDeliveryTrackingCommandHandler : ICommandTHandler<Crea
                         detail.Quantity)
                 ).ToList();
             }
-            else if (trackingType == DeliveryTrackingType.Support && supportTicket?.Type == "ReplacePart")
+            else if (trackingType == DeliveryTrackingType.Support && supportTicket?.Type == "ReplaceDrive")
             {
-                // For Support delivery with ReplacePart, add parts
+                // For Support delivery with ReplaceDrive, add drives
                 var ticketDetailsResult = await _supportTicketReplicaRepository.GetDetailsByTicketIdAsync(supportTicket.Id, cancellationToken);
                 if (ticketDetailsResult.IsSuccess)
                 {
                     foreach (var detail in ticketDetailsResult.Value)
                     {
-                        if (detail.PartId.HasValue)
+                        if (detail.DriveId.HasValue)
                         {
                             trackingDetails.Add(
-                                DeliveryTrackingDetail.CreatePart(
+                                DeliveryTrackingDetail.CreateDrive(
                                     deliveryTracking.Id,
-                                    detail.PartId.Value,
+                                    detail.DriveId.Value,
                                     detail.Quantity));
                         }
                     }

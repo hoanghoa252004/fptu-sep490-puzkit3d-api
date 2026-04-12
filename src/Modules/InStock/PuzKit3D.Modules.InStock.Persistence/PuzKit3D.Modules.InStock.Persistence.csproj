@@ -15,10 +15,12 @@
   <ItemGroup>
     <Compile Include="Repositories\AssemblyMethodReplicaRepository.cs" />
     <Compile Include="Repositories\CapabilityReplicaRepository.cs" />
+    <Compile Include="Repositories\DriveReplicaRepository.cs" />
     <Compile Include="Repositories\InstockInventoryRepository.cs" />
     <Compile Include="Repositories\InstockOrderConfigRepository.cs" />
     <Compile Include="Repositories\InstockOrderRepository.cs" />
     <Compile Include="Repositories\InstockPriceRepository.cs" />
+    <Compile Include="Repositories\InstockProductDriveRepository.cs" />
     <Compile Include="Repositories\InstockProductPriceDetailRepository.cs" />
     <Compile Include="Repositories\InstockProductRepository.cs" />
     <Compile Include="Repositories\InstockProductVariantRepository.cs" />

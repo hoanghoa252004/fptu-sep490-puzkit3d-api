@@ -95,7 +95,7 @@ public sealed class SupportTicket : AggregateRoot<SupportTicketId>
         var detailInfos = _details.Select(d => new SupportTicketDetailInfo(
             d.Id.Value,
             d.OrderItemId,
-            d.PartId,
+            d.DriveId,
             d.Quantity,
             d.Note)).ToList();
 

@@ -1,7 +1,6 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using PuzKit3D.Modules.SupportTicket.Application.UnitOfWork;
-using PuzKit3D.Modules.SupportTicket.Domain.Entities.PartReplicas;
 using PuzKit3D.Modules.SupportTicket.Persistence.Configurations;
 using SupportTicketEntity = PuzKit3D.Modules.SupportTicket.Domain.Entities.SupportTickets.SupportTicket;
 using SupportTicketDetailEntity = PuzKit3D.Modules.SupportTicket.Domain.Entities.SupportTicketDetails.SupportTicketDetail;
@@ -10,6 +9,7 @@ using OrderDetailReplicaEntity = PuzKit3D.Modules.SupportTicket.Domain.Entities.
 using PuzKit3D.SharedKernel.Domain;
 using PuzKit3D.SharedKernel.Domain.Results;
 using PuzKit3D.SharedKernel.Infrastructure.Data;
+using PuzKit3D.Modules.SupportTicket.Domain.Entities;
 
 namespace PuzKit3D.Modules.SupportTicket.Persistence;
 
@@ -28,7 +28,8 @@ public sealed class SupportTicketDbContext : DbContext, ISupportTicketUnitOfWork
     public DbSet<SupportTicketDetailEntity> SupportTicketDetails => Set<SupportTicketDetailEntity>();
     public DbSet<OrderReplicaEntity> OrderReplicas => Set<OrderReplicaEntity>();
     public DbSet<OrderDetailReplicaEntity> OrderDetailReplicas => Set<OrderDetailReplicaEntity>();
-    public DbSet<PartReplica> PartReplicas => Set<PartReplica>();
+    public DbSet<DriveReplica> DriveReplicas => Set<DriveReplica>();
+
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -36,7 +37,7 @@ public sealed class SupportTicketDbContext : DbContext, ISupportTicketUnitOfWork
         builder.ApplyConfigurationsFromAssembly(typeof(SupportTicketConfiguration).Assembly);
 
         // Apply seed data
-        Configurations.SeedData.SupportTicketSeedDataConfiguration.SeedPartReplicas(builder);
+        //Configurations.SeedData.SupportTicketSeedDataConfiguration.SeedPartReplicas(builder);
 
         base.OnModelCreating(builder);
     }

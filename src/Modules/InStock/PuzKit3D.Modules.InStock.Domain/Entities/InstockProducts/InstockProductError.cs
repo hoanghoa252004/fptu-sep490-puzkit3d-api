@@ -92,12 +92,20 @@ public static class InstockProductError
         "InstockProduct.InvalidAssemblyMethod",
         "The specified assembly method does not exist.");
 
-    public static Error InvalidCapability() => Error.NotFound(
+    public static Error InvalidCapability(Guid capabilityId) => Error.NotFound(
         "InstockProduct.InvalidCapability",
-        "The specified capability does not exist.");
+        $"The capability with id {capabilityId} does not exist.");
+
+    public static Error InvalidDrive(Guid driveId) => Error.NotFound(
+        "InstockProduct.InvalidDrive",
+        $"The drive with id {driveId} does not exist.");
 
     public static Error InvalidMaterial() => Error.NotFound(
         "InstockProduct.InvalidMaterial",
         "The specified material does not exist.");
+
+    public static Error InvalidQuantity() => Error.Validation(
+        "InstockProduct.InvalidQuantityDrive",
+        "Drive quantity must be greater than zero.");
 }
 

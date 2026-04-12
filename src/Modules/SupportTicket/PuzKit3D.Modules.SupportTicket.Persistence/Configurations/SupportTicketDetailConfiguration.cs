@@ -26,7 +26,7 @@ internal sealed class SupportTicketDetailConfiguration : IEntityTypeConfiguratio
         builder.Property(d => d.OrderItemId)
             .IsRequired();
 
-        builder.Property(d => d.PartId)
+        builder.Property(d => d.DriveId)
             .IsRequired(false);
 
         builder.Property(d => d.Quantity)
@@ -37,6 +37,6 @@ internal sealed class SupportTicketDetailConfiguration : IEntityTypeConfiguratio
             .IsRequired(false);
 
         builder.HasIndex(d => d.SupportTicketId);
-        builder.HasIndex(d => d.PartId);
+        builder.HasIndex(d => d.DriveId);
     }
 }

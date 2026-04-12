@@ -73,7 +73,7 @@ internal sealed class InstockProductConfiguration : IEntityTypeConfiguration<Ins
             .IsUnique()
             .HasDatabaseName("UK__instock_product__slug");
 
-        builder.Navigation(p => p.Parts)
+        builder.Navigation(p => p.Drives)
             .UsePropertyAccessMode(PropertyAccessMode.Field);
 
         builder.Navigation(p => p.CapabilityDetails)

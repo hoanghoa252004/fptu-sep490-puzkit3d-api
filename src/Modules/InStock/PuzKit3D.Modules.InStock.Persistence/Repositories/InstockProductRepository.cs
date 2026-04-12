@@ -20,15 +20,17 @@ internal sealed class InstockProductRepository : IInstockProductRepository
     {
         return await _context.InstockProducts
             .Include(p => p.CapabilityDetails)
+            .Include(p => p.Drives)
             .FirstOrDefaultAsync(p => p.Id == id, cancellationToken);
     }
 
-    public async Task<InstockProduct?> GetByIdWithPartsAsync(
+    public async Task<InstockProduct?> GetByIdWithDrivesAsync(
         InstockProductId id,
         CancellationToken cancellationToken = default)
     {
         return await _context.InstockProducts
-            .Include(p => p.Parts)
+            .Include(p => p.Drives)
+            .Include(p => p.CapabilityDetails)
             .FirstOrDefaultAsync(p => p.Id == id, cancellationToken);
     }
 
@@ -37,6 +39,7 @@ internal sealed class InstockProductRepository : IInstockProductRepository
     {
         return await _context.InstockProducts
             .Include(p => p.CapabilityDetails)
+            .Include(p => p.Drives)
             .AsNoTracking()
             .ToListAsync(cancellationToken);
     }
@@ -47,6 +50,7 @@ internal sealed class InstockProductRepository : IInstockProductRepository
     {
         return await _context.InstockProducts
             .Include(p => p.CapabilityDetails)
+            .Include(p => p.Drives)
             .Where(predicate)
             .AsNoTracking()
             .ToListAsync(cancellationToken);
@@ -58,6 +62,7 @@ internal sealed class InstockProductRepository : IInstockProductRepository
     {
         return await _context.InstockProducts
             .Include(p => p.CapabilityDetails)
+            .Include(p => p.Drives)
             .FirstOrDefaultAsync(p => p.Slug == slug, cancellationToken);
     }
 

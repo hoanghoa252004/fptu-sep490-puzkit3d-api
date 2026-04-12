@@ -33,9 +33,8 @@ public sealed class DeliveryDbContext : DbContext, IDeliveryUnitOfWork
     public DbSet<SupportTicketReplica> SupportTicketReplicas => Set<SupportTicketReplica>();
     public DbSet<SupportTicketDetailReplica> SupportTicketDetailReplicas => Set<SupportTicketDetailReplica>();
 
-    public DbSet<PartReplica> PartReplicas => Set<PartReplica>();
-
     public DbSet<UserReplica> UserReplicas => Set<UserReplica>();
+    public DbSet<DriveReplica> DriveReplicas => Set<DriveReplica>();
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -46,7 +45,7 @@ public sealed class DeliveryDbContext : DbContext, IDeliveryUnitOfWork
         builder.ApplyConfigurationsFromAssembly(typeof(DeliveryDbContext).Assembly);
 
         // Apply seed data
-        Configurations.SeedData.DeliverySeedDataConfiguration.SeedPartReplicas(builder);
+        //Configurations.SeedData.DeliverySeedDataConfiguration.SeedPartReplicas(builder);
     }
 
     public async Task<T> ExecuteAsync<T>(
