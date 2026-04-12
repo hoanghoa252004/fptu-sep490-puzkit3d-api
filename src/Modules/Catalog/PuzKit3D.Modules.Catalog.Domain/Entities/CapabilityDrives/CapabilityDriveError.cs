@@ -9,4 +9,8 @@ public static class CapabilityDriveError
     public static Error AlreadyExists(CapabilityId capabilityId, DriveId driveId) => Error.Conflict(
             "CapabilityDrive.AlreadyExists",
             $"A capability drive with capability ID '{capabilityId}' and drive ID '{driveId}' already exists.");
+
+    public static Error NotFound(Guid capabilityId, Guid driveId) => Error.NotFound(
+            "CapabilityDrive.NotFound",
+            $"The capability drive with capability ID '{capabilityId}' and drive ID '{driveId}' was not found.");
 }

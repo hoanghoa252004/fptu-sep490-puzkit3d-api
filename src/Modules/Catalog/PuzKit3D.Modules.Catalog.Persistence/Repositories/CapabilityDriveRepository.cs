@@ -62,4 +62,10 @@ internal sealed class CapabilityDriveRepository : ICapabilityDriveRepository
     {
         _context.CapabilityDrives.RemoveRange(entities);
     }
+
+    public async Task<CapabilityDrive?> GetByDriveIdAsync(DriveId driveId, CancellationToken cancellationToken = default)
+    {
+        return await _context.CapabilityDrives
+            .FirstOrDefaultAsync(cd => cd.DriveId == driveId, cancellationToken);
+    }
 }

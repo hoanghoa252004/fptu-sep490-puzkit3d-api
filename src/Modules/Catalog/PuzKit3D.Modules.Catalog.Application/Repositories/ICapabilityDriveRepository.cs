@@ -14,4 +14,5 @@ public interface ICapabilityDriveRepository
     void Update(CapabilityDrive entity);
     void Delete(CapabilityDrive entity);
     void DeleteMultiple(List<CapabilityDrive> entities);
+    Task<CapabilityDrive?> GetByDriveIdAsync(DriveId driveId, CancellationToken cancellationToken = default);
 }
