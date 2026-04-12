@@ -5,6 +5,7 @@ using PuzKit3D.Modules.InStock.Domain.Entities.InstockOrderConfigs;
 using PuzKit3D.Modules.InStock.Domain.Entities.InstockPrices;
 using PuzKit3D.Modules.InStock.Domain.Entities.InstockProductCapabilityDetails;
 using PuzKit3D.Modules.InStock.Domain.Entities.InstockProductDrives;
+using PuzKit3D.Modules.InStock.Domain.Entities.InstockProductAssemblyMethodDetails;
 using PuzKit3D.Modules.InStock.Domain.Entities.InstockProductPriceDetails;
 using PuzKit3D.Modules.InStock.Domain.Entities.InstockProducts;
 using PuzKit3D.Modules.InStock.Domain.Entities.InstockProductVariants;
@@ -412,7 +413,6 @@ internal static class InstockSeedDataConfiguration
                 PreviewAsset = "{\"additionalProp1\":\"instock-products/ugt-24-endurance-racer/image-01.png\",\"additionalProp2\":\"instock-products/ugt-24-endurance-racer/image-02.png\"}",
                 Description = "New wooden mechanical 3D puzzle UGT-24 Endurance Racer by Ugears. A large car featuring a blue racing stripe and plastic windows drives 5-6 m thanks to a spring motor. Cool gift!",
                 TopicId = TopicId1,
-                AssemblyMethodId = AssemblyMethodId1,
                 MaterialId = MaterialId1,
                 IsActive = true,
                 CreatedAt = SeedDate,
@@ -431,7 +431,6 @@ internal static class InstockSeedDataConfiguration
                 PreviewAsset = "{\"additionalProp1\":\"instock-products/mad-hornet-airplane/image-01.png\",\"additionalProp2\":\"instock-products/mad-hornet-airplane/image-02.png\"}",
                 Description = "Wooden 3D puzzle Mad Hornet Airplane from Ugears. Pre-flight check mode and taxi mode. Moves without batteries. Assemble without glue. The perfect gift!",
                 TopicId = TopicId1,
-                AssemblyMethodId = AssemblyMethodId2,
                 MaterialId = MaterialId2,
                 IsActive = true,
                 CreatedAt = SeedDate,
@@ -450,7 +449,6 @@ internal static class InstockSeedDataConfiguration
                 PreviewAsset = "{\"additionalProp1\":\"instock-products/ugt-24-endurance-racer/image-01.png\",\"additionalProp2\":\"instock-products/ugt-24-endurance-racer/image-02.png\"}",
                 Description = "New wooden mechanical 3D puzzle UGT-24 Endurance Racer by Ugears. A large car featuring a blue racing stripe and plastic windows drives 5-6 m thanks to a spring motor. Cool gift!",
                 TopicId = TopicId1,
-                AssemblyMethodId = AssemblyMethodId3,
                 MaterialId = MaterialId3,
                 IsActive = true,
                 CreatedAt = SeedDate,
@@ -469,7 +467,6 @@ internal static class InstockSeedDataConfiguration
                 PreviewAsset = "{\"additionalProp1\":\"instock-products/mad-hornet-airplane/image-01.png\",\"additionalProp2\":\"instock-products/mad-hornet-airplane/image-02.png\"}",
                 Description = "Wooden 3D puzzle Mad Hornet Airplane from Ugears. Pre-flight check mode and taxi mode. Moves without batteries. Assemble without glue. The perfect gift!",
                 TopicId = TopicId2,
-                AssemblyMethodId = AssemblyMethodId4,
                 MaterialId = MaterialId4,
                 IsActive = true,
                 CreatedAt = SeedDate,
@@ -488,7 +485,6 @@ internal static class InstockSeedDataConfiguration
                 PreviewAsset = "{\"additionalProp1\":\"instock-products/ugt-24-endurance-racer/image-01.png\",\"additionalProp2\":\"instock-products/ugt-24-endurance-racer/image-02.png\"}",
                 Description = "New wooden mechanical 3D puzzle UGT-24 Endurance Racer by Ugears. A large car featuring a blue racing stripe and plastic windows drives 5-6 m thanks to a spring motor. Cool gift!",
                 TopicId = TopicId2,
-                AssemblyMethodId = AssemblyMethodId5,
                 MaterialId = MaterialId5,
                 IsActive = true,
                 CreatedAt = SeedDate,
@@ -507,7 +503,6 @@ internal static class InstockSeedDataConfiguration
                 PreviewAsset = "{\"additionalProp1\":\"instock-products/ugt-24-endurance-racer/image-01.png\",\"additionalProp2\":\"instock-products/ugt-24-endurance-racer/image-02.png\"}",
                 Description = "New wooden mechanical 3D puzzle UGT-24 Endurance Racer by Ugears. A large car featuring a blue racing stripe and plastic windows drives 5-6 m thanks to a spring motor. Cool gift!",
                 TopicId = TopicId3,
-                AssemblyMethodId = AssemblyMethodId1,
                 MaterialId = MaterialId1,
                 IsActive = true,
                 CreatedAt = SeedDate,
@@ -526,7 +521,6 @@ internal static class InstockSeedDataConfiguration
                 PreviewAsset = "{\"additionalProp1\":\"instock-products/mad-hornet-airplane/image-01.png\",\"additionalProp2\":\"instock-products/mad-hornet-airplane/image-02.png\"}",
                 Description = "Wooden 3D puzzle Mad Hornet Airplane from Ugears. Pre-flight check mode and taxi mode. Moves without batteries. Assemble without glue. The perfect gift!",
                 TopicId = TopicId1,
-                AssemblyMethodId = AssemblyMethodId2,
                 MaterialId = MaterialId2,
                 IsActive = true,
                 CreatedAt = SeedDate,
@@ -545,7 +539,6 @@ internal static class InstockSeedDataConfiguration
                 PreviewAsset = "{\"additionalProp1\":\"instock-products/mad-hornet-airplane/image-01.png\",\"additionalProp2\":\"instock-products/mad-hornet-airplane/image-02.png\"}",
                 Description = "Wooden 3D puzzle Mad Hornet Airplane from Ugears. Pre-flight check mode and taxi mode. Moves without batteries. Assemble without glue. The perfect gift!",
                 TopicId = TopicId4,
-                AssemblyMethodId = AssemblyMethodId3,
                 MaterialId = MaterialId3,
                 IsActive = true,
                 CreatedAt = SeedDate,
@@ -564,7 +557,6 @@ internal static class InstockSeedDataConfiguration
                 PreviewAsset = "{\"additionalProp1\":\"instock-products/ugt-24-endurance-racer/image-01.png\",\"additionalProp2\":\"instock-products/ugt-24-endurance-racer/image-02.png\"}",
                 Description = "New wooden mechanical 3D puzzle UGT-24 Endurance Racer by Ugears. A large car featuring a blue racing stripe and plastic windows drives 5-6 m thanks to a spring motor. Cool gift!",
                 TopicId = TopicId2,
-                AssemblyMethodId = AssemblyMethodId4,
                 MaterialId = MaterialId4,
                 IsActive = true,
                 CreatedAt = SeedDate,
@@ -583,7 +575,6 @@ internal static class InstockSeedDataConfiguration
                 PreviewAsset = "{\"additionalProp1\":\"instock-products/mad-hornet-airplane/image-01.png\",\"additionalProp2\":\"instock-products/mad-hornet-airplane/image-02.png\"}",
                 Description = "Wooden 3D puzzle Mad Hornet Airplane from Ugears. Pre-flight check mode and taxi mode. Moves without batteries. Assemble without glue. The perfect gift!",
                 TopicId = TopicId5,
-                AssemblyMethodId = AssemblyMethodId5,
                 MaterialId = MaterialId5,
                 IsActive = true,
                 CreatedAt = SeedDate,
@@ -812,6 +803,55 @@ internal static class InstockSeedDataConfiguration
         modelBuilder.Entity<InstockProductDrive>().HasData(driveDetails);
     }
 
+    public static void SeedProductAssemblyMethodDetails(this ModelBuilder modelBuilder)
+    {
+        var assemblyMethodDetails = new[]
+        {
+            // UGT-24 Endurance Racer (INP001): Snap-Fit, Glue Assembly
+            new { Id = Guid.NewGuid(), InstockProductId = InstockProductId.From(Guid.Parse("10000000-0000-0000-0000-000000000001")), AssemblyMethodId = AssemblyMethodId1 },
+            new { Id = Guid.NewGuid(), InstockProductId = InstockProductId.From(Guid.Parse("10000000-0000-0000-0000-000000000001")), AssemblyMethodId = AssemblyMethodId2 },
+            
+            // Mad Hornet Airplane (INP002): Screw Assembly, Friction Fit
+            new { Id = Guid.NewGuid(), InstockProductId = InstockProductId.From(Guid.Parse("10000000-0000-0000-0000-000000000002")), AssemblyMethodId = AssemblyMethodId3 },
+            new { Id = Guid.NewGuid(), InstockProductId = InstockProductId.From(Guid.Parse("10000000-0000-0000-0000-000000000002")), AssemblyMethodId = AssemblyMethodId4 },
+            
+            // Eagle 3D Puzzle (INP003): Magnetic Assembly, Snap-Fit, Glue Assembly
+            new { Id = Guid.NewGuid(), InstockProductId = InstockProductId.From(Guid.Parse("10000000-0000-0000-0000-000000000003")), AssemblyMethodId = AssemblyMethodId5 },
+            new { Id = Guid.NewGuid(), InstockProductId = InstockProductId.From(Guid.Parse("10000000-0000-0000-0000-000000000003")), AssemblyMethodId = AssemblyMethodId1 },
+            new { Id = Guid.NewGuid(), InstockProductId = InstockProductId.From(Guid.Parse("10000000-0000-0000-0000-000000000003")), AssemblyMethodId = AssemblyMethodId2 },
+            
+            // Sports Car 3D Puzzle (INP004): Screw Assembly, Friction Fit
+            new { Id = Guid.NewGuid(), InstockProductId = InstockProductId.From(Guid.Parse("10000000-0000-0000-0000-000000000004")), AssemblyMethodId = AssemblyMethodId3 },
+            new { Id = Guid.NewGuid(), InstockProductId = InstockProductId.From(Guid.Parse("10000000-0000-0000-0000-000000000004")), AssemblyMethodId = AssemblyMethodId4 },
+            
+            // Airplane 3D Puzzle (INP005): Magnetic Assembly, Glue Assembly
+            new { Id = Guid.NewGuid(), InstockProductId = InstockProductId.From(Guid.Parse("10000000-0000-0000-0000-000000000005")), AssemblyMethodId = AssemblyMethodId5 },
+            new { Id = Guid.NewGuid(), InstockProductId = InstockProductId.From(Guid.Parse("10000000-0000-0000-0000-000000000005")), AssemblyMethodId = AssemblyMethodId2 },
+            
+            // Motorcycle 3D Puzzle (INP006): Snap-Fit, Glue Assembly, Friction Fit
+            new { Id = Guid.NewGuid(), InstockProductId = InstockProductId.From(Guid.Parse("10000000-0000-0000-0000-000000000006")), AssemblyMethodId = AssemblyMethodId1 },
+            new { Id = Guid.NewGuid(), InstockProductId = InstockProductId.From(Guid.Parse("10000000-0000-0000-0000-000000000006")), AssemblyMethodId = AssemblyMethodId2 },
+            new { Id = Guid.NewGuid(), InstockProductId = InstockProductId.From(Guid.Parse("10000000-0000-0000-0000-000000000006")), AssemblyMethodId = AssemblyMethodId4 },
+            
+            // Tiger 3D Puzzle (INP007): Screw Assembly
+            new { Id = Guid.NewGuid(), InstockProductId = InstockProductId.From(Guid.Parse("10000000-0000-0000-0000-000000000007")), AssemblyMethodId = AssemblyMethodId3 },
+            
+            // Dolphin 3D Puzzle (INP008): Magnetic Assembly, Snap-Fit
+            new { Id = Guid.NewGuid(), InstockProductId = InstockProductId.From(Guid.Parse("10000000-0000-0000-0000-000000000008")), AssemblyMethodId = AssemblyMethodId5 },
+            new { Id = Guid.NewGuid(), InstockProductId = InstockProductId.From(Guid.Parse("10000000-0000-0000-0000-000000000008")), AssemblyMethodId = AssemblyMethodId1 },
+            
+            // Helicopter 3D Puzzle (INP009): Glue Assembly, Friction Fit, Screw Assembly
+            new { Id = Guid.NewGuid(), InstockProductId = InstockProductId.From(Guid.Parse("10000000-0000-0000-0000-000000000009")), AssemblyMethodId = AssemblyMethodId2 },
+            new { Id = Guid.NewGuid(), InstockProductId = InstockProductId.From(Guid.Parse("10000000-0000-0000-0000-000000000009")), AssemblyMethodId = AssemblyMethodId4 },
+            new { Id = Guid.NewGuid(), InstockProductId = InstockProductId.From(Guid.Parse("10000000-0000-0000-0000-000000000009")), AssemblyMethodId = AssemblyMethodId3 },
+            
+            // Dragon 3D Puzzle (INP010): Magnetic Assembly
+            new { Id = Guid.NewGuid(), InstockProductId = InstockProductId.From(Guid.Parse("10000000-0000-0000-0000-000000000010")), AssemblyMethodId = AssemblyMethodId5 }
+        };
+
+        modelBuilder.Entity<InstockProductAssemblyMethodDetail>().HasData(assemblyMethodDetails);
+    }
+
     public static void SeedInstockOrderConfigs(this ModelBuilder builder)
     {
         builder.Entity<InstockOrderConfig>().HasData(
@@ -834,6 +874,7 @@ internal static class InstockSeedDataConfiguration
         modelBuilder.SeedProducts();
         modelBuilder.SeedVariants();
         modelBuilder.SeedProductCapabilityDetails();
+        modelBuilder.SeedProductAssemblyMethodDetails();
         modelBuilder.SeedProductDriveDetails();
         modelBuilder.SeedInstockOrderConfigs();
     }

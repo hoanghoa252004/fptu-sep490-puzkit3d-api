@@ -22,7 +22,7 @@ internal sealed class GetAllInstockProducts : IEndpoint
                 string? difficultyLevel,
                 string? materialSlug,
                 string? topicSlug,
-                string? assemblyMethodSlug,
+                string? assemblyMethodSlugs,
                 string? capabilitySlugs,
                 ISender sender,
                 CancellationToken cancellationToken) =>
@@ -34,6 +34,13 @@ internal sealed class GetAllInstockProducts : IEndpoint
                         .Select(s => s.Trim())
                         .ToList();
 
+                // Parse comma-separated capability slugs into a list
+                var assemblySlugsList = string.IsNullOrWhiteSpace(assemblyMethodSlugs)
+                    ? null
+                    : assemblyMethodSlugs.Split(',', System.StringSplitOptions.RemoveEmptyEntries)
+                        .Select(s => s.Trim())
+                        .ToList();
+
                 var query = new GetAllInstockProductsQuery(
                     pageNumber,
                     pageSize,
@@ -42,7 +49,7 @@ internal sealed class GetAllInstockProducts : IEndpoint
                     difficultyLevel,
                     materialSlug,
                     topicSlug,
-                    assemblyMethodSlug,
+                    assemblySlugsList,
                     capabilitySlugsList);
 
                 var result = await sender.Send(query, cancellationToken);

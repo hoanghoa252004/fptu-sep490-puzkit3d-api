@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using PuzKit3D.Contract.Catalog.AssemblyMethods;
+using PuzKit3D.Modules.InStock.Domain.Entities.InstockProductAssemblyMethodDetails;
+using PuzKit3D.Modules.InStock.Domain.Entities.InstockProductCapabilityDetails;
 using PuzKit3D.Modules.InStock.Persistence;
 using PuzKit3D.SharedKernel.Application.Event;
 using PuzKit3D.SharedKernel.Application.Exceptions;
@@ -29,11 +31,11 @@ internal sealed class AssemblyMethodDeletedIntegrationEventHandler
             return;
         }
 
-        // Check if any InstockProduct is using this AssemblyMethod
-        var hasProducts = await _context.InstockProducts
+        // Check if any InstockProductAssemblyMethodDetail is using this AssemblyMethod
+        var hasCapabilityDetails = await _context.Set<InstockProductAssemblyMethodDetail>()
             .AnyAsync(p => p.AssemblyMethodId == @event.AssemblyMethodId, cancellationToken);
 
-        if (hasProducts)
+        if (hasCapabilityDetails)
         {
             throw new PuzKit3DException("This assembly method can be delete because there is one or more products belongs");
         }

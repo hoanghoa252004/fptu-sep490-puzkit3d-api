@@ -8,6 +8,7 @@ using PuzKit3D.Modules.InStock.Domain.Entities.InstockOrders;
 using PuzKit3D.Modules.InStock.Domain.Entities.InstockPrices;
 using PuzKit3D.Modules.InStock.Domain.Entities.InstockProductCapabilityDetails;
 using PuzKit3D.Modules.InStock.Domain.Entities.InstockProductDrives;
+using PuzKit3D.Modules.InStock.Domain.Entities.InstockProductAssemblyMethodDetails;
 using PuzKit3D.Modules.InStock.Domain.Entities.InstockProductPriceDetails;
 using PuzKit3D.Modules.InStock.Domain.Entities.InstockProducts;
 using PuzKit3D.Modules.InStock.Domain.Entities.InstockProductVariants;
@@ -32,6 +33,7 @@ public sealed class InStockDbContext : DbContext, IInStockUnitOfWork
     public DbSet<InstockProduct> InstockProducts => Set<InstockProduct>();
     public DbSet<InstockProductVariant> InstockProductVariants => Set<InstockProductVariant>();
     public DbSet<InstockProductCapabilityDetail> InstockProductCapabilityDetails => Set<InstockProductCapabilityDetail>();
+    public DbSet<InstockProductAssemblyMethodDetail> InstockProductAssemblyMethodDetails => Set<InstockProductAssemblyMethodDetail>();
     public DbSet<InstockProductDrive> InstockProductDrives => Set<InstockProductDrive>();
     public DbSet<InstockInventory> InstockInventories => Set<InstockInventory>();
     public DbSet<InstockPrice> InstockPrices => Set<InstockPrice>();
@@ -47,6 +49,8 @@ public sealed class InStockDbContext : DbContext, IInStockUnitOfWork
 
     public DbSet<SupportTicketReplica> SupportTicketReplicas => Set<SupportTicketReplica>();
     public DbSet<SupportTicketDetailReplica> SupportTicketDetailReplicas => Set<SupportTicketDetailReplica>();
+
+
 
     protected override void OnModelCreating(ModelBuilder builder)
     {

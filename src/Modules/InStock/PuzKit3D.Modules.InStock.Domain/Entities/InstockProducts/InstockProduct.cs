@@ -1,6 +1,7 @@
 using PuzKit3D.Modules.InStock.Domain.Entities.InstockProducts.DomainEvents;
 using PuzKit3D.Modules.InStock.Domain.Entities.InstockProductCapabilityDetails;
 using PuzKit3D.Modules.InStock.Domain.Entities.InstockProductDrives;
+using PuzKit3D.Modules.InStock.Domain.Entities.InstockProductAssemblyMethodDetails;
 using PuzKit3D.SharedKernel.Domain;
 using PuzKit3D.SharedKernel.Domain.Results;
 using System.Text.RegularExpressions;
@@ -12,13 +13,8 @@ public sealed partial class InstockProduct : AggregateRoot<InstockProductId>
     private static readonly Regex CodeRegex = CodeRegexPattern();
     private readonly List<InstockProductDrive> _drives = new();
     private readonly List<InstockProductCapabilityDetail> _capabilityDetails = new();
+    private readonly List<InstockProductAssemblyMethodDetail> _assemblyMethodDetails = new();
 
-    public static readonly HashSet<string> ValidDifficultLevels = new()
-    {
-        "Basic",
-        "Intermediate",
-        "Advanced"
-    };
 
     public string Code { get; private set; } = null!;
     public string Slug { get; private set; } = null!;
@@ -30,7 +26,6 @@ public sealed partial class InstockProduct : AggregateRoot<InstockProductId>
     public string PreviewAsset { get; private set; } = null!;
     public string? Description { get; private set; }
     public Guid TopicId { get; private set; }
-    public Guid AssemblyMethodId { get; private set; }
     public Guid MaterialId { get; private set; }
     public bool IsActive { get; private set; }
     public DateTime CreatedAt { get; private set; }
@@ -38,6 +33,7 @@ public sealed partial class InstockProduct : AggregateRoot<InstockProductId>
 
     public IReadOnlyCollection<InstockProductDrive> Drives => _drives.AsReadOnly();
     public IReadOnlyCollection<InstockProductCapabilityDetail> CapabilityDetails => _capabilityDetails.AsReadOnly();
+    public IReadOnlyCollection<InstockProductAssemblyMethodDetail> AssemblyMethodDetails => _assemblyMethodDetails.AsReadOnly();
 
     [GeneratedRegex(@"^INP\d{3}$", RegexOptions.Compiled)]
     private static partial Regex CodeRegexPattern();
@@ -54,7 +50,6 @@ public sealed partial class InstockProduct : AggregateRoot<InstockProductId>
         string previewAsset,
         string? description,
         Guid topicId,
-        Guid assemblyMethodId,
         Guid materialId,
         bool isActive,
         DateTime createdAt) : base(id)
@@ -69,7 +64,6 @@ public sealed partial class InstockProduct : AggregateRoot<InstockProductId>
         PreviewAsset = previewAsset;
         Description = description;
         TopicId = topicId;
-        AssemblyMethodId = assemblyMethodId;
         MaterialId = materialId;
         IsActive = isActive;
         CreatedAt = createdAt;
@@ -90,9 +84,7 @@ public sealed partial class InstockProduct : AggregateRoot<InstockProductId>
         string thumbnailUrl,
         string previewAsset,
         Guid topicId,
-        Guid assemblyMethodId,
         Guid materialId,
-        List<Guid>? capabilityIds = null,
         string? description = null,
         bool isActive = false,
         DateTime? createdAt = null)
@@ -150,7 +142,6 @@ public sealed partial class InstockProduct : AggregateRoot<InstockProductId>
             previewAsset,
             description,
             topicId,
-            assemblyMethodId,
             materialId,
             isActive,
             timestamp);
@@ -167,7 +158,6 @@ public sealed partial class InstockProduct : AggregateRoot<InstockProductId>
             product.PreviewAsset,
             product.Description,
             product.TopicId,
-            product.AssemblyMethodId,
             product.MaterialId,
             product.IsActive,
             product.CreatedAt));
@@ -184,9 +174,7 @@ public sealed partial class InstockProduct : AggregateRoot<InstockProductId>
         string? thumbnailUrl = null,
         Dictionary<string, string>? previewAsset = null,
         Guid? topicId = null,
-        Guid? assemblyMethodId = null,
         Guid? materialId = null,
-        List<Guid>? capabilityIds = null,
         string? description = null,
         bool? isActive = null)
     {
@@ -255,9 +243,6 @@ public sealed partial class InstockProduct : AggregateRoot<InstockProductId>
         if (topicId.HasValue)
             TopicId = topicId.Value;
 
-        if (assemblyMethodId.HasValue)
-            AssemblyMethodId = assemblyMethodId.Value;
-
         if (materialId.HasValue)
             MaterialId = materialId.Value;
 
@@ -286,7 +271,6 @@ public sealed partial class InstockProduct : AggregateRoot<InstockProductId>
             PreviewAsset,
             Description,
             TopicId,
-            AssemblyMethodId,
             MaterialId,
             IsActive,
             UpdatedAt));
@@ -353,25 +337,21 @@ public sealed partial class InstockProduct : AggregateRoot<InstockProductId>
         UpdatedAt = DateTime.UtcNow;
     }
 
-    public void AddCapability(Guid capabilityId)
-    {
-        if (!_capabilityDetails.Any(c => c.CapabilityId == capabilityId))
-        {
-            _capabilityDetails.Add(InstockProductCapabilityDetail.Create(Id, capabilityId));
-            UpdatedAt = DateTime.UtcNow;
-        }
-    }
-
-    public void RemoveCapability(Guid capabilityId)
-    {
-        var detail = _capabilityDetails.FirstOrDefault(c => c.CapabilityId == capabilityId);
-        if (detail is not null)
-        {
-            _capabilityDetails.Remove(detail);
-            UpdatedAt = DateTime.UtcNow;
-        }
-    }
-
     public List<Guid> GetCapabilityIds() => _capabilityDetails.Select(c => c.CapabilityId).ToList();
+
+    public void SetAssemblyMethods(List<Guid> assemblyMethodIds)
+    {
+        _assemblyMethodDetails.Clear();
+        if (assemblyMethodIds != null && assemblyMethodIds.Count > 0)
+        {
+            foreach (var assemblyMethodId in assemblyMethodIds)
+            {
+                _assemblyMethodDetails.Add(InstockProductAssemblyMethodDetail.Create(Id, assemblyMethodId));
+            }
+        }
+        UpdatedAt = DateTime.UtcNow;
+    }
+
+    public List<Guid> GetAssemblyMethodIds() => _assemblyMethodDetails.Select(a => a.AssemblyMethodId).ToList();
 }
 

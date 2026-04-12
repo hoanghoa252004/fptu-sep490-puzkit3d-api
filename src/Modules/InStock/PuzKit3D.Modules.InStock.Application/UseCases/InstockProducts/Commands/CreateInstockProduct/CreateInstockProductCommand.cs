@@ -11,11 +11,14 @@ public sealed record CreateInstockProductCommand(
     string ThumbnailUrl,
     Dictionary<string, string> PreviewAsset,
     Guid TopicId,
-    Guid AssemblyMethodId,
-    List<Guid> CapabilityIds,
     Guid MaterialId,
+    List<Guid> CapabilityIds,
+    List<Guid> AssemblyMethodIds,
     List<DriveDetailDto>? DriveDetails = null,
     string? Description = null,
     bool IsActive = false) : ICommandT<Guid>;
+
+
+
 
 

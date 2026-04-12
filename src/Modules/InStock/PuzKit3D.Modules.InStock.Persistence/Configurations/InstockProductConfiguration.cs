@@ -8,8 +8,6 @@ internal sealed class InstockProductConfiguration : IEntityTypeConfiguration<Ins
 {
     public void Configure(EntityTypeBuilder<InstockProduct> builder)
     {
-        builder.HasKey(p => p.Id);
-
         builder.Property(p => p.Id)
             .HasConversion(
                 id => id.Value,
@@ -53,9 +51,6 @@ internal sealed class InstockProductConfiguration : IEntityTypeConfiguration<Ins
         builder.Property(p => p.TopicId)
             .IsRequired();
 
-        builder.Property(p => p.AssemblyMethodId)
-            .IsRequired();
-
         builder.Property(p => p.MaterialId)
             .IsRequired();
 
@@ -77,6 +72,9 @@ internal sealed class InstockProductConfiguration : IEntityTypeConfiguration<Ins
             .UsePropertyAccessMode(PropertyAccessMode.Field);
 
         builder.Navigation(p => p.CapabilityDetails)
+            .UsePropertyAccessMode(PropertyAccessMode.Field);
+
+        builder.Navigation(p => p.AssemblyMethodDetails)
             .UsePropertyAccessMode(PropertyAccessMode.Field);
 
         builder.Ignore(p => p.DomainEvents);

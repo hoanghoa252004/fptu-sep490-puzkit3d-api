@@ -58,12 +58,6 @@ internal sealed class CreateInstockProductCommandHandler : ICommandTHandler<Crea
             return Result.Failure<Guid>(InstockProductError.InvalidTopic());
         }
 
-        var assemblyMethodExists = await _assemblyMethodReplicaRepository.ExistsByIdAsync(request.AssemblyMethodId, cancellationToken);
-        if (!assemblyMethodExists)
-        {
-            return Result.Failure<Guid>(InstockProductError.InvalidAssemblyMethod());
-        }
-
         var materialExists = await _materialReplicaRepository.ExistsByIdAsync(request.MaterialId, cancellationToken);
         if (!materialExists)
         {
@@ -79,6 +73,19 @@ internal sealed class CreateInstockProductCommandHandler : ICommandTHandler<Crea
                 if (!capabilityExists)
                 {
                     return Result.Failure<Guid>(InstockProductError.InvalidCapability(capabilityId));
+                }
+            }
+        }
+
+        // Validate assembly methods exist in replica if provided (new validation)
+        if (request.AssemblyMethodIds != null && request.AssemblyMethodIds.Count > 0)
+        {
+            foreach (var assemblyMethodId in request.AssemblyMethodIds)
+            {
+                var additionalAssemblyMethodExists = await _assemblyMethodReplicaRepository.ExistsByIdAsync(assemblyMethodId, cancellationToken);
+                if (!additionalAssemblyMethodExists)
+                {
+                    return Result.Failure<Guid>(InstockProductError.InvalidAssemblyMethod());
                 }
             }
         }
@@ -117,9 +124,7 @@ internal sealed class CreateInstockProductCommandHandler : ICommandTHandler<Crea
                 request.ThumbnailUrl,
                 previewAssetJson,
                 request.TopicId,
-                request.AssemblyMethodId,
                 request.MaterialId,
-                request.CapabilityIds,
                 request.Description,
                 request.IsActive);
 
@@ -130,10 +135,16 @@ internal sealed class CreateInstockProductCommandHandler : ICommandTHandler<Crea
 
             var product = productResult.Value;
 
-            // Set capabilities
+            // Set capability details if provided
             if (request.CapabilityIds != null && request.CapabilityIds.Count > 0)
             {
                 product.SetCapabilities(request.CapabilityIds);
+            }
+
+            // Set assembly method details if provided
+            if (request.AssemblyMethodIds != null && request.AssemblyMethodIds.Count > 0)
+            {
+                product.SetAssemblyMethods(request.AssemblyMethodIds);
             }
 
             // Add drives if provided
