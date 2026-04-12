@@ -12,7 +12,7 @@ using PuzKit3D.Modules.Delivery.Persistence;
 namespace PuzKit3D.Modules.Delivery.Persistence.Migrations
 {
     [DbContext(typeof(DeliveryDbContext))]
-    [Migration("20260411154436_InitModule")]
+    [Migration("20260412021323_InitModule")]
     partial class InitModule
     {
         /// <inheritdoc />
@@ -185,6 +185,63 @@ namespace PuzKit3D.Modules.Delivery.Persistence.Migrations
                         .HasName("pk_drive_replicas");
 
                     b.ToTable("drive_replicas", "delivery");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("11111111-1111-1111-1111-111111111111"),
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Router module for rotate",
+                            IsActive = true,
+                            MinVolume = 5,
+                            Name = "Router",
+                            QuantityInStock = 5,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("22222222-2222-2222-2222-222222222222"),
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Electric motor drive",
+                            IsActive = true,
+                            MinVolume = 50,
+                            Name = "Motor",
+                            QuantityInStock = 100,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("33333333-3333-3333-3333-333333333333"),
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Mechanical gear system",
+                            IsActive = true,
+                            MinVolume = 30,
+                            Name = "Gearbox",
+                            QuantityInStock = 150,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("44444444-4444-4444-4444-444444444444"),
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "LED lighting system",
+                            IsActive = true,
+                            MinVolume = 10,
+                            Name = "LED Module",
+                            QuantityInStock = 200,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("55555555-5555-5555-5555-555555555555"),
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Mechanical music box",
+                            IsActive = true,
+                            MinVolume = 50,
+                            Name = "Music Box",
+                            QuantityInStock = 50,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        });
                 });
 
             modelBuilder.Entity("PuzKit3D.Modules.Delivery.Domain.Entities.Replicas.OrderDetailReplica", b =>

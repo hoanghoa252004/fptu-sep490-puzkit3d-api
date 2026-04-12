@@ -420,6 +420,45 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
 
             migrationBuilder.InsertData(
                 schema: "instock",
+                table: "assembly_method_replicas",
+                columns: new[] { "id", "created_at", "description", "factor_percentage", "is_active", "name", "slug", "updated_at" },
+                values: new object[,]
+                {
+                    { new Guid("a4a4a4a4-a4a4-a4a4-a4a4-a4a4a4a4a4a4"), new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "Assembly using tight fitting pieces", 1.15m, true, "Friction Fit", "friction-fit", new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc) },
+                    { new Guid("b5b5b5b5-b5b5-b5b5-b5b5-b5b5b5b5b5b5"), new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "Assembly using magnetic connections", 1.4m, true, "Magnetic Assembly", "magnetic-assembly", new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc) },
+                    { new Guid("d1d1d1d1-d1d1-d1d1-d1d1-d1d1d1d1d1d1"), new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "Easy snap assembly without tools", 1.1m, true, "Snap-Fit", "snap-fit", new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc) },
+                    { new Guid("e2e2e2e2-e2e2-e2e2-e2e2-e2e2e2e2e2e2"), new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "Assembly using adhesive bonding", 1.0m, true, "Glue Assembly", "glue-assembly", new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc) },
+                    { new Guid("f3f3f3f3-f3f3-f3f3-f3f3-f3f3f3f3f3f3"), new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "Assembly using screws and bolts", 1.3m, true, "Screw Assembly", "screw-assembly", new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc) }
+                });
+
+            migrationBuilder.InsertData(
+                schema: "instock",
+                table: "capability_replicas",
+                columns: new[] { "id", "created_at", "description", "factor_percentage", "is_active", "name", "slug", "updated_at" },
+                values: new object[,]
+                {
+                    { new Guid("a3a3a3a3-a3a3-a3a3-a3a3-a3a3a3a3a3a3"), new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "Model operated by manual movement", 1.3m, true, "Manual Movement", "manual-movement", new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc) },
+                    { new Guid("b4b4b4b4-b4b4-b4b4-b4b4-b4b4b4b4b4b4"), new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "Model with LED lighting effects", 1.4m, true, "LED Light Feature", "led-light-feature", new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc) },
+                    { new Guid("c5c5c5c5-c5c5-c5c5-c5c5-c5c5c5c5c5c5"), new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "Model with musical features via rotating mechanism", 1.6m, true, "Musical Gear", "musical-gear", new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc) },
+                    { new Guid("e1e1e1e1-e1e1-e1e1-e1e1-e1e1e1e1e1e1"), new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "Static model for display only", 1.0m, true, "Static Display", "static-display", new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc) },
+                    { new Guid("f2f2f2f2-f2f2-f2f2-f2f2-f2f2f2f2f2f2"), new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "Model with electric motor-powered movement", 1.8m, true, "Move with Motor", "move-with-motor", new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc) }
+                });
+
+            migrationBuilder.InsertData(
+                schema: "instock",
+                table: "drive_replicas",
+                columns: new[] { "id", "created_at", "description", "is_active", "min_volume", "name", "quantity_in_stock", "updated_at" },
+                values: new object[,]
+                {
+                    { new Guid("11111111-1111-1111-1111-111111111111"), new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "Router module for rotate", true, 5, "Router", 5, new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc) },
+                    { new Guid("22222222-2222-2222-2222-222222222222"), new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "Electric motor drive", true, 50, "Motor", 100, new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc) },
+                    { new Guid("33333333-3333-3333-3333-333333333333"), new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "Mechanical gear system", true, 30, "Gearbox", 150, new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc) },
+                    { new Guid("44444444-4444-4444-4444-444444444444"), new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "LED lighting system", true, 10, "LED Module", 200, new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc) },
+                    { new Guid("55555555-5555-5555-5555-555555555555"), new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "Mechanical music box", true, 50, "Music Box", 50, new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc) }
+                });
+
+            migrationBuilder.InsertData(
+                schema: "instock",
                 table: "instock_order_configs",
                 columns: new[] { "id", "order_must_complete_in_days", "updated_at" },
                 values: new object[] { new Guid("00000000-0000-0000-0000-000000000002"), 7, new DateTime(2026, 3, 30, 0, 0, 0, 0, DateTimeKind.Utc) });
@@ -454,6 +493,32 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
 
             migrationBuilder.InsertData(
                 schema: "instock",
+                table: "material_replicas",
+                columns: new[] { "id", "base_price", "created_at", "description", "factor_percentage", "is_active", "name", "slug", "updated_at" },
+                values: new object[,]
+                {
+                    { new Guid("a2a2a2a2-a2a2-a2a2-a2a2-a2a2a2a2a2a2"), 2000m, new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "Durable plastic material", 0.85m, true, "Plastic", "plastic", new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc) },
+                    { new Guid("b3b3b3b3-b3b3-b3b3-b3b3-b3b3b3b3b3b3"), 9000m, new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "Premium metal components", 1.6m, true, "Metal", "metal", new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc) },
+                    { new Guid("c4c4c4c4-c4c4-c4c4-c4c4-c4c4c4c4c4c4"), 1000m, new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "Eco-friendly cardboard material", 0.7m, true, "Cardboard", "cardboard", new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc) },
+                    { new Guid("d5d5d5d5-d5d5-d5d5-d5d5-d5d5d5d5d5d5"), 7000m, new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "Advanced composite materials", 1.3m, true, "Composite", "composite", new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc) },
+                    { new Guid("f1f1f1f1-f1f1-f1f1-f1f1-f1f1f1f1f1f1"), 4000m, new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "Natural wood material", 1.0m, true, "Wood", "wood", new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc) }
+                });
+
+            migrationBuilder.InsertData(
+                schema: "instock",
+                table: "topic_replicas",
+                columns: new[] { "id", "created_at", "description", "factor_percentage", "is_active", "name", "parent_id", "slug", "updated_at" },
+                values: new object[,]
+                {
+                    { new Guid("a1a1a1a1-a1a1-a1a1-a1a1-a1a1a1a1a1a1"), new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "Animal themed 3D puzzles", 1.1m, true, "Animals", null, "animals", new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc) },
+                    { new Guid("b2b2b2b2-b2b2-b2b2-b2b2-b2b2b2b2b2b2"), new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "Vehicle and transportation themed puzzles", 1.3m, true, "Vehicles", null, "vehicles", new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc) },
+                    { new Guid("c3c3c3c3-c3c3-c3c3-c3c3-c3c3c3c3c3c3"), new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "Famous buildings and landmarks", 1.5m, true, "Architecture", null, "architecture", new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc) },
+                    { new Guid("d4d4d4d4-d4d4-d4d4-d4d4-d4d4d4d4d4d4"), new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "Natural landscapes and scenery", 1.0m, true, "Nature", null, "nature", new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc) },
+                    { new Guid("e5e5e5e5-e5e5-e5e5-e5e5-e5e5e5e5e5e5"), new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "Fantasy creatures and magical worlds", 1.6m, true, "Fantasy", null, "fantasy", new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc) }
+                });
+
+            migrationBuilder.InsertData(
+                schema: "instock",
                 table: "instock_product_capability_detail",
                 columns: new[] { "capability_id", "instock_product_id" },
                 values: new object[,]
@@ -478,6 +543,40 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                     { new Guid("c5c5c5c5-c5c5-c5c5-c5c5-c5c5c5c5c5c5"), new Guid("10000000-0000-0000-0000-000000000009") },
                     { new Guid("c5c5c5c5-c5c5-c5c5-c5c5-c5c5c5c5c5c5"), new Guid("10000000-0000-0000-0000-000000000010") },
                     { new Guid("e1e1e1e1-e1e1-e1e1-e1e1-e1e1e1e1e1e1"), new Guid("10000000-0000-0000-0000-000000000010") }
+                });
+
+            migrationBuilder.InsertData(
+                schema: "instock",
+                table: "instock_product_drives",
+                columns: new[] { "id", "drive_id", "instock_product_id", "quantity" },
+                values: new object[,]
+                {
+                    { new Guid("127f82f8-043b-4c17-87a6-6c3042b946c8"), new Guid("22222222-2222-2222-2222-222222222222"), new Guid("10000000-0000-0000-0000-000000000006"), 1 },
+                    { new Guid("2a714d62-3e8f-46f0-896f-d9183b5ec038"), new Guid("22222222-2222-2222-2222-222222222222"), new Guid("10000000-0000-0000-0000-000000000001"), 1 },
+                    { new Guid("2bcbb9f2-9e39-445a-b790-6a54852849de"), new Guid("11111111-1111-1111-1111-111111111111"), new Guid("10000000-0000-0000-0000-000000000006"), 1 },
+                    { new Guid("2c404700-78a6-48f1-ac4f-5589cda2a331"), new Guid("33333333-3333-3333-3333-333333333333"), new Guid("10000000-0000-0000-0000-000000000005"), 3 },
+                    { new Guid("2f2a0878-358d-455e-a803-5d8b9178b63d"), new Guid("33333333-3333-3333-3333-333333333333"), new Guid("10000000-0000-0000-0000-000000000004"), 2 },
+                    { new Guid("353365b6-74c5-4afd-a2c1-b8f2890d663b"), new Guid("33333333-3333-3333-3333-333333333333"), new Guid("10000000-0000-0000-0000-000000000003"), 2 },
+                    { new Guid("37ff4975-1b3e-4151-a20a-d44698db01a4"), new Guid("22222222-2222-2222-2222-222222222222"), new Guid("10000000-0000-0000-0000-000000000007"), 1 },
+                    { new Guid("38273c1f-cd96-47de-b9f9-65df8b483fa9"), new Guid("55555555-5555-5555-5555-555555555555"), new Guid("10000000-0000-0000-0000-000000000010"), 1 },
+                    { new Guid("5b79617a-f481-4de4-b22b-f2295d975f5b"), new Guid("33333333-3333-3333-3333-333333333333"), new Guid("10000000-0000-0000-0000-000000000008"), 2 },
+                    { new Guid("6398e90a-8473-4deb-bb8e-c837cfc995c8"), new Guid("44444444-4444-4444-4444-444444444444"), new Guid("10000000-0000-0000-0000-000000000004"), 2 },
+                    { new Guid("6d54f48f-05f4-44bc-88cd-cf9dfb751a23"), new Guid("33333333-3333-3333-3333-333333333333"), new Guid("10000000-0000-0000-0000-000000000001"), 2 },
+                    { new Guid("6e03fa7c-766e-4af3-9848-b60c26510ae6"), new Guid("22222222-2222-2222-2222-222222222222"), new Guid("10000000-0000-0000-0000-000000000002"), 1 },
+                    { new Guid("7872dd2f-6552-42fa-a109-762e0a977587"), new Guid("55555555-5555-5555-5555-555555555555"), new Guid("10000000-0000-0000-0000-000000000005"), 1 },
+                    { new Guid("78826ed5-4058-4239-8a90-1e768f5aa244"), new Guid("11111111-1111-1111-1111-111111111111"), new Guid("10000000-0000-0000-0000-000000000010"), 1 },
+                    { new Guid("792bb0cd-adaf-4a1a-9fb7-fa55d392424d"), new Guid("11111111-1111-1111-1111-111111111111"), new Guid("10000000-0000-0000-0000-000000000005"), 1 },
+                    { new Guid("7f72e24b-69a8-4bf4-b3c1-7b74488bcf62"), new Guid("33333333-3333-3333-3333-333333333333"), new Guid("10000000-0000-0000-0000-000000000002"), 3 },
+                    { new Guid("82349e52-3768-4249-87ed-906e54658a62"), new Guid("33333333-3333-3333-3333-333333333333"), new Guid("10000000-0000-0000-0000-000000000007"), 2 },
+                    { new Guid("8b4aaac2-4715-499f-a40e-17b68435d902"), new Guid("11111111-1111-1111-1111-111111111111"), new Guid("10000000-0000-0000-0000-000000000001"), 1 },
+                    { new Guid("9359614f-c609-47ae-93de-5f8687108d32"), new Guid("55555555-5555-5555-5555-555555555555"), new Guid("10000000-0000-0000-0000-000000000004"), 1 },
+                    { new Guid("acd25992-e9b2-4811-a40d-0871e5b9d938"), new Guid("33333333-3333-3333-3333-333333333333"), new Guid("10000000-0000-0000-0000-000000000009"), 2 },
+                    { new Guid("b13ce521-6feb-44a4-8853-af21aaf1b724"), new Guid("33333333-3333-3333-3333-333333333333"), new Guid("10000000-0000-0000-0000-000000000006"), 2 },
+                    { new Guid("cdf63565-d0e5-436d-8249-05b32059beeb"), new Guid("33333333-3333-3333-3333-333333333333"), new Guid("10000000-0000-0000-0000-000000000010"), 2 },
+                    { new Guid("d18d54ea-2993-48e8-a671-7cba9fba5c94"), new Guid("55555555-5555-5555-5555-555555555555"), new Guid("10000000-0000-0000-0000-000000000009"), 1 },
+                    { new Guid("dccf852b-a411-4741-8cc9-99288de75b66"), new Guid("44444444-4444-4444-4444-444444444444"), new Guid("10000000-0000-0000-0000-000000000003"), 1 },
+                    { new Guid("f503de77-dfdb-4fce-9378-155ac1c7e73a"), new Guid("44444444-4444-4444-4444-444444444444"), new Guid("10000000-0000-0000-0000-000000000009"), 1 },
+                    { new Guid("f582d00a-c9c3-4d63-b9cd-c88e7c8e68b3"), new Guid("44444444-4444-4444-4444-444444444444"), new Guid("10000000-0000-0000-0000-000000000008"), 1 }
                 });
 
             migrationBuilder.InsertData(

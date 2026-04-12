@@ -488,10 +488,10 @@ internal static class CatalogSeedDataConfiguration
             new
             {
                 Id = DriveId.From(DriveId1),
-                Name = "None",
-                Description = "No drive mechanism",
-                MinVolume = (int?)null,
-                QuantityInStock = 0,
+                Name = "Router",
+                Description = "Router module for rotate",
+                MinVolume = 5,
+                QuantityInStock = 5,
                 IsActive = true,
                 CreatedAt = SeedDate,
                 UpdatedAt = SeedDate

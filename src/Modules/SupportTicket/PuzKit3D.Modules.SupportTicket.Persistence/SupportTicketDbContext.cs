@@ -37,7 +37,7 @@ public sealed class SupportTicketDbContext : DbContext, ISupportTicketUnitOfWork
         builder.ApplyConfigurationsFromAssembly(typeof(SupportTicketConfiguration).Assembly);
 
         // Apply seed data
-        //Configurations.SeedData.SupportTicketSeedDataConfiguration.SeedPartReplicas(builder);
+        Configurations.SeedData.SupportTicketSeedDataConfiguration.SeedSupportTicketMasterData(builder);
 
         base.OnModelCreating(builder);
     }

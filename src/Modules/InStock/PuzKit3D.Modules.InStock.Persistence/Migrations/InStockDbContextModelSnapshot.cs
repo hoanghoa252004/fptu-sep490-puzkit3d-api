@@ -610,6 +610,190 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                         .HasDatabaseName("UK__instock_product_drive__product_drive");
 
                     b.ToTable("instock_product_drives", "instock");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("8b4aaac2-4715-499f-a40e-17b68435d902"),
+                            DriveId = new Guid("11111111-1111-1111-1111-111111111111"),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000001"),
+                            Quantity = 1
+                        },
+                        new
+                        {
+                            Id = new Guid("2a714d62-3e8f-46f0-896f-d9183b5ec038"),
+                            DriveId = new Guid("22222222-2222-2222-2222-222222222222"),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000001"),
+                            Quantity = 1
+                        },
+                        new
+                        {
+                            Id = new Guid("6d54f48f-05f4-44bc-88cd-cf9dfb751a23"),
+                            DriveId = new Guid("33333333-3333-3333-3333-333333333333"),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000001"),
+                            Quantity = 2
+                        },
+                        new
+                        {
+                            Id = new Guid("6e03fa7c-766e-4af3-9848-b60c26510ae6"),
+                            DriveId = new Guid("22222222-2222-2222-2222-222222222222"),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000002"),
+                            Quantity = 1
+                        },
+                        new
+                        {
+                            Id = new Guid("7f72e24b-69a8-4bf4-b3c1-7b74488bcf62"),
+                            DriveId = new Guid("33333333-3333-3333-3333-333333333333"),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000002"),
+                            Quantity = 3
+                        },
+                        new
+                        {
+                            Id = new Guid("353365b6-74c5-4afd-a2c1-b8f2890d663b"),
+                            DriveId = new Guid("33333333-3333-3333-3333-333333333333"),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000003"),
+                            Quantity = 2
+                        },
+                        new
+                        {
+                            Id = new Guid("dccf852b-a411-4741-8cc9-99288de75b66"),
+                            DriveId = new Guid("44444444-4444-4444-4444-444444444444"),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000003"),
+                            Quantity = 1
+                        },
+                        new
+                        {
+                            Id = new Guid("6398e90a-8473-4deb-bb8e-c837cfc995c8"),
+                            DriveId = new Guid("44444444-4444-4444-4444-444444444444"),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000004"),
+                            Quantity = 2
+                        },
+                        new
+                        {
+                            Id = new Guid("9359614f-c609-47ae-93de-5f8687108d32"),
+                            DriveId = new Guid("55555555-5555-5555-5555-555555555555"),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000004"),
+                            Quantity = 1
+                        },
+                        new
+                        {
+                            Id = new Guid("2f2a0878-358d-455e-a803-5d8b9178b63d"),
+                            DriveId = new Guid("33333333-3333-3333-3333-333333333333"),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000004"),
+                            Quantity = 2
+                        },
+                        new
+                        {
+                            Id = new Guid("7872dd2f-6552-42fa-a109-762e0a977587"),
+                            DriveId = new Guid("55555555-5555-5555-5555-555555555555"),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000005"),
+                            Quantity = 1
+                        },
+                        new
+                        {
+                            Id = new Guid("2c404700-78a6-48f1-ac4f-5589cda2a331"),
+                            DriveId = new Guid("33333333-3333-3333-3333-333333333333"),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000005"),
+                            Quantity = 3
+                        },
+                        new
+                        {
+                            Id = new Guid("792bb0cd-adaf-4a1a-9fb7-fa55d392424d"),
+                            DriveId = new Guid("11111111-1111-1111-1111-111111111111"),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000005"),
+                            Quantity = 1
+                        },
+                        new
+                        {
+                            Id = new Guid("2bcbb9f2-9e39-445a-b790-6a54852849de"),
+                            DriveId = new Guid("11111111-1111-1111-1111-111111111111"),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000006"),
+                            Quantity = 1
+                        },
+                        new
+                        {
+                            Id = new Guid("127f82f8-043b-4c17-87a6-6c3042b946c8"),
+                            DriveId = new Guid("22222222-2222-2222-2222-222222222222"),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000006"),
+                            Quantity = 1
+                        },
+                        new
+                        {
+                            Id = new Guid("b13ce521-6feb-44a4-8853-af21aaf1b724"),
+                            DriveId = new Guid("33333333-3333-3333-3333-333333333333"),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000006"),
+                            Quantity = 2
+                        },
+                        new
+                        {
+                            Id = new Guid("37ff4975-1b3e-4151-a20a-d44698db01a4"),
+                            DriveId = new Guid("22222222-2222-2222-2222-222222222222"),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000007"),
+                            Quantity = 1
+                        },
+                        new
+                        {
+                            Id = new Guid("82349e52-3768-4249-87ed-906e54658a62"),
+                            DriveId = new Guid("33333333-3333-3333-3333-333333333333"),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000007"),
+                            Quantity = 2
+                        },
+                        new
+                        {
+                            Id = new Guid("5b79617a-f481-4de4-b22b-f2295d975f5b"),
+                            DriveId = new Guid("33333333-3333-3333-3333-333333333333"),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000008"),
+                            Quantity = 2
+                        },
+                        new
+                        {
+                            Id = new Guid("f582d00a-c9c3-4d63-b9cd-c88e7c8e68b3"),
+                            DriveId = new Guid("44444444-4444-4444-4444-444444444444"),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000008"),
+                            Quantity = 1
+                        },
+                        new
+                        {
+                            Id = new Guid("f503de77-dfdb-4fce-9378-155ac1c7e73a"),
+                            DriveId = new Guid("44444444-4444-4444-4444-444444444444"),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000009"),
+                            Quantity = 1
+                        },
+                        new
+                        {
+                            Id = new Guid("d18d54ea-2993-48e8-a671-7cba9fba5c94"),
+                            DriveId = new Guid("55555555-5555-5555-5555-555555555555"),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000009"),
+                            Quantity = 1
+                        },
+                        new
+                        {
+                            Id = new Guid("acd25992-e9b2-4811-a40d-0871e5b9d938"),
+                            DriveId = new Guid("33333333-3333-3333-3333-333333333333"),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000009"),
+                            Quantity = 2
+                        },
+                        new
+                        {
+                            Id = new Guid("38273c1f-cd96-47de-b9f9-65df8b483fa9"),
+                            DriveId = new Guid("55555555-5555-5555-5555-555555555555"),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000010"),
+                            Quantity = 1
+                        },
+                        new
+                        {
+                            Id = new Guid("cdf63565-d0e5-436d-8249-05b32059beeb"),
+                            DriveId = new Guid("33333333-3333-3333-3333-333333333333"),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000010"),
+                            Quantity = 2
+                        },
+                        new
+                        {
+                            Id = new Guid("78826ed5-4058-4239-8a90-1e768f5aa244"),
+                            DriveId = new Guid("11111111-1111-1111-1111-111111111111"),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000010"),
+                            Quantity = 1
+                        });
                 });
 
             modelBuilder.Entity("PuzKit3D.Modules.InStock.Domain.Entities.InstockProductPriceDetails.InstockProductPriceDetail", b =>
@@ -1580,6 +1764,63 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                         .HasDatabaseName("UK__assembly_method_replica__slug");
 
                     b.ToTable("assembly_method_replicas", "instock");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("d1d1d1d1-d1d1-d1d1-d1d1-d1d1d1d1d1d1"),
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Easy snap assembly without tools",
+                            FactorPercentage = 1.1m,
+                            IsActive = true,
+                            Name = "Snap-Fit",
+                            Slug = "snap-fit",
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("e2e2e2e2-e2e2-e2e2-e2e2-e2e2e2e2e2e2"),
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Assembly using adhesive bonding",
+                            FactorPercentage = 1.0m,
+                            IsActive = true,
+                            Name = "Glue Assembly",
+                            Slug = "glue-assembly",
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("f3f3f3f3-f3f3-f3f3-f3f3-f3f3f3f3f3f3"),
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Assembly using screws and bolts",
+                            FactorPercentage = 1.3m,
+                            IsActive = true,
+                            Name = "Screw Assembly",
+                            Slug = "screw-assembly",
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("a4a4a4a4-a4a4-a4a4-a4a4-a4a4a4a4a4a4"),
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Assembly using tight fitting pieces",
+                            FactorPercentage = 1.15m,
+                            IsActive = true,
+                            Name = "Friction Fit",
+                            Slug = "friction-fit",
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("b5b5b5b5-b5b5-b5b5-b5b5-b5b5b5b5b5b5"),
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Assembly using magnetic connections",
+                            FactorPercentage = 1.4m,
+                            IsActive = true,
+                            Name = "Magnetic Assembly",
+                            Slug = "magnetic-assembly",
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        });
                 });
 
             modelBuilder.Entity("PuzKit3D.Modules.InStock.Domain.Entities.Replicas.CapabilityReplica", b =>
@@ -1632,6 +1873,63 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                         .HasDatabaseName("UK__capability_replica__slug");
 
                     b.ToTable("capability_replicas", "instock");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("e1e1e1e1-e1e1-e1e1-e1e1-e1e1e1e1e1e1"),
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Static model for display only",
+                            FactorPercentage = 1.0m,
+                            IsActive = true,
+                            Name = "Static Display",
+                            Slug = "static-display",
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("f2f2f2f2-f2f2-f2f2-f2f2-f2f2f2f2f2f2"),
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Model with electric motor-powered movement",
+                            FactorPercentage = 1.8m,
+                            IsActive = true,
+                            Name = "Move with Motor",
+                            Slug = "move-with-motor",
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("a3a3a3a3-a3a3-a3a3-a3a3-a3a3a3a3a3a3"),
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Model operated by manual movement",
+                            FactorPercentage = 1.3m,
+                            IsActive = true,
+                            Name = "Manual Movement",
+                            Slug = "manual-movement",
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("b4b4b4b4-b4b4-b4b4-b4b4-b4b4b4b4b4b4"),
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Model with LED lighting effects",
+                            FactorPercentage = 1.4m,
+                            IsActive = true,
+                            Name = "LED Light Feature",
+                            Slug = "led-light-feature",
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("c5c5c5c5-c5c5-c5c5-c5c5-c5c5c5c5c5c5"),
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Model with musical features via rotating mechanism",
+                            FactorPercentage = 1.6m,
+                            IsActive = true,
+                            Name = "Musical Gear",
+                            Slug = "musical-gear",
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        });
                 });
 
             modelBuilder.Entity("PuzKit3D.Modules.InStock.Domain.Entities.Replicas.DriveReplica", b =>
@@ -1677,6 +1975,63 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                         .HasName("pk_drive_replicas");
 
                     b.ToTable("drive_replicas", "instock");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("11111111-1111-1111-1111-111111111111"),
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Router module for rotate",
+                            IsActive = true,
+                            MinVolume = 5,
+                            Name = "Router",
+                            QuantityInStock = 5,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("22222222-2222-2222-2222-222222222222"),
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Electric motor drive",
+                            IsActive = true,
+                            MinVolume = 50,
+                            Name = "Motor",
+                            QuantityInStock = 100,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("33333333-3333-3333-3333-333333333333"),
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Mechanical gear system",
+                            IsActive = true,
+                            MinVolume = 30,
+                            Name = "Gearbox",
+                            QuantityInStock = 150,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("44444444-4444-4444-4444-444444444444"),
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "LED lighting system",
+                            IsActive = true,
+                            MinVolume = 10,
+                            Name = "LED Module",
+                            QuantityInStock = 200,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("55555555-5555-5555-5555-555555555555"),
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Mechanical music box",
+                            IsActive = true,
+                            MinVolume = 50,
+                            Name = "Music Box",
+                            QuantityInStock = 50,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        });
                 });
 
             modelBuilder.Entity("PuzKit3D.Modules.InStock.Domain.Entities.Replicas.MaterialReplica", b =>
@@ -1734,6 +2089,68 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                         .HasDatabaseName("UK__material_replica__slug");
 
                     b.ToTable("material_replicas", "instock");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("f1f1f1f1-f1f1-f1f1-f1f1-f1f1f1f1f1f1"),
+                            BasePrice = 4000m,
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Natural wood material",
+                            FactorPercentage = 1.0m,
+                            IsActive = true,
+                            Name = "Wood",
+                            Slug = "wood",
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("a2a2a2a2-a2a2-a2a2-a2a2-a2a2a2a2a2a2"),
+                            BasePrice = 2000m,
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Durable plastic material",
+                            FactorPercentage = 0.85m,
+                            IsActive = true,
+                            Name = "Plastic",
+                            Slug = "plastic",
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("b3b3b3b3-b3b3-b3b3-b3b3-b3b3b3b3b3b3"),
+                            BasePrice = 9000m,
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Premium metal components",
+                            FactorPercentage = 1.6m,
+                            IsActive = true,
+                            Name = "Metal",
+                            Slug = "metal",
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("c4c4c4c4-c4c4-c4c4-c4c4-c4c4c4c4c4c4"),
+                            BasePrice = 1000m,
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Eco-friendly cardboard material",
+                            FactorPercentage = 0.7m,
+                            IsActive = true,
+                            Name = "Cardboard",
+                            Slug = "cardboard",
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("d5d5d5d5-d5d5-d5d5-d5d5-d5d5d5d5d5d5"),
+                            BasePrice = 7000m,
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Advanced composite materials",
+                            FactorPercentage = 1.3m,
+                            IsActive = true,
+                            Name = "Composite",
+                            Slug = "composite",
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        });
                 });
 
             modelBuilder.Entity("PuzKit3D.Modules.InStock.Domain.Entities.Replicas.SupportTicketDetailReplica", b =>
@@ -1891,6 +2308,63 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                         .HasDatabaseName("UK__topic_replica__slug");
 
                     b.ToTable("topic_replicas", "instock");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("a1a1a1a1-a1a1-a1a1-a1a1-a1a1a1a1a1a1"),
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Animal themed 3D puzzles",
+                            FactorPercentage = 1.1m,
+                            IsActive = true,
+                            Name = "Animals",
+                            Slug = "animals",
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("b2b2b2b2-b2b2-b2b2-b2b2-b2b2b2b2b2b2"),
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Vehicle and transportation themed puzzles",
+                            FactorPercentage = 1.3m,
+                            IsActive = true,
+                            Name = "Vehicles",
+                            Slug = "vehicles",
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("c3c3c3c3-c3c3-c3c3-c3c3-c3c3c3c3c3c3"),
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Famous buildings and landmarks",
+                            FactorPercentage = 1.5m,
+                            IsActive = true,
+                            Name = "Architecture",
+                            Slug = "architecture",
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("d4d4d4d4-d4d4-d4d4-d4d4-d4d4d4d4d4d4"),
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Natural landscapes and scenery",
+                            FactorPercentage = 1.0m,
+                            IsActive = true,
+                            Name = "Nature",
+                            Slug = "nature",
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("e5e5e5e5-e5e5-e5e5-e5e5-e5e5e5e5e5e5"),
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Fantasy creatures and magical worlds",
+                            FactorPercentage = 1.6m,
+                            IsActive = true,
+                            Name = "Fantasy",
+                            Slug = "fantasy",
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        });
                 });
 
             modelBuilder.Entity("PuzKit3D.Modules.InStock.Domain.Entities.InstockInventories.InstockInventory", b =>

@@ -57,12 +57,7 @@ public sealed class InStockDbContext : DbContext, IInStockUnitOfWork
         builder.ApplyConfigurationsFromAssembly(typeof(InStockDbContext).Assembly);
 
         // Apply seed data
-        //Configurations.SeedData.InstockSeedDataConfiguration.SeedReplicas(builder);
-        Configurations.SeedData.InstockSeedDataConfiguration.SeedPrices(builder);
-        SeedInstockOrderConfigs(builder);
-        Configurations.SeedData.InstockSeedDataConfiguration.SeedProducts(builder);
-        Configurations.SeedData.InstockSeedDataConfiguration.SeedVariants(builder);
-        Configurations.SeedData.InstockSeedDataConfiguration.SeedProductCapabilityDetails(builder);
+        Configurations.SeedData.InstockSeedDataConfiguration.SeedInstockMasterData(builder);
     }
 
     public async Task<T> ExecuteAsync<T>(Func<Task<T>> action, CancellationToken cancellationToken = default)
@@ -134,17 +129,6 @@ public sealed class InStockDbContext : DbContext, IInStockUnitOfWork
         {
             await _publisher.Publish(domainEvent, cancellationToken);
         }
-    }
-
-    private static void SeedInstockOrderConfigs(ModelBuilder builder)
-    {
-        builder.Entity<InstockOrderConfig>().HasData(
-            new
-            {
-                Id = new Guid("00000000-0000-0000-0000-000000000002"),
-                OrderMustCompleteInDays = 7,
-                UpdatedAt = new DateTime(2026, 3, 30, 0, 0, 0, DateTimeKind.Utc)
-            });
     }
 
     Task IInStockUnitOfWork.SaveChangesAsync(CancellationToken cancellationToken)

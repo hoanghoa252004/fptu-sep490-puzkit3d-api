@@ -353,4 +353,11 @@ internal static class CartSeedDataConfiguration
         modelBuilder.Entity<InStockProductPriceDetailReplica>().HasData(priceDetails);
         modelBuilder.Entity<InStockInventoryReplica>().HasData(inventories);
     }
+
+    public static void SeedCartMasterData(this ModelBuilder modelBuilder)
+    {
+        modelBuilder.SeedInStockPriceReplicas();
+        modelBuilder.SeedInStockProductReplicas();
+        modelBuilder.SeedInStockVariantsAndRelatedReplicas();
+    }
 }

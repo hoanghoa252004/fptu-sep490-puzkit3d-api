@@ -12,7 +12,7 @@ using PuzKit3D.Modules.Catalog.Persistence;
 namespace PuzKit3D.Modules.Catalog.Persistence.Migrations
 {
     [DbContext(typeof(CatalogDbContext))]
-    [Migration("20260411102714_InitModule")]
+    [Migration("20260412021246_InitModule")]
     partial class InitModule
     {
         /// <inheritdoc />
@@ -471,10 +471,11 @@ namespace PuzKit3D.Modules.Catalog.Persistence.Migrations
                         {
                             Id = new Guid("11111111-1111-1111-1111-111111111111"),
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "No drive mechanism",
+                            Description = "Router module for rotate",
                             IsActive = true,
-                            Name = "None",
-                            QuantityInStock = 0,
+                            MinVolume = 5,
+                            Name = "Router",
+                            QuantityInStock = 5,
                             UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
                         },
                         new

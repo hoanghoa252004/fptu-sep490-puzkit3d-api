@@ -45,7 +45,7 @@ public sealed class DeliveryDbContext : DbContext, IDeliveryUnitOfWork
         builder.ApplyConfigurationsFromAssembly(typeof(DeliveryDbContext).Assembly);
 
         // Apply seed data
-        //Configurations.SeedData.DeliverySeedDataConfiguration.SeedPartReplicas(builder);
+        Configurations.SeedData.DeliverySeedDataConfiguration.SeedDeliveryMasterData(builder);
     }
 
     public async Task<T> ExecuteAsync<T>(
