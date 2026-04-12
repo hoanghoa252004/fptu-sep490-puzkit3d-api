@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Routing;
 using PuzKit3D.Modules.Catalog.Application.UseCases.FormulaValueValidations.Queries.GetAllFormulaValueValidations;
 using PuzKit3D.SharedKernel.Api.Endpoint;
 using PuzKit3D.SharedKernel.Api.Results.Extensions;
-using PuzKit3D.SharedKernel.Application.Pagination;
 
 namespace PuzKit3D.Modules.Catalog.Api.FormulaValueValidations.GetAllFormulaValueValidations;
 
@@ -15,29 +14,22 @@ internal sealed class GetAllFormulaValueValidations : IEndpoint
     {
         app.MapFormulaValueValidationsGroup()
             .MapGet("/", async (
-                int pageNumber,
-                int pageSize,
-                Guid? formulaId,
-                bool ascending,
                 ISender sender,
                 CancellationToken cancellationToken) =>
             {
-                var query = new GetAllFormulaValueValidationsQuery(
-                    pageNumber,
-                    pageSize,
-                    formulaId,
-                    ascending);
+                var query = new GetAllFormulaValueValidationsQuery();
 
                 var result = await sender.Send(query, cancellationToken);
 
                 return result.MatchOk();
             })
             .WithName("GetAllFormulaValueValidations")
-            .WithSummary("Get all formula value validations with pagination")
-            .WithDescription("Retrieves a paginated list of formula value validations with optional filtering by formula ID.")
+            .WithSummary("Get all formula value validations")
+            .WithDescription("Retrieves all formula value validations.")
             .AllowAnonymous()
-            .Produces<PagedResult<object>>(StatusCodes.Status200OK)
-            .ProducesValidationProblem(StatusCodes.Status400BadRequest)
+            .Produces<List<object>>(StatusCodes.Status200OK)
             .ProducesProblem(StatusCodes.Status500InternalServerError);
     }
 }
+
+

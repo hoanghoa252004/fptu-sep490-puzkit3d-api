@@ -23,11 +23,11 @@ internal sealed class FormulaValueValidationConfiguration : IEntityTypeConfigura
 
         builder.Property(f => f.MinValue)
             .IsRequired()
-            .HasPrecision(5, 4);
+            .HasPrecision(6, 2);
 
         builder.Property(f => f.MaxValue)
             .IsRequired()
-            .HasPrecision(5, 4);
+            .HasPrecision(6, 2);
 
         builder.Property(f => f.Output)
             .IsRequired()

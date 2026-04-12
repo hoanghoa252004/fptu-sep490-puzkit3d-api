@@ -529,8 +529,8 @@ namespace PuzKit3D.Modules.Catalog.Persistence.Migrations
 
                     b.Property<string>("Code")
                         .IsRequired()
-                        .HasMaxLength(30)
-                        .HasColumnType("character varying(30)")
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
                         .HasColumnName("code");
 
                     b.Property<string>("Description")
@@ -542,6 +542,12 @@ namespace PuzKit3D.Modules.Catalog.Persistence.Migrations
                         .HasColumnType("text")
                         .HasColumnName("expression");
 
+                    b.Property<bool>("IsNeedValidation")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(false)
+                        .HasColumnName("is_need_validation");
+
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("updated_at");
@@ -550,6 +556,44 @@ namespace PuzKit3D.Modules.Catalog.Persistence.Migrations
                         .HasName("pk_formulas");
 
                     b.ToTable("formulas", "catalog");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("f9f9f9f9-f9f9-f9f9-f9f9-f9f9f9f9f9f9"),
+                            Code = "DIFFICULTY_CALCULATION",
+                            Description = "Calculate difficulty level based on piece count and product characteristics",
+                            Expression = "piece_count * material_factor * capability_factor",
+                            IsNeedValidation = true,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("f8f8f8f8-f8f8-f8f8-f8f8-f8f8f8f8f8f8"),
+                            Code = "BUILD_TIME_CALCULATION",
+                            Description = "Calculate estimated build time based on difficulty and size",
+                            Expression = "base_time * difficulty_multiplier * size_factor",
+                            IsNeedValidation = false,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("f7f7f7f7-f7f7-f7f7-f7f7-f7f7f7f7f7f7"),
+                            Code = "MATERIAL_PRICE_CALCULATION",
+                            Description = "Calculate material cost for production",
+                            Expression = "material_cost_per_unit * total_pieces * waste_factor",
+                            IsNeedValidation = false,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("f6f6f6f6-f6f6-f6f6-f6f6-f6f6f6f6f6f6"),
+                            Code = "MANUAL_PRICE_CALCULATION",
+                            Description = "Calculate manual pricing with dynamic factors",
+                            Expression = "base_price * demand_factor * season_factor",
+                            IsNeedValidation = false,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        });
                 });
 
             modelBuilder.Entity("PuzKit3D.Modules.Catalog.Domain.Entities.Formulas.FormulaValueValidation", b =>
@@ -563,13 +607,13 @@ namespace PuzKit3D.Modules.Catalog.Persistence.Migrations
                         .HasColumnName("formula_id");
 
                     b.Property<decimal>("MaxValue")
-                        .HasPrecision(5, 4)
-                        .HasColumnType("numeric(5,4)")
+                        .HasPrecision(6, 2)
+                        .HasColumnType("numeric(6,2)")
                         .HasColumnName("max_value");
 
                     b.Property<decimal>("MinValue")
-                        .HasPrecision(5, 4)
-                        .HasColumnType("numeric(5,4)")
+                        .HasPrecision(6, 2)
+                        .HasColumnType("numeric(6,2)")
                         .HasColumnName("min_value");
 
                     b.Property<string>("Output")
@@ -589,6 +633,35 @@ namespace PuzKit3D.Modules.Catalog.Persistence.Migrations
                         .HasDatabaseName("ix_formula_value_validations_formula_id");
 
                     b.ToTable("formula_value_validations", "catalog");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("e1e1e1e1-e1e1-e1e1-e1e1-e1e1e1e1e1e1"),
+                            FormulaId = new Guid("f9f9f9f9-f9f9-f9f9-f9f9-f9f9f9f9f9f9"),
+                            MaxValue = 50m,
+                            MinValue = 0m,
+                            Output = "Easy",
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("e2e2e2e2-e2e2-e2e2-e2e2-e2e2e2e2e2e2"),
+                            FormulaId = new Guid("f9f9f9f9-f9f9-f9f9-f9f9-f9f9f9f9f9f9"),
+                            MaxValue = 150m,
+                            MinValue = 50.01m,
+                            Output = "Medium",
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("e3e3e3e3-e3e3-e3e3-e3e3-e3e3e3e3e3e3"),
+                            FormulaId = new Guid("f9f9f9f9-f9f9-f9f9-f9f9-f9f9f9f9f9f9"),
+                            MaxValue = 300m,
+                            MinValue = 150.01m,
+                            Output = "Hard",
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        });
                 });
 
             modelBuilder.Entity("PuzKit3D.Modules.Catalog.Domain.Entities.Materials.Material", b =>

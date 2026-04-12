@@ -8,15 +8,17 @@ public static class FormulaError
         "Formula.NotFound",
         $"Formula with ID '{id}' was not found.");
 
-    public static Error InvalidCode() => Error.Validation(
-        "Formula.InvalidCode",
-        "Formula code cannot be empty.");
-
     public static Error InvalidExpression() => Error.Validation(
         "Formula.InvalidExpression",
         "Formula expression cannot be empty.");
 
-    public static Error CodeAlreadyExists(string code) => Error.Conflict(
-        "Formula.CodeAlreadyExists",
-        $"A formula with code '{code}' already exists.");
+    public static Error CannotCreateFormula() => Error.Conflict(
+        "Formula.CannotCreateFormula",
+        "Creating formulas is not allowed. Formulas are predefined by the system.");
+
+    public static Error CannotDeleteFormula() => Error.Conflict(
+        "Formula.CannotDeleteFormula",
+        "Deleting formulas is not allowed. Formulas are predefined by the system.");
 }
+
+

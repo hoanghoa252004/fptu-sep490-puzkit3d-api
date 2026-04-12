@@ -79,9 +79,10 @@ namespace PuzKit3D.Modules.Catalog.Persistence.Migrations
                 columns: table => new
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
-                    code = table.Column<string>(type: "character varying(30)", maxLength: 30, nullable: false),
+                    code = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
                     expression = table.Column<string>(type: "text", nullable: false),
                     description = table.Column<string>(type: "text", nullable: true),
+                    is_need_validation = table.Column<bool>(type: "boolean", nullable: false, defaultValue: false),
                     updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
@@ -163,8 +164,8 @@ namespace PuzKit3D.Modules.Catalog.Persistence.Migrations
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
                     formula_id = table.Column<Guid>(type: "uuid", nullable: false),
-                    min_value = table.Column<decimal>(type: "numeric(5,4)", precision: 5, scale: 4, nullable: false),
-                    max_value = table.Column<decimal>(type: "numeric(5,4)", precision: 5, scale: 4, nullable: false),
+                    min_value = table.Column<decimal>(type: "numeric(6,2)", precision: 6, scale: 2, nullable: false),
+                    max_value = table.Column<decimal>(type: "numeric(6,2)", precision: 6, scale: 2, nullable: false),
                     output = table.Column<string>(type: "character varying(30)", maxLength: 30, nullable: false),
                     updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
@@ -295,6 +296,23 @@ namespace PuzKit3D.Modules.Catalog.Persistence.Migrations
 
             migrationBuilder.InsertData(
                 schema: "catalog",
+                table: "formulas",
+                columns: new[] { "id", "code", "description", "expression", "updated_at" },
+                values: new object[,]
+                {
+                    { new Guid("f6f6f6f6-f6f6-f6f6-f6f6-f6f6f6f6f6f6"), "MANUAL_PRICE_CALCULATION", "Calculate manual pricing with dynamic factors", "base_price * demand_factor * season_factor", new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc) },
+                    { new Guid("f7f7f7f7-f7f7-f7f7-f7f7-f7f7f7f7f7f7"), "MATERIAL_PRICE_CALCULATION", "Calculate material cost for production", "material_cost_per_unit * total_pieces * waste_factor", new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc) },
+                    { new Guid("f8f8f8f8-f8f8-f8f8-f8f8-f8f8f8f8f8f8"), "BUILD_TIME_CALCULATION", "Calculate estimated build time based on difficulty and size", "base_time * difficulty_multiplier * size_factor", new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc) }
+                });
+
+            migrationBuilder.InsertData(
+                schema: "catalog",
+                table: "formulas",
+                columns: new[] { "id", "code", "description", "expression", "is_need_validation", "updated_at" },
+                values: new object[] { new Guid("f9f9f9f9-f9f9-f9f9-f9f9-f9f9f9f9f9f9"), "DIFFICULTY_CALCULATION", "Calculate difficulty level based on piece count and product characteristics", "piece_count * material_factor * capability_factor", true, new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc) });
+
+            migrationBuilder.InsertData(
+                schema: "catalog",
                 table: "materials",
                 columns: new[] { "id", "base_price", "created_at", "description", "factor_percentage", "is_active", "name", "slug", "updated_at" },
                 values: new object[,]
@@ -360,6 +378,17 @@ namespace PuzKit3D.Modules.Catalog.Persistence.Migrations
                     { new Guid("90000000-0000-0000-0000-000000000008"), new Guid("b5b5b5b5-b5b5-b5b5-b5b5-b5b5b5b5b5b5"), null, new Guid("b4b4b4b4-b4b4-b4b4-b4b4-b4b4b4b4b4b4"), true, new Guid("b3b3b3b3-b3b3-b3b3-b3b3-b3b3b3b3b3b3") },
                     { new Guid("90000000-0000-0000-0000-000000000009"), new Guid("f3f3f3f3-f3f3-f3f3-f3f3-f3f3f3f3f3f3"), null, new Guid("c5c5c5c5-c5c5-c5c5-c5c5-c5c5c5c5c5c5"), true, new Guid("b3b3b3b3-b3b3-b3b3-b3b3-b3b3b3b3b3b3") },
                     { new Guid("90000000-0000-0000-0000-000000000010"), new Guid("f3f3f3f3-f3f3-f3f3-f3f3-f3f3f3f3f3f3"), null, new Guid("c5c5c5c5-c5c5-c5c5-c5c5-c5c5c5c5c5c5"), true, new Guid("f1f1f1f1-f1f1-f1f1-f1f1-f1f1f1f1f1f1") }
+                });
+
+            migrationBuilder.InsertData(
+                schema: "catalog",
+                table: "formula_value_validations",
+                columns: new[] { "id", "formula_id", "max_value", "min_value", "output", "updated_at" },
+                values: new object[,]
+                {
+                    { new Guid("e1e1e1e1-e1e1-e1e1-e1e1-e1e1e1e1e1e1"), new Guid("f9f9f9f9-f9f9-f9f9-f9f9-f9f9f9f9f9f9"), 50m, 0m, "Easy", new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc) },
+                    { new Guid("e2e2e2e2-e2e2-e2e2-e2e2-e2e2e2e2e2e2"), new Guid("f9f9f9f9-f9f9-f9f9-f9f9-f9f9f9f9f9f9"), 150m, 50.01m, "Medium", new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc) },
+                    { new Guid("e3e3e3e3-e3e3-e3e3-e3e3-e3e3e3e3e3e3"), new Guid("f9f9f9f9-f9f9-f9f9-f9f9-f9f9f9f9f9f9"), 300m, 150.01m, "Hard", new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc) }
                 });
 
             migrationBuilder.InsertData(

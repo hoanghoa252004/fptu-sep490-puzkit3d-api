@@ -5,9 +5,10 @@ namespace PuzKit3D.Modules.Catalog.Domain.Entities.Formulas;
 
 public class Formula : AggregateRoot<FormulaId>
 {
-    public string Code { get; private set; } = null!;
+    public FormulaCode Code { get; private set; }
     public string Expression { get; private set; } = null!;
     public string? Description { get; private set; }
+    public bool IsNeedValidation { get; private set; }
     public DateTime UpdatedAt { get; private set; }
 
     // Navigation properties
@@ -15,14 +16,16 @@ public class Formula : AggregateRoot<FormulaId>
 
     private Formula(
         FormulaId id,
-        string code,
+        FormulaCode code,
         string expression,
         string? description,
+        bool isNeedValidation,
         DateTime updatedAt) : base(id)
     {
         Code = code;
         Expression = expression;
         Description = description;
+        IsNeedValidation = isNeedValidation;
         UpdatedAt = updatedAt;
     }
 
@@ -31,18 +34,15 @@ public class Formula : AggregateRoot<FormulaId>
     }
 
     public static ResultT<Formula> Create(
-        string code,
+        FormulaCode code,
         string expression,
+        bool isNeedValidation = false,
         string? description = null,
         DateTime? updatedAt = null)
     {
         // Validate input
-        if (string.IsNullOrWhiteSpace(code))
-            return Result.Failure<Formula>(FormulaError.InvalidCode());
-
         if (string.IsNullOrWhiteSpace(expression))
             return Result.Failure<Formula>(FormulaError.InvalidExpression());
-
 
         var formulaId = FormulaId.Create();
         var timestamp = updatedAt ?? DateTime.UtcNow;
@@ -52,19 +52,29 @@ public class Formula : AggregateRoot<FormulaId>
             code,
             expression,
             description,
+            isNeedValidation,
             timestamp));
     }
 
     public Result Update(
-        string code, 
         string expression, 
         string? description = null)
     {
-            Code = code;
-            Expression = expression;
-            Description = description;
+        if (string.IsNullOrWhiteSpace(expression))
+            return Result.Failure(FormulaError.InvalidExpression());
+
+        Expression = expression;
+        Description = description;
 
         UpdatedAt = DateTime.UtcNow;
         return Result.Success();
     }
+
+    public void SetNeedValidation(bool value)
+    {
+        IsNeedValidation = value;
+        UpdatedAt = DateTime.UtcNow;
+    }
 }
+
+

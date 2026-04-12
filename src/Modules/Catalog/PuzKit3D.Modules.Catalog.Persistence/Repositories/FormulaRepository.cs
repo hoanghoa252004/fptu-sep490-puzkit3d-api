@@ -19,6 +19,7 @@ internal sealed class FormulaRepository : IFormulaRepository
         CancellationToken cancellationToken = default)
     {
         return await _context.Formulas
+            .Include(x => x.FormulaValueValidations)
             .FirstOrDefaultAsync(f => f.Id == id, cancellationToken);
     }
 
@@ -26,6 +27,7 @@ internal sealed class FormulaRepository : IFormulaRepository
         CancellationToken cancellationToken = default)
     {
         return await _context.Formulas
+            .Include(x => x.FormulaValueValidations)
             .AsNoTracking()
             .ToListAsync(cancellationToken);
     }
@@ -35,6 +37,7 @@ internal sealed class FormulaRepository : IFormulaRepository
         CancellationToken cancellationToken = default)
     {
         return await _context.Formulas
+            .Include(x => x.FormulaValueValidations)
             .Where(predicate)
             .AsNoTracking()
             .ToListAsync(cancellationToken);

@@ -30,18 +30,10 @@ internal sealed class UpdateFormulaCommandHandler
         if (formula is null)
             return Result.Failure<Guid>(FormulaError.NotFound(request.Id));
 
-        // Check if new code already exists (if changing code)
-        if (!string.IsNullOrWhiteSpace(request.Code) && request.Code != formula.Code)
-        {
-            var allFormulas = await _formulaRepository.GetAllAsync(cancellationToken);
-            var existingFormula = allFormulas.FirstOrDefault(f => f.Code == request.Code);
-
-            if (existingFormula is not null)
-                return Result.Failure<Guid>(FormulaError.CodeAlreadyExists(request.Code));
-        }
-
-        // Update formula
-        formula.Update(request.Code, request.Expression, request.Description);
+        // Update formula - only Expression and Description can be updated
+        formula.Update(
+            request.Expression ?? formula.Expression,
+            request.Description ?? formula.Description);
 
         _formulaRepository.Update(formula);
         await _unitOfWork.SaveChangesAsync(cancellationToken);

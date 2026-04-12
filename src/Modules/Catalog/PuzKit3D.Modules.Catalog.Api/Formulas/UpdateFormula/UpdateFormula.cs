@@ -23,7 +23,6 @@ internal sealed class UpdateFormula : IEndpoint
             {
                 var command = new UpdateFormulaCommand(
                     id,
-                    request.Code,
                     request.Expression,
                     request.Description);
 
@@ -46,6 +45,9 @@ internal sealed class UpdateFormula : IEndpoint
 }
 
 internal sealed record UpdateFormulaRequestDto(
-    string? Code = null,
-    string? Expression = null,
-    string? Description = null);
+string? Expression = null,
+string? Description = null);
+
+
+
+

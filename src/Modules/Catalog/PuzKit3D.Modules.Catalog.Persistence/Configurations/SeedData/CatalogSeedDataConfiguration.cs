@@ -4,6 +4,7 @@ using PuzKit3D.Modules.Catalog.Domain.Entities.Capabilities;
 using PuzKit3D.Modules.Catalog.Domain.Entities.CapabilityDrives;
 using PuzKit3D.Modules.Catalog.Domain.Entities.CapabilityMaterialAssemblies;
 using PuzKit3D.Modules.Catalog.Domain.Entities.Drives;
+using PuzKit3D.Modules.Catalog.Domain.Entities.Formulas;
 using PuzKit3D.Modules.Catalog.Domain.Entities.Materials;
 using PuzKit3D.Modules.Catalog.Domain.Entities.TopicMaterialCapabilities;
 using PuzKit3D.Modules.Catalog.Domain.Entities.Topics;
@@ -684,7 +685,7 @@ internal static class CatalogSeedDataConfiguration
     }
 
     //==========================================================================================================
-    public static void SeedTopicMaterialCapability(this ModelBuilder modelBuilder)
+    public static void SeedTopicMaterialCapabilities(this ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<TopicMaterialCapability>().HasData(
             // ===== Animals =====
@@ -776,6 +777,86 @@ internal static class CatalogSeedDataConfiguration
     }
 
     //==========================================================================================================
+    public static void SeedFormulas(this ModelBuilder modelBuilder)
+    {
+        // Create formula IDs
+        var difficultyFormulaId = FormulaId.From(Guid.Parse("f9f9f9f9-f9f9-f9f9-f9f9-f9f9f9f9f9f9"));
+        var buildTimeFormulaId = FormulaId.From(Guid.Parse("f8f8f8f8-f8f8-f8f8-f8f8-f8f8f8f8f8f8"));
+        var materialPriceFormulaId = FormulaId.From(Guid.Parse("f7f7f7f7-f7f7-f7f7-f7f7-f7f7f7f7f7f7"));
+        var manualPriceFormulaId = FormulaId.From(Guid.Parse("f6f6f6f6-f6f6-f6f6-f6f6-f6f6f6f6f6f6"));
+
+        modelBuilder.Entity<Formula>().HasData(
+            new
+            {
+                Id = difficultyFormulaId,
+                Code = FormulaCode.DIFFICULTY_CALCULATION,
+                Expression = "piece_count * material_factor * capability_factor",
+                IsNeedValidation = true,
+                Description = "Calculate difficulty level based on piece count and product characteristics",
+                UpdatedAt = SeedDate
+            },
+            new
+            {
+                Id = buildTimeFormulaId,
+                Code = FormulaCode.BUILD_TIME_CALCULATION,
+                Expression = "base_time * difficulty_multiplier * size_factor",
+                IsNeedValidation = false,
+                Description = "Calculate estimated build time based on difficulty and size",
+                UpdatedAt = SeedDate
+            },
+            new
+            {
+                Id = materialPriceFormulaId,
+                Code = FormulaCode.MATERIAL_PRICE_CALCULATION,
+                Expression = "material_cost_per_unit * total_pieces * waste_factor",
+                IsNeedValidation = false,
+                Description = "Calculate material cost for production",
+                UpdatedAt = SeedDate
+            },
+            new
+            {
+                Id = manualPriceFormulaId,
+                Code = FormulaCode.MANUAL_PRICE_CALCULATION,
+                Expression = "base_price * demand_factor * season_factor",
+                IsNeedValidation = false,
+                Description = "Calculate manual pricing with dynamic factors",
+                UpdatedAt = SeedDate
+            }
+        );
+
+        // Seed FormulaValueValidations for DIFFICULTY_CALCULATION
+        modelBuilder.Entity<FormulaValueValidation>().HasData(
+            new
+            {
+                Id = FormulaValueValidationId.From(Guid.Parse("e1e1e1e1-e1e1-e1e1-e1e1-e1e1e1e1e1e1")),
+                FormulaId = difficultyFormulaId,
+                MinValue = 0m,
+                MaxValue = 50m,
+                Output = "Easy",
+                UpdatedAt = SeedDate
+            },
+            new
+            {
+                Id = FormulaValueValidationId.From(Guid.Parse("e2e2e2e2-e2e2-e2e2-e2e2-e2e2e2e2e2e2")),
+                FormulaId = difficultyFormulaId,
+                MinValue = 50.01m,
+                MaxValue = 150m,
+                Output = "Medium",
+                UpdatedAt = SeedDate
+            },
+            new
+            {
+                Id = FormulaValueValidationId.From(Guid.Parse("e3e3e3e3-e3e3-e3e3-e3e3-e3e3e3e3e3e3")),
+                FormulaId = difficultyFormulaId,
+                MinValue = 150.01m,
+                MaxValue = 300m,
+                Output = "Hard",
+                UpdatedAt = SeedDate
+            }
+        );
+    }
+
+    //==========================================================================================================
     public static void SeedCatalogMasterData(this ModelBuilder modelBuilder)
     {
         modelBuilder.SeedTopics();
@@ -785,6 +866,8 @@ internal static class CatalogSeedDataConfiguration
         modelBuilder.SeedDrives();
         modelBuilder.SeedCapabilityDrives();
         modelBuilder.SeedCapabilityMaterialAssembly();
-        modelBuilder.SeedTopicMaterialCapability();
+        modelBuilder.SeedTopicMaterialCapabilities();
+        modelBuilder.SeedFormulas();
     }
 }
+

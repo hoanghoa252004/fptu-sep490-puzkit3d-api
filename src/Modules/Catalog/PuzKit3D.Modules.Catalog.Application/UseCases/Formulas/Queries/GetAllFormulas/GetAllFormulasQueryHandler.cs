@@ -1,13 +1,12 @@
 using PuzKit3D.Modules.Catalog.Application.Repositories;
 using PuzKit3D.Modules.Catalog.Application.UseCases.Formulas.Queries.Shared;
 using PuzKit3D.SharedKernel.Application.Message.Query;
-using PuzKit3D.SharedKernel.Application.Pagination;
 using PuzKit3D.SharedKernel.Domain.Results;
 
 namespace PuzKit3D.Modules.Catalog.Application.UseCases.Formulas.Queries.GetAllFormulas;
 
 internal sealed class GetAllFormulasQueryHandler
-    : IQueryHandler<GetAllFormulasQuery, PagedResult<object>>
+    : IQueryHandler<GetAllFormulasQuery, List<GetFormulaDetailedResponseDto>>
 {
     private readonly IFormulaRepository _formulaRepository;
 
@@ -16,48 +15,44 @@ internal sealed class GetAllFormulasQueryHandler
         _formulaRepository = formulaRepository;
     }
 
-    public async Task<ResultT<PagedResult<object>>> Handle(
+    public async Task<ResultT<List<GetFormulaDetailedResponseDto>>> Handle(
         GetAllFormulasQuery request,
         CancellationToken cancellationToken)
     {
         // Get all formulas
         var allFormulas = await _formulaRepository.GetAllAsync(cancellationToken);
 
-        // Filter by search term
-        if (!string.IsNullOrWhiteSpace(request.SearchTerm))
-        {
-            allFormulas = allFormulas.Where(f => 
-                f.Code.Contains(request.SearchTerm, StringComparison.OrdinalIgnoreCase) || 
-                f.Expression.Contains(request.SearchTerm, StringComparison.OrdinalIgnoreCase) ||
-                (f.Description != null && f.Description.Contains(request.SearchTerm, StringComparison.OrdinalIgnoreCase))).ToList();
-        }
+        // Build response DTOs
+        var formulaDtos = allFormulas
+            .Select(f => 
+            {
+                // Build FormulaValueValidations list if IsNeedValidation is true
+                List<FormulaValueValidationDto>? validationDtos = null;
+                if (f.IsNeedValidation && f.FormulaValueValidations.Any())
+                {
+                    validationDtos = f.FormulaValueValidations
+                        .Select(v => new FormulaValueValidationDto(
+                            v.Id.Value,
+                            v.MinValue,
+                            v.MaxValue,
+                            v.Output))
+                        .OrderBy(v => v.MinValue)
+                        .ToList();
+                }
 
-        // Apply sorting
-        allFormulas = request.Ascending 
-            ? allFormulas.OrderBy(f => f.Code).ToList()
-            : allFormulas.OrderByDescending(f => f.Code).ToList();
-
-        // Apply pagination
-        var totalCount = allFormulas.Count();
-        var formulas = allFormulas
-            .Skip((request.PageNumber - 1) * request.PageSize)
-            .Take(request.PageSize)
+                return new GetFormulaDetailedResponseDto(
+                    Id: f.Id.Value,
+                    Code: f.Code.ToString(),
+                    Expression: f.Expression,
+                    Description: f.Description,
+                    IsNeedValidation: f.IsNeedValidation,
+                    UpdatedAt: f.UpdatedAt,
+                    FormulaValueValidations: validationDtos);
+            })
             .ToList();
 
-        // Build response DTOs
-        var formulaDtos = formulas.Select(f => (object)new GetFormulaDetailedResponseDto(
-            f.Id.Value,
-            f.Code,
-            f.Expression,
-            f.Description,
-            f.UpdatedAt)).ToList();
-
-        var pagedResult = new PagedResult<object>(
-            formulaDtos,
-            request.PageNumber,
-            request.PageSize,
-            totalCount);
-
-        return Result.Success(pagedResult);
+        return Result.Success(formulaDtos);
     }
 }
+
+

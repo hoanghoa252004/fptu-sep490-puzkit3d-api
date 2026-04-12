@@ -17,7 +17,10 @@ internal sealed class FormulaConfiguration : IEntityTypeConfiguration<Formula>
 
         builder.Property(f => f.Code)
             .IsRequired()
-            .HasMaxLength(30);
+            .HasMaxLength(50)
+            .HasConversion(
+                code => code.ToString(),
+                value => Enum.Parse<FormulaCode>(value));
 
         builder.Property(f => f.Expression)
             .IsRequired()
@@ -26,7 +29,18 @@ internal sealed class FormulaConfiguration : IEntityTypeConfiguration<Formula>
         builder.Property(f => f.Description)
             .HasColumnType("text");
 
+        builder.Property(f => f.IsNeedValidation)
+            .IsRequired()
+            .HasDefaultValue(false);
+
         builder.Property(f => f.UpdatedAt)
             .IsRequired();
+
+        builder.HasMany(f => f.FormulaValueValidations)
+            .WithOne()
+            .HasForeignKey(fvv => fvv.FormulaId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }
+
+

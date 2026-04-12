@@ -49,6 +49,14 @@ internal sealed class CreateFormulaValueValidationCommandHandler
             request.Output);
 
         _repository.Add(validation.Value);
+
+        // If formula IsNeedValidation is false, update it to true
+        if (!formula.IsNeedValidation)
+        {
+            formula.SetNeedValidation(true);
+            _formulaRepository.Update(formula);
+        }
+
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
         return Result.Success(validation.Value.Id.Value);
