@@ -111,6 +111,8 @@ internal static class SwaggerExtensions
                                 || routePath.StartsWith("api/assembly-methods")
                                 || routePath.StartsWith("api/capabilities")
                                 || routePath.StartsWith("api/drives")
+                                || routePath.StartsWith("api/formula-value-validations")
+                                || routePath.StartsWith("api/formulas")
                                 || routePath.StartsWith("api/materials"),
 
                     "cart" => routePath.StartsWith("api/instock-cart")

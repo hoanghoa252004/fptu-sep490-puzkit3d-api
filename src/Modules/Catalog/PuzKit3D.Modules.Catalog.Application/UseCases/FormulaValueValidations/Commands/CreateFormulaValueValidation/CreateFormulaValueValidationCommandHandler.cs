@@ -48,9 +48,9 @@ internal sealed class CreateFormulaValueValidationCommandHandler
             request.MaxValue,
             request.Output);
 
-        _repository.Add(validation);
+        _repository.Add(validation.Value);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-        return Result.Success(validation.Id.Value);
+        return Result.Success(validation.Value.Id.Value);
     }
 }
