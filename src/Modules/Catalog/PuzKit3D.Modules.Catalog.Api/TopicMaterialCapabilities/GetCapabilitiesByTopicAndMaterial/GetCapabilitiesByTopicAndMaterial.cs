@@ -13,7 +13,8 @@ internal sealed class GetCapabilitiesByTopicAndMaterial : IEndpoint
 {
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapGet("/capabilities", async (
+        app.MapFilterGroup()
+            .MapGet("/filter-capability", async (
                 Guid topicId,
                 Guid materialId,
                 ISender sender,

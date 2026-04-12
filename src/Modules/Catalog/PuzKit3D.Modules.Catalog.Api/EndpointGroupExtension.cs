@@ -48,4 +48,10 @@ public static class EndpointGroupExtension
         return app.MapGroup($"{ApiRoutes.ApiPrefix}/formula-value-validations")
             .WithTags("Formula Value Validations");
     }
+    
+    public static RouteGroupBuilder MapFilterGroup(this IEndpointRouteBuilder app)
+    {
+        return app.MapGroup($"{ApiRoutes.ApiPrefix}/filters")
+            .WithTags("Filter");
+    }
 }
