@@ -1,4 +1,5 @@
 using PuzKit3D.SharedKernel.Domain;
+using PuzKit3D.SharedKernel.Domain.Results;
 
 namespace PuzKit3D.Modules.Catalog.Domain.Entities.Formulas;
 
@@ -29,7 +30,7 @@ public class FormulaValueValidation : AggregateRoot<FormulaValueValidationId>
     {
     }
 
-    public static FormulaValueValidation Create(
+    public static ResultT<FormulaValueValidation> Create(
         FormulaId formulaId,
         decimal minValue,
         decimal maxValue,
@@ -39,16 +40,21 @@ public class FormulaValueValidation : AggregateRoot<FormulaValueValidationId>
         var validationId = FormulaValueValidationId.Create();
         var timestamp = updatedAt ?? DateTime.UtcNow;
         
-        return new FormulaValueValidation(
+        var result = new FormulaValueValidation(
             validationId,
             formulaId,
             minValue,
             maxValue,
             output,
             timestamp);
+
+        return Result.Success(result);
     }
 
-    public void Update(decimal? minValue = null, decimal? maxValue = null, string? output = null)
+    public Result Update(
+        decimal? minValue = null, 
+        decimal? maxValue = null, 
+        string? output = null)
     {
         if (minValue.HasValue)
             MinValue = minValue.Value;
@@ -60,5 +66,7 @@ public class FormulaValueValidation : AggregateRoot<FormulaValueValidationId>
             Output = output;
 
         UpdatedAt = DateTime.UtcNow;
+
+        return Result.Success();
     }
 }

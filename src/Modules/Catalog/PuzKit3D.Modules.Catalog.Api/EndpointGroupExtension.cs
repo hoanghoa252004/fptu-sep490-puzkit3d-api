@@ -36,4 +36,16 @@ public static class EndpointGroupExtension
         return app.MapGroup($"{ApiRoutes.ApiPrefix}/drives")
             .WithTags("Drives");
     }
+
+    public static RouteGroupBuilder MapFormulasGroup(this IEndpointRouteBuilder app)
+    {
+        return app.MapGroup($"{ApiRoutes.ApiPrefix}/formulas")
+            .WithTags("Formulas");
+    }
+
+    public static RouteGroupBuilder MapFormulaValueValidationsGroup(this IEndpointRouteBuilder app)
+    {
+        return app.MapGroup($"{ApiRoutes.ApiPrefix}/formula-value-validations")
+            .WithTags("Formula Value Validations");
+    }
 }
