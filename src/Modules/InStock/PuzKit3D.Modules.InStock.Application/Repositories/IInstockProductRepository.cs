@@ -7,5 +7,5 @@ public interface IInstockProductRepository : IRepositoryBase<InstockProduct, Ins
 {
     Task<InstockProduct?> GetBySlugAsync(string slug, CancellationToken cancellationToken = default);
     Task<InstockProduct?> GetByCodeAsync(string code, CancellationToken cancellationToken = default);
-    Task<InstockProduct?> GetByIdWithPartsAsync(InstockProductId id, CancellationToken cancellationToken = default);
+    Task<InstockProduct?> GetByIdWithDrivesAsync(InstockProductId id, CancellationToken cancellationToken = default);
 }

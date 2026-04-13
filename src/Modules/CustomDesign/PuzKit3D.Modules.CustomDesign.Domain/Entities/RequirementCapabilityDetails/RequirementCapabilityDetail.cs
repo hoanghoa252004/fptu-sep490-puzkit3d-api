@@ -5,7 +5,7 @@ namespace PuzKit3D.Modules.CustomDesign.Domain.Entities.RequirementCapabilityDet
 
 public sealed class RequirementCapabilityDetail : Entity<RequirementCapabilityDetailId>
 {
-    public CustomDesignRequirementId CustomDesignRequirementId { get; private set; }
+    public CustomDesignRequirementId CustomDesignRequirementId { get; private set; } = null!;
     public Guid CapabilityId { get; private set; }
 
     private RequirementCapabilityDetail(

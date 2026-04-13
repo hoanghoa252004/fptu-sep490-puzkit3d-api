@@ -23,6 +23,7 @@ internal sealed class CreateAssemblyMethod : IEndpoint
                 var command = new CreateAssemblyMethodCommand(
                     request.Name,
                     request.Slug,
+                    request.FactorPercentage,
                     request.Description,
                     request.IsActive);
 
@@ -45,8 +46,9 @@ internal sealed class CreateAssemblyMethod : IEndpoint
 
 
 internal sealed record CreateAssemblyMethodRequestDto(
-    string Name,
-    string Slug,
-    string? Description,
-    bool IsActive);
+string Name,
+string Slug,
+decimal FactorPercentage,
+string? Description,
+bool IsActive);
 

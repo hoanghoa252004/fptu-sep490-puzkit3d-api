@@ -14,7 +14,6 @@ public sealed record InstockProductCreatedDomainEvent(
     string PreviewAsset,
     string? Description,
     Guid TopicId,
-    Guid AssemblyMethodId,
     Guid MaterialId,
     bool IsActive,
     DateTime CreatedAt) : DomainEvent;

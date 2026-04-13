@@ -36,6 +36,8 @@ internal sealed class CreateMaterialCommandHandler : ICommandTHandler<CreateMate
             var materialResult = Material.Create(
                 request.Name,
                 request.Slug,
+                request.FactorPercentage,
+                request.BasePrice,
                 request.Description,
                 request.IsActive);
 

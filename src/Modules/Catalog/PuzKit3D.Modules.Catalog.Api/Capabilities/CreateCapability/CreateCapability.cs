@@ -23,6 +23,7 @@ internal sealed class CreateCapability : IEndpoint
                 var command = new CreateCapabilityCommand(
                     request.Name,
                     request.Slug,
+                    request.FactorPercentage,
                     request.Description,
                     request.IsActive);
 
@@ -44,7 +45,8 @@ internal sealed class CreateCapability : IEndpoint
 }
 
 internal sealed record CreateCapabilityRequestDto(
-    string Name,
-    string Slug,
-    string? Description,
-    bool IsActive);
+string Name,
+string Slug,
+decimal FactorPercentage,
+string? Description,
+bool IsActive);

@@ -17,7 +17,7 @@ public sealed class SupportTicket : AggregateRoot<SupportTicketId>
     public string Proof { get; private set; } = null!;
     public DateTime CreatedAt { get; private set; }
     public DateTime UpdatedAt { get; private set; }
-    public string Code { get; private set; }
+    public string Code { get; private set; } = null!;
     public IReadOnlyCollection<SupportTicketDetail> Details => _details.AsReadOnly();
 
     private SupportTicket(
@@ -95,7 +95,7 @@ public sealed class SupportTicket : AggregateRoot<SupportTicketId>
         var detailInfos = _details.Select(d => new SupportTicketDetailInfo(
             d.Id.Value,
             d.OrderItemId,
-            d.PartId,
+            d.DriveId,
             d.Quantity,
             d.Note)).ToList();
 

@@ -25,6 +25,8 @@ internal sealed class CreateInstockProduct : IEndpoint
                         .ToDictionary(x => x.Key, x => x.Value)
                     : new Dictionary<string, string>();
 
+                var driveDetails = request.DriveDetails?.Select(d => new DriveDetailDto(d.DriveId, d.Quantity)).ToList();
+
                 var command = new CreateInstockProductCommand(
                     request.Slug,
                     request.Name,
@@ -34,9 +36,10 @@ internal sealed class CreateInstockProduct : IEndpoint
                     request.ThumbnailUrl,
                     previewAssetDict,
                     request.TopicId,
-                    request.AssemblyMethodId,
-                    request.CapabilityIds,
                     request.MaterialId,
+                    request.CapabilityIds,
+                    request.AssemblyMethodIds,
+                    driveDetails,
                     request.Description,
                     request.IsActive);
 
@@ -66,8 +69,13 @@ int EstimatedBuildTime,
 string ThumbnailUrl,
 List<string> PreviewAsset,
 Guid TopicId,
-Guid AssemblyMethodId,
-List<Guid> CapabilityIds,
 Guid MaterialId,
-string? Description,
-bool IsActive);
+List<Guid> CapabilityIds,
+List<Guid> AssemblyMethodIds,
+List<DriveDetailRequestDto>? DriveDetails = null,
+string? Description = null,
+bool IsActive = false);
+
+internal sealed record DriveDetailRequestDto(
+Guid DriveId,
+int Quantity);

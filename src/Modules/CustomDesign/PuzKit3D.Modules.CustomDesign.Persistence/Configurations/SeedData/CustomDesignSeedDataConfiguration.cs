@@ -41,6 +41,13 @@ internal static class CustomDesignSeedDataConfiguration
     private static readonly Guid AssemblyMethodId4 = Guid.Parse("a4a4a4a4-a4a4-a4a4-a4a4-a4a4a4a4a4a4");
     private static readonly Guid AssemblyMethodId5 = Guid.Parse("b5b5b5b5-b5b5-b5b5-b5b5-b5b5b5b5b5b5");
 
+    // Drive IDs (same as InStock module)
+    private static readonly Guid DriveId1 = Guid.Parse("11111111-1111-1111-1111-111111111111"); // Router
+    private static readonly Guid DriveId2 = Guid.Parse("22222222-2222-2222-2222-222222222222"); // Motor
+    private static readonly Guid DriveId3 = Guid.Parse("33333333-3333-3333-3333-333333333333"); // Gearbox
+    private static readonly Guid DriveId4 = Guid.Parse("44444444-4444-4444-4444-444444444444"); // LED
+    private static readonly Guid DriveId5 = Guid.Parse("55555555-5555-5555-5555-555555555555"); // Music Box
+
     // CustomDesignRequirement IDs
     private static readonly Guid RequirementId1 = Guid.Parse("c1c1c1c1-c1c1-c1c1-c1c1-c1c1c1c1c1c1");
     private static readonly Guid RequirementId2 = Guid.Parse("d2d2d2d2-d2d2-d2d2-d2d2-d2d2d2d2d2d2");
@@ -60,6 +67,7 @@ internal static class CustomDesignSeedDataConfiguration
                 Name = "Animals",
                 Slug = "animals",
                 Description = "Animal themed 3D puzzles",
+                FactorPercentage = 1.1m,
                 ParentId = (Guid?)null,
                 IsActive = true,
                 CreatedAt = SeedDate,
@@ -71,6 +79,7 @@ internal static class CustomDesignSeedDataConfiguration
                 Name = "Vehicles",
                 Slug = "vehicles",
                 Description = "Vehicle and transportation themed puzzles",
+                FactorPercentage = 1.3m,
                 ParentId = (Guid?)null,
                 IsActive = true,
                 CreatedAt = SeedDate,
@@ -82,6 +91,7 @@ internal static class CustomDesignSeedDataConfiguration
                 Name = "Architecture",
                 Slug = "architecture",
                 Description = "Famous buildings and landmarks",
+                FactorPercentage = 1.5m,
                 ParentId = (Guid?)null,
                 IsActive = true,
                 CreatedAt = SeedDate,
@@ -93,6 +103,7 @@ internal static class CustomDesignSeedDataConfiguration
                 Name = "Nature",
                 Slug = "nature",
                 Description = "Natural landscapes and scenery",
+                FactorPercentage = 1.0m,
                 ParentId = (Guid?)null,
                 IsActive = true,
                 CreatedAt = SeedDate,
@@ -104,6 +115,7 @@ internal static class CustomDesignSeedDataConfiguration
                 Name = "Fantasy",
                 Slug = "fantasy",
                 Description = "Fantasy creatures and magical worlds",
+                FactorPercentage = 1.6m,
                 ParentId = (Guid?)null,
                 IsActive = true,
                 CreatedAt = SeedDate,
@@ -119,6 +131,7 @@ internal static class CustomDesignSeedDataConfiguration
                 Name = "Snap-Fit",
                 Slug = "snap-fit",
                 Description = "Easy snap assembly without tools",
+                FactorPercentage = 1.1m,
                 IsActive = true,
                 CreatedAt = SeedDate,
                 UpdatedAt = SeedDate
@@ -129,6 +142,7 @@ internal static class CustomDesignSeedDataConfiguration
                 Name = "Glue Assembly",
                 Slug = "glue-assembly",
                 Description = "Assembly using adhesive bonding",
+                FactorPercentage = 1.0m,
                 IsActive = true,
                 CreatedAt = SeedDate,
                 UpdatedAt = SeedDate
@@ -139,6 +153,7 @@ internal static class CustomDesignSeedDataConfiguration
                 Name = "Screw Assembly",
                 Slug = "screw-assembly",
                 Description = "Assembly using screws and bolts",
+                FactorPercentage = 1.3m,
                 IsActive = true,
                 CreatedAt = SeedDate,
                 UpdatedAt = SeedDate
@@ -149,6 +164,7 @@ internal static class CustomDesignSeedDataConfiguration
                 Name = "Friction Fit",
                 Slug = "friction-fit",
                 Description = "Assembly using tight fitting pieces",
+                FactorPercentage = 1.15m,
                 IsActive = true,
                 CreatedAt = SeedDate,
                 UpdatedAt = SeedDate
@@ -159,6 +175,7 @@ internal static class CustomDesignSeedDataConfiguration
                 Name = "Magnetic Assembly",
                 Slug = "magnetic-assembly",
                 Description = "Assembly using magnetic connections",
+                FactorPercentage = 1.4m,
                 IsActive = true,
                 CreatedAt = SeedDate,
                 UpdatedAt = SeedDate
@@ -173,6 +190,8 @@ internal static class CustomDesignSeedDataConfiguration
                 Name = "Wood",
                 Slug = "wood",
                 Description = "Natural wood material",
+                FactorPercentage = 1.0m,
+                BasePrice = 4000m,
                 IsActive = true,
                 CreatedAt = SeedDate,
                 UpdatedAt = SeedDate
@@ -183,6 +202,8 @@ internal static class CustomDesignSeedDataConfiguration
                 Name = "Plastic",
                 Slug = "plastic",
                 Description = "Durable plastic material",
+                FactorPercentage = 0.85m,
+                BasePrice = 2000m,
                 IsActive = true,
                 CreatedAt = SeedDate,
                 UpdatedAt = SeedDate
@@ -193,6 +214,8 @@ internal static class CustomDesignSeedDataConfiguration
                 Name = "Metal",
                 Slug = "metal",
                 Description = "Premium metal components",
+                FactorPercentage = 1.6m,
+                BasePrice = 9000m,
                 IsActive = true,
                 CreatedAt = SeedDate,
                 UpdatedAt = SeedDate
@@ -203,6 +226,8 @@ internal static class CustomDesignSeedDataConfiguration
                 Name = "Cardboard",
                 Slug = "cardboard",
                 Description = "Eco-friendly cardboard material",
+                FactorPercentage = 0.7m,
+                BasePrice = 1000m,
                 IsActive = true,
                 CreatedAt = SeedDate,
                 UpdatedAt = SeedDate
@@ -213,6 +238,8 @@ internal static class CustomDesignSeedDataConfiguration
                 Name = "Composite",
                 Slug = "composite",
                 Description = "Advanced composite materials",
+                FactorPercentage = 1.3m,
+                BasePrice = 7000m,
                 IsActive = true,
                 CreatedAt = SeedDate,
                 UpdatedAt = SeedDate
@@ -227,6 +254,7 @@ internal static class CustomDesignSeedDataConfiguration
                 Name = "Static Display",
                 Slug = "static-display",
                 Description = "Static model for display only",
+                FactorPercentage = 1.0m,
                 IsActive = true,
                 CreatedAt = SeedDate,
                 UpdatedAt = SeedDate
@@ -237,6 +265,7 @@ internal static class CustomDesignSeedDataConfiguration
                 Name = "Move with Motor",
                 Slug = "move-with-motor",
                 Description = "Model with electric motor-powered movement",
+                FactorPercentage = 1.8m,
                 IsActive = true,
                 CreatedAt = SeedDate,
                 UpdatedAt = SeedDate
@@ -247,6 +276,7 @@ internal static class CustomDesignSeedDataConfiguration
                 Name = "Manual Movement",
                 Slug = "manual-movement",
                 Description = "Model operated by manual movement",
+                FactorPercentage = 1.3m,
                 IsActive = true,
                 CreatedAt = SeedDate,
                 UpdatedAt = SeedDate
@@ -257,6 +287,7 @@ internal static class CustomDesignSeedDataConfiguration
                 Name = "LED Light Feature",
                 Slug = "led-light-feature",
                 Description = "Model with LED lighting effects",
+                FactorPercentage = 1.4m,
                 IsActive = true,
                 CreatedAt = SeedDate,
                 UpdatedAt = SeedDate
@@ -267,6 +298,7 @@ internal static class CustomDesignSeedDataConfiguration
                 Name = "Musical Gear",
                 Slug = "musical-gear",
                 Description = "Model with musical features via rotating mechanism",
+                FactorPercentage = 1.6m,
                 IsActive = true,
                 CreatedAt = SeedDate,
                 UpdatedAt = SeedDate
@@ -348,6 +380,74 @@ internal static class CustomDesignSeedDataConfiguration
                 UpdatedAt = SeedDate
             }
         );
+    }
+
+    public static void SeedReplicaDrives(this ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<DriveReplica>().HasData(
+            new
+            {
+                Id = DriveId1,
+                Name = "Router",
+                Description = "Router module for rotate",
+                MinVolume = 5,
+                QuantityInStock = 5,
+                IsActive = true,
+                CreatedAt = SeedDate,
+                UpdatedAt = SeedDate
+            },
+            new
+            {
+                Id = DriveId2,
+                Name = "Motor",
+                Description = "Electric motor drive",
+                MinVolume = 50,
+                QuantityInStock = 100,
+                IsActive = true,
+                CreatedAt = SeedDate,
+                UpdatedAt = SeedDate
+            },
+            new
+            {
+                Id = DriveId3,
+                Name = "Gearbox",
+                Description = "Mechanical gear system",
+                MinVolume = 30,
+                QuantityInStock = 150,
+                IsActive = true,
+                CreatedAt = SeedDate,
+                UpdatedAt = SeedDate
+            },
+            new
+            {
+                Id = DriveId4,
+                Name = "LED Module",
+                Description = "LED lighting system",
+                MinVolume = 10,
+                QuantityInStock = 200,
+                IsActive = true,
+                CreatedAt = SeedDate,
+                UpdatedAt = SeedDate
+            },
+            new
+            {
+                Id = DriveId5,
+                Name = "Music Box",
+                Description = "Mechanical music box",
+                MinVolume = 50,
+                QuantityInStock = 50,
+                IsActive = true,
+                CreatedAt = SeedDate,
+                UpdatedAt = SeedDate
+            }
+        );
+    }
+
+    public static void SeedCustomDesignMasterData(this ModelBuilder modelBuilder)
+    {
+        modelBuilder.SeedReplicas();
+        modelBuilder.SeedCustomDesignRequirements();
+        modelBuilder.SeedReplicaDrives();
     }
 
 }

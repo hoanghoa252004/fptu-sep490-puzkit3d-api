@@ -5,11 +5,12 @@ namespace PuzKit3D.Modules.Cart.Domain.Entities.Replicas;
 public sealed class InStockProductVariantReplica : Entity<Guid>
 {
     public Guid InStockProductId { get; private set; }
-    public string Sku { get; private set; }
-    public string Color { get; private set; }
+    public string Sku { get; private set; } = null!;
+    public string Color { get; private set; } = null!;
     public int AssembledLengthMm { get; private set; }
     public int AssembledWidthMm { get; private set; }
     public int AssembledHeightMm { get; private set; }
+    public string PreviewImages { get; private set; } = null!;
     public bool IsActive { get; private set; }
     public DateTime CreatedAt { get; private set; }
     public DateTime UpdatedAt { get; private set; }
@@ -26,6 +27,7 @@ public sealed class InStockProductVariantReplica : Entity<Guid>
         int assembledLengthMm,
         int assembledWidthMm,
         int assembledHeightMm,
+        string previewImages,
         bool isActive,
         DateTime createdAt,
         DateTime updatedAt)
@@ -39,6 +41,7 @@ public sealed class InStockProductVariantReplica : Entity<Guid>
             AssembledLengthMm = assembledLengthMm,
             AssembledWidthMm = assembledWidthMm,
             AssembledHeightMm = assembledHeightMm,
+            PreviewImages = previewImages,
             IsActive = isActive,
             CreatedAt = createdAt,
             UpdatedAt = updatedAt

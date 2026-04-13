@@ -31,6 +31,10 @@ internal sealed class OrderReplicaConfiguration : IEntityTypeConfiguration<Order
             .IsRequired()
             .HasMaxLength(30);
 
+        builder.Property(x => x.GrandTotalAmount)
+            .IsRequired()
+            .HasPrecision(18, 2);
+
         builder.HasIndex(o => o.CustomerId);
     }
 }

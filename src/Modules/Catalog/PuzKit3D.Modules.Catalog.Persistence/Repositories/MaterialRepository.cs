@@ -48,6 +48,35 @@ internal sealed class MaterialRepository : IMaterialRepository
             .FirstOrDefaultAsync(m => m.Slug == slug, cancellationToken);
     }
 
+    public async Task<IEnumerable<Material>> GetAllAsync(
+        bool isStaffOrManager,
+        string? searchTerm,
+        bool ascending,
+        CancellationToken cancellationToken = default)
+    {
+        var query = _context.Materials.AsQueryable();
+
+        if (!isStaffOrManager)
+        {
+            query = query.Where(m => m.IsActive);
+        }
+
+        if (!string.IsNullOrEmpty(searchTerm))
+        {
+            query = query.Where(m => m.Name.ToLower().Contains(searchTerm.ToLower())
+                || m.Slug.ToLower().Contains(searchTerm.ToLower())
+                || (m.Description != null && m.Description.ToLower().Contains(searchTerm.ToLower())));
+        }
+
+        query = ascending
+            ? query.OrderBy(m => m.CreatedAt)
+            : query.OrderByDescending(m => m.CreatedAt);
+
+        return await query
+            .AsNoTracking()
+            .ToListAsync(cancellationToken);
+    }
+
     public void Add(Material entity)
     {
         _context.Materials.Add(entity);

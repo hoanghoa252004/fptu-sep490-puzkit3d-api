@@ -10,13 +10,16 @@ internal sealed class DeleteTopicCommandHandler : ICommandHandler<DeleteTopicCom
 {
     private readonly ITopicRepository _topicRepository;
     private readonly ICatalogUnitOfWork _unitOfWork;
+    private readonly ITopicMaterialCapabilityRepository _topicMaterialCapabilityRepository;
 
     public DeleteTopicCommandHandler(
         ITopicRepository topicRepository,
-        ICatalogUnitOfWork unitOfWork)
+        ICatalogUnitOfWork unitOfWork,
+        ITopicMaterialCapabilityRepository topicMaterialCapabilityRepository)
     {
         _topicRepository = topicRepository;
         _unitOfWork = unitOfWork;
+        _topicMaterialCapabilityRepository = topicMaterialCapabilityRepository;
     }
 
     public async Task<Result> Handle(DeleteTopicCommand request, CancellationToken cancellationToken)
@@ -28,6 +31,15 @@ internal sealed class DeleteTopicCommandHandler : ICommandHandler<DeleteTopicCom
         {
             return Result.Failure(TopicError.NotFound(request.Id));
         }
+
+        // check the topic that has been used.
+        var existingTopics = await _topicMaterialCapabilityRepository.GetTopicMaterialCapabilitiesByTopicIdAsync(topicId, cancellationToken);
+
+        if (existingTopics is not null && existingTopics.Any())
+        {
+            return Result.Failure(TopicError.InvalidTopicDeleted());
+        }
+
         // Get all topics
         var allTopics = await _topicRepository.GetAllAsync(cancellationToken);
 

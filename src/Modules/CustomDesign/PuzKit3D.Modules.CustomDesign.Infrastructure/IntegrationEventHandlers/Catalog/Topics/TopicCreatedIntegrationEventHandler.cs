@@ -33,8 +33,9 @@ internal sealed class TopicCreatedIntegrationEventHandler
             @event.TopicId,
             @event.Name,
             @event.Slug,
-            @event.Description,
             @event.ParentId,
+            @event.FactorPercentage,
+            @event.Description,
             @event.IsActive,
             @event.CreatedAt,
             @event.CreatedAt);

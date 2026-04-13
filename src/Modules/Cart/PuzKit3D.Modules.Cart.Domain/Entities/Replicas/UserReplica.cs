@@ -4,13 +4,13 @@ namespace PuzKit3D.Modules.Cart.Domain.Entities.Replicas;
 
 public sealed class UserReplica : Entity<Guid>
 {
-    public string Email { get; private set; }
-    public string PasswordHash { get; private set; }
+    public string Email { get; private set; } = null!;
+    public string PasswordHash { get; private set; } = null!;
     public Guid RoleId { get; private set; }
-    public string FullName { get; private set; }
+    public string FullName { get; private set; } = null!;
     public DateTime? DateOfBirth { get; private set; }
-    public string Address { get; private set; }
-    public string PhoneNumber { get; private set; }
+    public string Address { get; private set; } = null!;
+    public string PhoneNumber { get; private set; } = null!;
 
     private UserReplica(
         Guid id,

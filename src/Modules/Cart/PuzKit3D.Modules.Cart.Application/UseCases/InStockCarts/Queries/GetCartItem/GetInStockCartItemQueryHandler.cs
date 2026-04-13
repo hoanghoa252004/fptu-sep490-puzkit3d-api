@@ -1,6 +1,7 @@
 using PuzKit3D.Modules.Cart.Application.Repositories;
 using PuzKit3D.Modules.Cart.Application.SharedResponseDto;
 using PuzKit3D.Modules.Cart.Domain.Entities.Carts;
+using PuzKit3D.SharedKernel.Application.Media;
 using PuzKit3D.SharedKernel.Application.Message.Query;
 using PuzKit3D.SharedKernel.Domain.Results;
 
@@ -10,13 +11,16 @@ internal sealed class GetInStockCartItemQueryHandler : IQueryHandler<GetInStockC
 {
     private readonly ICartRepository _cartRepository;
     private readonly ICartQueryRepository _queryRepository;
+    private readonly IMediaAssetService _assetUrlService;
 
     public GetInStockCartItemQueryHandler(
         ICartRepository cartRepository,
-        ICartQueryRepository queryRepository)
+        ICartQueryRepository queryRepository,
+        IMediaAssetService assetUrlService)
     {
         _cartRepository = cartRepository;
         _queryRepository = queryRepository;
+        _assetUrlService = assetUrlService;
     }
 
     public async Task<ResultT<CartItemDto>> Handle(GetInStockCartItemQuery request, CancellationToken cancellationToken)
@@ -44,6 +48,7 @@ internal sealed class GetInStockCartItemQueryHandler : IQueryHandler<GetInStockC
         {
             var product = await _queryRepository.GetInStockProductsByIdsAsync(new List<Guid> { variant.InStockProductId }, cancellationToken);
             var productData = product.TryGetValue(variant.InStockProductId, out var p) ? p : null;
+            var previewImages = _assetUrlService.BuildAssetUrls(variant.PreviewImages);
 
             productDetails = new ProductDetailsDto(
                 variant.InStockProductId,
@@ -58,7 +63,8 @@ internal sealed class GetInStockCartItemQueryHandler : IQueryHandler<GetInStockC
                 null,
                 variant.IsActive,
                 null,
-                null);
+                null,
+                previewImages);
         }
 
         var cartItemDto = new CartItemDto(

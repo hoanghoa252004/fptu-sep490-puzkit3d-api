@@ -70,14 +70,14 @@ public sealed class DeliveryTrackingDetail : Entity<Guid>
     }
 
     /// <summary>
-    /// Create part item
+    /// Create drive item
     /// </summary>
-    public static DeliveryTrackingDetail CreatePart(
+    public static DeliveryTrackingDetail CreateDrive(
         DeliveryTrackingId deliveryTrackingId,
-        Guid partId,
+        Guid driveId,
         int quantity)
     {
-        return Create(deliveryTrackingId, partId, DeliveryTrackingDetailType.Part, quantity);
+        return Create(deliveryTrackingId, driveId, DeliveryTrackingDetailType.Drive, quantity);
     }
 
     /// <summary>

@@ -56,7 +56,6 @@ internal sealed class InstockProductUpdatedDomainEventHandler
             notification.PreviewAsset,
             notification.Description,
             notification.TopicId,
-            notification.AssemblyMethodId,
             notification.MaterialId,
             notification.IsActive,
             notification.UpdatedAt);

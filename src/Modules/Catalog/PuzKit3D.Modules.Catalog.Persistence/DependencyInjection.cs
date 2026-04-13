@@ -42,6 +42,12 @@ public static class DependencyInjection
         services.AddScoped<ITopicRepository, TopicRepository>();
         services.AddScoped<IMaterialRepository, MaterialRepository>();
         services.AddScoped<ICapabilityRepository, CapabilityRepository>();
+        services.AddScoped<IDriveRepository, DriveRepository>();
+        services.AddScoped<IFormulaRepository, FormulaRepository>();
+        services.AddScoped<IFormulaValueValidationRepository, FormulaValueValidationRepository>();
+        services.AddScoped<ICapabilityDriveRepository, CapabilityDriveRepository>();
+        services.AddScoped<ITopicMaterialCapabilityRepository, TopicMaterialCapabilityRepository>();
+        services.AddScoped<ICapabilityMaterialAssemblyRepository, CapabilityMaterialAssemblyRepository>();
 
         return services;
     }

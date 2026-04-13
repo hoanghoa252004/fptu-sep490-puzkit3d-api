@@ -3,7 +3,7 @@ using PuzKit3D.SharedKernel.Application.Event;
 namespace PuzKit3D.Contract.Catalog.Topics;
 
 public sealed record TopicDeletedIntegrationEvent(
-    Guid EventId,
+    Guid Id,
     DateTime OccurredOn,
     Guid TopicId,
-    DateTime DeletedAt) : IntegrationEvent(EventId, OccurredOn);
+    DateTime DeletedAt) : IIntegrationEvent;

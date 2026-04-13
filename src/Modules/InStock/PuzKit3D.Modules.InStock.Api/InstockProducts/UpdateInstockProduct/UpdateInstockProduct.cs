@@ -26,6 +26,8 @@ internal sealed class UpdateInstockProduct : IEndpoint
                         .ToDictionary(x => x.Key, x => x.Value)
                     : null;
 
+                var driveDetails = request.Drives?.Select(d => new UpdateDriveDetailDto(d.DriveId, d.Quantity)).ToList();
+
                 var command = new UpdateInstockProductCommand(
                     id,
                     request.Slug,
@@ -36,9 +38,10 @@ internal sealed class UpdateInstockProduct : IEndpoint
                     request.ThumbnailUrl,
                     previewAssetDict,
                     request.TopicId,
-                    request.AssemblyMethodId,
-                    request.CapabilityIds,
                     request.MaterialId,
+                    request.CapabilityIds,
+                    request.AssemblyMethodIds,
+                    driveDetails,
                     request.Description,
                     request.IsActive);
 
@@ -69,8 +72,16 @@ int? EstimatedBuildTime,
 string? ThumbnailUrl,
 List<string>? PreviewAsset,
 Guid? TopicId,
-Guid? AssemblyMethodId,
-List<Guid>? CapabilityIds,
 Guid? MaterialId,
-string? Description,
-bool? IsActive);
+List<Guid>? CapabilityIds,
+List<Guid>? AssemblyMethodIds = null,
+List<UpdateDriveDetailRequestDto>? Drives = null,
+string? Description = null,
+bool? IsActive = null);
+
+internal sealed record UpdateDriveDetailRequestDto(
+    Guid DriveId,
+    int Quantity);
+
+
+

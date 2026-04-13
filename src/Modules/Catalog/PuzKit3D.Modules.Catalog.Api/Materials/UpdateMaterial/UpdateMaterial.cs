@@ -25,6 +25,8 @@ internal sealed class UpdateMaterial : IEndpoint
                     id,
                     request.Name,
                     request.Slug,
+                    request.FactorPercentage,
+                    request.BasePrice,
                     request.Description,
                     request.IsActive);
 
@@ -47,7 +49,9 @@ internal sealed class UpdateMaterial : IEndpoint
 }
 
 internal sealed record UpdateMaterialRequestDto(
-string? Name,
-string? Slug,
+string Name,
+string Slug,
+decimal FactorPercentage,
+decimal BasePrice,
 string? Description,
-bool? IsActive);
+bool IsActive);

@@ -8,5 +8,8 @@ string? Color = null,
 int? AssembledLengthMm = null,
 int? AssembledWidthMm = null,
 int? AssembledHeightMm = null,
+string? PreviewImages = null,
 bool? IsActive = null) : ICommand;
+
+
 

@@ -8,4 +8,9 @@ public interface ITopicRepository : IRepositoryBase<Topic, TopicId>
     Task<Topic?> GetBySlugAsync(string slug, CancellationToken cancellationToken = default);
     
     Task<IEnumerable<Topic>> GetByParentIdAsync(TopicId parentId, CancellationToken cancellationToken = default);
+    Task<IEnumerable<Topic>> GetAllAsync(
+        bool isStaffOrManager,
+        string? searchTerm,
+        bool ascending,
+        CancellationToken cancellationToken = default);
 }

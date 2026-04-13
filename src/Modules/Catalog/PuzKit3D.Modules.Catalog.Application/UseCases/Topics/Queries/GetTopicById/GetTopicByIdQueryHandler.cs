@@ -1,6 +1,7 @@
 using PuzKit3D.Modules.Catalog.Application.Repositories;
 using PuzKit3D.Modules.Catalog.Application.UseCases.Topics.Queries.Shared;
 using PuzKit3D.Modules.Catalog.Domain.Entities.Topics;
+using PuzKit3D.SharedKernel.Application.Authorization;
 using PuzKit3D.SharedKernel.Application.Message.Query;
 using PuzKit3D.SharedKernel.Application.User;
 using PuzKit3D.SharedKernel.Domain.Results;
@@ -33,7 +34,7 @@ internal sealed class GetTopicByIdQueryHandler : IQueryHandler<GetTopicByIdQuery
 
         // Check if user is Staff or Manager
         var isStaffOrManager = _currentUser.IsAuthenticated &&
-            (_currentUser.IsInRole("Staff") || _currentUser.IsInRole("Business Manager"));
+            (_currentUser.IsInRole(Roles.Staff) || _currentUser.IsInRole(Roles.BusinessManager));
 
         // For non-staff/manager users, only show active topics
         if (!isStaffOrManager && !topic.IsActive)
@@ -49,6 +50,7 @@ internal sealed class GetTopicByIdQueryHandler : IQueryHandler<GetTopicByIdQuery
                  topic.Slug,
                  topic.ParentId?.Value,
                  topic.Description,
+                 topic.FactorPercentage,
                  topic.IsActive,
                  topic.CreatedAt,
                  topic.UpdatedAt)
@@ -57,8 +59,8 @@ internal sealed class GetTopicByIdQueryHandler : IQueryHandler<GetTopicByIdQuery
                  topic.Name,
                  topic.Slug,
                  topic.ParentId?.Value,
-                 topic.Description);
-
+                 topic.Description,
+                 topic.FactorPercentage);
         return Result.Success(topicDto);
     }
 }

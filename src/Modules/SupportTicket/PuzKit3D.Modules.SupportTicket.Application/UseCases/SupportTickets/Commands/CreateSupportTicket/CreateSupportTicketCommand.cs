@@ -13,6 +13,6 @@ public sealed record CreateSupportTicketCommand(
 
 public sealed record CreateSupportTicketDetailDto(
     Guid OrderDetailId,
-    Guid? PartId,
+    Guid? DriveId,
     int Quantity,
     string? Note);

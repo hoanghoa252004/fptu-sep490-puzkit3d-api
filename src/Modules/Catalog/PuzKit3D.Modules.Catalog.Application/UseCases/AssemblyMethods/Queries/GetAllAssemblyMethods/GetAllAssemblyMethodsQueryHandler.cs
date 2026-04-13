@@ -1,5 +1,6 @@
 using PuzKit3D.Modules.Catalog.Application.Repositories;
-using PuzKit3D.Modules.Catalog.Domain.Entities.AssemblyMethods;
+using PuzKit3D.Modules.Catalog.Application.UseCases.AssemblyMethods.Queries.Shared;
+using PuzKit3D.SharedKernel.Application.Authorization;
 using PuzKit3D.SharedKernel.Application.Message.Query;
 using PuzKit3D.SharedKernel.Application.Pagination;
 using PuzKit3D.SharedKernel.Application.User;
@@ -26,76 +27,43 @@ internal sealed class GetAllAssemblyMethodsQueryHandler
         CancellationToken cancellationToken)
     {
         // Check if user is Staff or Manager
-        var isStaffOrManager = _currentUser.IsAuthenticated && 
-            (_currentUser.IsInRole("Staff") || _currentUser.IsInRole("Business Manager"));
+        var isStaffOrManager = _currentUser.IsAuthenticated &&
+            (_currentUser.IsInRole(Roles.Staff) || _currentUser.IsInRole(Roles.BusinessManager));
 
-        // Get all assembly methods
-        var allMethods = await _assemblyMethodRepository.GetAllAsync(cancellationToken);
-        var query = allMethods.AsQueryable();
+        // Get all assembly methods with filtering and sorting from repository
+        var allMethods = await _assemblyMethodRepository.GetAllAsync(
+            isStaffOrManager,
+            request.SearchTerm,
+            request.Ascending,
+            cancellationToken);
 
-        // For non-staff/manager users (anonymous or customer/admin), only show active items
-        if (!isStaffOrManager)
-        {
-            query = query.Where(a => a.IsActive);
-        }
+        // Apply pagination
+        var totalCount = allMethods.Count();
+        var methods = allMethods
+            .Skip((request.PageNumber - 1) * request.PageSize)
+            .Take(request.PageSize)
+            .ToList();
 
-        // Apply search filter
-        if (!string.IsNullOrWhiteSpace(request.SearchTerm))
-        {
-            var searchTerm = request.SearchTerm.ToLower();
-            query = query.Where(a => 
-                a.Name.ToLower().Contains(searchTerm) || 
-                a.Slug.ToLower().Contains(searchTerm) ||
-                (a.Description != null && a.Description.ToLower().Contains(searchTerm)));
-        }
+        // Build response DTOs
+        var methodDtos = isStaffOrManager
+            ? methods.Select(a => (object)new GetAssemblyMethodDetailedResponseDto(
+                a.Id.Value,
+                a.Name,
+                a.Slug,
+                a.Description,
+                a.FactorPercentage,
+                a.IsActive,
+                a.CreatedAt,
+                a.UpdatedAt)).ToList()
+            : methods.Select(a => (object)new GetAssemblyMethodResponseDto(
+                a.Id.Value,
+                a.Name,
+                a.Slug,
+                a.Description,
+                a.FactorPercentage)).ToList();
 
-        // Apply IsActive filter (only for staff/manager)
-        if (isStaffOrManager && request.IsActive.HasValue)
-        {
-            query = query.Where(a => a.IsActive == request.IsActive.Value);
-        }
-
-        // Get total count before paging
-        var totalCount = query.Count();
-
-        // Apply sorting (by name ascending by default)
-        query = query.OrderBy(a => a.Name);
-
-        // Apply paging and map to appropriate DTO based on user role
-        IReadOnlyList<object> items;
-        
-        if (isStaffOrManager)
-        {
-            // Staff/Manager: Return full details with timestamps
-            items = query
-                .Skip((request.PageNumber - 1) * request.PageSize)
-                .Take(request.PageSize)
-                .Select(a => new GetAllAssemblyMethodsResponseDto(
-                    a.Id.Value,
-                    a.Name,
-                    a.Slug,
-                    a.Description,
-                    a.IsActive,
-                    a.CreatedAt,
-                    a.UpdatedAt) as object)
-                .ToList();
-        }
-        else
-        {
-            // Anonymous/Customer/Admin: Return public details without timestamps
-            items = query
-                .Skip((request.PageNumber - 1) * request.PageSize)
-                .Take(request.PageSize)
-                .Select(a => new GetAllAssemblyMethodsPublicResponseDto(
-                    a.Id.Value,
-                    a.Name,
-                    a.Slug,
-                    a.Description) as object)
-                .ToList();
-        }
-
-        var pagedResult = PagedResult<object>.Create(
-            items,
+        var pagedResult = new PagedResult<object>(
+            methodDtos,
             request.PageNumber,
             request.PageSize,
             totalCount);

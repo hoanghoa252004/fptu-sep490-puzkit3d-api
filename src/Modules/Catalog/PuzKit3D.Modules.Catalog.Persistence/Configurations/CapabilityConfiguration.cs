@@ -26,6 +26,10 @@ internal sealed class CapabilityConfiguration : IEntityTypeConfiguration<Capabil
             .IsRequired()
             .HasMaxLength(30);
 
+        builder.Property(c => c.FactorPercentage)
+            .IsRequired()
+            .HasPrecision(5, 4);
+
         builder.Property(c => c.IsActive)
             .IsRequired()
             .HasDefaultValue(false);

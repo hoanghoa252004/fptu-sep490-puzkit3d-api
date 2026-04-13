@@ -30,6 +30,7 @@ internal sealed class InstockProductVariantUpdatedDomainEventHandler
             domainEvent.AssembledLengthMm,
             domainEvent.AssembledWidthMm,
             domainEvent.AssembledHeightMm,
+            domainEvent.PreviewImages,
             domainEvent.IsActive);
 
         await _eventBus.PublishAsync(integrationEvent, cancellationToken);

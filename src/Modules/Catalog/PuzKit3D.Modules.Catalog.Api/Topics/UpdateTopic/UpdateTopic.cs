@@ -26,6 +26,7 @@ internal sealed class UpdateTopic : IEndpoint
                     request.Name,
                     request.Slug,
                     request.ParentId,
+                    request.FactorPercentage,
                     request.Description,
                     request.IsActive);
 
@@ -48,8 +49,9 @@ internal sealed class UpdateTopic : IEndpoint
 }
 
 internal sealed record UpdateTopicRequestDto(
-string? Name,
-string? Slug,
+string Name,
+string Slug,
 Guid? ParentId,
+decimal FactorPercentage,
 string? Description,
-bool? IsActive);
+bool IsActive);

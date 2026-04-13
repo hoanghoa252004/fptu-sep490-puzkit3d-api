@@ -35,4 +35,8 @@ public static class MaterialError
     public static Error InvalidActiveStatus() => Error.Conflict(
         "Material.InvalidActiveStatus",
         "The active status is already set to this value.");
+
+    public static Error InUse(Guid id) => Error.Conflict(
+        "Material.InUse",
+        $"Material with ID '{id}' is currently in use and cannot be deleted.");
 }

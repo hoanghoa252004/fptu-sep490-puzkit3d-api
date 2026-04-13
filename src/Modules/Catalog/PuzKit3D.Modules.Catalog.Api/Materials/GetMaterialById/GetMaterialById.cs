@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using PuzKit3D.Modules.Catalog.Application.UseCases.Materials.Queries.GetMaterialById;
+using PuzKit3D.Modules.Catalog.Application.UseCases.Materials.Queries.Shared;
 using PuzKit3D.SharedKernel.Api.Endpoint;
 using PuzKit3D.SharedKernel.Api.Results.Extensions;
 
@@ -28,7 +29,7 @@ internal sealed class GetMaterialById : IEndpoint
             .WithSummary("Get material by ID")
             .WithDescription("Retrieves a single material by its unique identifier. Anonymous users can only view active materials.")
             .AllowAnonymous()
-            .Produces<GetMaterialByIdResponseDto>(StatusCodes.Status200OK)
+            .Produces<object>(StatusCodes.Status200OK)
             .ProducesProblem(StatusCodes.Status404NotFound)
             .ProducesProblem(StatusCodes.Status500InternalServerError);
     }

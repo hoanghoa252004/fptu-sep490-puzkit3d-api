@@ -40,9 +40,8 @@ public static class DependencyInjection
         services.AddScoped<IOrderReplicaRepository, OrderReplicaRepository>();
         services.AddScoped<IOrderDetailReplicaRepository, OrderDetailReplicaRepository>();
         services.AddScoped<ISupportTicketReplicaRepository, SupportTicketReplicaRepository>();
-        services.AddScoped<IPartReplicaRepository, PartReplicaRepository>();
         services.AddScoped<IUserReplicaRepository, UserReplicaRepository>();
-
+        services.AddScoped<IDriveReplicaRepository, DriveReplicaRepository>();
         return services;
     }
 }

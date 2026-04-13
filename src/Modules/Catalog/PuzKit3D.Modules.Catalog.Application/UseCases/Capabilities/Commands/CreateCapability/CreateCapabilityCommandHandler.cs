@@ -36,6 +36,7 @@ internal sealed class CreateCapabilityCommandHandler : ICommandTHandler<CreateCa
             var capabilityResult = Capability.Create(
                 request.Name,
                 request.Slug,
+                request.FactorPercentage,
                 request.Description,
                 request.IsActive);
 

@@ -7,6 +7,7 @@ public sealed record TopicUpdatedDomainEvent(
     string Name,
     string Slug,
     Guid? ParentId,
+    decimal FactorPercentage,
     string? Description,
     DateTime UpdatedAt,
     bool IsActive) : DomainEvent;

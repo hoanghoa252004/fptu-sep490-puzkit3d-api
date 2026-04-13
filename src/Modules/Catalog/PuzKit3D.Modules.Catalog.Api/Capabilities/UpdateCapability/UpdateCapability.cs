@@ -25,6 +25,7 @@ internal sealed class UpdateCapability : IEndpoint
                     id,
                     request.Name,
                     request.Slug,
+                    request.FactorPercentage,
                     request.Description,
                     request.IsActive);
 
@@ -47,7 +48,8 @@ internal sealed class UpdateCapability : IEndpoint
 }
 
 internal sealed record UpdateCapabilityRequestDto(
-string? Name,
-string? Slug,
+string Name,
+string Slug,
+decimal FactorPercentage,
 string? Description,
-bool? IsActive);
+bool IsActive);

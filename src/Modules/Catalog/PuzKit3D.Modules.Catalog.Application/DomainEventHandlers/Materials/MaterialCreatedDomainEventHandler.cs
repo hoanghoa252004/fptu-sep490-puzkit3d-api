@@ -23,6 +23,8 @@ internal sealed class MaterialCreatedDomainEventHandler
             notification.MaterialId,
             notification.Name,
             notification.Slug,
+            notification.FactorPercentage,
+            notification.BasePrice,
             notification.Description,
             notification.IsActive,
             notification.CreatedAt);

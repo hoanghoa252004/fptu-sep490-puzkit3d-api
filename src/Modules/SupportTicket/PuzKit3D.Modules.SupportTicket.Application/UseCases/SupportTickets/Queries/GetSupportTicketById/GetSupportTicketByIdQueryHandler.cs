@@ -36,7 +36,7 @@ internal sealed class GetSupportTicketByIdQueryHandler
             .Select(d => new SupportTicketDetailDto(
                 d.Id.Value,
                 d.OrderItemId,
-                d.PartId,
+                d.DriveId,
                 d.Quantity,
                 d.Note))
             .ToList();

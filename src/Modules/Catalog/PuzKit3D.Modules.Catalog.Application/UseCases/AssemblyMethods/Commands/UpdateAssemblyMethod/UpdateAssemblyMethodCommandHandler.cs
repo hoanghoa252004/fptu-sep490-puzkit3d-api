@@ -47,6 +47,7 @@ internal sealed class UpdateAssemblyMethodCommandHandler : ICommandHandler<Updat
             var updateResult = assemblyMethod.Update(
                 request.Name,
                 request.Slug,
+                request.FactorPercentage,
                 request.Description,
                 request.IsActive);
 

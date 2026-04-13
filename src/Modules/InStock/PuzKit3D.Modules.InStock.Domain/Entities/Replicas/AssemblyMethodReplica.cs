@@ -7,6 +7,7 @@ public sealed class AssemblyMethodReplica : Entity<Guid>
     public string Name { get; private set; } = null!;
     public string? Description { get; private set; }
     public string Slug { get; private set; } = null!;
+    public decimal FactorPercentage { get; private set; }
     public bool IsActive { get; private set; }
     public DateTime CreatedAt { get; private set; }
     public DateTime UpdatedAt { get; private set; }
@@ -15,6 +16,7 @@ public sealed class AssemblyMethodReplica : Entity<Guid>
         Guid id,
         string name,
         string slug,
+        decimal factorPercentage,
         string? description,
         bool isActive,
         DateTime createdAt,
@@ -23,6 +25,7 @@ public sealed class AssemblyMethodReplica : Entity<Guid>
         Name = name;
         Slug = slug;
         Description = description;
+        FactorPercentage = factorPercentage;
         IsActive = isActive;
         CreatedAt = createdAt;
         UpdatedAt = updatedAt;
@@ -36,6 +39,7 @@ public sealed class AssemblyMethodReplica : Entity<Guid>
         Guid id,
         string name,
         string slug,
+        decimal factorPercentage,
         string? description,
         bool isActive,
         DateTime createdAt,
@@ -45,6 +49,7 @@ public sealed class AssemblyMethodReplica : Entity<Guid>
             id,
             name,
             slug,
+            factorPercentage,
             description,
             isActive,
             createdAt,
@@ -54,6 +59,7 @@ public sealed class AssemblyMethodReplica : Entity<Guid>
     public void Update(
         string name,
         string slug,
+        decimal factorPercentage,
         string? description,
         bool isActive,
         DateTime updatedAt)
@@ -61,6 +67,7 @@ public sealed class AssemblyMethodReplica : Entity<Guid>
         Name = name;
         Slug = slug;
         Description = description;
+        FactorPercentage = factorPercentage;
         IsActive = isActive;
         UpdatedAt = updatedAt;
     }

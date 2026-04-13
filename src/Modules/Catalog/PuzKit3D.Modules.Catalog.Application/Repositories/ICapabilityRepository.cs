@@ -6,4 +6,10 @@ namespace PuzKit3D.Modules.Catalog.Application.Repositories;
 public interface ICapabilityRepository : IRepositoryBase<Capability, CapabilityId>
 {
     Task<Capability?> GetBySlugAsync(string slug, CancellationToken cancellationToken = default);
+
+    Task<IEnumerable<Capability>> GetAllAsync(
+        bool isStaffOrManager,
+        string? searchTerm,
+        bool ascending,
+        CancellationToken cancellationToken = default);
 }

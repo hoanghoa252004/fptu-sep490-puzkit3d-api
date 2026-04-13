@@ -23,8 +23,10 @@ internal sealed class CapabilityUpdatedDomainEventHandler
             notification.CapabilityId,
             notification.Name,
             notification.Slug,
+            notification.FactorPercentage,
             notification.Description,
-            notification.UpdatedAt);
+            notification.UpdatedAt,
+            notification.IsActive);
 
         await _eventBus.PublishAsync(integrationEvent, cancellationToken);
     }

@@ -11,5 +11,5 @@ public sealed record GetAllInstockProductsQuery(
     string? DifficultyLevel = null,
     string? MaterialSlug = null,
     string? TopicSlug = null,
-    string? AssemblyMethodSlug = null,
+    List<string>? AssemblyMethodSlug = null,
     List<string>? CapabilitySlugs = null) : IQuery<PagedResult<object>>;

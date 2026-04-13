@@ -33,4 +33,7 @@ public static class DeliveryTrackingError
 
     public static Error HandOverImageUrlTooLong() =>
         Error.Validation("HANDOVER_IMAGE_URL_TOO_LONG", "Hand over image URL cannot exceed 500 characters");
+
+    public static Error DriveNotFound(Guid driveId) =>
+        Error.Validation("DeliveryTracking.DriveNotFound", $"Drive id {driveId} is not found");
 }

@@ -6,6 +6,7 @@ public sealed record GetTopicDetailedResponseDto(
     string Slug,
     Guid? ParentId,
     string? Description,
+    decimal FactorPercentage,
     bool IsActive,
     DateTime CreatedAt,
     DateTime UpdatedAt);

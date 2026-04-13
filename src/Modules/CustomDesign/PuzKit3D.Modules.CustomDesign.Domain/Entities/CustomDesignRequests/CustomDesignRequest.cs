@@ -10,7 +10,7 @@ public sealed class CustomDesignRequest : AggregateRoot<CustomDesignRequestId>
 {
     public string Code { get; private set; } = null!;
     public Guid CustomerId { get; private set; }
-    public CustomDesignRequirementId CustomDesignRequirementId { get; private set; }
+    public CustomDesignRequirementId CustomDesignRequirementId { get; private set; } = null!;
     public decimal DesiredLengthMm { get; private set; }
     public decimal DesiredWidthMm { get; private set; }
     public decimal DesiredHeightMm { get; private set; }

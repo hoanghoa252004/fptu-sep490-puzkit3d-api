@@ -28,7 +28,7 @@ internal sealed class GetCapabilityById : IEndpoint
             .WithSummary("Get capability by ID")
             .WithDescription("Retrieves a single capability by its unique identifier. Anonymous users can only view active capabilities.")
             .AllowAnonymous()
-            .Produces<GetCapabilityByIdResponseDto>(StatusCodes.Status200OK)
+            .Produces<object>(StatusCodes.Status200OK)
             .ProducesProblem(StatusCodes.Status404NotFound)
             .ProducesProblem(StatusCodes.Status500InternalServerError);
     }

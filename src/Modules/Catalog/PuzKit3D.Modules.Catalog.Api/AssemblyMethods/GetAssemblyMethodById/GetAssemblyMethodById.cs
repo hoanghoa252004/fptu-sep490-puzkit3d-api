@@ -29,7 +29,7 @@ internal sealed class GetAssemblyMethodById : IEndpoint
             .WithSummary("Get assembly method by ID")
             .WithDescription("Retrieves a single assembly method by its unique identifier. Requires Staff or Manager role.")
             .AllowAnonymous()
-            .Produces<GetAssemblyMethodByIdResponseDto>(StatusCodes.Status200OK)
+            .Produces<object>(StatusCodes.Status200OK)
             .ProducesProblem(StatusCodes.Status404NotFound)
             .ProducesProblem(StatusCodes.Status500InternalServerError);
     }
