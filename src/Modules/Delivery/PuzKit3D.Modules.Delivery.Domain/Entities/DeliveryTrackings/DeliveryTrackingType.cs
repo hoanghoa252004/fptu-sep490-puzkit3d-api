@@ -6,5 +6,7 @@ public enum DeliveryTrackingType
 
     Original = 0,
 
-    Support = 1
+    Return = 1,
+
+    Resend = 2,
 }

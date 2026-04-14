@@ -1,4 +1,6 @@
 ﻿using PuzKit3D.Modules.Delivery.Application.DTOs;
+using PuzKit3D.Modules.Delivery.Application.UseCases.DeliveryTrackings.Commands;
+using PuzKit3D.Modules.Delivery.Domain.Entities.DeliveryTrackings;
 using PuzKit3D.SharedKernel.Domain.Results;
 
 namespace PuzKit3D.Modules.Delivery.Application.Services;
@@ -10,7 +12,7 @@ public interface IDeliveryService
     Task<ResultT<object>> GetWardsByDistrictAsync(int districtId);
     Task<ResultT<object>> CalculateShippingFeeAsync(object request);
     Task<ResultT<object>> GetAvailableServicesAsync(int fromDistrict, int toDistrict);
-    Task<ResultT<object>> CreateShippingOrderAsync(CreateShippingOrderRequest request, CancellationToken cancellationToken = default);
+    Task<ResultT<object>> CreateShippingOrderAsync(CreateShippingOrderRequest request, FromDto fromtDto, ToDto toDto, DeliveryTrackingType trackingType, CancellationToken cancellationToken = default);
     Task<ResultT<object>> GetShippingOrderDetailAsync(string orderCode);
     Task<ResultT<string>> GeneratePrintTokenAsync(List<string> orderCodes);
     Task<ResultT<string>> GetPrintOrderUrlAsync(string token);

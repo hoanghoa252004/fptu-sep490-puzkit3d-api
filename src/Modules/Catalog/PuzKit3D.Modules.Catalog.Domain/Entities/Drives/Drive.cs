@@ -100,6 +100,20 @@ public class Drive : AggregateRoot<DriveId>
         return Result.Success();
     }
 
+    public Result ReduceQuantity(int quantity)
+    {
+        if (quantity <= 0)
+            return Result.Failure(DriveError.InvalidQuantity());
+
+        if (QuantityInStock < quantity)
+            return Result.Failure(DriveError.InsufficientQuantity(QuantityInStock, quantity));
+
+        QuantityInStock -= quantity;
+        UpdatedAt = DateTime.UtcNow;
+
+        return Result.Success();
+    }
+
     public void Delete()
     {
         RaiseDomainEvent(new DriveDeletedDomainEvent(

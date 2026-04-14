@@ -181,6 +181,11 @@ namespace PuzKit3D.Modules.SupportTicket.Persistence.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("customer_id");
 
+                    b.Property<decimal>("GrandTotalAmount")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("numeric(18,2)")
+                        .HasColumnName("grand_total_amount");
+
                     b.Property<string>("Status")
                         .IsRequired()
                         .HasMaxLength(30)

@@ -80,6 +80,10 @@ public static class DependencyInjection
             SupportTicketDeletedIntegrationEventHandler>();
         services.AddScoped<IIntegrationEventHandler<SupportTicketStatusChangedIntegrationEvent>,
             SupportTicketStatusChangedIntegrationEventHandler>();
+        services.AddScoped<IIntegrationEventHandler<SupportTicketExchangeProcessingIntegrationEvent>,
+            SupportTicketExchangeProcessingIntegrationEventHandler>();
+        services.AddScoped<IIntegrationEventHandler<SupportTicketReplaceDriveProcessingIntegrationEvent>,
+            SupportTicketReplaceDriveProcessingIntegrationEventHandler>();
 
         // Register Integration Event Handlers - Catalog Drive Events
         services.AddScoped<IIntegrationEventHandler<DriveCreatedIntegrationEvent>,

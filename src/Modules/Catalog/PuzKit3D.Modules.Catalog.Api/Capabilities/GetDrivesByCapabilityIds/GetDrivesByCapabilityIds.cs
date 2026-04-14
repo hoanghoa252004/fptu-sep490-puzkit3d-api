@@ -15,12 +15,12 @@ internal sealed class GetDrivesByCapabilityIds : IEndpoint
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
         app.MapCapabilitiesGroup()
-            .MapPost("/drives", async (
-                [FromBody] GetDrivesByCapabilityIdsRequestDto request,
+            .MapGet("/drives", async (
+                [FromQuery] Guid[] CapabilityIds,
                 ISender sender,
                 CancellationToken cancellationToken) =>
             {
-                var query = new GetDrivesByCapabilityIdsQuery(request.CapabilityIds);
+                var query = new GetDrivesByCapabilityIdsQuery(CapabilityIds.ToList());
                 var result = await sender.Send(query, cancellationToken);
 
                 return result.MatchOk();
@@ -33,6 +33,3 @@ internal sealed class GetDrivesByCapabilityIds : IEndpoint
             .ProducesProblem(StatusCodes.Status500InternalServerError);
     }
 }
-
-internal sealed record GetDrivesByCapabilityIdsRequestDto(
-    List<Guid> CapabilityIds);

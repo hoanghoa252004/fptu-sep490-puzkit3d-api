@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using PuzKit3D.Contract.Wallet;
 using PuzKit3D.Modules.InStock.Domain.Entities.InstockOrders;
 using PuzKit3D.Modules.Wallet.Application.Repositories;
@@ -36,22 +37,30 @@ public sealed class OrderReturnRefundCoinIntegrationEventHandler : IIntegrationE
         var onlineOrderReturnPercentage = walletConfig?.OnlineOrderReturnPercentage ?? 80m;
 
         // Find user's wallet by userId
-        var walletResult = await _walletRepository.GetByUserIdAsync(@event.UserId, cancellationToken);
+        //var walletResult = await _walletRepository.GetByUserIdAsync(@event.UserId, cancellationToken);
 
-        Domain.Entities.Wallets.Wallet walletEntity;
-        if (walletResult.IsFailure || walletResult.Value == null)
-        {
-            // Create wallet if it doesn't exist
-            var createWalletResult = Domain.Entities.Wallets.Wallet.Create(@event.OrderId);
-            if (createWalletResult.IsFailure)
-                return;
+        //Domain.Entities.Wallets.Wallet walletEntity;
+        //if (walletResult.IsFailure || walletResult.Value == null)
+        //{
+        //    // Create wallet if it doesn't exist
+        //    var createWalletResult = Domain.Entities.Wallets.Wallet.Create(@event.OrderId);
+        //    if (createWalletResult.IsFailure)
+        //        return;
 
-            walletEntity = createWalletResult.Value;
-            await _walletRepository.AddAsync(walletEntity, cancellationToken);
-        }
-        else
+        //    walletEntity = createWalletResult.Value;
+        //    await _walletRepository.AddAsync(walletEntity, cancellationToken);
+        //}
+        //else
+        //{
+        //    walletEntity = walletResult.Value;
+        //}
+        // Get wallet for this user
+        var wallet = (await _walletRepository.GetByUserIdAsync(@event.UserId)).Value;
+
+        if (wallet is null)
         {
-            walletEntity = walletResult.Value;
+            // Wallet doesn't exist, skip (shouldn't happen)
+            return;
         }
 
         // Refund based on payment method and config
@@ -71,13 +80,13 @@ public sealed class OrderReturnRefundCoinIntegrationEventHandler : IIntegrationE
             return;
 
         // Add coins to wallet (refund)
-        var refundResult = walletEntity.RefundCoin(refundAmount);
+        var refundResult = wallet.RefundCoin(refundAmount);
         if (refundResult.IsFailure)
             return;
 
         // Create transaction record
         var transactionResult = WalletTransaction.Create(
-            walletEntity.UserId,
+            wallet.UserId,
             refundAmount,
             WalletTransactionType.Refund,
             @event.OrderId);

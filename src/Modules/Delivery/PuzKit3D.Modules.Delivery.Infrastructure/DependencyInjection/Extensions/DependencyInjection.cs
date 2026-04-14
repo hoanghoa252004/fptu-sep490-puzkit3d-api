@@ -6,6 +6,7 @@ using PuzKit3D.Contract.InStock.InstockOrders;
 using PuzKit3D.Contract.Partner.PartnerProductOrders;
 using PuzKit3D.Contract.SupportTicket.SupportTickets;
 using PuzKit3D.Contract.User;
+using PuzKit3D.Modules.Delivery.Application;
 using PuzKit3D.Modules.Delivery.Application.Services;
 using PuzKit3D.Modules.Delivery.Infrastructure.DependencyInjection.Options;
 using PuzKit3D.Modules.Delivery.Infrastructure.IntegrationEventHandlers.Drives;
@@ -25,6 +26,8 @@ public static class DependencyInjection
     {
         // Cấu hình DeliverySettings từ appsettings
         services.Configure<DeliverySettings>(configuration.GetSection(DeliverySettings.ConfigurationSection));
+
+        services.Configure<DeliveryApplicationSettings>(configuration.GetSection(DeliveryApplicationSettings.ConfigurationSection));
 
         // Đăng ký HttpClient cho GHN service
         services.AddHttpClient<IDeliveryService, GhnDeliveryService>();

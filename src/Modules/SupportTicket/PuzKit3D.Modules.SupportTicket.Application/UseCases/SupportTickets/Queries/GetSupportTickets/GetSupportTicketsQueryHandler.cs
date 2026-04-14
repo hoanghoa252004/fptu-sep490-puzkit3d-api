@@ -81,7 +81,7 @@ internal sealed class GetSupportTicketsQueryHandler
                     d.DriveId,
                     d.Quantity,
                     d.Note))
-                .ToList())).ToList();
+                .ToList())).OrderByDescending(x => x.CreatedAt).ToList();
 
         var pagedResult = new PagedResult<SupportTicketDto>(
             dtos,

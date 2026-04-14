@@ -11,4 +11,13 @@ public static class DriveError
     internal static Error InvalidName() => Error.Validation(
         "Drive.InvalidName", 
         "Drive name cannot be empty or whitespace");
+
+    internal static Error InvalidQuantity() => Error.Validation(
+        "Drive.InvalidQuantity",
+        "Quantity must be greater than 0");
+
+    internal static Error InsufficientQuantity(int available, int requested) => Error.Validation(
+        "Drive.InsufficientQuantity",
+        $"Insufficient quantity. Available: {available}, Requested: {requested}");
 }
+

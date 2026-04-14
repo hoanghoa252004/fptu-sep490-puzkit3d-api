@@ -36,13 +36,13 @@ internal sealed class CreateSupportTicket : IEndpoint
                     return Results.BadRequest(new { error = $"Invalid type '{request.Type}'. Valid values are: {string.Join(", ", Enum.GetNames(typeof(SupportTicketType)))}" });
                 }
 
-                // Validate that at least one detail is provided
-                if (request.Details == null || request.Details.Count == 0)
+                // Validate that at least one detail is provided (except for Return type)
+                if (typeEnum != SupportTicketType.Return && (request.Details == null || request.Details.Count == 0))
                 {
                     return Results.BadRequest(new { error = "At least one support ticket detail is required" });
                 }
 
-                var details = request.Details
+                var details = (request.Details ?? new List<CreateSupportTicketDetailRequestDto>())
                     .Select(d => new CreateSupportTicketDetailDto(d.OrderDetailId, d.DriveId, d.Quantity, d.Note))
                     .ToList();
 

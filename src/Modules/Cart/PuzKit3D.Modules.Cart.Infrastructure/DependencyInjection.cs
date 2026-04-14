@@ -9,6 +9,7 @@ using PuzKit3D.Contract.InStock.InstockProductVariants;
 using PuzKit3D.Contract.Partner.PartnerProductRequests;
 using PuzKit3D.Contract.Partner.PartnerProducts;
 using PuzKit3D.Contract.Partner.Partners;
+using PuzKit3D.Contract.SupportTicket.SupportTickets;
 using PuzKit3D.Modules.Cart.Infrastructure.IntegrationEventHandlers.InstockInventories;
 using PuzKit3D.Modules.Cart.Infrastructure.IntegrationEventHandlers.InstockOrders;
 using PuzKit3D.Modules.Cart.Infrastructure.IntegrationEventHandlers.InstockPrices;
@@ -18,6 +19,7 @@ using PuzKit3D.Modules.Cart.Infrastructure.IntegrationEventHandlers.InstockProdu
 using PuzKit3D.Modules.Cart.Infrastructure.IntegrationEventHandlers.Partner.PartnerProductRequests;
 using PuzKit3D.Modules.Cart.Infrastructure.IntegrationEventHandlers.Partner.PartnerProducts;
 using PuzKit3D.Modules.Cart.Infrastructure.IntegrationEventHandlers.Partner.Partners;
+using PuzKit3D.Modules.Cart.Infrastructure.IntegrationEventHandlers.SupportTickets;
 using PuzKit3D.SharedKernel.Application.Event;
 
 namespace PuzKit3D.Modules.Cart.Infrastructure;
@@ -61,6 +63,10 @@ public static class DependencyInjection
             InstockProductPriceDetailDeletedIntegrationEventHandler>();
         services.AddScoped<IIntegrationEventHandler<InstockOrderCreatedIntegrationEvent>,
             InstockOrderCreatedIntegrationEventHandler>();
+
+        // Register Integration Event Handlers for Support Ticket events
+        services.AddScoped<IIntegrationEventHandler<SupportTicketExchangeProcessingIntegrationEvent>,
+            SupportTicketExchangeProcessingIntegrationEventHandler>();
 
         // Register Integration Event Handlers for Partner events
         services.AddScoped<IIntegrationEventHandler<PartnerProductCreatedIntegrationEvent>,

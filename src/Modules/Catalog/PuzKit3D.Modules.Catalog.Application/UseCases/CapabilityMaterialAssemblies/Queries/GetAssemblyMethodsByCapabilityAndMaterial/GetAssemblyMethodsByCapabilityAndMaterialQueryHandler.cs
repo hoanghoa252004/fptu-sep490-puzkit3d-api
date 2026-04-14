@@ -24,10 +24,19 @@ internal sealed class GetAssemblyMethodsByCapabilityAndMaterialQueryHandler
         GetAssemblyMethodsByCapabilityAndMaterialQuery request,
         CancellationToken cancellationToken)
     {
-        // Get all active CapabilityMaterialAssemblies for this capability and material
+        if (!request.CapabilityIds.Any())
+            return Result.Success(new List<GetAssemblyMethodBasicResponseDto>());
+
+        // Get all active CapabilityMaterialAssemblies for each capability and material combination
+        var capabilityIds = request.CapabilityIds
+            .Select(id => CapabilityId.From(id))
+            .ToList();
+
+        var materialId = MaterialId.From(request.MaterialId);
+
         var capabilityMaterialAssemblies = await _capabilityMaterialAssemblyRepository.FindAsync(
-            cma => cma.CapabilityId == CapabilityId.From(request.CapabilityId)
-                && cma.MaterialId == MaterialId.From(request.MaterialId)
+            cma => capabilityIds.Contains(cma.CapabilityId)
+                && cma.MaterialId == materialId
                 && cma.IsActive,
             cancellationToken);
 
@@ -45,12 +54,13 @@ internal sealed class GetAssemblyMethodsByCapabilityAndMaterialQueryHandler
             am => assemblyMethodIds.Contains(am.Id) && am.IsActive,
             cancellationToken);
 
-        // Map to DTOs
+        // Map to DTOs and distinct by name
         var assemblyMethodDtos = assemblyMethods
             .Select(am => new GetAssemblyMethodBasicResponseDto(
                 am.Id.Value,
                 am.Name,
                 am.Slug))
+            .DistinctBy(dto => dto.Name)
             .ToList();
 
         return Result.Success(assemblyMethodDtos);

@@ -139,6 +139,8 @@ public sealed class SupportTicket : AggregateRoot<SupportTicketId>
         var @event = new SupportTicketStatusChangedDomainEvent(
             Id.Value,
             Status.ToString(),
+            Type.ToString(),
+            OrderId,
             UpdatedAt);
 
         RaiseDomainEvent(@event);

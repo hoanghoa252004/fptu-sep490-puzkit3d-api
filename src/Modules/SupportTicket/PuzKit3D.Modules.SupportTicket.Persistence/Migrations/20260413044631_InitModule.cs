@@ -60,6 +60,7 @@ namespace PuzKit3D.Modules.SupportTicket.Persistence.Migrations
                     type = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
                     code = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
                     customer_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    grand_total_amount = table.Column<decimal>(type: "numeric(18,2)", precision: 18, scale: 2, nullable: false),
                     created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     status = table.Column<string>(type: "character varying(30)", maxLength: 30, nullable: false)

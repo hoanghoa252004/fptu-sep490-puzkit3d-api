@@ -8,6 +8,7 @@ using PuzKit3D.SharedKernel.Domain.Results;
 using SupportTicketEntity = PuzKit3D.Modules.SupportTicket.Domain.Entities.SupportTickets.SupportTicket;
 using PuzKit3D.Modules.SupportTicket.Domain.Entities.OrderReplicas;
 using PuzKit3D.Modules.SupportTicket.Application.Services;
+using System.Linq;
 
 namespace PuzKit3D.Modules.SupportTicket.Application.UseCases.SupportTickets.Commands.CreateSupportTicket;
 
@@ -62,11 +63,27 @@ internal sealed class CreateSupportTicketCommandHandler
                 SupportTicketError.OrderAlreadyHasSupportTicket(request.OrderId));
         }
 
-        // Validation: requires at least 1 detail
-        if (request.Details.Count == 0)
+        // Validation: requires at least 1 detail (except for Return type)
+        if (request.Type != SupportTicketType.Return && request.Details.Count == 0)
             return Result.Failure<Guid>(SupportTicketError.DetailsRequiredForReplacePart());
 
-        foreach(var item in request.Details)
+        // For Return type, if no details provided, populate from order items
+        var detailsToProcess = request.Details;
+        if (request.Type == SupportTicketType.Return && request.Details.Count == 0)
+        {
+            var orderDetails = await _orderDetailReplicaRepository.GetByOrderIdAsync(request.OrderId, cancellationToken);
+            
+            if (orderDetails == null || !orderDetails.Any())
+            {
+                return Result.Failure<Guid>(SupportTicketError.DetailsRequiredForReplacePart());
+            }
+
+            detailsToProcess = orderDetails
+                .Select(od => new CreateSupportTicketDetailDto(od.Id, null, od.Quantity, null))
+                .ToList();
+        }
+
+        foreach(var item in detailsToProcess)
         {
             // Check if order detail exists
             var orderDetail = await _orderDetailReplicaRepository.GetByIdAsync(item.OrderDetailId, cancellationToken);
@@ -122,7 +139,7 @@ internal sealed class CreateSupportTicketCommandHandler
             var ticket = result.Value;
 
             // Add details to the ticket
-            foreach (var detail in request.Details)
+            foreach (var detail in detailsToProcess)
             {
                 var detailResult = SupportTicketDetail.Create(
                     ticket.Id,

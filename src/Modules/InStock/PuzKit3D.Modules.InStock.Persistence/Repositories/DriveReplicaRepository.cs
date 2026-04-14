@@ -13,6 +13,12 @@ internal sealed class DriveReplicaRepository : IDriveReplicaRepository
         _context = context;
     }
 
+    public async Task<DriveReplica?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
+    {
+        return await _context.DriveReplicas
+            .FirstOrDefaultAsync(d => d.Id == id, cancellationToken);
+    }
+
     public async Task<IEnumerable<DriveReplica>> GetByIdsAsync(List<Guid> ids, CancellationToken cancellationToken = default)
     {
         return await _context.DriveReplicas
@@ -27,3 +33,4 @@ internal sealed class DriveReplicaRepository : IDriveReplicaRepository
             .AnyAsync(m => m.Id == id, cancellationToken);
     }
 }
+

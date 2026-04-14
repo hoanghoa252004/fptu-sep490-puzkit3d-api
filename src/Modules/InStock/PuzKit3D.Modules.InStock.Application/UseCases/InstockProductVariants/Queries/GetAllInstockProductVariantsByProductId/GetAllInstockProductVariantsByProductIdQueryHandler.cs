@@ -63,7 +63,7 @@ internal sealed class GetAllInstockProductVariantsByProductIdQueryHandler
             _mediaAssetService.BuildAssetUrls(v.PreviewImages),
             v.IsActive,
             v.CreatedAt,
-            v.UpdatedAt));
+            v.UpdatedAt)).OrderByDescending(x => x.CreatedAt);
 
         var response = new GetAllInstockProductVariantsByProductIdResponseDto(variantDtos);
 

@@ -54,6 +54,8 @@ internal sealed class GetAllInstockProductsQueryHandler
             query = query.Where(p => p.IsActive);
         }
 
+        query = query.OrderByDescending(o => o.CreatedAt);
+
         // Apply search filter
         if (!string.IsNullOrWhiteSpace(request.SearchTerm))
         {
