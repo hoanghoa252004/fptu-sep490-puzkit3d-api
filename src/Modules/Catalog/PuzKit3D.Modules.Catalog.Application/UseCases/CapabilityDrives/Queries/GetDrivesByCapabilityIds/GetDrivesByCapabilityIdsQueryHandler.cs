@@ -54,7 +54,9 @@ internal sealed class GetDrivesByCapabilityIdsQueryHandler
         var driveDtos = drives
             .Select(d => new GetDrivesByCapabilityIdsResponseDtos(
                 d.Id.Value,
-                d.Name))
+                d.Name,
+                d.QuantityInStock,
+                d.MinVolume!.Value))
             .Distinct()
             .ToList();
 

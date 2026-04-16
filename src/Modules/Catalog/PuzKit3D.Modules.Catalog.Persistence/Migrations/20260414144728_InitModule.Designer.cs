@@ -12,7 +12,7 @@ using PuzKit3D.Modules.Catalog.Persistence;
 namespace PuzKit3D.Modules.Catalog.Persistence.Migrations
 {
     [DbContext(typeof(CatalogDbContext))]
-    [Migration("20260412151112_InitModule")]
+    [Migration("20260414144728_InitModule")]
     partial class InitModule
     {
         /// <inheritdoc />
@@ -566,7 +566,7 @@ namespace PuzKit3D.Modules.Catalog.Persistence.Migrations
                             Id = new Guid("f9f9f9f9-f9f9-f9f9-f9f9-f9f9f9f9f9f9"),
                             Code = "DIFFICULTY_CALCULATION",
                             Description = "Calculate difficulty level based on piece count and product characteristics",
-                            Expression = "piece_count * material_factor * capability_factor",
+                            Expression = "( PieceCount * 0.4 ) + ( MaterialFactor * 5 ) + ( AssemblyMethodFactor * 4 ) + ( SUM(CapabilityFactors) * 3 )",
                             IsNeedValidation = true,
                             UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
                         },
@@ -575,7 +575,7 @@ namespace PuzKit3D.Modules.Catalog.Persistence.Migrations
                             Id = new Guid("f8f8f8f8-f8f8-f8f8-f8f8-f8f8f8f8f8f8"),
                             Code = "BUILD_TIME_CALCULATION",
                             Description = "Calculate estimated build time based on difficulty and size",
-                            Expression = "base_time * difficulty_multiplier * size_factor",
+                            Expression = "PieceCount * MaterialFactor * SUM(AssemblyMethodFactors) * ( 1 + SUM(CapabilityFactors) )",
                             IsNeedValidation = false,
                             UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
                         },
@@ -584,7 +584,7 @@ namespace PuzKit3D.Modules.Catalog.Persistence.Migrations
                             Id = new Guid("f7f7f7f7-f7f7-f7f7-f7f7-f7f7f7f7f7f7"),
                             Code = "MATERIAL_PRICE_CALCULATION",
                             Description = "Calculate material cost for production",
-                            Expression = "material_cost_per_unit * total_pieces * waste_factor",
+                            Expression = "MaterialFactor * PieceCount",
                             IsNeedValidation = false,
                             UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
                         },
@@ -593,7 +593,7 @@ namespace PuzKit3D.Modules.Catalog.Persistence.Migrations
                             Id = new Guid("f6f6f6f6-f6f6-f6f6-f6f6-f6f6f6f6f6f6"),
                             Code = "MANUAL_PRICE_CALCULATION",
                             Description = "Calculate manual pricing with dynamic factors",
-                            Expression = "base_price * demand_factor * season_factor",
+                            Expression = "SUM(AssemblyMethodFactors) * ( 1 + SUM(CapabilityFactors) )",
                             IsNeedValidation = false,
                             UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
                         });

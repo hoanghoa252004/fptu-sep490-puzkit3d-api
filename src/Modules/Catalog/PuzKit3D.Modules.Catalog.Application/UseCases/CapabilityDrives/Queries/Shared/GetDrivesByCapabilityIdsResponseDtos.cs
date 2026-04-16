@@ -2,5 +2,7 @@
 
 public sealed record GetDrivesByCapabilityIdsResponseDtos(
     Guid Id,
-    string Name
+    string Name,
+    int Quantity,
+    int MinVolume
 );

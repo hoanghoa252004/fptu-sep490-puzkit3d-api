@@ -300,16 +300,16 @@ namespace PuzKit3D.Modules.Catalog.Persistence.Migrations
                 columns: new[] { "id", "code", "description", "expression", "updated_at" },
                 values: new object[,]
                 {
-                    { new Guid("f6f6f6f6-f6f6-f6f6-f6f6-f6f6f6f6f6f6"), "MANUAL_PRICE_CALCULATION", "Calculate manual pricing with dynamic factors", "base_price * demand_factor * season_factor", new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc) },
-                    { new Guid("f7f7f7f7-f7f7-f7f7-f7f7-f7f7f7f7f7f7"), "MATERIAL_PRICE_CALCULATION", "Calculate material cost for production", "material_cost_per_unit * total_pieces * waste_factor", new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc) },
-                    { new Guid("f8f8f8f8-f8f8-f8f8-f8f8-f8f8f8f8f8f8"), "BUILD_TIME_CALCULATION", "Calculate estimated build time based on difficulty and size", "base_time * difficulty_multiplier * size_factor", new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc) }
+                    { new Guid("f6f6f6f6-f6f6-f6f6-f6f6-f6f6f6f6f6f6"), "MANUAL_PRICE_CALCULATION", "Calculate manual pricing with dynamic factors", "SUM(AssemblyMethodFactors) * ( 1 + SUM(CapabilityFactors) )", new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc) },
+                    { new Guid("f7f7f7f7-f7f7-f7f7-f7f7-f7f7f7f7f7f7"), "MATERIAL_PRICE_CALCULATION", "Calculate material cost for production", "MaterialFactor * PieceCount", new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc) },
+                    { new Guid("f8f8f8f8-f8f8-f8f8-f8f8-f8f8f8f8f8f8"), "BUILD_TIME_CALCULATION", "Calculate estimated build time based on difficulty and size", "PieceCount * MaterialFactor * SUM(AssemblyMethodFactors) * ( 1 + SUM(CapabilityFactors) )", new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc) }
                 });
 
             migrationBuilder.InsertData(
                 schema: "catalog",
                 table: "formulas",
                 columns: new[] { "id", "code", "description", "expression", "is_need_validation", "updated_at" },
-                values: new object[] { new Guid("f9f9f9f9-f9f9-f9f9-f9f9-f9f9f9f9f9f9"), "DIFFICULTY_CALCULATION", "Calculate difficulty level based on piece count and product characteristics", "piece_count * material_factor * capability_factor", true, new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc) });
+                values: new object[] { new Guid("f9f9f9f9-f9f9-f9f9-f9f9-f9f9f9f9f9f9"), "DIFFICULTY_CALCULATION", "Calculate difficulty level based on piece count and product characteristics", "( PieceCount * 0.4 ) + ( MaterialFactor * 5 ) + ( AssemblyMethodFactor * 4 ) + ( SUM(CapabilityFactors) * 3 )", true, new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc) });
 
             migrationBuilder.InsertData(
                 schema: "catalog",

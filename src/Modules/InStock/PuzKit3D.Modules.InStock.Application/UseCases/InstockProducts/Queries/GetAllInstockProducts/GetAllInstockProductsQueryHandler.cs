@@ -215,7 +215,7 @@ internal sealed class GetAllInstockProductsQueryHandler
         }
 
         var totalCount = query.Count();
-        query = query.OrderBy(p => p.Code);
+        query = query.OrderByDescending(p => p.CreatedAt);
 
         IReadOnlyList<object> items;
         

@@ -135,44 +135,45 @@ internal sealed class FormulaCalculateQueryHandler
         {
             if (name == "SUM")
             {
-                var list = args.Parameters[0].Evaluate() as List<decimal>;
-                args.Result = list?.Sum() ?? 0m;
+                var list = args.Parameters[0].Evaluate() as List<double>;
+                args.Result = list?.Sum() ?? 0.0;
             }
 
             if (name == "PRODUCT")
             {
-                var list = args.Parameters[0].Evaluate() as List<decimal>;
+                var list = args.Parameters[0].Evaluate() as List<double>;
                 args.Result = list == null || !list.Any()
-                    ? 0m
-                    : list.Aggregate(1m, (a, b) => a * b);
+                    ? 0.0
+                    : list.Aggregate(1.0, (a, b) => a * b);
             }
 
             if (name == "AVG")
             {
-                var list = args.Parameters[0].Evaluate() as List<decimal>;
+                var list = args.Parameters[0].Evaluate() as List<double>;
                 args.Result = list == null || !list.Any()
-                    ? 0m
-                    : (decimal)list.Average(x => (double)x);
+                    ? 0.0
+                    : list.Average();
             }
         };
 
         // Step 5: Define All Formula Parameters - Must match FormulaVariable enum
         // Define both single factors and list factors (formula can use either)
+        // Note: NCalc works with doubles internally, so we convert decimals to doubles
         
-        // Single factors (default: 0m)
-        expression.Parameters["CapabilityFactor"] = capabilityFactor;
-        expression.Parameters["MaterialFactor"] = materialFactor;
-        expression.Parameters["TopicFactor"] = topicFactor;
-        expression.Parameters["AssemblyMethodFactor"] = assemblyMethodFactor;
+        // Single factors (default: 0.0)
+        expression.Parameters["CapabilityFactor"] = (double)capabilityFactor;
+        expression.Parameters["MaterialFactor"] = (double)materialFactor;
+        expression.Parameters["TopicFactor"] = (double)topicFactor;
+        expression.Parameters["AssemblyMethodFactor"] = (double)assemblyMethodFactor;
         
         // List factors (default: empty list)
-        expression.Parameters["CapabilityFactors"] = capabilityFactors ?? new List<decimal>();
-        expression.Parameters["MaterialFactors"] = materialFactors ?? new List<decimal>();
-        expression.Parameters["TopicFactors"] = topicFactors ?? new List<decimal>();
-        expression.Parameters["AssemblyMethodFactors"] = assemblyMethodFactors ?? new List<decimal>();
+        expression.Parameters["CapabilityFactors"] = (capabilityFactors ?? new List<decimal>()).Select(x => (double)x).ToList();
+        expression.Parameters["MaterialFactors"] = (materialFactors ?? new List<decimal>()).Select(x => (double)x).ToList();
+        expression.Parameters["TopicFactors"] = (topicFactors ?? new List<decimal>()).Select(x => (double)x).ToList();
+        expression.Parameters["AssemblyMethodFactors"] = (assemblyMethodFactors ?? new List<decimal>()).Select(x => (double)x).ToList();
         
         // Scalar parameters
-        expression.Parameters["PieceCount"] = request.Request.PieceCount ?? 0m;
+        expression.Parameters["PieceCount"] = (double)(request.Request.PieceCount ?? 0m);
 
         // Verify all possible formula variables are defined
         var expectedVariables = new[] 
@@ -250,7 +251,8 @@ internal sealed class FormulaCalculateQueryHandler
         }
 
         // Step 8: Return Result
-        return Result.Success(new FormulaCalculateResponse(rawResult, validationOutput));
+        var roundedResult = Math.Round(rawResult);
+        return Result.Success(new FormulaCalculateResponse(roundedResult, validationOutput));
     }
 }
 

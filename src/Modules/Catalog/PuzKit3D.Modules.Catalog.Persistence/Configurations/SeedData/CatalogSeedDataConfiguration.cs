@@ -790,7 +790,7 @@ internal static class CatalogSeedDataConfiguration
             {
                 Id = difficultyFormulaId,
                 Code = FormulaCode.DIFFICULTY_CALCULATION,
-                Expression = "piece_count * material_factor * capability_factor",
+                Expression = "( PieceCount * 0.4 ) + ( MaterialFactor * 5 ) + ( AssemblyMethodFactor * 4 ) + ( SUM(CapabilityFactors) * 3 )",
                 IsNeedValidation = true,
                 Description = "Calculate difficulty level based on piece count and product characteristics",
                 UpdatedAt = SeedDate
@@ -799,7 +799,7 @@ internal static class CatalogSeedDataConfiguration
             {
                 Id = buildTimeFormulaId,
                 Code = FormulaCode.BUILD_TIME_CALCULATION,
-                Expression = "base_time * difficulty_multiplier * size_factor",
+                Expression = "PieceCount * MaterialFactor * SUM(AssemblyMethodFactors) * ( 1 + SUM(CapabilityFactors) )",
                 IsNeedValidation = false,
                 Description = "Calculate estimated build time based on difficulty and size",
                 UpdatedAt = SeedDate
@@ -808,7 +808,7 @@ internal static class CatalogSeedDataConfiguration
             {
                 Id = materialPriceFormulaId,
                 Code = FormulaCode.MATERIAL_PRICE_CALCULATION,
-                Expression = "material_cost_per_unit * total_pieces * waste_factor",
+                Expression = "MaterialFactor * PieceCount",
                 IsNeedValidation = false,
                 Description = "Calculate material cost for production",
                 UpdatedAt = SeedDate
@@ -817,7 +817,7 @@ internal static class CatalogSeedDataConfiguration
             {
                 Id = manualPriceFormulaId,
                 Code = FormulaCode.MANUAL_PRICE_CALCULATION,
-                Expression = "base_price * demand_factor * season_factor",
+                Expression = "SUM(AssemblyMethodFactors) * ( 1 + SUM(CapabilityFactors) )",
                 IsNeedValidation = false,
                 Description = "Calculate manual pricing with dynamic factors",
                 UpdatedAt = SeedDate

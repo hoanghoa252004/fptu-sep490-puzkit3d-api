@@ -1,6 +1,7 @@
 using MediatR;
 using PuzKit3D.Modules.Payment.Application.Repositories;
 using PuzKit3D.Modules.Payment.Application.UnitOfWork;
+using PuzKit3D.Modules.Payment.Domain.Entities.PaymentConfigs;
 using PuzKit3D.SharedKernel.Domain.Results;
 using PuzKit3D.Modules.Payment.Domain.Entities.Payments;
 using PuzKit3D.SharedKernel.Application.Message.Command;
@@ -32,28 +33,81 @@ internal sealed class UpdatePaymentConfigCommandHandler : ICommandHandler<Update
                 PaymentError.PaymentConfigNotFound());
         }
 
+        // Parse string units to TimeUnit enum
+        TimeUnit? parsedPaymentUnit = null;
+        TimeUnit? parsedTransactionUnit = null;
+
+        if (!string.IsNullOrWhiteSpace(request.OnlinePaymentExpiredUnit))
+        {
+            if (!Enum.TryParse<TimeUnit>(request.OnlinePaymentExpiredUnit, ignoreCase: true, out var unit))
+            {
+                return Result.Failure(
+                    SharedKernel.Domain.Errors.Error.Validation(
+                        "PaymentConfig.InvalidOnlinePaymentExpiredUnit",
+                        $"Invalid time unit '{request.OnlinePaymentExpiredUnit}'. Valid units are: Minute, Hour, Day"));
+            }
+            parsedPaymentUnit = unit;
+        }
+
+        if (!string.IsNullOrWhiteSpace(request.OnlineTransactionExpiredUnit))
+        {
+            if (!Enum.TryParse<TimeUnit>(request.OnlineTransactionExpiredUnit, ignoreCase: true, out var unit))
+            {
+                return Result.Failure(
+                    SharedKernel.Domain.Errors.Error.Validation(
+                        "PaymentConfig.InvalidOnlineTransactionExpiredUnit",
+                        $"Invalid time unit '{request.OnlineTransactionExpiredUnit}'. Valid units are: Minute, Hour, Day"));
+            }
+            parsedTransactionUnit = unit;
+        }
+
         // Update only the fields that are provided
-        var updatedDays = request.OnlinePaymentExpiredInDays ?? paymentConfig.OnlinePaymentExpiredInDays;
-        var updatedMinutes = request.OnlineTransactionExpiredInMinutes ?? paymentConfig.OnlineTransactionExpiredInMinutes;
+        var updatedPaymentValue = request.OnlinePaymentExpiredValue ?? paymentConfig.OnlinePaymentExpiredValue;
+        var updatedPaymentUnit = parsedPaymentUnit ?? paymentConfig.OnlinePaymentExpiredUnit;
+        var updatedTransactionValue = request.OnlineTransactionExpiredValue ?? paymentConfig.OnlineTransactionExpiredValue;
+        var updatedTransactionUnit = parsedTransactionUnit ?? paymentConfig.OnlineTransactionExpiredUnit;
 
-        // Validate updatedDays must be at least 1
-        if (updatedDays < 1 || updatedDays > 10)
+        // Validate online payment expiration value
+        if (updatedPaymentValue <= 0 || updatedTransactionValue <= 0)
         {
             return Result.Failure(
-                PaymentError.InvalidOnlinePaymentExpiredInDays());
+                SharedKernel.Domain.Errors.Error.Validation(
+                    "PaymentConfig.InvalidValue",
+                    "Both online payment and transaction expiration values must be greater than 0"));
         }
+        // Validate transaction expiration must be less than payment expiration
+        var paymentExpirationInMinutes = ConvertToMinutes(updatedPaymentValue, updatedPaymentUnit);
+        var transactionExpirationInMinutes = ConvertToMinutes(updatedTransactionValue, updatedTransactionUnit);
 
-        // Validate updatedMinutes must be at least 5
-        if (updatedMinutes < 5 || updatedMinutes > 60)
+        if (transactionExpirationInMinutes >= paymentExpirationInMinutes)
         {
             return Result.Failure(
-                PaymentError.InvalidOnlineTransactionExpiredInMinutes());
+                SharedKernel.Domain.Errors.Error.Validation(
+                    "PaymentConfig.InvalidExpirationOrder",
+                    $"Transaction expiration ({updatedTransactionValue} {updatedTransactionUnit}) must be less than payment expiration ({updatedPaymentValue} {updatedPaymentUnit})"));
         }
 
-        paymentConfig.Update(updatedDays, updatedMinutes);
+        paymentConfig.Update(
+            updatedPaymentValue,
+            updatedPaymentUnit,
+            updatedTransactionValue,
+            updatedTransactionUnit);
 
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
         return Result.Success();
     }
+
+    private static int ConvertToMinutes(int value, TimeUnit unit)
+    {
+        return unit switch
+        {
+            TimeUnit.Minute => value,
+            TimeUnit.Hour => value * 60,
+            TimeUnit.Day => value * 24 * 60,
+            _ => value
+        };
+    }
 }
+
+

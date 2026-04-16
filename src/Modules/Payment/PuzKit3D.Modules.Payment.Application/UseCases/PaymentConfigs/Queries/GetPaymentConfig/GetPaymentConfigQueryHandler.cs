@@ -29,8 +29,10 @@ internal sealed class GetPaymentConfigQueryHandler : IQueryHandler<GetPaymentCon
 
         var response = new GetPaymentConfigResponse(
             paymentConfig.Id,
-            paymentConfig.OnlinePaymentExpiredInDays,
-            paymentConfig.OnlineTransactionExpiredInMinutes,
+            paymentConfig.OnlinePaymentExpiredValue,
+            paymentConfig.OnlinePaymentExpiredUnit.ToString(),
+            paymentConfig.OnlineTransactionExpiredValue,
+            paymentConfig.OnlineTransactionExpiredUnit.ToString(),
             paymentConfig.UpdatedAt);
 
         return Result.Success(response);

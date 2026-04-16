@@ -42,8 +42,10 @@ namespace PuzKit3D.Modules.Payment.Persistence.Migrations
                 columns: table => new
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
-                    online_payment_expired_in_days = table.Column<int>(type: "integer", nullable: false),
-                    online_transaction_expired_in_minutes = table.Column<int>(type: "integer", nullable: false),
+                    online_payment_expired_value = table.Column<int>(type: "integer", nullable: false),
+                    online_payment_expired_unit = table.Column<string>(type: "text", nullable: false),
+                    online_transaction_expired_value = table.Column<int>(type: "integer", nullable: false),
+                    online_transaction_expired_unit = table.Column<string>(type: "text", nullable: false),
                     updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
@@ -105,8 +107,8 @@ namespace PuzKit3D.Modules.Payment.Persistence.Migrations
             migrationBuilder.InsertData(
                 schema: "payment",
                 table: "payment_configs",
-                columns: new[] { "id", "online_payment_expired_in_days", "online_transaction_expired_in_minutes", "updated_at" },
-                values: new object[] { new Guid("00000000-0000-0000-0000-000000000001"), 2, 10, new DateTime(2025, 3, 30, 0, 0, 0, 0, DateTimeKind.Utc) });
+                columns: new[] { "id", "online_payment_expired_unit", "online_payment_expired_value", "online_transaction_expired_unit", "online_transaction_expired_value", "updated_at" },
+                values: new object[] { new Guid("00000000-0000-0000-0000-000000000001"), "Day", 2, "Minute", 10, new DateTime(2025, 3, 30, 0, 0, 0, 0, DateTimeKind.Utc) });
 
             migrationBuilder.CreateIndex(
                 name: "ix_order_replicas_code",
