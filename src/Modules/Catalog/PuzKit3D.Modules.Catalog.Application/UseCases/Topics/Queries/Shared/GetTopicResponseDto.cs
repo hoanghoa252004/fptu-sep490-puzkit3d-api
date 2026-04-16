@@ -5,4 +5,5 @@ public sealed record GetTopicResponseDto(
     string Name,
     string Slug,
     Guid? ParentId,
-    string? Description);
+    string? Description,
+    decimal FactorPercentage);

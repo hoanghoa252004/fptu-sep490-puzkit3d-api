@@ -5,4 +5,6 @@ namespace PuzKit3D.Modules.SupportTicket.Domain.Entities.SupportTickets.DomainEv
 public sealed record SupportTicketStatusChangedDomainEvent(
     Guid SupportTicketId,
     string Status,
+    string Type,
+    Guid OrderId,
     DateTime UpdatedAt) : DomainEvent;

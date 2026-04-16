@@ -32,7 +32,6 @@ internal sealed class InstockProductCreatedDomainEventHandler
             notification.PreviewAsset,
             notification.Description,
             notification.TopicId,
-            notification.AssemblyMethodId,
             notification.MaterialId,
             notification.IsActive,
             notification.CreatedAt);

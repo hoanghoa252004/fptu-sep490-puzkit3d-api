@@ -6,6 +6,7 @@ public sealed record AssemblyMethodCreatedDomainEvent(
     Guid AssemblyMethodId,
     string Name,
     string Slug,
+    decimal FactorPercentage,
     string? Description,
     bool IsActive,
     DateTime CreatedAt) : DomainEvent;

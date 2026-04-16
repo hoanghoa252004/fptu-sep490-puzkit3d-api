@@ -36,7 +36,7 @@ internal sealed class SupportTicketCreatedDomainEventHandler
                 .Select(d => new global::PuzKit3D.Contract.SupportTicket.SupportTickets.SupportTicketDetailInfo(
                     d.SupportTicketDetailId,
                     d.OrderItemId,
-                    d.PartId,
+                    d.DriveId,
                     d.Quantity,
                     d.Note))
                 .ToList());

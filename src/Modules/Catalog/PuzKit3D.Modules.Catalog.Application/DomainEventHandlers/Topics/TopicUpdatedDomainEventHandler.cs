@@ -24,6 +24,7 @@ internal sealed class TopicUpdatedDomainEventHandler
             notification.Name,
             notification.Slug,
             notification.ParentId,
+            notification.FactorPercentage,
             notification.Description,
             notification.UpdatedAt,
             notification.IsActive);

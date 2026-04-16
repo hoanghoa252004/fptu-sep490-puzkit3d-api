@@ -24,7 +24,7 @@ internal sealed class InstockProductCapabilityDetailConfiguration : IEntityTypeC
             .HasColumnName("capability_id")
             .IsRequired();
 
-        builder.HasKey(e => new { e.InstockProductId, e.CapabilityId });
+        builder.HasKey(x => new { x.InstockProductId, x.CapabilityId });
 
         builder.HasOne<InstockProduct>()
             .WithMany(p => p.CapabilityDetails)

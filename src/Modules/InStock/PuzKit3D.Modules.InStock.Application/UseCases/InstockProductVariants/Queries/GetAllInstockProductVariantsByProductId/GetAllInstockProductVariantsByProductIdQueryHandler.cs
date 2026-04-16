@@ -1,6 +1,7 @@
 using PuzKit3D.Modules.InStock.Application.Repositories;
 using PuzKit3D.Modules.InStock.Domain.Entities.InstockProducts;
 using PuzKit3D.SharedKernel.Application.Authorization;
+using PuzKit3D.SharedKernel.Application.Media;
 using PuzKit3D.SharedKernel.Application.Message.Query;
 using PuzKit3D.SharedKernel.Application.User;
 using PuzKit3D.SharedKernel.Domain.Results;
@@ -13,15 +14,18 @@ internal sealed class GetAllInstockProductVariantsByProductIdQueryHandler
     private readonly IInstockProductRepository _productRepository;
     private readonly IInstockProductVariantRepository _variantRepository;
     private readonly ICurrentUser _currentUser;
+    private readonly IMediaAssetService _mediaAssetService;
 
     public GetAllInstockProductVariantsByProductIdQueryHandler(
         IInstockProductRepository productRepository,
         IInstockProductVariantRepository variantRepository,
-        ICurrentUser currentUser)
+        ICurrentUser currentUser,
+        IMediaAssetService mediaAssetService)
     {
         _productRepository = productRepository;
         _variantRepository = variantRepository;
         _currentUser = currentUser;
+        _mediaAssetService = mediaAssetService;
     }
 
     public async Task<ResultT<GetAllInstockProductVariantsByProductIdResponseDto>> Handle(
@@ -56,9 +60,10 @@ internal sealed class GetAllInstockProductVariantsByProductIdQueryHandler
             v.AssembledLengthMm,
             v.AssembledWidthMm,
             v.AssembledHeightMm,
+            _mediaAssetService.BuildAssetUrls(v.PreviewImages),
             v.IsActive,
             v.CreatedAt,
-            v.UpdatedAt));
+            v.UpdatedAt)).OrderByDescending(x => x.CreatedAt);
 
         var response = new GetAllInstockProductVariantsByProductIdResponseDto(variantDtos);
 

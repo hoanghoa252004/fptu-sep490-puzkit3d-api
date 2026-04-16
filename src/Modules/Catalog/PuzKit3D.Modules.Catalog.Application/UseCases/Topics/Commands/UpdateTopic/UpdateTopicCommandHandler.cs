@@ -40,7 +40,7 @@ internal sealed class UpdateTopicCommandHandler : ICommandHandler<UpdateTopicCom
         }
 
         var topicsToUpdate = new List<Topic>();
-        if ((request.IsActive != topic.IsActive) && request.IsActive == false)
+        if (request.IsActive == false && topic.IsActive == true)
         {
             // Get all topics
             var allTopics = await _topicRepository.GetAllAsync(cancellationToken);
@@ -74,24 +74,26 @@ internal sealed class UpdateTopicCommandHandler : ICommandHandler<UpdateTopicCom
             var updateResult = topic.Update(
                 request.Name,
                 request.Slug,
+                request.FactorPercentage,
                 request.ParentId.HasValue ? TopicId.From(request.ParentId.Value) : null,
                 request.Description,
                 request.IsActive);
+
+            if (updateResult.IsFailure)
+            {
+                return updateResult;
+            }
 
             foreach (var item in topicsToUpdate.Where(t => t.Id != topic.Id))
             {
                 item.Update(
                     item.Name, 
                     item.Slug, 
+                    item.FactorPercentage,
                     item.ParentId, 
                     item.Description, 
                     false);
                 _topicRepository.Update(item);
-            }
-
-            if (updateResult.IsFailure)
-            {
-                return updateResult;
             }
 
             return Result.Success();

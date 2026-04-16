@@ -26,6 +26,10 @@ internal sealed class AssemblyMethodConfiguration : IEntityTypeConfiguration<Ass
             .IsRequired()
             .HasMaxLength(30);
 
+        builder.Property(a => a.FactorPercentage)
+            .IsRequired()
+            .HasPrecision(5, 4);
+
         builder.Property(a => a.IsActive)
             .IsRequired()
             .HasDefaultValue(false);

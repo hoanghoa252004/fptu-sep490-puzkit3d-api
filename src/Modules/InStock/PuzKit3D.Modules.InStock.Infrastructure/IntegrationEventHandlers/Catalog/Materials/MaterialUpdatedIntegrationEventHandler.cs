@@ -31,8 +31,10 @@ internal sealed class MaterialUpdatedIntegrationEventHandler
         replica.Update(
             @event.Name,
             @event.Slug,
+            @event.FactorPercentage,
+            @event.BasePrice,
             @event.Description,
-            replica.IsActive, // Keep existing IsActive value
+            @event.IsActive,
             @event.UpdatedAt);
 
         _context.MaterialReplicas.Update(replica);

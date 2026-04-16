@@ -1,6 +1,7 @@
 using PuzKit3D.Modules.InStock.Application.Repositories;
 using PuzKit3D.Modules.InStock.Application.UnitOfWork;
 using PuzKit3D.Modules.InStock.Domain.Entities.InstockProducts;
+using PuzKit3D.Modules.InStock.Domain.Entities.InstockProductDrives;
 using PuzKit3D.SharedKernel.Application.Message.Command;
 using PuzKit3D.SharedKernel.Domain.Results;
 
@@ -11,17 +12,29 @@ internal sealed class UpdateInstockProductCommandHandler : ICommandHandler<Updat
     private readonly IInstockProductRepository _productRepository;
     private readonly IInstockProductVariantRepository _variantRepository;
     private readonly IInstockProductPriceDetailRepository _priceDetailRepository;
+    private readonly IInstockProductDriveRepository _productDriveRepository;
+    private readonly ICapabilityReplicaRepository _capabilityReplicaRepository;
+    private readonly IAssemblyMethodReplicaRepository _assemblyMethodReplicaRepository;
+    private readonly IDriveReplicaRepository _driveReplicaRepository;
     private readonly IInStockUnitOfWork _unitOfWork;
 
     public UpdateInstockProductCommandHandler(
         IInstockProductRepository productRepository,
         IInstockProductVariantRepository variantRepository,
         IInstockProductPriceDetailRepository priceDetailRepository,
+        IInstockProductDriveRepository productDriveRepository,
+        ICapabilityReplicaRepository capabilityReplicaRepository,
+        IAssemblyMethodReplicaRepository assemblyMethodReplicaRepository,
+        IDriveReplicaRepository driveReplicaRepository,
         IInStockUnitOfWork unitOfWork)
     {
         _productRepository = productRepository;
         _variantRepository = variantRepository;
         _priceDetailRepository = priceDetailRepository;
+        _productDriveRepository = productDriveRepository;
+        _capabilityReplicaRepository = capabilityReplicaRepository;
+        _assemblyMethodReplicaRepository = assemblyMethodReplicaRepository;
+        _driveReplicaRepository = driveReplicaRepository;
         _unitOfWork = unitOfWork;
     }
 
@@ -44,6 +57,50 @@ internal sealed class UpdateInstockProductCommandHandler : ICommandHandler<Updat
             }
         }
 
+        // Validate capabilities exist in replica if provided
+        if (request.CapabilityIds != null && request.CapabilityIds.Count > 0)
+        {
+            foreach (var capabilityId in request.CapabilityIds)
+            {
+                var capabilityExists = await _capabilityReplicaRepository.ExistsByIdAsync(capabilityId, cancellationToken);
+                if (!capabilityExists)
+                {
+                    return Result.Failure(InstockProductError.InvalidCapability(capabilityId));
+                }
+            }
+        }
+
+        // Validate assembly methods exist in replica if provided
+        if (request.AssemblyMethodIds != null && request.AssemblyMethodIds.Count > 0)
+        {
+            foreach (var assemblyMethodId in request.AssemblyMethodIds)
+            {
+                var assemblyMethodExists = await _assemblyMethodReplicaRepository.ExistsByIdAsync(assemblyMethodId, cancellationToken);
+                if (!assemblyMethodExists)
+                {
+                    return Result.Failure(InstockProductError.InvalidAssemblyMethod());
+                }
+            }
+        }
+
+        // Validate drive details if provided
+        if (request.Drives != null && request.Drives.Count > 0)
+        {
+            foreach (var driveDetail in request.Drives)
+            {
+                var driveExists = await _driveReplicaRepository.ExistsByIdAsync(driveDetail.DriveId, cancellationToken);
+                if (!driveExists)
+                {
+                    return Result.Failure(InstockProductError.InvalidDrive(driveDetail.DriveId));
+                }
+
+                if (driveDetail.Quantity <= 0)
+                {
+                    return Result.Failure(InstockProductError.InvalidQuantity());
+                }
+            }
+        }
+
         return await _unitOfWork.ExecuteAsync<Result>(async () =>
         {
             var updateResult = product.PartialUpdate(
@@ -55,9 +112,7 @@ internal sealed class UpdateInstockProductCommandHandler : ICommandHandler<Updat
                 request.ThumbnailUrl,
                 request.PreviewAsset,
                 request.TopicId,
-                request.AssemblyMethodId,
                 request.MaterialId,
-                request.CapabilityIds,
                 request.Description,
                 request.IsActive);
 
@@ -70,6 +125,19 @@ internal sealed class UpdateInstockProductCommandHandler : ICommandHandler<Updat
             if (request.CapabilityIds != null)
             {
                 product.SetCapabilities(request.CapabilityIds);
+            }
+
+            // Update assembly methods if provided
+            if (request.AssemblyMethodIds != null)
+            {
+                product.SetAssemblyMethods(request.AssemblyMethodIds);
+            }
+
+            // Update drives if provided
+            if (request.Drives != null)
+            {
+                var drivesList = request.Drives.Select(d => (d.DriveId, d.Quantity)).ToList();
+                product.SetDrives(drivesList);
             }
 
             // If IsActive is set to false, deactivate all variants of this product

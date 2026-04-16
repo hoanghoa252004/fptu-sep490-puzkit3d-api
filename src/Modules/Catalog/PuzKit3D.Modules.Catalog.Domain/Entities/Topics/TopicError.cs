@@ -39,4 +39,8 @@ public static class TopicError
     public static Error InvalidActiveStatus() => Error.Conflict(
         "Topic.InvalidActiveStatus",
         "The active status is already set to this value.");
+
+    public static Error InvalidTopicDeleted() => Error.Conflict(
+        "Topic.InvalidTopicDeleted",
+        "Cannot delete topic because it is associated with existing topic material capability.");
 }

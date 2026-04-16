@@ -48,6 +48,35 @@ internal sealed class CapabilityRepository : ICapabilityRepository
             .FirstOrDefaultAsync(c => c.Slug == slug, cancellationToken);
     }
 
+    public async Task<IEnumerable<Capability>> GetAllAsync(
+        bool isStaffOrManager,
+        string? searchTerm,
+        bool ascending,
+        CancellationToken cancellationToken = default)
+    {
+        var query = _context.Capabilities.AsQueryable();
+
+        if (!isStaffOrManager)
+        {
+            query = query.Where(c => c.IsActive);
+        }
+
+        if (!string.IsNullOrEmpty(searchTerm))
+        {
+            query = query.Where(c => c.Name.ToLower().Contains(searchTerm.ToLower())
+                || c.Slug.ToLower().Contains(searchTerm.ToLower())
+                || (c.Description != null && c.Description.ToLower().Contains(searchTerm.ToLower())));
+        }
+
+        query = ascending
+            ? query.OrderBy(c => c.CreatedAt)
+            : query.OrderByDescending(c => c.CreatedAt);
+
+        return await query
+            .AsNoTracking()
+            .ToListAsync(cancellationToken);
+    }
+
     public void Add(Capability entity)
     {
         _context.Capabilities.Add(entity);

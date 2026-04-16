@@ -4,6 +4,7 @@ using PuzKit3D.Modules.Payment.Application.Repositories;
 using PuzKit3D.Modules.Payment.Application.UnitOfWork;
 using PuzKit3D.Modules.Payment.Application.UseCases.Transactions.Queries.GetTransactionsByPayment;
 using PuzKit3D.Modules.Payment.Domain.Entities.Payments;
+using PuzKit3D.Modules.Payment.Domain.Entities.PaymentConfigs;
 using PuzKit3D.Modules.Payment.Domain.Entities.Transactions;
 using PuzKit3D.SharedKernel.Application.Message.Command;
 using PuzKit3D.SharedKernel.Application.User;
@@ -103,7 +104,9 @@ internal sealed class CreateTransactionCommandHandler : ICommandTHandler<CreateT
 
         // Get PaymentConfig from repository, use default if not found
         var paymentConfig = await _paymentConfigRepository.GetFirstAsync(cancellationToken);
-        var onlineTransactionExpiredInMinutes = paymentConfig?.OnlineTransactionExpiredInMinutes ?? 5;
+        var onlineTransactionExpiredInMinutes = paymentConfig != null
+            ? ConvertToMinutes(paymentConfig.OnlineTransactionExpiredValue, paymentConfig.OnlineTransactionExpiredUnit)
+            : 5;
 
         return await _unitOfWork.ExecuteAsync(async () =>
         {
@@ -146,6 +149,7 @@ internal sealed class CreateTransactionCommandHandler : ICommandTHandler<CreateT
                 return Result.Failure<string>(paymentUrlResult.Error);
             }
 
+
             // Save payment URL to transaction
             transaction.SetPaymentUrl(paymentUrlResult.Value);
             // Save txn ref to transaction for later use in IPN:
@@ -153,5 +157,16 @@ internal sealed class CreateTransactionCommandHandler : ICommandTHandler<CreateT
 
             return Result.Success(paymentUrlResult.Value);
         }, cancellationToken);
+    }
+
+    private static int ConvertToMinutes(int value, TimeUnit unit)
+    {
+        return unit switch
+        {
+            TimeUnit.Minute => value,
+            TimeUnit.Hour => value * 60,
+            TimeUnit.Day => value * 60 * 24,
+            _ => value
+        };
     }
 }

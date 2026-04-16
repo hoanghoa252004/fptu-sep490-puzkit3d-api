@@ -47,8 +47,11 @@ public static class PaymentError
     public static Error PaymentConfigNotFound() =>
         Error.NotFound("Payment.PaymentConfigNotFound", "Payment configuration was not found.");
 
+    public static Error InvalidRange() =>
+        Error.Validation("Payment.InvalidRange", "Time must be > 0");
+
     public static Error InvalidOnlinePaymentExpiredInDays() =>
-        Error.Validation("Payment.InvalidOnlinePaymentExpiredInDays", "Online payment expiration must be at least 1 day and not > 10 days.");
+        Error.Validation("Payment.InvalidOnlinePaymentExpiredInDays", "Online payment expiration must be at least 1 and not > 10.");
 
     public static Error InvalidOnlineTransactionExpiredInMinutes() =>
         Error.Validation("Payment.InvalidOnlineTransactionExpiredInMinutes", "Online transaction expiration must be at least 5 minutes and not > 60 minutes.");

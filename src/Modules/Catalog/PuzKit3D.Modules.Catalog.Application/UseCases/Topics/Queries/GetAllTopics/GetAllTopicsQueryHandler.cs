@@ -1,5 +1,6 @@
 using PuzKit3D.Modules.Catalog.Application.Repositories;
 using PuzKit3D.Modules.Catalog.Application.UseCases.Topics.Queries.Shared;
+using PuzKit3D.SharedKernel.Application.Authorization;
 using PuzKit3D.SharedKernel.Application.Message.Query;
 using PuzKit3D.SharedKernel.Application.Pagination;
 using PuzKit3D.SharedKernel.Application.User;
@@ -27,66 +28,41 @@ internal sealed class GetAllTopicsQueryHandler
     {
         // Check if user is Staff or Manager
         var isStaffOrManager = _currentUser.IsAuthenticated &&
-            (_currentUser.IsInRole("Staff") || _currentUser.IsInRole("Business Manager"));
+            (_currentUser.IsInRole(Roles.Staff) || _currentUser.IsInRole(Roles.BusinessManager));
 
         // Get all topics
-        var allTopics = await _topicRepository.GetAllAsync(cancellationToken);
-        var query = allTopics.AsQueryable();
-
-        // For non-staff/manager users (anonymous or customer), only show active items
-        if (!isStaffOrManager)
-        {
-            query = query.Where(t => t.IsActive);
-        }
-
-        // Apply search filter
-        if (!string.IsNullOrWhiteSpace(request.SearchTerm))
-        {
-            var searchTerm = request.SearchTerm.ToLower();
-            query = query.Where(t =>
-                t.Name.ToLower().Contains(searchTerm) ||
-                t.Slug.ToLower().Contains(searchTerm) ||
-                (t.Description != null && t.Description.ToLower().Contains(searchTerm)));
-        }
-
-        // Apply parent id filter if provided
-        if (request.ParentId.HasValue && request.ParentId.Value != Guid.Empty)
-        {
-            query = query.Where(t => t.ParentId.Value == request.ParentId.Value);
-        }
-
-        // Apply status filter if explicitly set
-        if (request.IsActive.HasValue)
-        {
-            query = query.Where(t => t.IsActive == request.IsActive.Value);
-        }
+        var allTopics = await _topicRepository.GetAllAsync(
+            isStaffOrManager,
+            request.SearchTerm,
+            request.Ascending,
+            cancellationToken);
 
         // Apply pagination
-        var totalCount = query.Count();
-        var topics = query
-            .OrderBy(t => t.Name)
-            .Skip((request.PageNumber - 1) * request.PageSize)
-            .Take(request.PageSize)
-            .ToList();
+        var totalCount = allTopics.Count();
+        var topics = allTopics
+                .Skip((request.PageNumber - 1) * request.PageSize)
+                .Take(request.PageSize)
+                .ToList();
 
-         // Build response DTOs
-         var topicDtos = isStaffOrManager
-             ? topics.Select(t => (object)new GetTopicDetailedResponseDto(
-                 t.Id.Value,
-                 t.Name,
-                 t.Slug,
-                 t.ParentId?.Value,
-                 t.Description,
-                 t.IsActive,
-                 t.CreatedAt,
-                 t.UpdatedAt)).ToList()
-             : topics.Select(t => (object)new GetTopicResponseDto(
-                 t.Id.Value,
-                 t.Name,
-                 t.Slug,
-                 t.ParentId?.Value,
-                 t.Description)).ToList();
-
+        // Build response DTOs
+        var topicDtos = isStaffOrManager
+            ? topics.Select(t => (object)new GetTopicDetailedResponseDto(
+                t.Id.Value,
+                t.Name,
+                t.Slug,
+                t.ParentId?.Value,
+                t.Description,
+                t.FactorPercentage,
+                t.IsActive,
+                t.CreatedAt,
+                t.UpdatedAt)).ToList()
+            : topics.Select(t => (object)new GetTopicResponseDto(
+                t.Id.Value,
+                t.Name,
+                t.Slug,
+                t.ParentId?.Value,
+                t.Description,
+                t.FactorPercentage)).ToList();
         var pagedResult = new PagedResult<object>(
             topicDtos,
             request.PageNumber,

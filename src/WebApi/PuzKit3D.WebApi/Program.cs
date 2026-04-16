@@ -4,6 +4,7 @@ using PuzKit3D.Modules.Cart.Infrastructure;
 using PuzKit3D.Modules.Cart.Persistence;
 using PuzKit3D.Modules.Catalog.Api;
 using PuzKit3D.Modules.Catalog.Application;
+using PuzKit3D.Modules.Catalog.Infrastructure;
 using PuzKit3D.Modules.Catalog.Persistence;
 using PuzKit3D.Modules.CustomDesign.Api;
 using PuzKit3D.Modules.CustomDesign.Application;
@@ -121,6 +122,7 @@ builder.Services.AddCustomDesignPersistence(builder.Configuration);
 
 // Add Infrastructure services (Domain Event Handlers, Integration Event Handlers):
 builder.Services.AddInStockInfrastructure(builder.Configuration);
+builder.Services.AddCatalogInfrastructure(builder.Configuration);
 builder.Services.AddCartInfrastructure(builder.Configuration);
 builder.Services.AddPaymentInfrastructure();
 builder.Services.AddFeedbackInfrastructure();

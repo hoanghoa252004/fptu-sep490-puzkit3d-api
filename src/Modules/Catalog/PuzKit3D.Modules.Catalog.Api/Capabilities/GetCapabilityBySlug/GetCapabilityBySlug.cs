@@ -28,7 +28,7 @@ internal sealed class GetCapabilityBySlug : IEndpoint
             .WithSummary("Get capability by slug")
             .WithDescription("Retrieves a single capability by its slug. Anonymous users can only view active capabilities.")
             .AllowAnonymous()
-            .Produces<GetCapabilityBySlugPublicResponseDto>(StatusCodes.Status200OK)
+            .Produces<object>(StatusCodes.Status200OK)
             .ProducesProblem(StatusCodes.Status404NotFound)
             .ProducesProblem(StatusCodes.Status500InternalServerError);
     }

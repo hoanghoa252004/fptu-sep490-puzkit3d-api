@@ -12,8 +12,13 @@ int? EstimatedBuildTime,
 string? ThumbnailUrl,
 Dictionary<string, string>? PreviewAsset,
 Guid? TopicId,
-Guid? AssemblyMethodId,
-List<Guid>? CapabilityIds,
 Guid? MaterialId,
-string? Description,
-bool? IsActive) : ICommand;
+List<Guid>? CapabilityIds,
+List<Guid>? AssemblyMethodIds = null,
+List<UpdateDriveDetailDto>? Drives = null,
+string? Description = null,
+bool? IsActive = null) : ICommand;
+
+
+
+

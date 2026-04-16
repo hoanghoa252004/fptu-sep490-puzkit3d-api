@@ -13,6 +13,7 @@ public sealed class InstockProductVariant : Entity<InstockProductVariantId>
     public int AssembledLengthMm { get; private set; }
     public int AssembledWidthMm { get; private set; }
     public int AssembledHeightMm { get; private set; }
+    public string PreviewImages { get; private set; } = null!;
     public bool IsActive { get; private set; }
     public DateTime CreatedAt { get; private set; }
     public DateTime UpdatedAt { get; private set; }
@@ -25,6 +26,7 @@ public sealed class InstockProductVariant : Entity<InstockProductVariantId>
         int assembledLengthMm,
         int assembledWidthMm,
         int assembledHeightMm,
+        string previewImages,
         bool isActive,
         DateTime createdAt) : base(id)
     {
@@ -34,6 +36,7 @@ public sealed class InstockProductVariant : Entity<InstockProductVariantId>
         AssembledLengthMm = assembledLengthMm;
         AssembledWidthMm = assembledWidthMm;
         AssembledHeightMm = assembledHeightMm;
+        PreviewImages = previewImages;
         IsActive = isActive;
         CreatedAt = createdAt;
         UpdatedAt = createdAt;
@@ -50,6 +53,7 @@ public sealed class InstockProductVariant : Entity<InstockProductVariantId>
         int assembledLengthMm,
         int assembledWidthMm,
         int assembledHeightMm,
+        string previewImages,
         bool isActive = false,
         DateTime? createdAt = null)
     {
@@ -68,6 +72,9 @@ public sealed class InstockProductVariant : Entity<InstockProductVariantId>
         if (assembledLengthMm <= 0 || assembledWidthMm <= 0 || assembledHeightMm <= 0)
             return Result.Failure<InstockProductVariant>(InstockProductVariantError.InvalidDimension());
 
+        if (string.IsNullOrWhiteSpace(previewImages))
+            return Result.Failure<InstockProductVariant>(InstockProductVariantError.InvalidPreviewImages());
+
         var variantId = InstockProductVariantId.Create();
         var timestamp = createdAt ?? DateTime.UtcNow;
         var variant = new InstockProductVariant(
@@ -78,6 +85,7 @@ public sealed class InstockProductVariant : Entity<InstockProductVariantId>
             assembledLengthMm,
             assembledWidthMm,
             assembledHeightMm,
+            previewImages,
             isActive,
             timestamp);
 
@@ -90,6 +98,7 @@ public sealed class InstockProductVariant : Entity<InstockProductVariantId>
             variant.AssembledLengthMm,
             variant.AssembledWidthMm,
             variant.AssembledHeightMm,
+            variant.PreviewImages,
             variant.IsActive));
 
         Console.WriteLine("Domain Event COUNT: " +variant.DomainEvents.Count());
@@ -135,6 +144,7 @@ public sealed class InstockProductVariant : Entity<InstockProductVariantId>
             AssembledLengthMm,
             AssembledWidthMm,
             AssembledHeightMm,
+                PreviewImages,
             IsActive));
 
         return Result.Success();
@@ -146,6 +156,7 @@ public sealed class InstockProductVariant : Entity<InstockProductVariantId>
         int? assembledLengthMm = null,
         int? assembledWidthMm = null,
         int? assembledHeightMm = null,
+        string? previewImages = null,
         bool? isActive = null)
     {
         if (sku is not null)
@@ -194,6 +205,14 @@ public sealed class InstockProductVariant : Entity<InstockProductVariantId>
             AssembledHeightMm = assembledHeightMm.Value;
         }
 
+        if (previewImages is not null)
+        {
+            if (string.IsNullOrWhiteSpace(previewImages))
+                return Result.Failure(InstockProductVariantError.InvalidPreviewImages());
+
+            PreviewImages = previewImages;
+        }
+
         if (isActive.HasValue)
         {
             if (isActive.Value == IsActive)
@@ -213,6 +232,7 @@ public sealed class InstockProductVariant : Entity<InstockProductVariantId>
             AssembledLengthMm,
             AssembledWidthMm,
             AssembledHeightMm,
+            PreviewImages,
             IsActive));
 
         return Result.Success();

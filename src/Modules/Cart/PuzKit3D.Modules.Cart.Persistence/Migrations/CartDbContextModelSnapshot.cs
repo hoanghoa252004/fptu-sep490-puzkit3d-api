@@ -692,10 +692,6 @@ namespace PuzKit3D.Modules.Cart.Persistence.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("id");
 
-                    b.Property<Guid>("AssemblyMethodId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("assembly_method_id");
-
                     b.Property<string>("Code")
                         .IsRequired()
                         .HasMaxLength(10)
@@ -777,7 +773,6 @@ namespace PuzKit3D.Modules.Cart.Persistence.Migrations
                         new
                         {
                             Id = new Guid("10000000-0000-0000-0000-000000000001"),
-                            AssemblyMethodId = new Guid("d1d1d1d1-d1d1-d1d1-d1d1-d1d1d1d1d1d1"),
                             Code = "INP001",
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "New wooden mechanical 3D puzzle UGT-24 Endurance Racer by Ugears. A large car featuring a blue racing stripe and plastic windows drives 5-6 m thanks to a spring motor. Cool gift!",
@@ -796,7 +791,6 @@ namespace PuzKit3D.Modules.Cart.Persistence.Migrations
                         new
                         {
                             Id = new Guid("10000000-0000-0000-0000-000000000002"),
-                            AssemblyMethodId = new Guid("e2e2e2e2-e2e2-e2e2-e2e2-e2e2e2e2e2e2"),
                             Code = "INP002",
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Wooden 3D puzzle Mad Hornet Airplane from Ugears. Pre-flight check mode and taxi mode. Moves without batteries. Assemble without glue. The perfect gift!",
@@ -815,7 +809,6 @@ namespace PuzKit3D.Modules.Cart.Persistence.Migrations
                         new
                         {
                             Id = new Guid("10000000-0000-0000-0000-000000000003"),
-                            AssemblyMethodId = new Guid("f3f3f3f3-f3f3-f3f3-f3f3-f3f3f3f3f3f3"),
                             Code = "INP003",
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "New wooden mechanical 3D puzzle UGT-24 Endurance Racer by Ugears. A large car featuring a blue racing stripe and plastic windows drives 5-6 m thanks to a spring motor. Cool gift!",
@@ -834,7 +827,6 @@ namespace PuzKit3D.Modules.Cart.Persistence.Migrations
                         new
                         {
                             Id = new Guid("10000000-0000-0000-0000-000000000004"),
-                            AssemblyMethodId = new Guid("a4a4a4a4-a4a4-a4a4-a4a4-a4a4a4a4a4a4"),
                             Code = "INP004",
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Wooden 3D puzzle Mad Hornet Airplane from Ugears. Pre-flight check mode and taxi mode. Moves without batteries. Assemble without glue. The perfect gift!",
@@ -853,7 +845,6 @@ namespace PuzKit3D.Modules.Cart.Persistence.Migrations
                         new
                         {
                             Id = new Guid("10000000-0000-0000-0000-000000000005"),
-                            AssemblyMethodId = new Guid("b5b5b5b5-b5b5-b5b5-b5b5-b5b5b5b5b5b5"),
                             Code = "INP005",
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "New wooden mechanical 3D puzzle UGT-24 Endurance Racer by Ugears. A large car featuring a blue racing stripe and plastic windows drives 5-6 m thanks to a spring motor. Cool gift!",
@@ -872,7 +863,6 @@ namespace PuzKit3D.Modules.Cart.Persistence.Migrations
                         new
                         {
                             Id = new Guid("10000000-0000-0000-0000-000000000006"),
-                            AssemblyMethodId = new Guid("d1d1d1d1-d1d1-d1d1-d1d1-d1d1d1d1d1d1"),
                             Code = "INP006",
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "New wooden mechanical 3D puzzle UGT-24 Endurance Racer by Ugears. A large car featuring a blue racing stripe and plastic windows drives 5-6 m thanks to a spring motor. Cool gift!",
@@ -891,7 +881,6 @@ namespace PuzKit3D.Modules.Cart.Persistence.Migrations
                         new
                         {
                             Id = new Guid("10000000-0000-0000-0000-000000000007"),
-                            AssemblyMethodId = new Guid("e2e2e2e2-e2e2-e2e2-e2e2-e2e2e2e2e2e2"),
                             Code = "INP007",
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Wooden 3D puzzle Mad Hornet Airplane from Ugears. Pre-flight check mode and taxi mode. Moves without batteries. Assemble without glue. The perfect gift!",
@@ -910,7 +899,6 @@ namespace PuzKit3D.Modules.Cart.Persistence.Migrations
                         new
                         {
                             Id = new Guid("10000000-0000-0000-0000-000000000008"),
-                            AssemblyMethodId = new Guid("f3f3f3f3-f3f3-f3f3-f3f3-f3f3f3f3f3f3"),
                             Code = "INP008",
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Wooden 3D puzzle Mad Hornet Airplane from Ugears. Pre-flight check mode and taxi mode. Moves without batteries. Assemble without glue. The perfect gift!",
@@ -929,7 +917,6 @@ namespace PuzKit3D.Modules.Cart.Persistence.Migrations
                         new
                         {
                             Id = new Guid("10000000-0000-0000-0000-000000000009"),
-                            AssemblyMethodId = new Guid("e2e2e2e2-e2e2-e2e2-e2e2-e2e2e2e2e2e2"),
                             Code = "INP009",
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "New wooden mechanical 3D puzzle UGT-24 Endurance Racer by Ugears. A large car featuring a blue racing stripe and plastic windows drives 5-6 m thanks to a spring motor. Cool gift!",
@@ -948,7 +935,6 @@ namespace PuzKit3D.Modules.Cart.Persistence.Migrations
                         new
                         {
                             Id = new Guid("10000000-0000-0000-0000-000000000010"),
-                            AssemblyMethodId = new Guid("a4a4a4a4-a4a4-a4a4-a4a4-a4a4a4a4a4a4"),
                             Code = "INP010",
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Wooden 3D puzzle Mad Hornet Airplane from Ugears. Pre-flight check mode and taxi mode. Moves without batteries. Assemble without glue. The perfect gift!",
@@ -1004,6 +990,11 @@ namespace PuzKit3D.Modules.Cart.Persistence.Migrations
                         .HasDefaultValue(false)
                         .HasColumnName("is_active");
 
+                    b.Property<string>("PreviewImages")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("preview_images");
+
                     b.Property<string>("Sku")
                         .IsRequired()
                         .HasMaxLength(10)
@@ -1034,6 +1025,7 @@ namespace PuzKit3D.Modules.Cart.Persistence.Migrations
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             InStockProductId = new Guid("10000000-0000-0000-0000-000000000001"),
                             IsActive = true,
+                            PreviewImages = "instock-products/ugt-24-endurance-racer/image-01.png,instock-products/ugt-24-endurance-racer/image-02.png",
                             Sku = "SKU001",
                             UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
                         },
@@ -1047,6 +1039,7 @@ namespace PuzKit3D.Modules.Cart.Persistence.Migrations
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             InStockProductId = new Guid("10000000-0000-0000-0000-000000000001"),
                             IsActive = true,
+                            PreviewImages = "instock-products/ugt-24-endurance-racer/image-01.png,instock-products/ugt-24-endurance-racer/image-02.png",
                             Sku = "SKU002",
                             UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
                         },
@@ -1060,6 +1053,7 @@ namespace PuzKit3D.Modules.Cart.Persistence.Migrations
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             InStockProductId = new Guid("10000000-0000-0000-0000-000000000002"),
                             IsActive = true,
+                            PreviewImages = "instock-products/mad-hornet-airplane/image-01.png,instock-products/mad-hornet-airplane/image-02.png",
                             Sku = "SKU003",
                             UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
                         },
@@ -1073,6 +1067,7 @@ namespace PuzKit3D.Modules.Cart.Persistence.Migrations
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             InStockProductId = new Guid("10000000-0000-0000-0000-000000000003"),
                             IsActive = true,
+                            PreviewImages = "instock-products/ugt-24-endurance-racer/image-01.png,instock-products/ugt-24-endurance-racer/image-02.png",
                             Sku = "SKU004",
                             UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
                         },
@@ -1086,6 +1081,7 @@ namespace PuzKit3D.Modules.Cart.Persistence.Migrations
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             InStockProductId = new Guid("10000000-0000-0000-0000-000000000003"),
                             IsActive = true,
+                            PreviewImages = "instock-products/ugt-24-endurance-racer/image-01.png,instock-products/ugt-24-endurance-racer/image-02.png",
                             Sku = "SKU005",
                             UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
                         },
@@ -1099,6 +1095,7 @@ namespace PuzKit3D.Modules.Cart.Persistence.Migrations
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             InStockProductId = new Guid("10000000-0000-0000-0000-000000000004"),
                             IsActive = true,
+                            PreviewImages = "instock-products/mad-hornet-airplane/image-01.png,instock-products/mad-hornet-airplane/image-02.png",
                             Sku = "SKU006",
                             UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
                         },
@@ -1112,6 +1109,7 @@ namespace PuzKit3D.Modules.Cart.Persistence.Migrations
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             InStockProductId = new Guid("10000000-0000-0000-0000-000000000004"),
                             IsActive = true,
+                            PreviewImages = "instock-products/mad-hornet-airplane/image-01.png,instock-products/mad-hornet-airplane/image-02.png",
                             Sku = "SKU007",
                             UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
                         },
@@ -1125,6 +1123,7 @@ namespace PuzKit3D.Modules.Cart.Persistence.Migrations
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             InStockProductId = new Guid("10000000-0000-0000-0000-000000000005"),
                             IsActive = true,
+                            PreviewImages = "instock-products/ugt-24-endurance-racer/image-01.png,instock-products/ugt-24-endurance-racer/image-02.png",
                             Sku = "SKU008",
                             UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
                         },
@@ -1138,6 +1137,7 @@ namespace PuzKit3D.Modules.Cart.Persistence.Migrations
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             InStockProductId = new Guid("10000000-0000-0000-0000-000000000006"),
                             IsActive = true,
+                            PreviewImages = "instock-products/ugt-24-endurance-racer/image-01.png,instock-products/ugt-24-endurance-racer/image-02.png",
                             Sku = "SKU009",
                             UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
                         },
@@ -1151,6 +1151,7 @@ namespace PuzKit3D.Modules.Cart.Persistence.Migrations
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             InStockProductId = new Guid("10000000-0000-0000-0000-000000000006"),
                             IsActive = true,
+                            PreviewImages = "instock-products/ugt-24-endurance-racer/image-01.png,instock-products/ugt-24-endurance-racer/image-02.png",
                             Sku = "SKU010",
                             UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
                         },
@@ -1164,6 +1165,7 @@ namespace PuzKit3D.Modules.Cart.Persistence.Migrations
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             InStockProductId = new Guid("10000000-0000-0000-0000-000000000007"),
                             IsActive = true,
+                            PreviewImages = "instock-products/mad-hornet-airplane/image-01.png,instock-products/mad-hornet-airplane/image-02.png",
                             Sku = "SKU011",
                             UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
                         },
@@ -1177,6 +1179,7 @@ namespace PuzKit3D.Modules.Cart.Persistence.Migrations
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             InStockProductId = new Guid("10000000-0000-0000-0000-000000000008"),
                             IsActive = true,
+                            PreviewImages = "instock-products/mad-hornet-airplane/image-01.png,instock-products/mad-hornet-airplane/image-02.png",
                             Sku = "SKU012",
                             UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
                         },
@@ -1190,6 +1193,7 @@ namespace PuzKit3D.Modules.Cart.Persistence.Migrations
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             InStockProductId = new Guid("10000000-0000-0000-0000-000000000008"),
                             IsActive = true,
+                            PreviewImages = "instock-products/mad-hornet-airplane/image-01.png,instock-products/mad-hornet-airplane/image-02.png",
                             Sku = "SKU013",
                             UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
                         },
@@ -1203,6 +1207,7 @@ namespace PuzKit3D.Modules.Cart.Persistence.Migrations
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             InStockProductId = new Guid("10000000-0000-0000-0000-000000000009"),
                             IsActive = true,
+                            PreviewImages = "instock-products/ugt-24-endurance-racer/image-01.png,instock-products/ugt-24-endurance-racer/image-02.png",
                             Sku = "SKU014",
                             UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
                         },
@@ -1216,6 +1221,7 @@ namespace PuzKit3D.Modules.Cart.Persistence.Migrations
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             InStockProductId = new Guid("10000000-0000-0000-0000-000000000010"),
                             IsActive = true,
+                            PreviewImages = "instock-products/mad-hornet-airplane/image-01.png,instock-products/mad-hornet-airplane/image-02.png",
                             Sku = "SKU015",
                             UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
                         },
@@ -1229,6 +1235,7 @@ namespace PuzKit3D.Modules.Cart.Persistence.Migrations
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             InStockProductId = new Guid("10000000-0000-0000-0000-000000000010"),
                             IsActive = true,
+                            PreviewImages = "instock-products/mad-hornet-airplane/image-01.png,instock-products/mad-hornet-airplane/image-02.png",
                             Sku = "SKU016",
                             UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
                         });

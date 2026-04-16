@@ -33,6 +33,7 @@ internal sealed class CapabilityCreatedIntegrationEventHandler
             @event.CapabilityId,
             @event.Name,
             @event.Slug,
+            @event.FactorPercentage,
             @event.Description,
             @event.IsActive,
             @event.CreatedAt,

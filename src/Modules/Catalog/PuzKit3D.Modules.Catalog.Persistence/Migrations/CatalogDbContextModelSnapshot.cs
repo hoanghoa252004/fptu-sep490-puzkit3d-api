@@ -37,6 +37,11 @@ namespace PuzKit3D.Modules.Catalog.Persistence.Migrations
                         .HasColumnType("text")
                         .HasColumnName("description");
 
+                    b.Property<decimal>("FactorPercentage")
+                        .HasPrecision(5, 4)
+                        .HasColumnType("numeric(5,4)")
+                        .HasColumnName("factor_percentage");
+
                     b.Property<bool>("IsActive")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("boolean")
@@ -74,6 +79,7 @@ namespace PuzKit3D.Modules.Catalog.Persistence.Migrations
                             Id = new Guid("d1d1d1d1-d1d1-d1d1-d1d1-d1d1d1d1d1d1"),
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Easy snap assembly without tools",
+                            FactorPercentage = 1.1m,
                             IsActive = true,
                             Name = "Snap-Fit",
                             Slug = "snap-fit",
@@ -84,6 +90,7 @@ namespace PuzKit3D.Modules.Catalog.Persistence.Migrations
                             Id = new Guid("e2e2e2e2-e2e2-e2e2-e2e2-e2e2e2e2e2e2"),
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Assembly using adhesive bonding",
+                            FactorPercentage = 1.0m,
                             IsActive = true,
                             Name = "Glue Assembly",
                             Slug = "glue-assembly",
@@ -94,6 +101,7 @@ namespace PuzKit3D.Modules.Catalog.Persistence.Migrations
                             Id = new Guid("f3f3f3f3-f3f3-f3f3-f3f3-f3f3f3f3f3f3"),
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Assembly using screws and bolts",
+                            FactorPercentage = 1.3m,
                             IsActive = true,
                             Name = "Screw Assembly",
                             Slug = "screw-assembly",
@@ -104,6 +112,7 @@ namespace PuzKit3D.Modules.Catalog.Persistence.Migrations
                             Id = new Guid("a4a4a4a4-a4a4-a4a4-a4a4-a4a4a4a4a4a4"),
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Assembly using tight fitting pieces",
+                            FactorPercentage = 1.15m,
                             IsActive = true,
                             Name = "Friction Fit",
                             Slug = "friction-fit",
@@ -114,6 +123,7 @@ namespace PuzKit3D.Modules.Catalog.Persistence.Migrations
                             Id = new Guid("b5b5b5b5-b5b5-b5b5-b5b5-b5b5b5b5b5b5"),
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Assembly using magnetic connections",
+                            FactorPercentage = 1.4m,
                             IsActive = true,
                             Name = "Magnetic Assembly",
                             Slug = "magnetic-assembly",
@@ -134,6 +144,11 @@ namespace PuzKit3D.Modules.Catalog.Persistence.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("text")
                         .HasColumnName("description");
+
+                    b.Property<decimal>("FactorPercentage")
+                        .HasPrecision(5, 4)
+                        .HasColumnType("numeric(5,4)")
+                        .HasColumnName("factor_percentage");
 
                     b.Property<bool>("IsActive")
                         .ValueGeneratedOnAdd()
@@ -172,6 +187,7 @@ namespace PuzKit3D.Modules.Catalog.Persistence.Migrations
                             Id = new Guid("e1e1e1e1-e1e1-e1e1-e1e1-e1e1e1e1e1e1"),
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Static model for display only",
+                            FactorPercentage = 1.0m,
                             IsActive = true,
                             Name = "Static Display",
                             Slug = "static-display",
@@ -182,6 +198,7 @@ namespace PuzKit3D.Modules.Catalog.Persistence.Migrations
                             Id = new Guid("f2f2f2f2-f2f2-f2f2-f2f2-f2f2f2f2f2f2"),
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Model with electric motor-powered movement",
+                            FactorPercentage = 1.8m,
                             IsActive = true,
                             Name = "Move with Motor",
                             Slug = "move-with-motor",
@@ -192,6 +209,7 @@ namespace PuzKit3D.Modules.Catalog.Persistence.Migrations
                             Id = new Guid("a3a3a3a3-a3a3-a3a3-a3a3-a3a3a3a3a3a3"),
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Model operated by manual movement",
+                            FactorPercentage = 1.3m,
                             IsActive = true,
                             Name = "Manual Movement",
                             Slug = "manual-movement",
@@ -202,6 +220,7 @@ namespace PuzKit3D.Modules.Catalog.Persistence.Migrations
                             Id = new Guid("b4b4b4b4-b4b4-b4b4-b4b4-b4b4b4b4b4b4"),
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Model with LED lighting effects",
+                            FactorPercentage = 1.4m,
                             IsActive = true,
                             Name = "LED Light Feature",
                             Slug = "led-light-feature",
@@ -212,6 +231,7 @@ namespace PuzKit3D.Modules.Catalog.Persistence.Migrations
                             Id = new Guid("c5c5c5c5-c5c5-c5c5-c5c5-c5c5c5c5c5c5"),
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Model with musical features via rotating mechanism",
+                            FactorPercentage = 1.6m,
                             IsActive = true,
                             Name = "Musical Gear",
                             Slug = "musical-gear",
@@ -219,7 +239,188 @@ namespace PuzKit3D.Modules.Catalog.Persistence.Migrations
                         });
                 });
 
-            modelBuilder.Entity("PuzKit3D.Modules.Catalog.Domain.Entities.Materials.Material", b =>
+            modelBuilder.Entity("PuzKit3D.Modules.Catalog.Domain.Entities.CapabilityDrives.CapabilityDrive", b =>
+                {
+                    b.Property<Guid>("CapabilityId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("capability_id");
+
+                    b.Property<Guid>("DriveId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("drive_id");
+
+                    b.HasKey("CapabilityId", "DriveId")
+                        .HasName("pk_capability_drives");
+
+                    b.HasIndex("DriveId")
+                        .HasDatabaseName("ix_capability_drives_drive_id");
+
+                    b.ToTable("capability_drives", "catalog");
+
+                    b.HasData(
+                        new
+                        {
+                            CapabilityId = new Guid("e1e1e1e1-e1e1-e1e1-e1e1-e1e1e1e1e1e1"),
+                            DriveId = new Guid("11111111-1111-1111-1111-111111111111")
+                        },
+                        new
+                        {
+                            CapabilityId = new Guid("a3a3a3a3-a3a3-a3a3-a3a3-a3a3a3a3a3a3"),
+                            DriveId = new Guid("33333333-3333-3333-3333-333333333333")
+                        },
+                        new
+                        {
+                            CapabilityId = new Guid("f2f2f2f2-f2f2-f2f2-f2f2-f2f2f2f2f2f2"),
+                            DriveId = new Guid("22222222-2222-2222-2222-222222222222")
+                        },
+                        new
+                        {
+                            CapabilityId = new Guid("f2f2f2f2-f2f2-f2f2-f2f2-f2f2f2f2f2f2"),
+                            DriveId = new Guid("33333333-3333-3333-3333-333333333333")
+                        },
+                        new
+                        {
+                            CapabilityId = new Guid("b4b4b4b4-b4b4-b4b4-b4b4-b4b4b4b4b4b4"),
+                            DriveId = new Guid("44444444-4444-4444-4444-444444444444")
+                        },
+                        new
+                        {
+                            CapabilityId = new Guid("c5c5c5c5-c5c5-c5c5-c5c5-c5c5c5c5c5c5"),
+                            DriveId = new Guid("55555555-5555-5555-5555-555555555555")
+                        },
+                        new
+                        {
+                            CapabilityId = new Guid("c5c5c5c5-c5c5-c5c5-c5c5-c5c5c5c5c5c5"),
+                            DriveId = new Guid("33333333-3333-3333-3333-333333333333")
+                        });
+                });
+
+            modelBuilder.Entity("PuzKit3D.Modules.Catalog.Domain.Entities.CapabilityMaterialAssemblies.CapabilityMaterialAssembly", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<Guid>("AssemblyId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("assembly_id");
+
+                    b.Property<Guid?>("AssemblyMethodId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("assembly_method_id");
+
+                    b.Property<Guid>("CapabilityId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("capability_id");
+
+                    b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(false)
+                        .HasColumnName("is_active");
+
+                    b.Property<Guid>("MaterialId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("material_id");
+
+                    b.HasKey("Id")
+                        .HasName("pk_capability_material_assemblies");
+
+                    b.HasIndex("AssemblyMethodId")
+                        .HasDatabaseName("ix_capability_material_assemblies_assembly_method_id");
+
+                    b.HasIndex("CapabilityId")
+                        .HasDatabaseName("ix_capability_material_assemblies_capability_id");
+
+                    b.HasIndex("MaterialId")
+                        .HasDatabaseName("ix_capability_material_assemblies_material_id");
+
+                    b.ToTable("capability_material_assemblies", "catalog");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("90000000-0000-0000-0000-000000000001"),
+                            AssemblyId = new Guid("d1d1d1d1-d1d1-d1d1-d1d1-d1d1d1d1d1d1"),
+                            CapabilityId = new Guid("e1e1e1e1-e1e1-e1e1-e1e1-e1e1e1e1e1e1"),
+                            IsActive = true,
+                            MaterialId = new Guid("f1f1f1f1-f1f1-f1f1-f1f1-f1f1f1f1f1f1")
+                        },
+                        new
+                        {
+                            Id = new Guid("90000000-0000-0000-0000-000000000002"),
+                            AssemblyId = new Guid("e2e2e2e2-e2e2-e2e2-e2e2-e2e2e2e2e2e2"),
+                            CapabilityId = new Guid("e1e1e1e1-e1e1-e1e1-e1e1-e1e1e1e1e1e1"),
+                            IsActive = true,
+                            MaterialId = new Guid("c4c4c4c4-c4c4-c4c4-c4c4-c4c4c4c4c4c4")
+                        },
+                        new
+                        {
+                            Id = new Guid("90000000-0000-0000-0000-000000000003"),
+                            AssemblyId = new Guid("a4a4a4a4-a4a4-a4a4-a4a4-a4a4a4a4a4a4"),
+                            CapabilityId = new Guid("a3a3a3a3-a3a3-a3a3-a3a3-a3a3a3a3a3a3"),
+                            IsActive = true,
+                            MaterialId = new Guid("f1f1f1f1-f1f1-f1f1-f1f1-f1f1f1f1f1f1")
+                        },
+                        new
+                        {
+                            Id = new Guid("90000000-0000-0000-0000-000000000004"),
+                            AssemblyId = new Guid("d1d1d1d1-d1d1-d1d1-d1d1-d1d1d1d1d1d1"),
+                            CapabilityId = new Guid("a3a3a3a3-a3a3-a3a3-a3a3-a3a3a3a3a3a3"),
+                            IsActive = true,
+                            MaterialId = new Guid("a2a2a2a2-a2a2-a2a2-a2a2-a2a2a2a2a2a2")
+                        },
+                        new
+                        {
+                            Id = new Guid("90000000-0000-0000-0000-000000000005"),
+                            AssemblyId = new Guid("f3f3f3f3-f3f3-f3f3-f3f3-f3f3f3f3f3f3"),
+                            CapabilityId = new Guid("f2f2f2f2-f2f2-f2f2-f2f2-f2f2f2f2f2f2"),
+                            IsActive = true,
+                            MaterialId = new Guid("f1f1f1f1-f1f1-f1f1-f1f1-f1f1f1f1f1f1")
+                        },
+                        new
+                        {
+                            Id = new Guid("90000000-0000-0000-0000-000000000006"),
+                            AssemblyId = new Guid("d1d1d1d1-d1d1-d1d1-d1d1-d1d1d1d1d1d1"),
+                            CapabilityId = new Guid("f2f2f2f2-f2f2-f2f2-f2f2-f2f2f2f2f2f2"),
+                            IsActive = true,
+                            MaterialId = new Guid("a2a2a2a2-a2a2-a2a2-a2a2-a2a2a2a2a2a2")
+                        },
+                        new
+                        {
+                            Id = new Guid("90000000-0000-0000-0000-000000000007"),
+                            AssemblyId = new Guid("d1d1d1d1-d1d1-d1d1-d1d1-d1d1d1d1d1d1"),
+                            CapabilityId = new Guid("b4b4b4b4-b4b4-b4b4-b4b4-b4b4b4b4b4b4"),
+                            IsActive = true,
+                            MaterialId = new Guid("a2a2a2a2-a2a2-a2a2-a2a2-a2a2a2a2a2a2")
+                        },
+                        new
+                        {
+                            Id = new Guid("90000000-0000-0000-0000-000000000008"),
+                            AssemblyId = new Guid("b5b5b5b5-b5b5-b5b5-b5b5-b5b5b5b5b5b5"),
+                            CapabilityId = new Guid("b4b4b4b4-b4b4-b4b4-b4b4-b4b4b4b4b4b4"),
+                            IsActive = true,
+                            MaterialId = new Guid("b3b3b3b3-b3b3-b3b3-b3b3-b3b3b3b3b3b3")
+                        },
+                        new
+                        {
+                            Id = new Guid("90000000-0000-0000-0000-000000000009"),
+                            AssemblyId = new Guid("f3f3f3f3-f3f3-f3f3-f3f3-f3f3f3f3f3f3"),
+                            CapabilityId = new Guid("c5c5c5c5-c5c5-c5c5-c5c5-c5c5c5c5c5c5"),
+                            IsActive = true,
+                            MaterialId = new Guid("b3b3b3b3-b3b3-b3b3-b3b3-b3b3b3b3b3b3")
+                        },
+                        new
+                        {
+                            Id = new Guid("90000000-0000-0000-0000-000000000010"),
+                            AssemblyId = new Guid("f3f3f3f3-f3f3-f3f3-f3f3-f3f3f3f3f3f3"),
+                            CapabilityId = new Guid("c5c5c5c5-c5c5-c5c5-c5c5-c5c5c5c5c5c5"),
+                            IsActive = true,
+                            MaterialId = new Guid("f1f1f1f1-f1f1-f1f1-f1f1-f1f1f1f1f1f1")
+                        });
+                });
+
+            modelBuilder.Entity("PuzKit3D.Modules.Catalog.Domain.Entities.Drives.Drive", b =>
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("uuid")
@@ -232,6 +433,260 @@ namespace PuzKit3D.Modules.Catalog.Persistence.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("text")
                         .HasColumnName("description");
+
+                    b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(false)
+                        .HasColumnName("is_active");
+
+                    b.Property<int?>("MinVolume")
+                        .HasColumnType("integer")
+                        .HasColumnName("min_volume");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("character varying(30)")
+                        .HasColumnName("name");
+
+                    b.Property<int>("QuantityInStock")
+                        .HasColumnType("integer")
+                        .HasColumnName("quantity_in_stock");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("updated_at");
+
+                    b.HasKey("Id")
+                        .HasName("pk_drives");
+
+                    b.ToTable("drives", "catalog");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("11111111-1111-1111-1111-111111111111"),
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Router module for rotate",
+                            IsActive = true,
+                            MinVolume = 5,
+                            Name = "Router",
+                            QuantityInStock = 5,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("22222222-2222-2222-2222-222222222222"),
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Electric motor drive",
+                            IsActive = true,
+                            MinVolume = 50,
+                            Name = "Motor",
+                            QuantityInStock = 100,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("33333333-3333-3333-3333-333333333333"),
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Mechanical gear system",
+                            IsActive = true,
+                            MinVolume = 30,
+                            Name = "Gearbox",
+                            QuantityInStock = 150,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("44444444-4444-4444-4444-444444444444"),
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "LED lighting system",
+                            IsActive = true,
+                            MinVolume = 10,
+                            Name = "LED Module",
+                            QuantityInStock = 200,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("55555555-5555-5555-5555-555555555555"),
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Mechanical music box",
+                            IsActive = true,
+                            MinVolume = 50,
+                            Name = "Music Box",
+                            QuantityInStock = 50,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        });
+                });
+
+            modelBuilder.Entity("PuzKit3D.Modules.Catalog.Domain.Entities.Formulas.Formula", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
+                        .HasColumnName("code");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("text")
+                        .HasColumnName("description");
+
+                    b.Property<string>("Expression")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("expression");
+
+                    b.Property<bool>("IsNeedValidation")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(false)
+                        .HasColumnName("is_need_validation");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("updated_at");
+
+                    b.HasKey("Id")
+                        .HasName("pk_formulas");
+
+                    b.ToTable("formulas", "catalog");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("f9f9f9f9-f9f9-f9f9-f9f9-f9f9f9f9f9f9"),
+                            Code = "DIFFICULTY_CALCULATION",
+                            Description = "Calculate difficulty level based on piece count and product characteristics",
+                            Expression = "( PieceCount * 0.4 ) + ( MaterialFactor * 5 ) + ( AssemblyMethodFactor * 4 ) + ( SUM(CapabilityFactors) * 3 )",
+                            IsNeedValidation = true,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("f8f8f8f8-f8f8-f8f8-f8f8-f8f8f8f8f8f8"),
+                            Code = "BUILD_TIME_CALCULATION",
+                            Description = "Calculate estimated build time based on difficulty and size",
+                            Expression = "PieceCount * MaterialFactor * SUM(AssemblyMethodFactors) * ( 1 + SUM(CapabilityFactors) )",
+                            IsNeedValidation = false,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("f7f7f7f7-f7f7-f7f7-f7f7-f7f7f7f7f7f7"),
+                            Code = "MATERIAL_PRICE_CALCULATION",
+                            Description = "Calculate material cost for production",
+                            Expression = "MaterialFactor * PieceCount",
+                            IsNeedValidation = false,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("f6f6f6f6-f6f6-f6f6-f6f6-f6f6f6f6f6f6"),
+                            Code = "MANUAL_PRICE_CALCULATION",
+                            Description = "Calculate manual pricing with dynamic factors",
+                            Expression = "SUM(AssemblyMethodFactors) * ( 1 + SUM(CapabilityFactors) )",
+                            IsNeedValidation = false,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        });
+                });
+
+            modelBuilder.Entity("PuzKit3D.Modules.Catalog.Domain.Entities.Formulas.FormulaValueValidation", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<Guid>("FormulaId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("formula_id");
+
+                    b.Property<decimal>("MaxValue")
+                        .HasPrecision(6, 2)
+                        .HasColumnType("numeric(6,2)")
+                        .HasColumnName("max_value");
+
+                    b.Property<decimal>("MinValue")
+                        .HasPrecision(6, 2)
+                        .HasColumnType("numeric(6,2)")
+                        .HasColumnName("min_value");
+
+                    b.Property<string>("Output")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("character varying(30)")
+                        .HasColumnName("output");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("updated_at");
+
+                    b.HasKey("Id")
+                        .HasName("pk_formula_value_validations");
+
+                    b.HasIndex("FormulaId")
+                        .HasDatabaseName("ix_formula_value_validations_formula_id");
+
+                    b.ToTable("formula_value_validations", "catalog");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("e1e1e1e1-e1e1-e1e1-e1e1-e1e1e1e1e1e1"),
+                            FormulaId = new Guid("f9f9f9f9-f9f9-f9f9-f9f9-f9f9f9f9f9f9"),
+                            MaxValue = 50m,
+                            MinValue = 0m,
+                            Output = "Easy",
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("e2e2e2e2-e2e2-e2e2-e2e2-e2e2e2e2e2e2"),
+                            FormulaId = new Guid("f9f9f9f9-f9f9-f9f9-f9f9-f9f9f9f9f9f9"),
+                            MaxValue = 150m,
+                            MinValue = 50.01m,
+                            Output = "Medium",
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("e3e3e3e3-e3e3-e3e3-e3e3-e3e3e3e3e3e3"),
+                            FormulaId = new Guid("f9f9f9f9-f9f9-f9f9-f9f9-f9f9f9f9f9f9"),
+                            MaxValue = 300m,
+                            MinValue = 150.01m,
+                            Output = "Hard",
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        });
+                });
+
+            modelBuilder.Entity("PuzKit3D.Modules.Catalog.Domain.Entities.Materials.Material", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<decimal>("BasePrice")
+                        .HasPrecision(10, 2)
+                        .HasColumnType("numeric(10,2)")
+                        .HasColumnName("base_price");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("text")
+                        .HasColumnName("description");
+
+                    b.Property<decimal>("FactorPercentage")
+                        .HasPrecision(5, 4)
+                        .HasColumnType("numeric(5,4)")
+                        .HasColumnName("factor_percentage");
 
                     b.Property<bool>("IsActive")
                         .ValueGeneratedOnAdd()
@@ -268,8 +723,10 @@ namespace PuzKit3D.Modules.Catalog.Persistence.Migrations
                         new
                         {
                             Id = new Guid("f1f1f1f1-f1f1-f1f1-f1f1-f1f1f1f1f1f1"),
+                            BasePrice = 4000m,
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Natural wood material",
+                            FactorPercentage = 1.0m,
                             IsActive = true,
                             Name = "Wood",
                             Slug = "wood",
@@ -278,8 +735,10 @@ namespace PuzKit3D.Modules.Catalog.Persistence.Migrations
                         new
                         {
                             Id = new Guid("a2a2a2a2-a2a2-a2a2-a2a2-a2a2a2a2a2a2"),
+                            BasePrice = 2000m,
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Durable plastic material",
+                            FactorPercentage = 0.85m,
                             IsActive = true,
                             Name = "Plastic",
                             Slug = "plastic",
@@ -288,8 +747,10 @@ namespace PuzKit3D.Modules.Catalog.Persistence.Migrations
                         new
                         {
                             Id = new Guid("b3b3b3b3-b3b3-b3b3-b3b3-b3b3b3b3b3b3"),
+                            BasePrice = 9000m,
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Premium metal components",
+                            FactorPercentage = 1.6m,
                             IsActive = true,
                             Name = "Metal",
                             Slug = "metal",
@@ -298,8 +759,10 @@ namespace PuzKit3D.Modules.Catalog.Persistence.Migrations
                         new
                         {
                             Id = new Guid("c4c4c4c4-c4c4-c4c4-c4c4-c4c4c4c4c4c4"),
+                            BasePrice = 1000m,
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Eco-friendly cardboard material",
+                            FactorPercentage = 0.7m,
                             IsActive = true,
                             Name = "Cardboard",
                             Slug = "cardboard",
@@ -308,12 +771,135 @@ namespace PuzKit3D.Modules.Catalog.Persistence.Migrations
                         new
                         {
                             Id = new Guid("d5d5d5d5-d5d5-d5d5-d5d5-d5d5d5d5d5d5"),
+                            BasePrice = 7000m,
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Advanced composite materials",
+                            FactorPercentage = 1.3m,
                             IsActive = true,
                             Name = "Composite",
                             Slug = "composite",
                             UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        });
+                });
+
+            modelBuilder.Entity("PuzKit3D.Modules.Catalog.Domain.Entities.TopicMaterialCapabilities.TopicMaterialCapability", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<Guid>("CapabilityId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("capability_id");
+
+                    b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(false)
+                        .HasColumnName("is_active");
+
+                    b.Property<Guid>("MaterialId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("material_id");
+
+                    b.Property<Guid>("TopicId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("topic_id");
+
+                    b.HasKey("Id")
+                        .HasName("pk_topic_material_capabilities");
+
+                    b.HasIndex("CapabilityId")
+                        .HasDatabaseName("ix_topic_material_capabilities_capability_id");
+
+                    b.HasIndex("MaterialId")
+                        .HasDatabaseName("ix_topic_material_capabilities_material_id");
+
+                    b.HasIndex("TopicId")
+                        .HasDatabaseName("ix_topic_material_capabilities_topic_id");
+
+                    b.ToTable("topic_material_capabilities", "catalog");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("80000000-0000-0000-0000-000000000001"),
+                            CapabilityId = new Guid("e1e1e1e1-e1e1-e1e1-e1e1-e1e1e1e1e1e1"),
+                            IsActive = true,
+                            MaterialId = new Guid("f1f1f1f1-f1f1-f1f1-f1f1-f1f1f1f1f1f1"),
+                            TopicId = new Guid("a1a1a1a1-a1a1-a1a1-a1a1-a1a1a1a1a1a1")
+                        },
+                        new
+                        {
+                            Id = new Guid("80000000-0000-0000-0000-000000000002"),
+                            CapabilityId = new Guid("a3a3a3a3-a3a3-a3a3-a3a3-a3a3a3a3a3a3"),
+                            IsActive = true,
+                            MaterialId = new Guid("f1f1f1f1-f1f1-f1f1-f1f1-f1f1f1f1f1f1"),
+                            TopicId = new Guid("a1a1a1a1-a1a1-a1a1-a1a1-a1a1a1a1a1a1")
+                        },
+                        new
+                        {
+                            Id = new Guid("80000000-0000-0000-0000-000000000003"),
+                            CapabilityId = new Guid("f2f2f2f2-f2f2-f2f2-f2f2-f2f2f2f2f2f2"),
+                            IsActive = true,
+                            MaterialId = new Guid("a2a2a2a2-a2a2-a2a2-a2a2-a2a2a2a2a2a2"),
+                            TopicId = new Guid("b2b2b2b2-b2b2-b2b2-b2b2-b2b2b2b2b2b2")
+                        },
+                        new
+                        {
+                            Id = new Guid("80000000-0000-0000-0000-000000000004"),
+                            CapabilityId = new Guid("f2f2f2f2-f2f2-f2f2-f2f2-f2f2f2f2f2f2"),
+                            IsActive = true,
+                            MaterialId = new Guid("b3b3b3b3-b3b3-b3b3-b3b3-b3b3b3b3b3b3"),
+                            TopicId = new Guid("b2b2b2b2-b2b2-b2b2-b2b2-b2b2b2b2b2b2")
+                        },
+                        new
+                        {
+                            Id = new Guid("80000000-0000-0000-0000-000000000005"),
+                            CapabilityId = new Guid("e1e1e1e1-e1e1-e1e1-e1e1-e1e1e1e1e1e1"),
+                            IsActive = true,
+                            MaterialId = new Guid("f1f1f1f1-f1f1-f1f1-f1f1-f1f1f1f1f1f1"),
+                            TopicId = new Guid("c3c3c3c3-c3c3-c3c3-c3c3-c3c3c3c3c3c3")
+                        },
+                        new
+                        {
+                            Id = new Guid("80000000-0000-0000-0000-000000000006"),
+                            CapabilityId = new Guid("b4b4b4b4-b4b4-b4b4-b4b4-b4b4b4b4b4b4"),
+                            IsActive = true,
+                            MaterialId = new Guid("b3b3b3b3-b3b3-b3b3-b3b3-b3b3b3b3b3b3"),
+                            TopicId = new Guid("c3c3c3c3-c3c3-c3c3-c3c3-c3c3c3c3c3c3")
+                        },
+                        new
+                        {
+                            Id = new Guid("80000000-0000-0000-0000-000000000007"),
+                            CapabilityId = new Guid("e1e1e1e1-e1e1-e1e1-e1e1-e1e1e1e1e1e1"),
+                            IsActive = true,
+                            MaterialId = new Guid("c4c4c4c4-c4c4-c4c4-c4c4-c4c4c4c4c4c4"),
+                            TopicId = new Guid("d4d4d4d4-d4d4-d4d4-d4d4-d4d4d4d4d4d4")
+                        },
+                        new
+                        {
+                            Id = new Guid("80000000-0000-0000-0000-000000000008"),
+                            CapabilityId = new Guid("f2f2f2f2-f2f2-f2f2-f2f2-f2f2f2f2f2f2"),
+                            IsActive = true,
+                            MaterialId = new Guid("b3b3b3b3-b3b3-b3b3-b3b3-b3b3b3b3b3b3"),
+                            TopicId = new Guid("e5e5e5e5-e5e5-e5e5-e5e5-e5e5e5e5e5e5")
+                        },
+                        new
+                        {
+                            Id = new Guid("80000000-0000-0000-0000-000000000009"),
+                            CapabilityId = new Guid("b4b4b4b4-b4b4-b4b4-b4b4-b4b4b4b4b4b4"),
+                            IsActive = true,
+                            MaterialId = new Guid("b3b3b3b3-b3b3-b3b3-b3b3-b3b3b3b3b3b3"),
+                            TopicId = new Guid("e5e5e5e5-e5e5-e5e5-e5e5-e5e5e5e5e5e5")
+                        },
+                        new
+                        {
+                            Id = new Guid("80000000-0000-0000-0000-000000000010"),
+                            CapabilityId = new Guid("c5c5c5c5-c5c5-c5c5-c5c5-c5c5c5c5c5c5"),
+                            IsActive = true,
+                            MaterialId = new Guid("d5d5d5d5-d5d5-d5d5-d5d5-d5d5d5d5d5d5"),
+                            TopicId = new Guid("e5e5e5e5-e5e5-e5e5-e5e5-e5e5e5e5e5e5")
                         });
                 });
 
@@ -330,6 +916,11 @@ namespace PuzKit3D.Modules.Catalog.Persistence.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("text")
                         .HasColumnName("description");
+
+                    b.Property<decimal>("FactorPercentage")
+                        .HasPrecision(5, 4)
+                        .HasColumnType("numeric(5,4)")
+                        .HasColumnName("factor_percentage");
 
                     b.Property<bool>("IsActive")
                         .ValueGeneratedOnAdd()
@@ -375,6 +966,7 @@ namespace PuzKit3D.Modules.Catalog.Persistence.Migrations
                             Id = new Guid("a1a1a1a1-a1a1-a1a1-a1a1-a1a1a1a1a1a1"),
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Animal themed 3D puzzles",
+                            FactorPercentage = 1.1m,
                             IsActive = true,
                             Name = "Animals",
                             Slug = "animals",
@@ -385,6 +977,7 @@ namespace PuzKit3D.Modules.Catalog.Persistence.Migrations
                             Id = new Guid("b2b2b2b2-b2b2-b2b2-b2b2-b2b2b2b2b2b2"),
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Vehicle and transportation themed puzzles",
+                            FactorPercentage = 1.3m,
                             IsActive = true,
                             Name = "Vehicles",
                             Slug = "vehicles",
@@ -395,6 +988,7 @@ namespace PuzKit3D.Modules.Catalog.Persistence.Migrations
                             Id = new Guid("c3c3c3c3-c3c3-c3c3-c3c3-c3c3c3c3c3c3"),
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Famous buildings and landmarks",
+                            FactorPercentage = 1.5m,
                             IsActive = true,
                             Name = "Architecture",
                             Slug = "architecture",
@@ -405,6 +999,7 @@ namespace PuzKit3D.Modules.Catalog.Persistence.Migrations
                             Id = new Guid("d4d4d4d4-d4d4-d4d4-d4d4-d4d4d4d4d4d4"),
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Natural landscapes and scenery",
+                            FactorPercentage = 1.0m,
                             IsActive = true,
                             Name = "Nature",
                             Slug = "nature",
@@ -415,11 +1010,241 @@ namespace PuzKit3D.Modules.Catalog.Persistence.Migrations
                             Id = new Guid("e5e5e5e5-e5e5-e5e5-e5e5-e5e5e5e5e5e5"),
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Fantasy creatures and magical worlds",
+                            FactorPercentage = 1.6m,
                             IsActive = true,
                             Name = "Fantasy",
                             Slug = "fantasy",
                             UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("a1a1a1a1-0001-0001-0001-000000000001"),
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Lions, tigers and other wild animals",
+                            FactorPercentage = 1.2m,
+                            IsActive = true,
+                            Name = "Wild Animals",
+                            ParentId = new Guid("a1a1a1a1-a1a1-a1a1-a1a1-a1a1a1a1a1a1"),
+                            Slug = "wild-animals",
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("a1a1a1a1-0002-0002-0002-000000000002"),
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Cats, dogs and domestic animals",
+                            FactorPercentage = 1.0m,
+                            IsActive = true,
+                            Name = "Pets",
+                            ParentId = new Guid("a1a1a1a1-a1a1-a1a1-a1a1-a1a1a1a1a1a1"),
+                            Slug = "pets",
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("b2b2b2b2-0001-0001-0001-000000000001"),
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Modern and classic cars",
+                            FactorPercentage = 1.2m,
+                            IsActive = true,
+                            Name = "Cars",
+                            ParentId = new Guid("b2b2b2b2-b2b2-b2b2-b2b2-b2b2b2b2b2b2"),
+                            Slug = "cars",
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("b2b2b2b2-0002-0002-0002-000000000002"),
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Airplanes and helicopters",
+                            FactorPercentage = 1.4m,
+                            IsActive = true,
+                            Name = "Aircraft",
+                            ParentId = new Guid("b2b2b2b2-b2b2-b2b2-b2b2-b2b2b2b2b2b2"),
+                            Slug = "aircraft",
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("c3c3c3c3-0001-0001-0001-000000000001"),
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Famous world landmarks",
+                            FactorPercentage = 1.6m,
+                            IsActive = true,
+                            Name = "Landmarks",
+                            ParentId = new Guid("c3c3c3c3-c3c3-c3c3-c3c3-c3c3c3c3c3c3"),
+                            Slug = "landmarks",
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("c3c3c3c3-0002-0002-0002-000000000002"),
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Residential buildings and houses",
+                            FactorPercentage = 1.3m,
+                            IsActive = true,
+                            Name = "Houses",
+                            ParentId = new Guid("c3c3c3c3-c3c3-c3c3-c3c3-c3c3c3c3c3c3"),
+                            Slug = "houses",
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("d4d4d4d4-0001-0001-0001-000000000001"),
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Mountain landscapes",
+                            FactorPercentage = 1.1m,
+                            IsActive = true,
+                            Name = "Mountains",
+                            ParentId = new Guid("d4d4d4d4-d4d4-d4d4-d4d4-d4d4d4d4d4d4"),
+                            Slug = "mountains",
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("d4d4d4d4-0002-0002-0002-000000000002"),
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Ocean and sea environments",
+                            FactorPercentage = 1.2m,
+                            IsActive = true,
+                            Name = "Oceans",
+                            ParentId = new Guid("d4d4d4d4-d4d4-d4d4-d4d4-d4d4d4d4d4d4"),
+                            Slug = "oceans",
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("e5e5e5e5-0001-0001-0001-000000000001"),
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Dragon creatures and models",
+                            FactorPercentage = 1.8m,
+                            IsActive = true,
+                            Name = "Dragons",
+                            ParentId = new Guid("e5e5e5e5-e5e5-e5e5-e5e5-e5e5e5e5e5e5"),
+                            Slug = "dragons",
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("e5e5e5e5-0002-0002-0002-000000000002"),
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Fantasy magical environments",
+                            FactorPercentage = 1.7m,
+                            IsActive = true,
+                            Name = "Magic Worlds",
+                            ParentId = new Guid("e5e5e5e5-e5e5-e5e5-e5e5-e5e5e5e5e5e5"),
+                            Slug = "magic-worlds",
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
                         });
+                });
+
+            modelBuilder.Entity("PuzKit3D.Modules.Catalog.Domain.Entities.CapabilityDrives.CapabilityDrive", b =>
+                {
+                    b.HasOne("PuzKit3D.Modules.Catalog.Domain.Entities.Capabilities.Capability", null)
+                        .WithMany("CapabilityDrives")
+                        .HasForeignKey("CapabilityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_capability_drives_capabilities_capability_id");
+
+                    b.HasOne("PuzKit3D.Modules.Catalog.Domain.Entities.Drives.Drive", null)
+                        .WithMany("CapabilityDrives")
+                        .HasForeignKey("DriveId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_capability_drives_drives_drive_id");
+                });
+
+            modelBuilder.Entity("PuzKit3D.Modules.Catalog.Domain.Entities.CapabilityMaterialAssemblies.CapabilityMaterialAssembly", b =>
+                {
+                    b.HasOne("PuzKit3D.Modules.Catalog.Domain.Entities.AssemblyMethods.AssemblyMethod", null)
+                        .WithMany("CapabilityMaterialAssemblies")
+                        .HasForeignKey("AssemblyMethodId")
+                        .HasConstraintName("fk_capability_material_assemblies_assembly_methods_assembly_me");
+
+                    b.HasOne("PuzKit3D.Modules.Catalog.Domain.Entities.Capabilities.Capability", null)
+                        .WithMany("CapabilityMaterialAssemblies")
+                        .HasForeignKey("CapabilityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_capability_material_assemblies_capabilities_capability_id");
+
+                    b.HasOne("PuzKit3D.Modules.Catalog.Domain.Entities.Materials.Material", null)
+                        .WithMany("CapabilityMaterialAssemblies")
+                        .HasForeignKey("MaterialId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_capability_material_assemblies_materials_material_id");
+                });
+
+            modelBuilder.Entity("PuzKit3D.Modules.Catalog.Domain.Entities.Formulas.FormulaValueValidation", b =>
+                {
+                    b.HasOne("PuzKit3D.Modules.Catalog.Domain.Entities.Formulas.Formula", null)
+                        .WithMany("FormulaValueValidations")
+                        .HasForeignKey("FormulaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_formula_value_validations_formulas_formula_id");
+                });
+
+            modelBuilder.Entity("PuzKit3D.Modules.Catalog.Domain.Entities.TopicMaterialCapabilities.TopicMaterialCapability", b =>
+                {
+                    b.HasOne("PuzKit3D.Modules.Catalog.Domain.Entities.Capabilities.Capability", null)
+                        .WithMany("TopicMaterialCapabilities")
+                        .HasForeignKey("CapabilityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_topic_material_capabilities_capabilities_capability_id");
+
+                    b.HasOne("PuzKit3D.Modules.Catalog.Domain.Entities.Materials.Material", null)
+                        .WithMany("TopicMaterialCapabilities")
+                        .HasForeignKey("MaterialId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_topic_material_capabilities_materials_material_id");
+
+                    b.HasOne("PuzKit3D.Modules.Catalog.Domain.Entities.Topics.Topic", null)
+                        .WithMany("TopicMaterialCapabilities")
+                        .HasForeignKey("TopicId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_topic_material_capabilities_topics_topic_id");
+                });
+
+            modelBuilder.Entity("PuzKit3D.Modules.Catalog.Domain.Entities.AssemblyMethods.AssemblyMethod", b =>
+                {
+                    b.Navigation("CapabilityMaterialAssemblies");
+                });
+
+            modelBuilder.Entity("PuzKit3D.Modules.Catalog.Domain.Entities.Capabilities.Capability", b =>
+                {
+                    b.Navigation("CapabilityDrives");
+
+                    b.Navigation("CapabilityMaterialAssemblies");
+
+                    b.Navigation("TopicMaterialCapabilities");
+                });
+
+            modelBuilder.Entity("PuzKit3D.Modules.Catalog.Domain.Entities.Drives.Drive", b =>
+                {
+                    b.Navigation("CapabilityDrives");
+                });
+
+            modelBuilder.Entity("PuzKit3D.Modules.Catalog.Domain.Entities.Formulas.Formula", b =>
+                {
+                    b.Navigation("FormulaValueValidations");
+                });
+
+            modelBuilder.Entity("PuzKit3D.Modules.Catalog.Domain.Entities.Materials.Material", b =>
+                {
+                    b.Navigation("CapabilityMaterialAssemblies");
+
+                    b.Navigation("TopicMaterialCapabilities");
+                });
+
+            modelBuilder.Entity("PuzKit3D.Modules.Catalog.Domain.Entities.Topics.Topic", b =>
+                {
+                    b.Navigation("TopicMaterialCapabilities");
                 });
 #pragma warning restore 612, 618
         }

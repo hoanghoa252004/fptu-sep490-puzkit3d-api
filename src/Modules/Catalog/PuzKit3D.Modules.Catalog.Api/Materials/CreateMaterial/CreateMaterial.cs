@@ -23,6 +23,8 @@ internal sealed class CreateMaterial : IEndpoint
                 var command = new CreateMaterialCommand(
                     request.Name,
                     request.Slug,
+                    request.FactorPercentage,
+                    request.BasePrice,
                     request.Description,
                     request.IsActive);
 
@@ -44,7 +46,9 @@ internal sealed class CreateMaterial : IEndpoint
 }
 
 internal sealed record CreateMaterialRequestDto(
-    string Name,
-    string Slug,
-    string? Description,
-    bool IsActive);
+string Name,
+string Slug,
+decimal FactorPercentage,
+decimal BasePrice,
+string? Description,
+bool IsActive);

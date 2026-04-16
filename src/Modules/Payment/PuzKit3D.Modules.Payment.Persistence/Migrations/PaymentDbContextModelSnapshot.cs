@@ -99,13 +99,23 @@ namespace PuzKit3D.Modules.Payment.Persistence.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("id");
 
-                    b.Property<int>("OnlinePaymentExpiredInDays")
-                        .HasColumnType("integer")
-                        .HasColumnName("online_payment_expired_in_days");
+                    b.Property<string>("OnlinePaymentExpiredUnit")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("online_payment_expired_unit");
 
-                    b.Property<int>("OnlineTransactionExpiredInMinutes")
+                    b.Property<int>("OnlinePaymentExpiredValue")
                         .HasColumnType("integer")
-                        .HasColumnName("online_transaction_expired_in_minutes");
+                        .HasColumnName("online_payment_expired_value");
+
+                    b.Property<string>("OnlineTransactionExpiredUnit")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("online_transaction_expired_unit");
+
+                    b.Property<int>("OnlineTransactionExpiredValue")
+                        .HasColumnType("integer")
+                        .HasColumnName("online_transaction_expired_value");
 
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("timestamp with time zone")
@@ -120,8 +130,10 @@ namespace PuzKit3D.Modules.Payment.Persistence.Migrations
                         new
                         {
                             Id = new Guid("00000000-0000-0000-0000-000000000001"),
-                            OnlinePaymentExpiredInDays = 2,
-                            OnlineTransactionExpiredInMinutes = 10,
+                            OnlinePaymentExpiredUnit = "Day",
+                            OnlinePaymentExpiredValue = 2,
+                            OnlineTransactionExpiredUnit = "Minute",
+                            OnlineTransactionExpiredValue = 10,
                             UpdatedAt = new DateTime(2025, 3, 30, 0, 0, 0, 0, DateTimeKind.Utc)
                         });
                 });

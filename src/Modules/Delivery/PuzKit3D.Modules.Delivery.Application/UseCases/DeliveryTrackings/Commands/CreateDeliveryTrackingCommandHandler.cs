@@ -1,4 +1,5 @@
-﻿using PuzKit3D.Modules.Delivery.Application.DTOs;
+﻿using Microsoft.Extensions.Options;
+using PuzKit3D.Modules.Delivery.Application.DTOs;
 using PuzKit3D.Modules.Delivery.Application.Repositories;
 using PuzKit3D.Modules.Delivery.Application.Services;
 using PuzKit3D.Modules.Delivery.Application.UnitOfWork;
@@ -9,6 +10,7 @@ using PuzKit3D.SharedKernel.Application.Message.Command;
 using PuzKit3D.SharedKernel.Domain.Errors;
 using PuzKit3D.SharedKernel.Domain.Results;
 using System.Text.Json;
+using System.Xml.Linq;
 
 namespace PuzKit3D.Modules.Delivery.Application.UseCases.DeliveryTrackings.Commands;
 
@@ -19,9 +21,10 @@ public sealed class CreateDeliveryTrackingCommandHandler : ICommandTHandler<Crea
     private readonly IDeliveryService _deliveryService;
     private readonly IOrderDetailReplicaRepository _orderDetailReplicaRepository;
     private readonly ISupportTicketReplicaRepository _supportTicketReplicaRepository;
-    private readonly IPartReplicaRepository _partReplicaRepository;
+    private readonly IDriveReplicaRepository _driveReplicaRepository;
     private readonly IUserReplicaRepository _userReplicaRepository;
     private readonly IDeliveryUnitOfWork _unitOfWork;
+    private readonly DeliveryApplicationSettings _settings;
 
     public CreateDeliveryTrackingCommandHandler(
         IDeliveryTrackingRepository deliveryTrackingRepository,
@@ -29,18 +32,20 @@ public sealed class CreateDeliveryTrackingCommandHandler : ICommandTHandler<Crea
         IDeliveryService deliveryService,
         IOrderDetailReplicaRepository orderDetailReplicaRepository,
         ISupportTicketReplicaRepository supportTicketReplicaRepository,
-        IPartReplicaRepository partReplicaRepository,
+        IDriveReplicaRepository driveReplicaRepository,
         IUserReplicaRepository userReplicaRepository,
-        IDeliveryUnitOfWork unitOfWork)
+        IDeliveryUnitOfWork unitOfWork,
+        IOptions<DeliveryApplicationSettings> options)
     {
         _deliveryTrackingRepository = deliveryTrackingRepository;
         _deliveryService = deliveryService;
         _orderReplicaRepository = orderReplicaRepository;
         _orderDetailReplicaRepository = orderDetailReplicaRepository;
         _supportTicketReplicaRepository = supportTicketReplicaRepository;
-        _partReplicaRepository = partReplicaRepository;
+        _driveReplicaRepository = driveReplicaRepository;
         _userReplicaRepository = userReplicaRepository;
         _unitOfWork = unitOfWork;
+        _settings = options.Value;
     }
 
     public async Task<ResultT<Guid>> Handle(CreateDeliveryTrackingCommand request, CancellationToken cancellationToken)
@@ -56,32 +61,40 @@ public sealed class CreateDeliveryTrackingCommandHandler : ICommandTHandler<Crea
 
             var order = orderResult.Value;
 
-            // 2. Check if DeliveryTracking already exists for this order
+            // 2. Determine tracking type and validate conditions
             var existingTrackings = await _deliveryTrackingRepository.GetByOrderIdAsync(request.OrderId, cancellationToken);
-            var trackingType = !existingTrackings.Any() ? DeliveryTrackingType.Original : DeliveryTrackingType.Support;
+            DeliveryTrackingType trackingType;
+            SupportTicketReplica? supportTicket = null;
 
-            // 2b. If support type, verify all previous trackings are delivered
-            if (trackingType == DeliveryTrackingType.Support)
+            // Check if this is the first tracking (Original type)
+            if (!existingTrackings.Any())
             {
-                var hasUndeliveredTracking = existingTrackings.Any(t => t.Status != DeliveryTrackingStatus.Delivered);
-                if (hasUndeliveredTracking)
+                // Original type: Order must be in Processing status
+                if (!order.Status.Equals("Processing", StringComparison.OrdinalIgnoreCase))
                 {
                     return Result.Failure<Guid>(
-                        Error.Validation("Delivery.CannotCreateSupport",
-                            "Cannot create support delivery tracking while previous deliveries are not yet delivered"));
+                        Error.Validation("Delivery.OrderNotProcessing",
+                            "Delivery tracking can only be created for orders with Processing status"));
                 }
-            }
 
-            // 3. Validate SupportTicketId based on tracking type
-            SupportTicketReplica? supportTicket = null;
-            if (trackingType == DeliveryTrackingType.Support)
+                // SupportTicketId should not be provided for Original type
+                if (request.SupportTicketId.HasValue && request.SupportTicketId != Guid.Empty)
+                {
+                    return Result.Failure<Guid>(
+                        Error.Validation("Delivery.SupportTicketNotAllowed",
+                            "Support ticket should not be provided for original delivery tracking"));
+                }
+
+                trackingType = DeliveryTrackingType.Original;
+            }
+            else
             {
-                // For Support type, SupportTicketId is required
+                // For Return or Resend type, SupportTicketId is required
                 if (!request.SupportTicketId.HasValue || request.SupportTicketId == Guid.Empty)
                 {
                     return Result.Failure<Guid>(
                         Error.Validation("Delivery.SupportTicketRequired",
-                            "Support ticket is required for support delivery tracking"));
+                            "Support ticket is required for return or resend delivery tracking"));
                 }
 
                 // Verify support ticket exists
@@ -100,13 +113,80 @@ public sealed class CreateDeliveryTrackingCommandHandler : ICommandTHandler<Crea
                         Error.Validation("Delivery.SupportTicketNotProcessing",
                             "Delivery tracking can only be created for support tickets with Processing status"));
                 }
-            }
-            else if (request.SupportTicketId.HasValue && request.SupportTicketId != Guid.Empty)
-            {
-                // For Original type, SupportTicketId should not be provided
-                return Result.Failure<Guid>(
-                    Error.Validation("Delivery.SupportTicketNotAllowed",
-                        "Support ticket should not be provided for original delivery tracking"));
+
+                // Determine if this is Return or Resend type
+                var lastOriginalTracking = existingTrackings.FirstOrDefault(t => t.Type == DeliveryTrackingType.Original);
+                
+                // Get trackings for this specific support ticket
+                var trackingsForThisTicket = existingTrackings.Where(t => t.SupportTicketId == request.SupportTicketId.Value).ToList();
+                var returnTrackingForThisTicket = trackingsForThisTicket.FirstOrDefault(t => t.Type == DeliveryTrackingType.Return);
+                var resendTrackingForThisTicket = trackingsForThisTicket.FirstOrDefault(t => t.Type == DeliveryTrackingType.Resend);
+
+                // Return type: Must have Original tracking that is Delivered, and SupportTicket type in (Return, Exchange, ReplaceDrive)
+                if (lastOriginalTracking != null && lastOriginalTracking.Status == DeliveryTrackingStatus.Delivered)
+                {
+                    var validReturnTicketTypes = new[] { "Return", "Exchange", "ReplaceDrive" };
+                    if (validReturnTicketTypes.Contains(supportTicket.Type, StringComparer.OrdinalIgnoreCase))
+                    {
+                        // For Return type support ticket, only 1 Return delivery is allowed
+                        if (supportTicket.Type.Equals("Return", StringComparison.OrdinalIgnoreCase))
+                        {
+                            if (returnTrackingForThisTicket != null)
+                            {
+                                return Result.Failure<Guid>(
+                                    Error.Validation("Delivery.ReturnDeliveryAlreadyExists",
+                                        "Return delivery tracking already exists for this support ticket"));
+                            }
+                            trackingType = DeliveryTrackingType.Return;
+                        }
+                        // For Exchange and ReplaceDrive types, can have Return then Resend
+                        else if (supportTicket.Type.Equals("Exchange", StringComparison.OrdinalIgnoreCase) || 
+                                 supportTicket.Type.Equals("ReplaceDrive", StringComparison.OrdinalIgnoreCase))
+                        {
+                            // If Return tracking doesn't exist yet, create it
+                            if (returnTrackingForThisTicket == null)
+                            {
+                                trackingType = DeliveryTrackingType.Return;
+                            }
+                            // If Return tracking exists and is Delivered, create Resend
+                            else if (returnTrackingForThisTicket.Status == DeliveryTrackingStatus.Delivered)
+                            {
+                                // Cannot create another tracking if Resend already exists
+                                if (resendTrackingForThisTicket != null)
+                                {
+                                    return Result.Failure<Guid>(
+                                        Error.Validation("Delivery.ResendDeliveryAlreadyExists",
+                                            "Resend delivery tracking already exists for this support ticket"));
+                                }
+                                trackingType = DeliveryTrackingType.Resend;
+                            }
+                            else
+                            {
+                                return Result.Failure<Guid>(
+                                    Error.Validation("Delivery.ReturnNotDelivered",
+                                        "Return delivery must be delivered before creating resend delivery"));
+                            }
+                        }
+                        else
+                        {
+                            return Result.Failure<Guid>(
+                                Error.Validation("Delivery.InvalidSupportTicketType",
+                                    "Invalid support ticket type for delivery tracking"));
+                        }
+                    }
+                    else
+                    {
+                        return Result.Failure<Guid>(
+                            Error.Validation("Delivery.InvalidTrackingSequence",
+                                "Invalid delivery tracking sequence or support ticket type"));
+                    }
+                }
+                else
+                {
+                    return Result.Failure<Guid>(
+                        Error.Validation("Delivery.CannotCreateDeliveryTracking",
+                            "Cannot create delivery tracking. Original tracking must be delivered first"));
+                }
             }
 
             // 4. Get order details
@@ -125,31 +205,50 @@ public sealed class CreateDeliveryTrackingCommandHandler : ICommandTHandler<Crea
 
             var user = userResult.Value;
 
-            // 5. Build shipping items
+            // 5. Build shipping items and determine address (From/To) based on tracking type
             List<ShippingOrderItem> items = new();
-
+            //string toName, toPhone, toAddress, toWardName, toDistrictName, toProvinceName;
+            ToDto toDto = null!;
+            FromDto fromDto = null!;
             if (trackingType == DeliveryTrackingType.Original)
             {
-                // 1b. Check if order status is Processing
-                if (!order.Status.Equals("Processing", StringComparison.OrdinalIgnoreCase))
-                {
-                    return Result.Failure<Guid>(
-                        Error.Validation("Delivery.OrderNotProcessing",
-                            "Delivery tracking can only be created for orders with Processing status"));
-                }
-
                 // For Original delivery, use order details directly (products)
                 items = orderDetails.Select(detail => new ShippingOrderItem
                 {
                     Name = $"{detail.ProductName} - {detail.VariantName}",
-                    Code = (detail.VariantId ?? detail.ProductId).ToString(),
+                    Code = "[PRODUCT]",
                     Quantity = detail.Quantity,
                     Price = 0
                 }).ToList();
+
+                // Ship to customer
+                fromDto = new FromDto(
+                    _settings.MyShop.Name,
+                    _settings.MyShop.Phone,
+                    _settings.MyShop.Address,
+                    _settings.MyShop.Ward,
+                    _settings.MyShop.District,
+                    _settings.MyShop.Province
+                    );
+
+                toDto = new ToDto(
+                    user.FullName,
+                    user.PhoneNumber,
+                    user.StreetAddress,
+                    user.Ward,
+                    user.District,
+                    user.Province
+                    );
+                //toName = user.FullName;
+                //toPhone = user.PhoneNumber;
+                //toAddress = user.StreetAddress!;
+                //toWardName = user.Ward!;
+                //toDistrictName = user.District!;
+                //toProvinceName = user.Province!;
             }
-            else if (trackingType == DeliveryTrackingType.Support && supportTicket != null)
+            else if (trackingType == DeliveryTrackingType.Return && supportTicket != null)
             {
-                // For Support delivery, get details from support ticket
+                // For Return delivery, get details from support ticket
                 var ticketDetailsResult = await _supportTicketReplicaRepository.GetDetailsByTicketIdAsync(supportTicket.Id, cancellationToken);
                 if (ticketDetailsResult.IsFailure)
                 {
@@ -158,27 +257,25 @@ public sealed class CreateDeliveryTrackingCommandHandler : ICommandTHandler<Crea
 
                 var ticketDetails = ticketDetailsResult.Value;
 
-                // If support ticket type is ReplacePart, build items from parts
-                if (supportTicket.Type == "ReplacePart")
+                // If support ticket type is ReplaceDrive, build items from drives
+                if (supportTicket.Type == "ReplaceDrive")
                 {
                     foreach (var detail in ticketDetails)
                     {
-                        if (detail.PartId.HasValue)
+                        if (detail.DriveId.HasValue)
                         {
-                            // Get part information
-                            var partResult = await _partReplicaRepository.GetByIdAsync(detail.PartId.Value, cancellationToken);
-                            if (partResult.IsFailure)
-                            {
-                                return Result.Failure<Guid>(partResult.Error);
-                            }
+                            // Get drive information
+                            var drive = await _driveReplicaRepository.GetByIdAsync(detail.DriveId.Value, cancellationToken);
 
-                            var part = partResult.Value;
-                            var partDisplayName = $"{part.Name} - {part.PartType}";
+                            if (drive is null)
+                            {
+                                return Result.Failure<Guid>(DeliveryTrackingError.DriveNotFound(detail.DriveId.Value));
+                            }
 
                             items.Add(new ShippingOrderItem
                             {
-                                Name = partDisplayName,
-                                Code = part.Code,
+                                Name = drive.Name,
+                                Code = "[DRIVE]",
                                 Quantity = detail.Quantity,
                                 Price = 0
                             });
@@ -187,45 +284,97 @@ public sealed class CreateDeliveryTrackingCommandHandler : ICommandTHandler<Crea
                 }
                 else
                 {
-                    // For other support types, use order details
+                    // For other return types (Exchange, Return), use order details
                     items = orderDetails.Select(detail => new ShippingOrderItem
                     {
                         Name = $"{detail.ProductName}",
-                        Code = (detail.VariantId ?? detail.ProductId).ToString(),
+                        Code = "[PRODUCT]",
                         Quantity = detail.Quantity,
                         Price = 0
                     }).ToList();
                 }
-            }
 
-            // 6. Create shipping order request
-            var orderCode = "";
-            if(supportTicket != null)
+                // Ship from customer back to shop
+                fromDto = new FromDto(
+                    user.FullName,
+                    user.PhoneNumber,
+                    user.StreetAddress,
+                    user.Ward,
+                    user.District,
+                    user.Province
+                    );
+
+                toDto = new ToDto(
+                    _settings.MyShop.Name,
+                    _settings.MyShop.Phone,
+                    _settings.MyShop.Address,
+                    _settings.MyShop.Ward,
+                    _settings.MyShop.District,
+                    _settings.MyShop.Province
+                    );
+            }
+            else if (trackingType == DeliveryTrackingType.Resend && supportTicket != null)
             {
-                orderCode = $"{order.Code}-{supportTicket.Code}";
+                // For Resend delivery, use order details (products)
+                items = orderDetails.Select(detail => new ShippingOrderItem
+                {
+                    Name = $"{detail.ProductName} - {detail.VariantName}",
+                    Code = (detail.VariantId ?? detail.ProductId).ToString(),
+                    Quantity = detail.Quantity,
+                    Price = 0
+                }).ToList();
+
+                // Ship to customer again
+                fromDto = new FromDto(
+                    _settings.MyShop.Name,
+                    _settings.MyShop.Phone,
+                    _settings.MyShop.Address,
+                    _settings.MyShop.Ward,
+                    _settings.MyShop.District,
+                    _settings.MyShop.Province
+                    );
+
+                toDto = new ToDto(
+                    user.FullName,
+                    user.PhoneNumber,
+                    user.StreetAddress,
+                    user.Ward,
+                    user.District,
+                    user.Province
+                    );
             }
             else
             {
-                orderCode = $"{order.Code}";
+                return Result.Failure<Guid>(
+                    Error.Validation("Delivery.InvalidTrackingType",
+                        "Invalid delivery tracking type"));
             }
+
+            // 6. Create shipping order request
+            var orderCode = trackingType switch
+            {
+                DeliveryTrackingType.Original => order.Code,
+                _ => $"{order.Code}-{supportTicket?.Code}"
+            };
+
             var shippingRequest = new CreateShippingOrderRequest
-                {
-                    ToName = user.FullName,
-                    ToPhone = user.PhoneNumber,
-                    ToAddress = user.StreetAddress!,
-                    ToWardName = user.Ward!,
-                    ToDistrictName = user.District!,
-                    ToProvinceName = user.Province!,
-                    OrderCode = Guid.NewGuid().ToString(),
-                    RequiredNote = "CHOXEMHANGKHONGTHU",
-                    Note = "Welcome to Puzkit3D",
-                    Items = items,
-                    Content = "Puzzle 3D Product",
-                    CodAmount = 0
-                };
+            {
+                ToName = toDto.FullName,
+                ToPhone = toDto.PhoneNumber,
+                ToAddress = toDto.StreetAddress,
+                ToWardName = toDto.Ward,
+                ToDistrictName = toDto.District,
+                ToProvinceName = toDto.Province,
+                OrderCode = Guid.NewGuid().ToString(),
+                RequiredNote = "CHOXEMHANGKHONGTHU",
+                Note = "PuzKit3D Shop",
+                Items = items,
+                Content = "Puzzle 3D Product",
+                CodAmount = trackingType == DeliveryTrackingType.Original && !order.Status.Equals("Paid", StringComparison.OrdinalIgnoreCase) ? (int)order.GrandTotalAmount : 0
+            };
 
             // 7. Create shipping order with delivery service
-            var ghnResult = await _deliveryService.CreateShippingOrderAsync(shippingRequest, cancellationToken);
+            var ghnResult = await _deliveryService.CreateShippingOrderAsync(shippingRequest, fromDto, toDto, trackingType, cancellationToken);
             if (ghnResult.IsFailure)
             {
                 return Result.Failure<Guid>(ghnResult.Error);
@@ -263,28 +412,28 @@ public sealed class CreateDeliveryTrackingCommandHandler : ICommandTHandler<Crea
                         detail.Quantity)
                 ).ToList();
             }
-            else if (trackingType == DeliveryTrackingType.Support && supportTicket?.Type == "ReplacePart")
+            else if (trackingType == DeliveryTrackingType.Return && supportTicket?.Type == "ReplaceDrive")
             {
-                // For Support delivery with ReplacePart, add parts
+                // For Return delivery with ReplaceDrive, add drives
                 var ticketDetailsResult = await _supportTicketReplicaRepository.GetDetailsByTicketIdAsync(supportTicket.Id, cancellationToken);
                 if (ticketDetailsResult.IsSuccess)
                 {
                     foreach (var detail in ticketDetailsResult.Value)
                     {
-                        if (detail.PartId.HasValue)
+                        if (detail.DriveId.HasValue)
                         {
                             trackingDetails.Add(
-                                DeliveryTrackingDetail.CreatePart(
+                                DeliveryTrackingDetail.CreateDrive(
                                     deliveryTracking.Id,
-                                    detail.PartId.Value,
+                                    detail.DriveId.Value,
                                     detail.Quantity));
                         }
                     }
                 }
             }
-            else
+            else if (trackingType == DeliveryTrackingType.Return || trackingType == DeliveryTrackingType.Resend)
             {
-                // For other support types, use products
+                // For Return and Resend types, use products from order details
                 trackingDetails = orderDetails.Select(detail =>
                     DeliveryTrackingDetail.CreateProduct(
                         deliveryTracking.Id,

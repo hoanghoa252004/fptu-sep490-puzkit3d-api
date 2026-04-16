@@ -47,6 +47,7 @@ internal sealed class UpdateCapabilityCommandHandler : ICommandHandler<UpdateCap
             var updateResult = capability.Update(
                 request.Name,
                 request.Slug,
+                request.FactorPercentage,
                 request.Description,
                 request.IsActive);
 

@@ -76,4 +76,33 @@ internal sealed class TopicRepository : ITopicRepository
     {
         _context.Topics.RemoveRange(entities);
     }
+
+    public async Task<IEnumerable<Topic>> GetAllAsync(
+        bool isStaffOrManager,
+        string? searchTerm,
+        bool ascending,
+        CancellationToken cancellationToken = default)
+    {
+        var query = _context.Topics.AsQueryable();
+
+        if (!isStaffOrManager)
+        {
+            query = query.Where(p => p.IsActive);
+        }
+
+        if (!string.IsNullOrEmpty(searchTerm))
+        {
+            query = query.Where(p => p.Name.ToLower().Contains(searchTerm.ToLower())
+            || p.Slug.ToLower().Contains(searchTerm.ToLower())
+            || (p.Description != null && p.Description.ToLower().Contains(searchTerm.ToLower())));
+        }
+
+        query = ascending 
+            ? query.OrderBy(p => p.CreatedAt) 
+            : query.OrderByDescending(p => p.CreatedAt);
+
+        return await query
+            .AsNoTracking()
+            .ToListAsync(cancellationToken);
+    }
 }

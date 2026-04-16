@@ -13,4 +13,7 @@ int? AssembledHeightMm,
 string? ThumbnailUrl,
 bool IsActive,
 Guid? PartnerId,
-decimal? ReferencePrice);
+decimal? ReferencePrice,
+List<string>? VariantPreviewImages = null);
+
+

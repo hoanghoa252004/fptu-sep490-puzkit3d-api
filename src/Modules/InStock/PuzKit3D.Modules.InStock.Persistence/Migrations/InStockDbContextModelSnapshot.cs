@@ -466,6 +466,129 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                         });
                 });
 
+            modelBuilder.Entity("PuzKit3D.Modules.InStock.Domain.Entities.InstockProductAssemblyMethodDetails.InstockProductAssemblyMethodDetail", b =>
+                {
+                    b.Property<Guid>("InstockProductId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("instock_product_id");
+
+                    b.Property<Guid>("AssemblyMethodId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("assembly_method_id");
+
+                    b.HasKey("InstockProductId", "AssemblyMethodId")
+                        .HasName("pk_instock_product_assembly_method_details");
+
+                    b.ToTable("instock_product_assembly_method_details", "instock");
+
+                    b.HasData(
+                        new
+                        {
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000001"),
+                            AssemblyMethodId = new Guid("d1d1d1d1-d1d1-d1d1-d1d1-d1d1d1d1d1d1")
+                        },
+                        new
+                        {
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000001"),
+                            AssemblyMethodId = new Guid("e2e2e2e2-e2e2-e2e2-e2e2-e2e2e2e2e2e2")
+                        },
+                        new
+                        {
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000002"),
+                            AssemblyMethodId = new Guid("f3f3f3f3-f3f3-f3f3-f3f3-f3f3f3f3f3f3")
+                        },
+                        new
+                        {
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000002"),
+                            AssemblyMethodId = new Guid("a4a4a4a4-a4a4-a4a4-a4a4-a4a4a4a4a4a4")
+                        },
+                        new
+                        {
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000003"),
+                            AssemblyMethodId = new Guid("b5b5b5b5-b5b5-b5b5-b5b5-b5b5b5b5b5b5")
+                        },
+                        new
+                        {
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000003"),
+                            AssemblyMethodId = new Guid("d1d1d1d1-d1d1-d1d1-d1d1-d1d1d1d1d1d1")
+                        },
+                        new
+                        {
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000003"),
+                            AssemblyMethodId = new Guid("e2e2e2e2-e2e2-e2e2-e2e2-e2e2e2e2e2e2")
+                        },
+                        new
+                        {
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000004"),
+                            AssemblyMethodId = new Guid("f3f3f3f3-f3f3-f3f3-f3f3-f3f3f3f3f3f3")
+                        },
+                        new
+                        {
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000004"),
+                            AssemblyMethodId = new Guid("a4a4a4a4-a4a4-a4a4-a4a4-a4a4a4a4a4a4")
+                        },
+                        new
+                        {
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000005"),
+                            AssemblyMethodId = new Guid("b5b5b5b5-b5b5-b5b5-b5b5-b5b5b5b5b5b5")
+                        },
+                        new
+                        {
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000005"),
+                            AssemblyMethodId = new Guid("e2e2e2e2-e2e2-e2e2-e2e2-e2e2e2e2e2e2")
+                        },
+                        new
+                        {
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000006"),
+                            AssemblyMethodId = new Guid("d1d1d1d1-d1d1-d1d1-d1d1-d1d1d1d1d1d1")
+                        },
+                        new
+                        {
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000006"),
+                            AssemblyMethodId = new Guid("e2e2e2e2-e2e2-e2e2-e2e2-e2e2e2e2e2e2")
+                        },
+                        new
+                        {
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000006"),
+                            AssemblyMethodId = new Guid("a4a4a4a4-a4a4-a4a4-a4a4-a4a4a4a4a4a4")
+                        },
+                        new
+                        {
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000007"),
+                            AssemblyMethodId = new Guid("f3f3f3f3-f3f3-f3f3-f3f3-f3f3f3f3f3f3")
+                        },
+                        new
+                        {
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000008"),
+                            AssemblyMethodId = new Guid("b5b5b5b5-b5b5-b5b5-b5b5-b5b5b5b5b5b5")
+                        },
+                        new
+                        {
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000008"),
+                            AssemblyMethodId = new Guid("d1d1d1d1-d1d1-d1d1-d1d1-d1d1d1d1d1d1")
+                        },
+                        new
+                        {
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000009"),
+                            AssemblyMethodId = new Guid("e2e2e2e2-e2e2-e2e2-e2e2-e2e2e2e2e2e2")
+                        },
+                        new
+                        {
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000009"),
+                            AssemblyMethodId = new Guid("a4a4a4a4-a4a4-a4a4-a4a4-a4a4a4a4a4a4")
+                        },
+                        new
+                        {
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000009"),
+                            AssemblyMethodId = new Guid("f3f3f3f3-f3f3-f3f3-f3f3-f3f3f3f3f3f3")
+                        },
+                        new
+                        {
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000010"),
+                            AssemblyMethodId = new Guid("b5b5b5b5-b5b5-b5b5-b5b5-b5b5b5b5b5b5")
+                        });
+                });
+
             modelBuilder.Entity("PuzKit3D.Modules.InStock.Domain.Entities.InstockProductCapabilityDetails.InstockProductCapabilityDetail", b =>
                 {
                     b.Property<Guid>("InstockProductId")
@@ -581,6 +704,218 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                         {
                             InstockProductId = new Guid("10000000-0000-0000-0000-000000000010"),
                             CapabilityId = new Guid("e1e1e1e1-e1e1-e1e1-e1e1-e1e1e1e1e1e1")
+                        });
+                });
+
+            modelBuilder.Entity("PuzKit3D.Modules.InStock.Domain.Entities.InstockProductDrives.InstockProductDrive", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<Guid>("DriveId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("drive_id");
+
+                    b.Property<Guid>("InstockProductId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("instock_product_id");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("integer")
+                        .HasColumnName("quantity");
+
+                    b.HasKey("Id")
+                        .HasName("pk_instock_product_drives");
+
+                    b.HasIndex("InstockProductId", "DriveId")
+                        .IsUnique()
+                        .HasDatabaseName("UK__instock_product_drive__product_drive");
+
+                    b.ToTable("instock_product_drives", "instock");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("08578f30-2677-4a23-a0c8-cf3664f2cfc4"),
+                            DriveId = new Guid("11111111-1111-1111-1111-111111111111"),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000001"),
+                            Quantity = 1
+                        },
+                        new
+                        {
+                            Id = new Guid("5110d43a-7a4b-420d-b5d8-e61d4400df42"),
+                            DriveId = new Guid("22222222-2222-2222-2222-222222222222"),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000001"),
+                            Quantity = 1
+                        },
+                        new
+                        {
+                            Id = new Guid("2e4b60f2-b9f6-4950-9a22-bcfcd723b5f7"),
+                            DriveId = new Guid("33333333-3333-3333-3333-333333333333"),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000001"),
+                            Quantity = 2
+                        },
+                        new
+                        {
+                            Id = new Guid("7b923bb9-2633-48ac-957b-c925d5daeaf1"),
+                            DriveId = new Guid("22222222-2222-2222-2222-222222222222"),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000002"),
+                            Quantity = 1
+                        },
+                        new
+                        {
+                            Id = new Guid("d6dbbfe5-6976-44aa-8d52-b6a2b5270927"),
+                            DriveId = new Guid("33333333-3333-3333-3333-333333333333"),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000002"),
+                            Quantity = 3
+                        },
+                        new
+                        {
+                            Id = new Guid("8ab14c71-c665-4726-8bea-8c4309487b8e"),
+                            DriveId = new Guid("33333333-3333-3333-3333-333333333333"),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000003"),
+                            Quantity = 2
+                        },
+                        new
+                        {
+                            Id = new Guid("cc5da756-dc21-4710-a8c3-3f0864e766ca"),
+                            DriveId = new Guid("44444444-4444-4444-4444-444444444444"),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000003"),
+                            Quantity = 1
+                        },
+                        new
+                        {
+                            Id = new Guid("38305bf6-5272-44da-8d75-fe0dc2dfd431"),
+                            DriveId = new Guid("44444444-4444-4444-4444-444444444444"),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000004"),
+                            Quantity = 2
+                        },
+                        new
+                        {
+                            Id = new Guid("e255aafb-1ade-4797-a7be-b81e94032a76"),
+                            DriveId = new Guid("55555555-5555-5555-5555-555555555555"),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000004"),
+                            Quantity = 1
+                        },
+                        new
+                        {
+                            Id = new Guid("8dd31e6b-67e0-498a-9f15-fd47382903f5"),
+                            DriveId = new Guid("33333333-3333-3333-3333-333333333333"),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000004"),
+                            Quantity = 2
+                        },
+                        new
+                        {
+                            Id = new Guid("aa4042f3-a7c5-476f-a475-04af6cdcdcaa"),
+                            DriveId = new Guid("55555555-5555-5555-5555-555555555555"),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000005"),
+                            Quantity = 1
+                        },
+                        new
+                        {
+                            Id = new Guid("e6f7eb45-80df-4617-9e49-a5305547b0ba"),
+                            DriveId = new Guid("33333333-3333-3333-3333-333333333333"),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000005"),
+                            Quantity = 3
+                        },
+                        new
+                        {
+                            Id = new Guid("d0d57205-4b2f-4611-8aa0-d1adb9c15742"),
+                            DriveId = new Guid("11111111-1111-1111-1111-111111111111"),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000005"),
+                            Quantity = 1
+                        },
+                        new
+                        {
+                            Id = new Guid("10311e4a-dbe4-44f1-88af-a3ec0fe084c0"),
+                            DriveId = new Guid("11111111-1111-1111-1111-111111111111"),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000006"),
+                            Quantity = 1
+                        },
+                        new
+                        {
+                            Id = new Guid("fc70f9ef-025e-44fb-8e40-6d8115b48243"),
+                            DriveId = new Guid("22222222-2222-2222-2222-222222222222"),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000006"),
+                            Quantity = 1
+                        },
+                        new
+                        {
+                            Id = new Guid("7eaccc13-46ad-43b1-9af8-b5d3e40a03de"),
+                            DriveId = new Guid("33333333-3333-3333-3333-333333333333"),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000006"),
+                            Quantity = 2
+                        },
+                        new
+                        {
+                            Id = new Guid("3bfaaafb-9e71-4519-bdb2-2338268d7cfe"),
+                            DriveId = new Guid("22222222-2222-2222-2222-222222222222"),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000007"),
+                            Quantity = 1
+                        },
+                        new
+                        {
+                            Id = new Guid("4b364cf8-f7bb-4fcc-9b1d-a5c0d8f42421"),
+                            DriveId = new Guid("33333333-3333-3333-3333-333333333333"),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000007"),
+                            Quantity = 2
+                        },
+                        new
+                        {
+                            Id = new Guid("80028215-9ce3-4a1f-9e78-c81f9ea128eb"),
+                            DriveId = new Guid("33333333-3333-3333-3333-333333333333"),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000008"),
+                            Quantity = 2
+                        },
+                        new
+                        {
+                            Id = new Guid("e2eb63e6-c0d6-4373-9eaf-bf24c662a0bb"),
+                            DriveId = new Guid("44444444-4444-4444-4444-444444444444"),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000008"),
+                            Quantity = 1
+                        },
+                        new
+                        {
+                            Id = new Guid("bb5c23c3-64bb-450c-87dc-e16bcd595047"),
+                            DriveId = new Guid("44444444-4444-4444-4444-444444444444"),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000009"),
+                            Quantity = 1
+                        },
+                        new
+                        {
+                            Id = new Guid("a5b472f7-9e78-404a-aad5-628309847697"),
+                            DriveId = new Guid("55555555-5555-5555-5555-555555555555"),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000009"),
+                            Quantity = 1
+                        },
+                        new
+                        {
+                            Id = new Guid("895aa47f-d8fb-4b9c-9d1e-8c1ff388a75a"),
+                            DriveId = new Guid("33333333-3333-3333-3333-333333333333"),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000009"),
+                            Quantity = 2
+                        },
+                        new
+                        {
+                            Id = new Guid("b8277c83-2bf3-4665-bff2-2f6d4153f198"),
+                            DriveId = new Guid("55555555-5555-5555-5555-555555555555"),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000010"),
+                            Quantity = 1
+                        },
+                        new
+                        {
+                            Id = new Guid("65adb27e-863e-4ce4-8e0a-8668bb285265"),
+                            DriveId = new Guid("33333333-3333-3333-3333-333333333333"),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000010"),
+                            Quantity = 2
+                        },
+                        new
+                        {
+                            Id = new Guid("90f5d472-9af0-430a-928a-5cc1285081a3"),
+                            DriveId = new Guid("11111111-1111-1111-1111-111111111111"),
+                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000010"),
+                            Quantity = 1
                         });
                 });
 
@@ -989,6 +1324,11 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                         .HasDefaultValue(false)
                         .HasColumnName("is_active");
 
+                    b.Property<string>("PreviewImages")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("preview_images");
+
                     b.Property<string>("Sku")
                         .IsRequired()
                         .HasMaxLength(10)
@@ -1022,6 +1362,7 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             InstockProductId = new Guid("10000000-0000-0000-0000-000000000001"),
                             IsActive = true,
+                            PreviewImages = "instock-products/ugt-24-endurance-racer/image-01.png,instock-products/ugt-24-endurance-racer/image-02.png",
                             Sku = "SKU001",
                             UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
                         },
@@ -1035,6 +1376,7 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             InstockProductId = new Guid("10000000-0000-0000-0000-000000000001"),
                             IsActive = true,
+                            PreviewImages = "instock-products/ugt-24-endurance-racer/image-01.png,instock-products/ugt-24-endurance-racer/image-02.png",
                             Sku = "SKU002",
                             UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
                         },
@@ -1048,6 +1390,7 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             InstockProductId = new Guid("10000000-0000-0000-0000-000000000002"),
                             IsActive = true,
+                            PreviewImages = "instock-products/mad-hornet-airplane/image-01.png,instock-products/mad-hornet-airplane/image-02.png",
                             Sku = "SKU003",
                             UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
                         },
@@ -1061,6 +1404,7 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             InstockProductId = new Guid("10000000-0000-0000-0000-000000000003"),
                             IsActive = true,
+                            PreviewImages = "instock-products/ugt-24-endurance-racer/image-01.png,instock-products/ugt-24-endurance-racer/image-02.png",
                             Sku = "SKU004",
                             UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
                         },
@@ -1074,6 +1418,7 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             InstockProductId = new Guid("10000000-0000-0000-0000-000000000003"),
                             IsActive = true,
+                            PreviewImages = "instock-products/ugt-24-endurance-racer/image-01.png,instock-products/ugt-24-endurance-racer/image-02.png",
                             Sku = "SKU005",
                             UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
                         },
@@ -1087,6 +1432,7 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             InstockProductId = new Guid("10000000-0000-0000-0000-000000000004"),
                             IsActive = true,
+                            PreviewImages = "instock-products/mad-hornet-airplane/image-01.png,instock-products/mad-hornet-airplane/image-02.png",
                             Sku = "SKU006",
                             UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
                         },
@@ -1100,6 +1446,7 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             InstockProductId = new Guid("10000000-0000-0000-0000-000000000004"),
                             IsActive = true,
+                            PreviewImages = "instock-products/mad-hornet-airplane/image-01.png,instock-products/mad-hornet-airplane/image-02.png",
                             Sku = "SKU007",
                             UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
                         },
@@ -1113,6 +1460,7 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             InstockProductId = new Guid("10000000-0000-0000-0000-000000000005"),
                             IsActive = true,
+                            PreviewImages = "instock-products/ugt-24-endurance-racer/image-01.png,instock-products/ugt-24-endurance-racer/image-02.png",
                             Sku = "SKU008",
                             UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
                         },
@@ -1126,6 +1474,7 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             InstockProductId = new Guid("10000000-0000-0000-0000-000000000006"),
                             IsActive = true,
+                            PreviewImages = "instock-products/ugt-24-endurance-racer/image-01.png,instock-products/ugt-24-endurance-racer/image-02.png",
                             Sku = "SKU009",
                             UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
                         },
@@ -1139,6 +1488,7 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             InstockProductId = new Guid("10000000-0000-0000-0000-000000000006"),
                             IsActive = true,
+                            PreviewImages = "instock-products/ugt-24-endurance-racer/image-01.png,instock-products/ugt-24-endurance-racer/image-02.png",
                             Sku = "SKU010",
                             UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
                         },
@@ -1152,6 +1502,7 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             InstockProductId = new Guid("10000000-0000-0000-0000-000000000007"),
                             IsActive = true,
+                            PreviewImages = "instock-products/mad-hornet-airplane/image-01.png,instock-products/mad-hornet-airplane/image-02.png",
                             Sku = "SKU011",
                             UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
                         },
@@ -1165,6 +1516,7 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             InstockProductId = new Guid("10000000-0000-0000-0000-000000000008"),
                             IsActive = true,
+                            PreviewImages = "instock-products/mad-hornet-airplane/image-01.png,instock-products/mad-hornet-airplane/image-02.png",
                             Sku = "SKU012",
                             UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
                         },
@@ -1178,6 +1530,7 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             InstockProductId = new Guid("10000000-0000-0000-0000-000000000008"),
                             IsActive = true,
+                            PreviewImages = "instock-products/mad-hornet-airplane/image-01.png,instock-products/mad-hornet-airplane/image-02.png",
                             Sku = "SKU013",
                             UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
                         },
@@ -1191,6 +1544,7 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             InstockProductId = new Guid("10000000-0000-0000-0000-000000000009"),
                             IsActive = true,
+                            PreviewImages = "instock-products/ugt-24-endurance-racer/image-01.png,instock-products/ugt-24-endurance-racer/image-02.png",
                             Sku = "SKU014",
                             UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
                         },
@@ -1204,6 +1558,7 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             InstockProductId = new Guid("10000000-0000-0000-0000-000000000010"),
                             IsActive = true,
+                            PreviewImages = "instock-products/mad-hornet-airplane/image-01.png,instock-products/mad-hornet-airplane/image-02.png",
                             Sku = "SKU015",
                             UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
                         },
@@ -1217,6 +1572,7 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             InstockProductId = new Guid("10000000-0000-0000-0000-000000000010"),
                             IsActive = true,
+                            PreviewImages = "instock-products/mad-hornet-airplane/image-01.png,instock-products/mad-hornet-airplane/image-02.png",
                             Sku = "SKU016",
                             UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
                         });
@@ -1227,10 +1583,6 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                     b.Property<Guid>("Id")
                         .HasColumnType("uuid")
                         .HasColumnName("id");
-
-                    b.Property<Guid>("AssemblyMethodId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("assembly_method_id");
 
                     b.Property<string>("Code")
                         .IsRequired()
@@ -1313,7 +1665,6 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                         new
                         {
                             Id = new Guid("10000000-0000-0000-0000-000000000001"),
-                            AssemblyMethodId = new Guid("d1d1d1d1-d1d1-d1d1-d1d1-d1d1d1d1d1d1"),
                             Code = "INP001",
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "New wooden mechanical 3D puzzle UGT-24 Endurance Racer by Ugears. A large car featuring a blue racing stripe and plastic windows drives 5-6 m thanks to a spring motor. Cool gift!",
@@ -1332,7 +1683,6 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                         new
                         {
                             Id = new Guid("10000000-0000-0000-0000-000000000002"),
-                            AssemblyMethodId = new Guid("e2e2e2e2-e2e2-e2e2-e2e2-e2e2e2e2e2e2"),
                             Code = "INP002",
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Wooden 3D puzzle Mad Hornet Airplane from Ugears. Pre-flight check mode and taxi mode. Moves without batteries. Assemble without glue. The perfect gift!",
@@ -1351,7 +1701,6 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                         new
                         {
                             Id = new Guid("10000000-0000-0000-0000-000000000003"),
-                            AssemblyMethodId = new Guid("f3f3f3f3-f3f3-f3f3-f3f3-f3f3f3f3f3f3"),
                             Code = "INP003",
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "New wooden mechanical 3D puzzle UGT-24 Endurance Racer by Ugears. A large car featuring a blue racing stripe and plastic windows drives 5-6 m thanks to a spring motor. Cool gift!",
@@ -1370,7 +1719,6 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                         new
                         {
                             Id = new Guid("10000000-0000-0000-0000-000000000004"),
-                            AssemblyMethodId = new Guid("a4a4a4a4-a4a4-a4a4-a4a4-a4a4a4a4a4a4"),
                             Code = "INP004",
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Wooden 3D puzzle Mad Hornet Airplane from Ugears. Pre-flight check mode and taxi mode. Moves without batteries. Assemble without glue. The perfect gift!",
@@ -1389,7 +1737,6 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                         new
                         {
                             Id = new Guid("10000000-0000-0000-0000-000000000005"),
-                            AssemblyMethodId = new Guid("b5b5b5b5-b5b5-b5b5-b5b5-b5b5b5b5b5b5"),
                             Code = "INP005",
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "New wooden mechanical 3D puzzle UGT-24 Endurance Racer by Ugears. A large car featuring a blue racing stripe and plastic windows drives 5-6 m thanks to a spring motor. Cool gift!",
@@ -1408,7 +1755,6 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                         new
                         {
                             Id = new Guid("10000000-0000-0000-0000-000000000006"),
-                            AssemblyMethodId = new Guid("d1d1d1d1-d1d1-d1d1-d1d1-d1d1d1d1d1d1"),
                             Code = "INP006",
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "New wooden mechanical 3D puzzle UGT-24 Endurance Racer by Ugears. A large car featuring a blue racing stripe and plastic windows drives 5-6 m thanks to a spring motor. Cool gift!",
@@ -1427,7 +1773,6 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                         new
                         {
                             Id = new Guid("10000000-0000-0000-0000-000000000007"),
-                            AssemblyMethodId = new Guid("e2e2e2e2-e2e2-e2e2-e2e2-e2e2e2e2e2e2"),
                             Code = "INP007",
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Wooden 3D puzzle Mad Hornet Airplane from Ugears. Pre-flight check mode and taxi mode. Moves without batteries. Assemble without glue. The perfect gift!",
@@ -1446,7 +1791,6 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                         new
                         {
                             Id = new Guid("10000000-0000-0000-0000-000000000008"),
-                            AssemblyMethodId = new Guid("f3f3f3f3-f3f3-f3f3-f3f3-f3f3f3f3f3f3"),
                             Code = "INP008",
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Wooden 3D puzzle Mad Hornet Airplane from Ugears. Pre-flight check mode and taxi mode. Moves without batteries. Assemble without glue. The perfect gift!",
@@ -1465,7 +1809,6 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                         new
                         {
                             Id = new Guid("10000000-0000-0000-0000-000000000009"),
-                            AssemblyMethodId = new Guid("a4a4a4a4-a4a4-a4a4-a4a4-a4a4a4a4a4a4"),
                             Code = "INP009",
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "New wooden mechanical 3D puzzle UGT-24 Endurance Racer by Ugears. A large car featuring a blue racing stripe and plastic windows drives 5-6 m thanks to a spring motor. Cool gift!",
@@ -1484,7 +1827,6 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                         new
                         {
                             Id = new Guid("10000000-0000-0000-0000-000000000010"),
-                            AssemblyMethodId = new Guid("b5b5b5b5-b5b5-b5b5-b5b5-b5b5b5b5b5b5"),
                             Code = "INP010",
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Wooden 3D puzzle Mad Hornet Airplane from Ugears. Pre-flight check mode and taxi mode. Moves without batteries. Assemble without glue. The perfect gift!",
@@ -1502,948 +1844,6 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                         });
                 });
 
-            modelBuilder.Entity("PuzKit3D.Modules.InStock.Domain.Entities.Parts.Part", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uuid")
-                        .HasColumnName("id");
-
-                    b.Property<string>("Code")
-                        .IsRequired()
-                        .HasMaxLength(10)
-                        .HasColumnType("character varying(10)")
-                        .HasColumnName("code");
-
-                    b.Property<Guid>("InstockProductId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("instock_product_id");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(30)
-                        .HasColumnType("character varying(30)")
-                        .HasColumnName("name");
-
-                    b.Property<string>("PartType")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("part_type");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("integer")
-                        .HasColumnName("quantity");
-
-                    b.HasKey("Id")
-                        .HasName("pk_parts");
-
-                    b.HasIndex("InstockProductId")
-                        .HasDatabaseName("ix_parts_instock_product_id");
-
-                    b.ToTable("parts", "instock");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("50000000-0001-0000-0000-000000000000"),
-                            Code = "PAR0001",
-                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000001"),
-                            Name = "Lion Part 1",
-                            PartType = "Structural",
-                            Quantity = 10
-                        },
-                        new
-                        {
-                            Id = new Guid("50000000-0001-0001-0000-000000000000"),
-                            Code = "PAR0002",
-                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000001"),
-                            Name = "Lion Part 2",
-                            PartType = "Mechanical",
-                            Quantity = 15
-                        },
-                        new
-                        {
-                            Id = new Guid("50000000-0001-0002-0000-000000000000"),
-                            Code = "PAR0003",
-                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000001"),
-                            Name = "Lion Part 3",
-                            PartType = "Decorative",
-                            Quantity = 20
-                        },
-                        new
-                        {
-                            Id = new Guid("50000000-0001-0003-0000-000000000000"),
-                            Code = "PAR0004",
-                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000001"),
-                            Name = "Lion Part 4",
-                            PartType = "Structural",
-                            Quantity = 25
-                        },
-                        new
-                        {
-                            Id = new Guid("50000000-0001-0004-0000-000000000000"),
-                            Code = "PAR0005",
-                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000001"),
-                            Name = "Lion Part 5",
-                            PartType = "Mechanical",
-                            Quantity = 30
-                        },
-                        new
-                        {
-                            Id = new Guid("50000000-0001-0005-0000-000000000000"),
-                            Code = "PAR0006",
-                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000001"),
-                            Name = "Lion Part 6",
-                            PartType = "Decorative",
-                            Quantity = 35
-                        },
-                        new
-                        {
-                            Id = new Guid("50000000-0001-0006-0000-000000000000"),
-                            Code = "PAR0007",
-                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000001"),
-                            Name = "Lion Part 7",
-                            PartType = "Structural",
-                            Quantity = 40
-                        },
-                        new
-                        {
-                            Id = new Guid("50000000-0001-0007-0000-000000000000"),
-                            Code = "PAR0008",
-                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000001"),
-                            Name = "Lion Part 8",
-                            PartType = "Mechanical",
-                            Quantity = 45
-                        },
-                        new
-                        {
-                            Id = new Guid("50000000-0001-0008-0000-000000000000"),
-                            Code = "PAR0009",
-                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000001"),
-                            Name = "Lion Part 9",
-                            PartType = "Decorative",
-                            Quantity = 50
-                        },
-                        new
-                        {
-                            Id = new Guid("50000000-0001-0009-0000-000000000000"),
-                            Code = "PAR0010",
-                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000001"),
-                            Name = "Lion Part 10",
-                            PartType = "Structural",
-                            Quantity = 55
-                        },
-                        new
-                        {
-                            Id = new Guid("50000000-0002-0000-0000-000000000000"),
-                            Code = "PAR0011",
-                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000002"),
-                            Name = "Elephant Part 1",
-                            PartType = "Structural",
-                            Quantity = 10
-                        },
-                        new
-                        {
-                            Id = new Guid("50000000-0002-0001-0000-000000000000"),
-                            Code = "PAR0012",
-                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000002"),
-                            Name = "Elephant Part 2",
-                            PartType = "Mechanical",
-                            Quantity = 15
-                        },
-                        new
-                        {
-                            Id = new Guid("50000000-0002-0002-0000-000000000000"),
-                            Code = "PAR0013",
-                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000002"),
-                            Name = "Elephant Part 3",
-                            PartType = "Decorative",
-                            Quantity = 20
-                        },
-                        new
-                        {
-                            Id = new Guid("50000000-0002-0003-0000-000000000000"),
-                            Code = "PAR0014",
-                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000002"),
-                            Name = "Elephant Part 4",
-                            PartType = "Structural",
-                            Quantity = 25
-                        },
-                        new
-                        {
-                            Id = new Guid("50000000-0002-0004-0000-000000000000"),
-                            Code = "PAR0015",
-                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000002"),
-                            Name = "Elephant Part 5",
-                            PartType = "Mechanical",
-                            Quantity = 30
-                        },
-                        new
-                        {
-                            Id = new Guid("50000000-0002-0005-0000-000000000000"),
-                            Code = "PAR0016",
-                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000002"),
-                            Name = "Elephant Part 6",
-                            PartType = "Decorative",
-                            Quantity = 35
-                        },
-                        new
-                        {
-                            Id = new Guid("50000000-0002-0006-0000-000000000000"),
-                            Code = "PAR0017",
-                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000002"),
-                            Name = "Elephant Part 7",
-                            PartType = "Structural",
-                            Quantity = 40
-                        },
-                        new
-                        {
-                            Id = new Guid("50000000-0002-0007-0000-000000000000"),
-                            Code = "PAR0018",
-                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000002"),
-                            Name = "Elephant Part 8",
-                            PartType = "Mechanical",
-                            Quantity = 45
-                        },
-                        new
-                        {
-                            Id = new Guid("50000000-0002-0008-0000-000000000000"),
-                            Code = "PAR0019",
-                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000002"),
-                            Name = "Elephant Part 9",
-                            PartType = "Decorative",
-                            Quantity = 50
-                        },
-                        new
-                        {
-                            Id = new Guid("50000000-0002-0009-0000-000000000000"),
-                            Code = "PAR0020",
-                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000002"),
-                            Name = "Elephant Part 10",
-                            PartType = "Structural",
-                            Quantity = 55
-                        },
-                        new
-                        {
-                            Id = new Guid("50000000-0003-0000-0000-000000000000"),
-                            Code = "PAR0021",
-                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000003"),
-                            Name = "Eagle Part 1",
-                            PartType = "Structural",
-                            Quantity = 10
-                        },
-                        new
-                        {
-                            Id = new Guid("50000000-0003-0001-0000-000000000000"),
-                            Code = "PAR0022",
-                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000003"),
-                            Name = "Eagle Part 2",
-                            PartType = "Mechanical",
-                            Quantity = 15
-                        },
-                        new
-                        {
-                            Id = new Guid("50000000-0003-0002-0000-000000000000"),
-                            Code = "PAR0023",
-                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000003"),
-                            Name = "Eagle Part 3",
-                            PartType = "Decorative",
-                            Quantity = 20
-                        },
-                        new
-                        {
-                            Id = new Guid("50000000-0003-0003-0000-000000000000"),
-                            Code = "PAR0024",
-                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000003"),
-                            Name = "Eagle Part 4",
-                            PartType = "Structural",
-                            Quantity = 25
-                        },
-                        new
-                        {
-                            Id = new Guid("50000000-0003-0004-0000-000000000000"),
-                            Code = "PAR0025",
-                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000003"),
-                            Name = "Eagle Part 5",
-                            PartType = "Mechanical",
-                            Quantity = 30
-                        },
-                        new
-                        {
-                            Id = new Guid("50000000-0003-0005-0000-000000000000"),
-                            Code = "PAR0026",
-                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000003"),
-                            Name = "Eagle Part 6",
-                            PartType = "Decorative",
-                            Quantity = 35
-                        },
-                        new
-                        {
-                            Id = new Guid("50000000-0003-0006-0000-000000000000"),
-                            Code = "PAR0027",
-                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000003"),
-                            Name = "Eagle Part 7",
-                            PartType = "Structural",
-                            Quantity = 40
-                        },
-                        new
-                        {
-                            Id = new Guid("50000000-0003-0007-0000-000000000000"),
-                            Code = "PAR0028",
-                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000003"),
-                            Name = "Eagle Part 8",
-                            PartType = "Mechanical",
-                            Quantity = 45
-                        },
-                        new
-                        {
-                            Id = new Guid("50000000-0003-0008-0000-000000000000"),
-                            Code = "PAR0029",
-                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000003"),
-                            Name = "Eagle Part 9",
-                            PartType = "Decorative",
-                            Quantity = 50
-                        },
-                        new
-                        {
-                            Id = new Guid("50000000-0003-0009-0000-000000000000"),
-                            Code = "PAR0030",
-                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000003"),
-                            Name = "Eagle Part 10",
-                            PartType = "Structural",
-                            Quantity = 55
-                        },
-                        new
-                        {
-                            Id = new Guid("50000000-0004-0000-0000-000000000000"),
-                            Code = "PAR0031",
-                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000004"),
-                            Name = "Sports Car Part 1",
-                            PartType = "Structural",
-                            Quantity = 10
-                        },
-                        new
-                        {
-                            Id = new Guid("50000000-0004-0001-0000-000000000000"),
-                            Code = "PAR0032",
-                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000004"),
-                            Name = "Sports Car Part 2",
-                            PartType = "Mechanical",
-                            Quantity = 15
-                        },
-                        new
-                        {
-                            Id = new Guid("50000000-0004-0002-0000-000000000000"),
-                            Code = "PAR0033",
-                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000004"),
-                            Name = "Sports Car Part 3",
-                            PartType = "Decorative",
-                            Quantity = 20
-                        },
-                        new
-                        {
-                            Id = new Guid("50000000-0004-0003-0000-000000000000"),
-                            Code = "PAR0034",
-                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000004"),
-                            Name = "Sports Car Part 4",
-                            PartType = "Structural",
-                            Quantity = 25
-                        },
-                        new
-                        {
-                            Id = new Guid("50000000-0004-0004-0000-000000000000"),
-                            Code = "PAR0035",
-                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000004"),
-                            Name = "Sports Car Part 5",
-                            PartType = "Mechanical",
-                            Quantity = 30
-                        },
-                        new
-                        {
-                            Id = new Guid("50000000-0004-0005-0000-000000000000"),
-                            Code = "PAR0036",
-                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000004"),
-                            Name = "Sports Car Part 6",
-                            PartType = "Decorative",
-                            Quantity = 35
-                        },
-                        new
-                        {
-                            Id = new Guid("50000000-0004-0006-0000-000000000000"),
-                            Code = "PAR0037",
-                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000004"),
-                            Name = "Sports Car Part 7",
-                            PartType = "Structural",
-                            Quantity = 40
-                        },
-                        new
-                        {
-                            Id = new Guid("50000000-0004-0007-0000-000000000000"),
-                            Code = "PAR0038",
-                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000004"),
-                            Name = "Sports Car Part 8",
-                            PartType = "Mechanical",
-                            Quantity = 45
-                        },
-                        new
-                        {
-                            Id = new Guid("50000000-0004-0008-0000-000000000000"),
-                            Code = "PAR0039",
-                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000004"),
-                            Name = "Sports Car Part 9",
-                            PartType = "Decorative",
-                            Quantity = 50
-                        },
-                        new
-                        {
-                            Id = new Guid("50000000-0004-0009-0000-000000000000"),
-                            Code = "PAR0040",
-                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000004"),
-                            Name = "Sports Car Part 10",
-                            PartType = "Structural",
-                            Quantity = 55
-                        },
-                        new
-                        {
-                            Id = new Guid("50000000-0005-0000-0000-000000000000"),
-                            Code = "PAR0041",
-                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000005"),
-                            Name = "Airplane Part 1",
-                            PartType = "Structural",
-                            Quantity = 10
-                        },
-                        new
-                        {
-                            Id = new Guid("50000000-0005-0001-0000-000000000000"),
-                            Code = "PAR0042",
-                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000005"),
-                            Name = "Airplane Part 2",
-                            PartType = "Mechanical",
-                            Quantity = 15
-                        },
-                        new
-                        {
-                            Id = new Guid("50000000-0005-0002-0000-000000000000"),
-                            Code = "PAR0043",
-                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000005"),
-                            Name = "Airplane Part 3",
-                            PartType = "Decorative",
-                            Quantity = 20
-                        },
-                        new
-                        {
-                            Id = new Guid("50000000-0005-0003-0000-000000000000"),
-                            Code = "PAR0044",
-                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000005"),
-                            Name = "Airplane Part 4",
-                            PartType = "Structural",
-                            Quantity = 25
-                        },
-                        new
-                        {
-                            Id = new Guid("50000000-0005-0004-0000-000000000000"),
-                            Code = "PAR0045",
-                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000005"),
-                            Name = "Airplane Part 5",
-                            PartType = "Mechanical",
-                            Quantity = 30
-                        },
-                        new
-                        {
-                            Id = new Guid("50000000-0005-0005-0000-000000000000"),
-                            Code = "PAR0046",
-                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000005"),
-                            Name = "Airplane Part 6",
-                            PartType = "Decorative",
-                            Quantity = 35
-                        },
-                        new
-                        {
-                            Id = new Guid("50000000-0005-0006-0000-000000000000"),
-                            Code = "PAR0047",
-                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000005"),
-                            Name = "Airplane Part 7",
-                            PartType = "Structural",
-                            Quantity = 40
-                        },
-                        new
-                        {
-                            Id = new Guid("50000000-0005-0007-0000-000000000000"),
-                            Code = "PAR0048",
-                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000005"),
-                            Name = "Airplane Part 8",
-                            PartType = "Mechanical",
-                            Quantity = 45
-                        },
-                        new
-                        {
-                            Id = new Guid("50000000-0005-0008-0000-000000000000"),
-                            Code = "PAR0049",
-                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000005"),
-                            Name = "Airplane Part 9",
-                            PartType = "Decorative",
-                            Quantity = 50
-                        },
-                        new
-                        {
-                            Id = new Guid("50000000-0005-0009-0000-000000000000"),
-                            Code = "PAR0050",
-                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000005"),
-                            Name = "Airplane Part 10",
-                            PartType = "Structural",
-                            Quantity = 55
-                        },
-                        new
-                        {
-                            Id = new Guid("50000000-0006-0000-0000-000000000000"),
-                            Code = "PAR0051",
-                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000006"),
-                            Name = "Motorcycle Part 1",
-                            PartType = "Structural",
-                            Quantity = 10
-                        },
-                        new
-                        {
-                            Id = new Guid("50000000-0006-0001-0000-000000000000"),
-                            Code = "PAR0052",
-                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000006"),
-                            Name = "Motorcycle Part 2",
-                            PartType = "Mechanical",
-                            Quantity = 15
-                        },
-                        new
-                        {
-                            Id = new Guid("50000000-0006-0002-0000-000000000000"),
-                            Code = "PAR0053",
-                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000006"),
-                            Name = "Motorcycle Part 3",
-                            PartType = "Decorative",
-                            Quantity = 20
-                        },
-                        new
-                        {
-                            Id = new Guid("50000000-0006-0003-0000-000000000000"),
-                            Code = "PAR0054",
-                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000006"),
-                            Name = "Motorcycle Part 4",
-                            PartType = "Structural",
-                            Quantity = 25
-                        },
-                        new
-                        {
-                            Id = new Guid("50000000-0006-0004-0000-000000000000"),
-                            Code = "PAR0055",
-                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000006"),
-                            Name = "Motorcycle Part 5",
-                            PartType = "Mechanical",
-                            Quantity = 30
-                        },
-                        new
-                        {
-                            Id = new Guid("50000000-0006-0005-0000-000000000000"),
-                            Code = "PAR0056",
-                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000006"),
-                            Name = "Motorcycle Part 6",
-                            PartType = "Decorative",
-                            Quantity = 35
-                        },
-                        new
-                        {
-                            Id = new Guid("50000000-0006-0006-0000-000000000000"),
-                            Code = "PAR0057",
-                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000006"),
-                            Name = "Motorcycle Part 7",
-                            PartType = "Structural",
-                            Quantity = 40
-                        },
-                        new
-                        {
-                            Id = new Guid("50000000-0006-0007-0000-000000000000"),
-                            Code = "PAR0058",
-                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000006"),
-                            Name = "Motorcycle Part 8",
-                            PartType = "Mechanical",
-                            Quantity = 45
-                        },
-                        new
-                        {
-                            Id = new Guid("50000000-0006-0008-0000-000000000000"),
-                            Code = "PAR0059",
-                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000006"),
-                            Name = "Motorcycle Part 9",
-                            PartType = "Decorative",
-                            Quantity = 50
-                        },
-                        new
-                        {
-                            Id = new Guid("50000000-0006-0009-0000-000000000000"),
-                            Code = "PAR0060",
-                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000006"),
-                            Name = "Motorcycle Part 10",
-                            PartType = "Structural",
-                            Quantity = 55
-                        },
-                        new
-                        {
-                            Id = new Guid("50000000-0007-0000-0000-000000000000"),
-                            Code = "PAR0061",
-                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000007"),
-                            Name = "Tiger Part 1",
-                            PartType = "Structural",
-                            Quantity = 10
-                        },
-                        new
-                        {
-                            Id = new Guid("50000000-0007-0001-0000-000000000000"),
-                            Code = "PAR0062",
-                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000007"),
-                            Name = "Tiger Part 2",
-                            PartType = "Mechanical",
-                            Quantity = 15
-                        },
-                        new
-                        {
-                            Id = new Guid("50000000-0007-0002-0000-000000000000"),
-                            Code = "PAR0063",
-                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000007"),
-                            Name = "Tiger Part 3",
-                            PartType = "Decorative",
-                            Quantity = 20
-                        },
-                        new
-                        {
-                            Id = new Guid("50000000-0007-0003-0000-000000000000"),
-                            Code = "PAR0064",
-                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000007"),
-                            Name = "Tiger Part 4",
-                            PartType = "Structural",
-                            Quantity = 25
-                        },
-                        new
-                        {
-                            Id = new Guid("50000000-0007-0004-0000-000000000000"),
-                            Code = "PAR0065",
-                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000007"),
-                            Name = "Tiger Part 5",
-                            PartType = "Mechanical",
-                            Quantity = 30
-                        },
-                        new
-                        {
-                            Id = new Guid("50000000-0007-0005-0000-000000000000"),
-                            Code = "PAR0066",
-                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000007"),
-                            Name = "Tiger Part 6",
-                            PartType = "Decorative",
-                            Quantity = 35
-                        },
-                        new
-                        {
-                            Id = new Guid("50000000-0007-0006-0000-000000000000"),
-                            Code = "PAR0067",
-                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000007"),
-                            Name = "Tiger Part 7",
-                            PartType = "Structural",
-                            Quantity = 40
-                        },
-                        new
-                        {
-                            Id = new Guid("50000000-0007-0007-0000-000000000000"),
-                            Code = "PAR0068",
-                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000007"),
-                            Name = "Tiger Part 8",
-                            PartType = "Mechanical",
-                            Quantity = 45
-                        },
-                        new
-                        {
-                            Id = new Guid("50000000-0007-0008-0000-000000000000"),
-                            Code = "PAR0069",
-                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000007"),
-                            Name = "Tiger Part 9",
-                            PartType = "Decorative",
-                            Quantity = 50
-                        },
-                        new
-                        {
-                            Id = new Guid("50000000-0007-0009-0000-000000000000"),
-                            Code = "PAR0070",
-                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000007"),
-                            Name = "Tiger Part 10",
-                            PartType = "Structural",
-                            Quantity = 55
-                        },
-                        new
-                        {
-                            Id = new Guid("50000000-0008-0000-0000-000000000000"),
-                            Code = "PAR0071",
-                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000008"),
-                            Name = "Dolphin Part 1",
-                            PartType = "Structural",
-                            Quantity = 10
-                        },
-                        new
-                        {
-                            Id = new Guid("50000000-0008-0001-0000-000000000000"),
-                            Code = "PAR0072",
-                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000008"),
-                            Name = "Dolphin Part 2",
-                            PartType = "Mechanical",
-                            Quantity = 15
-                        },
-                        new
-                        {
-                            Id = new Guid("50000000-0008-0002-0000-000000000000"),
-                            Code = "PAR0073",
-                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000008"),
-                            Name = "Dolphin Part 3",
-                            PartType = "Decorative",
-                            Quantity = 20
-                        },
-                        new
-                        {
-                            Id = new Guid("50000000-0008-0003-0000-000000000000"),
-                            Code = "PAR0074",
-                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000008"),
-                            Name = "Dolphin Part 4",
-                            PartType = "Structural",
-                            Quantity = 25
-                        },
-                        new
-                        {
-                            Id = new Guid("50000000-0008-0004-0000-000000000000"),
-                            Code = "PAR0075",
-                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000008"),
-                            Name = "Dolphin Part 5",
-                            PartType = "Mechanical",
-                            Quantity = 30
-                        },
-                        new
-                        {
-                            Id = new Guid("50000000-0008-0005-0000-000000000000"),
-                            Code = "PAR0076",
-                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000008"),
-                            Name = "Dolphin Part 6",
-                            PartType = "Decorative",
-                            Quantity = 35
-                        },
-                        new
-                        {
-                            Id = new Guid("50000000-0008-0006-0000-000000000000"),
-                            Code = "PAR0077",
-                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000008"),
-                            Name = "Dolphin Part 7",
-                            PartType = "Structural",
-                            Quantity = 40
-                        },
-                        new
-                        {
-                            Id = new Guid("50000000-0008-0007-0000-000000000000"),
-                            Code = "PAR0078",
-                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000008"),
-                            Name = "Dolphin Part 8",
-                            PartType = "Mechanical",
-                            Quantity = 45
-                        },
-                        new
-                        {
-                            Id = new Guid("50000000-0008-0008-0000-000000000000"),
-                            Code = "PAR0079",
-                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000008"),
-                            Name = "Dolphin Part 9",
-                            PartType = "Decorative",
-                            Quantity = 50
-                        },
-                        new
-                        {
-                            Id = new Guid("50000000-0008-0009-0000-000000000000"),
-                            Code = "PAR0080",
-                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000008"),
-                            Name = "Dolphin Part 10",
-                            PartType = "Structural",
-                            Quantity = 55
-                        },
-                        new
-                        {
-                            Id = new Guid("50000000-0009-0000-0000-000000000000"),
-                            Code = "PAR0081",
-                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000009"),
-                            Name = "Helicopter Part 1",
-                            PartType = "Structural",
-                            Quantity = 10
-                        },
-                        new
-                        {
-                            Id = new Guid("50000000-0009-0001-0000-000000000000"),
-                            Code = "PAR0082",
-                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000009"),
-                            Name = "Helicopter Part 2",
-                            PartType = "Mechanical",
-                            Quantity = 15
-                        },
-                        new
-                        {
-                            Id = new Guid("50000000-0009-0002-0000-000000000000"),
-                            Code = "PAR0083",
-                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000009"),
-                            Name = "Helicopter Part 3",
-                            PartType = "Decorative",
-                            Quantity = 20
-                        },
-                        new
-                        {
-                            Id = new Guid("50000000-0009-0003-0000-000000000000"),
-                            Code = "PAR0084",
-                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000009"),
-                            Name = "Helicopter Part 4",
-                            PartType = "Structural",
-                            Quantity = 25
-                        },
-                        new
-                        {
-                            Id = new Guid("50000000-0009-0004-0000-000000000000"),
-                            Code = "PAR0085",
-                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000009"),
-                            Name = "Helicopter Part 5",
-                            PartType = "Mechanical",
-                            Quantity = 30
-                        },
-                        new
-                        {
-                            Id = new Guid("50000000-0009-0005-0000-000000000000"),
-                            Code = "PAR0086",
-                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000009"),
-                            Name = "Helicopter Part 6",
-                            PartType = "Decorative",
-                            Quantity = 35
-                        },
-                        new
-                        {
-                            Id = new Guid("50000000-0009-0006-0000-000000000000"),
-                            Code = "PAR0087",
-                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000009"),
-                            Name = "Helicopter Part 7",
-                            PartType = "Structural",
-                            Quantity = 40
-                        },
-                        new
-                        {
-                            Id = new Guid("50000000-0009-0007-0000-000000000000"),
-                            Code = "PAR0088",
-                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000009"),
-                            Name = "Helicopter Part 8",
-                            PartType = "Mechanical",
-                            Quantity = 45
-                        },
-                        new
-                        {
-                            Id = new Guid("50000000-0009-0008-0000-000000000000"),
-                            Code = "PAR0089",
-                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000009"),
-                            Name = "Helicopter Part 9",
-                            PartType = "Decorative",
-                            Quantity = 50
-                        },
-                        new
-                        {
-                            Id = new Guid("50000000-0009-0009-0000-000000000000"),
-                            Code = "PAR0090",
-                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000009"),
-                            Name = "Helicopter Part 10",
-                            PartType = "Structural",
-                            Quantity = 55
-                        },
-                        new
-                        {
-                            Id = new Guid("50000000-0010-0000-0000-000000000000"),
-                            Code = "PAR0091",
-                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000010"),
-                            Name = "Dragon Part 1",
-                            PartType = "Structural",
-                            Quantity = 10
-                        },
-                        new
-                        {
-                            Id = new Guid("50000000-0010-0001-0000-000000000000"),
-                            Code = "PAR0092",
-                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000010"),
-                            Name = "Dragon Part 2",
-                            PartType = "Mechanical",
-                            Quantity = 15
-                        },
-                        new
-                        {
-                            Id = new Guid("50000000-0010-0002-0000-000000000000"),
-                            Code = "PAR0093",
-                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000010"),
-                            Name = "Dragon Part 3",
-                            PartType = "Decorative",
-                            Quantity = 20
-                        },
-                        new
-                        {
-                            Id = new Guid("50000000-0010-0003-0000-000000000000"),
-                            Code = "PAR0094",
-                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000010"),
-                            Name = "Dragon Part 4",
-                            PartType = "Structural",
-                            Quantity = 25
-                        },
-                        new
-                        {
-                            Id = new Guid("50000000-0010-0004-0000-000000000000"),
-                            Code = "PAR0095",
-                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000010"),
-                            Name = "Dragon Part 5",
-                            PartType = "Mechanical",
-                            Quantity = 30
-                        },
-                        new
-                        {
-                            Id = new Guid("50000000-0010-0005-0000-000000000000"),
-                            Code = "PAR0096",
-                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000010"),
-                            Name = "Dragon Part 6",
-                            PartType = "Decorative",
-                            Quantity = 35
-                        },
-                        new
-                        {
-                            Id = new Guid("50000000-0010-0006-0000-000000000000"),
-                            Code = "PAR0097",
-                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000010"),
-                            Name = "Dragon Part 7",
-                            PartType = "Structural",
-                            Quantity = 40
-                        },
-                        new
-                        {
-                            Id = new Guid("50000000-0010-0007-0000-000000000000"),
-                            Code = "PAR0098",
-                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000010"),
-                            Name = "Dragon Part 8",
-                            PartType = "Mechanical",
-                            Quantity = 45
-                        },
-                        new
-                        {
-                            Id = new Guid("50000000-0010-0008-0000-000000000000"),
-                            Code = "PAR0099",
-                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000010"),
-                            Name = "Dragon Part 9",
-                            PartType = "Decorative",
-                            Quantity = 50
-                        },
-                        new
-                        {
-                            Id = new Guid("50000000-0010-0009-0000-000000000000"),
-                            Code = "PAR0100",
-                            InstockProductId = new Guid("10000000-0000-0000-0000-000000000010"),
-                            Name = "Dragon Part 10",
-                            PartType = "Structural",
-                            Quantity = 55
-                        });
-                });
-
             modelBuilder.Entity("PuzKit3D.Modules.InStock.Domain.Entities.Replicas.AssemblyMethodReplica", b =>
                 {
                     b.Property<Guid>("Id")
@@ -2458,6 +1858,11 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("text")
                         .HasColumnName("description");
+
+                    b.Property<decimal>("FactorPercentage")
+                        .HasPrecision(5, 4)
+                        .HasColumnType("numeric(5,4)")
+                        .HasColumnName("factor_percentage");
 
                     b.Property<bool>("IsActive")
                         .ValueGeneratedOnAdd()
@@ -2496,6 +1901,7 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                             Id = new Guid("d1d1d1d1-d1d1-d1d1-d1d1-d1d1d1d1d1d1"),
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Easy snap assembly without tools",
+                            FactorPercentage = 1.1m,
                             IsActive = true,
                             Name = "Snap-Fit",
                             Slug = "snap-fit",
@@ -2506,6 +1912,7 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                             Id = new Guid("e2e2e2e2-e2e2-e2e2-e2e2-e2e2e2e2e2e2"),
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Assembly using adhesive bonding",
+                            FactorPercentage = 1.0m,
                             IsActive = true,
                             Name = "Glue Assembly",
                             Slug = "glue-assembly",
@@ -2516,6 +1923,7 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                             Id = new Guid("f3f3f3f3-f3f3-f3f3-f3f3-f3f3f3f3f3f3"),
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Assembly using screws and bolts",
+                            FactorPercentage = 1.3m,
                             IsActive = true,
                             Name = "Screw Assembly",
                             Slug = "screw-assembly",
@@ -2526,6 +1934,7 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                             Id = new Guid("a4a4a4a4-a4a4-a4a4-a4a4-a4a4a4a4a4a4"),
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Assembly using tight fitting pieces",
+                            FactorPercentage = 1.15m,
                             IsActive = true,
                             Name = "Friction Fit",
                             Slug = "friction-fit",
@@ -2536,6 +1945,7 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                             Id = new Guid("b5b5b5b5-b5b5-b5b5-b5b5-b5b5b5b5b5b5"),
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Assembly using magnetic connections",
+                            FactorPercentage = 1.4m,
                             IsActive = true,
                             Name = "Magnetic Assembly",
                             Slug = "magnetic-assembly",
@@ -2557,6 +1967,11 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("text")
                         .HasColumnName("description");
+
+                    b.Property<decimal>("FactorPercentage")
+                        .HasPrecision(5, 4)
+                        .HasColumnType("numeric(5,4)")
+                        .HasColumnName("factor_percentage");
 
                     b.Property<bool>("IsActive")
                         .ValueGeneratedOnAdd()
@@ -2595,6 +2010,7 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                             Id = new Guid("e1e1e1e1-e1e1-e1e1-e1e1-e1e1e1e1e1e1"),
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Static model for display only",
+                            FactorPercentage = 1.0m,
                             IsActive = true,
                             Name = "Static Display",
                             Slug = "static-display",
@@ -2605,6 +2021,7 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                             Id = new Guid("f2f2f2f2-f2f2-f2f2-f2f2-f2f2f2f2f2f2"),
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Model with electric motor-powered movement",
+                            FactorPercentage = 1.8m,
                             IsActive = true,
                             Name = "Move with Motor",
                             Slug = "move-with-motor",
@@ -2615,6 +2032,7 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                             Id = new Guid("a3a3a3a3-a3a3-a3a3-a3a3-a3a3a3a3a3a3"),
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Model operated by manual movement",
+                            FactorPercentage = 1.3m,
                             IsActive = true,
                             Name = "Manual Movement",
                             Slug = "manual-movement",
@@ -2625,6 +2043,7 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                             Id = new Guid("b4b4b4b4-b4b4-b4b4-b4b4-b4b4b4b4b4b4"),
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Model with LED lighting effects",
+                            FactorPercentage = 1.4m,
                             IsActive = true,
                             Name = "LED Light Feature",
                             Slug = "led-light-feature",
@@ -2635,6 +2054,7 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                             Id = new Guid("c5c5c5c5-c5c5-c5c5-c5c5-c5c5c5c5c5c5"),
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Model with musical features via rotating mechanism",
+                            FactorPercentage = 1.6m,
                             IsActive = true,
                             Name = "Musical Gear",
                             Slug = "musical-gear",
@@ -2642,7 +2062,7 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                         });
                 });
 
-            modelBuilder.Entity("PuzKit3D.Modules.InStock.Domain.Entities.Replicas.MaterialReplica", b =>
+            modelBuilder.Entity("PuzKit3D.Modules.InStock.Domain.Entities.Replicas.DriveReplica", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -2656,6 +2076,118 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("text")
                         .HasColumnName("description");
+
+                    b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(false)
+                        .HasColumnName("is_active");
+
+                    b.Property<int?>("MinVolume")
+                        .HasColumnType("integer")
+                        .HasColumnName("min_volume");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("character varying(30)")
+                        .HasColumnName("name");
+
+                    b.Property<int>("QuantityInStock")
+                        .HasColumnType("integer")
+                        .HasColumnName("quantity_in_stock");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("updated_at");
+
+                    b.HasKey("Id")
+                        .HasName("pk_drive_replicas");
+
+                    b.ToTable("drive_replicas", "instock");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("11111111-1111-1111-1111-111111111111"),
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Router module for rotate",
+                            IsActive = true,
+                            MinVolume = 5,
+                            Name = "Router",
+                            QuantityInStock = 5,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("22222222-2222-2222-2222-222222222222"),
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Electric motor drive",
+                            IsActive = true,
+                            MinVolume = 50,
+                            Name = "Motor",
+                            QuantityInStock = 100,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("33333333-3333-3333-3333-333333333333"),
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Mechanical gear system",
+                            IsActive = true,
+                            MinVolume = 30,
+                            Name = "Gearbox",
+                            QuantityInStock = 150,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("44444444-4444-4444-4444-444444444444"),
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "LED lighting system",
+                            IsActive = true,
+                            MinVolume = 10,
+                            Name = "LED Module",
+                            QuantityInStock = 200,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("55555555-5555-5555-5555-555555555555"),
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Mechanical music box",
+                            IsActive = true,
+                            MinVolume = 50,
+                            Name = "Music Box",
+                            QuantityInStock = 50,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        });
+                });
+
+            modelBuilder.Entity("PuzKit3D.Modules.InStock.Domain.Entities.Replicas.MaterialReplica", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<decimal>("BasePrice")
+                        .HasPrecision(10, 2)
+                        .HasColumnType("numeric(10,2)")
+                        .HasColumnName("base_price");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("text")
+                        .HasColumnName("description");
+
+                    b.Property<decimal>("FactorPercentage")
+                        .HasPrecision(5, 4)
+                        .HasColumnType("numeric(5,4)")
+                        .HasColumnName("factor_percentage");
 
                     b.Property<bool>("IsActive")
                         .ValueGeneratedOnAdd()
@@ -2692,8 +2224,10 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                         new
                         {
                             Id = new Guid("f1f1f1f1-f1f1-f1f1-f1f1-f1f1f1f1f1f1"),
+                            BasePrice = 4000m,
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Natural wood material",
+                            FactorPercentage = 1.0m,
                             IsActive = true,
                             Name = "Wood",
                             Slug = "wood",
@@ -2702,8 +2236,10 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                         new
                         {
                             Id = new Guid("a2a2a2a2-a2a2-a2a2-a2a2-a2a2a2a2a2a2"),
+                            BasePrice = 2000m,
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Durable plastic material",
+                            FactorPercentage = 0.85m,
                             IsActive = true,
                             Name = "Plastic",
                             Slug = "plastic",
@@ -2712,8 +2248,10 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                         new
                         {
                             Id = new Guid("b3b3b3b3-b3b3-b3b3-b3b3-b3b3b3b3b3b3"),
+                            BasePrice = 9000m,
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Premium metal components",
+                            FactorPercentage = 1.6m,
                             IsActive = true,
                             Name = "Metal",
                             Slug = "metal",
@@ -2722,8 +2260,10 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                         new
                         {
                             Id = new Guid("c4c4c4c4-c4c4-c4c4-c4c4-c4c4c4c4c4c4"),
+                            BasePrice = 1000m,
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Eco-friendly cardboard material",
+                            FactorPercentage = 0.7m,
                             IsActive = true,
                             Name = "Cardboard",
                             Slug = "cardboard",
@@ -2732,8 +2272,10 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                         new
                         {
                             Id = new Guid("d5d5d5d5-d5d5-d5d5-d5d5-d5d5d5d5d5d5"),
+                            BasePrice = 7000m,
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Advanced composite materials",
+                            FactorPercentage = 1.3m,
                             IsActive = true,
                             Name = "Composite",
                             Slug = "composite",
@@ -2857,6 +2399,11 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                         .HasColumnType("text")
                         .HasColumnName("description");
 
+                    b.Property<decimal>("FactorPercentage")
+                        .HasPrecision(5, 4)
+                        .HasColumnType("numeric(5,4)")
+                        .HasColumnName("factor_percentage");
+
                     b.Property<bool>("IsActive")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("boolean")
@@ -2898,6 +2445,7 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                             Id = new Guid("a1a1a1a1-a1a1-a1a1-a1a1-a1a1a1a1a1a1"),
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Animal themed 3D puzzles",
+                            FactorPercentage = 1.1m,
                             IsActive = true,
                             Name = "Animals",
                             Slug = "animals",
@@ -2908,6 +2456,7 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                             Id = new Guid("b2b2b2b2-b2b2-b2b2-b2b2-b2b2b2b2b2b2"),
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Vehicle and transportation themed puzzles",
+                            FactorPercentage = 1.3m,
                             IsActive = true,
                             Name = "Vehicles",
                             Slug = "vehicles",
@@ -2918,6 +2467,7 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                             Id = new Guid("c3c3c3c3-c3c3-c3c3-c3c3-c3c3c3c3c3c3"),
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Famous buildings and landmarks",
+                            FactorPercentage = 1.5m,
                             IsActive = true,
                             Name = "Architecture",
                             Slug = "architecture",
@@ -2928,6 +2478,7 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                             Id = new Guid("d4d4d4d4-d4d4-d4d4-d4d4-d4d4d4d4d4d4"),
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Natural landscapes and scenery",
+                            FactorPercentage = 1.0m,
                             IsActive = true,
                             Name = "Nature",
                             Slug = "nature",
@@ -2938,6 +2489,7 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                             Id = new Guid("e5e5e5e5-e5e5-e5e5-e5e5-e5e5e5e5e5e5"),
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Fantasy creatures and magical worlds",
+                            FactorPercentage = 1.6m,
                             IsActive = true,
                             Name = "Fantasy",
                             Slug = "fantasy",
@@ -2979,6 +2531,16 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                         .HasConstraintName("FK__instock_order_detail__instock_product_variant");
                 });
 
+            modelBuilder.Entity("PuzKit3D.Modules.InStock.Domain.Entities.InstockProductAssemblyMethodDetails.InstockProductAssemblyMethodDetail", b =>
+                {
+                    b.HasOne("PuzKit3D.Modules.InStock.Domain.Entities.InstockProducts.InstockProduct", null)
+                        .WithMany("AssemblyMethodDetails")
+                        .HasForeignKey("InstockProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_instock_product_assembly_method_details_instock_products_in");
+                });
+
             modelBuilder.Entity("PuzKit3D.Modules.InStock.Domain.Entities.InstockProductCapabilityDetails.InstockProductCapabilityDetail", b =>
                 {
                     b.HasOne("PuzKit3D.Modules.InStock.Domain.Entities.InstockProducts.InstockProduct", null)
@@ -2987,6 +2549,16 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("fk_instock_product_capability_detail_instock_products_instock_");
+                });
+
+            modelBuilder.Entity("PuzKit3D.Modules.InStock.Domain.Entities.InstockProductDrives.InstockProductDrive", b =>
+                {
+                    b.HasOne("PuzKit3D.Modules.InStock.Domain.Entities.InstockProducts.InstockProduct", null)
+                        .WithMany("Drives")
+                        .HasForeignKey("InstockProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_instock_product_drives_instock_products_instock_product_id");
                 });
 
             modelBuilder.Entity("PuzKit3D.Modules.InStock.Domain.Entities.InstockProductPriceDetails.InstockProductPriceDetail", b =>
@@ -3016,16 +2588,6 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
                         .HasConstraintName("FK__instock_product__instock_product_variant");
                 });
 
-            modelBuilder.Entity("PuzKit3D.Modules.InStock.Domain.Entities.Parts.Part", b =>
-                {
-                    b.HasOne("PuzKit3D.Modules.InStock.Domain.Entities.InstockProducts.InstockProduct", null)
-                        .WithMany("Parts")
-                        .HasForeignKey("InstockProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
-                        .HasConstraintName("FK__instock_product__part");
-                });
-
             modelBuilder.Entity("PuzKit3D.Modules.InStock.Domain.Entities.Replicas.SupportTicketDetailReplica", b =>
                 {
                     b.HasOne("PuzKit3D.Modules.InStock.Domain.Entities.Replicas.SupportTicketReplica", null)
@@ -3043,9 +2605,11 @@ namespace PuzKit3D.Modules.InStock.Persistence.Migrations
 
             modelBuilder.Entity("PuzKit3D.Modules.InStock.Domain.Entities.InstockProducts.InstockProduct", b =>
                 {
+                    b.Navigation("AssemblyMethodDetails");
+
                     b.Navigation("CapabilityDetails");
 
-                    b.Navigation("Parts");
+                    b.Navigation("Drives");
                 });
 
             modelBuilder.Entity("PuzKit3D.Modules.InStock.Domain.Entities.Replicas.SupportTicketReplica", b =>

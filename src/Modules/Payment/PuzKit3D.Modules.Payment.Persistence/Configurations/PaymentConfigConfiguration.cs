@@ -13,13 +13,27 @@ internal sealed class PaymentConfigConfiguration : IEntityTypeConfiguration<Paym
         builder.Property(pc => pc.Id)
             .HasColumnName("id");
 
-        builder.Property(pc => pc.OnlinePaymentExpiredInDays)
+        builder.Property(pc => pc.OnlinePaymentExpiredValue)
             .IsRequired()
-            .HasColumnName("online_payment_expired_in_days");
+            .HasColumnName("online_payment_expired_value");
 
-        builder.Property(pc => pc.OnlineTransactionExpiredInMinutes)
+        builder.Property(pc => pc.OnlinePaymentExpiredUnit)
             .IsRequired()
-            .HasColumnName("online_transaction_expired_in_minutes");
+            .HasColumnName("online_payment_expired_unit")
+            .HasConversion(
+                v => v.ToString(),
+                v => (TimeUnit)Enum.Parse(typeof(TimeUnit), v));
+
+        builder.Property(pc => pc.OnlineTransactionExpiredValue)
+            .IsRequired()
+            .HasColumnName("online_transaction_expired_value");
+
+        builder.Property(pc => pc.OnlineTransactionExpiredUnit)
+            .IsRequired()
+            .HasColumnName("online_transaction_expired_unit")
+            .HasConversion(
+                v => v.ToString(),
+                v => (TimeUnit)Enum.Parse(typeof(TimeUnit), v));
 
         builder.Property(pc => pc.UpdatedAt)
             .IsRequired()
@@ -28,3 +42,4 @@ internal sealed class PaymentConfigConfiguration : IEntityTypeConfiguration<Paym
         builder.ToTable("payment_configs");
     }
 }
+

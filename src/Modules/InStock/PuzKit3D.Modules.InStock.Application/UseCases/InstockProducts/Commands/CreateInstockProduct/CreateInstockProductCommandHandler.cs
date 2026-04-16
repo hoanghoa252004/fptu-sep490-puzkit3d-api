@@ -2,6 +2,7 @@ using System.Text.Json;
 using PuzKit3D.Modules.InStock.Application.Repositories;
 using PuzKit3D.Modules.InStock.Application.Services;
 using PuzKit3D.Modules.InStock.Application.UnitOfWork;
+using PuzKit3D.Modules.InStock.Domain.Entities.InstockProductDrives;
 using PuzKit3D.Modules.InStock.Domain.Entities.InstockProducts;
 using PuzKit3D.SharedKernel.Application.Message.Command;
 using PuzKit3D.SharedKernel.Domain.Results;
@@ -11,29 +12,35 @@ namespace PuzKit3D.Modules.InStock.Application.UseCases.InstockProducts.Commands
 internal sealed class CreateInstockProductCommandHandler : ICommandTHandler<CreateInstockProductCommand, Guid>
 {
     private readonly IInstockProductRepository _productRepository;
+    private readonly IInstockProductDriveRepository _productDriveRepository;
     private readonly IInstockProductCodeGenerator _codeGenerator;
     private readonly IInStockUnitOfWork _unitOfWork;
     private readonly ITopicReplicaRepository _topicReplicaRepository;
     private readonly IAssemblyMethodReplicaRepository _assemblyMethodReplicaRepository;
     private readonly ICapabilityReplicaRepository _capabilityReplicaRepository;
     private readonly IMaterialReplicaRepository _materialReplicaRepository;
+    private readonly IDriveReplicaRepository _driveReplicaRepository;
 
     public CreateInstockProductCommandHandler(
         IInstockProductRepository productRepository,
+        IInstockProductDriveRepository productDriveRepository,
         IInstockProductCodeGenerator codeGenerator,
         IInStockUnitOfWork unitOfWork,
         ITopicReplicaRepository topicReplicaRepository,
         IAssemblyMethodReplicaRepository assemblyMethodReplicaRepository,
         ICapabilityReplicaRepository capabilityReplicaRepository,
-        IMaterialReplicaRepository materialReplicaRepository)
+        IMaterialReplicaRepository materialReplicaRepository,
+        IDriveReplicaRepository driveReplicaRepository)
     {
         _productRepository = productRepository;
+        _productDriveRepository = productDriveRepository;
         _codeGenerator = codeGenerator;
         _unitOfWork = unitOfWork;
         _topicReplicaRepository = topicReplicaRepository;
         _assemblyMethodReplicaRepository = assemblyMethodReplicaRepository;
         _capabilityReplicaRepository = capabilityReplicaRepository;
         _materialReplicaRepository = materialReplicaRepository;
+        _driveReplicaRepository = driveReplicaRepository;
     }
 
     public async Task<ResultT<Guid>> Handle(CreateInstockProductCommand request, CancellationToken cancellationToken)
@@ -44,12 +51,6 @@ internal sealed class CreateInstockProductCommandHandler : ICommandTHandler<Crea
             return Result.Failure<Guid>(InstockProductError.DuplicateSlug(request.Slug));
         }
 
-        // Validate at least 1 capability provided
-        if (request.CapabilityIds == null || request.CapabilityIds.Count == 0)
-        {
-            return Result.Failure<Guid>(InstockProductError.InvalidCapability());
-        }
-
         // Validate foreign keys exist in replicas
         var topicExists = await _topicReplicaRepository.ExistsByIdAsync(request.TopicId, cancellationToken);
         if (!topicExists)
@@ -57,26 +58,55 @@ internal sealed class CreateInstockProductCommandHandler : ICommandTHandler<Crea
             return Result.Failure<Guid>(InstockProductError.InvalidTopic());
         }
 
-        var assemblyMethodExists = await _assemblyMethodReplicaRepository.ExistsByIdAsync(request.AssemblyMethodId, cancellationToken);
-        if (!assemblyMethodExists)
-        {
-            return Result.Failure<Guid>(InstockProductError.InvalidAssemblyMethod());
-        }
-
-        // Validate all capabilities exist
-        foreach (var capabilityId in request.CapabilityIds)
-        {
-            var capabilityExists = await _capabilityReplicaRepository.ExistsByIdAsync(capabilityId, cancellationToken);
-            if (!capabilityExists)
-            {
-                return Result.Failure<Guid>(InstockProductError.InvalidCapability());
-            }
-        }
-
         var materialExists = await _materialReplicaRepository.ExistsByIdAsync(request.MaterialId, cancellationToken);
         if (!materialExists)
         {
             return Result.Failure<Guid>(InstockProductError.InvalidMaterial());
+        }
+
+        // Validate capabilities exist in replica if provided
+        if (request.CapabilityIds != null && request.CapabilityIds.Count > 0)
+        {
+            foreach (var capabilityId in request.CapabilityIds)
+            {
+                var capabilityExists = await _capabilityReplicaRepository.ExistsByIdAsync(capabilityId, cancellationToken);
+                if (!capabilityExists)
+                {
+                    return Result.Failure<Guid>(InstockProductError.InvalidCapability(capabilityId));
+                }
+            }
+        }
+
+        // Validate assembly methods exist in replica if provided (new validation)
+        if (request.AssemblyMethodIds != null && request.AssemblyMethodIds.Count > 0)
+        {
+            foreach (var assemblyMethodId in request.AssemblyMethodIds)
+            {
+                var additionalAssemblyMethodExists = await _assemblyMethodReplicaRepository.ExistsByIdAsync(assemblyMethodId, cancellationToken);
+                if (!additionalAssemblyMethodExists)
+                {
+                    return Result.Failure<Guid>(InstockProductError.InvalidAssemblyMethod());
+                }
+            }
+        }
+
+        // Validate drive details if provided
+        if (request.DriveDetails != null && request.DriveDetails.Count > 0)
+        {
+            foreach (var driveDetail in request.DriveDetails)
+            {
+
+                var driveExists = await _driveReplicaRepository.ExistsByIdAsync(driveDetail.DriveId, cancellationToken);
+                if (!driveExists)
+                {
+                    return Result.Failure<Guid>(InstockProductError.InvalidDrive(driveDetail.DriveId));
+                }
+
+                if (driveDetail.Quantity <= 0)
+                {
+                    return Result.Failure<Guid>(InstockProductError.InvalidQuantity());
+                }
+            }
         }
 
         return await _unitOfWork.ExecuteAsync(async () =>
@@ -94,9 +124,7 @@ internal sealed class CreateInstockProductCommandHandler : ICommandTHandler<Crea
                 request.ThumbnailUrl,
                 previewAssetJson,
                 request.TopicId,
-                request.AssemblyMethodId,
                 request.MaterialId,
-                request.CapabilityIds,
                 request.Description,
                 request.IsActive);
 
@@ -107,10 +135,30 @@ internal sealed class CreateInstockProductCommandHandler : ICommandTHandler<Crea
 
             var product = productResult.Value;
 
-            // Set capabilities
+            // Set capability details if provided
             if (request.CapabilityIds != null && request.CapabilityIds.Count > 0)
             {
                 product.SetCapabilities(request.CapabilityIds);
+            }
+
+            // Set assembly method details if provided
+            if (request.AssemblyMethodIds != null && request.AssemblyMethodIds.Count > 0)
+            {
+                product.SetAssemblyMethods(request.AssemblyMethodIds);
+            }
+
+            // Add drives if provided
+            if (request.DriveDetails != null && request.DriveDetails.Count > 0)
+            {
+                foreach (var driveDetail in request.DriveDetails)
+                {
+                    var drive = InstockProductDrive.Create(
+                        product.Id,
+                        driveDetail.DriveId,
+                        driveDetail.Quantity);
+
+                    _productDriveRepository.Add(drive);
+                }
             }
 
             _productRepository.Add(product);

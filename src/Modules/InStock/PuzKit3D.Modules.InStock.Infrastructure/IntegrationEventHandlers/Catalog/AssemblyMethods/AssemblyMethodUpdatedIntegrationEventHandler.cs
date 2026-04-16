@@ -31,8 +31,9 @@ internal sealed class AssemblyMethodUpdatedIntegrationEventHandler
         replica.Update(
             @event.Name,
             @event.Slug,
+            @event.FactorPercentage,
             @event.Description,
-            replica.IsActive, // Keep existing IsActive value
+            @event.IsActive,
             @event.UpdatedAt);
 
         _context.AssemblyMethodReplicas.Update(replica);

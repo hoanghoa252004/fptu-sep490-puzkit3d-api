@@ -4,7 +4,7 @@ namespace PuzKit3D.Modules.Cart.Domain.Entities.Carts;
 
 public sealed class CartType : Entity<CartTypeId>
 {
-    public string Name { get; private set; }
+    public string Name { get; private set; } = null!;
     public bool IsActive { get; private set; }
     public DateTime CreatedAt { get; private set; }
     public DateTime UpdatedAt { get; private set; }

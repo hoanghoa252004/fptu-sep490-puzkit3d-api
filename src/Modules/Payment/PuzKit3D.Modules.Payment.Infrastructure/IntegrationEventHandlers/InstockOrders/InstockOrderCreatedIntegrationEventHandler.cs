@@ -2,6 +2,7 @@ using PuzKit3D.Contract.InStock.InstockOrders;
 using PuzKit3D.Modules.Payment.Application.UnitOfWork;
 using PuzKit3D.Modules.Payment.Domain.Entities.OrderReplicas;
 using PuzKit3D.Modules.Payment.Domain.Entities.Payments;
+using PuzKit3D.Modules.Payment.Domain.Entities.PaymentConfigs;
 using PuzKit3D.Modules.Payment.Persistence;
 using PuzKit3D.SharedKernel.Application.Event;
 using PuzKit3D.SharedKernel.Application.Exceptions;
@@ -29,7 +30,9 @@ internal sealed class InstockOrderCreatedIntegrationEventHandler
     {
         // Get PaymentConfig from database, use default values if not found
         var paymentConfig = await _dbContext.PaymentConfigs.FirstOrDefaultAsync(cancellationToken);
-        var onlinePaymentExpiredInDays = paymentConfig?.OnlinePaymentExpiredInDays ?? 1;
+        var onlinePaymentExpiredInMinutes = paymentConfig != null
+            ? ConvertToMinutes(paymentConfig.OnlinePaymentExpiredValue, paymentConfig.OnlinePaymentExpiredUnit)
+            : 60;
 
         var orderReplica = OrderReplica.Create(
             @event.OrderId,
@@ -77,7 +80,7 @@ internal sealed class InstockOrderCreatedIntegrationEventHandler
                 referenceOrderType: OrderType.Instock,
                 amount: @event.GrandTotalAmount,
                 paymentMethod: @event.PaymentMethod,
-                expirationDays: onlinePaymentExpiredInDays);
+                expirationDays: onlinePaymentExpiredInMinutes);
 
             if (paymentResult.IsFailure)
             {
@@ -87,7 +90,19 @@ internal sealed class InstockOrderCreatedIntegrationEventHandler
             await _dbContext.Payments.AddAsync(paymentResult.Value, cancellationToken);
         }
 
+
         await _unitOfWork.SaveChangesAsync(cancellationToken);
+    }
+
+    private static int ConvertToMinutes(int value, TimeUnit unit)
+    {
+        return unit switch
+        {
+            TimeUnit.Minute => value,
+            TimeUnit.Hour => value * 60,
+            TimeUnit.Day => value * 24 * 60,
+            _ => value
+        };
     }
 }
 

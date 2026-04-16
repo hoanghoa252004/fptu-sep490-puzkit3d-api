@@ -26,6 +26,14 @@ internal sealed class MaterialConfiguration : IEntityTypeConfiguration<Material>
             .IsRequired()
             .HasMaxLength(30);
 
+        builder.Property(m => m.FactorPercentage)
+            .IsRequired()
+            .HasPrecision(5, 4);
+
+        builder.Property(m => m.BasePrice)
+            .IsRequired()
+            .HasPrecision(10, 2);
+
         builder.Property(m => m.IsActive)
             .IsRequired()
             .HasDefaultValue(false);

@@ -21,6 +21,10 @@ internal sealed class CapabilityReplicaConfiguration : IEntityTypeConfiguration<
             .IsRequired()
             .HasMaxLength(50);
 
+        builder.Property(c => c.FactorPercentage)
+            .IsRequired()
+            .HasPrecision(5, 4);
+
         builder.Property(c => c.IsActive)
             .IsRequired()
             .HasDefaultValue(false);

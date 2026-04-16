@@ -9,7 +9,7 @@ namespace PuzKit3D.Modules.CustomDesign.Domain.Entities.CustomDesignAssets;
 public sealed class CustomDesignAsset : AggregateRoot<CustomDesignAssetId>
 {
     public string Code { get; private set; } = null!;
-    public CustomDesignRequestId CustomDesignRequestId { get; private set; }
+    public CustomDesignRequestId CustomDesignRequestId { get; private set; } = null!;
     public int Version { get; private set; }
     public CustomDesignAssetStatus Status { get; private set; }
     public string? MultiviewImages { get; private set; }

@@ -7,10 +7,11 @@ using PuzKit3D.Modules.InStock.Domain.Entities.InstockOrderDetails;
 using PuzKit3D.Modules.InStock.Domain.Entities.InstockOrders;
 using PuzKit3D.Modules.InStock.Domain.Entities.InstockPrices;
 using PuzKit3D.Modules.InStock.Domain.Entities.InstockProductCapabilityDetails;
+using PuzKit3D.Modules.InStock.Domain.Entities.InstockProductDrives;
+using PuzKit3D.Modules.InStock.Domain.Entities.InstockProductAssemblyMethodDetails;
 using PuzKit3D.Modules.InStock.Domain.Entities.InstockProductPriceDetails;
 using PuzKit3D.Modules.InStock.Domain.Entities.InstockProducts;
 using PuzKit3D.Modules.InStock.Domain.Entities.InstockProductVariants;
-using PuzKit3D.Modules.InStock.Domain.Entities.Parts;
 using PuzKit3D.Modules.InStock.Domain.Entities.Replicas;
 using PuzKit3D.SharedKernel.Domain;
 using PuzKit3D.SharedKernel.Domain.Results;
@@ -32,7 +33,8 @@ public sealed class InStockDbContext : DbContext, IInStockUnitOfWork
     public DbSet<InstockProduct> InstockProducts => Set<InstockProduct>();
     public DbSet<InstockProductVariant> InstockProductVariants => Set<InstockProductVariant>();
     public DbSet<InstockProductCapabilityDetail> InstockProductCapabilityDetails => Set<InstockProductCapabilityDetail>();
-    public DbSet<Part> Parts => Set<Part>();
+    public DbSet<InstockProductAssemblyMethodDetail> InstockProductAssemblyMethodDetails => Set<InstockProductAssemblyMethodDetail>();
+    public DbSet<InstockProductDrive> InstockProductDrives => Set<InstockProductDrive>();
     public DbSet<InstockInventory> InstockInventories => Set<InstockInventory>();
     public DbSet<InstockPrice> InstockPrices => Set<InstockPrice>();
     public DbSet<InstockProductPriceDetail> InstockProductPriceDetails => Set<InstockProductPriceDetail>();
@@ -43,9 +45,12 @@ public sealed class InStockDbContext : DbContext, IInStockUnitOfWork
     public DbSet<TopicReplica> TopicReplicas => Set<TopicReplica>();
     public DbSet<MaterialReplica> MaterialReplicas => Set<MaterialReplica>();
     public DbSet<CapabilityReplica> CapabilityReplicas => Set<CapabilityReplica>();
+    public DbSet<DriveReplica> DriveReplicas => Set<DriveReplica>();
 
     public DbSet<SupportTicketReplica> SupportTicketReplicas => Set<SupportTicketReplica>();
     public DbSet<SupportTicketDetailReplica> SupportTicketDetailReplicas => Set<SupportTicketDetailReplica>();
+
+
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -56,13 +61,7 @@ public sealed class InStockDbContext : DbContext, IInStockUnitOfWork
         builder.ApplyConfigurationsFromAssembly(typeof(InStockDbContext).Assembly);
 
         // Apply seed data
-        Configurations.SeedData.InstockSeedDataConfiguration.SeedReplicas(builder);
-        Configurations.SeedData.InstockSeedDataConfiguration.SeedPrices(builder);
-        SeedInstockOrderConfigs(builder);
-        Configurations.SeedData.InstockSeedDataConfiguration.SeedProducts(builder);
-        Configurations.SeedData.InstockSeedDataConfiguration.SeedVariants(builder);
-        Configurations.SeedData.InstockSeedDataConfiguration.SeedProductCapabilityDetails(builder);
-        Configurations.SeedData.InstockSeedDataConfiguration.SeedParts(builder);
+        Configurations.SeedData.InstockSeedDataConfiguration.SeedInstockMasterData(builder);
     }
 
     public async Task<T> ExecuteAsync<T>(Func<Task<T>> action, CancellationToken cancellationToken = default)
@@ -134,17 +133,6 @@ public sealed class InStockDbContext : DbContext, IInStockUnitOfWork
         {
             await _publisher.Publish(domainEvent, cancellationToken);
         }
-    }
-
-    private static void SeedInstockOrderConfigs(ModelBuilder builder)
-    {
-        builder.Entity<InstockOrderConfig>().HasData(
-            new
-            {
-                Id = new Guid("00000000-0000-0000-0000-000000000002"),
-                OrderMustCompleteInDays = 7,
-                UpdatedAt = new DateTime(2026, 3, 30, 0, 0, 0, DateTimeKind.Utc)
-            });
     }
 
     Task IInStockUnitOfWork.SaveChangesAsync(CancellationToken cancellationToken)

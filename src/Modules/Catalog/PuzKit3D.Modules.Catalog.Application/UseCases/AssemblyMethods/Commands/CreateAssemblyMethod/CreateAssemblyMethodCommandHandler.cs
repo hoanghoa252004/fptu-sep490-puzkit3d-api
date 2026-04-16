@@ -36,6 +36,7 @@ internal sealed class CreateAssemblyMethodCommandHandler : ICommandTHandler<Crea
             var assemblyMethodResult = AssemblyMethod.Create(
                 request.Name,
                 request.Slug,
+                request.FactorPercentage,
                 request.Description,
                 request.IsActive);
 

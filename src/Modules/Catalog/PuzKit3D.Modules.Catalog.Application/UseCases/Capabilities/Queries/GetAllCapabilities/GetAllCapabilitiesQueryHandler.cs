@@ -1,4 +1,6 @@
 using PuzKit3D.Modules.Catalog.Application.Repositories;
+using PuzKit3D.Modules.Catalog.Application.UseCases.Capabilities.Queries.Shared;
+using PuzKit3D.SharedKernel.Application.Authorization;
 using PuzKit3D.SharedKernel.Application.Message.Query;
 using PuzKit3D.SharedKernel.Application.Pagination;
 using PuzKit3D.SharedKernel.Application.User;
@@ -25,76 +27,43 @@ internal sealed class GetAllCapabilitiesQueryHandler
         CancellationToken cancellationToken)
     {
         // Check if user is Staff or Manager
-        var isStaffOrManager = _currentUser.IsAuthenticated && 
-            (_currentUser.IsInRole("Staff") || _currentUser.IsInRole("Business Manager"));
+        var isStaffOrManager = _currentUser.IsAuthenticated &&
+            (_currentUser.IsInRole(Roles.Staff) || _currentUser.IsInRole(Roles.BusinessManager));
 
-        // Get all capabilities
-        var allCapabilities = await _capabilityRepository.GetAllAsync(cancellationToken);
-        var query = allCapabilities.AsQueryable();
+        // Get all capabilities with filtering and sorting from repository
+        var allCapabilities = await _capabilityRepository.GetAllAsync(
+            isStaffOrManager,
+            request.SearchTerm,
+            request.Ascending,
+            cancellationToken);
 
-        // For non-staff/manager users (anonymous or customer), only show active items
-        if (!isStaffOrManager)
-        {
-            query = query.Where(c => c.IsActive);
-        }
+        // Apply pagination
+        var totalCount = allCapabilities.Count();
+        var capabilities = allCapabilities
+            .Skip((request.PageNumber - 1) * request.PageSize)
+            .Take(request.PageSize)
+            .ToList();
 
-        // Apply search filter
-        if (!string.IsNullOrWhiteSpace(request.SearchTerm))
-        {
-            var searchTerm = request.SearchTerm.ToLower();
-            query = query.Where(c => 
-                c.Name.ToLower().Contains(searchTerm) || 
-                c.Slug.ToLower().Contains(searchTerm) ||
-                (c.Description != null && c.Description.ToLower().Contains(searchTerm)));
-        }
+        // Build response DTOs
+        var capabilityDtos = isStaffOrManager
+            ? capabilities.Select(c => (object)new GetCapabilityDetailedResponseDto(
+                c.Id.Value,
+                c.Name,
+                c.Slug,
+                c.Description,
+                c.FactorPercentage,
+                c.IsActive,
+                c.CreatedAt,
+                c.UpdatedAt)).ToList()
+            : capabilities.Select(c => (object)new GetCapabilityResponseDto(
+                c.Id.Value,
+                c.Name,
+                c.Slug,
+                c.Description,
+                c.FactorPercentage)).ToList();
 
-        // Apply IsActive filter (only for staff/manager)
-        if (isStaffOrManager && request.IsActive.HasValue)
-        {
-            query = query.Where(c => c.IsActive == request.IsActive.Value);
-        }
-
-        // Get total count before paging
-        var totalCount = query.Count();
-
-        // Apply sorting (by name ascending by default)
-        query = query.OrderBy(c => c.Name);
-
-        // Apply paging and map to appropriate DTO based on user role
-        IReadOnlyList<object> items;
-        
-        if (isStaffOrManager)
-        {
-            // Staff/Manager: Return full details with timestamps
-            items = query
-                .Skip((request.PageNumber - 1) * request.PageSize)
-                .Take(request.PageSize)
-                .Select(c => new GetAllCapabilitiesResponseDto(
-                    c.Id.Value,
-                    c.Name,
-                    c.Slug,
-                    c.Description,
-                    c.IsActive,
-                    c.CreatedAt,
-                    c.UpdatedAt) as object)
-                .ToList();
-        }
-        else
-        {
-            // Anonymous/Customer: Return public details without timestamps
-            items = query
-                .Skip((request.PageNumber - 1) * request.PageSize)
-                .Take(request.PageSize)
-                .Select(c => new GetAllCapabilitiesPublicResponseDto(
-                    c.Id.Value,
-                    c.Name,
-                    c.Slug,
-                    c.Description) as object)
-                .ToList();
-        }
-
-        var pagedResult = PagedResult<object>.Create(
-            items,
+        var pagedResult = new PagedResult<object>(
+            capabilityDtos,
             request.PageNumber,
             request.PageSize,
             totalCount);
@@ -102,18 +71,3 @@ internal sealed class GetAllCapabilitiesQueryHandler
         return Result.Success(pagedResult);
     }
 }
-
-public sealed record GetAllCapabilitiesResponseDto(
-    Guid Id,
-    string Name,
-    string Slug,
-    string? Description,
-    bool IsActive,
-    DateTime CreatedAt,
-    DateTime UpdatedAt);
-
-public sealed record GetAllCapabilitiesPublicResponseDto(
-    Guid Id,
-    string Name,
-    string Slug,
-    string? Description);

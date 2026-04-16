@@ -5,6 +5,7 @@ namespace PuzKit3D.Modules.Catalog.Application.UseCases.AssemblyMethods.Commands
 public sealed record CreateAssemblyMethodCommand(
     string Name,
     string Slug,
+    decimal FactorPercentage,
     string? Description,
     bool IsActive) : ICommandT<Guid>;
 

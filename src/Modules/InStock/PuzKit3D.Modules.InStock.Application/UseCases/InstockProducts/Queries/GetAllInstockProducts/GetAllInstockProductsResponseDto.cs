@@ -15,7 +15,7 @@ public sealed record GetAllInstockProductsResponseDto(
     DateTime UpdatedAt,
     Guid TopicId,
     Guid MaterialId,
-    Guid AssemblyMethodId,
+    List<Guid> AssemblyMethodIds,
     List<Guid> CapabilityIds);
 
 public sealed record GetAllInstockProductsPublicResponseDto(
@@ -30,6 +30,6 @@ public sealed record GetAllInstockProductsPublicResponseDto(
     string? Description,
     Guid TopicId,
     Guid MaterialId,
-    Guid AssemblyMethodId,
+    List<Guid> AssemblyMethodIds,
     List<Guid> CapabilityIds);
 

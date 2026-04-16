@@ -2,12 +2,14 @@ using Microsoft.Extensions.Options;
 using PuzKit3D.Modules.Delivery.Application.DTOs;
 using PuzKit3D.Modules.Delivery.Application.Mappers;
 using PuzKit3D.Modules.Delivery.Application.Services;
+using PuzKit3D.Modules.Delivery.Application.UseCases.DeliveryTrackings.Commands;
+using PuzKit3D.Modules.Delivery.Domain.Entities.DeliveryTrackings;
 using PuzKit3D.Modules.Delivery.Infrastructure.DependencyInjection.Options;
 using PuzKit3D.Modules.Delivery.Infrastructure.Services.Helpers;
 using PuzKit3D.SharedKernel.Domain.Errors;
 using PuzKit3D.SharedKernel.Domain.Results;
-using System.Text.Json;
 using System.Text;
+using System.Text.Json;
 
 namespace PuzKit3D.Modules.Delivery.Infrastructure.Services;
 
@@ -192,21 +194,21 @@ public sealed class GhnDeliveryService : IDeliveryService
         }
     }
 
-    public async Task<ResultT<object>> CreateShippingOrderAsync(CreateShippingOrderRequest request, CancellationToken cancellationToken = default)
+    public async Task<ResultT<object>> CreateShippingOrderAsync(CreateShippingOrderRequest request, FromDto fromtDto, ToDto toDto, DeliveryTrackingType trackingType, CancellationToken cancellationToken = default)
     {
         try
         {
             var senderInfo = new SenderInfo
             {
-                Name = _settings.MyShop.Name,
-                Phone = _settings.MyShop.Phone,
-                Address = _settings.MyShop.Address,
-                Ward = _settings.MyShop.Ward,
-                District = _settings.MyShop.District,
-                Province = _settings.MyShop.Province
+                Name = fromtDto.FullName,
+                Phone = fromtDto.PhoneNumber,
+                Address = fromtDto.StreetAddress,
+                Ward = fromtDto.Ward,
+                District = fromtDto.District,
+                Province = fromtDto.Province
             };
 
-            var ghnRequest = request.ToGhnRequest(senderInfo);
+            var ghnRequest = request.ToGhnRequest(senderInfo, trackingType);
             var url = $"{_settings.GhnApiKey.ApiEndpoint}/v2/shipping-order/create";
             
             var httpRequest = new HttpRequestMessage(HttpMethod.Post, url);

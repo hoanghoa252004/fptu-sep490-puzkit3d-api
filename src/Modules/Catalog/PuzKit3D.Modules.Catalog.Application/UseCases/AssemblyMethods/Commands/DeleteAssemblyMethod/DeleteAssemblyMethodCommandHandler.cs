@@ -10,13 +10,16 @@ internal sealed class DeleteAssemblyMethodCommandHandler : ICommandHandler<Delet
 {
     private readonly IAssemblyMethodRepository _assemblyMethodRepository;
     private readonly ICatalogUnitOfWork _unitOfWork;
+    private readonly ICapabilityMaterialAssemblyRepository _capabilityMaterialAssemblyRepository;
 
     public DeleteAssemblyMethodCommandHandler(
         IAssemblyMethodRepository assemblyMethodRepository,
-        ICatalogUnitOfWork unitOfWork)
+        ICatalogUnitOfWork unitOfWork,
+        ICapabilityMaterialAssemblyRepository capabilityMaterialAssemblyRepository)
     {
         _assemblyMethodRepository = assemblyMethodRepository;
         _unitOfWork = unitOfWork;
+        _capabilityMaterialAssemblyRepository = capabilityMaterialAssemblyRepository;
     }
 
     public async Task<Result> Handle(DeleteAssemblyMethodCommand request, CancellationToken cancellationToken)
@@ -28,6 +31,15 @@ internal sealed class DeleteAssemblyMethodCommandHandler : ICommandHandler<Delet
         if (assemblyMethod is null)
         {
             return Result.Failure(AssemblyMethodError.NotFound(request.Id));
+        }
+
+        // Check if assembly method is associated with any capability material assemblies
+        var existingAssociations = await _capabilityMaterialAssemblyRepository
+            .GetCapabilityMaterialAssembliesByAssemblyMethodIdAsync(assemblyMethodId, cancellationToken);
+
+        if (existingAssociations is not null && existingAssociations.Any())
+        {
+            return Result.Failure(AssemblyMethodError.InUse(request.Id));
         }
 
         // Execute in transaction

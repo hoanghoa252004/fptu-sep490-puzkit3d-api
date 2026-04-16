@@ -10,4 +10,7 @@ public sealed record InstockProductVariantUpdatedDomainEvent(
     int AssembledLengthMm,
     int AssembledWidthMm,
     int AssembledHeightMm,
+    string PreviewImages,
     bool IsActive) : DomainEvent;
+
+

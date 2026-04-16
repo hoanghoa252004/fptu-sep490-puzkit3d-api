@@ -41,7 +41,6 @@ internal sealed class InstockProductCreatedIntegrationEventHandler
             @event.Slug,
             @event.PreviewAsset,
             @event.TopicId,
-            @event.AssemblyMethodId,
             @event.MaterialId,
             @event.IsActive,
             @event.CreatedAt,

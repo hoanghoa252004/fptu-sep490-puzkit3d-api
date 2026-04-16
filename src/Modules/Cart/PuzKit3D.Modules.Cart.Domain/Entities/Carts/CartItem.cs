@@ -5,7 +5,7 @@ namespace PuzKit3D.Modules.Cart.Domain.Entities.Carts;
 
 public sealed class CartItem : Entity<CartItemId>
 {
-    public CartId CartId { get; private set; }
+    public CartId CartId { get; private set; } = null!;
     public Guid ItemId { get; private set; }
     public Guid? InStockProductPriceDetailId { get; private set; }
     public int Quantity { get; private set; }

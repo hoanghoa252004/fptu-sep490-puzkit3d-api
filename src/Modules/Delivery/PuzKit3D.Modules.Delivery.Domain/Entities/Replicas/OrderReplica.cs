@@ -7,9 +7,10 @@ public sealed class OrderReplica : Entity<Guid>
     public string Type { get; private set; } = null!; 
     public string Code { get; private set; } = null!;
     public Guid CustomerId { get; private set; }
+    public decimal GrandTotalAmount { get; private set; }
     public DateTime CreatedAt { get; private set; }
     public DateTime UpdatedAt { get; private set; }
-    public string Status { get; private set; }
+    public string Status { get; private set; } = null!;
 
     private OrderReplica(
         Guid id,
@@ -18,7 +19,8 @@ public sealed class OrderReplica : Entity<Guid>
         string code,
         DateTime createdAt,
         DateTime updatedAt,
-        string status) : base(id)
+        string status,
+        decimal grandTotalAmount) : base(id)
     {
         Type = type;
         CustomerId = customerId;
@@ -26,6 +28,7 @@ public sealed class OrderReplica : Entity<Guid>
         CreatedAt = createdAt;
         UpdatedAt = updatedAt;
         Status = status;
+        GrandTotalAmount = grandTotalAmount;
     }
 
     private OrderReplica() : base()
@@ -37,7 +40,8 @@ public sealed class OrderReplica : Entity<Guid>
         string type,
         Guid customerId,
         string code,
-        string status)
+        string status,
+        decimal grandTotalAmount)
     {
         return new OrderReplica(
             id,
@@ -46,7 +50,8 @@ public sealed class OrderReplica : Entity<Guid>
             code,
             DateTime.UtcNow,
             DateTime.UtcNow,
-            status);
+            status,
+            grandTotalAmount);
     }
 
 

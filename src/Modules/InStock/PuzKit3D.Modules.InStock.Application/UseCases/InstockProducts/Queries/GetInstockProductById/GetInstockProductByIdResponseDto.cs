@@ -12,9 +12,10 @@ public sealed record GetInstockProductByIdResponseDto(
     List<string> PreviewAsset,
     string? Description,
     Guid TopicId,
-    Guid AssemblyMethodId,
-    List<Guid> CapabilityIds,
     Guid MaterialId,
+    List<Guid> AssemblyMethodIds,
+    List<Guid> CapabilityIds,
+    List<GetInstockProductByIdDriveDetailDto> Drives,
     bool IsActive,
     DateTime CreatedAt,
     DateTime UpdatedAt);

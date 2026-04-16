@@ -16,7 +16,7 @@ internal sealed class SupportTicketDetailReplicaConfiguration : IEntityTypeConfi
         builder.Property(std => std.OrderItemId)
             .IsRequired();
 
-        builder.Property(std => std.PartId)
+        builder.Property(std => std.DriveId)
             .IsRequired(false);
 
         builder.Property(std => std.Quantity)

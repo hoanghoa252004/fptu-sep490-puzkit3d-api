@@ -35,7 +35,8 @@ internal sealed class PartnerProductOrderCreatedIntegrationEventHandler
             "Partner",
             @event.CustomerId,
             @event.Code,
-            @event.Status);
+            @event.Status,
+            @event.GrandTotalAmount);
 
         await _dbContext.OrderReplicas.AddAsync(orderReplica, cancellationToken);
 

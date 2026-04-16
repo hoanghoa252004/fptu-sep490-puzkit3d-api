@@ -56,7 +56,6 @@ internal static class CartSeedDataConfiguration
                 PreviewAsset = "{\"additionalProp1\":\"instock-products/ugt-24-endurance-racer/image-01.png\",\"additionalProp2\":\"instock-products/ugt-24-endurance-racer/image-02.png\"}",
                 Description = "New wooden mechanical 3D puzzle UGT-24 Endurance Racer by Ugears. A large car featuring a blue racing stripe and plastic windows drives 5-6 m thanks to a spring motor. Cool gift!",
                 TopicId = Guid.Parse("a1a1a1a1-a1a1-a1a1-a1a1-a1a1a1a1a1a1"),
-                AssemblyMethodId = Guid.Parse("d1d1d1d1-d1d1-d1d1-d1d1-d1d1d1d1d1d1"),
                 MaterialId = Guid.Parse("f1f1f1f1-f1f1-f1f1-f1f1-f1f1f1f1f1f1"),
                 IsActive = true,
                 CreatedAt = SeedDate,
@@ -75,7 +74,6 @@ internal static class CartSeedDataConfiguration
                 PreviewAsset = "{\"additionalProp1\":\"instock-products/mad-hornet-airplane/image-01.png\",\"additionalProp2\":\"instock-products/mad-hornet-airplane/image-02.png\"}",
                 Description = "Wooden 3D puzzle Mad Hornet Airplane from Ugears. Pre-flight check mode and taxi mode. Moves without batteries. Assemble without glue. The perfect gift!",
                 TopicId = Guid.Parse("a1a1a1a1-a1a1-a1a1-a1a1-a1a1a1a1a1a1"),
-                AssemblyMethodId = Guid.Parse("e2e2e2e2-e2e2-e2e2-e2e2-e2e2e2e2e2e2"),
                 MaterialId = Guid.Parse("a2a2a2a2-a2a2-a2a2-a2a2-a2a2a2a2a2a2"),
                 IsActive = true,
                 CreatedAt = SeedDate,
@@ -94,7 +92,6 @@ internal static class CartSeedDataConfiguration
                 PreviewAsset = "{\"additionalProp1\":\"instock-products/ugt-24-endurance-racer/image-01.png\",\"additionalProp2\":\"instock-products/ugt-24-endurance-racer/image-02.png\"}",
                 Description = "New wooden mechanical 3D puzzle UGT-24 Endurance Racer by Ugears. A large car featuring a blue racing stripe and plastic windows drives 5-6 m thanks to a spring motor. Cool gift!",
                 TopicId = Guid.Parse("a1a1a1a1-a1a1-a1a1-a1a1-a1a1a1a1a1a1"),
-                AssemblyMethodId = Guid.Parse("f3f3f3f3-f3f3-f3f3-f3f3-f3f3f3f3f3f3"),
                 MaterialId = Guid.Parse("b3b3b3b3-b3b3-b3b3-b3b3-b3b3b3b3b3b3"),
                 IsActive = true,
                 CreatedAt = SeedDate,
@@ -113,7 +110,6 @@ internal static class CartSeedDataConfiguration
                 PreviewAsset = "{\"additionalProp1\":\"instock-products/mad-hornet-airplane/image-01.png\",\"additionalProp2\":\"instock-products/mad-hornet-airplane/image-02.png\"}",
                 Description = "Wooden 3D puzzle Mad Hornet Airplane from Ugears. Pre-flight check mode and taxi mode. Moves without batteries. Assemble without glue. The perfect gift!",
                 TopicId = Guid.Parse("b2b2b2b2-b2b2-b2b2-b2b2-b2b2b2b2b2b2"),
-                AssemblyMethodId = Guid.Parse("a4a4a4a4-a4a4-a4a4-a4a4-a4a4a4a4a4a4"),
                 MaterialId = Guid.Parse("c4c4c4c4-c4c4-c4c4-c4c4-c4c4c4c4c4c4"),
                 IsActive = true,
                 CreatedAt = SeedDate,
@@ -132,7 +128,6 @@ internal static class CartSeedDataConfiguration
                 PreviewAsset = "{\"additionalProp1\":\"instock-products/ugt-24-endurance-racer/image-01.png\",\"additionalProp2\":\"instock-products/ugt-24-endurance-racer/image-02.png\"}",
                 Description = "New wooden mechanical 3D puzzle UGT-24 Endurance Racer by Ugears. A large car featuring a blue racing stripe and plastic windows drives 5-6 m thanks to a spring motor. Cool gift!",
                 TopicId = Guid.Parse("b2b2b2b2-b2b2-b2b2-b2b2-b2b2b2b2b2b2"),
-                AssemblyMethodId = Guid.Parse("b5b5b5b5-b5b5-b5b5-b5b5-b5b5b5b5b5b5"),
                 MaterialId = Guid.Parse("d5d5d5d5-d5d5-d5d5-d5d5-d5d5d5d5d5d5"),
                 IsActive = true,
                 CreatedAt = SeedDate,
@@ -151,7 +146,6 @@ internal static class CartSeedDataConfiguration
                 PreviewAsset = "{\"additionalProp1\":\"instock-products/ugt-24-endurance-racer/image-01.png\",\"additionalProp2\":\"instock-products/ugt-24-endurance-racer/image-02.png\"}",
                 Description = "New wooden mechanical 3D puzzle UGT-24 Endurance Racer by Ugears. A large car featuring a blue racing stripe and plastic windows drives 5-6 m thanks to a spring motor. Cool gift!",
                 TopicId = Guid.Parse("b2b2b2b2-b2b2-b2b2-b2b2-b2b2b2b2b2b2"),
-                AssemblyMethodId = Guid.Parse("d1d1d1d1-d1d1-d1d1-d1d1-d1d1d1d1d1d1"),
                 MaterialId = Guid.Parse("f1f1f1f1-f1f1-f1f1-f1f1-f1f1f1f1f1f1"),
                 IsActive = true,
                 CreatedAt = SeedDate,
@@ -170,7 +164,6 @@ internal static class CartSeedDataConfiguration
                 PreviewAsset = "{\"additionalProp1\":\"instock-products/mad-hornet-airplane/image-01.png\",\"additionalProp2\":\"instock-products/mad-hornet-airplane/image-02.png\"}",
                 Description = "Wooden 3D puzzle Mad Hornet Airplane from Ugears. Pre-flight check mode and taxi mode. Moves without batteries. Assemble without glue. The perfect gift!",
                 TopicId = Guid.Parse("a1a1a1a1-a1a1-a1a1-a1a1-a1a1a1a1a1a1"),
-                AssemblyMethodId = Guid.Parse("e2e2e2e2-e2e2-e2e2-e2e2-e2e2e2e2e2e2"),
                 MaterialId = Guid.Parse("a2a2a2a2-a2a2-a2a2-a2a2-a2a2a2a2a2a2"),
                 IsActive = true,
                 CreatedAt = SeedDate,
@@ -189,7 +182,6 @@ internal static class CartSeedDataConfiguration
                 PreviewAsset = "{\"additionalProp1\":\"instock-products/mad-hornet-airplane/image-01.png\",\"additionalProp2\":\"instock-products/mad-hornet-airplane/image-02.png\"}",
                 Description = "Wooden 3D puzzle Mad Hornet Airplane from Ugears. Pre-flight check mode and taxi mode. Moves without batteries. Assemble without glue. The perfect gift!",
                 TopicId = Guid.Parse("a1a1a1a1-a1a1-a1a1-a1a1-a1a1a1a1a1a1"),
-                AssemblyMethodId = Guid.Parse("f3f3f3f3-f3f3-f3f3-f3f3-f3f3f3f3f3f3"),
                 MaterialId = Guid.Parse("b3b3b3b3-b3b3-b3b3-b3b3-b3b3b3b3b3b3"),
                 IsActive = true,
                 CreatedAt = SeedDate,
@@ -208,7 +200,6 @@ internal static class CartSeedDataConfiguration
                 PreviewAsset = "{\"additionalProp1\":\"instock-products/ugt-24-endurance-racer/image-01.png\",\"additionalProp2\":\"instock-products/ugt-24-endurance-racer/image-02.png\"}",
                 Description = "New wooden mechanical 3D puzzle UGT-24 Endurance Racer by Ugears. A large car featuring a blue racing stripe and plastic windows drives 5-6 m thanks to a spring motor. Cool gift!",
                 TopicId = Guid.Parse("b2b2b2b2-b2b2-b2b2-b2b2-b2b2b2b2b2b2"),
-                AssemblyMethodId = Guid.Parse("e2e2e2e2-e2e2-e2e2-e2e2-e2e2e2e2e2e2"),
                 MaterialId = Guid.Parse("a2a2a2a2-a2a2-a2a2-a2a2-a2a2a2a2a2a2"),
                 IsActive = true,
                 CreatedAt = SeedDate,
@@ -227,7 +218,6 @@ internal static class CartSeedDataConfiguration
                 PreviewAsset = "{\"additionalProp1\":\"instock-products/mad-hornet-airplane/image-01.png\",\"additionalProp2\":\"instock-products/mad-hornet-airplane/image-02.png\"}",
                 Description = "Wooden 3D puzzle Mad Hornet Airplane from Ugears. Pre-flight check mode and taxi mode. Moves without batteries. Assemble without glue. The perfect gift!",
                 TopicId = Guid.Parse("a1a1a1a1-a1a1-a1a1-a1a1-a1a1a1a1a1a1"),
-                AssemblyMethodId = Guid.Parse("a4a4a4a4-a4a4-a4a4-a4a4-a4a4a4a4a4a4"),
                 MaterialId = Guid.Parse("c4c4c4c4-c4c4-c4c4-c4c4-c4c4c4c4c4c4"),
                 IsActive = true,
                 CreatedAt = SeedDate,
@@ -240,6 +230,21 @@ internal static class CartSeedDataConfiguration
 
     public static void SeedInStockVariantsAndRelatedReplicas(this ModelBuilder modelBuilder)
     {
+        // Product Preview Assets mapping - must match InStock module
+        var productPreviewAssets = new Dictionary<Guid, string>
+        {
+            { Guid.Parse("10000000-0000-0000-0000-000000000001"), "instock-products/ugt-24-endurance-racer/image-01.png,instock-products/ugt-24-endurance-racer/image-02.png" },
+            { Guid.Parse("10000000-0000-0000-0000-000000000002"), "instock-products/mad-hornet-airplane/image-01.png,instock-products/mad-hornet-airplane/image-02.png" },
+            { Guid.Parse("10000000-0000-0000-0000-000000000003"), "instock-products/ugt-24-endurance-racer/image-01.png,instock-products/ugt-24-endurance-racer/image-02.png" },
+            { Guid.Parse("10000000-0000-0000-0000-000000000004"), "instock-products/mad-hornet-airplane/image-01.png,instock-products/mad-hornet-airplane/image-02.png" },
+            { Guid.Parse("10000000-0000-0000-0000-000000000005"), "instock-products/ugt-24-endurance-racer/image-01.png,instock-products/ugt-24-endurance-racer/image-02.png" },
+            { Guid.Parse("10000000-0000-0000-0000-000000000006"), "instock-products/ugt-24-endurance-racer/image-01.png,instock-products/ugt-24-endurance-racer/image-02.png" },
+            { Guid.Parse("10000000-0000-0000-0000-000000000007"), "instock-products/mad-hornet-airplane/image-01.png,instock-products/mad-hornet-airplane/image-02.png" },
+            { Guid.Parse("10000000-0000-0000-0000-000000000008"), "instock-products/mad-hornet-airplane/image-01.png,instock-products/mad-hornet-airplane/image-02.png" },
+            { Guid.Parse("10000000-0000-0000-0000-000000000009"), "instock-products/ugt-24-endurance-racer/image-01.png,instock-products/ugt-24-endurance-racer/image-02.png" },
+            { Guid.Parse("10000000-0000-0000-0000-000000000010"), "instock-products/mad-hornet-airplane/image-01.png,instock-products/mad-hornet-airplane/image-02.png" }
+        };
+
         // Hardcoded Variant IDs - must match InStock module
         var variantIds = new[]
         {
@@ -295,6 +300,9 @@ internal static class CartSeedDataConfiguration
             var standardPrice = prices[i];
             var salePrice = standardPrice * 0.8m;
             var quantity = quantities[i];
+            var previewImages = productPreviewAssets.ContainsKey(data.ProductId) 
+                ? productPreviewAssets[data.ProductId] 
+                : "";
 
             // Variant Replica
             variants.Add(new
@@ -306,6 +314,7 @@ internal static class CartSeedDataConfiguration
                 AssembledLengthMm = data.Length,
                 AssembledWidthMm = data.Width,
                 AssembledHeightMm = data.Height,
+                PreviewImages = previewImages,
                 IsActive = true,
                 CreatedAt = SeedDate,
                 UpdatedAt = SeedDate
@@ -352,5 +361,12 @@ internal static class CartSeedDataConfiguration
         modelBuilder.Entity<InStockProductVariantReplica>().HasData(variants);
         modelBuilder.Entity<InStockProductPriceDetailReplica>().HasData(priceDetails);
         modelBuilder.Entity<InStockInventoryReplica>().HasData(inventories);
+    }
+
+    public static void SeedCartMasterData(this ModelBuilder modelBuilder)
+    {
+        modelBuilder.SeedInStockPriceReplicas();
+        modelBuilder.SeedInStockProductReplicas();
+        modelBuilder.SeedInStockVariantsAndRelatedReplicas();
     }
 }

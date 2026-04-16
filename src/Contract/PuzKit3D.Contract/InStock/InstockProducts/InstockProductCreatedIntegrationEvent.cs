@@ -16,7 +16,6 @@ public sealed record InstockProductCreatedIntegrationEvent(
     string PreviewAsset,
     string? Description,
     Guid TopicId,
-    Guid AssemblyMethodId,
     Guid MaterialId,
     bool IsActive,
     DateTime CreatedAt) : IIntegrationEvent;

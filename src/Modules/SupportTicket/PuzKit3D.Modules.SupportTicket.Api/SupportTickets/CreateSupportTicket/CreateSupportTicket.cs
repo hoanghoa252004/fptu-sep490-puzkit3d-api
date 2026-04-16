@@ -36,14 +36,14 @@ internal sealed class CreateSupportTicket : IEndpoint
                     return Results.BadRequest(new { error = $"Invalid type '{request.Type}'. Valid values are: {string.Join(", ", Enum.GetNames(typeof(SupportTicketType)))}" });
                 }
 
-                // Validate that at least one detail is provided
-                if (request.Details == null || request.Details.Count == 0)
+                // Validate that at least one detail is provided (except for Return type)
+                if (typeEnum != SupportTicketType.Return && (request.Details == null || request.Details.Count == 0))
                 {
                     return Results.BadRequest(new { error = "At least one support ticket detail is required" });
                 }
 
-                var details = request.Details
-                    .Select(d => new CreateSupportTicketDetailDto(d.OrderDetailId, d.PartId, d.Quantity, d.Note))
+                var details = (request.Details ?? new List<CreateSupportTicketDetailRequestDto>())
+                    .Select(d => new CreateSupportTicketDetailDto(d.OrderDetailId, d.DriveId, d.Quantity, d.Note))
                     .ToList();
 
                 var command = new CreateSupportTicketCommand(
@@ -62,7 +62,7 @@ internal sealed class CreateSupportTicket : IEndpoint
             .WithSummary("Create a new support ticket")
             .WithDescription("Creates a new support ticket. Type should be one of: ReplacePart, Exchange, Return")
             .RequireAuthorization(policy => policy.RequireRole(Roles.Customer))
-            .Produces(200)
+            .Produces<Guid>(StatusCodes.Status200OK)
             .ProducesValidationProblem(StatusCodes.Status400BadRequest)
             .ProducesProblem(StatusCodes.Status401Unauthorized)
             .ProducesProblem(StatusCodes.Status500InternalServerError);
@@ -78,7 +78,7 @@ public sealed record CreateSupportTicketRequestDto(
 
 public sealed record CreateSupportTicketDetailRequestDto(
 Guid OrderDetailId,
-Guid? PartId,
+Guid? DriveId,
 int Quantity,
 string? Note);
 

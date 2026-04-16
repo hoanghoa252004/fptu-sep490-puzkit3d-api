@@ -54,6 +54,8 @@ internal sealed class GetAllInstockProductsQueryHandler
             query = query.Where(p => p.IsActive);
         }
 
+        query = query.OrderByDescending(o => o.CreatedAt);
+
         // Apply search filter
         if (!string.IsNullOrWhiteSpace(request.SearchTerm))
         {
@@ -98,7 +100,7 @@ internal sealed class GetAllInstockProductsQueryHandler
                 // Material search
                 (matchingMaterialIds.Count > 0 && matchingMaterialIds.Contains(p.MaterialId)) ||
                 // Assembly method search
-                (matchingAssemblyMethodIds.Count > 0 && matchingAssemblyMethodIds.Contains(p.AssemblyMethodId)) ||
+                (matchingAssemblyMethodIds.Count > 0 && p.AssemblyMethodDetails.Any(c => matchingAssemblyMethodIds.Contains(c.AssemblyMethodId))) ||
                 // Capability search
                 (matchingCapabilityIds.Count > 0 && p.CapabilityDetails.Any(c => matchingCapabilityIds.Contains(c.CapabilityId))));
         }
@@ -162,21 +164,23 @@ internal sealed class GetAllInstockProductsQueryHandler
             }
         }
 
-        // Apply AssemblyMethod filter by slug
-        if (!string.IsNullOrWhiteSpace(request.AssemblyMethodSlug))
+        // Apply Assembly Method filter by slugs (product must have all specified assembly methods)
+        if (request.AssemblyMethodSlug != null && request.AssemblyMethodSlug.Count > 0)
         {
-            var assemblyMethods = await _assemblyMethodReplicaRepository.GetAllAsync(cancellationToken);
-            var assemblyMethodId = assemblyMethods
-                .FirstOrDefault(a => a.Slug.ToLower() == request.AssemblyMethodSlug.ToLower())
-                ?.Id;
+            var assemblies = await _assemblyMethodReplicaRepository.GetAllAsync(cancellationToken);
+            var assemblyIds = assemblies
+                .Where(c => request.AssemblyMethodSlug.Any(slug => slug.ToLower() == c.Slug.ToLower()))
+                .Select(c => c.Id)
+                .ToList();
 
-            if (assemblyMethodId.HasValue)
+            if (assemblyIds.Count > 0)
             {
-                query = query.Where(p => p.AssemblyMethodId == assemblyMethodId.Value);
+                // Filter products that have all specified assembly methods
+                query = query.Where(p => assemblyIds.All(assemblyId => p.AssemblyMethodDetails.Any(cd => cd.AssemblyMethodId == assemblyId)));
             }
             else
             {
-                // No matching assembly method found, return empty results
+                // No matching assembly methods found, return empty results
                 return Result.Success(PagedResult<object>.Create(
                     new List<object>(),
                     request.PageNumber,
@@ -211,7 +215,7 @@ internal sealed class GetAllInstockProductsQueryHandler
         }
 
         var totalCount = query.Count();
-        query = query.OrderBy(p => p.Code);
+        query = query.OrderByDescending(p => p.CreatedAt);
 
         IReadOnlyList<object> items;
         
@@ -236,7 +240,7 @@ internal sealed class GetAllInstockProductsQueryHandler
                     p.UpdatedAt,
                     p.TopicId,
                     p.MaterialId,
-                    p.AssemblyMethodId,
+                    p.GetAssemblyMethodIds(),
                     p.GetCapabilityIds()) as object)
                 .ToList();
         }
@@ -258,7 +262,7 @@ internal sealed class GetAllInstockProductsQueryHandler
                     p.Description,
                     p.TopicId,
                     p.MaterialId,
-                    p.AssemblyMethodId,
+                    p.GetAssemblyMethodIds(),
                     p.GetCapabilityIds()) as object)
                 .ToList();
         }

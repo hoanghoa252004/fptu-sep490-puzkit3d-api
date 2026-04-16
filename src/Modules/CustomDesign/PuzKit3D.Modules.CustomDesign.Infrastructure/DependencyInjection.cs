@@ -2,10 +2,12 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using PuzKit3D.Contract.Catalog.AssemblyMethods;
 using PuzKit3D.Contract.Catalog.Capabilities;
+using PuzKit3D.Contract.Catalog.Drives;
 using PuzKit3D.Contract.Catalog.Materials;
 using PuzKit3D.Contract.Catalog.Topics;
 using PuzKit3D.Modules.CustomDesign.Infrastructure.IntegrationEventHandlers.Catalog.AssemblyMethods;
 using PuzKit3D.Modules.CustomDesign.Infrastructure.IntegrationEventHandlers.Catalog.Capabilities;
+using PuzKit3D.Modules.CustomDesign.Infrastructure.IntegrationEventHandlers.Catalog.Drives;
 using PuzKit3D.Modules.CustomDesign.Infrastructure.IntegrationEventHandlers.Catalog.Materials;
 using PuzKit3D.Modules.CustomDesign.Infrastructure.IntegrationEventHandlers.Catalog.Topics;
 using PuzKit3D.SharedKernel.Application.Event;
@@ -49,6 +51,13 @@ public static class DependencyInjection
         services.AddScoped<IIntegrationEventHandler<CapabilityDeletedIntegrationEvent>,
             CapabilityDeletedIntegrationEventHandler>();
 
+        // Register Integration Event Handlers - Catalog Drive Events
+        services.AddScoped<IIntegrationEventHandler<DriveCreatedIntegrationEvent>,
+            DriveCreatedIntegrationEventHandler>();
+        services.AddScoped<IIntegrationEventHandler<DriveUpdatedIntegrationEvent>,
+            DriveUpdatedIntegrationEventHandler>();
+        services.AddScoped<IIntegrationEventHandler<DriveDeletedIntegrationEvent>,
+            DriveDeletedIntegrationEventHandler>();
         return services;
     }
 }

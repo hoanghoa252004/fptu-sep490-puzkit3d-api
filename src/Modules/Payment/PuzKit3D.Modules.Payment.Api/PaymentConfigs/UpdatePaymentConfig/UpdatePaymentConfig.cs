@@ -19,8 +19,10 @@ internal sealed class UpdatePaymentConfig : IEndpoint
                 CancellationToken cancellationToken) =>
             {
                 var command = new UpdatePaymentConfigCommand(
-                    request.OnlinePaymentExpiredInDays,
-                    request.OnlineTransactionExpiredInMinutes);
+                    request.OnlinePaymentExpiredValue,
+                    request.OnlinePaymentExpiredUnit,
+                    request.OnlineTransactionExpiredValue,
+                    request.OnlineTransactionExpiredUnit);
                 var result = await sender.Send(command, cancellationToken);
                 return result.MatchOk();
             })
@@ -29,6 +31,7 @@ internal sealed class UpdatePaymentConfig : IEndpoint
             .WithSummary("Update payment configuration")
             .RequireAuthorization(policy => policy.RequireRole(Roles.SystemAdministrator, Roles.BusinessManager))
             .Produces(StatusCodes.Status200OK)
+            .ProducesProblem(StatusCodes.Status400BadRequest)
             .ProducesProblem(StatusCodes.Status403Forbidden)
             .ProducesProblem(StatusCodes.Status404NotFound)
             .ProducesProblem(StatusCodes.Status500InternalServerError);
@@ -36,5 +39,9 @@ internal sealed class UpdatePaymentConfig : IEndpoint
 }
 
 public record UpdatePaymentConfigRequest(
-    int? OnlinePaymentExpiredInDays,
-    int? OnlineTransactionExpiredInMinutes);
+    int? OnlinePaymentExpiredValue,
+    string? OnlinePaymentExpiredUnit,
+    int? OnlineTransactionExpiredValue,
+    string? OnlineTransactionExpiredUnit);
+
+

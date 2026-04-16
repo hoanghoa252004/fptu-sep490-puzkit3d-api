@@ -19,6 +19,7 @@ internal sealed class GetAllAssemblyMethods : IEndpoint
                 int pageSize,
                 string? searchTerm,
                 bool? isActive,
+                bool ascending,
                 ISender sender,
                 CancellationToken cancellationToken) =>
             {
@@ -26,7 +27,8 @@ internal sealed class GetAllAssemblyMethods : IEndpoint
                     pageNumber,
                     pageSize,
                     searchTerm,
-                    isActive);
+                    isActive,
+                    ascending);
 
                 var result = await sender.Send(query, cancellationToken);
 

@@ -43,8 +43,10 @@ public sealed class PaymentDbContext : DbContext, IPaymentUnitOfWork
             new
             {
                 Id = new Guid("00000000-0000-0000-0000-000000000001"),
-                OnlinePaymentExpiredInDays = 2,
-                OnlineTransactionExpiredInMinutes = 10,
+                OnlinePaymentExpiredValue = 2,
+                OnlinePaymentExpiredUnit = TimeUnit.Day,
+                OnlineTransactionExpiredValue = 10,
+                OnlineTransactionExpiredUnit = TimeUnit.Minute,
                 UpdatedAt = new DateTime(2025, 3, 30, 0, 0, 0, DateTimeKind.Utc)
             });
     }

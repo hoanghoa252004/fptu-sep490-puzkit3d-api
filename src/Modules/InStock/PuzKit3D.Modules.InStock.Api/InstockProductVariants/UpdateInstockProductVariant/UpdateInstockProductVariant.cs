@@ -22,12 +22,17 @@ internal sealed class UpdateInstockProductVariant : IEndpoint
                 ISender sender,
                 CancellationToken cancellationToken) =>
             {
+                var previewImagesString = request.PreviewImages != null && request.PreviewImages.Count > 0
+                    ? string.Join(",", request.PreviewImages)
+                    : null;
+
                 var command = new UpdateInstockProductVariantCommand(
                     variantId,
                     request.Color,
                     request.AssembledLengthMm,
                     request.AssembledWidthMm,
                     request.AssembledHeightMm,
+                    previewImagesString,
                     request.IsActive);
 
                 var result = await sender.Send(command, cancellationToken);
@@ -53,5 +58,8 @@ string? Color,
 int? AssembledLengthMm,
 int? AssembledWidthMm,
 int? AssembledHeightMm,
-bool? IsActive);
+List<string>? PreviewImages = null,
+bool? IsActive = null);
+
+
 

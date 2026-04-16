@@ -14,7 +14,6 @@ public sealed class InStockProductReplica : Entity<Guid>
     public string PreviewAsset { get; private set; } = null!;
     public string? Description { get; private set; }
     public Guid TopicId { get; private set; }
-    public Guid AssemblyMethodId { get; private set; }
     public Guid MaterialId { get; private set; }
     public bool IsActive { get; private set; }
     public DateTime CreatedAt { get; private set; }
@@ -36,7 +35,6 @@ public sealed class InStockProductReplica : Entity<Guid>
         string slug,
         string previewAsset,
         Guid topicId,
-        Guid assemblyMethodId,
         Guid materialId,
         bool isActive,
         DateTime createdAt,
@@ -55,7 +53,6 @@ public sealed class InStockProductReplica : Entity<Guid>
             Slug = slug,
             PreviewAsset = previewAsset,
             TopicId = topicId,
-            AssemblyMethodId = assemblyMethodId,
             MaterialId = materialId,
             IsActive = isActive,
             CreatedAt = createdAt,
@@ -72,7 +69,6 @@ public sealed class InStockProductReplica : Entity<Guid>
         string slug,
         string previewAsset,
         Guid topicId,
-        Guid assemblyMethodId,
         Guid materialId,
         string? description,
         bool isActive,
@@ -86,7 +82,6 @@ public sealed class InStockProductReplica : Entity<Guid>
         Slug = slug;
         PreviewAsset = previewAsset;
         TopicId = topicId;
-        AssemblyMethodId = assemblyMethodId;
         MaterialId = materialId;
         IsActive = isActive;
         UpdatedAt = updatedAt;

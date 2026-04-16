@@ -1,5 +1,6 @@
 using PuzKit3D.Contract.InStock.InstockOrders;
 using PuzKit3D.Modules.Payment.Application.UnitOfWork;
+using PuzKit3D.Modules.Payment.Domain.Entities.Payments;
 using PuzKit3D.Modules.Payment.Persistence;
 using PuzKit3D.SharedKernel.Application.Event;
 
@@ -39,7 +40,24 @@ internal sealed class InstockOrderStatusChangedIntegrationEventHandler
             orderReplica.PaidAt,
             @event.ChangedAt);
 
+        // If order status is Cancelled, also cancel the payment
+        if (@event.NewStatus.Equals("Cancelled", StringComparison.OrdinalIgnoreCase))
+        {
+            var payment = _dbContext.Payments.FirstOrDefault(p => p.ReferenceOrderId == @event.OrderId);
+            
+            if (payment is not null && payment.Status != PaymentStatus.Paid)
+            {
+                var updateStatusResult = payment.UpdateStatus(PaymentStatus.Cancelled);
+                if (updateStatusResult.IsFailure)
+                {
+                    // Log the failure but don't throw - the order replica update should still proceed
+                    // In a real scenario, you might want to use ILogger here
+                }
+            }
+        }
+
         await _unitOfWork.SaveChangesAsync(cancellationToken);
     }
 }
+
 

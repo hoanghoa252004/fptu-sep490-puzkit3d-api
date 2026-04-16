@@ -23,6 +23,7 @@ internal sealed class AssemblyMethodCreatedDomainEventHandler
             notification.AssemblyMethodId,
             notification.Name,
             notification.Slug,
+            notification.FactorPercentage,
             notification.Description,
             notification.IsActive,
             notification.CreatedAt);

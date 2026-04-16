@@ -1,5 +1,6 @@
 using PuzKit3D.Modules.SupportTicket.Application.Repositories;
 using PuzKit3D.Modules.SupportTicket.Domain.Entities.SupportTickets;
+using PuzKit3D.SharedKernel.Application.Media;
 using PuzKit3D.SharedKernel.Application.Message.Query;
 using PuzKit3D.SharedKernel.Domain.Results;
 
@@ -9,10 +10,12 @@ internal sealed class GetSupportTicketByOrderIdQueryHandler
     : IQueryHandler<GetSupportTicketByOrderIdQuery, SupportTicketDto>
 {
     private readonly ISupportTicketRepository _repository;
+    private readonly IMediaAssetService _mediaAssetService;
 
-    public GetSupportTicketByOrderIdQueryHandler(ISupportTicketRepository repository)
+    public GetSupportTicketByOrderIdQueryHandler(ISupportTicketRepository repository, IMediaAssetService mediaAssetService)
     {
         _repository = repository;
+        _mediaAssetService = mediaAssetService;
     }
 
     public async Task<ResultT<SupportTicketDto>> Handle(
@@ -36,7 +39,7 @@ internal sealed class GetSupportTicketByOrderIdQueryHandler
             .Select(d => new SupportTicketDetailDto(
                 d.Id.Value,
                 d.OrderItemId,
-                d.PartId,
+                d.DriveId,
                 d.Quantity,
                 d.Note))
             .ToList();
@@ -49,7 +52,7 @@ internal sealed class GetSupportTicketByOrderIdQueryHandler
             ticket.Type.ToString(),
             ticket.Status.ToString(),
             ticket.Reason,
-            ticket.Proof,
+            _mediaAssetService.BuildAssetUrl(ticket.Proof),
             ticket.CreatedAt,
             ticket.UpdatedAt,
             details);

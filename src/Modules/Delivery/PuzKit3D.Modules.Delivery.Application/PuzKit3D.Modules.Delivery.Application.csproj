@@ -12,7 +12,9 @@
     <ProjectReference Include="..\..\..\SharedKernel\PuzKit3D.SharedKernel.Domain\PuzKit3D.SharedKernel.Domain.csproj" />
     <ProjectReference Include="..\PuzKit3D.Modules.Delivery.Domain\PuzKit3D.Modules.Delivery.Domain.csproj" />
   </ItemGroup>
-
+    <ItemGroup>
+        <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    </ItemGroup>
   <ItemGroup>
     <Folder Include="Enums\" />
   </ItemGroup>

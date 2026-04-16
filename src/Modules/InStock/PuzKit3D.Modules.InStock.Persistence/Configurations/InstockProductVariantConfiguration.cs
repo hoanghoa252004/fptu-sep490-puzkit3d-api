@@ -39,6 +39,10 @@ internal sealed class InstockProductVariantConfiguration : IEntityTypeConfigurat
         builder.Property(v => v.AssembledHeightMm)
             .IsRequired();
 
+        builder.Property(v => v.PreviewImages)
+            .IsRequired()
+            .HasColumnType("text");
+
         builder.Property(v => v.IsActive)
             .IsRequired()
             .HasDefaultValue(false);

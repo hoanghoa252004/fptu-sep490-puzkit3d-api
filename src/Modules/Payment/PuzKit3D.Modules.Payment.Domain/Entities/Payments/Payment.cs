@@ -66,7 +66,7 @@ public class Payment : AggregateRoot<PaymentId>
 
         var now = DateTime.UtcNow;
         var expiredAt = paymentMethod.Equals("Online", StringComparison.OrdinalIgnoreCase)
-            ? now.AddDays(expirationDays)
+            ? now.AddMinutes(expirationDays)
             : now.AddMonths(1);
 
         var payment = new Payment(

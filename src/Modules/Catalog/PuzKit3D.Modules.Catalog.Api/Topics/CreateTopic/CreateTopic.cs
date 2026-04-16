@@ -24,6 +24,7 @@ internal sealed class CreateTopic : IEndpoint
                     request.Name,
                     request.Slug,
                     request.ParentId,
+                    request.FactorPercentage,
                     request.Description,
                     request.IsActive);
 
@@ -47,8 +48,9 @@ internal sealed class CreateTopic : IEndpoint
 }
 
 internal sealed record CreateTopicRequestDto(
-    string Name,
-    string Slug,
-    Guid? ParentId,
-    string? Description,
-    bool IsActive);
+string Name,
+string Slug,
+Guid? ParentId,
+decimal FactorPercentage,
+string? Description,
+bool IsActive);

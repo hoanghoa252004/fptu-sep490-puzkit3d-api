@@ -23,6 +23,10 @@ internal sealed class TopicReplicaConfiguration : IEntityTypeConfiguration<Topic
 
         builder.Property(t => t.ParentId);
 
+        builder.Property(t => t.FactorPercentage)
+            .IsRequired()
+            .HasPrecision(5, 4);
+
         builder.Property(t => t.IsActive)
             .IsRequired()
             .HasDefaultValue(false);

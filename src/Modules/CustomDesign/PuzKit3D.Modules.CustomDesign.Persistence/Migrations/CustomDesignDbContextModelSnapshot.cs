@@ -356,6 +356,11 @@ namespace PuzKit3D.Modules.CustomDesign.Persistence.Migrations
                         .HasColumnType("text")
                         .HasColumnName("description");
 
+                    b.Property<decimal>("FactorPercentage")
+                        .HasPrecision(5, 4)
+                        .HasColumnType("numeric(5,4)")
+                        .HasColumnName("factor_percentage");
+
                     b.Property<bool>("IsActive")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("boolean")
@@ -393,6 +398,7 @@ namespace PuzKit3D.Modules.CustomDesign.Persistence.Migrations
                             Id = new Guid("d1d1d1d1-d1d1-d1d1-d1d1-d1d1d1d1d1d1"),
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Easy snap assembly without tools",
+                            FactorPercentage = 1.1m,
                             IsActive = true,
                             Name = "Snap-Fit",
                             Slug = "snap-fit",
@@ -403,6 +409,7 @@ namespace PuzKit3D.Modules.CustomDesign.Persistence.Migrations
                             Id = new Guid("e2e2e2e2-e2e2-e2e2-e2e2-e2e2e2e2e2e2"),
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Assembly using adhesive bonding",
+                            FactorPercentage = 1.0m,
                             IsActive = true,
                             Name = "Glue Assembly",
                             Slug = "glue-assembly",
@@ -413,6 +420,7 @@ namespace PuzKit3D.Modules.CustomDesign.Persistence.Migrations
                             Id = new Guid("f3f3f3f3-f3f3-f3f3-f3f3-f3f3f3f3f3f3"),
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Assembly using screws and bolts",
+                            FactorPercentage = 1.3m,
                             IsActive = true,
                             Name = "Screw Assembly",
                             Slug = "screw-assembly",
@@ -423,6 +431,7 @@ namespace PuzKit3D.Modules.CustomDesign.Persistence.Migrations
                             Id = new Guid("a4a4a4a4-a4a4-a4a4-a4a4-a4a4a4a4a4a4"),
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Assembly using tight fitting pieces",
+                            FactorPercentage = 1.15m,
                             IsActive = true,
                             Name = "Friction Fit",
                             Slug = "friction-fit",
@@ -433,6 +442,7 @@ namespace PuzKit3D.Modules.CustomDesign.Persistence.Migrations
                             Id = new Guid("b5b5b5b5-b5b5-b5b5-b5b5-b5b5b5b5b5b5"),
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Assembly using magnetic connections",
+                            FactorPercentage = 1.4m,
                             IsActive = true,
                             Name = "Magnetic Assembly",
                             Slug = "magnetic-assembly",
@@ -454,6 +464,11 @@ namespace PuzKit3D.Modules.CustomDesign.Persistence.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("text")
                         .HasColumnName("description");
+
+                    b.Property<decimal>("FactorPercentage")
+                        .HasPrecision(5, 4)
+                        .HasColumnType("numeric(5,4)")
+                        .HasColumnName("factor_percentage");
 
                     b.Property<bool>("IsActive")
                         .ValueGeneratedOnAdd()
@@ -492,6 +507,7 @@ namespace PuzKit3D.Modules.CustomDesign.Persistence.Migrations
                             Id = new Guid("e1e1e1e1-e1e1-e1e1-e1e1-e1e1e1e1e1e1"),
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Static model for display only",
+                            FactorPercentage = 1.0m,
                             IsActive = true,
                             Name = "Static Display",
                             Slug = "static-display",
@@ -502,6 +518,7 @@ namespace PuzKit3D.Modules.CustomDesign.Persistence.Migrations
                             Id = new Guid("f2f2f2f2-f2f2-f2f2-f2f2-f2f2f2f2f2f2"),
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Model with electric motor-powered movement",
+                            FactorPercentage = 1.8m,
                             IsActive = true,
                             Name = "Move with Motor",
                             Slug = "move-with-motor",
@@ -512,6 +529,7 @@ namespace PuzKit3D.Modules.CustomDesign.Persistence.Migrations
                             Id = new Guid("a3a3a3a3-a3a3-a3a3-a3a3-a3a3a3a3a3a3"),
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Model operated by manual movement",
+                            FactorPercentage = 1.3m,
                             IsActive = true,
                             Name = "Manual Movement",
                             Slug = "manual-movement",
@@ -522,6 +540,7 @@ namespace PuzKit3D.Modules.CustomDesign.Persistence.Migrations
                             Id = new Guid("b4b4b4b4-b4b4-b4b4-b4b4-b4b4b4b4b4b4"),
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Model with LED lighting effects",
+                            FactorPercentage = 1.4m,
                             IsActive = true,
                             Name = "LED Light Feature",
                             Slug = "led-light-feature",
@@ -532,6 +551,7 @@ namespace PuzKit3D.Modules.CustomDesign.Persistence.Migrations
                             Id = new Guid("c5c5c5c5-c5c5-c5c5-c5c5-c5c5c5c5c5c5"),
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Model with musical features via rotating mechanism",
+                            FactorPercentage = 1.6m,
                             IsActive = true,
                             Name = "Musical Gear",
                             Slug = "musical-gear",
@@ -539,7 +559,7 @@ namespace PuzKit3D.Modules.CustomDesign.Persistence.Migrations
                         });
                 });
 
-            modelBuilder.Entity("PuzKit3D.Modules.CustomDesign.Domain.Entities.Replicas.MaterialReplica", b =>
+            modelBuilder.Entity("PuzKit3D.Modules.CustomDesign.Domain.Entities.Replicas.DriveReplica", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -553,6 +573,118 @@ namespace PuzKit3D.Modules.CustomDesign.Persistence.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("text")
                         .HasColumnName("description");
+
+                    b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(false)
+                        .HasColumnName("is_active");
+
+                    b.Property<int?>("MinVolume")
+                        .HasColumnType("integer")
+                        .HasColumnName("min_volume");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("character varying(30)")
+                        .HasColumnName("name");
+
+                    b.Property<int>("QuantityInStock")
+                        .HasColumnType("integer")
+                        .HasColumnName("quantity_in_stock");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("updated_at");
+
+                    b.HasKey("Id")
+                        .HasName("pk_drive_replicas");
+
+                    b.ToTable("drive_replicas", "custome_design");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("11111111-1111-1111-1111-111111111111"),
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Router module for rotate",
+                            IsActive = true,
+                            MinVolume = 5,
+                            Name = "Router",
+                            QuantityInStock = 5,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("22222222-2222-2222-2222-222222222222"),
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Electric motor drive",
+                            IsActive = true,
+                            MinVolume = 50,
+                            Name = "Motor",
+                            QuantityInStock = 100,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("33333333-3333-3333-3333-333333333333"),
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Mechanical gear system",
+                            IsActive = true,
+                            MinVolume = 30,
+                            Name = "Gearbox",
+                            QuantityInStock = 150,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("44444444-4444-4444-4444-444444444444"),
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "LED lighting system",
+                            IsActive = true,
+                            MinVolume = 10,
+                            Name = "LED Module",
+                            QuantityInStock = 200,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("55555555-5555-5555-5555-555555555555"),
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Mechanical music box",
+                            IsActive = true,
+                            MinVolume = 50,
+                            Name = "Music Box",
+                            QuantityInStock = 50,
+                            UpdatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        });
+                });
+
+            modelBuilder.Entity("PuzKit3D.Modules.CustomDesign.Domain.Entities.Replicas.MaterialReplica", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<decimal>("BasePrice")
+                        .HasPrecision(10, 2)
+                        .HasColumnType("numeric(10,2)")
+                        .HasColumnName("base_price");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("text")
+                        .HasColumnName("description");
+
+                    b.Property<decimal>("FactorPercentage")
+                        .HasPrecision(5, 4)
+                        .HasColumnType("numeric(5,4)")
+                        .HasColumnName("factor_percentage");
 
                     b.Property<bool>("IsActive")
                         .ValueGeneratedOnAdd()
@@ -589,8 +721,10 @@ namespace PuzKit3D.Modules.CustomDesign.Persistence.Migrations
                         new
                         {
                             Id = new Guid("f1f1f1f1-f1f1-f1f1-f1f1-f1f1f1f1f1f1"),
+                            BasePrice = 4000m,
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Natural wood material",
+                            FactorPercentage = 1.0m,
                             IsActive = true,
                             Name = "Wood",
                             Slug = "wood",
@@ -599,8 +733,10 @@ namespace PuzKit3D.Modules.CustomDesign.Persistence.Migrations
                         new
                         {
                             Id = new Guid("a2a2a2a2-a2a2-a2a2-a2a2-a2a2a2a2a2a2"),
+                            BasePrice = 2000m,
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Durable plastic material",
+                            FactorPercentage = 0.85m,
                             IsActive = true,
                             Name = "Plastic",
                             Slug = "plastic",
@@ -609,8 +745,10 @@ namespace PuzKit3D.Modules.CustomDesign.Persistence.Migrations
                         new
                         {
                             Id = new Guid("b3b3b3b3-b3b3-b3b3-b3b3-b3b3b3b3b3b3"),
+                            BasePrice = 9000m,
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Premium metal components",
+                            FactorPercentage = 1.6m,
                             IsActive = true,
                             Name = "Metal",
                             Slug = "metal",
@@ -619,8 +757,10 @@ namespace PuzKit3D.Modules.CustomDesign.Persistence.Migrations
                         new
                         {
                             Id = new Guid("c4c4c4c4-c4c4-c4c4-c4c4-c4c4c4c4c4c4"),
+                            BasePrice = 1000m,
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Eco-friendly cardboard material",
+                            FactorPercentage = 0.7m,
                             IsActive = true,
                             Name = "Cardboard",
                             Slug = "cardboard",
@@ -629,8 +769,10 @@ namespace PuzKit3D.Modules.CustomDesign.Persistence.Migrations
                         new
                         {
                             Id = new Guid("d5d5d5d5-d5d5-d5d5-d5d5-d5d5d5d5d5d5"),
+                            BasePrice = 7000m,
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Advanced composite materials",
+                            FactorPercentage = 1.3m,
                             IsActive = true,
                             Name = "Composite",
                             Slug = "composite",
@@ -652,6 +794,11 @@ namespace PuzKit3D.Modules.CustomDesign.Persistence.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("text")
                         .HasColumnName("description");
+
+                    b.Property<decimal>("FactorPercentage")
+                        .HasPrecision(5, 4)
+                        .HasColumnType("numeric(5,4)")
+                        .HasColumnName("factor_percentage");
 
                     b.Property<bool>("IsActive")
                         .ValueGeneratedOnAdd()
@@ -694,6 +841,7 @@ namespace PuzKit3D.Modules.CustomDesign.Persistence.Migrations
                             Id = new Guid("a1a1a1a1-a1a1-a1a1-a1a1-a1a1a1a1a1a1"),
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Animal themed 3D puzzles",
+                            FactorPercentage = 1.1m,
                             IsActive = true,
                             Name = "Animals",
                             Slug = "animals",
@@ -704,6 +852,7 @@ namespace PuzKit3D.Modules.CustomDesign.Persistence.Migrations
                             Id = new Guid("b2b2b2b2-b2b2-b2b2-b2b2-b2b2b2b2b2b2"),
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Vehicle and transportation themed puzzles",
+                            FactorPercentage = 1.3m,
                             IsActive = true,
                             Name = "Vehicles",
                             Slug = "vehicles",
@@ -714,6 +863,7 @@ namespace PuzKit3D.Modules.CustomDesign.Persistence.Migrations
                             Id = new Guid("c3c3c3c3-c3c3-c3c3-c3c3-c3c3c3c3c3c3"),
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Famous buildings and landmarks",
+                            FactorPercentage = 1.5m,
                             IsActive = true,
                             Name = "Architecture",
                             Slug = "architecture",
@@ -724,6 +874,7 @@ namespace PuzKit3D.Modules.CustomDesign.Persistence.Migrations
                             Id = new Guid("d4d4d4d4-d4d4-d4d4-d4d4-d4d4d4d4d4d4"),
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Natural landscapes and scenery",
+                            FactorPercentage = 1.0m,
                             IsActive = true,
                             Name = "Nature",
                             Slug = "nature",
@@ -734,6 +885,7 @@ namespace PuzKit3D.Modules.CustomDesign.Persistence.Migrations
                             Id = new Guid("e5e5e5e5-e5e5-e5e5-e5e5-e5e5e5e5e5e5"),
                             CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Fantasy creatures and magical worlds",
+                            FactorPercentage = 1.6m,
                             IsActive = true,
                             Name = "Fantasy",
                             Slug = "fantasy",

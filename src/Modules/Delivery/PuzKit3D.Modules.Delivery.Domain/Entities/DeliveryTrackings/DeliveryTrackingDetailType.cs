@@ -13,5 +13,5 @@ public enum DeliveryTrackingDetailType
     /// <summary>
     /// Part item (for assembly)
     /// </summary>
-    Part = 1
+    Drive = 1
 }

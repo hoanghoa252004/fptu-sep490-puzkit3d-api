@@ -38,6 +38,7 @@ public sealed class CustomDesignDbContext : DbContext, ICustomDesignUnitOfWork
     public DbSet<AssemblyMethodReplica> AssemblyMethodReplicas => Set<AssemblyMethodReplica>();
     public DbSet<MaterialReplica> MaterialReplicas => Set<MaterialReplica>();
     public DbSet<CapabilityReplica> CapabilityReplicas => Set<CapabilityReplica>();
+    public DbSet<DriveReplica> DriveReplicas => Set<DriveReplica>();
     public DbSet<Proposal> Proposals => Set<Proposal>();
     public DbSet<Milestone> Milestones => Set<Milestone>();
     public DbSet<Phase> Phases => Set<Phase>();
@@ -45,7 +46,6 @@ public sealed class CustomDesignDbContext : DbContext, ICustomDesignUnitOfWork
     public DbSet<MilestoneQuotationDetail> MilestoneQuotationDetails => Set<MilestoneQuotationDetail>();
     public DbSet<Workflow> Workflows => Set<Workflow>();
     public DbSet<ProductQuotation> ProductQuotations => Set<ProductQuotation>();
-
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
@@ -54,8 +54,8 @@ public sealed class CustomDesignDbContext : DbContext, ICustomDesignUnitOfWork
 
         builder.ApplyConfigurationsFromAssembly(typeof(CustomDesignDbContext).Assembly);
 
-        Configurations.SeedData.CustomDesignSeedDataConfiguration.SeedReplicas(builder);
-        Configurations.SeedData.CustomDesignSeedDataConfiguration.SeedCustomDesignRequirements(builder);
+        // Apply seed data
+        Configurations.SeedData.CustomDesignSeedDataConfiguration.SeedCustomDesignMasterData(builder);
     }
 
     public async Task<T> ExecuteAsync<T>(Func<Task<T>> action, CancellationToken cancellationToken = default)

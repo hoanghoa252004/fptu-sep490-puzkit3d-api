@@ -12,4 +12,8 @@
     <ProjectReference Include="..\PuzKit3D.Modules.Catalog.Application\PuzKit3D.Modules.Catalog.Application.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Formulas\DeleteFormula\" />
+  </ItemGroup>
+
 </Project>

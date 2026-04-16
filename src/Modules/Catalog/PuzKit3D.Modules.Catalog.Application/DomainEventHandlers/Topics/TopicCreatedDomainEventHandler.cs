@@ -24,6 +24,7 @@ internal sealed class TopicCreatedDomainEventHandler
             notification.Name,
             notification.Slug,
             notification.ParentId,
+            notification.FactorPercentage,
             notification.Description,
             notification.IsActive,
             notification.CreatedAt);
